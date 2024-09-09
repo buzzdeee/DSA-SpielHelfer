@@ -1,0 +1,35 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    AppController = {
+	Actions = (
+	    "showPrefPanel:",
+	    "newCharacterGeneration:"
+	);
+	Outlets = (
+	);
+	Super = NSObject;
+    };
+    AppDelegate = {
+	Actions = (
+	);
+	Outlets = (
+	    appController
+	);
+	Super = NSObject;
+    };
+    DSACharacterGenerationController = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "newCharacterGeneration:",
+	    "orderFrontFontPanel:",
+	    "showPrefPanel:"
+	);
+	Super = NSObject;
+    };
+}

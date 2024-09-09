@@ -1,0 +1,104 @@
+
+  [
+  {
+    "Haarfarben": [
+      "schwarz",
+      "blauschwarz",
+      "pechschwarz"
+    ],
+    "Augenfarben": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+      "dunkelbraun": [ 17, 18, 19, 20 ]
+    }
+  },
+  {
+    "Haarfarben": [
+      "dunkelbraun",
+      "mittelbraun",
+      "nußbraun",
+      "braun"
+    ],
+    "Augenfarben": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6, 7 ],
+      "dunkelbraun": [ 8, 9, 10, 11, 12, 13 ],
+      "braun": [ 14, 15, 16, 17 ],
+      "grün": [ 18, 19 ],
+      "blau": [ 20 ]
+    }
+  },
+  {
+    "Haarfarben": [
+      "hellbraun",
+      "dunkelblond"
+    ],
+    "Augenfarben": {
+      "braun": [ 1, 2, 3, 4 ],
+      "grün": [ 5, 6, 7, 8 ],
+      "graugrün": [ 9, 10, 11, 12 ],
+      "graublau": [ 13, 14 ,15, 16 ],
+      "blau": [ 17, 18, 19, 20 ]
+    }
+  },
+  {
+    "Haarfarben": [
+      "blond",
+      "hellblond",
+      "weizenblond",
+      "mittelblond",
+      "rotblond"
+    ],
+    "Augenfarben": {
+      "grün": [ 1, 2, 3 ],
+      "braun": [ 4, 5, 6, 7 ],
+      "grau": [ 8, 9, 10, 11, 12, 13, 14 ],
+      "graublau": [ 15, 16, 17, 18 ],
+      "blau": [ 19, 20 ]
+    }
+  },
+  {
+    "Haarfarben": [
+      "weißblond",
+      "weiß",
+      "aschblond",
+      "grau",
+      "kahlköpfig"
+    ],
+    "Augenfarben": {
+      "blau": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
+      "graublau": [ 11, 12, 13 ],
+      "grau": [ 14, 15, 16 ],
+      "graugrün": [ 17, 18, 19 ],
+      "grün": [ 20 ]
+    }
+  },
+  {
+    "Haarfarben": [
+      "kastanienrot",
+      "braunrot",
+      "kupferrot",
+      "rostrot",
+      "scharlachrot",
+      "karottenrot",
+      "rot"
+    ],
+    "Augenfarben": {
+      "grün": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
+      "graugrün": [ 11, 12, 13, 14 ],
+      "grau": [ 15, 16, 17 ],
+      "graublau": [ 18, 19 ],
+      "blau": [ 20 ]
+    }
+  },
+  {
+    "Haarfarben": [
+      "albino"
+    ],
+    "Augenfarben": {
+      "rot": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18 ],
+      "violett": [ 19 ],
+      "weiß": [ 20 ]
+    }
+  }
+ ]
+
+

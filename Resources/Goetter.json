@@ -1,0 +1,126 @@
+{
+ "Praios": {
+  "Sternbild": "Greif",
+  "Basiswerte": {
+    "MU": 1
+  },
+  "Talente": {}
+ },
+ "Rondra": {
+  "Sternbild": "Schwert",
+  "Basiswerte": { },
+  "Talente": {
+    "Kampftechniken": {
+      "Bewaffnete Kampftechniken": {
+        "Schwerter": 1
+      }
+    }
+  }
+ },
+ "Efferd": {
+  "Sternbild": "Delphin",
+  "Basiswerte": { },
+  "Talente": {
+    "Körperliche Talente": {
+      "Schwimmen": 1
+    },
+    "Handwerk": {
+      "Boote Fahren": 1
+    }
+  }
+ },
+ "Travia": {
+  "Sternbild": "Gans",
+  "Basiswerte": {
+    "IN": 1
+  },
+  "Talente": {}
+ },
+ "Boron": {
+  "Sternbild": "Rabe",
+  "Basiswerte": { },
+  "Talente": {
+    "Gesellschaft": {
+      "Menschenkenntnis": 1
+    }
+  }
+ },
+ "Hesinde": {
+  "Sternbild": "Schlange",
+  "Basiswerte": { },
+  "Talente": {
+    "Wissenstalente": {
+      "Alchimie": 1
+    }
+  }
+ },
+ "Firun": {
+  "Sternbild": "Eisbär",
+  "Basiswerte": { },
+  "Talente": {
+    "Natur": {
+      "Fährtensuchen": 1
+    },
+    "Kampftechniken": {
+      "Fernkampftechniken": {
+        "Schußwaffen": 1
+      }
+    }
+  }
+ },
+ "Tsa": {
+  "Sternbild": "Eidechse",
+  "Basiswerte": {
+    "CH": 1
+  },
+  "Talente": {}
+ },
+ "Phex": {
+  "Sternbild": "Fuchs",
+  "Basiswerte": { },
+  "Talente": {
+    "Handwerk": {
+      "Taschendiebstahl": 1
+    },
+    "Körperliche Talente": {
+      "Schleichen": 1
+    }
+  }
+ },
+ "Peraine": {
+  "Sternbild": "Storch",
+  "Basiswerte": { },
+  "Talente": {
+    "Handwerk": {
+      "Heilkunde Krankheiten": 1,
+      "Heilkunde Wunden": 1
+    }
+  }
+ },
+ "Ingerimm": {
+  "Sternbild": "Hammer und Amboss",
+  "Basiswerte": { },
+  "Talente": {
+    "Kampftechniken": {
+      "Bewaffnete Kampftechniken": {
+        "Stumpfe Hiebwaffen": 1
+      }
+    }
+  }
+ },
+ "Rahja": {
+  "Sternbild": "Stute",
+  "Basiswerte": { },
+  "Talente": {
+    "Gesellschaft": {
+      "Betören": 1
+    },
+    "Körperliche Talente": {
+      "Tanzen": 1
+    },
+    "Handwerk": {
+      "Musizieren": 1
+    }
+  }
+ }
+}

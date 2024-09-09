@@ -1,0 +1,558 @@
+{
+  "Erzzwerge": {
+    "Typen": [ "Angroschpriester", "Geode", "Kämpfer", "Kavalier", "Wandergeselle" ],
+    "Basiswerte": {
+      "HA": "7+",
+      "AG": "3+"
+    },
+    "Talente": {
+      "Gesellschaft": {
+        "Bekehren/Überzeugen": 1,
+        "Betören": -1,
+        "Gassenwissen": -2
+      },
+      "Natur": {
+        "Wettervorhersage": -1
+      },
+      "Wissenstalente": {
+        "Geschichtswissen": 1,
+        "Rechnen": 2
+      }
+    }
+  },
+  "Amboßzwerge": {
+    "Typen": [ "Angroschpriester", "Geode", "Kämpfer", "Kavalier", "Wandergeselle" ],
+    "Basiswerte": {
+      "MU": "13+",
+      "JZ": "5+"
+    },
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Raufen": 1
+        }
+      },
+      "Gesellschaft": {
+        "Etikette": -1
+      },
+      "Körperliche Talente": {
+        "Schwimmen": -2,
+        "Zechen": 1
+      },
+      "Handwerk": {
+        "Heilkunde Wunden": 1
+      }
+    }
+  },
+  "Hügelzwerge": {
+    "Typen": [ "Angroschpriester", "Geode", "Kämpfer", "Kavalier", "Wandergeselle" ],
+    "Basiswerte": {
+      "RA": "2+",
+      "GE": "11-"
+    },
+    "Talente": {
+      "Körperliche Talente": {
+        "Akrobatik": -2
+      },
+      "Gesellschaft": {
+        "Menschenkenntnis": 1
+      },
+      "Natur": {
+        "Wildnisleben": -2
+      },
+      "Handwerk": {
+        "Boote Fahren": 1,
+        "Kochen": 2
+      }
+    }
+  },
+  "Brillantzwerge": {
+    "Typen": [ "Angroschpriester", "Geode", "Kämpfer", "Kavalier", "Wandergeselle" ],
+    "Basiswerte": {
+      "FF": "12+",
+      "NG": "5+"
+    },
+    "Talente": {
+      "Kampftechniken": {
+        "Bewaffnete Kampftechniken": {
+          "Äxte und Beile": -2,
+          "Stichwaffen": 1
+        }
+      },
+      "Gesellschaft": {
+        "Etikette": 1
+      },
+      "Körperliche Talente": {
+        "Reiten": 1
+      },
+      "Wissenstalente": {
+        "Alchimie": -1,
+        "Alte Sprachen": -1,
+        "Geographie": -1,
+        "Geschichtswissen": -1,
+        "Götter und Kulte": -1,
+        "Kriegskunst": -1,
+        "Lesen/Schreiben": -1,
+        "Magiekunde": -1,
+        "Mechanik": -1,
+        "Rechnen": -1,
+        "Rechtskunde": -1,
+        "Sprachen kennen": -1,
+        "Staatskunst": -1,
+        "Sternkunde": -1
+      },
+      "Intuitive Begabungen": {
+        "Glücksspiel": 1
+      }
+    }
+  },
+  "Al' Anfa, südliche Stadtstaaten": {
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Basiswerte": { },
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Hruruzat": 4
+        },
+        "Bewaffnete Kampftechniken": {
+          "Äxte und Beile": -2,
+          "Dolche": 1,
+          "Kettenwaffen": -1,
+          "Speere und Stäbe": -1,
+          "Stichwaffen": 1,
+          "Zweihänder": -2,
+          "Lanzenreiten": -3
+        }
+      },
+      "Körperliche Talente": {
+        "Gaukeleien": 1,
+        "Körperbeherrschung": 1,
+        "Schwimmen": 1
+      },
+      "Gesellschaft": {
+        "Betören": 1,
+        "Feilschen": 1,
+        "Gassenwissen": 1,
+        "Lügen": 1,
+        "Schätzen": 1
+      },
+      "Natur": {
+        "Fährtensuchen": -1,
+        "Fallenstellen": -1,
+        "Orientierung": -1,
+        "Wettervorhersage": -1
+      },
+      "Wissenstalente": {
+        "Alchimie": 1,
+        "Götter und Kulte": -1,
+        "Magiekunde": 1
+      },
+      "Handwerk": {
+        "Abrichten": -2,
+        "Fahrzeug Lenken": -1,
+        "Heilkunde Gift": 1
+      }
+    }
+  },
+  "Bornland": {
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Basiswerte": { },
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Hruruzat": -2
+        },
+        "Bewaffnete Kampftechniken": {
+          "Stichwaffen": -1
+        }
+      },
+      "Körperliche Talente": {
+        "Fliegen": -1,
+        "Gaukeleien": -1,
+        "Schleichen": -1,
+        "Selbstbeherrschung": 1,
+        "Zechen": 1
+      },
+      "Natur": {
+        "Fährtensuchen": 1,
+        "Fallenstellen": 1,
+        "Wildnisleben": 1
+      },
+      "Wissenstalente": {
+        "Alchimie": -1,
+        "Magiekunde": -1,
+        "Rechtskunde": -1
+      },
+      "Handwerk": {
+        "Lederarbeiten": 1
+      }
+    }
+  },
+  "Liebliches Feld": {
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Basiswerte": { },
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Raufen": -1,
+          "Ringen": -1
+        },
+        "Bewaffnete Kampftechniken": {
+          "Äxte und Beile": -2,
+          "Dolche": 1,
+          "Kettenwaffen": -2,
+          "Stichwaffen": 1
+        },
+        "Besondere Kampftechniken": {
+          "Lanzenreiten": -1
+        }
+      },
+      "Körperliche Talente": {
+        "Gaukeleien": 1,
+        "Klettern": -1,
+        "Selbstbeherrschung": -1,
+        "Tanzen": 1
+      },
+      "Gesellschaft": {
+        "Bekehren/Überzeugen": 1,
+        "Betören": 1,
+        "Etikette": 2,
+        "Gassenwissen": 1,
+        "Sich Verkleiden": 1,
+        "Lügen": 1,
+        "Schätzen": 1
+      },
+      "Natur": {
+        "Fährtensuchen": -1,
+        "Fallenstellen": -1,
+        "Orientierung": -1,
+        "Wettervorhersage": -1
+      },
+      "Wissenstalente": {
+        "Alchimie": 1,
+        "Götter und Kulte": -1,
+        "Magiekunde": 1
+      },
+      "Handwerk": {
+        "Abrichten": -2,
+        "Fahrzeug Lenken": -1,
+        "Heilkunde Gift": 1
+      }
+    }
+  },
+  "Maraskan": {
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Basiswerte": { },
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Boxen": -1,
+          "Hruruzaz": 1
+        },
+        "Bewaffnete Kampftechniken": {
+          "Äxte und Beile": -1,
+          "Dolche": 1,
+          "Zweihänder": 1
+        },
+        "Besondere Kampftechniken": {
+          "Lanzenreiten": -3
+        },
+        "Fernkampftechniken": {
+          "Schleuder": -2
+        }
+      },
+      "Körperliche Talente": {
+        "Klettern": 1,
+        "Reiten": -1,
+        "Zechen": -1
+      },
+      "Natur": {
+        "Pflanzenkunde": 1,
+        "Wildnisleben": 1
+      },
+      "Wissenstalente": {
+        "Alte Sprachen": 1,
+        "Götter und Kulte": -1,
+        "Lesen/Schreiben": -1
+      },
+      "Handwerk": {
+        "Fahrzeug Lenken": -1,
+        "Heilkunde Gift": 1
+      },
+      "Intuitive Begabungen": {
+        "Sinnenschärfe": 1
+      }
+    }
+  },
+  "Moha": {
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Basiswerte": { },
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Boxen": -1,
+          "Hruruzat": 7
+        },
+        "Bewaffnete Kampftechniken": {
+          "Peitsche": -1,
+          "Zweihänder": -2
+        },
+        "Besondere Kampftechniken": {
+          "Lanzenreiten": -4
+        }
+      },
+      "Körperliche Talente": {
+        "Klettern": 1,
+        "Reiten": -1,
+        "Schleichen": 1,
+        "Sich Verstecken": 1,
+        "Zechen": -3
+      },
+      "Gesellschaft": {
+        "Etikette": -3,
+        "Feilschen": -1,
+        "Gassenwissen": -3,
+        "Lügen": -1
+      },
+      "Natur": {
+        "Fährtensuchen": 2,
+        "Fallenstellen": 1,
+        "Pflanzenkunde": 1,
+        "Tierkunde": 1,
+        "Wildnisleben": 2
+      },
+      "Wissenstalente": {
+        "Alchimie": -1,
+        "Alte Sprachen": -3,
+        "Geographie": -1,
+        "Geschichtswissen": -2,
+        "Götter und Kulte": -2,
+        "Kriegskunst": -1,
+        "Lesen/Schreiben": -2,
+        "Magiekunde": -3,
+        "Mechanik": -2,
+        "Rechtskunde": -2,
+        "Staatskunst": -2
+      },
+      "Handwerk": {
+        "Fahrzeug Lenken": -2,
+        "Falschspiel": -2,
+        "Heilkunde Gift": 1,
+        "Heilkunde Seele": 2,
+        "Malen/Zeichnen": -1,
+        "Schlösser Knacken": -3,
+        "Töpfern": 1
+      },
+      "Intuitive Begabungen": {
+        "Gefahreninstinkt": 2,
+        "Sinnenschärfe": 1
+      }
+    }
+  },
+  "Nivese": {
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Basiswerte": { },
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Raufen": 1
+        },
+        "Fernkampftechniken": {
+          "Schußwaffen": 1
+        }
+      },
+      "Gesellschaft": {
+        "Bekehren/Überzeugen": -1,
+        "Etikette": -2,
+        "Gassenwissen": -1
+      },
+      "Natur": {
+        "Fährtensuchen": 1,
+        "Fallenstellen": 1,
+        "Fischen/Angeln": 1,
+        "Pflanzenkunde": 1,
+        "Tierkunde": 1,
+        "Wildnisleben": 1
+      },
+      "Wissenstalente": {
+        "Alchimie": -1,
+        "Alte Sprachen": -1,
+        "Geographie": -1,
+        "Geschichtswissen": -1,
+        "Götter und Kulte": -1,
+        "Lesen/Schreiben": -1,
+        "Magiekunde": -1,
+        "Rechtskunde": -1
+      },
+      "Handwerk": {
+        "Fahrzeug Lenken": 1,
+        "Heilkunde Krankheiten": 1,
+        "Lederarbeiten": 1,
+        "Schneidern": 1,
+        "Töpfern": 1
+      }
+    }
+  },
+  "Norbarde": {
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Basiswerte": { },
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Hruruzat": -1
+        },
+        "Bewaffnete Kampftechniken": {
+          "Peitsche": 1,
+          "Speere und Stäbe": 1
+        }
+      },
+      "Körperliche Talente": {
+        "Reiten": 1
+      },
+      "Gesellschaft": {
+        "Etikette": -1,
+        "Gassenwissen": -1
+      },
+      "Natur": {
+        "Fährtensuchen": 1,
+        "Orientierung": 1
+      },
+      "Wissenstalente": {
+        "Alte Sprachen": -1,
+        "Kriegskunst": -1,
+        "Staatskunst": -1
+      },
+      "Handwerk": {
+        "Fahrzeug Lenken": 1,
+        "Lederarbeiten": 1
+      }
+    }
+  },
+  "Novadi": {
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Basiswerte": { },
+    "Talente": {
+      "Kampftechniken": {
+        "Bewaffnete Kampftechniken": {
+          "Scharfe Hiebwaffen": 1,
+          "Schwerter": -1
+        },
+        "Besondere Kampftechniken": {
+          "Lanzenreiten": 1
+        }
+      },
+      "Körperliche Talente": {
+        "Reiten": 2,
+        "Schwimmen": -2,
+        "Selbstbeherrschung": 1,
+        "Zechen": -1
+      },
+      "Gesellschaft": {
+        "Bekehren/Überzeugen": 1,
+        "Feilschen": 1
+      },
+      "Natur": {
+        "Fischen/Angeln": -2,
+        "Orientierung": 1
+      },
+      "Handwerk": {
+        "Boote Fahren": -2,
+        "Schneidern": 1
+      },
+      "Intuitive Begabungen": {
+        "Prophezeien": 1
+      }
+    }
+  },
+  "Thorwaler": {
+    "Typen": [ "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Basiswerte": { },
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Raufen": 1
+        },
+        "Bewaffnete Kampftechniken": {
+          "Äxte und Beile": 1,
+          "Stichwaffen": -1
+        },
+        "Fernkampftechniken": {
+          "Schußwaffen": -1
+        }
+      },
+      "Körperliche Talente": {
+        "Schwimmen": 1,
+        "Selbstbeherrschung": 1,
+        "Zechen": 2
+      },
+      "Gesellschaft": {
+        "Bekehren/Überzeugen": -1,
+        "Etikette": -1
+      },
+      "Natur": {
+        "Fischen/Angeln": 1
+      },
+      "Wissenstalente": {
+        "Magiekunde": -1
+      },
+      "Handwerk": {
+        "Abrichten": -1,
+        "Boote Fahren": 2,
+        "Heilkunde Seele": -1,
+        "Holzbearbeitung": 1
+      },
+      "Intuitive Begabungen": {
+        "Gefahreninstinkt": -1
+      }
+    }
+  },
+  "Tulamide": {
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Basiswerte": { },
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Boxen": -2,
+          "Hruruzat": 1,
+          "Ringen": 2
+        },
+        "Bewaffnete Kampftechniken": {
+          "Äxte und Beile": -2
+        }
+      },
+      "Körperliche Talente": {
+        "Fliegen": 2,
+        "Klettern": -1,
+        "Reiten": 1,
+        "Selbstbeherrschung": -1,
+        "Schwimmen": -1
+      },
+      "Gesellschaft": {
+        "Betören": 1,
+        "Etikette": 1
+      },
+      "Natur": {
+        "Fischen/Angeln": -1,
+        "Tierkunde": -1,
+        "Wettervorhersage": -2
+      },
+      "Wissenstalente": {
+        "Alchimie": 1,
+        "Alte Sprachen": 1,
+        "Geschichtswissen": 1,
+        "Magiekunde": 1,
+        "Staatskunst": 1,
+        "Sternkunde": 1
+      },
+      "Handwerk": {
+        "Abrichten": 2,
+        "Fahrzeug Lenken": -1,
+        "Holzbearbeitung": -1,
+        "Lederarbeiten": -1
+      },
+      "Intuitive Begabungen": {
+        "Prophezeien": 1
+      }
+    }
+  }
+}
