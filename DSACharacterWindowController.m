@@ -437,11 +437,7 @@
     }
 }
 
-// Action when the "Level Up" menu item is clicked
-- (IBAction)levelUp:(id)sender {
-    NSLog(@"Level up menu item clicked!");
-    // Handle the level-up logic here (if needed)
-}
+
 
 
 // Dynamically enable/disable the "Level Up" menu item
@@ -490,33 +486,264 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
 
 }
 
-- (void)handleAdventurePointsChange {
+- (IBAction)handleAdventurePointsChange {
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   if ([(DSACharacterHero *)document.model canLevelUp])
     {
-      [self showLevelUpPopup];
+      [self showCongratsPanel];
     }
 }
 
-- (void)showLevelUpPopup
+
+- (void)showCongratsPanel
 {
-  NSAlert *alert = [[NSAlert alloc] init];
-  [alert setMessageText:_(@"Herzlichen Glückwunsch!")];
-  [alert setInformativeText:_(@"Dein Character hat eine neue Stufe erreicht. Jetzt oder später steigern?")];
-  [alert addButtonWithTitle:_(@"Jetzt")];
-  [alert addButtonWithTitle:_(@"Später")];
-    
-  // Show the alert as a modal dialog
-  NSModalResponse response = [alert runModal];
-    
-  if (response == NSAlertFirstButtonReturn)
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  if (!self.congratsPanel)
     {
-      // User chose "Level Up Now"
-      [self levelUp:nil];
-    } else {
-      // User chose "Later"
-      // Do nothing
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSACharacterLevelUp" owner:self];
     }
+  // Set the font size of the fieldCongratsHeadline
+  NSFont *currentFont = [self.fieldCongratsHeadline font];
+  NSFont *biggerFont = [[NSFontManager sharedFontManager] convertFont:currentFont toSize:20.0]; // Set size to 20
+  [self.fieldCongratsHeadline setFont:biggerFont];    
+  [self.fieldCongratsMainText setStringValue: [NSString stringWithFormat: @"%@ hat soeben eine neue Stufe erreicht.", document.model.name]];
+  [self.congratsPanel makeKeyAndOrderFront:nil];
+}
+
+// Action when the "Level Up" menu item is clicked
+- (IBAction)showLevelUpPositiveTraits:(id)sender
+{
+  NSLog(@"Level up menu item clicked!");
+  if (!self.levelUpPanel)
+    {
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSACharacterLevelUp" owner:self];
+    }
+  // Set the font size of the fieldCongratsHeadline
+  NSFont *currentFont = [self.fieldLevelUpHeadline font];
+  NSFont *biggerFont = [[NSFontManager sharedFontManager] convertFont:currentFont toSize:20.0]; // Set size to 20
+  [self.fieldLevelUpHeadline setFont:biggerFont];
+  [self.fieldLevelUpHeadline setStringValue: _(@"Positive Eigenschaft erhöhen")];
+  [self.fieldLevelUpMainText setStringValue: _(@"Eigenschaft auswählen")];
+ 
+  [self.popupLevelUpTop removeAllItems];
+  [self.popupLevelUpTop addItemsWithTitles: @[
+                             _(@"Mut"),
+                             _(@"Klugheit"),
+                             _(@"Intuition"),
+                             _(@"Charisma"),
+                             _(@"Fingerfertigkeit"),
+                             _(@"Gewandheit"),
+                             _(@"Körperkraft")]];
+
+  [self.fieldLevelUpFeedback setHidden: YES];
+  [self.fieldLevelUpTrialsCounter setHidden: YES];                                                            
+  [self.popupLevelUpBottom setHidden: YES];  
+  [self.buttonLevelUpDoIt setTarget:self];
+  [self.buttonLevelUpDoIt setAction:@selector(levelUpPositiveTraits:)];
+  [self.levelUpPanel makeKeyAndOrderFront:nil];
+  [[sender window] close];
+}
+
+- (void)levelUpPositiveTraits:(id)sender {
+    NSLog(@"Leveling up positive traits...");
+    // Your logic to handle leveling up positive traits goes here
+    
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    DSACharacterHero *model = (DSACharacterHero *)document.model;
+    NSString *selectedTrait = [[self.popupLevelUpTop selectedItem] title];
+
+    BOOL result = NO;
+    if ([selectedTrait isEqualTo: _(@"Mut")])
+      {
+        result = [model levelUpPositiveTrait: @"MU"];
+      }
+    else if ([selectedTrait isEqualTo: _(@"Klugheit")])
+      {
+        result = [model levelUpPositiveTrait: @"KL"];
+      }
+    else if ([selectedTrait isEqualTo: _(@"Intuition")])
+      {
+        result = [model levelUpPositiveTrait: @"IN"];
+      }
+    else if ([selectedTrait isEqualTo: _(@"Charisma")])
+      {
+        result = [model levelUpPositiveTrait: @"CH"];
+      }
+    else if ([selectedTrait isEqualTo: _(@"Fingerfertigkeit")])
+      {
+        result = [model levelUpPositiveTrait: @"FF"];
+      }
+    else if ([selectedTrait isEqualTo: _(@"Gewandheit")])
+      {
+        result = [model levelUpPositiveTrait: @"GE"];
+      }
+    else if ([selectedTrait isEqualTo: _(@"Körperkraft")])
+      {
+        result = [model levelUpPositiveTrait: @"KK"];
+      }                              
+      
+  if (result)
+    {
+      [self.fieldLevelUpFeedback setStringValue: _(@"Geschafft!")];
+      [self.fieldLevelUpFeedback setHidden: NO];
+    }
+  else
+    {
+      [self.fieldLevelUpFeedback setStringValue: _(@"Leider nicht geschafft.")];
+      [self.fieldLevelUpFeedback setHidden: NO];    
+    }
+  [self.buttonLevelUpDoIt setTarget:self];
+  [self.buttonLevelUpDoIt setAction:@selector(showLevelDownNegativeTraits:)]; 
+  [self.buttonLevelUpDoIt setTitle: _(@"Weiter")];    
+}
+
+// Action when the "Level Up" menu item is clicked
+- (IBAction)showLevelDownNegativeTraits:(id)sender
+{
+  NSLog(@"showLevelDownNegativeTraits");
+  if (!self.levelUpPanel)
+    {
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSACharacterLevelUp" owner:self];
+    }
+  // Set the font size of the fieldCongratsHeadline
+  NSFont *currentFont = [self.fieldLevelUpHeadline font];
+  NSFont *biggerFont = [[NSFontManager sharedFontManager] convertFont:currentFont toSize:20.0]; // Set size to 20
+  [self.fieldLevelUpHeadline setFont:biggerFont];
+  [self.fieldLevelUpHeadline setStringValue: _(@"Negative Eigenschaft senken")];
+  [self.fieldLevelUpMainText setStringValue: _(@"Eigenschaft auswählen")];
+ 
+  [self.popupLevelUpTop removeAllItems];
+  [self.popupLevelUpTop addItemsWithTitles: @[
+                             _(@"Aberglaube"),
+                             _(@"Höhenangst"),
+                             _(@"Raumangst"),
+                             _(@"Totenangst"),
+                             _(@"Neugier"),
+                             _(@"Goldgier"),
+                             _(@"Jähzorn")]];
+
+  [self.fieldLevelUpFeedback setHidden: YES];
+  [self.fieldLevelUpTrialsCounter setHidden: YES];                                                            
+  [self.popupLevelUpBottom setHidden: YES];  
+  [self.buttonLevelUpDoIt setTarget:self];
+  [self.buttonLevelUpDoIt setAction:@selector(levelDownNegativeTraits:)]; 
+  [self.buttonLevelUpDoIt setTitle: _(@"Senken")];                             
+}
+
+
+- (void)levelDownNegativeTraits:(id)sender {
+    NSLog(@"Leveling down negative traits...");
+    // Your logic to handle leveling up positive traits goes here
+    
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    DSACharacterHero *model = (DSACharacterHero *)document.model;
+    NSString *selectedTrait = [[self.popupLevelUpTop selectedItem] title];
+
+    BOOL result = NO;
+    if ([selectedTrait isEqualTo: _(@"Aberglaube")])
+      {
+        result = [model levelDownNegativeTrait: @"AG"];
+      }
+    else if ([selectedTrait isEqualTo: _(@"Höhenangst")])
+      {
+        result = [model levelDownNegativeTrait: @"HA"];
+      }
+    else if ([selectedTrait isEqualTo: _(@"Raumangst")])
+      {
+        result = [model levelDownNegativeTrait: @"RA"];
+      }
+    else if ([selectedTrait isEqualTo: _(@"Totenangst")])
+      {
+        result = [model levelDownNegativeTrait: @"TA"];
+      }
+    else if ([selectedTrait isEqualTo: _(@"Neugier")])
+      {
+        result = [model levelDownNegativeTrait: @"NG"];
+      }
+    else if ([selectedTrait isEqualTo: _(@"Goldgier")])
+      {
+        result = [model levelDownNegativeTrait: @"GG"];
+      }
+    else if ([selectedTrait isEqualTo: _(@"Jähzorn")])
+      {
+        result = [model levelDownNegativeTrait: @"JZ"];
+      }                              
+      
+  if (result)
+    {
+      [self.fieldLevelUpFeedback setStringValue: _(@"Geschafft!")];
+      [self.fieldLevelUpFeedback setHidden: NO];
+    }
+  else
+    {
+      [self.fieldLevelUpFeedback setStringValue: _(@"Leider nicht geschafft.")];
+      [self.fieldLevelUpFeedback setHidden: NO];    
+    }
+  [self.buttonLevelUpDoIt setTarget:self];
+  [self.buttonLevelUpDoIt setAction:@selector(showLevelUpTalents:)]; 
+  [self.buttonLevelUpDoIt setTitle: _(@"Weiter")];      
+}
+
+- (IBAction)showLevelUpTalents:(id)sender
+{
+  NSLog(@"showLevelUpTalents");
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+  if (!self.levelUpPanel)
+    {
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSACharacterLevelUp" owner:self];
+    }
+  // Set the font size of the fieldCongratsHeadline
+  
+  NSMutableSet *talentCategories = [NSMutableSet set];
+  
+  // enumerate talents to find all categories
+  [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
+    {
+      [talentCategories addObject: [obj category]];
+    }];  
+  
+  NSFont *currentFont = [self.fieldLevelUpHeadline font];
+  NSFont *biggerFont = [[NSFontManager sharedFontManager] convertFont:currentFont toSize:20.0]; // Set size to 20
+  [self.fieldLevelUpHeadline setFont:biggerFont];
+  [self.fieldLevelUpHeadline setStringValue: _(@"Talente steigern")];
+  [self.fieldLevelUpMainText setStringValue: _(@"Talent auswählen")];
+ 
+  [self.popupLevelUpTop removeAllItems];
+  [self.popupLevelUpTop addItemsWithTitles: [talentCategories allObjects]];
+  [self.popupLevelUpBottom setHidden: NO];
+  
+  [self populateLevelUpBottomPopupWithTalents: nil];
+  
+  [self.popupLevelUpTop setTarget:self];
+  [self.popupLevelUpTop setAction:@selector(populateLevelUpBottomPopupWithTalents:)];
+  
+  [self.fieldLevelUpFeedback setHidden: YES];
+  [self.fieldLevelUpTrialsCounter setHidden: YES];                                                            
+
+  [self.buttonLevelUpDoIt setTarget:self];
+  [self.buttonLevelUpDoIt setAction:@selector(levelUpTalent:)]; 
+  [self.buttonLevelUpDoIt setTitle: _(@"Steigern")];
+}
+
+- (void)populateLevelUpBottomPopupWithTalents:(id)sender
+{
+  NSLog(@"populateLevelUpBottomPopupWithTalents called");
+}
+
+
+- (void)levelUpTalent:(id)sender
+{
+  NSLog(@"Level Up Talent called!");
+}
+
+- (void)closePanel:(id)sender {
+
+    [[sender window] close];
 }
 
 @end

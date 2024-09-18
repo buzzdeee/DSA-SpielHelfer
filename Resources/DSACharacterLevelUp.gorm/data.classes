@@ -1,0 +1,32 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSACharacterWindowController = {
+	Actions = (
+	    "showLevelUpPositiveTraits:",
+	    "closePanel:",
+	    "buttonLevelUpDoIt:"
+	);
+	Outlets = (
+	    congratsPanel,
+	    fieldCongratsHeadline,
+	    fieldCongratsMainText,
+	    levelUpPanel,
+	    fieldLevelUpHeadline,
+	    fieldLevelUpMainText,
+	    fieldLevelUpTrialsCounter,
+	    popupLevelUpTop,
+	    popupLevelUpBottom,
+	    buttonLevelUpDoIt,
+	    fieldLevelUpFeedback
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "closePanel:",
+	    "showLevelUpPositiveTraits:",
+	    "buttonLevelUpDoIt:"
+	);
+	Super = NSObject;
+    };
+}

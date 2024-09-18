@@ -101,7 +101,8 @@
     INTERFACES = (
 	"DSA-SpielHelfer.gorm",
 	"CharacterGeneration.gorm",
-	"DSACharacter.gorm"
+	"DSACharacter.gorm",
+	"DSACharacterLevelUp.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (

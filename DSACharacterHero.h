@@ -34,6 +34,8 @@
 
 @property (nonatomic, copy) NSMutableDictionary *talents;
 
+- (BOOL) levelUpPositiveTrait: (NSString *) trait;
+- (BOOL) levelDownNegativeTrait: (NSString *) trait;
 - (void) levelUpTalent: (DSATalent *)talent;
 - (BOOL) canLevelUp;
 

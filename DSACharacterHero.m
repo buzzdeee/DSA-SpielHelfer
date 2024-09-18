@@ -24,6 +24,8 @@
 
 #import "DSACharacterHero.h"
 #import "DSATalent.h"
+#import "DSAPositiveTrait.h"
+#import "DSANegativeTrait.h"
 
 @implementation DSACharacterHero
 
@@ -36,6 +38,18 @@
       self.adventurePoints = [NSNumber numberWithInteger: 0];
     }
   return self;
+}
+
+- (BOOL) levelUpPositiveTrait: (NSString *) trait
+{
+  BOOL result = [(DSAPositiveTrait *)[self.positiveTraits objectForKey: trait] levelUp];
+  return result;
+}
+
+- (BOOL) levelDownNegativeTrait: (NSString *) trait
+{
+  BOOL result = [(DSANegativeTrait *)[self.negativeTraits objectForKey: trait] levelDown];
+  return result;
 }
 
 - (void) levelUpTalent: (DSATalent *)talent

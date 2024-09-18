@@ -23,6 +23,7 @@
 */
 
 #import "DSAPositiveTrait.h"
+#import "Utils.h"
 
 @implementation DSAPositiveTrait
 
@@ -55,5 +56,22 @@
   [coder encodeObject:self.category forKey:@"category"];
 
 }
+
+- (BOOL) levelUp
+{
+  NSNumber *result;
+  for (int i=0; i<3;i++)
+    {
+      result = [Utils rollDice: @"1W20"];
+      if ([result integerValue] >= [self.level integerValue])
+        {
+          NSInteger oldLevel = [self.level integerValue];
+          self.level = [NSNumber numberWithInteger: oldLevel + 1];
+          return YES;
+        }
+    }
+  return NO;
+}
+
 
 @end

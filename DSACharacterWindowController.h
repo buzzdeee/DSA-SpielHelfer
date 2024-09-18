@@ -28,9 +28,7 @@
 #import <AppKit/AppKit.h>
 
 @interface DSACharacterWindowController : NSWindowController
-{
 
-}
 // Add weak UI outlets here
 @property (weak) IBOutlet NSTextField *fieldAG;
 @property (weak) IBOutlet NSTextField *fieldAdventurePoints;
@@ -78,8 +76,24 @@
 @property (weak) IBOutlet NSTabView *tabViewMain;
 @property (weak) IBOutlet NSImageView *imageViewPortrait;
 
+// For the secondary .gorm file DSACharacterLevelUp
+@property (nonatomic, strong) IBOutlet NSPanel *congratsPanel;
+@property (weak) IBOutlet NSTextField *fieldCongratsHeadline;
+@property (weak) IBOutlet NSTextField *fieldCongratsMainText;
+@property (nonatomic, strong) IBOutlet NSPanel *levelUpPanel;
+@property (weak) IBOutlet NSTextField *fieldLevelUpHeadline;
+@property (weak) IBOutlet NSTextField *fieldLevelUpMainText;
+@property (weak) IBOutlet NSTextField *fieldLevelUpTrialsCounter;
+@property (weak) IBOutlet NSTextField *fieldLevelUpFeedback;
+@property (weak) IBOutlet NSPopUpButton *popupLevelUpTop;
+@property (weak) IBOutlet NSPopUpButton *popupLevelUpBottom;
+@property (weak) IBOutlet NSButton *buttonLevelUpDoIt;
+
+- (IBAction)closePanel:(id)sender;
+
+
 @property (nonatomic, weak) IBOutlet NSMenuItem *menuItemLevelUp;
-- (IBAction)levelUp:(id)sender;
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 
 

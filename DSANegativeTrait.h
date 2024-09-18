@@ -34,6 +34,8 @@
 - (instancetype)initTrait: (NSString *) name
                   onLevel: (NSNumber *)level;
 
+- (BOOL) levelDown;
+                  
 @end
 
 #endif // _DSANEGATIVETRAIT_H_

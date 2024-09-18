@@ -33,6 +33,7 @@ GNUSTEP_INSTALLATION_DOMAIN = USER
 # Resource files
 #
 DSA-SpielHelfer_RESOURCE_FILES = \
+Resources/DSACharacterLevelUp.gorm \
 Resources/Thorwaler_male.png \
 Resources/Thorwaler_female.png \
 Resources/Skalde2_female.png \
