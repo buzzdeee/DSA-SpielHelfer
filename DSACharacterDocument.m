@@ -38,6 +38,7 @@
       // Initialize your document here
       _model = [[DSACharacter alloc] init];
     }
+  NSLog(@"DSACharacterDocument init was called");  
   return self;
 }
 
@@ -51,6 +52,15 @@
 // we don't want the windows to pop up on startup
 - (void)makeWindowControllers
 {
+  // Characters are all some kind of subclass
+  // prevents loading the window on startup
+  if (![self.model isMemberOfClass:[DSACharacter class]])
+    {
+      DSACharacterWindowController *windowController = [[DSACharacterWindowController alloc] initWithWindowNibName:[self windowNibName]];
+      [self addWindowController:windowController];
+      
+      NSLog(@"DSACharacterDocument makeWindowControllers called");
+    }
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError

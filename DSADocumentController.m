@@ -34,22 +34,22 @@ static NSObject *syncObject = nil; // A synchronization object
 + (DSADocumentController *)sharedDocumentController
 { 
   // Initialize the synchronization object if needed
+  NSLog(@"DSADocumentController sharedDocumentController was called");
   if (syncObject == nil)
     {
       syncObject = [[NSObject alloc] init];
     }
     
-    @synchronized(syncObject)
-      {
-        if (sharedInstance == nil)
-          {
-            // Obtain the current shared instance from the superclass
-            sharedInstance = (DSADocumentController *)[super sharedDocumentController];
-          }
-      }
-
-    NSLog(@"DSADocumentController sharedDocumentController: Current Document Controller: %@", sharedInstance);
-    return sharedInstance;
+  @synchronized(syncObject)
+    {
+      if (sharedInstance == nil)
+        {
+          // Obtain the current shared instance from the superclass
+          sharedInstance = (DSADocumentController *)[super sharedDocumentController];
+          [sharedInstance performCustomInitialization];
+        }
+    }
+  return sharedInstance;
 }
 
 - (void)performCustomInitialization
@@ -88,9 +88,9 @@ static NSObject *syncObject = nil; // A synchronization object
   // Obtain the document class    
   if ([sender tag] == 0)
     {
-      NSLog(@"DSADocumentController newDocument: sender tag was 0");
+//      NSLog(@"DSADocumentController newDocument: sender tag was 0");
       documentControllerClass = [self documentClassForType:@"DocType1"];
-      NSLog(@"DSADocumentController, newDocument: documentControllerClass: %@", documentControllerClass);
+//      NSLog(@"DSADocumentController, newDocument: documentControllerClass: %@", documentControllerClass);
       windowControllerClass = [self windowControllerClassForDocumentType:@"DocType1"];        
       windowNibName = @"DSACharacter";
     }
@@ -98,13 +98,13 @@ static NSObject *syncObject = nil; // A synchronization object
     {
       NSLog(@"DSADocumentController newDocument: sender tag was not null");       
     }
-  NSLog(@"DSADocumentController, newDocument: documentControllerClass: %@", documentControllerClass);      
+//  NSLog(@"DSADocumentController, newDocument: documentControllerClass: %@", documentControllerClass);      
   if (documentControllerClass)
     {
       // Create a new document instance, we assign subclasses
         
-      NSLog(@"DSADocumentController newDocument: I have a documentControllerClass %@", documentControllerClass);
-      NSLog(@"DSADocumentController newDocument: I have a windowControllerClass %@", windowControllerClass);        
+//      NSLog(@"DSADocumentController newDocument: I have a documentControllerClass %@", documentControllerClass);
+//      NSLog(@"DSADocumentController newDocument: I have a windowControllerClass %@", windowControllerClass);        
         
       NSDocument *newDocument = [[documentControllerClass alloc] init];
         

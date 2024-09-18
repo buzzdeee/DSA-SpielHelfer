@@ -33,6 +33,12 @@ GNUSTEP_INSTALLATION_DOMAIN = USER
 # Resource files
 #
 DSA-SpielHelfer_RESOURCE_FILES = \
+Resources/Thorwaler_male.png \
+Resources/Thorwaler_female.png \
+Resources/Skalde2_female.png \
+Resources/Skalde2_male.png \
+Resources/Skalde_female.png \
+Resources/Skalde_male.png \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \
@@ -65,7 +71,32 @@ DSACharacterDocument.h \
 DSACharacter.h \
 CustomInitializer.h \
 DSACharacterGenerationController.h \
-Utils.h
+Utils.h \
+DSACharacterHero.h \
+DSACharacterMagic.h \
+DSACharacterHeroThorwaler.h \
+DSACharacterHeroMage.h \
+DSACharacter+Magic.h \
+DSASpell.h \
+DSASpellAntimagic.h \
+DSASpellAntiMagicDisruptMovement.h \
+DSASpellObject.h \
+DSASpellCreature.h \
+DSAObject.h \
+DSASpellResult.h \
+DSATalent.h \
+DSATrait.h \
+DSAPositiveTrait.h \
+DSANegativeTrait.h \
+DSAFightingTalent.h \
+DSAOtherTalent.h \
+NSMutableDictionary+Extras.h \
+NSFlippedView.h \
+DSATabView.h \
+DSATabViewItem.h \
+MoneyViewModel.h \
+DSACharacterHeroHumanThorwaler.h \
+DSACharacterHeroHuman.h
 
 #
 # Objective-C Class files
@@ -79,7 +110,29 @@ DSACharacterDocument.m \
 DSACharacter.m \
 CustomInitializer.m \
 DSACharacterGenerationController.m \
-Utils.m
+Utils.m \
+DSACharacterHero.m \
+DSACharacterHeroThorwaler.m \
+DSACharacterHeroMage.m \
+DSACharacter+Magic.m \
+DSASpell.m \
+DSASpellAntimagic.m \
+DSASpellAntiMagicDisruptMovement.m \
+DSAObject.m \
+DSASpellResult.m \
+DSATalent.m \
+DSATrait.m \
+DSAPositiveTrait.m \
+DSANegativeTrait.m \
+DSAFightingTalent.m \
+DSAOtherTalent.m \
+NSMutableDictionary+Extras.m \
+NSFlippedView.m \
+DSATabView.m \
+DSATabViewItem.m \
+MoneyViewModel.m \
+DSACharacterHeroHumanThorwaler.m \
+DSACharacterHeroHuman.m
 
 #
 # Other sources

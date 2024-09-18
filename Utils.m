@@ -51,7 +51,7 @@ static Utils *sharedInstance = nil;
   [dice setValue: [NSNumber numberWithInt: count] forKey: @"count"];
   [dice setValue: [NSNumber numberWithInt: points] forKey: @"points"];
 
-  NSLog(@"Utils : parseDice returning dice: %@", dice);  
+//  NSLog(@"Utils : parseDice returning dice: %@", dice);  
   return dice;
 }
 
@@ -74,7 +74,7 @@ static Utils *sharedInstance = nil;
       [constraint setValue: @"MIN" forKey: @"constraint"];
     }
     
-  NSLog(@"Utils: parseConstraint returning Constraint: %@", constraint);
+//  NSLog(@"Utils: parseConstraint returning Constraint: %@", constraint);
   return constraint;
 }
 

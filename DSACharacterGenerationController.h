@@ -42,10 +42,15 @@
 @property (readonly) NSMutableDictionary *eyeColorsDict;
 @property (readonly) NSMutableDictionary *birthdaysDict;
 @property (readonly) NSMutableDictionary *godsDict;
+@property (readonly) NSMutableArray *portraitsArray;
+@property (nonatomic, assign) NSInteger currentPortraitIndex; // To track the current image index
 
 @property (nonatomic, strong) DSACharacter *generatedCharacter;
 @property (nonatomic, copy) void (^completionHandler)(DSACharacter *newCharacter);
-
+// used to juggle around positive and negative traits
+@property (nonatomic, strong) NSMutableDictionary *traitsDict;
+@property (nonatomic, strong) NSDictionary *birthday;
+@property (nonatomic, strong) NSDictionary *wealth;
 // UI elements
 
 @property (weak) IBOutlet NSPopUpButton *popupCategories;
@@ -53,6 +58,7 @@
 @property (weak) IBOutlet NSPopUpButton *popupOrigins;
 @property (weak) IBOutlet NSPopUpButton *popupProfessions;
 @property (weak) IBOutlet NSPopUpButton *popupMageAcademies;
+@property (weak) IBOutlet NSPopUpButton *popupSex;
 @property (weak) IBOutlet NSButton *buttonGenerate;
 @property (weak) IBOutlet NSButton *buttonFinish;
 @property (weak) IBOutlet NSTextField *fieldMageSchool;
@@ -96,7 +102,21 @@
 @property (weak) IBOutlet NSTextField *fieldNGConstraint;
 @property (weak) IBOutlet NSTextField *fieldGGConstraint;
 @property (weak) IBOutlet NSTextField *fieldJZConstraint;
-
+@property (weak) IBOutlet NSButton *buttonMU;
+@property (weak) IBOutlet NSButton *buttonKL;
+@property (weak) IBOutlet NSButton *buttonIN;
+@property (weak) IBOutlet NSButton *buttonCH;
+@property (weak) IBOutlet NSButton *buttonFF;
+@property (weak) IBOutlet NSButton *buttonGE;
+@property (weak) IBOutlet NSButton *buttonKK;
+@property (weak) IBOutlet NSButton *buttonAG;
+@property (weak) IBOutlet NSButton *buttonHA;
+@property (weak) IBOutlet NSButton *buttonRA;
+@property (weak) IBOutlet NSButton *buttonTA;
+@property (weak) IBOutlet NSButton *buttonNG;
+@property (weak) IBOutlet NSButton *buttonGG;
+@property (weak) IBOutlet NSButton *buttonJZ;
+@property (weak) IBOutlet NSImageView *imageViewPortrait;
 
 // Trigger character generation
 - (void)startCharacterGeneration: (id) sender;

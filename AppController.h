@@ -16,10 +16,12 @@
 @class DSACharacterGenerationController;
 
 @interface AppController : NSObject
-{
-}
+
+
 
 @property (strong) DSACharacterGenerationController *characterGenController;
+@property (nonatomic, weak) IBOutlet NSMenuItem *levelUpMenuItem;
+
 
 + (void)  initialize;
 

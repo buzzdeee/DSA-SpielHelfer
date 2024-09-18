@@ -27,14 +27,46 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DSACharacter : NSObject <NSSecureCoding>
-{
-
-}
+@interface DSACharacter : NSObject <NSCoding>
 
 // copy properties, to prevent others fiddling with the model...
 @property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSString *age;
+@property (nonatomic, copy) NSString *title;
+@property (nonatomic, copy) NSString *archetype;
+@property (nonatomic, copy) NSNumber *level; 
+@property (nonatomic, copy) NSNumber *adventurePoints;
+@property (nonatomic, copy) NSString *origin;
+@property (nonatomic, copy) NSMutableArray *professions;
+@property (nonatomic, copy) NSString *mageAcademy;
+@property (nonatomic, copy) NSString *sex;
+@property (nonatomic, copy) NSString *hairColor;
+@property (nonatomic, copy) NSString *eyeColor;
+@property (nonatomic, copy) NSString *height;
+@property (nonatomic, copy) NSString *weight;
+@property (nonatomic, copy) NSDictionary *birthday;
+@property (nonatomic, copy) NSString *god;
+@property (nonatomic, copy) NSString *stars;
+@property (nonatomic, copy) NSString *socialStatus;
+@property (nonatomic, copy) NSString *parents;
+@property (nonatomic, copy) NSMutableDictionary *money;
+@property (nonatomic, copy) NSMutableDictionary *positiveTraits;
+@property (nonatomic, copy) NSMutableDictionary *negativeTraits;
+@property (nonatomic, copy) NSNumber *lifePoints;
+@property (nonatomic, copy) NSNumber *astralEnergy;
+@property (nonatomic, copy) NSNumber *karmaPoints;
+@property (nonatomic, copy) NSNumber *mrBonus;
+@property (nonatomic, strong) NSImage *portrait;
+
+@property (readonly, copy) NSNumber *attackBaseValue;
+@property (readonly, copy) NSNumber *carryingCapacity;
+@property (readonly, copy) NSNumber *dodge;
+@property (readonly, copy) NSNumber *encumbrance;
+@property (readonly, copy) NSNumber *endurance;
+@property (readonly, copy) NSNumber *magicResistance;
+@property (readonly, copy) NSNumber *parryBaseValue;
+@property (readonly, copy) NSNumber *rangedCombatBaseValue;
+
+
 
 @end
 

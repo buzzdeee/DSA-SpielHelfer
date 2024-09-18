@@ -32,8 +32,57 @@
 
 }
 // Add weak UI outlets here
-@property (weak) IBOutlet NSTextField *textFieldAge;
-@property (weak) IBOutlet NSTextField *textFieldName;
+@property (weak) IBOutlet NSTextField *fieldAG;
+@property (weak) IBOutlet NSTextField *fieldAdventurePoints;
+@property (weak) IBOutlet NSTextField *fieldArchetype;
+@property (weak) IBOutlet NSTextField *fieldAstralEnergy;
+@property (weak) IBOutlet NSTextField *fieldAttackBaseValue;
+@property (weak) IBOutlet NSTextField *fieldBirthday;
+@property (weak) IBOutlet NSTextField *fieldCH;
+@property (weak) IBOutlet NSTextField *fieldCarryingCapacity;
+@property (weak) IBOutlet NSTextField *fieldDodge;
+@property (weak) IBOutlet NSTextField *fieldEncumbrance;
+@property (weak) IBOutlet NSTextField *fieldEndurance;
+@property (weak) IBOutlet NSTextField *fieldEyeColor;
+@property (weak) IBOutlet NSTextField *fieldFF;
+@property (weak) IBOutlet NSTextField *fieldGE;
+@property (weak) IBOutlet NSTextField *fieldGG;
+@property (weak) IBOutlet NSTextField *fieldGod;
+@property (weak) IBOutlet NSTextField *fieldHA;
+@property (weak) IBOutlet NSTextField *fieldHairColor;
+@property (weak) IBOutlet NSTextField *fieldHeight;
+@property (weak) IBOutlet NSTextField *fieldIN;
+@property (weak) IBOutlet NSTextField *fieldJZ;
+@property (weak) IBOutlet NSTextField *fieldKK;
+@property (weak) IBOutlet NSTextField *fieldKL;
+@property (weak) IBOutlet NSTextField *fieldKarmaPoints;
+@property (weak) IBOutlet NSTextField *fieldLevel;
+@property (weak) IBOutlet NSTextField *fieldLifePoints;
+@property (weak) IBOutlet NSTextField *fieldMU;
+@property (weak) IBOutlet NSTextField *fieldMagicResistance;
+@property (weak) IBOutlet NSTextField *fieldMoney;
+@property (weak) IBOutlet NSTextField *fieldNG;
+@property (weak) IBOutlet NSTextField *fieldName;
+@property (weak) IBOutlet NSTextField *fieldOrigin;
+@property (weak) IBOutlet NSTextField *fieldParents;
+@property (weak) IBOutlet NSTextField *fieldParryBaseValue;
+@property (weak) IBOutlet NSTextField *fieldProfession;
+@property (weak) IBOutlet NSTextField *fieldRA;
+@property (weak) IBOutlet NSTextField *fieldRangedCombatBaseValue;
+@property (weak) IBOutlet NSTextField *fieldSex;
+@property (weak) IBOutlet NSTextField *fieldSocialStatus;
+@property (weak) IBOutlet NSTextField *fieldStars;
+@property (weak) IBOutlet NSTextField *fieldTA;
+@property (weak) IBOutlet NSTextField *fieldTitle;
+@property (weak) IBOutlet NSTextField *fieldWeight;
+@property (weak) IBOutlet NSTabView *tabViewMain;
+@property (weak) IBOutlet NSImageView *imageViewPortrait;
+
+@property (nonatomic, weak) IBOutlet NSMenuItem *menuItemLevelUp;
+- (IBAction)levelUp:(id)sender;
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
+
+
 
 - (IBAction)updateModel:(id)sender;
 @end

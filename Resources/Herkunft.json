@@ -554,5 +554,10 @@
         "Prophezeien": 1
       }
     }
+  },
+  "Mittelreich": {
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Schelm", "Druide", "Hexe", "Jäger", "Scharlatan", "Seefahrer" ],
+    "Basiswerte": {},
+    "Talente": {}
   }
 }

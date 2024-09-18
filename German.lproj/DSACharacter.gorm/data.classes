@@ -2,9 +2,68 @@
     "## Comment" = "Do NOT change this file, Gorm maintains it";
     DSACharacterWindowController = {
 	Actions = (
+	    "updateModel:"
+	);
+	Outlets = (
+	    fieldAG,
+	    fieldAdventurePoints,
+	    fieldArchetype,
+	    fieldAstralEnergy,
+	    fieldAttackBaseValue,
+	    fieldBirthday,
+	    fieldCH,
+	    fieldCarryingCapacity,
+	    fieldDodge,
+	    fieldEncumbrance,
+	    fieldEndurance,
+	    fieldEyeColor,
+	    fieldFF,
+	    fieldGE,
+	    fieldGG,
+	    fieldGod,
+	    fieldHA,
+	    fieldHairColor,
+	    fieldHeight,
+	    fieldIN,
+	    fieldJZ,
+	    fieldKK,
+	    fieldKL,
+	    fieldKarmaPoints,
+	    fieldLevel,
+	    fieldLifePoints,
+	    fieldMU,
+	    fieldMagicResistance,
+	    fieldMoney,
+	    fieldNG,
+	    fieldName,
+	    fieldOrigin,
+	    fieldParents,
+	    fieldParryBaseValue,
+	    fieldProfession,
+	    fieldRA,
+	    fieldRangedCombatBaseValue,
+	    fieldSex,
+	    fieldSocialStatus,
+	    fieldStars,
+	    fieldTA,
+	    fieldTitle,
+	    fieldWeight,
+	    tabViewMain,
+	    imageViewPortrait
+	);
+	Super = NSWindowController;
+    };
+    DSATabView = {
+	Actions = (
 	);
 	Outlets = (
 	);
-	Super = NSWindowController;
+	Super = NSTabView;
+    };
+    FirstResponder = {
+	Actions = (
+	    "updateModel:"
+	);
+	Super = NSObject;
     };
 }

@@ -11,8 +11,9 @@
 #import "AppController.h"
 #import "DSACharacterGenerationController.h"
 #import "DSADocumentController.h"
+#import "DSACharacterWindowController.h"
 #import "DSACharacterDocument.h"
-#import "DSACharacter.h"
+#import "DSACharacterHero.h"
 
 @implementation AppController
 
@@ -79,7 +80,6 @@
 {
   NSError *error = nil;
   DSADocumentController *docController = [DSADocumentController sharedDocumentController];
-    
   // Create a new CharacterDocument with the generated character
   DSACharacterDocument *newDocument = [docController makeUntitledDocumentOfType:@"DSACharacter" error:&error];
     
@@ -89,7 +89,43 @@
       [docController addDocument:newDocument];
       [newDocument makeWindowControllers];  // Create the window controller
       [newDocument showWindows];            // Show the document window
+      // Mark the document as dirty
+      [newDocument updateChangeCount:NSChangeDone];      
     }
 }
 
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    NSLog(@"AppController validateMenuItem called %li", [menuItem tag]);
+    if ([menuItem tag] == 22) { // Tag for the "Level Up" menu item
+        // Find the current window controller
+        NSWindow *keyWindow = [NSApp keyWindow];
+        NSResponder *firstResponder = [keyWindow firstResponder];
+        if ([firstResponder isKindOfClass:[DSACharacterWindowController class]]) {
+            DSACharacterWindowController *windowController = (DSACharacterWindowController *)firstResponder;
+            //return [windowController.myCharacter canLevelUp];
+            DSACharacterDocument *document = (DSACharacterDocument *) windowController.document;
+            return [(DSACharacterHero *)document.model canLevelUp];
+        }
+        return NO;
+      }
+    else
+      {
+        return YES;
+      }
+    return [super validateMenuItem:menuItem];
+}
+
+/*
+// Dynamically enable/disable the "Level Up" menu item
+- (BOOL)XXXvalidateMenuItem:(NSMenuItem *)menuItem {
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  NSLog(@"DSACharacterWindowController validateMenuItem %@", menuItem);
+  if ([menuItem tag] == 22) // Tag for the "Level Up" menu item
+    {
+      // Enable the "Level Up" menu item only if the character can level up
+      return [(DSACharacterHero *)document.model canLevelUp];
+    }
+    return YES; // Default behavior for other menu items
+}
+*/
 @end

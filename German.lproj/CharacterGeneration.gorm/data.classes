@@ -3,17 +3,17 @@
     DSACharacterGenerationController = {
 	Actions = (
 	    "startCharacterGeneration:",
-	    "buttonFinishPressed:",
-	    "buttonGeneratePressed:",
+	    "buttonFinishClicked:",
+	    "buttonGenerateClicked:",
 	    "popupCategorySelected:",
 	    "popupArchetypeSelected:",
 	    "popupOriginSelected:",
 	    "popupProfessionSelected:",
 	    "popupMageAcademySelected:",
-	    "buttonNegativeTraitsClicked:",
-	    "buttonPositiveTraitsClicked:",
 	    "popupSexSelected:",
-	    "textFieldUpdated:"
+	    "textFieldUpdated:",
+	    "buttonTraitsClicked:",
+	    "buttonImageClicked:"
 	);
 	Outlets = (
 	    popupCategories,
@@ -64,24 +64,39 @@
 	    fieldNGConstraint,
 	    fieldGGConstraint,
 	    fieldJZConstraint,
-	    popupSex
+	    popupSex,
+	    buttonMU,
+	    buttonKL,
+	    buttonIN,
+	    buttonCH,
+	    buttonFF,
+	    buttonGE,
+	    buttonKK,
+	    buttonAG,
+	    buttonHA,
+	    buttonRA,
+	    buttonTA,
+	    buttonNG,
+	    buttonGG,
+	    buttonJZ,
+	    imageViewPortrait
 	);
 	Super = NSWindowController;
     };
     FirstResponder = {
 	Actions = (
-	    "buttonFinishPressed:",
-	    "buttonGeneratePressed:",
-	    "buttonNegativeTraitsClicked:",
-	    "buttonPositiveTraitsClicked:",
+	    "buttonFinishClicked:",
+	    "buttonGenerateClicked:",
+	    "buttonTraitsClicked:",
 	    "finishButtonPressed:",
 	    "generateButtonPressed:",
-	    "popupSexSelected:",
+	    "buttonImageClicked:",
 	    "popupArchetypeSelected:",
 	    "popupCategorySelected:",
 	    "popupMageAcademySelected:",
 	    "popupOriginSelected:",
 	    "popupProfessionSelected:",
+	    "popupSexSelected:",
 	    "pressedButtonFinish:",
 	    "pressedButtonGenerate:",
 	    "selectArchetype:",

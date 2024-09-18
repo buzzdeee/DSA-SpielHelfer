@@ -24,7 +24,13 @@
 
 #import "DSACharacterWindowController.h"
 #import "DSACharacterDocument.h"
-#import "DSACharacter.h"
+#import "DSACharacterHero.h"
+#import "DSAFightingTalent.h"
+#import "DSAOtherTalent.h"
+#import "NSFlippedView.h"
+#import "DSATabView.h"
+#import "DSATabViewItem.h"
+#import "MoneyViewModel.h"
 
 @implementation DSACharacterWindowController
 
@@ -32,6 +38,8 @@
 // we don't want the window loaded on application start
 - (DSACharacterWindowController *)init
 {
+  NSLog(@"DSACharacterWindowController: init called");    
+
   return self;
 }
 
@@ -39,12 +47,17 @@
 {
   // Clean up KVO observer
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  
+  // the two below are silly, and should go away!
   [document.model removeObserver:self forKeyPath:@"name"];
   [document.model removeObserver:self forKeyPath:@"age"];    
+  
+  [document.model removeObserver:self forKeyPath:@"adventurePoints"];
 }
 
 - (DSACharacterWindowController *)initWithWindowNibName:(NSString *)nibNameOrNil
 {
+  NSLog(@"DSACharacterWindowController initWithWindowNibName %@", nibNameOrNil);
   self = [super initWithWindowNibName:nibNameOrNil];
   if (self)
     {
@@ -61,16 +74,387 @@
 {
   [super windowDidLoad];
   // Perform additional setup after loading the window
+  NSLog(@"DSACharacterWindowController: windowDidLoad called");
+  
+  // Find the menu item (level Up Character) by tag
+  NSMenu *mainMenu = [NSApp mainMenu];
+  NSMenuItem *menuItem = [self menuItemWithTag:22 inMenu:mainMenu];
     
+  if (menuItem)
+    {
+      NSLog(@"DSACharacterWindowController windowDidLoad FOUND THE MENU ITEM, setting action to myself levelUp: method" );
+      // Set the target and action for the menu item
+      [menuItem setTarget:self];
+      [menuItem setAction:@selector(levelUp:)];
+    }  
+  
+  // central KVO observers
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-  [self.textFieldName bind:NSValueBinding toObject:document.model withKeyPath:@"name" options:nil];
-  [self.textFieldAge bind:NSValueBinding toObject:document.model withKeyPath:@"age" options:nil];    
-    
-  // Optionally, register for KVO notifications if you want more control
-  [document.model addObserver:self forKeyPath:@"name" options:NSKeyValueObservingOptionNew context:NULL];
-  [document.model addObserver:self forKeyPath:@"age" options:NSKeyValueObservingOptionNew context:NULL];    
+  [document.model addObserver:self
+                   forKeyPath:@"adventurePoints"
+                      options:NSKeyValueObservingOptionNew
+                      context:NULL];  
+  
+  [self populateBasicsTab];
+  [self populateFightingTalentsTab];
+  [self populateOtherTalentsTab];
+  
+  [self handleAdventurePointsChange];
 }
 
+// private method, used in windowDidLoad, to find menu items of interest
+// iterates through submenus to find the correct one...
+- (NSMenuItem *)menuItemWithTag:(NSInteger)tag inMenu:(NSMenu *)menu {
+    for (NSMenuItem *item in [menu itemArray]) {
+        if ([item tag] == tag) {
+            return item;
+        }
+        if ([item submenu]) {
+            NSMenuItem *subMenuItem = [self menuItemWithTag:tag inMenu:[item submenu]];
+            if (subMenuItem) {
+                return subMenuItem;
+            }
+        }
+    }
+    return nil;
+}
+
+- (void) populateBasicsTab
+{
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  [self.fieldName bind:NSValueBinding toObject:document.model withKeyPath:@"name" options:nil];
+  [self.fieldTitle bind:NSValueBinding toObject:document.model withKeyPath:@"title" options:nil];  
+  [self.fieldArchetype bind:NSValueBinding toObject:document.model withKeyPath:@"archetype" options:nil];
+  [self.fieldOrigin bind:NSValueBinding toObject:document.model withKeyPath:@"origin" options:nil];
+  [self.fieldSex bind:NSValueBinding toObject:document.model withKeyPath:@"sex" options:nil];
+  [self.fieldHairColor bind:NSValueBinding toObject:document.model withKeyPath:@"hairColor" options:nil];  
+  [self.fieldEyeColor bind:NSValueBinding toObject:document.model withKeyPath:@"eyeColor" options:nil];
+  [self.fieldHeight bind:NSValueBinding toObject:document.model withKeyPath:@"height" options:nil];    
+  [self.fieldWeight bind:NSValueBinding toObject:document.model withKeyPath:@"weight" options:nil];    
+  [self.fieldBirthday bind:NSValueBinding toObject:document.model withKeyPath:@"birthday.date" options:nil];      
+  [self.fieldGod bind:NSValueBinding toObject:document.model withKeyPath:@"god" options:nil];      
+  [self.fieldStars bind:NSValueBinding toObject:document.model withKeyPath:@"stars" options:nil];      
+  [self.fieldSocialStatus bind:NSValueBinding toObject:document.model withKeyPath:@"socialStatus" options:nil];  
+  [self.fieldParents bind:NSValueBinding toObject:document.model withKeyPath:@"parents" options:nil];  
+
+  // Create and configure your view model
+  MoneyViewModel *viewModel = [[MoneyViewModel alloc] init];
+  viewModel.money = [document.model valueForKeyPath:@"money"];
+    
+  // Bind the NSTextField to the formattedMoney property
+  [self.fieldMoney bind:NSValueBinding
+               toObject:viewModel
+            withKeyPath:@"formattedMoney"
+                options:nil];                                              
+    
+  [self.imageViewPortrait setImage:document.model.portrait];
+  [self.imageViewPortrait setImageScaling:NSImageScaleProportionallyUpOrDown];                                                                                                          
+                                              
+//  [self.fieldProfession bind:NSValueBinding toObject:document.model withKeyPath:@"profession" options:nil];  
+
+
+  for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
+    {
+      NSString *fieldKey = [NSString stringWithFormat:@"field%@", field]; // Constructs "fieldAG", "fieldHA", etc.
+      NSTextField *fieldControl = [self valueForKey:fieldKey]; // Dynamically retrieves self.fieldAG, self.fieldHA, etc.
+
+      [fieldControl bind:NSValueBinding
+                toObject:document.model
+             withKeyPath:[NSString stringWithFormat:@"positiveTraits.%@.level", field]
+                 options:nil];
+      [document.model addObserver:self 
+                       forKeyPath:[NSString stringWithFormat:@"positiveTraits.%@.level", field]
+                          options:NSKeyValueObservingOptionNew 
+                          context:NULL];                 
+    }
+  for (NSString *field in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
+    {
+      NSString *fieldKey = [NSString stringWithFormat:@"field%@", field]; // Constructs "fieldAG", "fieldHA", etc.
+      NSTextField *fieldControl = [self valueForKey:fieldKey]; // Dynamically retrieves self.fieldAG, self.fieldHA, etc.
+
+      [fieldControl bind:NSValueBinding
+                toObject:document.model
+             withKeyPath:[NSString stringWithFormat:@"negativeTraits.%@.level", field]
+                 options:nil];
+      [document.model addObserver:self 
+                       forKeyPath:[NSString stringWithFormat:@"negativeTraits.%@.level", field]
+                          options:NSKeyValueObservingOptionNew 
+                          context:NULL];                 
+    }
+  [self.fieldAttackBaseValue bind:NSValueBinding toObject:document.model withKeyPath:@"attackBaseValue" options:nil];    
+  [document.model addObserver:self forKeyPath: @"attackBaseValue" options:NSKeyValueObservingOptionNew context: NULL];
+  [self.fieldCarryingCapacity bind:NSValueBinding toObject:document.model withKeyPath:@"carryingCapacity" options:nil];    
+  [document.model addObserver:self forKeyPath: @"carryingCapacity" options:NSKeyValueObservingOptionNew context: NULL];
+  [self.fieldDodge bind:NSValueBinding toObject:document.model withKeyPath:@"dodge" options:nil];    
+  [document.model addObserver:self forKeyPath: @"dodge" options:NSKeyValueObservingOptionNew context: NULL];
+  [self.fieldEncumbrance bind:NSValueBinding toObject:document.model withKeyPath:@"encumbrance" options:nil];    
+  [document.model addObserver:self forKeyPath: @"encumbrance" options:NSKeyValueObservingOptionNew context: NULL];
+  [self.fieldEndurance bind:NSValueBinding toObject:document.model withKeyPath:@"endurance" options:nil];    
+  [document.model addObserver:self forKeyPath: @"endurance" options:NSKeyValueObservingOptionNew context: NULL];
+  [self.fieldMagicResistance bind:NSValueBinding toObject:document.model withKeyPath:@"magicResistance" options:nil];    
+  [document.model addObserver:self forKeyPath: @"magicResistance" options:NSKeyValueObservingOptionNew context: NULL];
+  [self.fieldParryBaseValue bind:NSValueBinding toObject:document.model withKeyPath:@"parryBaseValue" options:nil];    
+  [document.model addObserver:self forKeyPath: @"parryBaseValue" options:NSKeyValueObservingOptionNew context: NULL];
+  [self.fieldRangedCombatBaseValue bind:NSValueBinding toObject:document.model withKeyPath:@"rangedCombatBaseValue" options:nil];    
+  [document.model addObserver:self forKeyPath: @"rangedCombatBaseValue" options:NSKeyValueObservingOptionNew context: NULL];              
+  [self.fieldLifePoints bind:NSValueBinding toObject:document.model withKeyPath:@"lifePoints" options:nil];    
+  [document.model addObserver:self forKeyPath: @"lifePoints" options:NSKeyValueObservingOptionNew context: NULL];
+  [self.fieldAstralEnergy bind:NSValueBinding toObject:document.model withKeyPath:@"astralEnergy" options:nil];    
+  [document.model addObserver:self forKeyPath: @"astralEnergy" options:NSKeyValueObservingOptionNew context: NULL];  
+  [self.fieldKarmaPoints bind:NSValueBinding toObject:document.model withKeyPath:@"karmaPoints" options:nil];    
+  [document.model addObserver:self forKeyPath: @"karmaPoints" options:NSKeyValueObservingOptionNew context: NULL]; 
+  [self.fieldLevel bind:NSValueBinding toObject:document.model withKeyPath:@"level" options:nil];    
+  [document.model addObserver:self forKeyPath: @"level" options:NSKeyValueObservingOptionNew context: NULL];
+  [self.fieldAdventurePoints bind:NSValueBinding toObject:document.model withKeyPath:@"adventurePoints" options:nil];    
+  [document.model addObserver:self forKeyPath: @"adventurePoints" options:NSKeyValueObservingOptionNew context: NULL];
+
+  
+      
+}
+
+- (void) populateFightingTalentsTab
+{
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+
+  NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 2"]];
+  NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
+  NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];  
+  //DSATabView *subTabView = [[DSATabView alloc] initWithFrame:subTabViewFrame];  
+  [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+  
+  NSMutableArray *fightingTalents = [NSMutableArray array];
+  NSMutableSet *fightingCategories = [NSMutableSet set];
+  
+  // enumerate talents to find all fighting talents
+  [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAFightingTalent *obj, BOOL *stop)
+    {
+      if ([[obj category] isEqualToString:@"Kampftechniken"])
+        {
+          [fightingTalents addObject: obj];
+          [fightingCategories addObject: [obj subCategory]];
+        }
+    }];
+  
+//  NSLog(@"populateFightingTalentsTab: categories: %@", fightingCategories);  
+
+  for (NSString *category in fightingCategories)
+    {
+      NSTabViewItem *innerTabItem = [[NSTabViewItem alloc] initWithIdentifier: category];
+      //DSATabViewItem *innerTabItem = [[DSATabViewItem alloc] initWithIdentifier: category];
+      innerTabItem.label = category;
+      [subTabView addTabViewItem:innerTabItem];
+      NSFlippedView *innerView = [[NSFlippedView alloc] initWithFrame: subTabView.bounds];
+      [innerView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+      
+      NSInteger Offset = 0;
+      for (DSAFightingTalent *talent in fightingTalents)
+        {
+          if ([talent.subCategory isEqualTo: category])
+            {
+//              NSLog(@"Talent: %@ was equal to Category: %@", talent.name, category);
+              Offset += 22;
+              NSRect fieldRect = NSMakeRect(10,Offset, 300, 20);
+              NSTextField *talentField = [[NSTextField alloc] initWithFrame: fieldRect];
+              [talentField setIdentifier: [NSString stringWithFormat: @"talentField%@", talent]];
+              [talentField setSelectable: NO];
+              [talentField setEditable: NO];
+              [talentField setBordered: NO];
+              [talentField setBezeled: NO];
+              [talentField setBackgroundColor: [NSColor lightGrayColor]];             
+              [talentField setStringValue: [NSString stringWithFormat: @"%@ (%@)",
+                                                                         talent.name,
+                                                                         talent.maxUpPerLevel]];
+              NSFont *boldFont = [NSFont boldSystemFontOfSize:[NSFont systemFontSize]];
+              [talentField setFont:boldFont];                                                                         
+              NSRect fieldValueRect = NSMakeRect(320, Offset, 20, 20);
+              NSTextField *talentFieldValue = [[NSTextField alloc] initWithFrame: fieldValueRect];
+              [talentFieldValue setIdentifier: [NSString stringWithFormat: @"talentFieldValue%@", talent]];
+              [talentFieldValue setSelectable: NO];
+              [talentFieldValue setEditable: NO];
+              [talentFieldValue setBordered: NO];
+              [talentFieldValue setBezeled: NO];
+              [talentFieldValue setBackgroundColor: [NSColor lightGrayColor]];
+              [talentFieldValue setStringValue: [talent.level stringValue]];  
+              
+              NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+              [paragraphStyle setAlignment:NSTextAlignmentRight];
+              NSDictionary *attributes = @{NSParagraphStyleAttributeName: paragraphStyle};
+              [talentFieldValue setAttributedStringValue:[[NSAttributedString alloc] initWithString:[talent.level stringValue] attributes:attributes]];
+              
+              [innerView addSubview: talentField];
+              [innerView addSubview: talentFieldValue];
+            }
+        }
+      [innerTabItem setView: innerView];
+    }
+  
+    // Set the subTabView for item 2
+    [mainTabItem setView:subTabView];
+    
+    // Programmatically select the tab to force loading its content
+    [self.tabViewMain selectTabViewItem:mainTabItem];
+    
+    // Force layout to ensure views render immediately
+    [subTabView layoutSubtreeIfNeeded];
+    [mainTabItem.view layoutSubtreeIfNeeded];
+    
+    // Use setNeedsDisplay and displayIfNeeded for immediate rendering
+    [subTabView setNeedsDisplay:YES];
+    [subTabView displayIfNeeded];
+    [mainTabItem.view setNeedsDisplay:YES];
+    [mainTabItem.view displayIfNeeded];
+    
+    // Iterate through all sub-tabs to force them to layout
+    for (NSTabViewItem *item in subTabView.tabViewItems) {
+        [item.view setNeedsDisplay:YES];
+        [item.view displayIfNeeded];
+    }
+    // Use performSelector:withObject:afterDelay: to force updates in the next run loop cycle
+    [self performSelector:@selector(forceViewUpdate:) withObject:subTabView afterDelay:0.0];
+        
+  [self.tabViewMain selectTabViewItemAtIndex:0];  
+    
+}
+
+- (void) populateOtherTalentsTab
+{
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+
+  NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 3"]];
+  NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
+  NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];  
+  //DSATabView *subTabView = [[DSATabView alloc] initWithFrame:subTabViewFrame];  
+  [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+  
+  NSMutableArray *otherTalents = [NSMutableArray array];
+  NSMutableSet *talentCategories = [NSMutableSet set];
+  
+  // enumerate talents to find all categories
+  [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
+    {
+      if (![[obj category] isEqualToString:@"Kampftechniken"])
+        {
+          [otherTalents addObject: obj];
+          [talentCategories addObject: [obj category]];
+        }
+    }];
+  
+//  NSLog(@"populateOtherTalentsTab: categories: %@", talentCategories);  
+
+  for (NSString *category in talentCategories)
+    {
+      NSTabViewItem *innerTabItem = [[NSTabViewItem alloc] initWithIdentifier: category];
+      //DSATabViewItem *innerTabItem = [[DSATabViewItem alloc] initWithIdentifier: category];
+      innerTabItem.label = category;
+      [subTabView addTabViewItem:innerTabItem];
+      NSFlippedView *innerView = [[NSFlippedView alloc] initWithFrame: subTabView.bounds];
+      [innerView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+      
+      NSInteger Offset = 0;
+      for (DSAOtherTalent *talent in otherTalents)
+        {
+          if ([talent.category isEqualTo: category])
+            {
+//              NSLog(@"Talent: %@ was equal to Category: %@", talent.name, category);
+              Offset += 22;
+              NSRect fieldRect = NSMakeRect(10,Offset, 300, 20);
+              NSTextField *talentField = [[NSTextField alloc] initWithFrame: fieldRect];
+              [talentField setIdentifier: [NSString stringWithFormat: @"talentField%@", talent]];
+              [talentField setSelectable: NO];
+              [talentField setEditable: NO];
+              [talentField setBordered: NO];
+              [talentField setBezeled: NO];
+              [talentField setBackgroundColor: [NSColor lightGrayColor]];             
+              [talentField setStringValue: [NSString stringWithFormat: @"%@ (%@) (%@)",
+                                                                         talent.name,
+                                                                         [talent.test componentsJoinedByString:@"/"],
+                                                                         talent.maxUpPerLevel]];
+              NSFont *boldFont = [NSFont boldSystemFontOfSize:[NSFont systemFontSize]];
+              [talentField setFont:boldFont];                                                                         
+              NSRect fieldValueRect = NSMakeRect(320, Offset, 20, 20);
+              NSTextField *talentFieldValue = [[NSTextField alloc] initWithFrame: fieldValueRect];
+              [talentFieldValue setIdentifier: [NSString stringWithFormat: @"talentFieldValue%@", talent]];
+              [talentFieldValue setSelectable: NO];
+              [talentFieldValue setEditable: NO];
+              [talentFieldValue setBordered: NO];
+              [talentFieldValue setBezeled: NO];
+              [talentFieldValue setBackgroundColor: [NSColor lightGrayColor]];
+              [talentFieldValue setStringValue: [talent.level stringValue]];  
+              
+              NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+              [paragraphStyle setAlignment:NSTextAlignmentRight];
+              NSDictionary *attributes = @{NSParagraphStyleAttributeName: paragraphStyle};
+              [talentFieldValue setAttributedStringValue:[[NSAttributedString alloc] initWithString:[talent.level stringValue] attributes:attributes]];
+              
+              [innerView addSubview: talentField];
+              [innerView addSubview: talentFieldValue];
+            }
+        }
+      [innerTabItem setView: innerView];
+    }
+  
+    // Set the subTabView for item 2
+    [mainTabItem setView:subTabView];
+    
+    // Programmatically select the tab to force loading its content
+    [self.tabViewMain selectTabViewItem:mainTabItem];
+    
+    // Force layout to ensure views render immediately
+    [subTabView layoutSubtreeIfNeeded];
+    [mainTabItem.view layoutSubtreeIfNeeded];
+    
+    // Use setNeedsDisplay and displayIfNeeded for immediate rendering
+    [subTabView setNeedsDisplay:YES];
+    [subTabView displayIfNeeded];
+    [mainTabItem.view setNeedsDisplay:YES];
+    [mainTabItem.view displayIfNeeded];
+    
+    // Iterate through all sub-tabs to force them to layout
+    for (NSTabViewItem *item in subTabView.tabViewItems) {
+        [item.view setNeedsDisplay:YES];
+        [item.view displayIfNeeded];
+    }
+    // Use performSelector:withObject:afterDelay: to force updates in the next run loop cycle
+    [self performSelector:@selector(forceViewUpdate:) withObject:subTabView afterDelay:0.0];
+        
+  [self.tabViewMain selectTabViewItemAtIndex:0];  
+    
+}
+
+
+- (void)forceViewUpdate:(NSTabView *)subTabView {
+    [subTabView setNeedsDisplay:YES];
+    [subTabView displayIfNeeded];
+//    [self.tabViewMain.view setNeedsDisplay:YES];
+//    [self.tabViewMain.view displayIfNeeded];
+    
+    // Iterate through all sub-tabs to force them to layout
+    for (NSTabViewItem *item in subTabView.tabViewItems) {
+        [item.view setNeedsDisplay:YES];
+        [item.view displayIfNeeded];
+    }
+}
+
+// Action when the "Level Up" menu item is clicked
+- (IBAction)levelUp:(id)sender {
+    NSLog(@"Level up menu item clicked!");
+    // Handle the level-up logic here (if needed)
+}
+
+
+// Dynamically enable/disable the "Level Up" menu item
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  NSLog(@"DSACharacterWindowController validateMenuItem %@", menuItem);
+  if ([menuItem tag] == 22) // Tag for the "Level Up" menu item
+    {
+      // Enable the "Level Up" menu item only if the character can level up
+      return [(DSACharacterHero *)document.model canLevelUp];
+    }
+    return YES; // Default behavior for other menu items
+}
 
 - (IBAction)updateModel:(id)sender
 {
@@ -79,12 +463,12 @@
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   // is this clever, or better to compare the sender against some values and have some maybe huge case
   // statement in case there are _MANY_ properties in the document?
-  document.model.name = self.textFieldName.stringValue;
-  document.model.age = self.textFieldAge.stringValue;
-  NSLog(@"Name value: %@", self.textFieldName.stringValue);
-  NSLog(@"Age value: %@", self.textFieldAge.stringValue);
+  document.model.name = self.fieldName.stringValue;
+  document.model.title = self.fieldTitle.stringValue;
+  NSLog(@"Name value: %@", self.fieldName.stringValue);
+  NSLog(@"Ttile value: %@", self.fieldTitle.stringValue);
   NSLog(@"Model Name after updating: %@", document.model.name);
-  NSLog(@"Model Age after updating: %@", document.model.age);
+  NSLog(@"Model Age after updating: %@", document.model.title);
   NSLog(@"DSACharacterWindowController updateModel: the document model: %@", document);
   // Mark doc as 'dirty'
   [document updateChangeCount:NSChangeDone];
@@ -98,13 +482,40 @@
                         change:(NSDictionary<NSKeyValueChangeKey,id> *)change 
                        context:(void *)context
 {
-  if ([keyPath isEqualToString:@"age"])
+NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
+  if ([keyPath isEqualToString:@"adventurePoints"])
     {
-      NSLog(@"Age changed to: %@", change[NSKeyValueChangeNewKey]);
-    } 
-  else if ([keyPath isEqualToString:@"name"])
+      [self handleAdventurePointsChange];
+    }
+
+}
+
+- (void)handleAdventurePointsChange {
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  if ([(DSACharacterHero *)document.model canLevelUp])
     {
-      NSLog(@"Name changed to: %@", change[NSKeyValueChangeNewKey]);
+      [self showLevelUpPopup];
+    }
+}
+
+- (void)showLevelUpPopup
+{
+  NSAlert *alert = [[NSAlert alloc] init];
+  [alert setMessageText:_(@"Herzlichen Glückwunsch!")];
+  [alert setInformativeText:_(@"Dein Character hat eine neue Stufe erreicht. Jetzt oder später steigern?")];
+  [alert addButtonWithTitle:_(@"Jetzt")];
+  [alert addButtonWithTitle:_(@"Später")];
+    
+  // Show the alert as a modal dialog
+  NSModalResponse response = [alert runModal];
+    
+  if (response == NSAlertFirstButtonReturn)
+    {
+      // User chose "Level Up Now"
+      [self levelUp:nil];
+    } else {
+      // User chose "Later"
+      // Do nothing
     }
 }
 
