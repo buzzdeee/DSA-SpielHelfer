@@ -36,8 +36,8 @@
 @property (nonatomic, copy) NSNumber *level; 
 @property (nonatomic, copy) NSNumber *adventurePoints;
 @property (nonatomic, copy) NSString *origin;
-@property (nonatomic, copy) NSMutableArray *professions;
 @property (nonatomic, copy) NSString *mageAcademy;
+@property (nonatomic, copy) NSString *element;
 @property (nonatomic, copy) NSString *sex;
 @property (nonatomic, copy) NSString *hairColor;
 @property (nonatomic, copy) NSString *eyeColor;
@@ -46,16 +46,24 @@
 @property (nonatomic, copy) NSDictionary *birthday;
 @property (nonatomic, copy) NSString *god;
 @property (nonatomic, copy) NSString *stars;
+@property (nonatomic, copy) NSString *religion;
 @property (nonatomic, copy) NSString *socialStatus;
 @property (nonatomic, copy) NSString *parents;
 @property (nonatomic, copy) NSMutableDictionary *money;
 @property (nonatomic, copy) NSMutableDictionary *positiveTraits;
 @property (nonatomic, copy) NSMutableDictionary *negativeTraits;
 @property (nonatomic, copy) NSNumber *lifePoints;
+@property (nonatomic, copy) NSNumber *currentLifePoints;
+@property (nonatomic) BOOL isMagic;
+@property (nonatomic) BOOL isMagicalDabbler;
+@property (nonatomic) BOOL isBlessedOne;
 @property (nonatomic, copy) NSNumber *astralEnergy;
+@property (nonatomic, copy) NSNumber *currentAstralEnergy;
 @property (nonatomic, copy) NSNumber *karmaPoints;
+@property (nonatomic, copy) NSNumber *currentKarmaPoints;
 @property (nonatomic, copy) NSNumber *mrBonus;
 @property (nonatomic, strong) NSImage *portrait;
+
 
 @property (readonly, copy) NSNumber *attackBaseValue;
 @property (readonly, copy) NSNumber *carryingCapacity;

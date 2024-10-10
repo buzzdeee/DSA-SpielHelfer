@@ -1,0 +1,4157 @@
+{
+  "Antimagie": { 
+    "Beherrschungen brechen": {
+      "Probe": [ "KL", "IN", "CH", "+MR" ],
+      "Ursprung": [ "D", "DS" ],
+      "Reichweite": "B",
+      "Zauberdauer": [ "1m+" ],
+      "Wirkungsdauer": "permanent",
+      "Kosten": {
+        "Formel": "ABS(Stufe des Beherrschers - Stufe des Beherrschungsbrechers) * 4",
+        "Minimum": 8
+      },
+      "Startwerte": {
+        "Magier": -2,
+        "Scharlatan": -12,
+        "Hexe": -4,
+        "Druide": 2,
+        "Diener Sumus": 2,
+        "Herr der Erde": 2,
+        "Schelm": -10,
+        "Auelf": 0,
+        "Waldelf": -1,
+        "Firnelf": -2,
+        "Halbelf": -1
+      }
+    },
+    "Bewegungen stören": {
+      "Probe": [ "KL", "IN", "FF" ],
+      "Ursprung": [ "M" ],
+      "Reichweite": "49Schritt",
+      "Zauberdauer": [ "2s" ],
+      "Wirkungsdauer": "permanent",
+      "Kosten": {
+        "Formel": "ABS(Stufe des Bewegungsmagiers- Stufe des Störers) * 3",
+        "Minimum": 6
+      },
+      "Startwerte": {
+        "Magier": -4,
+        "Scharlatan": -13,
+        "Hexe": -8,
+        "Druide": -10,
+        "Diener Sumus": -8,
+        "Herr der Erde": -10,
+        "Schelm": -5,
+        "Auelf": -5,
+        "Waldelf": -5,
+        "Firnelf": -4,
+        "Halbelf": -4
+      }
+    },
+    "Destructibo Arcanitas": {
+      "Probe": [ "KL", "KL", "FF" ],
+      "Ursprung": [ "M" ],
+      "Reichweite": "B",
+      "Zauberdauer": [ "1m+" ],
+      "Wirkungsdauer": "permanent",
+      "Kosten": {
+        "Formel": "1 - 500 ASP, je nach Macht des Artefakts",
+        "Minimum": 0
+      },
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -12,
+        "Hexe": -10,
+        "Druide": -10,
+        "Diener Sumus": -12,
+        "Herr der Erde": -10,
+        "Schelm": -16,
+        "Auelf": -12,
+        "Waldelf": -14,
+        "Firnelf": -16,
+        "Halbelf": -14
+      }
+    },
+    "Gardianum Paradei": {
+      "Probe": [ "IN", "CH", "KK" ],
+      "Ursprung": [ "M" ],
+      "Reichweite": "3Schritt",
+      "Zauberdauer": [ "2s", "5s" ],
+      "Wirkungsdauer": "Bis ASP aufgebraucht sind, max 1 Spielrunde",
+      "Kosten": {
+        "Formel": "Aufgewendete ASP",
+        "Minimum": 0
+      },
+      "Startwerte": {
+        "Magier": -1,
+        "Scharlatan": -9,
+        "Hexe": -9,
+        "Druide": -8,
+        "Diener Sumus": -9,
+        "Herr der Erde": -9,
+        "Schelm": -10,
+        "Auelf": -10,
+        "Waldelf": -10,
+        "Firnelf": -11,
+        "Halbelf": -11
+      }
+    },
+    "Hellsicht trüben": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "D" ],
+      "Reichweite": "15Schritt",
+      "Zauberdauer": [ "2s" ],
+      "Wirkungsdauer": "1 Spielrunde",
+      "Kosten": {
+        "Formel": "ABS(Stufe Hellsehers - Stufe Störers)",
+        "Minimum": 4
+      },
+      "Startwerte": {
+        "Magier": -3,
+        "Scharlatan": -5,
+        "Hexe": -2,
+        "Druide": 2,
+        "Diener Sumus": 0,
+        "Herr der Erde": 1,
+        "Schelm": 0,
+        "Auelf": -1,
+        "Waldelf": -6,
+        "Firnelf": -6,
+        "Halbelf": -5
+      }
+    },
+    "Illusionen zerstören": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "M" ],
+      "Reichweite": "7Schritt",
+      "Zauberdauer": [ "3s" ],
+      "Wirkungsdauer": "permanent",
+      "Kosten": {
+        "Formel": "ABS(Stufe Illusionist - Stufe Störers) * 2",
+        "Minimum": 5
+      },
+      "Startwerte": {
+        "Magier": -5,
+        "Scharlatan": -6,
+        "Hexe": -7,
+        "Druide": -9,
+        "Diener Sumus": -7,
+        "Herr der Erde": -9,
+        "Schelm": -6,
+        "Auelf": -7,
+        "Waldelf": -8,
+        "Firnelf": -9,
+        "Halbelf": -7
+      }
+    },
+    "Invercarno Spiegeltrick": {
+      "Probe": [ "MU", "MU", "IN" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -15,
+        "Hexe": -12,
+        "Druide": -12,
+        "Diener Sumus": -12,
+        "Herr der Erde": -12,
+        "Schelm": -18,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -15
+      }
+    },
+    "Kampfzauber stören": {
+      "Probe": [ "MU", "IN", "CH" ],
+      "Ursprung": [ "A" ],
+      "Startwerte": {
+        "Magier": -1,
+        "Scharlatan": -10,
+        "Hexe": -8,
+        "Druide": -9,
+        "Diener Sumus": -10,
+        "Herr der Erde": -10,
+        "Schelm": -15,
+        "Auelf": 1,
+        "Waldelf": -1,
+        "Firnelf": -3,
+        "Halbelf": 0
+      }
+    },
+    "Pentagramma Drudenfuß": {
+      "Probe": [ "MU", "MU", "CH" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -18,
+        "Hexe": -10,
+        "Druide": -10,
+        "Diener Sumus": -9,
+        "Herr der Erde": -9,
+        "Schelm": -18,
+        "Auelf": -12,
+        "Waldelf": -15,
+        "Firnelf": -18,
+        "Halbelf": -12 
+      }
+    },
+    "Schleier der Unwissenheit": {
+      "Probe": [ "KL", "KL", "FF" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -7,
+        "Scharlatan": -9,
+        "Hexe": -5,
+        "Druide": -9,
+        "Diener Sumus": -9,
+        "Herr der Erde": -9,
+        "Schelm": -7,
+        "Auelf": -9,
+        "Waldelf": -10,
+        "Firnelf": -11,
+        "Halbelf": -8
+      }
+    },
+    "Verständigung stören": {
+      "Probe": [ "KL", "CH", "FF" ],
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": -4,
+        "Scharlatan": -7,
+        "Hexe": -4,
+        "Druide": -1,
+        "Diener Sumus": -7,
+        "Herr der Erde": -7,
+        "Schelm": -6,
+        "Auelf": -2,
+        "Waldelf": -2,
+        "Firnelf": 0,
+        "Halbelf": -3
+      }
+    },
+    "Verwandlungen beenden": {
+      "Probe": [ "MU", "KL", "CH" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -15,
+        "Hexe": -5,
+        "Druide": -12,
+        "Diener Sumus": -5,
+        "Herr der Erde": -7,
+        "Schelm": -15,
+        "Auelf": -10,
+        "Waldelf": -11,
+        "Firnelf": -12,
+        "Halbelf": -12
+      }
+    },
+    "Wider Hellsicht und Befehle": {
+      "Probe": [ "MU", "KL", "CH" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -3,
+        "Scharlatan": -6,
+        "Hexe": -6,
+        "Druide": -5,
+        "Diener Sumus": -7,
+        "Herr der Erde": -6,
+        "Schelm": -8,
+        "Auelf": -6,
+        "Waldelf": -6,
+        "Firnelf": -6,
+        "Halbelf": -6
+      }
+    }
+  },
+  "Beherrschung": {
+    "Band und Fessel dich umringt": {
+      "Probe": [ "KL", "CH", "KK", "+MR" ],
+      "Ursprung": [ "W" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -8,
+        "Hexe": -6,
+        "Druide": -6,
+        "Diener Sumus": -8,
+        "Herr der Erde": -6,
+        "Schelm": -8,
+        "Auelf": -4,
+        "Waldelf": 0,
+        "Firnelf": -2,
+        "Halbelf": -3
+      }
+    },
+    "Bannbaladin": {
+      "Probe": [ "IN", "CH", "CH", "+MR" ],
+      "Ursprung": [ "A" ],
+      "Startwerte": {
+        "Magier": 0,
+        "Scharlatan": -10,
+        "Hexe": -10,
+        "Druide": -10,
+        "Diener Sumus": -10,
+        "Herr der Erde": -10,
+        "Schelm": -8,
+        "Auelf": -4,
+        "Waldelf": 2,
+        "Firnelf": 0,
+        "Halbelf": 0
+      }
+    },
+    "Böser Blick": {
+      "Probe": [ "MU", "CH", "CH", "+MR" ],
+      "Ursprung": [ "D", "HdE" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -10,
+        "Hexe": -3,
+        "Druide": 3,
+        "Diener Sumus": -2,
+        "Herr der Erde": 2,
+        "Schelm": -15,
+        "Auelf": -10,
+        "Waldelf": -10,
+        "Firnelf": -10,
+        "Halbelf": -10
+      }
+    },
+    "Eigne Ängste quälen dich!": {
+      "Probe": [ "MU", "IN", "CH", "+MR" ],
+      "Ursprung": [ "M", "B" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -15,
+        "Hexe": -20,
+        "Druide": -15,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Erinnerung verlasse dich!": {
+      "Probe": [ "MU", "IN", "CH", "+MR" ],
+      "Ursprung": [ "M", "B" ],
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -8,
+        "Hexe": -10,
+        "Druide": -8,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -11,
+        "Auelf": -11,
+        "Waldelf": -11,
+        "Firnelf": -11,
+        "Halbelf": -11
+      }
+    },
+    "Große Gier": {
+      "Probe": [ "KL", "IN", "CH", "+MR" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -9,
+        "Scharlatan": -12,
+        "Hexe": 1,
+        "Druide": -6,
+        "Diener Sumus": 0,
+        "Herr der Erde": -2,
+        "Schelm": -6,
+        "Auelf": -9,
+        "Waldelf": -9,
+        "Firnelf": -9,
+        "Halbelf": -9
+      }
+    },
+    "Große Verwirrung": {
+      "Probe": [ "KL", "KL", "CH", "+MR" ],
+      "Ursprung": [ "D", "HdE" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -15,
+        "Hexe": -6,
+        "Druide": 2,
+        "Diener Sumus": 2,
+        "Herr der Erde": 4,
+        "Schelm": -4,
+        "Auelf": -10,
+        "Waldelf": -10,
+        "Firnelf": -10,
+        "Halbelf": -10
+      }
+    },
+    "Halluzination": {
+      "Probe": [ "KL", "IN", "CH", "+MR" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -5,
+        "Scharlatan": -8,
+        "Hexe": -5,
+        "Druide": 0,
+        "Diener Sumus": 1,
+        "Herr der Erde": 4,
+        "Schelm": -7,
+        "Auelf": -7,
+        "Waldelf": -7,
+        "Firnelf": -7,
+        "Halbelf": -7
+      }
+    },
+    "Herr über das Tierreich": {
+      "Probe": [ "MU", "MU", "CH", "+MR" ],
+      "Ursprung": [ "D", "HdE" ],
+      "Startwerte": {
+        "Magier": -9,
+        "Scharlatan": -15,
+        "Hexe": -6,
+        "Druide": 3,
+        "Diener Sumus": -5,
+        "Herr der Erde": 3,
+        "Schelm": -10,
+        "Auelf": -5,
+        "Waldelf": -2,
+        "Firnelf": -7,
+        "Halbelf": -5
+      }
+    },
+    "Horriphobus Schreckenspein": {
+      "Probe": [ "MU", "IN", "CH", "+MR" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -2,
+        "Scharlatan": -6,
+        "Hexe": -10,
+        "Druide": -4,
+        "Diener Sumus": -12,
+        "Herr der Erde": -10,
+        "Schelm": -20,
+        "Auelf": -12,
+        "Waldelf": -12,
+        "Firnelf": -12,
+        "Halbelf": -12
+      }
+    },
+    "Imperavi Animus": {
+      "Probe": [ "KL", "CH", "CH", [ "+2*MR", "+3*MR" ] ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -3,
+        "Scharlatan": -8,
+        "Hexe": -7,
+        "Druide": -7,
+        "Diener Sumus": -10,
+        "Herr der Erde": -8,
+        "Schelm": -10,
+        "Auelf": -6,
+        "Waldelf": -7,
+        "Firnelf": -8,
+        "Halbelf": -6
+      }
+    },
+    "Karnifilo Raserei": {
+      "Probe": [ "MU", "CH", "KK", "+MR" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -7,
+        "Scharlatan": -12,
+        "Hexe": -12,
+        "Druide": -10,
+        "Diener Sumus": -12,
+        "Herr der Erde": -11,
+        "Schelm": -20,
+        "Auelf": -15,
+        "Waldelf": -17,
+        "Firnelf": -16,
+        "Halbelf": -17
+      }
+    },
+    "Lachkrampf": {
+      "Probe": [ "CH", "CH", "FF", "+MR" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -15,
+        "Hexe": -12,
+        "Druide": -20,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": 3,
+        "Auelf": -12,
+        "Waldelf": -12,
+        "Firnelf": -12,
+        "Halbelf": -13
+      }
+    },
+    "Memorabia Falsifir": {
+      "Probe": [ "KL", "IN", "CH", "+MR" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -15,
+        "Hexe": -10,
+        "Druide": -10,
+        "Diener Sumus": -10,
+        "Herr der Erde": -10,
+        "Schelm": -15,
+        "Auelf": -12,
+        "Waldelf": -18,
+        "Firnelf": -15,
+        "Halbelf": -15
+      }
+    },
+    "Panik überkomme euch!": {
+      "Probe": [ "MU", "CH", "CH", "+MR" ],
+      "Ursprung": [ "M", "B" ],
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -15,
+        "Hexe": -12,
+        "Druide": -10,
+        "Diener Sumus": -12,
+        "Herr der Erde": -11,
+        "Schelm": -15,
+        "Auelf": -15,
+        "Waldelf": -19,
+        "Firnelf": -17,
+        "Halbelf": -15
+      }
+    },
+    "Respondami Veritar": {
+      "Probe": [ "KL", "IN", "CH", "+MR" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -2,
+        "Scharlatan": -6,
+        "Hexe": -6,
+        "Druide": -4,
+        "Diener Sumus": -5,
+        "Herr der Erde": -4,
+        "Schelm": -10,
+        "Auelf": -6,
+        "Waldelf": -6,
+        "Firnelf": -6,
+        "Halbelf": -7
+      }
+    },
+    "Sanftmut": {
+      "Probe": [ "MU", "MU", "CH", "+MR" ],
+      "Notiz": "Probe in DMDSA ist MU/CH/CH",
+      "Ursprung": [ "H", "DS" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -15,
+        "Hexe": 2,
+        "Druide": -8,
+        "Diener Sumus": 2,
+        "Herr der Erde": -3,
+        "Schelm": -5,
+        "Auelf": -4,
+        "Waldelf": -2,
+        "Firnelf": -4,
+        "Halbelf": -5
+      }
+    },
+    "Schabernack": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -12,
+        "Hexe": -8,
+        "Druide": -20,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": 3,
+        "Auelf": -10,
+        "Waldelf": -10,
+        "Firnelf": -10,
+        "Halbelf": -10
+      }
+    },
+    "Schelmenrausch": {
+      "Probe": [ "IN", "CH", "CH" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -16,
+        "Hexe": -12,
+        "Druide": -18,
+        "Diener Sumus": -18,
+        "Herr der Erde": -18,
+        "Schelm": -2,
+        "Auelf": -15,
+        "Waldelf": -16,
+        "Firnelf": -17,
+        "Halbelf": -17
+      }
+    },
+    "Schwarzer Schrecken plage dich!": {
+      "Probe": [ "MU", "IN", "CH", "+MR" ],
+      "Ursprung": [ "M", "B" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -10,
+        "Hexe": -12,
+        "Druide": -10,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -12,
+        "Auelf": -12,
+        "Waldelf": -12,
+        "Firnelf": -12,
+        "Halbelf": -12
+      }
+    },
+    "Seidenzunge, Elfenwort": {
+      "Probe": [ "KL", "IN", "CH", "+MR" ],
+      "Ursprung": [ "W" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -10,
+        "Hexe": -9,
+        "Druide": -10,
+        "Diener Sumus": -10,
+        "Herr der Erde": -10,
+        "Schelm": -11,
+        "Auelf": -7,
+        "Waldelf": -4,
+        "Firnelf": -7,
+        "Halbelf": -9
+      }
+    },
+    "Somnigravis Tausend Schaf": {
+      "Probe": [ "KL", "CH", "CH", "+MR" ],
+      "Ursprung": [ "W" ],
+      "Notiz": "In DMDSA Tausendschaf",
+      "Startwerte": {
+        "Magier": -3,
+        "Scharlatan": -8,
+        "Hexe": -6,
+        "Druide": -8,
+        "Diener Sumus": -5,
+        "Herr der Erde": -6,
+        "Schelm": -8,
+        "Auelf": -1,
+        "Waldelf": 1,
+        "Firnelf": 0,
+        "Halbelf": -2
+      }
+    },
+    "Zauberzwang": {
+      "Probe": [ "MU", "CH", "CH", "+2*MR" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -20,
+        "Hexe": -8,
+        "Druide": -12,
+        "Diener Sumus": -8,
+        "Herr der Erde": -10,
+        "Schelm": -18,
+        "Auelf": -12,
+        "Waldelf": -10,
+        "Firnelf": -12,
+        "Halbelf": -12
+      }
+    },
+    "Zunge lähmen": {
+      "Probe": [ "MU", "CH", "FF", "+MR" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -15,
+        "Hexe": -6,
+        "Druide": -3,
+        "Diener Sumus": -5,
+        "Herr der Erde": -4,
+        "Schelm": -10,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -15
+      }
+    },
+    "Zwingtanz": {
+      "Probe": [ "MU", "KL", "CH", "+MR" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -16,
+        "Hexe": -12,
+        "Druide": 1,
+        "Diener Sumus": 1,
+        "Herr der Erde": 1,
+        "Schelm": -10,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -15
+      }
+    }
+  },
+  "Beschwörung Dämonischer Mächte": {
+    "Furor Blut und Sulphurdampf": {
+      "Probe": [ "MU", "MU", "CH", "+X" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -5,
+        "Scharlatan": -20,
+        "Hexe": -10,
+        "Druide": -10,
+        "Diener Sumus": -10,
+        "Herr der Erde": -8,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -12
+      }
+    },
+    "Geister austreiben": {
+      "Probe": [ "MU", "MU", "CH", "+X" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -7,
+        "Scharlatan": -20,
+        "Hexe": -7,
+        "Druide": -2,
+        "Diener Sumus": 0,
+        "Herr der Erde": -4,
+        "Schelm": -7,
+        "Auelf": -8,
+        "Waldelf": -9,
+        "Firnelf": -10,
+        "Halbelf": -7
+      }
+    },
+    "Geister beschwören": {
+      "Probe": [ "MU", "MU", "CH", "+X" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -5,
+        "Scharlatan": -20,
+        "Hexe": -5,
+        "Druide": -2,
+        "Diener Sumus": -3,
+        "Herr der Erde": -2,
+        "Schelm": -5,
+        "Auelf": -6,
+        "Waldelf": -7,
+        "Firnelf": -8,
+        "Halbelf": -5
+      }
+    },
+    "Heptagon und Krötenei": {
+      "Probe": [ "MU", "MU", "CH", "+X" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -20,
+        "Hexe": -10,
+        "Druide": -12,
+        "Diener Sumus": -13,
+        "Herr der Erde": -10,
+        "Schelm": -20,
+        "Auelf": -15,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -18
+      }
+    },
+    "Komm Kobold komm": {
+      "Probe": [ "MU", "CH", "CH" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -20,
+        "Hexe": -10,
+        "Druide": -12,
+        "Diener Sumus": -7,
+        "Herr der Erde": -5,
+        "Schelm": 2,
+        "Auelf": -10,
+        "Waldelf": -8,
+        "Firnelf": -10,
+        "Halbelf": -9
+      }
+    },
+    "Krabbelnder Schrecken": {
+      "Probe": [ "MU", "MU", "CH" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -20,
+        "Hexe": -7,
+        "Druide": -12,
+        "Diener Sumus": -18,
+        "Herr der Erde": -15,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -18
+      }
+    },
+    "Krähenruf": {
+      "Probe": [ "MU", "CH", "CH" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -20,
+        "Hexe": 2,
+        "Druide": -8,
+        "Diener Sumus": 0,
+        "Herr der Erde": -2,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Kröte, Natter, Schuppenleib": {
+      "Probe": [ "MU", "IN", "CH", "+7" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -15,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Mutabili Hybridil": {
+      "Probe": [ "KL", "FF", "KK", "+X" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -20,
+        "Hexe": -20,
+        "Druide": -20,
+        "Diener Sumus": -20,
+        "Herr der Erde": -18,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Pandaemonium": {
+      "Probe": [ "MU", "MU", "CH" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -20,
+        "Hexe": -9,
+        "Druide": -20,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Skelettarius Kryptaduft": {
+      "Probe": [ "MU", "MU", "CH", "+X" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -12,
+        "Diener Sumus": -16,
+        "Herr der Erde": -12,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Spinne, Egel, Kriechgetier": {
+      "Probe": [ "MU", "IN", "CH" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -20,
+        "Hexe": -12,
+        "Druide": -15,
+        "Diener Sumus": -18,
+        "Herr der Erde": -15,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Stein wandle, Totes handle!": {
+      "Probe": [ "MU", "CH", "KK" ],
+      "Ursprung": [ "M", "B" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -20,
+        "Hexe": -18,
+        "Druide": -15,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Tlalucs Odem, siech und krank": {
+      "Probe": [ "MU", "MU", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -20,
+        "Hexe": -8,
+        "Druide": -10,
+        "Diener Sumus": -12,
+        "Herr der Erde": -12,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Weiße Mähn und goldner Huf": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "A" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -20,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -20,
+        "Auelf": -2,
+        "Waldelf": -5,
+        "Firnelf": -10,
+        "Halbelf": -6
+      }
+    }
+  },
+  "Die Sieben Formeln der Zeit": {
+    "Blick in die Vergangenheit": {
+      "Probe": [ "KL", "KL", "CH" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -15,
+        "Hexe": -15,
+        "Druide": -8,
+        "Diener Sumus": -12,
+        "Herr der Erde": -8,
+        "Schelm": -15,
+        "Auelf": -15,
+        "Waldelf": -16,
+        "Firnelf": -17,
+        "Halbelf": -16
+      }
+    },
+    "Immortalis Iuvenir": {
+      "Probe": [ "MU", "CH", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -20,
+        "Hexe": -18,
+        "Druide": -20,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Infinitum Immerdar": {
+      "Probe": [ "KL", "CH", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -20,
+        "Hexe": -18,
+        "Druide": -18,
+        "Diener Sumus": -18,
+        "Herr der Erde": -18,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Ritual des Chr'Szess'Aich": {
+      "Probe": [ "??", "??", "??" ],
+      "Ursprung": [ "?" ],
+      "Startwerte": {
+        "Magier": -20,
+        "Scharlatan": -20,
+        "Hexe": -20,
+        "Druide": -20,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -20,
+        "Auelf": -18,
+        "Waldelf": -18,
+        "Firnelf": -18,
+        "Halbelf": -18
+      }
+    },
+    "Tempus Stasis, Zeit verharre": {
+      "Probe": [ "MU", "KL", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -20,
+        "Hexe": -18,
+        "Druide": -18,
+        "Diener Sumus": -15,
+        "Herr der Erde": -20,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Zeiten Last und Zeiten Pein": {
+      "Probe": [ "MU", "KL", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -20,
+        "Hexe": -20,
+        "Druide": -20,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Zeitreise": {
+      "Probe": [ "MU", "CH", "CH", "+X" ],
+      "Ursprung": [ "M", "E" ],
+      "Startwerte": {
+        "Magier": -18,
+        "Scharlatan": -20,
+        "Hexe": -20,
+        "Druide": -20,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -20,
+        "Auelf": -16,
+        "Waldelf": -18,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    }
+  },
+  "Beschwörung Elementarer Kräfte": {
+    "Auge des Limbus": {
+      "Probe": [ "MU", "CH", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -20,
+        "Hexe": -18,
+        "Druide": -15,
+        "Diener Sumus": -15,
+        "Herr der Erde": -15,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Dschinn des Feuers eil herbei": {
+      "Probe": [ "MU", "KL", "CH", "+X" ],
+      "Element": "Feuer",
+      "Notiz": "Unterschiedliche Elemente, siehe Mysteria Arkana: Die Macht der Elemente",
+      "Ursprung": [ "M", "DS", "HdE" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -12,
+        "Diener Sumus": -12,
+        "Herr der Erde": -10,
+        "Schelm": -18,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Dschinn des Wassers eil herbei": {
+      "Probe": [ "MU", "KL", "CH", "+X" ],
+      "Element": "Wasser",
+      "Notiz": "Unterschiedliche Elemente, siehe Mysteria Arkana: Die Macht der Elemente",
+      "Ursprung": [ "M", "DS", "HdE" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -12,
+        "Diener Sumus": -12,
+        "Herr der Erde": -10,
+        "Schelm": -18,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Dschinn des Erzes eil herbei": {
+      "Probe": [ "MU", "KL", "CH", "+X" ],
+      "Element": "Erz",
+      "Notiz": "Unterschiedliche Elemente, siehe Mysteria Arkana: Die Macht der Elemente",
+      "Ursprung": [ "M", "DS", "HdE" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -12,
+        "Diener Sumus": -12,
+        "Herr der Erde": -10,
+        "Schelm": -18,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Dschinn der Luft eil herbei": {
+      "Probe": [ "MU", "KL", "CH", "+X" ],
+      "Element": "Luft",      
+      "Notiz": "Unterschiedliche Elemente, siehe Mysteria Arkana: Die Macht der Elemente",
+      "Ursprung": [ "M", "DS", "HdE" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -12,
+        "Diener Sumus": -12,
+        "Herr der Erde": -10,
+        "Schelm": -18,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Dschinn des Humus eil herbei": {
+      "Probe": [ "MU", "KL", "CH", "+X" ],
+      "Element": "Humus",            
+      "Notiz": "Unterschiedliche Elemente, siehe Mysteria Arkana: Die Macht der Elemente",
+      "Ursprung": [ "M", "DS", "HdE" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -12,
+        "Diener Sumus": -12,
+        "Herr der Erde": -10,
+        "Schelm": -18,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },                        
+    "Dschinn des Eises eil herbei": {
+      "Probe": [ "MU", "KL", "CH", "+X" ],
+      "Element": "Eis",
+      "Notiz": "Unterschiedliche Elemente, siehe Mysteria Arkana: Die Macht der Elemente",
+      "Ursprung": [ "M", "DS", "HdE" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -12,
+        "Diener Sumus": -12,
+        "Herr der Erde": -10,
+        "Schelm": -18,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Flammenring": {
+      "Probe": [ "MU", "KL", "CH" ],
+      "Element": "Feuer",
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -7,
+        "Diener Sumus": -5,
+        "Herr der Erde": -5,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Manifesto, Kraft der Sechse": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -20,
+        "Hexe": -10,
+        "Druide": -8,
+        "Diener Sumus": -7,
+        "Herr der Erde": -7,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Meister der Elemente": {
+      "Probe": [ "MU", "KL", "CH", [ "+6", "+18" ] ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -20,
+        "Hexe": -12,
+        "Druide": -8,
+        "Diener Sumus": -2,
+        "Herr der Erde": -2,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Meister minderer Geister": {
+      "Probe": [ "MU", "CH", "CH" ],
+      "Ursprung": [ "S", "HdE" ],
+      "Startwerte": {
+        "Magier": -7,
+        "Scharlatan": -12,
+        "Hexe": -6,
+        "Druide": -8,
+        "Diener Sumus": -2,
+        "Herr der Erde": 3,
+        "Schelm": 4,
+        "Auelf": -10,
+        "Waldelf": -9,
+        "Firnelf": -12,
+        "Halbelf": -11
+      }
+    },
+    "Nihilatio Gravitas": {
+      "Probe": [ "KL", "KK", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -18,
+        "Hexe": -15,
+        "Druide": -15,
+        "Diener Sumus": -12,
+        "Herr der Erde": -9,
+        "Schelm": -12,
+        "Auelf": -13,
+        "Waldelf": -14,
+        "Firnelf": -10,
+        "Halbelf": -12
+      }
+    },
+    "Solidrid Farbenspiel": {
+      "Probe": [ "IN", "GE", "KK" ],
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -18,
+        "Hexe": -10,
+        "Druide": -12,
+        "Diener Sumus": -15,
+        "Herr der Erde": -15,
+        "Schelm": -15,
+        "Auelf": -8,
+        "Waldelf": -8,
+        "Firnelf": -4,
+        "Halbelf": -10
+      }
+    },
+    "Verschwindibus": {
+      "Probe": [ "IN", "CH", "GE" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -5,
+        "Scharlatan": -18,
+        "Hexe": -10,
+        "Druide": -12,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": 0,
+        "Auelf": -6,
+        "Waldelf": -7,
+        "Firnelf": -8,
+        "Halbelf": -5
+      }
+    },
+    "Wand aus Feuer, erhebe dich": {
+      "Probe": [ "MU", "KL", "CH" ],
+      "Element": "Feuer",
+      "Ursprung": [ "M", "D", "DS", "HdE" ],
+      "Notiz": "Unterschiedliche Elemente, siehe Mysteria Arkana: Die Macht der Elemente",
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -9,
+        "Diener Sumus": -9,
+        "Herr der Erde": -8,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Wand aus Wasser, erhebe dich": {
+      "Probe": [ "MU", "KL", "CH" ],
+      "Element": "Wasser",
+      "Ursprung": [ "M", "D", "DS", "HdE" ],
+      "Notiz": "Unterschiedliche Elemente, siehe Mysteria Arkana: Die Macht der Elemente",
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -9,
+        "Diener Sumus": -9,
+        "Herr der Erde": -8,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Wand aus Erz, erhebe dich": {
+      "Probe": [ "MU", "KL", "CH" ],
+      "Element": "Erz",
+      "Ursprung": [ "M", "D", "DS", "HdE" ],
+      "Notiz": "Unterschiedliche Elemente, siehe Mysteria Arkana: Die Macht der Elemente",
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -9,
+        "Diener Sumus": -9,
+        "Herr der Erde": -8,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Wand aus Luft, erhebe dich": {
+      "Probe": [ "MU", "KL", "CH" ],
+      "Element": "Luft",
+      "Ursprung": [ "M", "D", "DS", "HdE" ],
+      "Notiz": "Unterschiedliche Elemente, siehe Mysteria Arkana: Die Macht der Elemente",
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -9,
+        "Diener Sumus": -9,
+        "Herr der Erde": -8,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Wand aus Humus, erhebe dich": {
+      "Probe": [ "MU", "KL", "CH" ],
+      "Element": "Humus",
+      "Ursprung": [ "M", "D", "DS", "HdE" ],
+      "Notiz": "Unterschiedliche Elemente, siehe Mysteria Arkana: Die Macht der Elemente",
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -9,
+        "Diener Sumus": -9,
+        "Herr der Erde": -8,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },                    
+    "Wand aus Eis, erhebe dich": {
+      "Probe": [ "MU", "KL", "CH" ],
+      "Element": "Eis",
+      "Ursprung": [ "M", "D", "DS", "HdE" ],
+      "Notiz": "Unterschiedliche Elemente, siehe Mysteria Arkana: Die Macht der Elemente",
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -9,
+        "Diener Sumus": -9,
+        "Herr der Erde": -8,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Zorn der Elemente": {
+      "Probe": [ "MU", "CH", "KK" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -18,
+        "Scharlatan": -20,
+        "Hexe": -18,
+        "Druide": -7,
+        "Diener Sumus": -7,
+        "Herr der Erde": -8,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    }
+  },
+  "Bewegung": {
+    "Aufgeblasen, Abgehoben": {
+      "Probe": [ "CH", "KK", "KK" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -20,
+        "Scharlatan": -20,
+        "Hexe": -20,
+        "Druide": -20,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -7,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Axxeleratus Blitzgeschwind": {
+      "Probe": [ "KL", "GE", "KK" ],
+      "Ursprung": [ "W" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -12,
+        "Hexe": -8,
+        "Druide": -10,
+        "Diener Sumus": -8,
+        "Herr der Erde": -8,
+        "Schelm": -6,
+        "Auelf": -2,
+        "Waldelf": 2,
+        "Firnelf": -2,
+        "Halbelf": -2
+      }
+    },
+    "Durch Fels und Erz, trotz Ach und Weh": {
+      "Probe": [ "MU", "KK", "KK" ],
+      "Element": "Erz",
+      "Ursprung": [ "W" ],
+      "Notiz": "im CODEX CANTIONES mit Ursprung Auelf",
+      "Startwerte": {
+        "Magier": -17,
+        "Scharlatan": -20,
+        "Hexe": -18,
+        "Druide": -15,
+        "Diener Sumus": -10,
+        "Herr der Erde": -10,
+        "Schelm": -10,
+        "Auelf": -12,
+        "Waldelf": -10,
+        "Firnelf": -12,
+        "Halbelf": -15
+      }
+    },
+    "Durch Marmorstein und Eisenwand": {
+      "Probe": [ "KL", "GE", "KK" ],
+      "Element": "Erz",
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -15,
+        "Hexe": -12,
+        "Druide": -12,
+        "Diener Sumus": -9,
+        "Herr der Erde": -7,
+        "Schelm": 1,
+        "Auelf": -12,
+        "Waldelf": -12,
+        "Firnelf": -12,
+        "Halbelf": -12
+      }
+    },
+    "Foramen Foraminor": {
+      "Probe": [ "KL", "KL", "FF", "+X" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": 0,
+        "Scharlatan": -7,
+        "Hexe": -6,
+        "Druide": -8,
+        "Diener Sumus": -8,
+        "Herr der Erde": -8,
+        "Schelm": 0,
+        "Auelf": -6,
+        "Waldelf": -7,
+        "Firnelf": -8,
+        "Halbelf": -5
+      }
+    },
+    "Hexenholz": {
+      "Probe": [ "KL", "FF", "KK" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -5,
+        "Scharlatan": -9,
+        "Hexe": 2,
+        "Druide": -5,
+        "Diener Sumus": -7,
+        "Herr der Erde": -10,
+        "Schelm": -5,
+        "Auelf": -5,
+        "Waldelf": -3,
+        "Firnelf": -8,
+        "Halbelf": -5
+      }
+    },
+    "In Glut und Lohe ohne Weh": {
+      "Probe": [ "MU", "GE", "KK" ],
+      "Element": "Feuer",
+      "Ursprung": [ "A" ],
+      "Notiz": "im CODEX CANTIONES mit Ursprung Waldelf",
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -20,
+        "Hexe": -12,
+        "Druide": -15,
+        "Diener Sumus": -15,
+        "Herr der Erde": -15,
+        "Schelm": -20,
+        "Auelf": -10,
+        "Waldelf": -11,
+        "Firnelf": -12,
+        "Halbelf": -15
+      }
+    },
+    "Klickeradomms": {
+      "Probe": [ "KL", "FF", "KK" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -8,
+        "Hexe": -5,
+        "Druide": -6,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": 3,
+        "Auelf": -5,
+        "Waldelf": -5,
+        "Firnelf": -5,
+        "Halbelf": -5
+      }
+    },
+    "Lockruf und Feenfüße": {
+      "Probe": [ "IN", "CH", "FF" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -18,
+        "Hexe": -15,
+        "Druide": -18,
+        "Diener Sumus": -18,
+        "Herr der Erde": -18,
+        "Schelm": -5,
+        "Auelf": -10,
+        "Waldelf": -8,
+        "Firnelf": -12,
+        "Halbelf": -15
+      }
+    },
+    "Materialia Animat": {
+      "Probe": [ "KL", "FF", "GE" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -7,
+        "Scharlatan": -12,
+        "Hexe": -10,
+        "Druide": -12,
+        "Diener Sumus": -12,
+        "Herr der Erde": -12,
+        "Schelm": -10,
+        "Auelf": -11,
+        "Waldelf": -12,
+        "Firnelf": -11,
+        "Halbelf": -11
+      }
+    },
+    "Mit dem Wind, in Sternenhöh": {
+      "Probe": [ "MU", "GE", "KK" ],
+      "Element": "Luft",
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -18,
+        "Hexe": -15,
+        "Druide": -15,
+        "Diener Sumus": -15,
+        "Herr der Erde": -15,
+        "Schelm": -15,
+        "Auelf": -10,
+        "Waldelf": -10,
+        "Firnelf": -7,
+        "Halbelf": -10
+      }
+    },
+    "Motoricus Motilitich": {
+      "Probe": [ "KL", "FF", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -2,
+        "Scharlatan": -8,
+        "Hexe": -6,
+        "Druide": -12,
+        "Diener Sumus": -9,
+        "Herr der Erde": -9,
+        "Schelm": -3,
+        "Auelf": -5,
+        "Waldelf": -6,
+        "Firnelf": -4,
+        "Halbelf": -5
+      }
+    },
+    "Movimento Dauerlauf": {
+      "Probe": [ "IN", "GE", "KK" ],
+      "Ursprung": [ "A" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -12,
+        "Hexe": -12,
+        "Druide": -8,
+        "Diener Sumus": -12,
+        "Herr der Erde": -15,
+        "Schelm": -12,
+        "Auelf": -4,
+        "Waldelf": -4,
+        "Firnelf": -5,
+        "Halbelf": -5
+      }
+    },
+    "Nackedei": {
+      "Probe": [ "KL", "GE", "KK" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -18,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -15,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": 2,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -15
+      }
+    },
+    "Spurlos, Trittlos, Fährtenlos": {
+      "Probe": [ "IN", "GE", "GE" ],
+      "Ursprung": [ "W" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -15,
+        "Hexe": -5,
+        "Druide": -5,
+        "Diener Sumus": -5,
+        "Herr der Erde": -7,
+        "Schelm": -7,
+        "Auelf": -2,
+        "Waldelf": 0,
+        "Firnelf": -2,
+        "Halbelf": -5
+      }
+    },
+    "Transversalis Teleport": {
+      "Probe": [ "KL", "KL", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -20,
+        "Hexe": -18,
+        "Druide": -15,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -12,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -12,
+        "Halbelf": -15
+      }
+    },
+    "Über Eis und über Schnee": {
+      "Probe": [ "KL", "GE", "KK" ],
+      "Element": "Eis",
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -15,
+        "Hexe": -15,
+        "Druide": -12,
+        "Diener Sumus": -15,
+        "Herr der Erde": -15,
+        "Schelm": -15,
+        "Auelf": -7,
+        "Waldelf": -7,
+        "Firnelf": -2,
+        "Halbelf": -7
+      }
+    },
+    "Über Strom und über See": {
+      "Probe": [ "IN", "GE", "GE" ],
+      "Element": "Wasser",
+      "Ursprung": [ "A" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -15,
+        "Hexe": -15,
+        "Druide": -10,
+        "Diener Sumus": -13,
+        "Herr der Erde": -13,
+        "Schelm": -15,
+        "Auelf": -5,
+        "Waldelf": -7,
+        "Firnelf": -7,
+        "Halbelf": -7
+      }
+    },
+    "Über Wipfel, über Klee": {
+      "Probe": [ "KL", "GE", "KK" ],
+      "Element": "Humus",
+      "Ursprung": [ "W" ],
+      "Startwerte": {
+        "Magier": -13,
+        "Scharlatan": -15,
+        "Hexe": -15,
+        "Druide": -10,
+        "Diener Sumus": -12,
+        "Herr der Erde": -12,
+        "Schelm": -15,
+        "Auelf": -8,
+        "Waldelf": -5,
+        "Firnelf": -10,
+        "Halbelf": -10
+      }
+    }
+  },
+  "Heilung": {
+    "Ängste lindern": {
+      "Probe": [ "MU", "IN", "CH" ],
+      "Ursprung": [ "H", "DS" ],
+      "Startwerte": {
+        "Magier": -2,
+        "Scharlatan": -9,
+        "Hexe": 3,
+        "Druide": -10,
+        "Diener Sumus": 3,
+        "Herr der Erde": -1,
+        "Schelm": -10,
+        "Auelf": -3,
+        "Waldelf": -3,
+        "Firnelf": -3,
+        "Halbelf": -4
+      }
+    },
+    "Balsamsalabunde": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "A" ],
+      "Startwerte": {
+        "Magier": 2,
+        "Scharlatan": -10,
+        "Hexe": -8,
+        "Druide": -8,
+        "Diener Sumus": -7,
+        "Herr der Erde": -7,
+        "Schelm": -4,
+        "Auelf": 5,
+        "Waldelf": 4,
+        "Firnelf": 2,
+        "Halbelf": 2
+      }      
+    },
+    "Hexenspeichel": {
+      "Probe": [ "IN", "CH", "FF" ],
+      "Ursprung": [ "H", "DS" ],
+      "Startwerte": {
+        "Magier": -20,
+        "Scharlatan": -20,
+        "Hexe": 5,
+        "Druide": -20,
+        "Diener Sumus": 3,
+        "Herr der Erde": -2,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }      
+    },
+    "Klarum Purum Kräutersud": {
+      "Probe": [ "KL", "KL", "CH" ],
+      "Ursprung": [ "M", "DS" ],
+      "Startwerte": {
+        "Magier": -2,
+        "Scharlatan": -10,
+        "Hexe": -8,
+        "Druide": -6,
+        "Diener Sumus": -4,
+        "Herr der Erde": -7,
+        "Schelm": -10,
+        "Auelf": -4,
+        "Waldelf": -4,
+        "Firnelf": -4,
+        "Halbelf": -4
+      }      
+    },
+    "Lach dich gesund": {
+      "Probe": [ "IN", "CH", "CH" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -20,
+        "Scharlatan": -20,
+        "Hexe": -20,
+        "Druide": -20,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -5,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }      
+    },
+    "Levthans Feuer": {
+      "Probe": [ "IN", "CH", "CH" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -20,
+        "Hexe": -7,
+        "Druide": -18,
+        "Diener Sumus": -18,
+        "Herr der Erde": -18,
+        "Schelm": -20,
+        "Auelf": -18,
+        "Waldelf": -17,
+        "Firnelf": -16,
+        "Halbelf": -18
+      }      
+    },
+    "Ruhe Körper, ruhe Geist": {
+      "Probe": [ "KL", "CH", "KK" ],
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -12,
+        "Hexe": -10,
+        "Druide": -10,
+        "Diener Sumus": -3,
+        "Herr der Erde": -8,
+        "Schelm": -15,
+        "Auelf": -3,
+        "Waldelf": -1,
+        "Firnelf": 1,
+        "Halbelf": -4
+      }      
+    },
+    "Sumus Elixiere": {
+      "Probe": [ "IN", "CH", "FF" ],
+      "Element": "Humus",
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -18,
+        "Hexe": -12,
+        "Druide": -4,
+        "Diener Sumus": -4,
+        "Herr der Erde": -5,
+        "Schelm": -18,
+        "Auelf": -10,
+        "Waldelf": -8,
+        "Firnelf": -12,
+        "Halbelf": -12
+      }      
+    },
+    "Tiere besprechen": {
+      "Probe": [ "MU", "IN", "CH" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -15,
+        "Hexe": 3,
+        "Druide": -8,
+        "Diener Sumus": -5,
+        "Herr der Erde": -9,
+        "Schelm": -10,
+        "Auelf": -2,
+        "Waldelf": 0,
+        "Firnelf": -2,
+        "Halbelf": -2
+      }      
+    },
+    "Von Frost und Hunger...": {
+      "Probe": [ "MU", "KK", "KK" ],
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -15,
+        "Hexe": -10,
+        "Druide": -8,
+        "Diener Sumus": -12,
+        "Herr der Erde": -12,
+        "Schelm": -15,
+        "Auelf": -8,
+        "Waldelf": 4,
+        "Firnelf": 8,
+        "Halbelf": -8
+      }      
+    }                           
+  },
+  "Hellsicht": {
+    "Adleraug und Luchsenohr": {
+      "Probe": [ "KL", "IN", "FF" ],
+      "Ursprung": [ "A" ],
+      "Startwerte": {
+        "Magier": -7,
+        "Scharlatan": -8,
+        "Hexe": -4,
+        "Druide": -4,
+        "Diener Sumus": -4,
+        "Herr der Erde": -4,
+        "Schelm": -7,
+        "Auelf": 2,
+        "Waldelf": 1,
+        "Firnelf": 2,
+        "Halbelf": 1
+      }
+    },
+    "Analüs Arcanstruktur": {
+      "Probe": [ "KL", "KL", "IN" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -4,
+        "Scharlatan": -12,
+        "Hexe": -10,
+        "Druide": -8,
+        "Diener Sumus": -10,
+        "Herr der Erde": -8,
+        "Schelm": -15,
+        "Auelf": -10,
+        "Waldelf": -10,
+        "Firnelf": -10,
+        "Halbelf": -10
+      }
+    },
+    "Blick durch fremde Augen": {
+      "Probe": [ "MU", "IN", "CH" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -18,
+        "Hexe": -12,
+        "Druide": -10,
+        "Diener Sumus": -12,
+        "Herr der Erde": -12,
+        "Schelm": -15,
+        "Auelf": -14,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -14
+      }
+    },
+    "Eigenschaften seid gelesen": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "A" ],
+      "Startwerte": {
+        "Magier": -4,
+        "Scharlatan": -7,
+        "Hexe": -4,
+        "Druide": -10,
+        "Diener Sumus": -5,
+        "Herr der Erde": -8,
+        "Schelm": -7,
+        "Auelf": 2,
+        "Waldelf": 0,
+        "Firnelf": -2,
+        "Halbelf": 1
+      }
+    },
+    "Eternia Memorabilis": {
+      "Probe": [ "KL", "KL", "GE" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -7,
+        "Scharlatan": -10,
+        "Hexe": -12,
+        "Druide": -8,
+        "Diener Sumus": -7,
+        "Herr der Erde": -8,
+        "Schelm": -15,
+        "Auelf": -14,
+        "Waldelf": -13,
+        "Firnelf": -12,
+        "Halbelf": -14
+      }
+    },
+    "Exposami Creatur": {
+      "Probe": [ "KL", "KL", "IN" ],
+      "Ursprung": [ "W", "HdE" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -12,
+        "Hexe": 0,
+        "Druide": -4,
+        "Diener Sumus": -2,
+        "Herr der Erde": -1,
+        "Schelm": -7,
+        "Auelf": 1,
+        "Waldelf": 3,
+        "Firnelf": 2,
+        "Halbelf": 0
+      }
+    },
+    "In dein Trachten...": {
+      "Probe": [ "KL", "KL", "CH" ],
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": -1,
+        "Scharlatan": -7,
+        "Hexe": -10,
+        "Druide": -12,
+        "Diener Sumus": -12,
+        "Herr der Erde": -12,
+        "Schelm": -12,
+        "Auelf": -1,
+        "Waldelf": -2,
+        "Firnelf": 0,
+        "Halbelf": -1
+      }
+    },
+    "Katzenaugen": {
+      "Probe": [ "KL", "FF", "KK" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -15,
+        "Hexe": -6,
+        "Druide": -10,
+        "Diener Sumus": -8,
+        "Herr der Erde": -10,
+        "Schelm": -15,
+        "Auelf": -10,
+        "Waldelf": -9,
+        "Firnelf": -8,
+        "Halbelf": -10
+      }
+    },
+    "Mishkharas Macht erspüren": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -15,
+        "Hexe": -8,
+        "Druide": -6,
+        "Diener Sumus": -6,
+        "Herr der Erde": -8,
+        "Schelm": -15,
+        "Auelf": -12,
+        "Waldelf": -11,
+        "Firnelf": -10,
+        "Halbelf": -12
+      }
+    },
+    "Oculus Astralis": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -5,
+        "Scharlatan": -12,
+        "Hexe": -10,
+        "Druide": -8,
+        "Diener Sumus": -10,
+        "Herr der Erde": -8,
+        "Schelm": -15,
+        "Auelf": -12,
+        "Waldelf": -12,
+        "Firnelf": -12,
+        "Halbelf": -12
+      }
+    },
+    "Odem Arcanum Senserei": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "A" ],
+      "Startwerte": {
+        "Magier": 3,
+        "Scharlatan": 0,
+        "Hexe": -1,
+        "Druide": -3,
+        "Diener Sumus": -1,
+        "Herr der Erde": -1,
+        "Schelm": -5,
+        "Auelf": 3,
+        "Waldelf": 1,
+        "Firnelf": -1,
+        "Halbelf": 1
+      }
+    },
+    "Penetrizzel Holz und Stein": {
+      "Probe": [ "KL", "KL", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": 0,
+        "Scharlatan": -5,
+        "Hexe": -8,
+        "Druide": -8,
+        "Diener Sumus": -10,
+        "Herr der Erde": -10,
+        "Schelm": -2,
+        "Auelf": -2,
+        "Waldelf": -4,
+        "Firnelf": -2,
+        "Halbelf": -1
+      }
+    },
+    "Sensibar Wahr und Klar": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "A" ],
+      "Startwerte": {
+        "Magier": 0,
+        "Scharlatan": -6,
+        "Hexe": -5,
+        "Druide": -6,
+        "Diener Sumus": -6,
+        "Herr der Erde": -8,
+        "Schelm": -4,
+        "Auelf": 2,
+        "Waldelf": 1,
+        "Firnelf": 1,
+        "Halbelf": 0
+      }
+    },
+    "Was verschwunden...": {
+      "Probe": [ "KL", "IN", "GE" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -9,
+        "Scharlatan": -10,
+        "Hexe": -9,
+        "Druide": -10,
+        "Diener Sumus": -10,
+        "Herr der Erde": -10,
+        "Schelm": -6,
+        "Auelf": -9,
+        "Waldelf": -11,
+        "Firnelf": -10,
+        "Halbelf": -9
+      }
+    },
+    "Xenografus Clarvoyant": {
+      "Probe": [ "KL", "KL", "IN" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -14,
+        "Hexe": -16,
+        "Druide": -20,
+        "Diener Sumus": -18,
+        "Herr der Erde": -18,
+        "Schelm": -16,
+        "Auelf": -18,
+        "Waldelf": -18,
+        "Firnelf": -18,
+        "Halbelf": -16
+      }
+    }                                                
+  },
+  "Illusion": {
+    "Aureolus Güldenglanz": {
+      "Probe": [ "KL", "CH", "FF" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -3,
+        "Scharlatan": 0,
+        "Hexe": -6,
+        "Druide": -8,
+        "Diener Sumus": -12,
+        "Herr der Erde": -12,
+        "Schelm": -4,
+        "Auelf": -8,
+        "Waldelf": -10,
+        "Firnelf": -9,
+        "Halbelf": -7
+      }
+    },
+    "Auris Nasus Oculus": {
+      "Probe": [ "KL", "CH", "FF" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -5,
+        "Scharlatan": -5,
+        "Hexe": -12,
+        "Druide": -13,
+        "Diener Sumus": -10,
+        "Herr der Erde": -12,
+        "Schelm": -7,
+        "Auelf": -12,
+        "Waldelf": -13,
+        "Firnelf": -14,
+        "Halbelf": -11
+      }
+    },
+    "Blendwerk": {
+      "Probe": [ "IN", "CH", "FF" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -8,
+        "Hexe": -12,
+        "Druide": -13,
+        "Diener Sumus": -15,
+        "Herr der Erde": -18,
+        "Schelm": -5,
+        "Auelf": -12,
+        "Waldelf": -13,
+        "Firnelf": -14,
+        "Halbelf": -11
+      }
+    },
+    "Chamaelioni Mimikry": {
+      "Probe": [ "IN", "CH", "GE" ],
+      "Ursprung": [ "W" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -12,
+        "Hexe": -7,
+        "Druide": -6,
+        "Diener Sumus": -8,
+        "Herr der Erde": -8,
+        "Schelm": -5,
+        "Auelf": -1,
+        "Waldelf": 2,
+        "Firnelf": 0,
+        "Halbelf": -3
+      }
+    },
+    "Delicioso Gaumenschmaus": {
+      "Probe": [ "KL", "IN", "FF" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -12,
+        "Hexe": -15,
+        "Druide": -15,
+        "Diener Sumus": -18,
+        "Herr der Erde": -18,
+        "Schelm": -10,
+        "Auelf": -11,
+        "Waldelf": -12,
+        "Firnelf": -13,
+        "Halbelf": -11
+      }
+    },
+    "Duplicatus Doppelpein": {
+      "Probe": [ "KL", "CH", "GE" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": 0,
+        "Scharlatan": 0,
+        "Hexe": -6,
+        "Druide": -6,
+        "Diener Sumus": -15,
+        "Herr der Erde": -15,
+        "Schelm": -2,
+        "Auelf": -8,
+        "Waldelf": -8,
+        "Firnelf": -8,
+        "Halbelf": -8
+      }
+    },
+    "Harmlose Gestalt": {
+      "Probe": [ "KL", "CH", "GE" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -6,
+        "Hexe": 2,
+        "Druide": -6,
+        "Diener Sumus": -8,
+        "Herr der Erde": -8,
+        "Schelm": -3,
+        "Auelf": -6,
+        "Waldelf": -7,
+        "Firnelf": -8,
+        "Halbelf": -5
+      }
+    },
+    "Hexenknoten": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -18,
+        "Hexe": 0,
+        "Druide": -10,
+        "Diener Sumus": -6,
+        "Herr der Erde": -7,
+        "Schelm": -12,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -15
+      }
+    },
+    "Ignorantia Ungesehn": {
+      "Probe": [ "IN", "CH", "GE" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -7,
+        "Hexe": -9,
+        "Druide": -10,
+        "Diener Sumus": -12,
+        "Herr der Erde": -15,
+        "Schelm": -8,
+        "Auelf": -9,
+        "Waldelf": -10,
+        "Firnelf": -11,
+        "Halbelf": -8
+      }
+    },
+    "Impostoris Imagotin": {
+      "Probe": [ "KL", "IN", "FF" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -8,
+        "Hexe": -6,
+        "Druide": -8,
+        "Diener Sumus": -10,
+        "Herr der Erde": -9,
+        "Schelm": -6,
+        "Auelf": -13,
+        "Waldelf": -15,
+        "Firnelf": -14,
+        "Halbelf": -12
+      }
+    },
+    "Koboldgeschenk": {
+      "Probe": [ "IN", "CH", "FF" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -7,
+        "Scharlatan": -5,
+        "Hexe": -7,
+        "Druide": -10,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": 3,
+        "Auelf": -7,
+        "Waldelf": -6,
+        "Firnelf": -7,
+        "Halbelf": -7
+      }
+    },
+    "Luciferi Lichtertanz": {
+      "Probe": [ "IN", "CH", "FF" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": 0,
+        "Scharlatan": 2,
+        "Hexe": -7,
+        "Druide": -10,
+        "Diener Sumus": -12,
+        "Herr der Erde": -15,
+        "Schelm": -2,
+        "Auelf": -6,
+        "Waldelf": -6,
+        "Firnelf": -6,
+        "Halbelf": -5
+      }
+    },
+    "Menetekel Flammenzeichen": {
+      "Probe": [ "KL", "CH", "FF" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -3,
+        "Scharlatan": 0,
+        "Hexe": -7,
+        "Druide": -10,
+        "Diener Sumus": -12,
+        "Herr der Erde": -15,
+        "Schelm": -5,
+        "Auelf": -9,
+        "Waldelf": -9,
+        "Firnelf": -9,
+        "Halbelf": -8
+      }
+    },
+    "Schelmenmaske": {
+      "Probe": [ "IN", "CH", "GE" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -17,
+        "Scharlatan": -17,
+        "Hexe": -12,
+        "Druide": -16,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -3,
+        "Auelf": -18,
+        "Waldelf": -19,
+        "Firnelf": -20,
+        "Halbelf": -17
+      }
+    },
+    "Seidenweich, Schuppengleich": {
+      "Probe": [ "IN", "FF", "FF" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -12,
+        "Hexe": -12,
+        "Druide": -15,
+        "Diener Sumus": -18,
+        "Herr der Erde": -18,
+        "Schelm": -6,
+        "Auelf": -12,
+        "Waldelf": -13,
+        "Firnelf": -14,
+        "Halbelf": -13
+      }
+    },
+    "Vocolimbo Hohler Klang": {
+      "Probe": [ "KL", "CH", "FF" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -2,
+        "Scharlatan": 1,
+        "Hexe": -6,
+        "Druide": -7,
+        "Diener Sumus": -9,
+        "Herr der Erde": -8,
+        "Schelm": -3,
+        "Auelf": -7,
+        "Waldelf": -7,
+        "Firnelf": -7,
+        "Halbelf": -6
+      }
+    },
+    "Vogelzwitchschern, Glockenspiel": {
+      "Probe": [ "KL", "CH", "FF" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -1,
+        "Scharlatan": 2,
+        "Hexe": -10,
+        "Druide": -12,
+        "Diener Sumus": -12,
+        "Herr der Erde": -15,
+        "Schelm": -2,
+        "Auelf": -8,
+        "Waldelf": -9,
+        "Firnelf": -10,
+        "Halbelf": -7
+      }
+    },
+    "Weihrauch, Rose, Wohlgeruch": {
+      "Probe": [ "IN", "CH", "FF" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -3,
+        "Scharlatan": 0,
+        "Hexe": -4,
+        "Druide": -7,
+        "Diener Sumus": -10,
+        "Herr der Erde": -12,
+        "Schelm": -5,
+        "Auelf": -5,
+        "Waldelf": -6,
+        "Firnelf": -7,
+        "Halbelf": -5
+      }
+    },
+    "Widerwille Ungemach": {
+      "Probe": [ "MU", "IN", "CH" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -10,
+        "Hexe": -9,
+        "Druide": -9,
+        "Diener Sumus": -8,
+        "Herr der Erde": -8,
+        "Schelm": -12,
+        "Auelf": -10,
+        "Waldelf": -12,
+        "Firnelf": -14,
+        "Halbelf": -10
+      }
+    }                                                                       
+  },
+  "Kampf": {
+    "Blitz dich find": {
+      "Probe": [ "KL", "IN", "GE" ],
+      "Ursprung": [ "W" ],
+      "Startwerte": {
+        "Magier": 2,
+        "Scharlatan": 0,
+        "Hexe": 0,
+        "Druide": 1,
+        "Diener Sumus": 1,
+        "Herr der Erde": 1,
+        "Schelm": 0,
+        "Auelf": 4,
+        "Waldelf": 5,
+        "Firnelf": 4,
+        "Halbelf": 4
+      }
+    },
+    "Corpofrigo Kälteschock": {
+      "Probe": [ "CH", "GE", "KK" ],
+      "Element": "Eis",
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -10,
+        "Hexe": -8,
+        "Druide": -8,
+        "Diener Sumus": -15,
+        "Herr der Erde": -12,
+        "Schelm": -10,
+        "Auelf": -7,
+        "Waldelf": -8,
+        "Firnelf": -8,
+        "Halbelf": -7
+      }
+    },
+    "Ecliptifactus Dunkle Macht": {
+      "Probe": [ "MU", "KL", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -10,
+        "Hexe": -12,
+        "Druide": -8,
+        "Diener Sumus": -12,
+        "Herr der Erde": -8,
+        "Schelm": -20,
+        "Auelf": -10,
+        "Waldelf": -11,
+        "Firnelf": -12,
+        "Halbelf": -11
+      }
+    },
+    "Eisenrost und grüner Span": {
+      "Probe": [ "KL", "CH", "GE" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -2,
+        "Scharlatan": -8,
+        "Hexe": -8,
+        "Druide": -3,
+        "Diener Sumus": -3,
+        "Herr der Erde": -3,
+        "Schelm": -3,
+        "Auelf": -4,
+        "Waldelf": -5,
+        "Firnelf": -6,
+        "Halbelf": -5
+      }
+    },
+    "Fulminictus Donnerkeil": {
+      "Probe": [ "KL", "GE", "KK" ],
+      "Ursprung": [ "A" ],
+      "Startwerte": {
+        "Magier": 0,
+        "Scharlatan": -10,
+        "Hexe": -10,
+        "Druide": -8,
+        "Diener Sumus": -8,
+        "Herr der Erde": -6,
+        "Schelm": -20,
+        "Auelf": -4,
+        "Waldelf": 2,
+        "Firnelf": 0,
+        "Halbelf": 4
+      }
+    },
+    "Gliederschmerzen, Nadelstich": {
+      "Probe": [ "CH", "KK", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -3,
+        "Scharlatan": -8,
+        "Hexe": -8,
+        "Druide": -7,
+        "Diener Sumus": -10,
+        "Herr der Erde": -9,
+        "Schelm": -8,
+        "Auelf": -4,
+        "Waldelf": -6,
+        "Firnelf": -8,
+        "Halbelf": -5
+      }
+    },
+    "Herzschlag ruhe, Atem stocke!": {
+      "Probe": [ "MU", "CH", "KK" ],
+      "Ursprung": [ "M", "B" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -12,
+        "Hexe": -18,
+        "Druide": -15,
+        "Diener Sumus": -20,
+        "Herr der Erde": -15,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Höllenpein zerreiße dich!": {
+      "Probe": [ "KL", "CH", "KK" ],
+      "Ursprung": [ "M", "B" ],
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -8,
+        "Hexe": -10,
+        "Druide": -8,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -12,
+        "Auelf": -11,
+        "Waldelf": -11,
+        "Firnelf": -11,
+        "Halbelf": -11
+      }
+    },
+    "Ignifaxius Flammenstrahl": {
+      "Probe": [ "KL", "GE", "FF" ],
+      "Element": "Feuer",
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -3,
+        "Scharlatan": -10,
+        "Hexe": -10,
+        "Druide": -12,
+        "Diener Sumus": -8,
+        "Herr der Erde": -7,
+        "Schelm": -20,
+        "Auelf": -10,
+        "Waldelf": -10,
+        "Firnelf": -10,
+        "Halbelf": -9
+      }
+    },
+    "Ignisphaero Feuerball": {
+      "Probe": [ "MU", "GE", "KK" ],
+      "Element": "Feuer",
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -7,
+        "Scharlatan": -12,
+        "Hexe": -15,
+        "Druide": -10,
+        "Diener Sumus": -10,
+        "Herr der Erde": -8,
+        "Schelm": -20,
+        "Auelf": -8,
+        "Waldelf": -9,
+        "Firnelf": -8,
+        "Halbelf": -9
+      }
+    },
+    "Kalt wie Stein": {
+      "Probe": [ "MU", "IN", "KK" ],
+      "Ursprung": [ "W" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -10,
+        "Hexe": -12,
+        "Druide": -8,
+        "Diener Sumus": -12,
+        "Herr der Erde": -10,
+        "Schelm": -15,
+        "Auelf": -3,
+        "Waldelf": -1,
+        "Firnelf": -3,
+        "Halbelf": -5
+      }
+    },
+    "Kulminatio Kugelblitz": {
+      "Probe": [ "MU", "IN", "FF" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -18,
+        "Hexe": -15,
+        "Druide": -15,
+        "Diener Sumus": -15,
+        "Herr der Erde": -15,
+        "Schelm": -15,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -12
+      }
+    },
+    "Plumbumbarum und Narretei": {
+      "Probe": [ "CH", "GE", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -1,
+        "Scharlatan": -5,
+        "Hexe": -7,
+        "Druide": -10,
+        "Diener Sumus": -5,
+        "Herr der Erde": -6,
+        "Schelm": -4,
+        "Auelf": -7,
+        "Waldelf": -6,
+        "Firnelf": -7,
+        "Halbelf": -7
+      }
+    },
+    "Radau": {
+      "Probe": [ "MU", "CH", "GE" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -20,
+        "Hexe": 2,
+        "Druide": -20,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Saft-Kraft-Monstermacht": {
+      "Probe": [ "MU", "IN", "CH" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -3,
+        "Scharlatan": -12,
+        "Hexe": -15,
+        "Druide": -8,
+        "Diener Sumus": -18,
+        "Herr der Erde": -15,
+        "Schelm": -20,
+        "Auelf": -8,
+        "Waldelf": -7,
+        "Firnelf": -6,
+        "Halbelf": -7
+      }
+    },
+    "Scharfes Auge, sichre Hand": {
+      "Probe": [ "IN", "GE", "FF" ],
+      "Ursprung": [ "W" ],
+      "Startwerte": {
+        "Magier": -4,
+        "Scharlatan": -8,
+        "Hexe": -8,
+        "Druide": -8,
+        "Diener Sumus": -15,
+        "Herr der Erde": -12,
+        "Schelm": -15,
+        "Auelf": -2,
+        "Waldelf": 0,
+        "Firnelf": -1,
+        "Halbelf": -2
+      }
+    },
+    "Sensattacco Meisterstreich": {
+      "Probe": [ "MU", "IN", "GE" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -7,
+        "Scharlatan": -12,
+        "Hexe": -15,
+        "Druide": -18,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -20,
+        "Auelf": -10,
+        "Waldelf": -9,
+        "Firnelf": -8,
+        "Halbelf": -10
+      }
+    },
+    "Treue Klinge, Sichrer Stand": {
+      "Probe": [ "IN", "GE", "FF" ],
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -15,
+        "Hexe": -15,
+        "Druide": -18,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -20,
+        "Auelf": -8,
+        "Waldelf": -7,
+        "Firnelf": -6,
+        "Halbelf": -9
+      }
+    }                                                        
+  },
+  "Verständigung": {
+    "Cryptographo Zauberschrift": {
+      "Probe": [ "KL", "KL", "IN" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -5,
+        "Scharlatan": -5,
+        "Hexe": -8,
+        "Druide": -15,
+        "Diener Sumus": -15,
+        "Herr der Erde": -12,
+        "Schelm": -10,
+        "Auelf": -12,
+        "Waldelf": -15,
+        "Firnelf": -18,
+        "Halbelf": -12
+      }
+    },
+    "Das Sinnen fremder Wesen": {
+      "Probe": [ "MU", "IN", "CH" ],
+      "Ursprung": [ "W", "DS" ],
+      "Startwerte": {
+        "Magier": -5,
+        "Scharlatan": -8,
+        "Hexe": 0,
+        "Druide": 0,
+        "Diener Sumus": 0,
+        "Herr der Erde": 0,
+        "Schelm": -8,
+        "Auelf": -1,
+        "Waldelf": 1,
+        "Firnelf": -2,
+        "Halbelf": -2
+      }
+    },
+    "Elfen, Freunde, hört den Ruf": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -10,
+        "Hexe": -9,
+        "Druide": -10,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -10,
+        "Auelf": 1,
+        "Waldelf": 3,
+        "Firnelf": 5,
+        "Halbelf": -1
+      }
+    },
+    "Elfenstimme, Flötenton": {
+      "Probe": [ "IN", "CH", "KK" ],
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -12,
+        "Hexe": -12,
+        "Druide": -12,
+        "Diener Sumus": -10,
+        "Herr der Erde": -10,
+        "Schelm": -12,
+        "Auelf": -7,
+        "Waldelf": -6,
+        "Firnelf": -5,
+        "Halbelf": -7
+      }
+    },
+    "Immaterialis Phantomar": {
+      "Probe": [ "MU", "IN", "CH" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -10,
+        "Hexe": -12,
+        "Druide": -10,
+        "Diener Sumus": -10,
+        "Herr der Erde": -10,
+        "Schelm": -10,
+        "Auelf": -11,
+        "Waldelf": -12,
+        "Firnelf": -13,
+        "Halbelf": -12
+      }
+    },
+    "Hexenblick": {
+      "Probe": [ "IN", "IN", "CH" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -20,
+        "Scharlatan": -20,
+        "Hexe": 5,
+        "Druide": -20,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Koboldovision": {
+      "Probe": [ "IN", "IN", "CH" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -20,
+        "Scharlatan": -20,
+        "Hexe": -12,
+        "Druide": -15,
+        "Diener Sumus": -18,
+        "Herr der Erde": -18,
+        "Schelm": -8,
+        "Auelf": -15,
+        "Waldelf": -12,
+        "Firnelf": -18,
+        "Halbelf": -18
+      }
+    },
+    "Magischer Raub": {
+      "Probe": [ "MU", "KL", "KK" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -4,
+        "Diener Sumus": -15,
+        "Herr der Erde": -8,
+        "Schelm": -12,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -15
+      }
+    },
+    "Nekropathia modernd Leich": {
+      "Probe": [ "MU", "KL", "CH" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -15,
+        "Hexe": -8,
+        "Druide": -6,
+        "Diener Sumus": -18,
+        "Herr der Erde": -15,
+        "Schelm": -15,
+        "Auelf": -10,
+        "Waldelf": -10,
+        "Firnelf": -8,
+        "Halbelf": -8
+      }
+    },
+    "Objectum stumm...": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -7,
+        "Scharlatan": -10,
+        "Hexe": -12,
+        "Druide": -8,
+        "Diener Sumus": -10,
+        "Herr der Erde": -10,
+        "Schelm": -9,
+        "Auelf": -8,
+        "Waldelf": -9,
+        "Firnelf": -10,
+        "Halbelf": -9
+      }
+    },
+    "Reise zwischen den Sphähren": {
+      "Probe": [ "MU", "KL", "IN" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -18,
+        "Hexe": -12,
+        "Druide": -8,
+        "Diener Sumus": -10,
+        "Herr der Erde": -8,
+        "Schelm": -18,
+        "Auelf": -10,
+        "Waldelf": -10,
+        "Firnelf": -10,
+        "Halbelf": -10
+      }
+    },
+    "Seelenwanderung": {
+      "Probe": [ "MU", "CH", "CH" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -18,
+        "Hexe": -15,
+        "Druide": -8,
+        "Diener Sumus": -10,
+        "Herr der Erde": -8,
+        "Schelm": -18,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -15
+      }
+    },
+    "Traumgestalt": {
+      "Probe": [ "IN", "CH", "CH" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -12,
+        "Hexe": -7,
+        "Druide": -9,
+        "Diener Sumus": -9,
+        "Herr der Erde": -10,
+        "Schelm": -15,
+        "Auelf": -12,
+        "Waldelf": -12,
+        "Firnelf": -11,
+        "Halbelf": -12
+      }
+    },
+    "Unitatio Geistesbund": {
+      "Probe": [ "IN", "CH", "KK" ],
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": 0,
+        "Scharlatan": -5,
+        "Hexe": 0,
+        "Druide": -8,
+        "Diener Sumus": 2,
+        "Herr der Erde": 1,
+        "Schelm": -20,
+        "Auelf": -2,
+        "Waldelf": -2,
+        "Firnelf": 3,
+        "Halbelf": -5
+      }
+    }                                                    
+  },
+  "Verwandlung von Lebewesen": {
+    "Adler, Wolf und Hammerhai": {
+      "Probe": [ "MU", "IN", "GE" ],
+      "Ursprung": [ "W" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -12,
+        "Hexe": -7,
+        "Druide": -8,
+        "Diener Sumus": -8,
+        "Herr der Erde": -8,
+        "Schelm": -15,
+        "Auelf": -6,
+        "Waldelf": -3,
+        "Firnelf": -5,
+        "Halbelf": -7
+      }
+    },
+    "Arcano Psychostabilis": {
+      "Probe": [ "MU", "KL", "CH" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -2,
+        "Scharlatan": -5,
+        "Hexe": -3,
+        "Druide": -6,
+        "Diener Sumus": -3,
+        "Herr der Erde": -5,
+        "Schelm": -8,
+        "Auelf": -4,
+        "Waldelf": -4,
+        "Firnelf": -4,
+        "Halbelf": -4
+      }
+    },
+    "Armatrutz": {
+      "Probe": [ "IN", "GE", "KK" ],
+      "Ursprung": [ "A" ],
+      "Startwerte": {
+        "Magier": 0,
+        "Scharlatan": -8,
+        "Hexe": -8,
+        "Druide": -8,
+        "Diener Sumus": -8,
+        "Herr der Erde": -8,
+        "Schelm": -12,
+        "Auelf": 4,
+        "Waldelf": 3,
+        "Firnelf": 2,
+        "Halbelf": 4
+      }
+    },
+    "Atemnot": {
+      "Probe": [ "MU", "CH", "KK" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -18,
+        "Hexe": -10,
+        "Druide": -6,
+        "Diener Sumus": -8,
+        "Herr der Erde": -5,
+        "Schelm": -12,
+        "Auelf": -10,
+        "Waldelf": -11,
+        "Firnelf": -12,
+        "Halbelf": -11
+      }
+    },
+    "Charisma, Persönlichkeit": {
+      "Probe": [ "KL", "CH", "CH" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": 0,
+        "Scharlatan": 1,
+        "Hexe": 0,
+        "Druide": -5,
+        "Diener Sumus": -3,
+        "Herr der Erde": -4,
+        "Schelm": -8,
+        "Auelf": -1,
+        "Waldelf": -1,
+        "Firnelf": -1,
+        "Halbelf": -1
+      }
+    },
+    "Druidenrache": {
+      "Probe": [ "MU", "MU", "KK" ],
+      "Ursprung": [ "D", "HdE" ],
+      "Startwerte": {
+        "Magier": -20,
+        "Scharlatan": -20,
+        "Hexe": -20,
+        "Druide": 3,
+        "Diener Sumus": -2,
+        "Herr der Erde": -1,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -20
+      }
+    },
+    "Eins mit der Natur": {
+      "Probe": [ "IN", "GE", "KK" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -15,
+        "Hexe": -8,
+        "Druide": -4,
+        "Diener Sumus": -3,
+        "Herr der Erde": -3,
+        "Schelm": -10,
+        "Auelf": -8,
+        "Waldelf": -6,
+        "Firnelf": -6,
+        "Halbelf": -8
+      }
+    },
+    "Empathie und Sechster Sinn": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -1,
+        "Scharlatan": -3,
+        "Hexe": 1,
+        "Druide": -1,
+        "Diener Sumus": 0,
+        "Herr der Erde": -2,
+        "Schelm": -8,
+        "Auelf": -1,
+        "Waldelf": -1,
+        "Firnelf": -1,
+        "Halbelf": -1
+      }
+    },
+    "Feuerbann": {
+      "Probe": [ "MU", "MU", "KK" ],
+      "Element": "Feuer",
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -12,
+        "Hexe": 2,
+        "Druide": -6,
+        "Diener Sumus": 0,
+        "Herr der Erde": -2,
+        "Schelm": -8,
+        "Auelf": -10,
+        "Waldelf": -8,
+        "Firnelf": -12,
+        "Halbelf": -10
+      }
+    },
+    "Fingerspiel und schnelle Hand": {
+      "Probe": [ "KL", "CH", "FF" ],
+      "Ursprung": [ "A" ],
+      "Startwerte": {
+        "Magier": -1,
+        "Scharlatan": -8,
+        "Hexe": 0,
+        "Druide": -2,
+        "Diener Sumus": -1,
+        "Herr der Erde": -1,
+        "Schelm": 0,
+        "Auelf": 2,
+        "Waldelf": 1,
+        "Firnelf": 1,
+        "Halbelf": 1
+      }
+    },
+    "Fluch der Pestilenz": {
+      "Probe": [ "MU", "KL", "CH" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -20,
+        "Hexe": -10,
+        "Druide": -2,
+        "Diener Sumus": -20,
+        "Herr der Erde": -15,
+        "Schelm": -20,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -15
+      }
+    },
+    "Gewandtheit und...": {
+      "Probe": [ "KL", "CH", "GE" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": 0,
+        "Scharlatan": -8,
+        "Hexe": -3,
+        "Druide": -3,
+        "Diener Sumus": -3,
+        "Herr der Erde": -4,
+        "Schelm": -8,
+        "Auelf": 0,
+        "Waldelf": 0,
+        "Firnelf": 0,
+        "Halbelf": 0
+      }
+    },
+    "Granit und Marmor...": {
+      "Probe": [ "KL", "CH", "KK" ],
+      "Element": "Erz",
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -20,
+        "Hexe": -18,
+        "Druide": -12,
+        "Diener Sumus": -18,
+        "Herr der Erde": -12,
+        "Schelm": -20,
+        "Auelf": -18,
+        "Waldelf": -18,
+        "Firnelf": -18,
+        "Halbelf": -18
+      }
+    },
+    "Haselbusch und Ginsterkraut": {
+      "Probe": [ "CH", "FF", "KK" ],
+      "Element": "Humus",
+      "Ursprung": [ "W" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -20,
+        "Hexe": -1,
+        "Druide": -4,
+        "Diener Sumus": -3,
+        "Herr der Erde": -3,
+        "Schelm": -10,
+        "Auelf": 1,
+        "Waldelf": 5,
+        "Firnelf": -1,
+        "Halbelf": 1
+      }
+    },
+    "Imago Transmutabile": {
+      "Probe": [ "CH", "GE", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -20,
+        "Hexe": -11,
+        "Druide": -15,
+        "Diener Sumus": -18,
+        "Herr der Erde": -15,
+        "Schelm": -12,
+        "Auelf": -18,
+        "Waldelf": -18,
+        "Firnelf": -18,
+        "Halbelf": -15
+      }
+    },
+    "In See und Fluß...": {
+      "Probe": [ "MU", "KL", "KK" ],
+      "Element": "Wasser",
+      "Ursprung": [ "A" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -18,
+        "Hexe": -10,
+        "Druide": -10,
+        "Diener Sumus": -7,
+        "Herr der Erde": -7,
+        "Schelm": -15,
+        "Auelf": -2,
+        "Waldelf": -4,
+        "Firnelf": -4,
+        "Halbelf": -3
+      }
+    },
+    "Klugheit, Wissen, Intellekt": {
+      "Probe": [ "KL", "KL", "CH" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": 0,
+        "Scharlatan": -4,
+        "Hexe": -1,
+        "Druide": -3,
+        "Diener Sumus": -2,
+        "Herr der Erde": -3,
+        "Schelm": -8,
+        "Auelf": -1,
+        "Waldelf": -1,
+        "Firnelf": -1,
+        "Halbelf": -1
+      }
+    },
+    "Last des Alters beuge dich!": {
+      "Probe": [ "IN", "CH", "KK" ],
+      "Ursprung": [ "M", "B" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -15,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": -20,
+        "Auelf": -20,
+        "Waldelf": -20,
+        "Firnelf": -20,
+        "Halbelf": -18
+      }
+    },
+    "Langer Lulatsch - Kleiner Dotz": {
+      "Probe": [ "CH", "GE", "KK" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -15,
+        "Diener Sumus": -20,
+        "Herr der Erde": -20,
+        "Schelm": 0,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -15
+      }
+    },
+    "Muskelstärke, Körperkraft": {
+      "Probe": [ "KL", "CH", "KK" ],
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": -1,
+        "Scharlatan": -8,
+        "Hexe": -3,
+        "Druide": -3,
+        "Diener Sumus": -3,
+        "Herr der Erde": -2,
+        "Schelm": -8,
+        "Auelf": -1,
+        "Waldelf": -1,
+        "Firnelf": -1,
+        "Halbelf": 0
+      }
+    },
+    "Nebelleib": {
+      "Probe": [ "MU", "IN", "KK" ],
+      "Element": "Wasser",
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -15,
+        "Hexe": -12,
+        "Druide": -8,
+        "Diener Sumus": -8,
+        "Herr der Erde": -8,
+        "Schelm": -15,
+        "Auelf": -11,
+        "Waldelf": -12,
+        "Firnelf": -13,
+        "Halbelf": -13
+      }
+    },
+    "Ohne Kamm und ohne Schere": {
+      "Probe": [ "KL", "CH", "FF" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -3,
+        "Scharlatan": -4,
+        "Hexe": -6,
+        "Druide": -8,
+        "Diener Sumus": -8,
+        "Herr der Erde": -8,
+        "Schelm": -5,
+        "Auelf": -8,
+        "Waldelf": -9,
+        "Firnelf": -10,
+        "Halbelf": -8
+      }
+    },
+    "Paralü-Paralein": {
+      "Probe": [ "IN", "CH", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -5,
+        "Scharlatan": -18,
+        "Hexe": -15,
+        "Druide": -15,
+        "Diener Sumus": -15,
+        "Herr der Erde": -15,
+        "Schelm": -15,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -15
+      }
+    },
+    "Salander Mutanderer": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -20,
+        "Hexe": -12,
+        "Druide": -14,
+        "Diener Sumus": -15,
+        "Herr der Erde": -15,
+        "Schelm": -15,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -15
+      }
+    },
+    "Schwarz und rot": {
+      "Probe": [ "MU", "CH", "CH" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -7,
+        "Scharlatan": -15,
+        "Hexe": -9,
+        "Druide": -8,
+        "Diener Sumus": -12,
+        "Herr der Erde": -10,
+        "Schelm": -18,
+        "Auelf": -10,
+        "Waldelf": -11,
+        "Firnelf": -12,
+        "Halbelf": -10
+      }
+    },
+    "Spinnenlauf und Krötensprung": {
+      "Probe": [ "IN", "GE", "KK" ],
+      "Ursprung": [ "H" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -10,
+        "Hexe": -2,
+        "Druide": -5,
+        "Diener Sumus": -6,
+        "Herr der Erde": -8,
+        "Schelm": -7,
+        "Auelf": -7,
+        "Waldelf": -7,
+        "Firnelf": -7,
+        "Halbelf": -7
+      }
+    },
+    "Visibili Vanitar": {
+      "Probe": [ "KL", "KL", "GE" ],
+      "Ursprung": [ "A" ],
+      "Startwerte": {
+        "Magier": -4,
+        "Scharlatan": -7,
+        "Hexe": -10,
+        "Druide": -12,
+        "Diener Sumus": -11,
+        "Herr der Erde": -11,
+        "Schelm": -5,
+        "Auelf": 2,
+        "Waldelf": 1,
+        "Firnelf": 1,
+        "Halbelf": 2
+      }
+    },
+    "Wagemut, Entschlossenheit": {
+      "Probe": [ "MU", "KL", "CH" ],
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": -1,
+        "Scharlatan": -5,
+        "Hexe": -3,
+        "Druide": -1,
+        "Diener Sumus": -1,
+        "Herr der Erde": -3,
+        "Schelm": -8,
+        "Auelf": 0,
+        "Waldelf": 0,
+        "Firnelf": 0,
+        "Halbelf": 1
+      }
+    },
+    "Weisheit der Bäume": {
+      "Probe": [ "IN", "GE", "KK" ],
+      "Element": "Humus",
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -18,
+        "Scharlatan": -20,
+        "Hexe": -12,
+        "Druide": -6,
+        "Diener Sumus": -6,
+        "Herr der Erde": -12,
+        "Schelm": -20,
+        "Auelf": -8,
+        "Waldelf": -7,
+        "Firnelf": -9,
+        "Halbelf": -12
+      }
+    }                                                                                                           
+  },
+  "Verwandlung von Unbelebtem": {
+    "Abvenenum Pest und Galle": {
+      "Probe": [ "KL", "KL", "FF" ],
+      "Ursprung": [ "W" ],
+      "Startwerte": {
+        "Magier": -2,
+        "Scharlatan": -10,
+        "Hexe": -4,
+        "Druide": -6,
+        "Diener Sumus": -4,
+        "Herr der Erde": -6,
+        "Schelm": -8,
+        "Auelf": -2,
+        "Waldelf": 0,
+        "Firnelf": -4,
+        "Halbelf": -3
+      }
+    },
+    "Aeolitus Windgebraus": {
+      "Probe": [ "KL", "CH", "KK" ],
+      "Element": "Luft",
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": 0,
+        "Scharlatan": -6,
+        "Hexe": -4,
+        "Druide": -4,
+        "Diener Sumus": -3,
+        "Herr der Erde": -3,
+        "Schelm": -6,
+        "Auelf": 1,
+        "Waldelf": 1,
+        "Firnelf": 3,
+        "Halbelf": 1
+      }
+    },
+    "Aerofugo Vakuum": {
+      "Probe": [ "MU", "KK", "KK" ],
+      "Element": "Luft",
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -18,
+        "Hexe": -18,
+        "Druide": -12,
+        "Diener Sumus": -15,
+        "Herr der Erde": -15,
+        "Schelm": -20,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -15
+      }
+    },        
+    "Aerogeleo Atemqual": {
+      "Probe": [ "MU", "IN", "KK" ],
+      "Element": "Luft",
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -11,
+        "Scharlatan": -17,
+        "Hexe": -18,
+        "Druide": -13,
+        "Diener Sumus": -15,
+        "Herr der Erde": -15,
+        "Schelm": -20,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -15
+      }
+    },
+    "Anvilarium Schwermetall": {
+      "Probe": [ "KL", "GE", "FF" ],
+      "Element": "Erz",
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -4,
+        "Scharlatan": -12,
+        "Hexe": -15,
+        "Druide": -20,
+        "Diener Sumus": -20,
+        "Herr der Erde": -18,
+        "Schelm": -15,
+        "Auelf": -7,
+        "Waldelf": -8,
+        "Firnelf": -9,
+        "Halbelf": -7
+      }
+    },
+    "Arcanovi Zauberding": {
+      "Probe": [ "KL", "KL", "FF" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -3,
+        "Scharlatan": -6,
+        "Hexe": -5,
+        "Druide": -7,
+        "Diener Sumus": -12,
+        "Herr der Erde": -10,
+        "Schelm": -10,
+        "Auelf": -8,
+        "Waldelf": -9,
+        "Firnelf": -9,
+        "Halbelf": -7
+      }
+    },
+    "Brenne, toter Stoff!": {
+      "Probe": [ "MU", "KL", "KK" ],
+      "Ursprung": [ "M", "B" ],
+      "Startwerte": {
+        "Magier": -7,
+        "Scharlatan": -12,
+        "Hexe": -10,
+        "Druide": -8,
+        "Diener Sumus": -7,
+        "Herr der Erde": -6,
+        "Schelm": -10,
+        "Auelf": -10,
+        "Waldelf": -10,
+        "Firnelf": -10,
+        "Halbelf": -10
+      }
+    },
+    "Caldofrigo Drachenblut": {
+      "Probe": [ "IN", "CH", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -9,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -12,
+        "Diener Sumus": -10,
+        "Herr der Erde": -9,
+        "Schelm": -20,
+        "Auelf": -12,
+        "Waldelf": -12,
+        "Firnelf": -10,
+        "Halbelf": -12
+      }
+    },               
+    "Claudibus Clavistibor": {
+      "Probe": [ "KL", "FF", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": 0,
+        "Scharlatan": -6,
+        "Hexe": -8,
+        "Druide": -8,
+        "Diener Sumus": -12,
+        "Herr der Erde": -12,
+        "Schelm": -4,
+        "Auelf": -5,
+        "Waldelf": -6,
+        "Firnelf": -7,
+        "Halbelf": -4
+      }
+    },
+    "Desintegratus Pulverstaub": {
+      "Probe": [ "KL", "CH", "KK" ],
+      "Element": "Erz",
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -20,
+        "Hexe": -15,
+        "Druide": -13,
+        "Diener Sumus": -15,
+        "Herr der Erde": -15,
+        "Schelm": -12,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -15
+      }
+    },
+    "Dunkelheit": {
+      "Probe": [ "KL", "KL", "FF" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -3,
+        "Scharlatan": -8,
+        "Hexe": -5,
+        "Druide": -1,
+        "Diener Sumus": -3,
+        "Herr der Erde": -2,
+        "Schelm": -5,
+        "Auelf": -5,
+        "Waldelf": -6,
+        "Firnelf": -7,
+        "Halbelf": -4
+      }
+    },
+    "Flim Flam Funkel": {
+      "Probe": [ "KL", "KL", "FF" ],
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": 3,
+        "Scharlatan": 0,
+        "Hexe": 0,
+        "Druide": 0,
+        "Diener Sumus": -1,
+        "Herr der Erde": -1,
+        "Schelm": 0,
+        "Auelf": 5,
+        "Waldelf": 5,
+        "Firnelf": 6,
+        "Halbelf": 4
+      }
+    },
+    "Fortifex Invisibil": {
+      "Probe": [ "IN", "CH", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -12,
+        "Hexe": -10,
+        "Druide": -10,
+        "Diener Sumus": -10,
+        "Herr der Erde": -10,
+        "Schelm": -12,
+        "Auelf": -7,
+        "Waldelf": -9,
+        "Firnelf": -8,
+        "Halbelf": -8
+      }
+    },
+    "Hartes schmelze, Starres fließe!": {
+      "Probe": [ "MU", "KL", "KK" ],
+      "Ursprung": [ "M", "B" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -12,
+        "Hexe": -10,
+        "Druide": -8,
+        "Diener Sumus": -7,
+        "Herr der Erde": -7,
+        "Schelm": -10,
+        "Auelf": -10,
+        "Waldelf": -10,
+        "Firnelf": -8,
+        "Halbelf": -10
+      }
+    },
+    "Kraft des Erzes": {
+      "Probe": [ "KL", "KK", "KK" ],
+      "Element": "Erz",
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -18,
+        "Hexe": -15,
+        "Druide": -4,
+        "Diener Sumus": -4,
+        "Herr der Erde": -4,
+        "Schelm": -8,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -15
+      }
+    },
+    "Mahlstrom": {
+      "Probe": [ "MU", "IN", "KK" ],
+      "Element": "Wasser",
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -18,
+        "Hexe": -15,
+        "Druide": -8,
+        "Diener Sumus": -7,
+        "Herr der Erde": -6,
+        "Schelm": -18,
+        "Auelf": -12,
+        "Waldelf": -15,
+        "Firnelf": -12,
+        "Halbelf": -15
+      }
+    },
+    "Metamorpho Gletscherkalt": {
+      "Probe": [ "KL", "FF", "KK" ],
+      "Element": "Eis",
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": -18,
+        "Scharlatan": -20,
+        "Hexe": -20,
+        "Druide": -18,
+        "Diener Sumus": -12,
+        "Herr der Erde": -12,
+        "Schelm": -20,
+        "Auelf": -10,
+        "Waldelf": -10,
+        "Firnelf": 0,
+        "Halbelf": -10
+      }
+    },
+    "Objectum Disparatec": {
+      "Probe": [ "KL", "FF", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -7,
+        "Scharlatan": -10,
+        "Hexe": -12,
+        "Druide": -12,
+        "Diener Sumus": -15,
+        "Herr der Erde": -15,
+        "Schelm": -10,
+        "Auelf": -8,
+        "Waldelf": -9,
+        "Firnelf": -9,
+        "Halbelf": -10
+      }
+    },
+    "Objectum Fix": {
+      "Probe": [ "KL", "KL", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -12,
+        "Hexe": -8,
+        "Druide": -10,
+        "Diener Sumus": -12,
+        "Herr der Erde": -12,
+        "Schelm": -10,
+        "Auelf": -9,
+        "Waldelf": -9,
+        "Firnelf": -9,
+        "Halbelf": -9
+      }
+    },
+    "Ohne Seife, Bürste, Bad": {
+      "Probe": [ "KL", "CH", "FF" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -1,
+        "Scharlatan": -2,
+        "Hexe": -12,
+        "Druide": -15,
+        "Diener Sumus": -15,
+        "Herr der Erde": -15,
+        "Schelm": -8,
+        "Auelf": -6,
+        "Waldelf": -8,
+        "Firnelf": -10,
+        "Halbelf": -6
+      }
+    },
+    "Ohne Ahle, Faden, Nadel": {
+      "Probe": [ "KL", "CH", "FF" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -3,
+        "Scharlatan": -5,
+        "Hexe": -8,
+        "Druide": -15,
+        "Diener Sumus": -15,
+        "Herr der Erde": -15,
+        "Schelm": -6,
+        "Auelf": -8,
+        "Waldelf": -10,
+        "Firnelf": -12,
+        "Halbelf": -10
+      }
+    },
+    "Reversalis Revidum": {
+      "Probe": [ "KL", "IN", "CH" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -15,
+        "Hexe": -15,
+        "Druide": -12,
+        "Diener Sumus": -15,
+        "Herr der Erde": -12,
+        "Schelm": -20,
+        "Auelf": -15,
+        "Waldelf": -15,
+        "Firnelf": -15,
+        "Halbelf": -14
+      }
+    },
+    "Schelmenkleister": {
+      "Probe": [ "IN", "GE", "FF" ],
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -15,
+        "Hexe": -12,
+        "Druide": -12,
+        "Diener Sumus": -15,
+        "Herr der Erde": -12,
+        "Schelm": -6,
+        "Auelf": -10,
+        "Waldelf": -12,
+        "Firnelf": -15,
+        "Halbelf": -10
+      }
+    },
+    "Sigillus Custodis Zaubersiegel": {
+      "Probe": [ "KL", "FF", "FF" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -5,
+        "Scharlatan": -9,
+        "Hexe": -8,
+        "Druide": -12,
+        "Diener Sumus": -15,
+        "Herr der Erde": -15,
+        "Schelm": -15,
+        "Auelf": -12,
+        "Waldelf": -14,
+        "Firnelf": -16,
+        "Halbelf": -13
+      }
+    },
+    "Silentium Silentille": {
+      "Probe": [ "KL", "KL", "CH" ],
+      "Ursprung": [ "A" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -10,
+        "Hexe": -6,
+        "Druide": -6,
+        "Diener Sumus": -6,
+        "Herr der Erde": -6,
+        "Schelm": -10,
+        "Auelf": 0,
+        "Waldelf": -2,
+        "Firnelf": -4,
+        "Halbelf": -1
+      }
+    },
+    "Sturmgebrüll besänft'ge dich": {
+      "Probe": [ "KL", "CH", "KK" ],
+      "Element": "Luft",
+      "Ursprung": [ "F" ],
+      "Startwerte": {
+        "Magier": -15,
+        "Scharlatan": -20,
+        "Hexe": -12,
+        "Druide": -15,
+        "Diener Sumus": -8,
+        "Herr der Erde": -8,
+        "Schelm": -20,
+        "Auelf": -6,
+        "Waldelf": -6,
+        "Firnelf": -2,
+        "Halbelf": -7
+      }
+    },
+    "Unberührt von Satinav": {
+      "Probe": [ "KL", "FF", "KK" ],
+      "Ursprung": [ "M" ],
+      "Startwerte": {
+        "Magier": -8,
+        "Scharlatan": -15,
+        "Hexe": -12,
+        "Druide": -10,
+        "Diener Sumus": -9,
+        "Herr der Erde": -10,
+        "Schelm": -15,
+        "Auelf": -10,
+        "Waldelf": -10,
+        "Firnelf": -8,
+        "Halbelf": -10
+      }
+    },
+    "Wehe, walle, Nebula": {
+      "Probe": [ "KL", "FF", "KK" ],
+      "Element": "Wasser",
+      "Ursprung": [ "W" ],
+      "Startwerte": {
+        "Magier": -10,
+        "Scharlatan": -14,
+        "Hexe": -10,
+        "Druide": -10,
+        "Diener Sumus": -6,
+        "Herr der Erde": -6,
+        "Schelm": -15,
+        "Auelf": -2,
+        "Waldelf": 0,
+        "Firnelf": -3,
+        "Halbelf": -3
+      }
+    },
+    "Weiches erstarre...": {
+      "Probe": [ "MU", "KL", "KK" ],
+      "Ursprung": [ "M", "B" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -12,
+        "Hexe": -10,
+        "Druide": -8,
+        "Diener Sumus": -7,
+        "Herr der Erde": -7,
+        "Schelm": -10,
+        "Auelf": -10,
+        "Waldelf": -10,
+        "Firnelf": -10,
+        "Halbelf": -10
+      }
+    },                                                                               
+    "Wettermeisterschaft": {
+      "Probe": [ "MU", "CH", "GE" ],
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -20,
+        "Hexe": -12,
+        "Druide": -8,
+        "Diener Sumus": -10,
+        "Herr der Erde": -8,
+        "Schelm": -20,
+        "Auelf": -12,
+        "Waldelf": -13,
+        "Firnelf": -12,
+        "Halbelf": -12
+      }
+    },        
+    "Windhose": {
+      "Probe": [ "MU", "CH", "KK" ],
+      "Element": "Luft",
+      "Ursprung": [ "D" ],
+      "Startwerte": {
+        "Magier": -12,
+        "Scharlatan": -20,
+        "Hexe": -10,
+        "Druide": -7,
+        "Diener Sumus": -9,
+        "Herr der Erde": -7,
+        "Schelm": -18,
+        "Auelf": -12,
+        "Waldelf": -14,
+        "Firnelf": -10,
+        "Halbelf": -13
+      }
+    },
+    "Zagibu-Ubigaz": {
+      "Probe": [ "IN", "CH", "FF" ],
+      "Element": "Erz",
+      "Ursprung": [ "S" ],
+      "Startwerte": {
+        "Magier": -6,
+        "Scharlatan": -12,
+        "Hexe": -7,
+        "Druide": -3,
+        "Diener Sumus": -9,
+        "Herr der Erde": -9,
+        "Schelm": 0,
+        "Auelf": -8,
+        "Waldelf": -9,
+        "Firnelf": -9,
+        "Halbelf": -7
+      }
+    }            
+  }
+}

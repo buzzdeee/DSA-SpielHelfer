@@ -1,7 +1,6 @@
 {
   "Magier": {
     "Typkategorie": [ "Mensch", "Magiebegabt" ],
-    "Magiebegabt": true,
     "Eigenschaften": {
       "KL": "13+",
       "CH": "12+",
@@ -52,26 +51,10 @@
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
     "Körpergröße": [ "160", "11W20", "3W6" ],
-    "Gewicht": -110,
-    "LE": 25,
-    "AE": 30,
-    "KE": 0,
-    "MRBonus": 2,
-    "Stufenanstieg": {
-      "LE_AE": "1W6",
-      "MaxAE": 0,
-      "TS": 20,
-      "ZS": 45,
-      "Egal": 5,
-      "ZS_zu_AE": {
-        "ZS": 10,
-        "AE": "1W6 + 2"
-      }
-    }
+    "Gewicht": -110
   },
   "Scharlatan": {
     "Typkategorie": [ "Mensch", "Magiebegabt" ],
-    "Magiebegabt": true,
     "Eigenschaften": {
       "KL": "12+",
       "CH": "13+",
@@ -132,7 +115,6 @@
   },
   "Hexe": {
     "Typkategorie": [ "Mensch", "Magiebegabt" ],
-    "Magiebegabt": true,
     "Eigenschaften": {
       "MU": "12+",
       "CH": "13+",
@@ -187,7 +169,7 @@
   },
   "Druide": {
     "Typkategorie": [ "Mensch", "Magiebegabt" ],
-    "Magiebegabt": true,
+    "Elemente": [ "Feuer", "Erz", "Eis", "Wasser", "Luft", "Humus" ],
     "Eigenschaften": {
       "MU": "13+",
       "KL": "12+",
@@ -195,7 +177,12 @@
     },
     "Herkunft": {
       "Würfel": "1W20",
-      "unbekannt": { "1W20": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ] },
+      "unbekannt": { 
+        "1W20": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
+        "Eltern": {
+          "unbekannt": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+        }
+      },  
       "arm": {
         "1W20": [ 11, 12, 13, 14, 15, 16 ],
         "Eltern": {
@@ -245,7 +232,6 @@
   },
   "Schelm": {
     "Typkategorie": [ "Mensch", "Magiebegabt" ],
-    "Magiebegabt": true,
     "Eigenschaften": {
       "CH": "13+",
       "GE": "13+",
@@ -333,7 +319,6 @@
   },
   "Angroschpriester": {
     "Typkategorie": [ "Zwerg" ],
-    "Magiebegabt": false,
     "Eigenschaften": {
       "MU": "12+",
       "IN": "12+",
@@ -392,23 +377,10 @@
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
     "Körpergröße": [ "128", "2W6" ],
-    "Gewicht": -70,
-    "LE": 40,
-    "AE": 0,
-    "KE": 0,
-    "MRBonus": 3,
-    "Stufenanstieg": {
-      "LE_AE": "1W6",
-      "MaxAE": 0,
-      "TS": 30,
-      "ZS": 0,
-      "Egal": 0,
-      "ZS_zu_AE": { }
-    }
+    "Gewicht": -70
   },
   "Geode": {
     "Typkategorie": [ "Zwerg", "Magiebegabt" ],
-    "Magiebegabt": true,
     "Eigenschaften": {
       "IN": "12+",
       "KL": "12+",
@@ -416,6 +388,7 @@
       "GG": "3-"
     },
     "Schule": [ "Diener Sumus", "Herr der Erde" ],
+    "Elemente": [ "Feuer", "Erz", "Wasser", "Luft", "Humus" ],
     "Herkunft": { 
       "Würfel": "2W6",
       "unfrei": {
@@ -468,23 +441,10 @@
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
     "Körpergröße": [ "128", "2W6" ],
-    "Gewicht": -70,
-    "LE": 40,
-    "AE": 15,
-    "KE": 0,
-    "MRBonus": 3,
-    "Stufenanstieg": {
-      "LE_AE": "2 * 1W6",
-      "MaxAE": 0,
-      "TS": 20,
-      "ZS": 20,
-      "Egal": 10,
-      "ZS_zu_AE": { }
-    }
+    "Gewicht": -70
   },
   "Kämpfer": {
     "Typkategorie": [ "Zwerg" ],
-    "Magiebegabt": false,
     "Eigenschaften": {
       "MU": "12+",
       "KK": "13+",
@@ -543,23 +503,10 @@
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
     "Körpergröße": [ "128", "2W6" ],
-    "Gewicht": -70,
-    "LE": 40,
-    "AE": 0,
-    "KE": 0,
-    "MRBonus": 3,
-    "Stufenanstieg": {
-      "LE_AE": "1W6",
-      "MaxAE": 0,
-      "TS": 30,
-      "ZS": 0,
-      "Egal": 0,
-      "ZS_zu_AE": { }
-    }
+    "Gewicht": -70
   },
   "Kavalier": {
     "Typkategorie": [ "Zwerg" ],
-    "Magiebegabt": false,
     "Eigenschaften": {
       "FF": "12+",
       "CH": "12+",
@@ -618,23 +565,10 @@
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
     "Körpergröße": [ "128", "2W6" ],
-    "Gewicht": -70,
-    "LE": 40,
-    "AE": 0,
-    "KE": 0,
-    "MRBonus": 3,
-    "Stufenanstieg": {
-      "LE_AE": "1W6",
-      "MaxAE": 0,
-      "TS": 30,
-      "ZS": 0,
-      "Egal": 0,
-      "ZS_zu_AE": { }
-    }
+    "Gewicht": -70
   },
   "Wandergeselle": {
     "Typkategorie": [ "Zwerg" ],
-    "Magiebegabt": false,
     "Eigenschaften": {
       "FF": "12+",
       "KK": "12+",
@@ -693,76 +627,133 @@
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
     "Körpergröße": [ "128", "2W6" ],
-    "Gewicht": -70,
-    "LE": 40,
-    "AE": 0,
-    "KE": 0,
-    "MRBonus": 3,
-    "Stufenanstieg": {
-      "LE_AE": "1W6",
-      "MaxAE": 0,
-      "TS": 30,
-      "ZS": 0,
-      "Egal": 0,
-      "ZS_zu_AE": { }
-    }
+    "Gewicht": -70
   },
   "Halbelf": {
     "Typkategorie": [ "Elf", "Mensch", "Magiebegabt" ],
-    "Magiebegabt": true,
     "Eigenschaften": {
       "IN": "12+",
       "CH": "12+",
-      "GE": "12"
+      "GE": "12+"
     },
-    "Herkunft": { },
-    "Haarfarbe": { },
+    "Herkunft": { 
+      "Würfel": "1W20",
+      "arm": {
+        "1W20": [ 1, 2, 3, 4 ],
+        "Eltern": {
+          "Waise": [ 1, 2, 3, 4 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 5, 6, 7, 8, 9, 10 ],
+        "Eltern": {
+          "Freie Sippe": [ 5, 6 ],
+          "Dörfliche Elfen": [ 7, 8, 9, 10 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 11, 12, 13, 14, 15, 16, 17, 18 ],
+        "Eltern": {
+          "Angesehene Elfen": [ 11, 12, 13, 14 ],
+          "Bürger (illegitim)": [ 15, 16 ],
+          "Bürger (legitim)": [ 17, 18 ]
+        }
+      },
+      "adelig": {
+        "1W20": [ 19, 20 ],
+        "Eltern": {
+          "Adel (illegitim)": [ 19 ],
+          "Adel (legitim)": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "rot": [ 1, 2, 3 ],
+      "braun": [ 4, 5, 6 ],
+      "dunkelblond": [ 7, 8, 9, 10 ],
+      "hellblond": [ 11, 12, 13, 14, 15 ],
+      "weißblond": [ 16 ],
+      "albino": [ 17 ],
+      "schwarz": [ 18, 19 ],
+      "blauschwarz": [ 20 ]
+    },
+    "Augenfarbe": {
+      "schwarz": [ 1, 2, 3 ],
+      "grau": [ 4, 5, 6 ],
+      "blau": [ 7, 8, 9, 10 ],
+      "grün": [ 11, 12, 13, 14 ],
+      "dunkelbraun": [ 15, 16 ],
+      "hellbraun": [ 17, 18 ],
+      "bernsteinfarben": [ 19 ],
+      "goldgesprenkelt": [ 20 ]
+    },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [],
-    "Gewicht": "",
-    "LE": 30,
-    "AE": 20,
-    "KE": 0,
-    "MRBonus": 1,
-    "Stufenanstieg": {
-      "LE_AE": "1W6 + 2",
-      "MaxAE": 0,
-      "TS": 30,
-      "ZS": 20,
-      "Egal": 0,
-      "ZS_zu_AE": { }
-    }
+    "Körpergröße": [ "158", "1W20", "4W6" ],
+    "Gewicht": -120
   },
   "Auelf": {
     "Typkategorie": [ "Elf", "Magiebegabt" ],
-    "Magiebegabt": true,
     "Eigenschaften": {
       "IN": "13+",
       "CH": "12+",
       "GE": "12+",
       "GG": "4-"
     },
-    "Herkunft": { },
-    "Haarfarbe": { },
+    "Herkunft": { 
+      "Würfel": "1W20",
+      "arm": {
+        "1W20": [ 1, 2, 3, 4, 5, 6, 7 ],
+        "Eltern": {
+          "Jäger-Sippe": [ 1, 2, 3 ],
+          "Fischer-Sippe": [ 4, 5, 6, 7 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 8, 9, 10, 11, 12, 13 ],
+        "Eltern": {
+          "Elfendorf": [ 8, 9, 10, 11, 12, 13 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 14, 15, 16, 17, 18, 19 ],
+        "Eltern": {
+          "Menschendorf": [ 14, 15 ],
+          "Menschenstadt": [ 16, 17, 18, 19 ]
+        }
+      },
+      "adelig": {
+        "1W20": [ 20 ],
+        "Eltern": {
+          "Lehrmeister": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "blauschwarz": [ 1 ],
+      "schwarz": [ 2, 3 ],
+      "silber": [ 4 ],
+      "albino": [ 5 ],
+      "weißblond": [ 6, 7 ],
+      "hellblond": [ 8, 9, 10, 11 ],
+      "mittelblond": [ 12, 13, 14, 15, 16, 17 ],
+      "dunkelblond": [ 18, 19, 20 ]
+    },
+    "Augenfarbe": {
+      "schwarzbraun": [ 1, 2 ],
+      "graublau": [ 3, 4 ],
+      "saphirblau": [ 5, 6, 7, 8 ],
+      "smaragdgrün": [ 9, 10, 11, 12 ],
+      "dunkelviolett": [ 13, 14, 15, 16 ],
+      "bernsteinfarben": [ 17, 18 ],
+      "goldgesprenkelt": [ 19 ],
+      "amethyst": [ 20 ]
+    },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [],
-    "Gewicht": "",
-    "LE": 25,
-    "AE": 25,
-    "KE": 0,
-    "MRBonus": 3,
-    "Stufenanstieg": {
-      "LE_AE": "1W6 + 2",
-      "MaxAE": 0,
-      "TS": 25,
-      "ZS": 25,
-      "Egal": 0,
-      "ZS_zu_AE": { }
-    }
+    "Körpergröße": [ "166", "1W20", "3W6" ],
+    "Gewicht": -120
   },
   "Firnelf": {
     "Typkategorie": [ "Elf", "Magiebegabt" ],
-    "Magiebegabt": true,
     "Eigenschaften": {
       "IN": "13+",
       "CH": "12+",
@@ -770,27 +761,46 @@
       "AG": "4-",
       "GG": "4-"
     },
-    "Herkunft": { },
-    "Haarfarbe": { },
+    "Herkunft": { 
+      "Würfel": "1W20",
+      "arm": {
+        "1W20": [ 1, 2, 3, 4, 5, 6, 7 ],
+        "Eltern": {
+          "Ausgestoßen": [ 1, 2, 3, 4, 5, 6, 7 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ],
+        "Eltern": {
+          "Sippe": [ 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "blauschwarz": [ 1 ],
+      "schwarz": [ 2 ],
+      "silber": [ 3, 4, 5 ],
+      "schneeweiß": [ 6, 7, 8, 9 ],
+      "weißblond": [ 10, 11, 12, 13, 14 ],
+      "hellblond": [ 15, 16, 17 ],
+      "mittelblond": [ 18, 19 ],
+      "dunkelblond": [ 20 ]
+    },
+    "Augenfarbe": {
+      "schwarz": [ 1 ],
+      "silbergrau": [ 2, 3 ],
+      "eisgrau": [ 4, 5, 6, 7 ],
+      "saphirblau": [ 8, 9, 10, 11 ],
+      "smaragdgrün": [ 12, 13, 14, 15 ],
+      "bernsteinfarben": [ 16, 17, 18 ],
+      "goldgesprenkelt": [ 19 ],
+      "rubinrot": [ 20 ]
+    },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [],
-    "Gewicht": "",
-    "LE": 30,
-    "AE": 25,
-    "KE": 0,
-    "MRBonus": 4,
-    "Stufenanstieg": {
-      "LE_AE": "1W6 + 2",
-      "MaxAE": 0,
-      "TS": 25,
-      "ZS": 25,
-      "Egal": 0,
-      "ZS_zu_AE": { }
-    }
-  },
+    "Körpergröße": [ "156", "1W20", "3W6" ],
+    "Gewicht": -120  },
   "Waldelf": {
     "Typkategorie": [ "Elf", "Magiebegabt" ],
-    "Magiebegabt": true,
     "Eigenschaften": {
       "IN": "13+",
       "CH": "13+",
@@ -799,27 +809,54 @@
       "GG": "4-",
       "JZ": "4-"
     },
-    "Herkunft": { },
-    "Haarfarbe": { },
+    "Herkunft": { 
+      "Würfel": "1W20",
+      "arm": {
+        "1W20": [ 1, 2, 3, 4, 5, 6, 7 ],
+        "Eltern": {
+          "Ausgestoßen": [ 1, 2, 3, 4, 5, 6, 7 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ],
+        "Eltern": {
+          "Sippe": [ 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 18, 19, 20 ],
+        "Eltern": {
+          "Elfenstadt": [ 18, 19, 20 ]
+        }
+      }      
+    },
+    "Haarfarbe": {
+      "blauschwarz": [ 1, 2, 3 ],
+      "schwarz": [ 4, 5, 6, 7 ],
+      "silber": [ 8, 9 ],
+      "albino": [ 10 ],
+      "weißblond": [ 11 ],
+      "hellblond": [ 12, 13 ],
+      "mittelblond": [ 14, 15, 16 ],
+      "dunkelblond": [ 17, 18, 19 ],
+      "goldblond": [ 20 ]
+    },
+    "Augenfarbe": {
+      "schwarz": [ 1, 2 ],
+      "saphirblau": [ 3, 4 ],
+      "smaragdgrün": [ 5, 6, 7, 8 ],
+      "dunkelbraun": [ 9, 10, 11, 12 ],
+      "bernsteinfarben": [ 13, 14, 15, 16 ],
+      "goldgesprenkelt": [ 17 ],
+      "rubinrot": [ 18, 19 ],
+      "amethystviolett": [ 20 ]
+    },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [],
-    "Gewicht": "",
-    "LE": 25,
-    "AE": 25,
-    "KE": 0,
-    "MRBonus": 3,
-    "Stufenanstieg": {
-      "LE_AE": "1W6 + 2",
-      "MaxAE": 0,
-      "TS": 25,
-      "ZS": 25,
-      "Egal": 0,
-      "ZS_zu_AE": { }
-    }
+    "Körpergröße": [ "166", "1W20", "4W6" ],
+    "Gewicht": -120
   },
   "Amazone": {
     "Typkategorie": [ "Mensch" ],
-    "Magiebegabt": false,
     "Eigenschaften": {
       "MU": "13+",
       "CH": "12+",
@@ -869,7 +906,7 @@
   },
   "Gaukler": {
     "Typkategorie": [ "Mensch" ],
-    "Magiebegabt": false,
+    "Magiedilettant": true,
     "Eigenschaften": {
       "MU": "11+",
       "GE": "13+",
@@ -879,7 +916,10 @@
     "Herkunft": {
       "Würfel": "1W20",
       "unbekannt": {
-        "1W20": [ 1, 2 ]
+        "1W20": [ 1, 2 ],
+        "Eltern": {
+          "unbekannt": [ 1, 2 ]
+        }
       },
       "arm": {
         "1W20": [ 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ],
@@ -926,7 +966,7 @@
   },
   "Jäger": {
     "Typkategorie": [ "Mensch" ],
-    "Magiebegabt": false,
+    "Magiedilettant": true,    
     "Eigenschaften": {
       "IN": "12+",
       "GE": "12+",
@@ -983,7 +1023,6 @@
   },
   "Krieger": {
     "Typkategorie": [ "Mensch" ],
-    "Magiebegabt": false,
     "Eigenschaften": {
       "MU": "12+",
       "GE": "11+",
@@ -1055,7 +1094,7 @@
   },
   "Medicus": {
     "Typkategorie": [ "Mensch" ],
-    "Magiebegabt": false,
+    "Magiedilettant": true,    
     "Eigenschaften": {
       "KL": "12+",
       "CH": "11+",
@@ -1126,7 +1165,6 @@
   },
   "Moha": {
     "Typkategorie": [ "Mensch" ],
-    "Magiebegabt": false,
     "Eigenschaften": {
       "CH": "12+",
       "GE": "12+",
@@ -1177,7 +1215,6 @@
   },
   "Nivese": {
     "Typkategorie": [ "Mensch" ],
-    "Magiebegabt": false,
     "Eigenschaften": {
       "CH": "12+",
       "IN": "11+",
@@ -1232,23 +1269,70 @@
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
     "Körpergröße": [ "156", "21W20" ],
-    "Gewicht": -110,
-    "LE": 30,
-    "AE": 0,
-    "KE": 0,
-    "MRBonus": 0,
-    "Stufenanstieg": {
-      "LE_AE": "1W6",
-      "MaxAE": 0,
-      "TS": 30,
-      "ZS": 0,
-      "Egal": 0,
-      "ZS_zu_AE": { }
-    }
+    "Gewicht": -110
   },
+  "Novadi": {
+    "Typkategorie": [ "Mensch" ],
+    "Magiedilettant": true,    
+    "Eigenschaften": {
+      "CH": "12+",
+      "IN": "11+",
+      "GE": "11+",
+      "RA": "6+",
+      "JZ": "5+"
+    },
+    "Herkunft": {
+      "Würfel": "1W20",
+      "unfrei": {
+        "1W20": [ 1, 2 ],
+        "Eltern": {
+          "Sklaven": [ 1, 2 ]
+        }
+      },
+      "arm": {
+        "1W20": [ 3, 4, 5, 6, 7, 8, 9, 10 ],
+        "Eltern": {
+          "Viehhirten": [ 3, 4, 5, 6 ],
+          "Nomaden": [ 7, 8, 9, 10 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 11, 12, 13, 14, 15, 16 ],
+        "Eltern": {
+          "Händler": [ 11, 12 ],
+          "Viehzüchter": [ 13 ],
+          "Karawansereibesitzer": [ 14 ],
+          "Handwerker": [ 15 ],
+          "Hairan": [ 16 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 17, 18, 19 ],
+        "Eltern": {
+          "Kaufmann": [ 17, 18 ],
+          "Scheich": [ 19 ]
+        }
+      },
+      "adelig": {
+        "1W20": [ 20 ],
+        "Eltern": {
+          "Sultan": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+      "braun": [ 17, 18 ],
+      "rot": [ 19 ],
+      "blond": [ 20 ]
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Körpergröße": [ "156", "21W20" ],
+    "Gewicht": -110
+  },  
   "Seefahrer": {
     "Typkategorie": [ "Mensch" ],
-    "Magiebegabt": false,
+    "Magiedilettant": true,    
     "Eigenschaften": {
       "GE": "11+",
       "KK": "12+",
@@ -1319,7 +1403,6 @@
   },
   "Söldner": {
     "Typkategorie": [ "Mensch" ],
-    "Magiebegabt": false,
     "Eigenschaften": {
       "MU": "12+",
       "IN": "11+",
@@ -1386,7 +1469,7 @@
   },
   "Streuner": {
     "Typkategorie": [ "Mensch" ],
-    "Magiebegabt": false,
+    "Magiedilettant": true,    
     "Eigenschaften": {
       "MU": "13+",
       "GE": "11+",
@@ -1396,7 +1479,10 @@
     "Herkunft": {
       "Würfel": "1W20",
       "unbekannt": {
-        "1W20": [ 1, 2, 3, 4, 5, 6, 7, 8 ]
+        "1W20": [ 1, 2, 3, 4, 5, 6, 7, 8 ],
+        "Eltern": {
+          "unbekannt": [ 1, 2, 3, 4, 5, 6, 7, 8 ]
+        }
       },
       "unfrei": {
         "1W20": [ 9, 10 ],
@@ -1437,23 +1523,11 @@
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
     "Körpergröße": [ "154", "21W20" ],
-    "Gewicht": -110,
-    "LE": 30,
-    "AE": 0,
-    "KE": 0,
-    "MRBonus": 2,
-    "Stufenanstieg": {
-      "LE_AE": "1W6",
-      "MaxAE": 0,
-      "TS": 30,
-      "ZS": 0,
-      "Egal": 0,
-      "ZS_zu_AE": { }
-    }
+    "Gewicht": -110
   },
   "Thorwaler": {
     "Typkategorie": [ "Mensch" ],
-    "Magiebegabt": false,
+    "Magiedilettant": true,       
     "Eigenschaften": {
       "MU": "11+",
       "GE": "11+",
@@ -1472,7 +1546,7 @@
           "Bauern": [ 8, 9 ]
         }
       },
-      "mittleständisch": {
+      "mittelständisch": {
         "1W20": [ 10, 11, 12, 13, 14 ],
         "Eltern": {
           "Fischer": [ 10 ], 
@@ -1506,23 +1580,11 @@
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
     "Körpergröße": [ "168", "21W20" ],
-    "Gewicht": -100,
-    "LE": 30,
-    "AE": 0,
-    "KE": 0,
-    "MRBonus": -1,
-    "Stufenanstieg": {
-      "LE_AE": "1W6",
-      "MaxAE": 0,
-      "TS": 30,
-      "ZS": 0,
-      "Egal": 0,
-      "ZS_zu_AE": { }
-    }
+    "Gewicht": -100
   },
   "Skalde": {
     "Typkategorie": [ "Mensch" ],
-    "Magiebegabt": false,
+    "Magiedilettant": true,    
     "Eigenschaften": {
       "MU": "11+",
       "KL": "11+",
@@ -1542,7 +1604,7 @@
           "Bauern": [ 7, 8, 9 ]
         }
       },
-      "mittleständisch": {
+      "mittelständisch": {
         "1W20": [ 10, 11, 12, 13, 14 ],
         "Eltern": {
           "Fischer": [ 10 ],
@@ -1591,8 +1653,8 @@
     }
   },
   "Barde": {
-    "Typkategorie": [ "Mensch" ],
-    "Magiebegabt": false,
+    "Typkategorie": [ "Mensch"],
+    "Magiedilettant": true,    
     "Eigenschaften": {
       "IN": "12+",
       "CH": "12+",
@@ -1617,7 +1679,7 @@
           "Spielleute": [ 9, 10 ]
         }
       },
-      "mittleständisch": {
+      "mittelständisch": {
         "1W20": [ 11, 12, 13, 14 ],
         "Eltern": {
           "Händler": [ 11 ],

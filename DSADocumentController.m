@@ -19,12 +19,13 @@
 
    You should have received a copy of the GNU General Public
    License along with this library; if not, write to the Free
-   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
+   Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 US.A
 */
 
 #import "DSADocumentController.h"
 #import "DSACharacterWindowController.h"
 #import "DSACharacterDocument.h"
+#import "DSACharacterHero.h"
 
 @implementation DSADocumentController
 
@@ -88,9 +89,7 @@ static NSObject *syncObject = nil; // A synchronization object
   // Obtain the document class    
   if ([sender tag] == 0)
     {
-//      NSLog(@"DSADocumentController newDocument: sender tag was 0");
       documentControllerClass = [self documentClassForType:@"DocType1"];
-//      NSLog(@"DSADocumentController, newDocument: documentControllerClass: %@", documentControllerClass);
       windowControllerClass = [self windowControllerClassForDocumentType:@"DocType1"];        
       windowNibName = @"DSACharacter";
     }
@@ -98,14 +97,8 @@ static NSObject *syncObject = nil; // A synchronization object
     {
       NSLog(@"DSADocumentController newDocument: sender tag was not null");       
     }
-//  NSLog(@"DSADocumentController, newDocument: documentControllerClass: %@", documentControllerClass);      
   if (documentControllerClass)
     {
-      // Create a new document instance, we assign subclasses
-        
-//      NSLog(@"DSADocumentController newDocument: I have a documentControllerClass %@", documentControllerClass);
-//      NSLog(@"DSADocumentController newDocument: I have a windowControllerClass %@", windowControllerClass);        
-        
       NSDocument *newDocument = [[documentControllerClass alloc] init];
         
       // Create and configure the window controller, actually subclasses as well
@@ -125,4 +118,124 @@ static NSObject *syncObject = nil; // A synchronization object
       NSLog(@"Error: No document class found for type.");
     }
 }
+
+-(IBAction)levelUpBaseValues: (id)sender
+{
+  NSLog(@"DSADocumentController levelUpBaseValues called!");
+  NSDocument *activeDocument = [self currentDocument];
+  for (NSWindowController *windowController in [activeDocument windowControllers])
+    {
+      // Check if the window controller is of the specific subclass you're looking for
+      if ([windowController isKindOfClass:[DSACharacterWindowController class]])
+        {    
+          // Cast the window controller to your custom class and call the method
+          DSACharacterWindowController *characterWindowController = (DSACharacterWindowController *)windowController;
+          [characterWindowController levelUpBaseValues:nil];
+            
+          // If you only expect one relevant window controller, you can break after finding it
+          break;
+        }
+    }
+}
+
+-(IBAction)addAdventurePoints: (id)sender
+{
+  NSLog(@"DSADocumentController addAdventurePoints called!");
+  NSDocument *activeDocument = [self currentDocument];
+  for (NSWindowController *windowController in [activeDocument windowControllers])
+    {
+      // Check if the window controller is of the specific subclass you're looking for
+      if ([windowController isKindOfClass:[DSACharacterWindowController class]])
+        {    
+          // Cast the window controller to your custom class and call the method
+          DSACharacterWindowController *characterWindowController = (DSACharacterWindowController *)windowController;
+          [characterWindowController addAdventurePoints:nil];
+            
+          // If you only expect one relevant window controller, you can break after finding it
+          break;
+        }
+    }
+}
+
+-(IBAction)manageMoney: (id)sender
+{
+  NSLog(@"DSADocumentController manageMoney called!");
+  NSDocument *activeDocument = [self currentDocument];
+  for (NSWindowController *windowController in [activeDocument windowControllers])
+    {
+      // Check if the window controller is of the specific subclass you're looking for
+      if ([windowController isKindOfClass:[DSACharacterWindowController class]])
+        {    
+          // Cast the window controller to your custom class and call the method
+          DSACharacterWindowController *characterWindowController = (DSACharacterWindowController *)windowController;
+          [characterWindowController manageMoney:nil];
+            
+          // If you only expect one relevant window controller, you can break after finding it
+          break;
+        }
+    }
+}
+
+-(IBAction)useTalent: (id)sender
+{
+  NSLog(@"DSADocumentController useTalent called!");
+  NSDocument *activeDocument = [self currentDocument];
+  for (NSWindowController *windowController in [activeDocument windowControllers])
+    {
+      // Check if the window controller is of the specific subclass you're looking for
+      if ([windowController isKindOfClass:[DSACharacterWindowController class]])
+        {    
+          // Cast the window controller to your custom class and call the method
+          DSACharacterWindowController *characterWindowController = (DSACharacterWindowController *)windowController;
+          [characterWindowController useTalent:nil];
+            
+          // If you only expect one relevant window controller, you can break after finding it
+          break;
+        }
+    }
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+//  NSLog(@"DSADocumentController validateMenuItem %@", [menuItem title]);
+  
+
+      if ([menuItem tag] == 22)
+        { // Tag for the "Level Up" menu item
+          // Find the current window controller
+          NSWindow *keyWindow = [NSApp keyWindow];
+          NSResponder *firstResponder = [keyWindow firstResponder];
+          if ([firstResponder isKindOfClass:[NSWindow class]])
+            {
+              if ([[(NSWindow *)firstResponder windowController] isKindOfClass:[DSACharacterWindowController class]])
+                {
+                   DSACharacterWindowController *windowController = [(NSWindow *)firstResponder windowController];
+                   DSACharacterDocument *document = (DSACharacterDocument *) windowController.document;
+                   return [(DSACharacterHero *)document.model canLevelUp];                 
+                }
+            }
+          return NO;
+        }
+      else if ([menuItem tag] == 23 || [menuItem tag] == 24 || [menuItem tag] == 25 )
+        {
+          // Find the current window controller
+          NSWindow *keyWindow = [NSApp keyWindow];
+          NSResponder *firstResponder = [keyWindow firstResponder];
+          if ([firstResponder isKindOfClass:[NSWindow class]])
+            {
+              if ([[(NSWindow *)firstResponder windowController] isKindOfClass:[DSACharacterWindowController class]])
+                {
+                 return YES;                 
+                }
+            }
+          return NO;
+        }      
+      else
+        {
+          return YES;
+        }
+      
+
+  return [super validateMenuItem:menuItem];
+}
+
 @end

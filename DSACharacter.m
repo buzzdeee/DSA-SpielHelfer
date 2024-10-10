@@ -28,10 +28,27 @@
 
 @implementation DSACharacter
 
-@synthesize name;
-@synthesize title;
-@synthesize adventurePoints;
 
+
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      // Most characters aren't magic or blessed ones
+      self.isMagic = NO;
+      self.isBlessedOne = NO;
+      self.isMagicalDabbler = NO;
+      self.element = nil;
+      self.religion = nil;
+    }
+  return self;
+}
+
+- (void)dealloc
+{
+  NSLog(@"%@ is being deallocated.", [self class]);
+}
 
 - (NSString *)description
 {
@@ -100,11 +117,17 @@
   [coder encodeObject:self.lifePoints forKey:@"lifePoints"];
   [coder encodeObject:self.astralEnergy forKey:@"astralEnergy"];
   [coder encodeObject:self.karmaPoints forKey:@"karmaPoints"];
+  [coder encodeObject:self.currentLifePoints forKey:@"currentLifePoints"];
+  [coder encodeObject:self.currentAstralEnergy forKey:@"currentAstralEnergy"];
+  [coder encodeObject:self.currentKarmaPoints forKey:@"currentKarmaPoints"];
+  [coder encodeBool:self.isMagic forKey:@"isMagic"];
+  [coder encodeBool:self.isMagicalDabbler forKey:@"isMagicalDabbler"]; 
+  [coder encodeBool:self.isBlessedOne forKey:@"isBlessedOne"];    
   [coder encodeObject:self.mrBonus forKey:@"mrBonus"];
   [coder encodeObject:self.adventurePoints forKey:@"adventurePoints"];
   [coder encodeObject:self.origin forKey:@"origin"];
-  [coder encodeObject:self.professions forKey:@"professions"];
   [coder encodeObject:self.mageAcademy forKey:@"mageAcademy"];
+  [coder encodeObject:self.element forKey:@"element"];
   [coder encodeObject:self.sex forKey:@"sex"];
   [coder encodeObject:self.hairColor forKey:@"hairColor"];
   [coder encodeObject:self.eyeColor forKey:@"eyeColor"];
@@ -113,23 +136,12 @@
   [coder encodeObject:self.birthday forKey:@"birthday"];
   [coder encodeObject:self.god forKey:@"god"];
   [coder encodeObject:self.stars forKey:@"stars"];
+  [coder encodeObject:self.religion forKey:@"religion"];  
   [coder encodeObject:self.socialStatus forKey:@"socialStatus"];
   [coder encodeObject:self.parents forKey:@"parents"];
   [coder encodeObject:self.money forKey:@"money"];
   [coder encodeObject:self.positiveTraits forKey:@"positiveTraits"];
   [coder encodeObject:self.negativeTraits forKey:@"negativeTraits"]; 
-  
-  // Check if this object implements the magic encoding method
-  SEL magicEncodeSelector = @selector(encodeMagicPropertiesWithCoder:);
-  if ([self respondsToSelector:magicEncodeSelector])
-    {
-      NSMethodSignature *signature = [self methodSignatureForSelector:magicEncodeSelector];
-      NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-      [invocation setSelector:magicEncodeSelector];
-      [invocation setTarget:self];
-      [invocation setArgument:&coder atIndex:2];  // The first two arguments are `self` and `_cmd`, so start at index 2
-      [invocation invoke];  // Call the method
-    }
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder
@@ -152,11 +164,17 @@
       self.lifePoints = [coder decodeObjectOfClass:[NSString class] forKey:@"lifePoints"];
       self.astralEnergy = [coder decodeObjectOfClass:[NSString class] forKey:@"astralEnergy"];
       self.karmaPoints = [coder decodeObjectOfClass:[NSString class] forKey:@"karmaPoints"];
-      self.mrBonus = [coder decodeObjectOfClass:[NSString class] forKey:@"mrBonus"];
+      self.currentLifePoints = [coder decodeObjectOfClass:[NSString class] forKey:@"currentLifePoints"];
+      self.currentAstralEnergy = [coder decodeObjectOfClass:[NSString class] forKey:@"currentAstralEnergy"];
+      self.currentKarmaPoints = [coder decodeObjectOfClass:[NSString class] forKey:@"currentKarmaPoints"];   
+      self.mrBonus = [coder decodeObjectOfClass:[NSString class] forKey:@"mrBonus"];         
+      self.isMagic = [coder decodeBoolForKey:@"isMagic"];
+      self.isMagicalDabbler = [coder decodeBoolForKey:@"isMagicalDabbler"];      
+      self.isBlessedOne = [coder decodeBoolForKey:@"isBlessedOne"];      
       self.adventurePoints = [coder decodeObjectOfClass:[NSString class] forKey:@"adventurePoints"];
       self.origin = [coder decodeObjectOfClass:[NSString class] forKey:@"origin"];
-      self.professions = [coder decodeObjectOfClass:[NSString class] forKey:@"professions"];
       self.mageAcademy = [coder decodeObjectOfClass:[NSString class] forKey:@"mageAcademy"];
+      self.element = [coder decodeObjectOfClass:[NSString class] forKey:@"element"];
       self.sex = [coder decodeObjectOfClass:[NSString class] forKey:@"sex"];
       self.hairColor = [coder decodeObjectOfClass:[NSString class] forKey:@"hairColor"];
       self.eyeColor = [coder decodeObjectOfClass:[NSString class] forKey:@"eyeColor"];
@@ -165,23 +183,13 @@
       self.birthday = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"birthday"];
       self.god = [coder decodeObjectOfClass:[NSString class] forKey:@"god"];
       self.stars = [coder decodeObjectOfClass:[NSString class] forKey:@"stars"];
+      self.religion = [coder decodeObjectOfClass:[NSString class] forKey:@"religion"];      
       self.socialStatus = [coder decodeObjectOfClass:[NSString class] forKey:@"socialStatus"];
       self.parents = [coder decodeObjectOfClass:[NSString class] forKey:@"parents"];
       self.money = [coder decodeObjectOfClass:[NSString class] forKey:@"money"];
       self.positiveTraits = [coder decodeObjectOfClass:[NSString class] forKey:@"positiveTraits"];
       self.negativeTraits = [coder decodeObjectOfClass:[NSString class] forKey:@"negativeTraits"];
       
-      // Check if this object implements the magic decoding method
-      SEL magicDecodeSelector = @selector(decodeMagicPropertiesWithCoder:);
-      if ([self respondsToSelector:magicDecodeSelector])
-        {
-          NSMethodSignature *signature = [self methodSignatureForSelector:magicDecodeSelector];
-          NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
-          [invocation setSelector:magicDecodeSelector];
-          [invocation setTarget:self];
-          [invocation setArgument:&coder atIndex:2];  // The first two arguments are `self` and `_cmd`, so start at index 2
-          [invocation invoke];  // Call the method
-        }     
     }
   return self;
 }

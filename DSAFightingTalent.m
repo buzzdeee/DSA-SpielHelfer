@@ -28,22 +28,24 @@
 
 @synthesize subCategory;
 
-- (instancetype)initTalent: (NSString *) newName
-             inSubCategory: (NSString *) newSubCategory
-                ofCategory: (NSString *) newCategory
-                   onLevel: (NSNumber *) newLevel
-    withMaxTriesPerLevelUp: (NSNumber *) newMaxTriesPerLevelUp
-         withMaxUpPerLevel: (NSNumber *) newMaxUpPerLevel
+- (instancetype)initTalent: (NSString *) name
+             inSubCategory: (NSString *) subCategory
+                ofCategory: (NSString *) category
+                   onLevel: (NSNumber *) level
+    withMaxTriesPerLevelUp: (NSNumber *) maxTriesPerLevelUp
+         withMaxUpPerLevel: (NSNumber *) maxUpPerLevel
+           withLevelUpCost: (NSNumber *) levelUpCost;
 {
   self = [super init];
   if (self)
     {
-      self.name = newName;
-      self.category = newCategory;
-      self.subCategory = newSubCategory;      
-      self.level = newLevel;
-      self.maxTriesPerLevelUp = newMaxTriesPerLevelUp;
-      self.maxUpPerLevel = newMaxUpPerLevel;
+      self.name = name;
+      self.category = category;
+      self.subCategory = subCategory;      
+      self.level = level;
+      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
+      self.maxUpPerLevel = maxUpPerLevel;
+      self.levelUpCost = levelUpCost;
     }
   return self;
 }

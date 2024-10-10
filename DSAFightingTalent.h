@@ -36,7 +36,8 @@
                 ofCategory: (NSString *) category
                    onLevel: (NSNumber *) level
     withMaxTriesPerLevelUp: (NSNumber *) maxTriesPerLevelUp
-         withMaxUpPerLevel: (NSNumber *) maxUpPerLevel;                   
+         withMaxUpPerLevel: (NSNumber *) maxUpPerLevel
+           withLevelUpCost: (NSNumber *) levelUpCost;
 
 @end
 

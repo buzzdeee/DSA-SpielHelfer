@@ -2,12 +2,12 @@
   "Anatom": {
     "Typen": [ "Medicus" ],
     "Probe": [ "MU", "KL", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Heilkunde Wunden":
       {
-        "auf": [ "Heilkunde Wunden" ],
         "wieviel": "TaW/2"
       }
-    ],
+    },
     "Bedingung": {
       "Basiswerte": { "TA": "3-" }
     }
@@ -15,32 +15,42 @@
   "Apothekarius": {
     "Typen": [ "Medicus" ],
     "Probe": [ "KL", "KL", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Pflanzenkunde":
       {
-        "auf": [ "Pflanzenkunde", "Alchimie" ],
+        "wieviel": "TaW/2"
+      },
+      "Alchimie":
+      {
         "wieviel": "TaW/2"
       }
-    ]
+      
+    }
   },
   "Brot- und Zuckerbäcker": {
     "Probe": [ "KL", "FF", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Kochen":
       {
-        "auf": [ "Kochen" ],
         "wieviel": "TaW/2",
         "wenn": [ "backen" ]
       }
-    ]
+    }
   },
   "Bauer": {
     "Probe": [ "IN", "FF", "KK" ],
-    "Bonus": [
+    "Bonus": {
+      "Pflanzenkunde":
       {
-        "auf": [ "Pflanzenkunde", "Feilschen" ],
         "wieviel": "TaW/2",
         "wenn": [ "Nutzpflanzen", "Nutztiere" ]
-      }
-    ]
+      },
+      "Feilschen":
+      {
+        "wieviel": "TaW/2",
+        "wenn": [ "Nutzpflanzen", "Nutztiere" ]
+      }      
+    }
   },
   "Baumeister": {
     "Probe": [ "IN", "FF", "KK" ],
@@ -70,12 +80,12 @@
   },
   "Brauer/Brenner/Winzer": {
     "Probe": [ "KL", "FF", "KK" ],
-    "Bonus": [
+    "Bonus": {
+      "Zechen":
       {
-        "auf": [ "Zechen" ],
         "wieviel": "TaW/2"
       }
-    ]
+    }
   },
   "Brettspiel": {
     "Freizeittalent": true,
@@ -87,82 +97,82 @@
   "Falkner": {
     "Typen": [ "Jäger" ],
     "Probe": [ "MU", "IN", "CH" ],
-    "Bonus": [
+    "Bonus": {
+      "Abrichten":
       {
-        "auf": [ "Abrichten" ],
         "wieviel": "TaW/2",
         "wenn": [ "Vögel" ]
       }
-    ]
+    }
   },
   "Fleischer": {
     "Probe": [ "KL", "FF", "KK" ],
-    "Bonus": [
+    "Bonus": {
+      "Kochen":
       {
-        "auf": [ "Kochen" ],
         "wieviel": "TaW",
         "wenn": [ "Fleisch" ]
       }
-    ]
+    }
   },
   "Fischer": {
     "Typen": [ "Thorwaler" ],
     "Probe": [ "IN", "FF", "KK" ],
-    "Bonus": [
+    "Bonus": {
+      "Fischen/Angeln":
       {
-        "auf": [ "Fischen/Angeln" ],
         "wieviel": "TaW"
       }
-    ]
+    }
   },
   "Fuhrmann": {
     "Probe": [ "CH", "FF", "KK" ],
-    "Bonus": [
+    "Bonus": {
+      "Fahrzeuge Lenken":
       {
-        "auf": [ "Fahrzeuge Lenken" ],
         "wieviel": "TaW"
       }
-    ]
+    }
   },
   "Geldwechsler": {
     "Probe": [ "KL", "KL", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Geschichtswissen":
       {
-        "auf": [ "Geschichtswissen" ],
         "wieviel": "TaW/2",
         "wenn": [ "Geld" ]
       }
-    ]
+    }
   },
   "Gerber/Kürschner": {
     "Probe": [ "KL", "FF", "KK" ],
-    "Bonus": [
+    "Bonus": {
+      "Lederarbeiten":
       {
-        "auf": [ "Lederarbeiten" ],
         "wieviel": "TaW/2"
       }
-    ]
+    }
   },
   "Gesteinskundiger/Prospektor": {
     "Probe": [ "KL", "FF", "KK" ],
-    "Bonus": [
+    "Bonus": {
+      "Wildnisleben":
       {
-        "auf": [ "Wildnisleben" ],
         "wieviel": "TaW/2"
       }
-    ]
+    }
   },
   "Glasbläser": {
     "Probe": [ "FF", "FF", "KK" ]
   },
   "Goldschmied": {
     "Probe": [ "KL", "FF", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Schlösser Knacken":
       {
-        "auf": [ "Schlösser Knacken" ],
         "wieviel": "TaW/2"
       }
-    ],
+    },
     "Startwertbonus": {
       "Angroschpriester": 2,
       "Geode": 2,
@@ -173,12 +183,12 @@
   },
   "Graveur": {
     "Probe": [ "KL", "FF", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Malen/Zeichnen":
       {
-        "auf": [ "Malen/Zeichnen" ],
         "wieviel": "TaW/2"
       }
-    ]
+    }
   },
   "Grobschmied": {
     "Typen": [ "Thorwaler" ],
@@ -193,23 +203,46 @@
   },
   "Hausdiener": {
     "Probe": [ "KL", "FF", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Etikette":
       {
-        "auf": [ "Etikette", "Feilschen", "Gassenwissen" ],
+        "wieviel": "TaW/3"
+      },
+      "Feilschen":
+      {
+        "wieviel": "TaW/3"
+      },
+      "Gassenwissen":
+      {
         "wieviel": "TaW/3"
       }
-    ]
+    }
   },
   "Hebamme": {
     "Typen": [ "Medicus" ],
     "Probe": [ "IN", "CH", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Heilen Gift":
       {
-        "auf": [ "Heilkunde Gift", "Heilkunde Krankheiten", "Heilkunde Seele", "Heilkunde Wunden" ],
+        "wieviel": "TaW",
+        "wenn": [ "Frau" ]
+      },
+      "Heilen Krankheiten":
+      {
+        "wieviel": "TaW",
+        "wenn": [ "Frau" ]
+      },
+      "Heilen Seele":
+      {
+        "wieviel": "TaW",
+        "wenn": [ "Frau" ]
+      },
+      "Heilen Wunden":
+      {
         "wieviel": "TaW",
         "wenn": [ "Frau" ]
       }
-    ]
+    }
   },
   "Heraldiker": {
     "Freizeittalent": true,
@@ -217,12 +250,16 @@
   },
   "Holzfäller": {
     "Probe": [ "MU", "GE", "KK" ],
-    "Bonus": [
+    "Bonus": {
+      "Wildnisleben":
       {
-        "auf": [ "Wildnisleben", "Holzbearbeitung" ],
         "wieviel": "TaW/2"
-      }
-    ]
+      },
+      "Holzbearbeitung":
+      {
+        "wieviel": "TaW/2"
+      }      
+    }
   },
   "Hüttenkundiger": {
     "Probe": [ "KL", "KL", "FF" ],
@@ -236,22 +273,22 @@
   },
   "Instrumentenbauer": {
     "Probe": [ "KL", "IN", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Holzbearbeitung":
       {
-        "auf": [ "Holzbearbeitung" ],
         "wieviel": "TaW",
         "wenn": [ "Instrument" ]
       }
-    ]
+    }
   },
   "Kartograph": {
     "Probe": [ "KL", "KL", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Orientierung":
       {
-        "auf": [ "Orientierung" ],
         "wieviel": "TaW"
       }
-    ],
+    },
     "Bedingung": {
       "Talentwerte": {
         "Malen/Zeichnen": "4+"
@@ -261,30 +298,38 @@
   "Krämer/Händler": {
     "Typen": [ "Medicus" ],
     "Probe": [ "KL", "CH", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Feilschen":
       {
-        "auf": [ "Feilschen", "Schätzen" ],
         "wieviel": "TaW/2"
-      }
-    ]
+      },
+      "Schätzen":
+      {
+        "wieviel": "TaW/2"
+     }      
+    }
   },
   "Kurtisane/Gesellschafter": {
     "Probe": [ "IN", "CH", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Sich Verkleiden":
       {
-        "auf": [ "Sich Verkleiden", "Betören" ],
         "wieviel": "TaW/2"
-      }
-    ]
+      },
+      "Betören":
+      {
+        "wieviel": "TaW/2"
+      }      
+    }
   },
   "Müller": {
     "Probe": [ "KL", "FF", "KK" ],
-    "Bonus": [
+    "Bonus": {
+      "Mechanik":
       {
-        "auf": [ "Mechanik" ],
         "wieviel": "TaW/2"
       }
-    ]
+    }
   },
   "Plättner/Harnischmacher": {
     "Probe": [ "KL", "FF", "KK" ]
@@ -304,21 +349,21 @@
   },
   "Schneider": {
     "Probe": [ "KL", "FF", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Schneidern":
       {
-        "auf": [ "Schneidern" ],
         "wieviel": "TaW"
       }
-    ]
+    }
   },
   "Schreiber": {
     "Probe": [ "KL", "FF", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Lesen/Schreiben":
       {
-        "auf": [ "Lesen/Schreiben" ],
         "wieviel": "TaW"
       }
-    ],
+    },
     "Bedingung": {
       "Talentwerte": {
         "Lesen/Schreiben": "4+"
@@ -327,12 +372,12 @@
   },
   "Schuster/Sattler": {
     "Probe": [ "FF", "FF", "KK" ],
-    "Bonus": [
+    "Bonus": {
+      "Lederarbeiten":
       {
-        "auf": [ "Lederarbeiten" ],
         "wieviel": "TaW"
       }
-    ]
+    }
   },
   "Seefahrer": {
     "Typen": [ "Seefahrer", "Thorwaler" ],
@@ -346,41 +391,41 @@
   },
   "Stellmacher/Wagner": {
     "Probe": [ "KL", "FF", "KK" ],
-    "Bonus": [
+    "Bonus": {
+      "Holzbearbeitung":
       {
-        "auf": [ "Holzbearbeitung" ],
         "wieviel": "TaW/2"
       }
-    ]
+    }
   },
   "Tätowierer/Bilderstecher": {
     "Typen": [ "Thorwaler" ],
     "Probe": [ "IN", "CH", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Malen/Zeichnen":
       {
-        "auf": [ "Malen/Zeichnen" ],
         "wieviel": "TaW"
       }
-    ]
+    }
   },
   "Tischler/Zimmermann/Schiffszimmermann": {
     "Probe": [ "KL", "FF", "KK" ],
-    "Bonus": [
+    "Bonus": {
+      "Holzbearbeitung":
       {
-        "auf": [ "Holzbearbeitung" ],
         "wieviel": "TaW",
         "wenn": [ "Spezialgebiet" ]
       }
-    ]
+    }
   },
   "Töpfer": {
     "Probe": [ "KL", "FF", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Töpfern":
       {
-        "auf": [ "Töpfern" ],
         "wieviel": "TaW"
       }
-    ]
+    }
   },
   "Waffenschmied": {
     "Probe": [ "KL", "FF", "KK" ],
@@ -397,36 +442,51 @@
   },
   "Zureiter": {
     "Probe": [ "CH", "GE", "KK" ],
-    "Bonus": [
+    "Bonus": {
+      "Abrichten":
       {
-        "auf": [ "Abrichten" ],
         "wieviel": "TaW",
         "wenn": [ "Reittier" ]
       }
-    ]
+    }
   },
   "Drachenjäger": {
     "Typen": [ "Angroschpriester", "Geode", "Kämpfer", "Kavalier", "Wandergeselle" ],
     "Kombinierbar": false,
     "Freizeittalent": true,
     "Probe": [ "MU", "KL", "IN" ],
-    "Bonus": [
+    "Bonus": {
+      "Kriegskunst":
       {
-        "auf": [ "Kriegskunst", "Geschichtswissen", "Magiekunde", "Tierkunde" ],
         "wieviel": [ "TaW", "TaW/2", "TaW/2", "TaW/2" ],
         "wenn": [ "Drache" ]
-      }
-    ]
+      },
+      "Geschichtswissen":
+      {
+        "wieviel": [ "TaW", "TaW/2", "TaW/2", "TaW/2" ],
+        "wenn": [ "Drache" ]
+      },
+      "Magiekunde":
+      {
+        "wieviel": [ "TaW", "TaW/2", "TaW/2", "TaW/2" ],
+        "wenn": [ "Drache" ]
+      },
+      "Tierkunde":
+      {
+        "wieviel": [ "TaW", "TaW/2", "TaW/2", "TaW/2" ],
+        "wenn": [ "Drache" ]
+      }                  
+    }
   },
   "Feinmechanikus/Schlosser/Uhrmacher": {
     "Typen": [ "Angroschpriester", "Geode", "Kämpfer", "Kavalier", "Wandergeselle" ],
     "Probe": [ "KL", "FF", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Schlösser Knacken":
       {
-        "auf": [ "Schlösser Knacken" ],
         "wieviel": [ "TaW" ]
       }
-    ],
+    },
     "Startwertbonus": {
       "Angroschpriester": 2,
       "Geode": 2,
@@ -438,37 +498,50 @@
   "Kristallzüchter": {
     "Typen": [ "Angroschpriester", "Geode", "Kämpfer", "Kavalier", "Wandergeselle" ],
     "Probe": [ "KL", "IN", "FF" ],
-    "Bonus": [
+    "Bonus": {
+      "Schätzen":
       {
-        "auf": [ "Schätzen", "Alchimie" ],
         "wieviel": [ "TaW", "TaW" ],
         "wenn": [ "Kristalle", "Juwelen" ]
-      }
-    ]
+      },
+      "Alchimie":
+      {
+        "wieviel": [ "TaW", "TaW" ],
+        "wenn": [ "Kristalle", "Juwelen" ]
+      }      
+    }
   },
   "Spengler": {
     "Typen": [ "Angroschpriester", "Geode", "Kämpfer", "Kavalier", "Wandergeselle" ],
     "Probe": [ "KL", "FF", "KK" ],
-    "Bonus": [
+    "Bonus": {
+      "Schwimmen":
       {
-        "auf": [ "Schwimmen" ],
         "wieviel": [ "TaW" ],
         "wenn": [ "Überleben" ]
       }
-    ]
+    }
   },
   "Wirt": {
     "Typen": [ "Angroschpriester", "Geode", "Kämpfer", "Kavalier", "Wandergeselle" ],
     "Probe": [ "KL", "IN", "CH" ],
-    "Bonus": [
+    "Bonus": {
+      "Etikette":
       { 
-        "auf": [ "Etikette", "Kochen" ],
         "wieviel": [ "TaW/2", "TaW/2" ]
       },
+      "Kochen":
       { 
-        "auf": [ "Zechen", "Gassenwissen" ],
         "wieviel": [ "TaW/2", "TaW/2" ]
-      }
-    ]
+      },
+      "Zechen":
+      {
+        "wieviel": [ "TaW/2", "TaW/2" ]
+      },
+      "Gassenwissen":
+      {
+        "wieviel": [ "TaW/2", "TaW/2" ]
+      }      
+    }
   }
 }

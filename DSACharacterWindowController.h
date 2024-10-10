@@ -26,6 +26,7 @@
 #define _DSACHARACTERWINDOWCONTROLLER_H_
 
 #import <AppKit/AppKit.h>
+#import "DSASpell.h"
 
 @interface DSACharacterWindowController : NSWindowController
 
@@ -33,6 +34,9 @@
 @property (weak) IBOutlet NSTextField *fieldAG;
 @property (weak) IBOutlet NSTextField *fieldAdventurePoints;
 @property (weak) IBOutlet NSTextField *fieldArchetype;
+@property (weak) IBOutlet NSTextField *fieldMageAcademy;
+@property (weak) IBOutlet NSTextField *fieldMageAcademyBold;
+@property (weak) IBOutlet NSTextField *fieldMagicalDabbler;
 @property (weak) IBOutlet NSTextField *fieldAstralEnergy;
 @property (weak) IBOutlet NSTextField *fieldAttackBaseValue;
 @property (weak) IBOutlet NSTextField *fieldBirthday;
@@ -70,6 +74,7 @@
 @property (weak) IBOutlet NSTextField *fieldSex;
 @property (weak) IBOutlet NSTextField *fieldSocialStatus;
 @property (weak) IBOutlet NSTextField *fieldStars;
+@property (weak) IBOutlet NSTextField *fieldReligion;
 @property (weak) IBOutlet NSTextField *fieldTA;
 @property (weak) IBOutlet NSTextField *fieldTitle;
 @property (weak) IBOutlet NSTextField *fieldWeight;
@@ -80,6 +85,9 @@
 @property (nonatomic, strong) IBOutlet NSPanel *congratsPanel;
 @property (weak) IBOutlet NSTextField *fieldCongratsHeadline;
 @property (weak) IBOutlet NSTextField *fieldCongratsMainText;
+@property (weak) IBOutlet NSTextField *fieldCongratsMainTextLine2;
+@property (weak) IBOutlet NSButton *buttonCongratsNow;
+@property (weak) IBOutlet NSButton *buttonCongratsLater;
 @property (nonatomic, strong) IBOutlet NSPanel *levelUpPanel;
 @property (weak) IBOutlet NSTextField *fieldLevelUpHeadline;
 @property (weak) IBOutlet NSTextField *fieldLevelUpMainText;
@@ -89,6 +97,13 @@
 @property (weak) IBOutlet NSPopUpButton *popupLevelUpBottom;
 @property (weak) IBOutlet NSButton *buttonLevelUpDoIt;
 
+// For adding adventure points
+@property (nonatomic, strong) IBOutlet NSPanel *adventurePointsPanel;
+@property (weak) IBOutlet NSTextField *fieldAdditionalAdventurePoints;
+// to track spells and spell names NSText field relationships to be able to change color
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSTextField *> *spellItemFieldMap;
+
+
 - (IBAction)closePanel:(id)sender;
 
 
@@ -96,9 +111,12 @@
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 
+-(void)levelUpBaseValues:(id)sender;
+-(void)addAdventurePoints: (id)sender;
+-(void)manageMoney: (id)sender;
+-(void)useTalent: (id)sender;
 
 
-- (IBAction)updateModel:(id)sender;
 @end
 
 #endif // _DSACHARACTERWINDOWCONTROLLER_H_

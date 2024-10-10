@@ -25,17 +25,47 @@
 #import "DSACharacterGenerationController.h"
 #import "DSACharacter.h"
 #import "Utils.h"
+#import "DSACharacterHeroHumanAmazon.h"
+#import "DSACharacterHeroHumanJester.h"
+#import "DSACharacterHeroHumanHuntsman.h"
+#import "DSACharacterHeroHumanWarrior.h"
+#import "DSACharacterHeroHumanPhysician.h"
+#import "DSACharacterHeroHumanMoha.h"
+#import "DSACharacterHeroHumanNivese.h"
+#import "DSACharacterHeroHumanNovadi.h"
+#import "DSACharacterHeroHumanSeafarer.h"
+#import "DSACharacterHeroHumanMercenary.h"
+#import "DSACharacterHeroHumanRogue.h"
 #import "DSACharacterHeroHumanThorwaler.h"
-#import "DSACharacterHeroMage.h"
+#import "DSACharacterHeroHumanSkald.h"
+#import "DSACharacterHeroHumanBard.h"
+
+#import "DSACharacterHeroHumanMage.h"
+
+#import "DSACharacterHeroElfMeadow.h"
+#import "DSACharacterHeroElfSnow.h"
+#import "DSACharacterHeroElfWood.h"
+#import "DSACharacterHeroElfHalf.h"
+
+#import "DSACharacterHeroDwarfAngroschPriest.h"
+#import "DSACharacterHeroDwarfFighter.h"
+#import "DSACharacterHeroDwarfGeode.h"
+#import "DSACharacterHeroDwarfCavalier.h"
+#import "DSACharacterHeroDwarfJourneyman.h"
+
 #import "DSAPositiveTrait.h"
 #import "DSANegativeTrait.h"
 #import "DSAFightingTalent.h"
 #import "DSAOtherTalent.h"
+#import "DSASpecialTalent.h"
+#import "DSASpell.h"
+#import "DSAProfession.h"
 #import "NSMutableDictionary+Extras.h"
 
 @implementation DSACharacterGenerationController
 
 @synthesize talentsDict;
+@synthesize spellsDict;
 @synthesize archetypesDict;
 @synthesize professionsDict;
 @synthesize originsDict;
@@ -43,13 +73,14 @@
 @synthesize eyeColorsDict;
 @synthesize birthdaysDict;
 @synthesize godsDict;
+@synthesize magicalDabblerSpellsDict;
+
 
 //@synthesize popupCategories;
 
 
 - (instancetype)init
 {
-  NSLog(@"DSACharacterGenerationController init was called");
   self = [super initWithWindowNibName:@"CharacterGeneration"];
   if (self)
     {
@@ -65,51 +96,64 @@
       filePath = [[NSBundle mainBundle] pathForResource:@"Talente" ofType:@"json"];
       talentsDict = [NSJSONSerialization 
         JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
-        options: NSJSONReadingMutableContainers
-        error: &e];
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
+        
+      filePath = [[NSBundle mainBundle] pathForResource:@"Zauberfertigkeiten" ofType:@"json"];
+      spellsDict = [NSJSONSerialization 
+        JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];        
         
       filePath = [[NSBundle mainBundle] pathForResource:@"Typus" ofType:@"json"];  
       archetypesDict = [NSJSONSerialization 
         JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
-        options: NSJSONReadingMutableContainers
-        error: &e]; 
+                   options: NSJSONReadingMutableContainers
+                     error: &e]; 
              
       filePath = [[NSBundle mainBundle] pathForResource:@"Berufe" ofType:@"json"];        
       professionsDict = [NSJSONSerialization 
         JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
-        options: NSJSONReadingMutableContainers
-        error: &e];
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
         
       filePath = [[NSBundle mainBundle] pathForResource:@"Herkunft" ofType:@"json"];         
       originsDict = [NSJSONSerialization 
         JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
-        options: NSJSONReadingMutableContainers
-        error: &e];
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
         
       filePath = [[NSBundle mainBundle] pathForResource:@"Magierakademien" ofType:@"json"];                 
       mageAcademiesDict = [NSJSONSerialization 
         JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
-        options: NSJSONReadingMutableContainers
-        error: &e];
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
       
       filePath = [[NSBundle mainBundle] pathForResource:@"Augenfarben" ofType:@"json"];                       
       eyeColorsDict = [NSJSONSerialization 
         JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
-        options: NSJSONReadingMutableContainers
-        error: &e];
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
       
       filePath = [[NSBundle mainBundle] pathForResource:@"Geburtstag" ofType:@"json"];                       
       birthdaysDict = [NSJSONSerialization 
         JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
-        options: NSJSONReadingMutableContainers
-        error: &e];      
+                   options: NSJSONReadingMutableContainers
+                     error: &e];      
         
       filePath = [[NSBundle mainBundle] pathForResource:@"Goetter" ofType:@"json"];                         
       godsDict = [NSJSONSerialization 
         JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
-        options: NSJSONReadingMutableContainers
-        error: &e];      
-        
+                   options: NSJSONReadingMutableContainers
+                     error: &e];      
+
+      filePath = [[NSBundle mainBundle] pathForResource:@"Magiedilettantenzauber" ofType:@"json"];                         
+      magicalDabblerSpellsDict = [NSJSONSerialization 
+        JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];                     
+                    
+      NSLog(@"magicalDabblerSpellsDict: %@", magicalDabblerSpellsDict);                       
       [self loadPortraits];
     }
   return self;
@@ -125,9 +169,14 @@
     // Get all files in the resource directory
     NSArray *allFiles = [fileManager contentsOfDirectoryAtPath:resourcePath error:nil];
     
+    // Regular expression to match "Character_XXXX.png" where XXXX is a number
+    NSString *pattern = @"^Character_\\d*\\.png$";
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
+    
     // Iterate through the files and filter for files that match "*male.png"
     for (NSString *fileName in allFiles) {
-        if ([fileName hasSuffix:@"male.png"]) {
+        NSRange range = NSMakeRange(0, fileName.length);
+        if ([regex numberOfMatchesInString:fileName options:0 range:range] > 0) {
             // Get the full path for the image
             NSString *imagePath = [resourcePath stringByAppendingPathComponent:fileName];
             
@@ -140,13 +189,10 @@
             }
         }
     }
-    
-    NSLog(@"Loaded %lu portraits images.", (unsigned long)self.portraitsArray.count);
 }
 
 - (void)startCharacterGeneration: (id)sender
 {
-  NSLog(@"DSACharacterGenerationController startCharacterGeneration was called, sender: %@", sender);
   [self windowDidLoad];
   [self showWindow:self];
   [[self window] makeKeyAndOrderFront: self];
@@ -156,164 +202,442 @@
    
   [self.popupArchetypes removeAllItems];
   [self.popupArchetypes addItemWithTitle: _(@"Typus wählen")];
-//  [self.popupArchetypes addItemsWithTitles: [self getAllArchetypesForCategory: [[self.popupCategories selectedItem] title]]];
   
   [self.popupOrigins removeAllItems];
   [self.popupOrigins addItemWithTitle: _(@"Herkunft wählen")];  
-//  [self.popupOrigins addItemsWithTitles: [originsDict allKeys]];
   [self.popupProfessions removeAllItems];
   [self.popupProfessions addItemWithTitle: _(@"Beruf wählen")];  
-//  [self.popupProfessions addItemsWithTitles: [self getProfessionsForArchetype: [[self.popupCategories selectedItem] title]]];
   [self.popupMageAcademies removeAllItems];
   [self.popupMageAcademies addItemWithTitle: _(@"Akademie wählen")];  
-//  [self.popupMageAcademies addItemsWithTitles: [[self mageAcademiesDict] allKeys]];
   
   [self.popupArchetypes setEnabled: NO];   
   [self.popupOrigins setEnabled: NO];
   [self.popupProfessions setEnabled: NO];
   [self.popupMageAcademies setEnabled: NO];
+  [self.popupElements setEnabled: NO];
+  [self.popupReligions setEnabled: NO];  
   [self.buttonGenerate setEnabled: NO];  
   [self.buttonFinish setEnabled: NO];
  
   [self.fieldName setEnabled: NO];
   [self.fieldTitle setEnabled: NO];  
   
-  NSLog(@"DSACharacterGenerationController: startCharacterGeneration %@, %@", self.popupCategories, [self getAllArchetypesCategories]);
 }
 
 - (void)createCharacter:(id)sender
 {
-    NSString *characterName = [self.fieldName stringValue];
-    NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
-    NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
-    NSString *selectedProfession = [[self.popupProfessions selectedItem] title];
-    
-    DSACharacterHero *newCharacter = nil;
+  NSString *characterName = [self.fieldName stringValue];
+  NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
+  NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
+  NSString *selectedProfession = [[self.popupProfessions selectedItem] title];
+   
+  DSACharacterHero *newCharacter = nil;
 
-    // Based on selectedArchetype, create the correct character subclass
-    if ([selectedArchetype isEqualToString:_(@"Thorwaler")]) {
-        newCharacter = [[DSACharacterHeroHumanThorwaler alloc] init];
-    } else if ([selectedArchetype isEqualToString:_(@"Magier")]) {
-        newCharacter = [[DSACharacterHeroMage alloc] init];
-/*    } else {
-        // Default to the base class or handle errors
-        newCharacter = [[DSACharacterHero alloc] init]; */
+  // Based on selectedArchetype, create the correct character subclass
+  if ([selectedArchetype isEqualToString:_(@"Amazone")])
+    {
+      newCharacter = [[DSACharacterHeroHumanAmazon alloc] init];
+    }  
+  else if ([selectedArchetype isEqualToString:_(@"Gaukler")])
+    {
+      newCharacter = [[DSACharacterHeroHumanJester alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Jäger")])
+    {
+      newCharacter = [[DSACharacterHeroHumanHuntsman alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Krieger")])
+    {
+      newCharacter = [[DSACharacterHeroHumanWarrior alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Medicus")])
+    {
+      newCharacter = [[DSACharacterHeroHumanPhysician alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Moha")])
+    {
+      newCharacter = [[DSACharacterHeroHumanMoha alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Nivese")])
+    {
+      newCharacter = [[DSACharacterHeroHumanNivese alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Seefahrer")])
+    {
+      newCharacter = [[DSACharacterHeroHumanSeafarer alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Söldner")])
+    {
+      newCharacter = [[DSACharacterHeroHumanMercenary alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Skalde")])
+    {
+      newCharacter = [[DSACharacterHeroHumanSkald alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Bard")])
+    {
+      newCharacter = [[DSACharacterHeroHumanBard alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Thorwaler")])
+    {
+      newCharacter = [[DSACharacterHeroHumanThorwaler alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Streuner")])
+    {
+      newCharacter = [[DSACharacterHeroHumanRogue alloc] init];        
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Magier")])
+    {
+      newCharacter = [[DSACharacterHeroHumanMage alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Auelf")])
+    {
+      newCharacter = [[DSACharacterHeroElfMeadow alloc] init]; 
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Firnelf")])
+    {
+      newCharacter = [[DSACharacterHeroElfSnow alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Waldelf")])
+    {
+      newCharacter = [[DSACharacterHeroElfWood alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Halbelf")])
+    {
+      newCharacter = [[DSACharacterHeroElfHalf alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Angroschpriester")])
+    {
+      newCharacter = [[DSACharacterHeroDwarfAngroschPriest alloc] init];                                       
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Geode")])
+    {
+      newCharacter = [[DSACharacterHeroDwarfGeode alloc] init];                                       
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Kämpfer")])
+    {
+      newCharacter = [[DSACharacterHeroDwarfFighter alloc] init];                                       
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Kavalier")])
+    {
+      newCharacter = [[DSACharacterHeroDwarfCavalier alloc] init];                                       
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Wandergeselle")])
+    {
+      newCharacter = [[DSACharacterHeroDwarfJourneyman alloc] init];                                       
+    }
+  else
+    {
+      NSLog(@"DSACharacterGenerationController: createCharacter: don't know how to create Archetype: %@", selectedArchetype);
     }
 
-    // Set common properties for the new character
-    newCharacter.name = characterName;
-    newCharacter.archetype = selectedArchetype;
+  // Set common properties for the new character
+  newCharacter.name = characterName;
+  newCharacter.archetype = selectedArchetype;
 
-    [newCharacter setValue: [NSNumber numberWithInteger: 22] forKey: @"adventurePoints"];
-    newCharacter.professions = [NSMutableArray arrayWithArray: @[ selectedProfession ]];
-    newCharacter.hairColor = [self.fieldHairColor stringValue];
-    newCharacter.eyeColor = [self.fieldEyeColor stringValue];
-    newCharacter.height = [self.fieldHeight stringValue];
-    newCharacter.weight = [self.fieldWeight stringValue];
-    newCharacter.god = [self.fieldGod stringValue];
-    newCharacter.stars = [self.fieldStars stringValue];
-    newCharacter.socialStatus = [self.fieldSocialStatus stringValue];
-    newCharacter.parents = [self.fieldParents stringValue];
-    newCharacter.sex = [[self.popupSex selectedItem] title];
-    newCharacter.title = [self.fieldTitle stringValue];
-    newCharacter.birthday = self.birthday;
-    newCharacter.money = [NSMutableDictionary dictionaryWithDictionary: self.wealth];
-    newCharacter.portrait = [self.imageViewPortrait image];
-    
-    if ([self.popupMageAcademies isEnabled])
-      {
-         newCharacter.mageAcademy = [[self.popupMageAcademies selectedItem] title];
-      }
-    else
-      {
-         newCharacter.mageAcademy = nil;
-      }
+  if ([self.popupProfessions isEnabled] && [self.popupProfessions indexOfSelectedItem] != 0)
+    {
+      NSDictionary *professionDict = [NSDictionary dictionaryWithDictionary: [professionsDict objectForKey: selectedProfession]];
+      DSAProfession *profession = [[DSAProfession alloc] initProfession: selectedProfession
+                                                             ofCategory: [professionDict objectForKey: @"Freizeittalent"] ? _(@"Freizeittalent") : _(@"Beruf")
+                                                                onLevel: @3
+                                                               withTest: [professionDict objectForKey: @"Probe"]
+                                                 withMaxTriesPerLevelUp: @6
+                                                      withMaxUpPerLevel: @2
+                                                      influencesTalents: [professionDict objectForKey: @"Bonus"]];     
 
-    if ([self.popupOrigins isEnabled] && [self.popupOrigins indexOfSelectedItem] != 0)
-      {
-        newCharacter.origin = selectedOrigin;
-      }
-    // handle positive Traits
-    NSMutableDictionary *positiveTraits = [[NSMutableDictionary alloc] init];
-    for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
-      {
-        [positiveTraits setObject: 
-          [[DSAPositiveTrait alloc] initTrait: field 
-                                      onLevel: [NSNumber numberWithInt: 
-                                          [[self valueForKey: [NSString stringWithFormat: @"field%@", field]] integerValue]]]
-                           forKey: field];  
-      }
-    newCharacter.positiveTraits = positiveTraits;
-    // handle negative Traits    
-    NSMutableDictionary *negativeTraits = [[NSMutableDictionary alloc] init];
-    for (NSString *field in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
-      {
-        [negativeTraits setObject: 
-          [[DSANegativeTrait alloc] initTrait: field 
-                                      onLevel: [NSNumber numberWithInt: 
-                                          [[self valueForKey: [NSString stringWithFormat: @"field%@", field]] integerValue]]]
-                           forKey: field];  
-      }
-    newCharacter.negativeTraits = negativeTraits;
+      NSMutableDictionary *professionsDictionary = [[NSMutableDictionary alloc] init];
+      [professionsDictionary setObject: profession forKey: selectedProfession];
+      newCharacter.professions = professionsDictionary;
+    }
+  else
+    {
+      newCharacter.professions = nil;
+    }
+  if ([self.popupElements isEnabled] && [self.popupElements indexOfSelectedItem] != 0)
+    {
+      newCharacter.element = [[self.popupElements selectedItem] title];
+    }
+  else
+    {
+      newCharacter.element = nil;
+    }
+  
+  newCharacter.religion = [[self.popupReligions selectedItem] title]; 
+  newCharacter.hairColor = [self.fieldHairColor stringValue];
+  newCharacter.eyeColor = [self.fieldEyeColor stringValue];
+  newCharacter.height = [self.fieldHeight stringValue];
+  newCharacter.weight = [self.fieldWeight stringValue];
+  newCharacter.god = [self.fieldGod stringValue];
+  newCharacter.stars = [self.fieldStars stringValue];
+  newCharacter.socialStatus = [self.fieldSocialStatus stringValue];
+  newCharacter.parents = [self.fieldParents stringValue];
+  newCharacter.sex = [[self.popupSex selectedItem] title];
+  newCharacter.title = [self.fieldTitle stringValue];
+  newCharacter.birthday = self.birthday;
+  newCharacter.money = [NSMutableDictionary dictionaryWithDictionary: self.wealth];
+  newCharacter.portrait = [self.imageViewPortrait image];
+  
+  // A Mage or Geode
+  if ([self.popupMageAcademies isEnabled] && [newCharacter conformsToProtocol:@protocol(DSACharacterMagic)])
+    {
+       newCharacter.mageAcademy = [[self.popupMageAcademies selectedItem] title];
+    }
+  else
+    {
+       newCharacter.mageAcademy = nil;
+    }
+
+
+  if ([self.popupOrigins isEnabled] && [self.popupOrigins indexOfSelectedItem] != 0)
+    {
+      newCharacter.origin = selectedOrigin;
+    }
+  // handle positive Traits
+  NSMutableDictionary *positiveTraits = [[NSMutableDictionary alloc] init];
+  for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
+    {
+      [positiveTraits setObject: 
+        [[DSAPositiveTrait alloc] initTrait: field 
+                                    onLevel: [NSNumber numberWithInt: 
+                                        [[self valueForKey: [NSString stringWithFormat: @"field%@", field]] integerValue]]]
+                         forKey: field];  
+    }
+  newCharacter.positiveTraits = positiveTraits;
+  // handle negative Traits    
+  NSMutableDictionary *negativeTraits = [[NSMutableDictionary alloc] init];
+  for (NSString *field in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
+    {
+      [negativeTraits setObject: 
+        [[DSANegativeTrait alloc] initTrait: field 
+                                    onLevel: [NSNumber numberWithInt: 
+                                        [[self valueForKey: [NSString stringWithFormat: @"field%@", field]] integerValue]]]
+                         forKey: field];  
+    }
+  newCharacter.negativeTraits = negativeTraits;
     
-    // handle talents
-    NSDictionary *talents = [[NSDictionary alloc] init];
-    talents = [self getTalentsForArchetype: selectedArchetype];
-//    NSLog(@"THE TALENTS WE GOT: %@", talents);
-    NSMutableDictionary *newTalents = [[NSMutableDictionary alloc] init];
-    for (NSString *category in talents)
-      {
-        if ([category isEqualTo: @"Kampftechniken"])
-          {   
-            for (NSString *subCategory in [talents objectForKey: category])
-              {
-                for (NSString *t in [[talents objectForKey: category] objectForKey: subCategory])
-                  {
-                     NSDictionary *tDict = [[[talents objectForKey: category] objectForKey: subCategory] objectForKey: t];
-                     DSAFightingTalent *talent = [[DSAFightingTalent alloc] initTalent: t
-                                                                         inSubCategory: subCategory
-                                                                            ofCategory: category
-                                                                               onLevel: [NSNumber numberWithInteger: [[tDict objectForKey: @"Startwert"] integerValue]]
-                                                                withMaxTriesPerLevelUp: [NSNumber numberWithInteger: [[tDict objectForKey: @"Versuche"] integerValue]]
-                                                                     withMaxUpPerLevel: [NSNumber numberWithInteger: [[tDict objectForKey: @"Steigern"] integerValue]]];
-                    [newTalents setObject: talent forKey: t];
-                  }
-              }
-          }
-        else
-          {
-            for (NSString *t in [talents objectForKey: category])
-              {
-                NSDictionary *tDict = [[talents objectForKey: category] objectForKey: t];                             
-                DSAOtherTalent *talent = [[DSAOtherTalent alloc] initTalent: t
-                                                                 ofCategory: category
-                                                                    onLevel: [NSNumber numberWithInteger: [[tDict objectForKey: @"Startwert"] integerValue]]
-                                                                   withTest: [tDict objectForKey: @"Probe"]
-                                                     withMaxTriesPerLevelUp: [NSNumber numberWithInteger: [[tDict objectForKey: @"Versuche"] integerValue]]
-                                                          withMaxUpPerLevel: [NSNumber numberWithInteger: [[tDict objectForKey: @"Steigern"] integerValue]]]; 
-                [newTalents setObject: talent forKey: t];
-              }
-          }
-          
-      }
-    newCharacter.talents = newTalents;
+  // handle talents
+  NSDictionary *talents = [[NSDictionary alloc] init];
+  talents = [self getTalentsForArchetype: selectedArchetype];
+  NSMutableDictionary *newTalents = [[NSMutableDictionary alloc] init];
+  for (NSString *category in talents)
+    {
+      if ([category isEqualTo: @"Kampftechniken"])
+        {   
+          for (NSString *subCategory in [talents objectForKey: category])
+            {
+              for (NSString *t in [[talents objectForKey: category] objectForKey: subCategory])
+                {
+                   NSDictionary *tDict = [[[talents objectForKey: category] objectForKey: subCategory] objectForKey: t];
+                   DSAFightingTalent *talent = [[DSAFightingTalent alloc] initTalent: t
+                                                                       inSubCategory: subCategory
+                                                                          ofCategory: category
+                                                                             onLevel: [NSNumber numberWithInteger: [[tDict objectForKey: @"Startwert"] integerValue]]
+                                                              withMaxTriesPerLevelUp: [NSNumber numberWithInteger: [[tDict objectForKey: @"Versuche"] integerValue]]
+                                                                   withMaxUpPerLevel: [NSNumber numberWithInteger: [[tDict objectForKey: @"Steigern"] integerValue]]
+                                                                     withLevelUpCost: @1];
+                  [newTalents setObject: talent forKey: t];
+                }
+            }
+        }
+      else
+        {
+          for (NSString *t in [talents objectForKey: category])
+            {
+              NSDictionary *tDict = [[talents objectForKey: category] objectForKey: t];                             
+              DSAOtherTalent *talent = [[DSAOtherTalent alloc] initTalent: t
+                                                               ofCategory: category
+                                                                  onLevel: [NSNumber numberWithInteger: [[tDict objectForKey: @"Startwert"] integerValue]]
+                                                                 withTest: [tDict objectForKey: @"Probe"]
+                                                   withMaxTriesPerLevelUp: [NSNumber numberWithInteger: [[tDict objectForKey: @"Versuche"] integerValue]]
+                                                        withMaxUpPerLevel: [NSNumber numberWithInteger: [[tDict objectForKey: @"Steigern"] integerValue]]
+                                                          withLevelUpCost: @1]; 
+              [newTalents setObject: talent forKey: t];
+            }
+        }        
+    }
+  newCharacter.talents = newTalents;
     
-    // apply Göttergeschenke and Origins modificators
-    [self apply: @"Goettergeschenke" toArchetype: newCharacter];
-    [self apply: @"Herkunft" toArchetype: newCharacter];    
+  if ([newCharacter conformsToProtocol:@protocol(DSACharacterMagic)])
+    {
+      NSDictionary *spells = [[NSDictionary alloc] init];
+      spells = [self getSpellsForArchetype: selectedArchetype];
+      NSMutableDictionary *newSpells = [[NSMutableDictionary alloc] init];
+      for (NSString *category in spells)
+        {
+          for (NSString *s in [spells objectForKey: category])
+            {
+              NSDictionary *sDict = [[spells objectForKey: category] objectForKey: s];                             
+              DSASpell *spell = [[DSASpell alloc] initSpell: s
+                                                 ofCategory: category
+                                                    onLevel: [NSNumber numberWithInteger: [[sDict objectForKey: @"Startwert"] integerValue]]
+                                                 withOrigin: [sDict objectForKey: @"Ursprung"]
+                                                   withTest: [sDict objectForKey: @"Probe"]
+                                     withMaxTriesPerLevelUp: [NSNumber numberWithInteger: [[sDict objectForKey: @"Versuche"] integerValue]]
+                                          withMaxUpPerLevel: [NSNumber numberWithInteger: [[sDict objectForKey: @"Steigern"] integerValue]]
+                                            withLevelUpCost: @1];
+              NSLog(@"THE SDICT: %@", sDict);
+              [spell setElement: [sDict objectForKey: @"Element"]];
+              NSLog(@"setting element: %@ for Spell %@", [sDict objectForKey: @"Element"], spell);
+              [newSpells setObject: spell forKey: s];
+            }
+        }
+      newCharacter.spells = newSpells;
+      [self applySpellmodificatorsToArchetype: newCharacter];    
+    }
     
-    // Store the generated character
-    self.generatedCharacter = newCharacter;
+  // apply Göttergeschenke and Origins modificators
+  [self apply: @"Goettergeschenke" toArchetype: newCharacter];
+  [self apply: @"Herkunft" toArchetype: newCharacter];
+    
+  // Store the generated character
+  self.generatedCharacter = newCharacter;
+  NSLog(@"AT THE END OF createCharacter: %@", self.generatedCharacter);
 }
 
 // Call this once the character generation process is complete
 - (void)completeCharacterGeneration
 {
+  NSLog(@"DSACharacterGenerationController: completeCharacterGeneration called");
   if (self.completionHandler)
     {
       self.completionHandler(self.generatedCharacter);
     }
+  NSLog(@"DSACharacterGenerationController: completeCharacterGeneration before [self close]");  
   [self close]; // Close the character generation window
+  NSLog(@"DSACharacterGenerationController: completeCharacterGeneration after [self close]");    
+}
+
+- (void) applySpellmodificatorsToArchetype: (DSACharacterHero *) archetype
+{
+  if ([archetype isKindOfClass: [DSACharacterHeroElf class]])
+    {
+      // All Elf spells can be leveled up two times per level
+      // All others only once, see: "Geheimnisse der Elfen", S. 68
+      NSMutableArray *originIdentifiers = [NSMutableArray arrayWithArray:@[ @"A", @"W", @"F"] ];
+      NSString *originIdentifier;
+      if ([archetype.archetype isEqualTo: _(@"Waldelf")])
+        {
+          originIdentifier = @"W";
+        }
+      else if ([archetype.archetype isEqualTo: _(@"Firnelf")])
+        {
+          originIdentifier = @"F";
+        }
+      else
+        {
+          originIdentifier = @"A";
+        }
+      
+      for (DSASpell *spell in [archetype.spells allValues])      
+        {
+          if ([spell.origin containsObject: originIdentifier])
+            {
+              spell.isTraditionSpell = YES;
+            }
+        
+          NSSet *spellOrigin = [NSSet setWithArray: spell.origin];
+          NSSet *otherElfOrigins = [NSSet setWithArray: originIdentifiers];
+          if ([spellOrigin intersectsSet: otherElfOrigins])
+            {
+              spell.maxUpPerLevel = @2;
+              spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];            
+            }
+        }
+    }
+  else if ([archetype isKindOfClass: [DSACharacterHeroDwarfGeode class]])  // as described in "Die Magie des schwarzen Auges", S. 49
+    {
+      NSString *ownSchool;
+      NSString *otherSchool;
+      NSLog(@"DSACHaracterGenerationController applying Geode related stuff");
+      if ([archetype.mageAcademy isEqualToString: _(@"Diener Sumus")])
+        {
+          ownSchool = @"DS";
+          otherSchool = @"HdE";
+        }
+      else
+        {
+          ownSchool = @"HdE";
+          otherSchool = @"DS";        
+        }
+      for (DSASpell *spell in [archetype.spells allValues])      
+        {
+          if ([spell.origin containsObject: ownSchool])
+            { // own school 3 attampts per try
+              spell.isTraditionSpell = YES;
+              spell.maxUpPerLevel = @3;
+              spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];              
+            }
+          else if ([spell.origin containsObject: otherSchool])
+            {
+              // other school 2 attempts per try
+              spell.maxUpPerLevel = @2;
+              spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];              
+            }
+        }      
+    }
+  else
+    {
+      NSLog(@"DSACharacterGenerationController: applySpellmodificatorsToArchetype: don't know about Archetype: %@", archetype.archetype);
+    }
+  if ([archetype element])
+    {
+      // special treatment for Archetypes specialized on one of the Elements, as described in Mysteria Arkana S. 94
+      
+
+      NSArray *elements = @[ _(@"Feuer"), _(@"Erz"), _(@"Eis"), _(@"Wasser"), _(@"Luft"), _(@"Humus")];
+      NSInteger count = [elements count];
+      NSInteger selectedIndex;
+      NSInteger oppositeIndex;
+      NSString *ownElement = [archetype element];
+      
+      selectedIndex = [elements indexOfObject: ownElement];
+      oppositeIndex = (selectedIndex + count / 2) % count;      
+      NSString *oppositeElement = [elements objectAtIndex: oppositeIndex];
+      NSLog(@"applying spell modificators for own element: %@ opposite element: %@", ownElement, oppositeElement);
+      for (DSASpell *spell in [archetype.spells allValues])
+        {
+          if ([spell element]) NSLog(@"testing spell: %@ with element: %@", [spell name], [spell element]);
+          if ([spell element] != nil)
+            {
+              if ([[spell element] isEqualToString: ownElement])
+                {
+                  NSLog(@"own element spell before: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);
+                  spell.level = [NSNumber numberWithInteger: [spell.level integerValue] + 2];
+                  if ([spell.maxUpPerLevel integerValue] < 3)
+                    {
+                      spell.maxUpPerLevel = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] + 1];
+                      spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];
+                    }
+                  NSLog(@"own element spell after: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                  
+                }
+              else if ([[spell element] isEqualToString: oppositeElement])
+                {
+                  NSLog(@"opposite element spell before: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
+                  spell.level = [NSNumber numberWithInteger: [spell.level integerValue] -3 ];
+                  spell.maxUpPerLevel = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] - 1];
+                  spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];
+                  NSLog(@"opposite element spell after: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
+                }
+              else
+                {
+                  NSLog(@"other element spell before: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
+                  if ([spell.maxUpPerLevel integerValue] >= 3)
+                    {
+                      spell.maxUpPerLevel = @2;
+                      spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];                    
+                      
+                    }
+                  NSLog(@"other element spell after: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
+                    
+                }
+            }
+        }
+    }
+  else
+    {
+      NSLog(@"The character didn't have element selected!");
+    }
 }
 
 // to apply "Göttergeschenke" or "Herkunfsmodifikatoren"
@@ -391,7 +715,6 @@
 // finds and returns all archetypes as an array
 - (NSArray *) getAllArchetypesCategories
 {
-  NSLog(@"getAllArchetypesCategories");
   NSMutableOrderedSet *categories = [[NSMutableOrderedSet alloc] init];
   
   for (NSDictionary *archetypus in archetypesDict)
@@ -465,21 +788,68 @@
   return professions;
 }
 
+// returns all relevant professions for a given Archetype in an array
+- (NSArray *) getReligionsForArchetype: (NSString *) archetype
+{
+  NSMutableArray *religions = [[NSMutableArray alloc] init];
+  NSArray *categories = [[archetypesDict objectForKey: archetype] objectForKey: @"Typkategorie"];
+  
+  if (archetype == nil)
+    {
+      return religions;
+    }
+  
+  for (NSString *god in godsDict)
+    {
+      NSDictionary *values = [godsDict objectForKey: god];
+
+      // Check Typus
+      NSArray *typusArray = [values objectForKey: @"Typus"];
+      if (typusArray)
+        {
+          for (NSString *typus in typusArray)
+            {
+              if ([archetype isEqualToString:typus])
+                {
+                  [religions addObject:god];
+                  break; // Break to avoid adding the same religion multiple times
+                }
+            }
+        }
+
+      // Check Typkategorie
+      NSArray *typkategorieArray = values[@"Typkategorie"];
+      if (typkategorieArray)
+        {
+          for (NSString *typkategorie in typkategorieArray)
+            {
+              if ([categories containsObject:typkategorie])
+                {
+                  [religions addObject:god];
+                  break; // Break to avoid adding the same religion multiple times
+                }
+            }
+        }
+    }
+
+  return religions;
+}
+
 - (NSDictionary *) getTalentsForArchetype: (NSString *)archetype
 {
-  NSMutableDictionary *talente = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary *talents = [[NSMutableDictionary alloc] init];
   
-  NSArray *talentGruppen = [NSArray arrayWithArray: [[self talentsDict] allKeys]];
-  for (NSString *talentGruppe in talentGruppen)
+  NSArray *categories = [NSArray arrayWithArray: [[self talentsDict] allKeys]];
+  for (NSString *category in categories)
     {
-      if ([@"Kampftechniken" isEqualTo: talentGruppe])
+      if ([@"Kampftechniken" isEqualTo: category])
         {
-          NSString *steigern = [NSString stringWithFormat: @"%@", [[[self talentsDict] objectForKey: talentGruppe] objectForKey: @"Steigern"]];
+          NSString *steigern = [NSString stringWithFormat: @"%@", [[[self talentsDict] objectForKey: category] objectForKey: @"Steigern"]];
           NSString *versuche = [NSString stringWithFormat: @"%li", [steigern integerValue] * 3];
          
-          for (NSString *key in [[self talentsDict] objectForKey: talentGruppe])
+          for (NSString *key in [[self talentsDict] objectForKey: category])
             {
-              NSString *waffentyp;
+              NSString *weapontype;
               NSString *startwert;
               if ([@"Steigern" isEqualTo: key])
                 {
@@ -487,18 +857,18 @@
                 }
               else
                 {
-                  waffentyp = [NSString stringWithFormat: @"%@", [[[[self talentsDict] objectForKey: talentGruppe] objectForKey: key] objectForKey: @"Waffentyp"]];
-                  startwert = [NSString stringWithFormat: @"%@", [[[[[self talentsDict] objectForKey: talentGruppe] objectForKey: key] objectForKey: @"Startwerte"] objectForKey: archetype]];
+                  weapontype = [NSString stringWithFormat: @"%@", [[[[self talentsDict] objectForKey: category] objectForKey: key] objectForKey: @"Waffentyp"]];
+                  startwert = [NSString stringWithFormat: @"%@", [[[[[self talentsDict] objectForKey: category] objectForKey: key] objectForKey: @"Startwerte"] objectForKey: archetype]];
                 }
-                [talente setValue: @{@"Startwert": startwert, @"Steigern": steigern, @"Versuche": versuche} 
-                  forKeyHierarchy: @[talentGruppe, waffentyp, key]];
+                [talents setValue: @{@"Startwert": startwert, @"Steigern": steigern, @"Versuche": versuche} 
+                  forKeyHierarchy: @[category, weapontype, key]];
             } 
         }
       else
         {
-          NSString *steigern = [NSString stringWithFormat: @"%@", [[[self talentsDict] objectForKey: talentGruppe] objectForKey: @"Steigern"]];
+          NSString *steigern = [NSString stringWithFormat: @"%@", [[[self talentsDict] objectForKey: category] objectForKey: @"Steigern"]];
           NSString *versuche = [NSString stringWithFormat: @"%li", [steigern integerValue] * 3]; 
-          for (NSString *key in [[self talentsDict] objectForKey: talentGruppe])
+          for (NSString *key in [[self talentsDict] objectForKey: category])
             {
               NSArray *probe;
               NSString *startwert;
@@ -508,14 +878,69 @@
                 }
               else
                 {
-                  probe = [NSArray arrayWithArray: [[[[self talentsDict] objectForKey: talentGruppe] objectForKey: key] objectForKey: @"Probe"]];
-                  startwert = [NSString stringWithFormat: @"%@", [[[[[self talentsDict] objectForKey: talentGruppe] objectForKey: key] objectForKey: @"Startwerte"] objectForKey: archetype]];
+                  probe = [NSArray arrayWithArray: [[[[self talentsDict] objectForKey: category] objectForKey: key] objectForKey: @"Probe"]];
+                  startwert = [NSString stringWithFormat: @"%@", [[[[[self talentsDict] objectForKey: category] objectForKey: key] objectForKey: @"Startwerte"] objectForKey: archetype]];
                 }
-                [talente setValue: @{@"Startwert": startwert, @"Probe": probe, @"Steigern": steigern, @"Versuche": versuche} forKeyHierarchy: @[talentGruppe, key]];
+                [talents setValue: @{@"Startwert": startwert, @"Probe": probe, @"Steigern": steigern, @"Versuche": versuche} forKeyHierarchy: @[category, key]];
             }       
         }
     }
-  return talente;
+  return talents;
+}
+
+- (NSDictionary *) getSpellsForArchetype: (NSString *)archetype
+{
+  NSMutableDictionary *spells = [[NSMutableDictionary alloc] init];
+  
+  NSArray *categories = [NSArray arrayWithArray: [[self spellsDict] allKeys]];
+  
+  NSString *typus;
+  if ([archetype isEqualToString: _(@"Geode")])
+    {
+      // For Geode, the different start values are in the .json dictionary directly
+      typus = [[self.popupMageAcademies selectedItem] title];
+    }
+  else
+    {
+      typus = archetype;
+    }
+  
+  for (NSString *category in categories)
+    {
+
+          NSString *steigern = @"1";
+          NSString *versuche = [NSString stringWithFormat: @"%li", [steigern integerValue] * 3];
+          for (NSString *key in [[self spellsDict] objectForKey: category])
+            {
+              NSArray *probe;
+              NSArray *origin;
+              NSString *startwert;
+              NSString *element = nil;
+              probe = [NSArray arrayWithArray: [[[[self spellsDict] objectForKey: category] objectForKey: key] objectForKey: @"Probe"]];
+              origin = [NSArray arrayWithArray: [[[[self spellsDict] objectForKey: category] objectForKey: key] objectForKey: @"Ursprung"]];
+              NSLog(@"getting element!!!!!!!!! %@", [[[self spellsDict] objectForKey: category] objectForKey: key]);
+              if ([[[[[self spellsDict] objectForKey: category] objectForKey: key] allKeys] containsObject: @"Element"])
+                {
+                  NSLog(@"HERE IN IF");
+                  element = [NSString stringWithString: [[[[self spellsDict] objectForKey: category] objectForKey: key] objectForKey: @"Element"]];
+                }
+              else
+                {
+                  element = nil;
+                }
+              NSLog(@"got element %@", element);            
+              startwert = [NSString stringWithFormat: @"%@", [[[[[self spellsDict] objectForKey: category] objectForKey: key] objectForKey: @"Startwerte"] objectForKey: typus]];
+              if (element)
+                {
+                  [spells setValue: @{@"Startwert": startwert, @"Probe": probe, @"Ursprung": origin, @"Steigern": steigern, @"Versuche": versuche, @"Element": element} forKeyHierarchy: @[category, key]];
+                }
+              else
+                {
+                  [spells setValue: @{@"Startwert": startwert, @"Probe": probe, @"Ursprung": origin, @"Steigern": steigern, @"Versuche": versuche} forKeyHierarchy: @[category, key]];   
+                }
+            }
+    }
+  return spells;  
 }
 
 /* generates positive traits, as described in
@@ -619,11 +1044,14 @@
      {
        [money setObject: [NSNumber numberWithInt: [[Utils rollDice: @"2W20"] integerValue] + 20] forKey: @"D"];
      }
-   else if ([socialStatus isEqualTo: @"adelig"])
+   else if ([socialStatus isEqualTo: @"adelig"] || [socialStatus isEqualTo: @"unbekannt"]) // "unbekannt" can be quite rich, or poor 
      {
        [money setObject: [Utils rollDice: @"3W20"] forKey: @"D"];
      }
-  NSLog(@"Money: %@", money);
+   else
+     {
+       NSLog(@"DSACharacterGenerationController: generateWealth: don't know how to handle socialStatus: %@", socialStatus);
+     }
   return money;
 }
 
@@ -745,6 +1173,214 @@
   return [NSString stringWithFormat: @"%u", (weight + [height intValue])];
 }
 
+- (void) makeCharacterAMagicalDabbler
+{
+
+  NSLog(@"makeCharacterAMagicalDabbler called");
+  [self.generatedCharacter setIsMagicalDabbler: YES];
+  NSInteger diceResult = [[Utils rollDice: @"1W20"] integerValue];
+  self.magicalDabblerDiceResult = diceResult;
+  
+  NSNumber *ae = [NSNumber numberWithInteger: [[Utils rollDice: @"1W6"] integerValue] + 3];
+  [self.generatedCharacter setAstralEnergy: ae];
+  [self.generatedCharacter setCurrentAstralEnergy: ae];  
+  
+  NSString *headline;
+  NSString *secondLine;
+
+  if (!self.windowMagicalDabbler)
+    {
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSACharacterGenerationMagicalDabbler" owner:self];
+    }
+  [self.windowMagicalDabbler makeKeyAndOrderFront:nil];  
+    
+  if (diceResult == 1)
+    {
+      headline = [NSString stringWithFormat: _(@"%@ besitzt %@ AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen. Weiterhin kann er 3 Zauber aus der unten stehenden Liste wählen."),
+                                             [self.generatedCharacter name], ae];
+      secondLine = _(@"3 Zaubersprüche auswählen");
+      self.magicalDabblerMaxSwitchesToBeSelected = 3;
+      [self.buttonMagicalDabblerFinish setEnabled: NO];
+    }
+  else if (diceResult >= 2 && diceResult <= 6)
+    {
+      headline = [NSString stringWithFormat: _(@"%@ besitzt %@ AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen. Weiterhin kann er 2 Zauber aus der unten stehenden Liste wählen."),
+                                             [self.generatedCharacter name], ae];
+      secondLine = _(@"2 Zaubersprüche auswählen");                                                   
+      self.magicalDabblerMaxSwitchesToBeSelected = 2; 
+      [self.buttonMagicalDabblerFinish setEnabled: NO];     
+    }
+  else if (diceResult >= 7 && diceResult <= 15)    
+    {
+      headline = [NSString stringWithFormat: _(@"%@ besitzt %@ AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen. Weiterhin kann er 1 Zauber aus der unten stehenden Liste wählen."),
+                                             [self.generatedCharacter name], ae];
+      secondLine = _(@"1 Zauberspruch auswählen");                                                   
+      self.magicalDabblerMaxSwitchesToBeSelected = 1; 
+      [self.buttonMagicalDabblerFinish setEnabled: NO];     
+    }
+  else if (diceResult >= 16 && diceResult <= 19)
+    {
+      headline = [NSString stringWithFormat: _(@"%@ besitzt %@ AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen."),
+                                             [self.generatedCharacter name], ae];
+      secondLine = @"";  
+      [self.buttonMagicalDabblerFinish setEnabled: YES];    
+    }
+  else if (diceResult == 20)
+    {
+      headline = [NSString stringWithFormat: _(@"%@ besitzt %@ AE und kann seine AE für einen 'Schutzgeist' oder das 'Magische Meisterhandwerk' einsetzen."),
+                                             [self.generatedCharacter name], ae];
+      secondLine = _(@"Auswählen");     
+      self.magicalDabblerMaxSwitchesToBeSelected = 1; 
+      [self.buttonMagicalDabblerFinish setEnabled: NO];     
+    }
+NSLog(@"behind all these if else dance");    
+
+NSLog(@"loaded interface!");    
+  [self.fieldHeadline setStringValue: headline];
+  [self.fieldSecondLine setStringValue: secondLine];
+NSLog(@"diceResult %li", diceResult);  
+  if (diceResult >= 1 && diceResult <= 15)
+    {
+      NSArray *magicalDabblerSpells = [magicalDabblerSpellsDict allValues];
+      NSLog(@"magicalDabblerSpells: %@", magicalDabblerSpells);
+      NSMutableArray *allSpells = [NSMutableArray array];
+      for (NSArray *spells in magicalDabblerSpells)
+        {
+          [allSpells addObjectsFromArray: spells];
+        }
+      NSLog(@"added all spells: %@", allSpells);
+      for (NSInteger i=0; i< 20; i++)
+        {
+          NSString *fieldName = [NSString stringWithFormat: @"switchMagicalDabbler%li", i];
+          NSLog(@"field name: %@", fieldName);
+          [[self valueForKey: fieldName] setTitle: [allSpells objectAtIndex: i]];
+        }
+    }
+  else if (diceResult >= 16 && diceResult <= 19)
+    {
+      for (NSInteger i=0; i< 20; i++)
+        {
+          NSString *fieldName = [NSString stringWithFormat: @"switchMagicalDabbler%li", i];
+          [[self valueForKey: fieldName] setHidden: YES];
+          [[self valueForKey: fieldName] setEnabled: NO];          
+        }      
+    }
+  else if (diceResult == 20)
+    {
+      [self.switchMagicalDabbler0 setTitle: _(@"Schutzgeist")];
+      [self.switchMagicalDabbler1 setTitle: _(@"Magisches Meisterhandwerk")];      
+      for (NSInteger i=2; i< 20; i++)
+        {
+          NSString *fieldName = [NSString stringWithFormat: @"switchMagicalDabbler%li", i];
+          [[self valueForKey: fieldName] setHidden: YES];
+          [[self valueForKey: fieldName] setEnabled: NO];          
+        }      
+    }
+  // [self.buttonMagicalDabblerFinish setEnabled: NO];
+}
+
+- (IBAction) switchMagicalDabblerSelected: (id)sender
+{
+  NSLog(@"switchMagicalDabblerSelected called");
+  NSInteger counter = 0;
+  for (NSInteger i=0; i< 19; i++)
+    {
+      NSString *fieldName = [NSString stringWithFormat: @"switchMagicalDabbler%li", i];
+      if ([[self valueForKey: fieldName] state] == 1)
+        {
+          counter++;
+        }
+    }
+  if (counter == self.magicalDabblerMaxSwitchesToBeSelected)
+    {
+      [self.buttonMagicalDabblerFinish setEnabled: YES];
+    }
+  else
+    {
+      [self.buttonMagicalDabblerFinish setEnabled: NO];
+    }
+}
+
+- (IBAction) buttonMagicalDabblerFinish: (id)sender
+{
+
+  NSLog(@"buttonMagicalDabblerFinish have to do the magical dabbler thing on the generated character...");
+  
+  if (self.magicalDabblerDiceResult >= 1 && self.magicalDabblerDiceResult <= 15)
+    {
+      NSMutableDictionary * newTalents = [[NSMutableDictionary alloc] init];    
+      for (NSString *specialTalent in @[_(@"Schutzgeist"), _(@"Magisches Meisterhandwerk")])
+        {
+          DSASpecialTalent *talent = [[DSASpecialTalent alloc] initTalent: specialTalent
+                                                               ofCategory: _(@"Spezialtalent")
+                                                                  onLevel: @0
+                                                                 withTest: nil
+                                                   withMaxTriesPerLevelUp: @0
+                                                        withMaxUpPerLevel: @0
+                                                          withLevelUpCost: @0];
+          if ([specialTalent isEqualToString: _(@"Magisches Meisterhandwerk")])                                             
+            {
+              [talent setTest: @[ @"IN"] ];
+            }
+          [newTalents setObject: talent forKey: specialTalent];
+        }
+    
+      [(DSACharacterHero *)self.generatedCharacter setSpecials: newTalents];
+      NSMutableDictionary *newSpells = [[NSMutableDictionary alloc] init];
+      NSDictionary *spells = [[NSDictionary alloc] init];
+      spells = [self getSpellsForArchetype: @"Magier"];      // doesn't matter what we use, we initialize the values differently
+      for (NSInteger i=0; i< 19; i++)
+        {
+          NSString *fieldName = [NSString stringWithFormat: @"switchMagicalDabbler%li", i];
+
+          if ([[self valueForKey: fieldName] state] == 1)
+            {
+               NSLog(@"testing spell: %@", [[self valueForKey: fieldName] title]);
+               for (NSString *category in spells)
+                 {
+                    for (NSString *s in [spells objectForKey: category])
+                      {
+                        if ([s isEqualToString: [[self valueForKey: fieldName] title]])
+                          {
+                            NSDictionary *sDict = [[spells objectForKey: category] objectForKey: s];
+                            DSASpell *spell = [[DSASpell alloc] initSpell: s
+                                                               ofCategory: category
+                                                                  onLevel: @-3
+                                                               withOrigin: [sDict objectForKey: @"Ursprung"]
+                                                                 withTest: [sDict objectForKey: @"Probe"]
+                                                   withMaxTriesPerLevelUp: @3
+                                                        withMaxUpPerLevel: @1
+                                                          withLevelUpCost: @2]; 
+                            [newSpells setObject: spell forKey: s];
+                          }
+                      }
+                 }
+            }
+        }
+      [(DSACharacterHero *)self.generatedCharacter setSpells: newSpells];
+    }
+  else if (self.magicalDabblerDiceResult >= 16 && self.magicalDabblerDiceResult <= 19)
+    {
+      [(DSACharacterHero *)self.generatedCharacter setSpecials: [NSMutableDictionary dictionaryWithDictionary: @{ _(@"Schutzgeist"): @{}, _(@"Magisches Meisterhandwerk"): @{}}]];
+    }
+  else if (self.magicalDabblerDiceResult == 20)
+    {
+      for (NSInteger i=0; i< 2; i++)
+        {
+          NSString *fieldName = [NSString stringWithFormat: @"switchMagicalDabbler%li", i];
+          if ([[self valueForKey: fieldName] state] == 1)
+            {
+              [(DSACharacterHero *)self.generatedCharacter setSpecials: [NSMutableDictionary dictionaryWithDictionary: @{ [[self valueForKey: fieldName] title]: @{}}]];
+              break;
+            }
+        }
+    }
+    
+  [self.windowMagicalDabbler close];
+  [self completeCharacterGeneration];
+}
+
 - (void) setBackgroundColorForTraitsField: (NSString *) fieldName
 {
   NSString *traitsFieldName = [NSString stringWithFormat: @"field%@", fieldName];
@@ -809,12 +1445,11 @@
 
 - (IBAction) popupCategorySelected: (id)sender
 {
-  NSLog(@"popupCategorySelected got called");
   if ([sender indexOfSelectedItem] == 0)
     {
       return;
     }
-  
+NSLog(@"popupCategorySelected called!");  
   [self.popupArchetypes removeAllItems];
   [self.popupArchetypes addItemWithTitle: _(@"Typus wählen")];
   [self.popupArchetypes addItemsWithTitles: [self getAllArchetypesForCategory: [[self.popupCategories selectedItem] title]]];
@@ -827,13 +1462,13 @@
   [self.popupMageAcademies addItemWithTitle: _(@"Akademie wählen")];        
   [self.popupOrigins setEnabled: NO];
   [self.popupProfessions setEnabled: NO];  
-  [self.popupMageAcademies setEnabled: NO];    
+  [self.popupMageAcademies setEnabled: NO];
+  [self.popupElements setEnabled: NO];
+  [self.popupReligions setEnabled: NO];     
 }
 
 - (IBAction) popupArchetypeSelected: (id)sender
 {
-
-  NSLog(@"popupArchetypeSelected got called");
   if ([sender indexOfSelectedItem] == 0)
     {
       return;
@@ -841,28 +1476,66 @@
 
   NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [archetypesDict objectForKey: [[self.popupArchetypes selectedItem] title]]];
       
-  if ( [[[self.popupArchetypes selectedItem] title] isEqualToString: @"Magier"] )
+  if ( [[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Magier")] )
     {
       [self.popupMageAcademies setEnabled: YES];
       [self.popupMageAcademies removeAllItems];
       [self.popupMageAcademies addItemWithTitle: _(@"Akademie wählen")];      
       [self.popupMageAcademies addItemsWithTitles: [mageAcademiesDict allKeys]];
+      [self.popupMageAcademies setTarget:self];
+      [self.popupMageAcademies setAction:@selector(popupMageAcademiesSelected:)];      
       [self.fieldMageSchool setStringValue: _(@"Magierakademie")];
     }
-  else if ( [[[self.popupArchetypes selectedItem] title] isEqualToString: @"Geode"] )
+  else if ( [[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Geode")] )
     {
       [self.popupMageAcademies setEnabled: YES];
       [self.popupMageAcademies removeAllItems];
-      [self.popupMageAcademies addItemWithTitle: _(@"Schule wählen")];
       [self.popupMageAcademies addItemsWithTitles: [charConstraints objectForKey: @"Schule"]];
-      [self.fieldMageSchool setStringValue: _(@"Geodische Schule")];
+      [self.popupMageAcademies setTarget:self];
+      [self.popupMageAcademies setAction:@selector(popupMageAcademiesSelected:)]; 
+      [self.fieldMageSchool setStringValue: _(@"Geodische Schule")];           
+    }
+  else if ([[charConstraints allKeys] containsObject: @"Magiedilettant"])
+    {
+      [self.popupMageAcademies setEnabled: YES];
+      [self.popupMageAcademies removeAllItems];
+      [self.popupMageAcademies addItemsWithTitles: @[_(@"Nein"), _(@"Ja")]];      
+      [self.popupMageAcademies setTarget:self];
+      [self.popupMageAcademies setAction:@selector(popupMagicDabblerSelected:)];      
+      [self.fieldMageSchool setStringValue: _(@"Magiedilettant")];
     }
   else
     {
       [self.popupMageAcademies selectItemAtIndex: 0];    
       [self.popupMageAcademies setEnabled: NO];   
-      [self.popupMageAcademies setTitle: _(@"Akademie")];  
+      [self.popupMageAcademies setTitle: _(@"Akademie")]; 
+      [self.popupMageAcademies setTarget:self];
+      [self.popupMageAcademies setAction:@selector(popupMageAcademiesSelected:)];       
       [self.fieldMageSchool setStringValue: _(@"Magierakademie")];
+    }
+    
+  if ([[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Geode")] || 
+      [[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Druide")])
+    {
+      [self.popupElements setEnabled: YES];
+      [self.popupElements removeAllItems];
+      [self.popupElements addItemWithTitle: @"Element wählen"];
+      [self.popupElements addItemsWithTitles: [charConstraints objectForKey: @"Elemente"]];
+    }
+  else
+    {
+      [self.popupElements setEnabled: NO];
+    }
+  NSArray *religions = [self getReligionsForArchetype: [[self.popupArchetypes selectedItem] title]];
+  if (religions)
+    {
+      [self.popupReligions setEnabled: YES];
+      [self.popupReligions removeAllItems];
+      [self.popupReligions addItemsWithTitles: religions];
+    }
+  else
+    {
+      [self.popupReligions setEnabled: NO];
     }
         
   // Die Herkünfte
@@ -920,10 +1593,7 @@
 
 - (IBAction) popupOriginSelected: (id)sender
 {
-
-  NSLog(@"popupOriginSelected got called");
-
-  // einige Herkünfte haben extra Bedingungen
+  // some origins have extra constraints
   NSDictionary *originConstraints = [[originsDict objectForKey: [[self.popupOrigins selectedItem] title]] objectForKey: @"Basiswerte"];  
   for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK", 
                             @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
@@ -935,11 +1605,31 @@
     }    
 }
 
-- (IBAction) popupProfessionSelected: (id)sender
+- (IBAction) popupMagicDabblerSelected: (id)sender
 {
+  if ([[[self.popupMageAcademies selectedItem] title] isEqualToString: _(@"Ja")])
+    {      
+      // As described in "Die Magie des Schwarzen Auges", S. 36
+      NSDictionary *magicDabblerConstraints = @{ @"KL": @"10+", @"IN": @"13+", @"AG": @"6+" };
+      for (NSString *field in @[ @"KL", @"IN", @"AG" ])
+        {
+          NSString *curVal = [[self valueForKey: [NSString stringWithFormat: @"field%@Constraint", field]] stringValue];
+          NSString *curValNr = [curVal stringByReplacingOccurrencesOfString:@"+" withString:@""];
+          NSString *dabblerValNr = [[magicDabblerConstraints objectForKey: field] stringByReplacingOccurrencesOfString: @"+" withString: @""];
+          if ([curValNr integerValue] < [dabblerValNr integerValue])
+            {
+              [[self valueForKey: [NSString stringWithFormat: @"field%@Constraint", field]] setStringValue: [magicDabblerConstraints objectForKey: field]];
+            }             
+        }
+    }
+  else
+    {
+      NSLog(@"DSACharacterGenerationController: popupMagicDabblerSelected: I should reset the Magic Dabbler Constraints!!!!");
+    }
+}
 
-  NSLog(@"popupProfessionSelected got called");
-  
+- (IBAction) popupProfessionSelected: (id)sender
+{  
   NSDictionary *professionConstraints = [[[professionsDict objectForKey: [[self.popupProfessions selectedItem] title]] objectForKey: @"Bedingung"] objectForKey: @"Basiswerte"];  
   for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK", 
                              @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
@@ -958,38 +1648,32 @@
 
 - (IBAction) popupMageAcademySelected: (id)sender
 {
-
-  NSLog(@"popupMageAcademySelected got called");
-  
-//  [aktiverCharakter setMagischeSchule: [[popupWinCharDefMagischeSchule selectedItem] title]];
-  
 }
 
 - (IBAction) popupSexSelected: (id)sender
 {
-
-  NSLog(@"popupSexSelected got called");
-  
-//  [aktiverCharakter setMagischeSchule: [[popupWinCharDefMagischeSchule selectedItem] title]];
-  
 }
 
 - (IBAction) buttonGenerateClicked: (id)sender
 {
-  NSLog(@"HERE in buttonGeneratePressed");
-
   NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [archetypesDict objectForKey: [[self.popupArchetypes selectedItem] title]]];
   NSArray *positiveArr = [NSArray arrayWithArray: [self generatePositiveTraits]];
   NSArray *negativeArr = [NSArray arrayWithArray: [self generateNegativeTraits]];
   NSDictionary *birthday = [[NSDictionary alloc] init];
   NSDictionary *socialStatusParents = [self generateFamilyBackground: [[self.popupArchetypes selectedItem] title]];
+  if ([[self.fieldMageSchool stringValue] isEqualToString: _(@"Magiedilettant")])
+    {
+      while ([@[_(@"reich"), _(@"adelig")] containsObject: [socialStatusParents objectForKey: @"Stand"]])
+        {
+          socialStatusParents = [self generateFamilyBackground: [[self.popupArchetypes selectedItem] title]];        
+        }
+    }
   NSDictionary *wealthDict = [self generateWealth: [socialStatusParents objectForKey: @"Stand"]];
   
   [self.fieldHairColor setStringValue: [self generateHairColorForArchetype: [[self.popupArchetypes selectedItem] title]]];
   [self.fieldEyeColor setStringValue: [self generateEyeColorForArchetype: [[self.popupArchetypes selectedItem] title] withHairColor: [self.fieldHairColor stringValue]]];  
   birthday = [self generateBirthday];
   [self.fieldBirthday setStringValue: [birthday objectForKey: @"date"]];
-  [self.fieldGod setStringValue: [birthday objectForKey: @"month"]];
   [self.fieldHeight setStringValue: [self generateHeightForArchetype: [[self.popupArchetypes selectedItem] title]]];
   [self.fieldWeight setStringValue: [self generateWeightForArchetype: [[self.popupArchetypes selectedItem] title] withHeight: [self.fieldHeight stringValue]]];
   [self.fieldName setEnabled: YES];
@@ -1022,8 +1706,15 @@
                                               [wealthDict objectForKey: @"S"], 
                                               [wealthDict objectForKey: @"H"], 
                                               [wealthDict objectForKey: @"K"]]];
-  [self.fieldStars setStringValue: [[[self godsDict] objectForKey: [birthday objectForKey: @"month"]] objectForKey: @"Sternbild"]];
-
+  for (NSString *god in [[self godsDict] allKeys])
+    {
+      if ([[[[self godsDict] objectForKey: god] objectForKey: @"Monat"] isEqualToString: [birthday objectForKey: @"month"]])
+        {
+          [self.fieldStars setStringValue: [[[self godsDict] objectForKey: god] objectForKey: @"Sternbild"]];
+          [self.fieldGod setStringValue: god];
+          break;
+        }
+    }
   
   // positive traits  
   int i = 0;
@@ -1067,13 +1758,32 @@
 
 - (IBAction)buttonFinishClicked:(id)sender
 {
-  NSLog(@"DSACharacterGenerationController: finishCharacterCreation was called");
-
   // Validate all required fields, create the appropriate character subclass
   [self createCharacter:sender];
 
-  // Complete the character generation and trigger the completion handler
-  [self completeCharacterGeneration];
+  NSLog(@"DSACharacterGenerationController buttonFinishClicked: after createCharacter, going to test for Magical Dabbler");
+  // A Magical Dabbler
+  if ([self.popupMageAcademies isEnabled] && ![self.generatedCharacter conformsToProtocol:@protocol(DSACharacterMagic)])
+    {
+        NSLog(@"DSACharacterGenerationController buttonFinishClicked: first IF test survived");
+      if ([[[self.popupMageAcademies selectedItem] title] isEqualToString: _(@"Ja")])
+        {
+        NSLog(@"DSACharacterGenerationController buttonFinishClicked: second IF test survived");
+        
+          [self makeCharacterAMagicalDabbler];
+        }
+      else
+        {
+          NSLog(@"DSACharacterGenerationController buttonFinishClicked: it was chosen NOT to create a magical dabbler, going to complete character generation");
+          [self completeCharacterGeneration];
+        }
+    }
+  else 
+    { 
+      // Complete the character generation and trigger the completion handler
+      NSLog(@"DSACharacterGenerationController buttonFinishClicked: not a magical dabbler, going to complete character generation");
+      [self completeCharacterGeneration];
+    }
 }
 
 - (IBAction) buttonTraitsClicked: (id)sender

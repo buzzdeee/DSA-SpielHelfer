@@ -1,0 +1,19 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSACharacterWindowController = {
+	Actions = (
+	    "verifyAndFinishAddAdventurePoints:"
+	);
+	Outlets = (
+	    fieldAdditionalAdventurePoints,
+	    adventurePointsPanel
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "verifyAndFinishAddAdventurePoints:"
+	);
+	Super = NSObject;
+    };
+}

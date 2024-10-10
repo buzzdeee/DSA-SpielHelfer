@@ -30,11 +30,9 @@
 @class DSACharacter;
 
 @interface DSACharacterGenerationController : NSWindowController
-{
-
-}
 
 @property (readonly) NSMutableDictionary *talentsDict;
+@property (readonly) NSMutableDictionary *spellsDict;
 @property (readonly) NSMutableDictionary *archetypesDict;
 @property (readonly) NSMutableDictionary *professionsDict;
 @property (readonly) NSMutableDictionary *originsDict;
@@ -42,6 +40,7 @@
 @property (readonly) NSMutableDictionary *eyeColorsDict;
 @property (readonly) NSMutableDictionary *birthdaysDict;
 @property (readonly) NSMutableDictionary *godsDict;
+@property (readonly) NSMutableDictionary *magicalDabblerSpellsDict;
 @property (readonly) NSMutableArray *portraitsArray;
 @property (nonatomic, assign) NSInteger currentPortraitIndex; // To track the current image index
 
@@ -49,6 +48,9 @@
 @property (nonatomic, copy) void (^completionHandler)(DSACharacter *newCharacter);
 // used to juggle around positive and negative traits
 @property (nonatomic, strong) NSMutableDictionary *traitsDict;
+// used to keep track, how many switches to select at a maximum in the Magical Dabbler creation
+@property (nonatomic) NSInteger magicalDabblerMaxSwitchesToBeSelected;
+@property (nonatomic) NSInteger magicalDabblerDiceResult;
 @property (nonatomic, strong) NSDictionary *birthday;
 @property (nonatomic, strong) NSDictionary *wealth;
 // UI elements
@@ -58,6 +60,8 @@
 @property (weak) IBOutlet NSPopUpButton *popupOrigins;
 @property (weak) IBOutlet NSPopUpButton *popupProfessions;
 @property (weak) IBOutlet NSPopUpButton *popupMageAcademies;
+@property (weak) IBOutlet NSPopUpButton *popupElements;
+@property (weak) IBOutlet NSPopUpButton *popupReligions;
 @property (weak) IBOutlet NSPopUpButton *popupSex;
 @property (weak) IBOutlet NSButton *buttonGenerate;
 @property (weak) IBOutlet NSButton *buttonFinish;
@@ -117,6 +121,33 @@
 @property (weak) IBOutlet NSButton *buttonGG;
 @property (weak) IBOutlet NSButton *buttonJZ;
 @property (weak) IBOutlet NSImageView *imageViewPortrait;
+
+
+// following properties are Magical Dabbler window related
+@property (weak) IBOutlet NSWindow *windowMagicalDabbler;
+@property (weak) IBOutlet NSTextField *fieldHeadline;
+@property (weak) IBOutlet NSTextField *fieldSecondLine;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler0;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler1;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler2;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler3;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler4;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler5;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler6;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler7;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler8;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler9;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler10;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler11;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler12;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler13;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler14;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler15;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler16;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler17;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler18;
+@property (weak) IBOutlet NSButton *switchMagicalDabbler19;
+@property (weak) IBOutlet NSButton *buttonMagicalDabblerFinish;
 
 // Trigger character generation
 - (void)startCharacterGeneration: (id) sender;

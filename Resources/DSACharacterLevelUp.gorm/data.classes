@@ -4,7 +4,8 @@
 	Actions = (
 	    "showLevelUpPositiveTraits:",
 	    "closePanel:",
-	    "buttonLevelUpDoIt:"
+	    "buttonLevelUpDoIt:",
+	    "popupLevelUpBottomSelected:"
 	);
 	Outlets = (
 	    congratsPanel,
@@ -17,15 +18,19 @@
 	    popupLevelUpTop,
 	    popupLevelUpBottom,
 	    buttonLevelUpDoIt,
-	    fieldLevelUpFeedback
+	    fieldLevelUpFeedback,
+	    fieldCongratsMainTextLine2,
+	    buttonCongratsLater,
+	    buttonCongratsNow
 	);
 	Super = NSWindowController;
     };
     FirstResponder = {
 	Actions = (
+	    "buttonLevelUpDoIt:",
 	    "closePanel:",
-	    "showLevelUpPositiveTraits:",
-	    "buttonLevelUpDoIt:"
+	    "popupLevelUpBottomSelected:",
+	    "showLevelUpPositiveTraits:"
 	);
 	Super = NSObject;
     };

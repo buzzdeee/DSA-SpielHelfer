@@ -1,0 +1,43 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSACharacterGenerationController = {
+	Actions = (
+	    "buttonMagicalDabblerFinish:",
+	    "switchMagicalDabblerSelected:"
+	);
+	Outlets = (
+	    fieldHeadline,
+	    fieldSecondLine,
+	    switchMagicalDabbler0,
+	    switchMagicalDabbler1,
+	    switchMagicalDabbler2,
+	    switchMagicalDabbler3,
+	    switchMagicalDabbler4,
+	    switchMagicalDabbler5,
+	    switchMagicalDabbler6,
+	    switchMagicalDabbler7,
+	    switchMagicalDabbler8,
+	    switchMagicalDabbler9,
+	    switchMagicalDabbler10,
+	    switchMagicalDabbler11,
+	    switchMagicalDabbler12,
+	    switchMagicalDabbler13,
+	    switchMagicalDabbler14,
+	    switchMagicalDabbler15,
+	    switchMagicalDabbler16,
+	    switchMagicalDabbler17,
+	    switchMagicalDabbler18,
+	    switchMagicalDabbler19,
+	    windowMagicalDabbler,
+	    buttonMagicalDabblerFinish
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "buttonMagicalDabblerFinish:",
+	    "switchMagicalDabblerSelected:"
+	);
+	Super = NSObject;
+    };
+}

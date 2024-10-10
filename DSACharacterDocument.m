@@ -26,6 +26,8 @@
 #import "DSACharacterWindowController.h"
 #import "DSACharacter.h"
 
+#import <execinfo.h>
+
 @implementation DSACharacterDocument
 
 @synthesize model = _model;
@@ -42,6 +44,11 @@
   return self;
 }
 
+- (void)dealloc
+{
+  NSLog(@"DSACharacterDocument is being deallocated.");
+}
+
 - (NSString *)windowNibName
 {
   NSLog(@"DSACharacterDocument: windowNibName was called");
@@ -52,16 +59,80 @@
 // we don't want the windows to pop up on startup
 - (void)makeWindowControllers
 {
+
+// Log call stack
+NSLog(@"DSACharacterDocument: makeWindowControllers self: %@, model: %@", self, [self.model class]);
+    void *callstack[128];
+    int frames = backtrace(callstack, 128);
+    char **strs = backtrace_symbols(callstack, frames);
+
+    NSLog(@"Call stack:");
+    for (int i = 0; i < frames; i++) {
+        NSLog(@"%s", strs[i]);
+    }
+    free(strs);
+    
+NSLog(@"DSACharacterDocument: makeWindowControllers self: %@", self);
+  
+  if (self.windowControllersCreated)
+    {
+      NSLog(@"DSACharacterDocument: windowControllers already created");
+      return; // Don't create again
+    }
+    self.windowControllersCreated = YES;
+
   // Characters are all some kind of subclass
   // prevents loading the window on startup
+  NSLog(@"DSACharacterDocument makeWindowControllers called model class: %@", [self.model class]);
+  
   if (![self.model isMemberOfClass:[DSACharacter class]])
     {
       DSACharacterWindowController *windowController = [[DSACharacterWindowController alloc] initWithWindowNibName:[self windowNibName]];
       [self addWindowController:windowController];
       
-      NSLog(@"DSACharacterDocument makeWindowControllers called");
+      NSLog(@"DSACharacterDocument makeWindowControllers called, and it was DSACharacter class" );
     }
 }
+
+/* 
+// we don't want the windows to pop up on startup
+- (void)makeWindowControllersForNewDocument
+{
+// Log call stack
+    void *callstack[128];
+    int frames = backtrace(callstack, 128);
+    char **strs = backtrace_symbols(callstack, frames);
+
+    NSLog(@"Call stack:");
+    for (int i = 0; i < frames; i++) {
+        NSLog(@"%s", strs[i]);
+    }
+    free(strs);
+
+
+NSLog(@"DSACharacterDocument: makeWindowControllers self: %@", self);
+  
+  if (self.windowControllersCreated)
+    {
+      NSLog(@"DSACharacterDocument: windowControllers already created");
+      return; // Don't create again
+    }
+    self.windowControllersCreated = YES;
+
+  // Characters are all some kind of subclass
+  // prevents loading the window on startup
+  NSLog(@"DSACharacterDocument makeWindowControllers called model class: %@", [self.model class]);
+  
+  if (![self.model isMemberOfClass:[DSACharacter class]])
+    {
+      DSACharacterWindowController *windowController = [[DSACharacterWindowController alloc] initWithWindowNibName:[self windowNibName]];
+      [self addWindowController:windowController];
+      
+      NSLog(@"DSACharacterDocument makeWindowControllers called, and it was DSACharacter class" );
+    }
+}
+
+*/
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
@@ -141,6 +212,14 @@
   [self updateChangeCount:NSChangeCleared];
     
   // Force initialization of the UI if lazy loading is used
+  if (self.windowControllersCreated)
+    {
+      NSLog(@"DSACharacterDocument: windowControllers already created");
+      //[windowController showWindow:self];
+      
+      return YES; // Don't create again
+    }  
+  self.windowControllersCreated = YES;  
   DSACharacterWindowController *windowController = [[DSACharacterWindowController alloc] initWithWindowNibName:[self windowNibName]];
   [self addWindowController:windowController];
   [windowController showWindow:self];

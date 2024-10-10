@@ -3,7 +3,11 @@
     AppController = {
 	Actions = (
 	    "showPrefPanel:",
-	    "newCharacterGeneration:"
+	    "newCharacterGeneration:",
+	    "levelUp:",
+	    "manageMoney:",
+	    "addAdventurePoints:",
+	    "useTalent:"
 	);
 	Outlets = (
 	);
@@ -24,11 +28,28 @@
 	);
 	Super = NSWindowController;
     };
+    DSADocumentController = {
+	Actions = (
+	    "levelUpBaseValues:",
+	    "addAdventurePoints:",
+	    "manageMoney:",
+	    "useTalent:"
+	);
+	Outlets = (
+	);
+	Super = NSDocumentController;
+    };
     FirstResponder = {
 	Actions = (
+	    "addAdventurePoints:",
+	    "levelUp:",
+	    "levelUpBaseValues:",
+	    "manageMoney:",
+	    "newAction:",
 	    "newCharacterGeneration:",
 	    "orderFrontFontPanel:",
-	    "showPrefPanel:"
+	    "showPrefPanel:",
+	    "useTalent:"
 	);
 	Super = NSObject;
     };

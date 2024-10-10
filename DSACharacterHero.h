@@ -33,11 +33,28 @@
 @interface DSACharacterHero : DSACharacter
 
 @property (nonatomic, copy) NSMutableDictionary *talents;
+@property (nonatomic, copy) NSMutableDictionary *spells;
+@property (nonatomic, copy) NSMutableDictionary *specials;
+@property (nonatomic, copy) NSMutableDictionary *professions;
+@property (nonatomic, copy) NSMutableDictionary *levelUpTalents;       // used to track talent level up attempts when reching a new level
+@property (nonatomic, copy) NSMutableDictionary *levelUpSpells;        // used to track spell level up attempts when reching a new level
+@property (nonatomic, copy) NSMutableDictionary *levelUpProfessions;   // used to track profession level up attempts when reching a new level
+@property (nonatomic, copy) NSNumber *maxLevelUpTalentsTries;          // how often to try to level up all talents/professions (professions mix in here...)
+@property (nonatomic, copy) NSNumber *maxLevelUpSpellsTries;           // how often to try to level up all spells
+@property (nonatomic, copy) NSNumber *maxLevelUpTalentsTriesTmp;       // holding nr of overall talent tries, once variable tries is distributed
+@property (nonatomic, copy) NSNumber *maxLevelUpSpellsTriesTmp;        // holding nr of overall spell tries, once variable tries is distributed
+@property (nonatomic, copy) NSNumber *maxLevelUpVariableTries;         // variable tries, that can be added to talent or spell level ups
+@property (nonatomic) BOOL isLevelingUp;                               // keeps track of the fact, if a character is in the phase of leveling up...
+@property (nonatomic, copy) NSNumber *tempDeltaLpAe;                   // some characters roll one dice to level up LP and AE, and have to ask user how to distribute, here we temporarily save the result
 
+- (NSDictionary *) levelUpBaseEnergies;
 - (BOOL) levelUpPositiveTrait: (NSString *) trait;
 - (BOOL) levelDownNegativeTrait: (NSString *) trait;
-- (void) levelUpTalent: (DSATalent *)talent;
+- (BOOL) levelUpTalent: (DSATalent *)talent;
+- (BOOL) canLevelUpTalent: (DSATalent *)talent;
 - (BOOL) canLevelUp;
+- (void) prepareLevelUp;
+- (void) finishLevelUp;
 
 @end
 

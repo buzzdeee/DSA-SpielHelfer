@@ -36,7 +36,8 @@
                    onLevel: (NSNumber *) level
                   withTest: (NSArray *) test
     withMaxTriesPerLevelUp: (NSNumber *) maxTriesPerLevelUp
-         withMaxUpPerLevel: (NSNumber *) maxUpPerLevel;                  
+         withMaxUpPerLevel: (NSNumber *) maxUpPerLevel
+           withLevelUpCost: (NSNumber *) levelUpCost;                          
 
 @end
 

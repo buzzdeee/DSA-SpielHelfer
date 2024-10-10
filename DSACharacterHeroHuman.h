@@ -28,9 +28,7 @@
 #import "DSACharacterHero.h"
 
 @interface DSACharacterHeroHuman : DSACharacterHero
-{
 
-}
 
 @end
 

@@ -1,0 +1,87 @@
+TODO:
+ * Vermögen Elfen
+ * Persönliches Instrument Elfen
+ * Persönliches Instrument Barde/Skalde
+ * Persönliche Waffen
+ * Menüpunkt Lebenspunkte abziehen
+ * KVO für berechnete Werte
+ * alle KVO ins -dealloc
+ * Magierakademien (Vom Leben in Aventurien)
+ * Kindheit/Jugend (Vom leben in Aventurien)
+ * Lebensgeschichte
+ * Regenerieren
+ * Management Geldbörse
+ * Talent anwenden
+   * eventuelle Berufe Berücksichtigen
+ * Zaubern
+ * Zauberer:
+   * Meditation
+   * Stabzauber
+   * Kristallkugel
+   * Schwert
+   * Schale
+ * Basismäßig alle Archetypen
+   * ...
+ * Grundausstattung aller Archetypen
+ * Rucksack
+ * Sachen anziehen, in die Hand nehmen
+ * Sachen anschauen
+ * Essen/Trinken
+ * Zustand:
+   * gesund, krank, vergiftet, betrunken....
+ * Gegenstände (Lanze, Helm und Federkiel)
+ * Waffen
+   * Bruchfaktor
+   * etc.
+ * Behinderung berechnen
+ * Geburtstag ordentlich machen
+ * Kein Eisen für magische Archetypen, i.e. Elf, Druide, ...
+ * all die Geweihten, und Karma zeugs
+ * Altern
+ * Schicksalspunkte
+   * Siehe Kirchen, Kulte, Ordenskrieger S.127
+ Amazone
+   * Amazonenrüsung weniger Behinderung
+ * Krieger
+   * Weniger Behinderung bei jeglicher Rüstung
+ * Medicus
+   * Heilkunde Talente steigern mit 3W6
+   * Extra Behinderung bei Rüstung
+ * Nivese
+   * Brauche die Startwerte, Mittlere Seite aus Mit Mantel Schwert und Zauberstab fehlt :(
+ * Norbarde
+   * Brauche die Startwerte, Mittlere Seite aus Mit Mantel Schwert und Zauberstab fehlt :(  
+ * Knappe
+ * Alchimist
+ 
+IN PROGRESS:
+ * Magiedilettanten
+   
+DONE:
+ * Glaube/Religion (mehr werden folgen...)
+ * Elemente bei Geoden/Druidenzauber beachten beim initialisieren und steigern
+ * aktive und ruhende Spells
+   * Die Magie des schwarzen Auges: S. 13
+ * Basiswerte und Steigern: Archetypen:
+   * Firnelf
+   * Halbelf
+   * Auelf
+   * Waldelf
+   * Angroschpriester
+   * Kämpfer
+   * Geode
+   * Wandergeselle
+   * Kavalier
+   * Amazone
+   * Gaukler
+   * Jäger
+   * Krieger
+   * Medicus
+   * Moha
+   * Novadi
+   * Seefahrer
+   * Söldner
+   * Streuner
+   * Thorwaler
+   * Skalde
+   * Barde

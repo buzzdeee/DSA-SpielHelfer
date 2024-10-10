@@ -39,7 +39,7 @@
 	    fieldOrigin,
 	    fieldParents,
 	    fieldParryBaseValue,
-	    fieldProfession,
+	    fieldMageAcademy,
 	    fieldRA,
 	    fieldRangedCombatBaseValue,
 	    fieldSex,
@@ -49,7 +49,10 @@
 	    fieldTitle,
 	    fieldWeight,
 	    tabViewMain,
-	    imageViewPortrait
+	    imageViewPortrait,
+	    fieldReligion,
+	    fieldMageAcademyBold,
+	    fieldMagicalDabbler
 	);
 	Super = NSWindowController;
     };

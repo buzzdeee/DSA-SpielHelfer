@@ -22,15 +22,19 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
+#import <objc/message.h>
 #import "DSACharacterWindowController.h"
 #import "DSACharacterDocument.h"
 #import "DSACharacterHero.h"
+#import "DSACharacterMagic.h"
 #import "DSAFightingTalent.h"
 #import "DSAOtherTalent.h"
+#import "DSASpecialTalent.h"
+#import "DSAProfession.h"
+#import "DSASpell.h"
 #import "NSFlippedView.h"
-#import "DSATabView.h"
-#import "DSATabViewItem.h"
-#import "MoneyViewModel.h"
+#import "DSACharacterViewModel.h"
+#import "DSARightAlignedStringTransformer.h"
 
 @implementation DSACharacterWindowController
 
@@ -39,7 +43,10 @@
 - (DSACharacterWindowController *)init
 {
   NSLog(@"DSACharacterWindowController: init called");    
-
+  self = [super init];
+  if (self)
+    {
+    }
   return self;
 }
 
@@ -48,9 +55,7 @@
   // Clean up KVO observer
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   
-  // the two below are silly, and should go away!
-  [document.model removeObserver:self forKeyPath:@"name"];
-  [document.model removeObserver:self forKeyPath:@"age"];    
+  NSLog(@"DSACharacterWindowController is being deallocated.");   
   
   [document.model removeObserver:self forKeyPath:@"adventurePoints"];
 }
@@ -62,11 +67,13 @@
   if (self)
     {
       NSLog(@"DSACharacterWindowController initialized with nib: %@", nibNameOrNil);
+      self.spellItemFieldMap = [NSMutableDictionary dictionary];
     }
   else
     {
       NSLog(@"DSACharacterWindowController had trouble initializing");
     }
+    
   return self;
 }
 
@@ -75,29 +82,25 @@
   [super windowDidLoad];
   // Perform additional setup after loading the window
   NSLog(@"DSACharacterWindowController: windowDidLoad called");
-  
-  // Find the menu item (level Up Character) by tag
-  NSMenu *mainMenu = [NSApp mainMenu];
-  NSMenuItem *menuItem = [self menuItemWithTag:22 inMenu:mainMenu];
-    
-  if (menuItem)
-    {
-      NSLog(@"DSACharacterWindowController windowDidLoad FOUND THE MENU ITEM, setting action to myself levelUp: method" );
-      // Set the target and action for the menu item
-      [menuItem setTarget:self];
-      [menuItem setAction:@selector(levelUp:)];
-    }  
-  
+      
   // central KVO observers
+  
+  // Register the value transformer
+  [NSValueTransformer setValueTransformer:[[DSARightAlignedStringTransformer alloc] init] 
+                                  forName:@"RightAlignedStringTransformer"];
+  
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   [document.model addObserver:self
                    forKeyPath:@"adventurePoints"
                       options:NSKeyValueObservingOptionNew
-                      context:NULL];  
-  
+                      context:NULL];
+                        
   [self populateBasicsTab];
   [self populateFightingTalentsTab];
   [self populateOtherTalentsTab];
+  [self populateProfessionsTab];
+  [self populateMagicTalentsTab];
+  [self populateSpecialTalentsTab];
   
   [self handleAdventurePointsChange];
 }
@@ -133,26 +136,55 @@
   [self.fieldWeight bind:NSValueBinding toObject:document.model withKeyPath:@"weight" options:nil];    
   [self.fieldBirthday bind:NSValueBinding toObject:document.model withKeyPath:@"birthday.date" options:nil];      
   [self.fieldGod bind:NSValueBinding toObject:document.model withKeyPath:@"god" options:nil];      
-  [self.fieldStars bind:NSValueBinding toObject:document.model withKeyPath:@"stars" options:nil];      
+  [self.fieldStars bind:NSValueBinding toObject:document.model withKeyPath:@"stars" options:nil];
+  [self.fieldReligion bind:NSValueBinding toObject:document.model withKeyPath:@"religion" options:nil];      
   [self.fieldSocialStatus bind:NSValueBinding toObject:document.model withKeyPath:@"socialStatus" options:nil];  
   [self.fieldParents bind:NSValueBinding toObject:document.model withKeyPath:@"parents" options:nil];  
-
+  
+  [self.fieldMagicalDabbler setStringValue: [document.model isMagicalDabbler] ? _(@"Ja") : _(@"Nein")];
+  
+  // [self.fieldMageAcademy bind:NSValueBinding toObject:document.model withKeyPath:@"mageAcademy" options:nil];
+  
+  if ([document.model element])
+    {
+      [self.fieldMageAcademy setStringValue: [NSString stringWithFormat: @"%@ (%@)", [document.model mageAcademy], [document.model element]]];
+    }
+  else
+    {
+      [self.fieldMageAcademy setStringValue: [document.model mageAcademy]];
+    }
+  if (![document.model mageAcademy])
+    {
+      [self.fieldMageAcademyBold setHidden: YES];
+      [self.fieldMageAcademy setHidden: YES];
+    }
+  if (![document.model isMagicalDabbler])
+    {
+      [self.fieldMagicalDabbler setStringValue: _(@"Nein")];
+    }
+  
   // Create and configure your view model
-  MoneyViewModel *viewModel = [[MoneyViewModel alloc] init];
-  viewModel.money = [document.model valueForKeyPath:@"money"];
-    
-  // Bind the NSTextField to the formattedMoney property
+  DSACharacterViewModel *viewModel = [[DSACharacterViewModel alloc] init];
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+  viewModel.model = model;  // Pass the entire model to the viewModel
   [self.fieldMoney bind:NSValueBinding
                toObject:viewModel
             withKeyPath:@"formattedMoney"
-                options:nil];                                              
-    
+                options:nil];
+  [self.fieldLifePoints bind:NSValueBinding
+                    toObject:viewModel
+                 withKeyPath:@"formattedLifePoints"
+                     options:nil];    
+  [self.fieldAstralEnergy bind:NSValueBinding
+                      toObject:viewModel
+                   withKeyPath:@"formattedAstralEnergy"
+                       options:nil];  
+  [self.fieldKarmaPoints bind:NSValueBinding
+                     toObject:viewModel
+                  withKeyPath:@"formattedKarmaPoints"
+                      options:nil];                                              
   [self.imageViewPortrait setImage:document.model.portrait];
   [self.imageViewPortrait setImageScaling:NSImageScaleProportionallyUpOrDown];                                                                                                          
-                                              
-//  [self.fieldProfession bind:NSValueBinding toObject:document.model withKeyPath:@"profession" options:nil];  
-
-
   for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
     {
       NSString *fieldKey = [NSString stringWithFormat:@"field%@", field]; // Constructs "fieldAG", "fieldHA", etc.
@@ -197,278 +229,417 @@
   [document.model addObserver:self forKeyPath: @"parryBaseValue" options:NSKeyValueObservingOptionNew context: NULL];
   [self.fieldRangedCombatBaseValue bind:NSValueBinding toObject:document.model withKeyPath:@"rangedCombatBaseValue" options:nil];    
   [document.model addObserver:self forKeyPath: @"rangedCombatBaseValue" options:NSKeyValueObservingOptionNew context: NULL];              
-  [self.fieldLifePoints bind:NSValueBinding toObject:document.model withKeyPath:@"lifePoints" options:nil];    
-  [document.model addObserver:self forKeyPath: @"lifePoints" options:NSKeyValueObservingOptionNew context: NULL];
-  [self.fieldAstralEnergy bind:NSValueBinding toObject:document.model withKeyPath:@"astralEnergy" options:nil];    
-  [document.model addObserver:self forKeyPath: @"astralEnergy" options:NSKeyValueObservingOptionNew context: NULL];  
-  [self.fieldKarmaPoints bind:NSValueBinding toObject:document.model withKeyPath:@"karmaPoints" options:nil];    
-  [document.model addObserver:self forKeyPath: @"karmaPoints" options:NSKeyValueObservingOptionNew context: NULL]; 
   [self.fieldLevel bind:NSValueBinding toObject:document.model withKeyPath:@"level" options:nil];    
   [document.model addObserver:self forKeyPath: @"level" options:NSKeyValueObservingOptionNew context: NULL];
   [self.fieldAdventurePoints bind:NSValueBinding toObject:document.model withKeyPath:@"adventurePoints" options:nil];    
   [document.model addObserver:self forKeyPath: @"adventurePoints" options:NSKeyValueObservingOptionNew context: NULL];
-
-  
-      
+  NSLog(@"End of populateBasicsTab");   
 }
 
-- (void) populateFightingTalentsTab
+- (void)populateFightingTalentsTab
 {
-  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-  DSACharacterHero *model = (DSACharacterHero *)document.model;
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    DSACharacterHero *model = (DSACharacterHero *)document.model;
 
-  NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 2"]];
-  NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
-  NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];  
-  //DSATabView *subTabView = [[DSATabView alloc] initWithFrame:subTabViewFrame];  
-  [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
-  
-  NSMutableArray *fightingTalents = [NSMutableArray array];
-  NSMutableSet *fightingCategories = [NSMutableSet set];
-  
-  // enumerate talents to find all fighting talents
-  [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAFightingTalent *obj, BOOL *stop)
-    {
-      if ([[obj category] isEqualToString:@"Kampftechniken"])
-        {
-          [fightingTalents addObject: obj];
-          [fightingCategories addObject: [obj subCategory]];
+    NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex:[self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 2"]];
+    NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
+    NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
+    [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+
+    NSMutableArray *fightingTalents = [NSMutableArray array];
+    NSMutableSet *fightingCategories = [NSMutableSet set];
+
+    // Enumerate talents to find all fighting talents
+    [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAFightingTalent *obj, BOOL *stop) {
+        if ([[obj category] isEqualToString:@"Kampftechniken"]) {
+            [fightingTalents addObject:obj];
+            [fightingCategories addObject:[obj subCategory]];
         }
     }];
-  
-//  NSLog(@"populateFightingTalentsTab: categories: %@", fightingCategories);  
 
-  for (NSString *category in fightingCategories)
+    // Add a tab for each category using the generalized method
+    for (NSString *category in fightingCategories) {
+        // Filter talents that belong to the current category
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(DSAFightingTalent *evaluatedObject, NSDictionary *bindings) {
+            return [evaluatedObject.subCategory isEqualToString:category];
+        }];
+        NSArray *filteredTalents = [fightingTalents filteredArrayUsingPredicate:predicate];
+        
+        // Call the helper method to add the tab for this category
+        [self addTabForCategory:category inSubTabView:subTabView withItems:filteredTalents];
+    }
+
+    // Set the subTabView for item 2
+    [mainTabItem setView:subTabView];
+
+}
+
+
+- (void)populateOtherTalentsTab
+{
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    DSACharacterHero *model = (DSACharacterHero *)document.model;
+    
+    NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex:[self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 3"]];
+    NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
+    NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
+    [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+    
+    NSMutableArray *otherTalents = [NSMutableArray array];
+    NSMutableSet *talentCategories = [NSMutableSet set];
+    
+    // Enumerate talents to find all categories excluding "Kampftechniken"
+    [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
     {
-      NSTabViewItem *innerTabItem = [[NSTabViewItem alloc] initWithIdentifier: category];
-      //DSATabViewItem *innerTabItem = [[DSATabViewItem alloc] initWithIdentifier: category];
-      innerTabItem.label = category;
-      [subTabView addTabViewItem:innerTabItem];
-      NSFlippedView *innerView = [[NSFlippedView alloc] initWithFrame: subTabView.bounds];
-      [innerView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
-      
-      NSInteger Offset = 0;
-      for (DSAFightingTalent *talent in fightingTalents)
+        if (![[obj category] isEqualToString:@"Kampftechniken"])
         {
-          if ([talent.subCategory isEqualTo: category])
-            {
-//              NSLog(@"Talent: %@ was equal to Category: %@", talent.name, category);
-              Offset += 22;
-              NSRect fieldRect = NSMakeRect(10,Offset, 300, 20);
-              NSTextField *talentField = [[NSTextField alloc] initWithFrame: fieldRect];
-              [talentField setIdentifier: [NSString stringWithFormat: @"talentField%@", talent]];
-              [talentField setSelectable: NO];
-              [talentField setEditable: NO];
-              [talentField setBordered: NO];
-              [talentField setBezeled: NO];
-              [talentField setBackgroundColor: [NSColor lightGrayColor]];             
-              [talentField setStringValue: [NSString stringWithFormat: @"%@ (%@)",
-                                                                         talent.name,
-                                                                         talent.maxUpPerLevel]];
-              NSFont *boldFont = [NSFont boldSystemFontOfSize:[NSFont systemFontSize]];
-              [talentField setFont:boldFont];                                                                         
-              NSRect fieldValueRect = NSMakeRect(320, Offset, 20, 20);
-              NSTextField *talentFieldValue = [[NSTextField alloc] initWithFrame: fieldValueRect];
-              [talentFieldValue setIdentifier: [NSString stringWithFormat: @"talentFieldValue%@", talent]];
-              [talentFieldValue setSelectable: NO];
-              [talentFieldValue setEditable: NO];
-              [talentFieldValue setBordered: NO];
-              [talentFieldValue setBezeled: NO];
-              [talentFieldValue setBackgroundColor: [NSColor lightGrayColor]];
-              [talentFieldValue setStringValue: [talent.level stringValue]];  
-              
-              NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-              [paragraphStyle setAlignment:NSTextAlignmentRight];
-              NSDictionary *attributes = @{NSParagraphStyleAttributeName: paragraphStyle};
-              [talentFieldValue setAttributedStringValue:[[NSAttributedString alloc] initWithString:[talent.level stringValue] attributes:attributes]];
-              
-              [innerView addSubview: talentField];
-              [innerView addSubview: talentFieldValue];
-            }
+            [otherTalents addObject: obj];
+            [talentCategories addObject: [obj category]];
         }
-      [innerTabItem setView: innerView];
+    }];
+    
+    // Add a tab for each category using the generalized method
+    for (NSString *category in talentCategories)
+    {
+        [self addTabForCategory:category inSubTabView:subTabView withItems:otherTalents];
+    }
+    
+    // Set the subTabView for the current tab
+    [mainTabItem setView:subTabView];
+
+}
+
+
+- (void)populateProfessionsTab
+{
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    DSACharacterHero *model = (DSACharacterHero *)document.model;
+    NSLog(@"populateProfessionsTab");
+    NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 5"]];
+  
+    if ([model professions] == nil)
+    {
+        NSLog(@"don't have professions, not showing professions tab");
+        [self.tabViewMain removeTabViewItem:mainTabItem];
+        return;
+    }
+      
+    NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
+    NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
+    [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+  
+    NSMutableArray *professions = [NSMutableArray array];
+    NSMutableSet *categories = [NSMutableSet set];
+  
+    // Enumerate professions to find all categories
+    [model.professions enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
+    {
+        [professions addObject: obj];
+        [categories addObject: [obj category]];
+    }];
+  
+    // Add a tab for each category using the generalized method
+    for (NSString *category in categories)
+    {
+        [self addTabForCategory:category inSubTabView:subTabView withItems:professions];
+    }
+  
+    // Set the subTabView for the current tab
+    [mainTabItem setView:subTabView];
+    
+}
+
+
+- (void)populateMagicTalentsTab
+{
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    DSACharacterHero *model = (DSACharacterHero *)document.model;
+    NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 4"]];
+  
+    if (![model conformsToProtocol:@protocol(DSACharacterMagic)] && !model.specials)
+    {
+        NSLog(@"not being magic, not showing magic talents tab");
+        [self.tabViewMain removeTabViewItem:mainTabItem];
+        return;
+    }
+    NSLog(@"populateMagicTalentsTab begin");
+    NSLog(@"THE SPELLS: %@", model.spells);
+    NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
+    NSTabView *subTabView = [[NSTabView alloc] initWithFrame: subTabViewFrame];  
+    [subTabView setAllowsTruncatedLabels: YES];
+    [subTabView setControlSize:NSControlSizeSmall];
+    [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+  
+    NSMutableArray *spells = [NSMutableArray array];
+    NSMutableSet *categories = [NSMutableSet set];
+  
+    // enumerate talents to find all categories
+    [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
+    {
+        [spells addObject: obj];
+        [categories addObject: [obj category]];
+    }];
+    
+    // Containers for categories that start with "Beschwörung" and "Verwandlung"
+    NSMutableArray *beschwoerungCategories = [NSMutableArray array];
+    NSMutableArray *verwandlungCategories = [NSMutableArray array];
+    
+    // Separate categories based on naming
+    for (NSString *category in categories)
+    {
+        if ([category hasPrefix:@"Beschwörung"] || [category isEqualToString:@"Die Sieben Formeln der Zeit"])
+        {
+            [beschwoerungCategories addObject:category];
+        }
+        else if ([category hasPrefix:@"Verwandlung"])
+        {
+            [verwandlungCategories addObject:category];
+        }
+        else
+        {
+            // Non-grouped categories: add them individually
+            [self addTabForCategory:category inSubTabView:subTabView withItems:spells];
+        }
+    }
+    
+    // Create grouped tabs for "Beschwörung" and "Verwandlung"
+    if (beschwoerungCategories.count > 0)
+    {
+        [self addGroupedTabWithTitle:@"Beschwörung" categories:beschwoerungCategories inSubTabView:subTabView withSpells:spells];
+    }
+    
+    if (verwandlungCategories.count > 0)
+    {
+        [self addGroupedTabWithTitle:@"Verwandlung" categories:verwandlungCategories inSubTabView:subTabView withSpells:spells];
     }
   
     // Set the subTabView for item 2
     [mainTabItem setView:subTabView];
-    
-    // Programmatically select the tab to force loading its content
-    [self.tabViewMain selectTabViewItem:mainTabItem];
-    
-    // Force layout to ensure views render immediately
-    [subTabView layoutSubtreeIfNeeded];
-    [mainTabItem.view layoutSubtreeIfNeeded];
-    
-    // Use setNeedsDisplay and displayIfNeeded for immediate rendering
-    [subTabView setNeedsDisplay:YES];
-    [subTabView displayIfNeeded];
-    [mainTabItem.view setNeedsDisplay:YES];
-    [mainTabItem.view displayIfNeeded];
-    
-    // Iterate through all sub-tabs to force them to layout
-    for (NSTabViewItem *item in subTabView.tabViewItems) {
-        [item.view setNeedsDisplay:YES];
-        [item.view displayIfNeeded];
+
+}
+
+- (void)populateSpecialTalentsTab
+{
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    DSACharacterHero *model = (DSACharacterHero *)document.model;
+    NSLog(@"populateSpecialTalentsTab");
+    NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 6"]];
+  
+    if ([model specials] == nil)
+    {
+        NSLog(@"don't have special talents, not showing special talents tab");
+        [self.tabViewMain removeTabViewItem:mainTabItem];
+        return;
     }
-    // Use performSelector:withObject:afterDelay: to force updates in the next run loop cycle
-    [self performSelector:@selector(forceViewUpdate:) withObject:subTabView afterDelay:0.0];
-        
-  [self.tabViewMain selectTabViewItemAtIndex:0];  
+      
+    NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
+    NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
+    [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+  
+    NSMutableArray *specials = [NSMutableArray array];
+    NSMutableSet *categories = [NSMutableSet set];
+  
+    // Enumerate special talents to find all categories
+    [model.specials enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
+    {
+        [specials addObject: obj];
+        [categories addObject: [obj category]];
+    }];
+  
+    // Add a tab for each category using the generalized method
+    for (NSString *category in categories)
+    {
+        [self addTabForCategory:category inSubTabView:subTabView withItems:specials];
+    }
+  
+    // Set the subTabView for the current tab
+    [mainTabItem setView:subTabView];
     
 }
 
-- (void) populateOtherTalentsTab
+#pragma mark - Helper Methods
+
+// Helper method to add an individual tab for a category
+- (void)addTabForCategory:(NSString *)category inSubTabView:(NSTabView *)subTabView withItems:(NSArray *)items
 {
-  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-  DSACharacterHero *model = (DSACharacterHero *)document.model;
+  NSLog(@"addTabForCategory %@", category);
+  NSTabViewItem *innerTabItem = [[NSTabViewItem alloc] initWithIdentifier:category];
+  innerTabItem.label = category;
+    
+  NSFlippedView *innerView = [[NSFlippedView alloc] initWithFrame:subTabView.bounds];
+  [innerView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];    
 
-  NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 3"]];
-  NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
-  NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];  
-  //DSATabView *subTabView = [[DSATabView alloc] initWithFrame:subTabViewFrame];  
-  [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
-  
-  NSMutableArray *otherTalents = [NSMutableArray array];
-  NSMutableSet *talentCategories = [NSMutableSet set];
-  
-  // enumerate talents to find all categories
-  [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
+  NSString *categoryToCheck = nil; // To hold the category for comparison
+  NSColor *fontColor;  
+  NSInteger Offset = 0;
+  for (DSAOtherTalent *item in items)
     {
-      if (![[obj category] isEqualToString:@"Kampftechniken"])
+      // Check the class type and assign categoryToCheck accordingly
+      if ([item isKindOfClass:[DSAFightingTalent class]])
         {
-          [otherTalents addObject: obj];
-          [talentCategories addObject: [obj category]];
+          DSAFightingTalent *talentItem = (DSAFightingTalent *)item;
+          categoryToCheck = talentItem.subCategory; // Use subCategory for this class
+          fontColor = [NSColor blackColor];          
         }
-    }];
-  
-//  NSLog(@"populateOtherTalentsTab: categories: %@", talentCategories);  
-
-  for (NSString *category in talentCategories)
-    {
-      NSTabViewItem *innerTabItem = [[NSTabViewItem alloc] initWithIdentifier: category];
-      //DSATabViewItem *innerTabItem = [[DSATabViewItem alloc] initWithIdentifier: category];
-      innerTabItem.label = category;
-      [subTabView addTabViewItem:innerTabItem];
-      NSFlippedView *innerView = [[NSFlippedView alloc] initWithFrame: subTabView.bounds];
-      [innerView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
-      
-      NSInteger Offset = 0;
-      for (DSAOtherTalent *talent in otherTalents)
+      else if ([item isKindOfClass:[DSAOtherTalent class]])
         {
-          if ([talent.category isEqualTo: category])
+          DSAOtherTalent *otherTalentItem = (DSAOtherTalent *)item;
+          categoryToCheck = otherTalentItem.category; // Use category for this class
+          fontColor = [NSColor blackColor];          
+        }
+      else if ([item isKindOfClass:[DSAProfession class]])
+        {
+          DSAProfession *professionItem = (DSAProfession *)item;
+          categoryToCheck = professionItem.category; // Use category for this class
+          fontColor = [NSColor blackColor];
+        }
+      else if ([item isKindOfClass:[DSASpecialTalent class]])
+        {
+          DSASpecialTalent *specialTalentItem = (DSASpecialTalent *)item;
+          categoryToCheck = specialTalentItem.category; // Use category for this class
+          fontColor = [NSColor blackColor];
+        }        
+      else if ([item isKindOfClass:[DSASpell class]])
+        {
+          DSASpell *spellItem = (DSASpell *)item;
+          categoryToCheck = spellItem.category; // Use category for this class
+          if ([spellItem isActiveSpell])
             {
-//              NSLog(@"Talent: %@ was equal to Category: %@", talent.name, category);
-              Offset += 22;
-              NSRect fieldRect = NSMakeRect(10,Offset, 300, 20);
-              NSTextField *talentField = [[NSTextField alloc] initWithFrame: fieldRect];
-              [talentField setIdentifier: [NSString stringWithFormat: @"talentField%@", talent]];
-              [talentField setSelectable: NO];
-              [talentField setEditable: NO];
-              [talentField setBordered: NO];
-              [talentField setBezeled: NO];
-              [talentField setBackgroundColor: [NSColor lightGrayColor]];             
-              [talentField setStringValue: [NSString stringWithFormat: @"%@ (%@) (%@)",
-                                                                         talent.name,
-                                                                         [talent.test componentsJoinedByString:@"/"],
-                                                                         talent.maxUpPerLevel]];
-              NSFont *boldFont = [NSFont boldSystemFontOfSize:[NSFont systemFontSize]];
-              [talentField setFont:boldFont];                                                                         
-              NSRect fieldValueRect = NSMakeRect(320, Offset, 20, 20);
-              NSTextField *talentFieldValue = [[NSTextField alloc] initWithFrame: fieldValueRect];
-              [talentFieldValue setIdentifier: [NSString stringWithFormat: @"talentFieldValue%@", talent]];
-              [talentFieldValue setSelectable: NO];
-              [talentFieldValue setEditable: NO];
-              [talentFieldValue setBordered: NO];
-              [talentFieldValue setBezeled: NO];
-              [talentFieldValue setBackgroundColor: [NSColor lightGrayColor]];
-              [talentFieldValue setStringValue: [talent.level stringValue]];  
-              
+              fontColor = [NSColor blackColor];          
+            }
+          else
+            {
+              fontColor = [NSColor redColor];
+            }
+        }
+      else
+        {
+          // Handle unknown class types if necessary
+          NSLog(@"Unknown item class: %@", [item class]);
+          continue; // Skip unknown classes
+        }
+                  
+      if ([categoryToCheck isEqualToString:category])
+        {      
+          Offset += 22;
+            
+          // Profession-specific fields
+          NSRect fieldRect = NSMakeRect(10, Offset, 400, 20);
+          NSTextField *itemField = [[NSTextField alloc] initWithFrame:fieldRect];
+          [itemField setIdentifier:[NSString stringWithFormat:@"itemField%@", item]];
+          [itemField setSelectable:NO];
+          [itemField setEditable:NO];
+          [itemField setBordered:NO];
+          [itemField setBezeled:NO];
+          [itemField setBackgroundColor:[NSColor lightGrayColor]];
+          if ([item isMemberOfClass: [DSAFightingTalent class]])
+            {
+              [itemField setStringValue:[NSString stringWithFormat:@"%@ (%@)", item.name, item.maxUpPerLevel]];
+              [itemField setTextColor: fontColor];                           
+            }
+          else if ([item isMemberOfClass: [DSASpecialTalent class]])
+            {
+              if ([(DSASpecialTalent *)item test])
+                {
+                  [itemField setStringValue:[NSString stringWithFormat:@"%@ (%@)", item.name, [item.test componentsJoinedByString:@"/"]]];
+                }
+              else
+                {
+                  [itemField setStringValue:[NSString stringWithFormat:@"%@", item.name]];
+                }
+              [itemField setTextColor: fontColor];                           
+            }            
+          else
+            {
+              [itemField setStringValue:[NSString stringWithFormat:@"%@ (%@) (%@)", item.name, [item.test componentsJoinedByString:@"/"], item.maxUpPerLevel]];
+              [itemField setTextColor: fontColor];
+              if ([item isKindOfClass:[DSASpell class]])
+                {
+                  DSASpell *spellItem = (DSASpell *)item;
+                  [self.spellItemFieldMap setObject: itemField forKey: [spellItem name]];
+                  [spellItem addObserver: self
+                              forKeyPath: @"isActiveSpell"
+                                 options: NSKeyValueObservingOptionNew 
+                                 context: nil];
+                }
+              else
+                {
+                  NSLog(@"item is kind of class: %@", [item class]);
+                }              
+            }
+
+          NSFont *boldFont = [NSFont boldSystemFontOfSize:[NSFont systemFontSize]];
+          [itemField setFont:boldFont];
+          [innerView addSubview:itemField];
+            
+          if (![item isMemberOfClass: [DSASpecialTalent class]])
+            {
+              NSRect fieldValueRect = NSMakeRect(420, Offset, 20, 20);
+              NSTextField *itemFieldValue = [[NSTextField alloc] initWithFrame:fieldValueRect];
+              [itemFieldValue setIdentifier:[NSString stringWithFormat:@"itemFieldValue%@", item]];
+              [itemFieldValue setSelectable:NO];
+              [itemFieldValue setEditable:NO];
+              [itemFieldValue setBordered:NO];
+              [itemFieldValue setBezeled:NO];
+              [itemFieldValue setBackgroundColor:[NSColor lightGrayColor]];
+              [itemFieldValue setStringValue:[item.level stringValue]];
+              [itemFieldValue bind:NSValueBinding  
+                          toObject:item
+                       withKeyPath:@"level" 
+                           options:@{NSContinuouslyUpdatesValueBindingOption: @YES, 
+                                         NSValueTransformerNameBindingOption: @"RightAlignedStringTransformer"}];
               NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
               [paragraphStyle setAlignment:NSTextAlignmentRight];
               NSDictionary *attributes = @{NSParagraphStyleAttributeName: paragraphStyle};
-              [talentFieldValue setAttributedStringValue:[[NSAttributedString alloc] initWithString:[talent.level stringValue] attributes:attributes]];
-              
-              [innerView addSubview: talentField];
-              [innerView addSubview: talentFieldValue];
+              [itemFieldValue setAttributedStringValue:[[NSAttributedString alloc] initWithString:[item.level stringValue] attributes:attributes]];
+              [innerView addSubview:itemFieldValue];
             }
         }
-      [innerTabItem setView: innerView];
     }
-  
-    // Set the subTabView for item 2
-    [mainTabItem setView:subTabView];
-    
-    // Programmatically select the tab to force loading its content
-    [self.tabViewMain selectTabViewItem:mainTabItem];
-    
-    // Force layout to ensure views render immediately
-    [subTabView layoutSubtreeIfNeeded];
-    [mainTabItem.view layoutSubtreeIfNeeded];
-    
-    // Use setNeedsDisplay and displayIfNeeded for immediate rendering
-    [subTabView setNeedsDisplay:YES];
-    [subTabView displayIfNeeded];
-    [mainTabItem.view setNeedsDisplay:YES];
-    [mainTabItem.view displayIfNeeded];
-    
-    // Iterate through all sub-tabs to force them to layout
-    for (NSTabViewItem *item in subTabView.tabViewItems) {
-        [item.view setNeedsDisplay:YES];
-        [item.view displayIfNeeded];
-    }
-    // Use performSelector:withObject:afterDelay: to force updates in the next run loop cycle
-    [self performSelector:@selector(forceViewUpdate:) withObject:subTabView afterDelay:0.0];
-        
-  [self.tabViewMain selectTabViewItemAtIndex:0];  
-    
+  [innerTabItem setView:innerView];
+  [subTabView addTabViewItem:innerTabItem];
 }
 
 
-- (void)forceViewUpdate:(NSTabView *)subTabView {
-    [subTabView setNeedsDisplay:YES];
-    [subTabView displayIfNeeded];
-//    [self.tabViewMain.view setNeedsDisplay:YES];
-//    [self.tabViewMain.view displayIfNeeded];
-    
-    // Iterate through all sub-tabs to force them to layout
-    for (NSTabViewItem *item in subTabView.tabViewItems) {
-        [item.view setNeedsDisplay:YES];
-        [item.view displayIfNeeded];
-    }
-}
-
-
-
-
-// Dynamically enable/disable the "Level Up" menu item
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-  NSLog(@"DSACharacterWindowController validateMenuItem %@", menuItem);
-  if ([menuItem tag] == 22) // Tag for the "Level Up" menu item
-    {
-      // Enable the "Level Up" menu item only if the character can level up
-      return [(DSACharacterHero *)document.model canLevelUp];
-    }
-    return YES; // Default behavior for other menu items
-}
-
-- (IBAction)updateModel:(id)sender
+// Helper method to add a grouped tab for categories that start with "Beschwörung" or "Verwandlung"
+- (void)addGroupedTabWithTitle:(NSString *)title categories:(NSArray *)categories inSubTabView:(NSTabView *)subTabView withSpells:(NSArray *)spells
 {
-  // Update the document's model when the user interacts with the UI
-  NSLog(@"DSACharacterWindowController updateModel called by: %@", sender);
-  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-  // is this clever, or better to compare the sender against some values and have some maybe huge case
-  // statement in case there are _MANY_ properties in the document?
-  document.model.name = self.fieldName.stringValue;
-  document.model.title = self.fieldTitle.stringValue;
-  NSLog(@"Name value: %@", self.fieldName.stringValue);
-  NSLog(@"Ttile value: %@", self.fieldTitle.stringValue);
-  NSLog(@"Model Name after updating: %@", document.model.name);
-  NSLog(@"Model Age after updating: %@", document.model.title);
-  NSLog(@"DSACharacterWindowController updateModel: the document model: %@", document);
-  // Mark doc as 'dirty'
-  [document updateChangeCount:NSChangeDone];
+    NSTabViewItem *groupTabItem = [[NSTabViewItem alloc] initWithIdentifier:title];
+    groupTabItem.label = title;
+    
+    NSRect groupedTabFrame = subTabView.bounds;
+    NSTabView *groupedSubTabView = [[NSTabView alloc] initWithFrame:groupedTabFrame];
+    [groupedSubTabView setAllowsTruncatedLabels:YES];
+    [groupedSubTabView setControlSize:NSControlSizeSmall];
+    [groupedSubTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+    
+    // Add individual tabs for each sub-category inside the grouped tab
+    for (NSString *category in categories)
+    {
+        [self addTabForCategory:category inSubTabView:groupedSubTabView withItems:spells];
+    }
+    
+    // Set the grouped sub-tab view as the view for the groupTabItem
+    [groupTabItem setView:groupedSubTabView];
+    [subTabView addTabViewItem:groupTabItem];
 }
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem
+{
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;    
+  // Get the action (selector) associated with the menu item
+  SEL menuItemAction = [menuItem action];
+    
+  if (menuItemAction)
+    {
+
+    }
+    
+    // Default validation behavior
+    return YES;
+}
+
 
 // KVO observer method
 // to make this work, it needs: https://github.com/gnustep/libs-base/pull/444
@@ -483,7 +654,30 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
     {
       [self handleAdventurePointsChange];
     }
-
+  else if ([keyPath isEqualToString:@"isActiveSpell"])
+    {
+      DSASpell *spellItem = (DSASpell *)object;
+      NSLog(@"spellItem in observeValueForKeyPath: %@", spellItem);  
+      // Get the associated itemField using the spellItem
+      NSTextField *itemField = [self.spellItemFieldMap objectForKey:[spellItem name]];
+      if (itemField)
+        {
+          BOOL isActive = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
+            
+          if (isActive)
+            {
+              [itemField setTextColor:[NSColor blackColor]];  // Active spell color
+            }
+          else
+            {
+              [itemField setTextColor:[NSColor redColor]];    // Inactive spell color
+            }
+        }
+      else
+        {
+          NSLog(@"Could not find associated itemField for spellItem: %@", spellItem.name);
+        }
+    }
 }
 
 - (IBAction)handleAdventurePointsChange {
@@ -498,6 +692,7 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
 - (void)showCongratsPanel
 {
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
   if (!self.congratsPanel)
     {
       // Load the panel from the separate .gorm file
@@ -507,17 +702,162 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
   NSFont *currentFont = [self.fieldCongratsHeadline font];
   NSFont *biggerFont = [[NSFontManager sharedFontManager] convertFont:currentFont toSize:20.0]; // Set size to 20
   [self.fieldCongratsHeadline setFont:biggerFont];    
-  [self.fieldCongratsMainText setStringValue: [NSString stringWithFormat: @"%@ hat soeben eine neue Stufe erreicht.", document.model.name]];
+  [self.fieldCongratsMainText setStringValue: [NSString stringWithFormat: @"%@ hat soeben eine neue Stufe erreicht.", model.name]];
+  [self.fieldCongratsMainTextLine2 setStringValue: _(@"Möchtest du jetzt steigern, oder später?")];
   [self.congratsPanel makeKeyAndOrderFront:nil];
+
+  [self.buttonCongratsLater setHidden:NO];
+  [self.buttonCongratsNow setTarget:self];
+  [self.buttonCongratsNow setTitle: _(@"Jetzt")];
+  [self.buttonCongratsNow setAction:@selector(levelUpBaseValues:)]; 
+}
+
+- (void)levelUpBaseValues:(id)sender
+{
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+  // we may jump in here from the main menu
+  if (!self.congratsPanel)
+    {
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSACharacterLevelUp" owner:self];
+    }
+    
+  // yes, we want to start that process NOW
+  [model prepareLevelUp];
+  
+  // we don't need the congrats panel for now
+  [self.congratsPanel close];
+  
+  // At initial character creation, we jump over raising base value
+  // at all other levels, we do so...
+  if ([model.level integerValue] == 0)
+    {
+      NSLog(@"going to call showLevelUpPositiveTraits!");
+      [self showLevelUpPositiveTraits:nil];
+      return;
+    }  
+   
+  NSLog(@"Leveling up base energies and points...");
+ 
+  NSDictionary *result = [model levelUpBaseEnergies];
+  
+  if ([result objectForKey: @"deltaLpAe"])
+    {
+      // we have a character that uses a single dice to roll LP and AE
+      // and the user to decide, how to distribute it...
+      [self showQuestionRegardingPointsDistribution: result];
+      return;
+    }
+  
+  NSString *resultingText = [[NSString alloc] init];
+  
+  if ([model isMagic])
+    {
+      resultingText = [NSString stringWithFormat: 
+                       @"%@ hat die Lebensenergie um %@ und die Astralenergie um %@ gesteigert", 
+                       model.name,
+                       [result objectForKey: @"deltaLifePoints"], 
+                       [result objectForKey: @"deltaAstralEnergy"]];
+    }
+  else if ([model isBlessedOne])
+    {
+      resultingText = [NSString stringWithFormat: 
+                       @"%@ hat die Lebensenergie um %@ und die Karmaenergie um %@ gesteigert", 
+                       model.name,
+                       [result objectForKey: @"deltaLifePoints"], 
+                       [result objectForKey: @"deltaKarmaPoints"]];    
+    }
+  else
+    {
+      resultingText = [NSString stringWithFormat: 
+                       @"%@ hat die Lebensenergie um %@ gesteigert", 
+                       model.name,
+                       [result objectForKey: @"deltaLifePoints"]];    
+    }
+  [self.fieldCongratsMainTextLine2 setStringValue: resultingText];
+  [self.buttonCongratsLater setHidden:YES];    
+
+  [self.buttonCongratsNow setTarget:self];
+  [self.buttonCongratsNow setAction:@selector(showLevelUpPositiveTraits:)];
+  [self.buttonLevelUpDoIt setTitle: _(@"Weiter")];
+  [self.congratsPanel makeKeyAndOrderFront:nil]; 
+}
+
+- (IBAction)showQuestionRegardingPointsDistribution:(id)sender
+{
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+
+  if (!self.levelUpPanel)
+    {
+      // Load the panel from the separate .gorm file
+      NSLog(@"showLevelUpPositiveTraits loading DSACharacterLevelUp.gorm");
+      [NSBundle loadNibNamed:@"DSACharacterLevelUp" owner:self];
+    }
+  // Set the font size of the fieldCongratsHeadline
+  NSFont *currentFont = [self.fieldLevelUpHeadline font];
+  NSFont *biggerFont = [[NSFontManager sharedFontManager] convertFont:currentFont toSize:20.0]; // Set size to 20
+  [self.fieldLevelUpHeadline setFont:biggerFont];    
+  [self.fieldLevelUpHeadline setStringValue: @"Lebenspunkte und Astralenergie verteilen"];
+  [self.fieldLevelUpHeadline.cell setLineBreakMode:NSLineBreakByWordWrapping];
+  [self.fieldLevelUpHeadline.cell setUsesSingleLineMode:NO];
+  NSLog(@"checking if sender is NSDictionary: %@", [sender class]);
+  if ([sender isKindOfClass: [NSDictionary class]])
+    {
+        NSLog(@"sender is NSDictionary: %@", sender);
+      if ([[(NSDictionary *)sender allKeys] containsObject: @"deltaLifePoints"] && [[(NSDictionary *)sender objectForKey: @"deltaLifePoints"] integerValue] > 0)
+        {
+          [self.fieldLevelUpMainText setStringValue: 
+                       [NSString stringWithFormat: @"%@ hat %@ Lebenspunkte erhalten und kann weitere %@ Punkte auf Lebenspunkte und Astralenergie verteilen. Wieviele davon sollen auf Lebenspunkte verwendet werden?",
+                       model.name, [(NSDictionary *)sender objectForKey: @"deltaLifePoints"], model.tempDeltaLpAe ]];        
+        }
+    }
+  else
+    {
+      [self.fieldLevelUpMainText setStringValue: 
+                       [NSString stringWithFormat: @"%@ kann %@ Punkte auf Lebenspunkte und Astralenergie verteilen. Wieviele davon sollen auf Lebenspunkte verwendet werden?",
+                       model.name, model.tempDeltaLpAe ]];
+     }
+  [self.popupLevelUpTop removeAllItems];                       
+  for (NSInteger i = 0; i <= [model.tempDeltaLpAe integerValue]; i++)
+    {
+      [self.popupLevelUpTop addItemWithTitle: [NSString stringWithFormat: @"%li", i]];
+    }
+  [self.popupLevelUpTop setEnabled: YES];                        
+
+  [self.popupLevelUpBottom setHidden: YES];  
+  [self.fieldLevelUpFeedback setHidden: YES];
+  [self.fieldLevelUpTrialsCounter setHidden: YES];  
+  [self.buttonLevelUpDoIt setTarget:self];
+  [self.buttonLevelUpDoIt setAction:@selector(distributeLpAe:)]; 
+  [self.buttonLevelUpDoIt setTitle: _(@"Auswählen")];  
+  [self.levelUpPanel makeKeyAndOrderFront:nil];  
+}
+
+- (IBAction) distributeLpAe:(id)sender
+{
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+  
+  model.lifePoints = [NSNumber numberWithInteger: [model.lifePoints integerValue] + [self.popupLevelUpTop integerValue]];
+  model.currentLifePoints = [NSNumber numberWithInteger: [model.currentLifePoints integerValue] + [self.popupLevelUpTop integerValue]];
+  model.astralEnergy = [NSNumber numberWithInteger: [model.astralEnergy integerValue] + [model.tempDeltaLpAe integerValue] - [self.popupLevelUpTop integerValue]];
+  model.currentAstralEnergy = [NSNumber numberWithInteger: [model.currentAstralEnergy integerValue] + [model.tempDeltaLpAe integerValue] - [self.popupLevelUpTop integerValue]];
+  model.tempDeltaLpAe = @0;
+  
+  [self showLevelUpPositiveTraits: nil];
+  
 }
 
 // Action when the "Level Up" menu item is clicked
 - (IBAction)showLevelUpPositiveTraits:(id)sender
 {
-  NSLog(@"Level up menu item clicked!");
+  NSLog(@"showLevelUpPositiveTraits called");
   if (!self.levelUpPanel)
     {
       // Load the panel from the separate .gorm file
+      NSLog(@"showLevelUpPositiveTraits loading DSACharacterLevelUp.gorm");
       [NSBundle loadNibNamed:@"DSACharacterLevelUp" owner:self];
     }
   // Set the font size of the fieldCongratsHeadline
@@ -527,6 +867,7 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
   [self.fieldLevelUpHeadline setStringValue: _(@"Positive Eigenschaft erhöhen")];
   [self.fieldLevelUpMainText setStringValue: _(@"Eigenschaft auswählen")];
  
+  [self.popupLevelUpTop setEnabled: YES];
   [self.popupLevelUpTop removeAllItems];
   [self.popupLevelUpTop addItemsWithTitles: @[
                              _(@"Mut"),
@@ -543,7 +884,8 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
   [self.buttonLevelUpDoIt setTarget:self];
   [self.buttonLevelUpDoIt setAction:@selector(levelUpPositiveTraits:)];
   [self.levelUpPanel makeKeyAndOrderFront:nil];
-  [[sender window] close];
+  [self.congratsPanel close];
+  //[[sender window] close];
 }
 
 - (void)levelUpPositiveTraits:(id)sender {
@@ -552,8 +894,12 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
     
     DSACharacterDocument *document = (DSACharacterDocument *)self.document;
     DSACharacterHero *model = (DSACharacterHero *)document.model;
+    
+    //[model levelUpBaseEnergies]; Hell, why was this in here???
+    
     NSString *selectedTrait = [[self.popupLevelUpTop selectedItem] title];
 
+    [self.popupLevelUpTop setEnabled: NO];
     BOOL result = NO;
     if ([selectedTrait isEqualTo: _(@"Mut")])
       {
@@ -615,6 +961,7 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
   [self.fieldLevelUpHeadline setStringValue: _(@"Negative Eigenschaft senken")];
   [self.fieldLevelUpMainText setStringValue: _(@"Eigenschaft auswählen")];
  
+  [self.popupLevelUpTop setEnabled: YES];
   [self.popupLevelUpTop removeAllItems];
   [self.popupLevelUpTop addItemsWithTitles: @[
                              _(@"Aberglaube"),
@@ -624,13 +971,14 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
                              _(@"Neugier"),
                              _(@"Goldgier"),
                              _(@"Jähzorn")]];
-
+                             
   [self.fieldLevelUpFeedback setHidden: YES];
   [self.fieldLevelUpTrialsCounter setHidden: YES];                                                            
   [self.popupLevelUpBottom setHidden: YES];  
   [self.buttonLevelUpDoIt setTarget:self];
   [self.buttonLevelUpDoIt setAction:@selector(levelDownNegativeTraits:)]; 
-  [self.buttonLevelUpDoIt setTitle: _(@"Senken")];                             
+  [self.buttonLevelUpDoIt setTitle: _(@"Senken")];    
+  [self.levelUpPanel makeKeyAndOrderFront:nil];                         
 }
 
 
@@ -642,6 +990,7 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
     DSACharacterHero *model = (DSACharacterHero *)document.model;
     NSString *selectedTrait = [[self.popupLevelUpTop selectedItem] title];
 
+    [self.popupLevelUpTop setEnabled: NO];
     BOOL result = NO;
     if ([selectedTrait isEqualTo: _(@"Aberglaube")])
       {
@@ -683,8 +1032,60 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
       [self.fieldLevelUpFeedback setHidden: NO];    
     }
   [self.buttonLevelUpDoIt setTarget:self];
-  [self.buttonLevelUpDoIt setAction:@selector(showLevelUpTalents:)]; 
+  [self.buttonLevelUpDoIt setAction:@selector(showQuestionRegardingVariableTries:)]; 
   [self.buttonLevelUpDoIt setTitle: _(@"Weiter")];      
+}
+
+- (IBAction)showQuestionRegardingVariableTries:(id)sender
+{
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+  if ([model.maxLevelUpVariableTries integerValue] == 0)
+    {
+      // nothing to ask, just copy over the values
+      model.maxLevelUpTalentsTriesTmp = [model.maxLevelUpTalentsTries copy];
+      model.maxLevelUpSpellsTriesTmp = [model.maxLevelUpSpellsTries copy];
+      [self showLevelUpTalents: nil];
+      return;
+    }
+  else
+    {
+      [self.fieldLevelUpHeadline setStringValue: @"Steigerungsversuche verteilen"];
+//      [self.fieldLevelUpMainText setAllowsMultipleLines: YES];      
+      [self.fieldLevelUpHeadline.cell setLineBreakMode:NSLineBreakByWordWrapping];
+      [self.fieldLevelUpHeadline.cell setUsesSingleLineMode:NO];
+      [self.fieldLevelUpMainText setStringValue: 
+                       [NSString stringWithFormat: @"%@ kann %@ Steigerungsversuche auf Talent oder Zaubersteigerungen verteilen. Wieviele davon sollen auf Talente verwendet werden?",
+                       model.name, model.maxLevelUpVariableTries ]];
+      [self.popupLevelUpTop removeAllItems];                       
+      for (NSInteger i = 0; i <= [model.maxLevelUpVariableTries integerValue]; i++)
+        {
+          [self.popupLevelUpTop addItemWithTitle: [NSString stringWithFormat: @"%li", i]];
+        }
+      [self.popupLevelUpTop setEnabled: YES];                        
+    }
+  [self.popupLevelUpBottom setHidden: YES];  
+  [self.fieldLevelUpFeedback setHidden: YES];
+  [self.fieldLevelUpTrialsCounter setHidden: YES];  
+  [self.buttonLevelUpDoIt setTarget:self];
+  [self.buttonLevelUpDoIt setAction:@selector(distributeTalentTries:)]; 
+  [self.buttonLevelUpDoIt setTitle: _(@"Auswählen")];  
+  [self.levelUpPanel makeKeyAndOrderFront:nil];  
+}
+
+- (IBAction)distributeTalentTries:(id)sender
+{
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+  
+  model.maxLevelUpTalentsTriesTmp = [NSNumber numberWithInteger: 
+                                        [model.maxLevelUpTalentsTries integerValue] + 
+                                        [[[self.popupLevelUpTop selectedItem] title] integerValue]];
+  model.maxLevelUpSpellsTriesTmp = [NSNumber numberWithInteger:  
+                                        [model.maxLevelUpSpellsTries integerValue] +
+                                        [model.maxLevelUpVariableTries integerValue] -
+                                        [[[self.popupLevelUpTop selectedItem] title] integerValue]];
+  [self showLevelUpTalents: nil];
 }
 
 - (IBAction)showLevelUpTalents:(id)sender
@@ -700,45 +1101,386 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
   // Set the font size of the fieldCongratsHeadline
   
   NSMutableSet *talentCategories = [NSMutableSet set];
+  NSMutableSet *spellCategories = [NSMutableSet set];         // silly magical dabbler handles its few spells like normal talents
   
   // enumerate talents to find all categories
   [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
     {
       [talentCategories addObject: [obj category]];
     }];  
-  
+
+  [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop)
+    {
+      [spellCategories addObject: [obj category]];
+    }];     
+      
   NSFont *currentFont = [self.fieldLevelUpHeadline font];
   NSFont *biggerFont = [[NSFontManager sharedFontManager] convertFont:currentFont toSize:20.0]; // Set size to 20
   [self.fieldLevelUpHeadline setFont:biggerFont];
   [self.fieldLevelUpHeadline setStringValue: _(@"Talente steigern")];
   [self.fieldLevelUpMainText setStringValue: _(@"Talent auswählen")];
  
+  [self.popupLevelUpTop setEnabled: YES];
   [self.popupLevelUpTop removeAllItems];
   [self.popupLevelUpTop addItemsWithTitles: [talentCategories allObjects]];
-  [self.popupLevelUpBottom setHidden: NO];
-  
-  [self populateLevelUpBottomPopupWithTalents: nil];
-  
+  if (spellCategories)
+    {
+      [self.popupLevelUpTop addItemsWithTitles: [spellCategories allObjects]];    
+    }
   [self.popupLevelUpTop setTarget:self];
   [self.popupLevelUpTop setAction:@selector(populateLevelUpBottomPopupWithTalents:)];
+
+  [self.popupLevelUpBottom setHidden: NO];  
+  [self.popupLevelUpBottom setEnabled: YES];
+  [self.popupLevelUpBottom setAutoenablesItems: NO];
+  [self populateLevelUpBottomPopupWithTalents: nil];
   
   [self.fieldLevelUpFeedback setHidden: YES];
-  [self.fieldLevelUpTrialsCounter setHidden: YES];                                                            
-
+  [self.fieldLevelUpTrialsCounter setHidden: NO];                                                            
+  [self.fieldLevelUpTrialsCounter setStringValue: [NSString stringWithFormat: @"Verbleibende Versuche: %@", model.maxLevelUpTalentsTriesTmp]];
+  
   [self.buttonLevelUpDoIt setTarget:self];
   [self.buttonLevelUpDoIt setAction:@selector(levelUpTalent:)]; 
   [self.buttonLevelUpDoIt setTitle: _(@"Steigern")];
+  
+  [self.levelUpPanel makeKeyAndOrderFront:nil];
 }
 
 - (void)populateLevelUpBottomPopupWithTalents:(id)sender
 {
   NSLog(@"populateLevelUpBottomPopupWithTalents called");
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;  
+  NSString *talentCategory = [[self.popupLevelUpTop selectedItem] title];
+
+  //NSMutableArray *talents = [[NSMutableArray alloc] init];
+  
+  NSString *selectedItemTitle = [[self.popupLevelUpBottom selectedItem] title];
+  
+  // enumerate talents to find all categories
+  [self.popupLevelUpBottom removeAllItems];
+  [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
+    {
+      if ([[obj category] isEqualTo: talentCategory])
+        {
+          [self.popupLevelUpBottom addItemWithTitle: [obj name]];
+          if ([model canLevelUpTalent: [model.talents objectForKey: [obj name]]])
+            {
+              [[self.popupLevelUpBottom itemWithTitle: [obj name]] setEnabled: YES];
+            }
+          else
+            {
+              [[self.popupLevelUpBottom itemWithTitle: [obj name]] setEnabled: NO];
+            }
+
+        }
+    }];
+  [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop)
+    {
+      if ([[obj category] isEqualTo: talentCategory])  //talentCategory might be a bit misleading here ;) but it's for this silly magical dabbler
+        {
+          [self.popupLevelUpBottom addItemWithTitle: [obj name]];
+          if ([model canLevelUpTalent: [model.spells objectForKey: [obj name]]])
+            {
+              [[self.popupLevelUpBottom itemWithTitle: [obj name]] setEnabled: YES];
+            }
+          else
+            {
+              [[self.popupLevelUpBottom itemWithTitle: [obj name]] setEnabled: NO];
+            }
+
+        }
+    }];
+    
+    //[self.popupLevelUpBottom removeAllItems];
+    //[self.popupLevelUpBottom addItemsWithTitles: talents];  
+
+    // try again to select same item as was before
+    [self.popupLevelUpBottom selectItemWithTitle: selectedItemTitle];
+    // the now selected item might be disabled, if that's the case
+    // try find some other enabled item and select that one
+    if (![[self.popupLevelUpBottom selectedItem] isEnabled])
+      {
+        for (NSInteger i=0;i< [self.popupLevelUpBottom numberOfItems];i++)
+         {
+           if ([[self.popupLevelUpBottom itemAtIndex: i] isEnabled])
+             {
+               [self.popupLevelUpBottom selectItemAtIndex: i];
+               break;
+             }
+         }
+      }
+    
+   [self.popupLevelUpBottom setNeedsDisplay:YES];    
 }
 
 
 - (void)levelUpTalent:(id)sender
 {
-  NSLog(@"Level Up Talent called!");
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+  BOOL result = NO;
+  
+  if ([[model.talents allKeys] containsObject: [[self.popupLevelUpBottom selectedItem] title]])
+    {
+      result = [model levelUpTalent: [model.talents objectForKey: [[self.popupLevelUpBottom selectedItem] title]]];
+    }
+  else
+    { // special case the magical dabbler here, spells are considered as talents
+      result = [model levelUpTalent: [model.spells objectForKey: [[self.popupLevelUpBottom selectedItem] title]]];    
+    }
+  
+  if (result)
+    {
+      [self.fieldLevelUpFeedback setStringValue: _(@"Geschafft!")];
+      [self.fieldLevelUpFeedback setHidden: NO];
+    }
+  else
+    {
+      [self.fieldLevelUpFeedback setStringValue: _(@"Leider nicht geschafft.")];
+      [self.fieldLevelUpFeedback setHidden: NO];    
+    }
+  [self.fieldLevelUpTrialsCounter setStringValue: [NSString stringWithFormat: @"Verbleibende Versuche: %@", model.maxLevelUpTalentsTriesTmp]];
+  [self populateLevelUpBottomPopupWithTalents: nil];
+  if ([model.maxLevelUpTalentsTriesTmp integerValue] == 0)
+    {
+      [self.popupLevelUpTop setEnabled: NO];
+      [self.popupLevelUpBottom setEnabled: NO];
+      [self.buttonLevelUpDoIt setTarget:self];
+      if ([model conformsToProtocol:@protocol(DSACharacterMagic)])
+        {
+          [self.buttonLevelUpDoIt setTitle: _(@"Weiter")]; 
+          [self.buttonLevelUpDoIt setAction:@selector(showLevelUpSpells:)];  
+        }
+      else
+        {
+          [self.buttonLevelUpDoIt setTitle: _(@"Fertig")];
+          [self.buttonLevelUpDoIt setAction:@selector(finishLevelUp:)];
+        }
+    }
+}
+
+- (IBAction)showLevelUpSpells:(id)sender
+{
+  NSLog(@"showLevelUpSpells called");
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;  
+  if (![model conformsToProtocol:@protocol(DSACharacterMagic)])
+    {
+      [self finishLevelUp: self];
+    }
+ 
+  if (!self.levelUpPanel)
+    {
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSACharacterLevelUp" owner:self];
+    }
+  // Set the font size of the fieldCongratsHeadline
+  
+  NSMutableSet *spellCategories = [NSMutableSet set];
+  
+  // enumerate spells to find all categories
+  [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop)
+    {
+      [spellCategories addObject: [obj category]];
+    }];  
+  
+  NSFont *currentFont = [self.fieldLevelUpHeadline font];
+  NSFont *biggerFont = [[NSFontManager sharedFontManager] convertFont:currentFont toSize:20.0]; // Set size to 20
+  [self.fieldLevelUpHeadline setFont:biggerFont];
+  [self.fieldLevelUpHeadline setStringValue: _(@"Zauberfertigkeiten steigern")];
+  [self.fieldLevelUpMainText setStringValue: _(@"Spruch auswählen")];
+ 
+  [self.popupLevelUpTop setEnabled: YES];
+  [self.popupLevelUpTop removeAllItems];
+  [self.popupLevelUpTop addItemsWithTitles: [spellCategories allObjects]];  
+  [self.popupLevelUpTop setTarget:self];
+  [self.popupLevelUpTop setAction:@selector(populateLevelUpBottomPopupWithSpells:)];
+
+  [self.popupLevelUpBottom setHidden: NO];  
+  [self.popupLevelUpBottom setEnabled: YES];
+  [self.popupLevelUpBottom setAutoenablesItems: NO];
+  [self populateLevelUpBottomPopupWithSpells: nil];
+  
+  [self.fieldLevelUpFeedback setHidden: YES];
+  [self.fieldLevelUpTrialsCounter setHidden: NO];                                                            
+  [self.fieldLevelUpTrialsCounter setStringValue: [NSString stringWithFormat: @"Verbleibende Versuche: %@", model.maxLevelUpSpellsTriesTmp]];
+  
+  [self.buttonLevelUpDoIt setTarget:self];
+  [self.buttonLevelUpDoIt setAction:@selector(levelUpSpell:)]; 
+  [self.buttonLevelUpDoIt setTitle: _(@"Steigern")];
+  
+  [self.levelUpPanel makeKeyAndOrderFront:nil];    
+     
+}
+
+- (void)populateLevelUpBottomPopupWithSpells:(id)sender
+{
+  NSLog(@"populateLevelUpBottomPopupWithSpells called");
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;  
+  NSString *spellCategory = [[self.popupLevelUpTop selectedItem] title];
+
+  NSMutableArray *spells = [[NSMutableArray alloc] init];
+  
+  NSString *selectedItemTitle = [[self.popupLevelUpBottom selectedItem] title];
+  
+  // enumerate talents to find all categories
+  [self.popupLevelUpBottom removeAllItems];
+  [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop)
+    {
+    
+                  if ([obj.name isEqualTo: @"Transversalis Teleport"]) NSLog(@"YYYYYYYYYYYYYYYYYYYYYYYY TRANSVERSALIS: %@", obj);
+                  if ([obj.name isEqualTo: @"Axxeleratus Blitzgeschwind"]) NSLog(@"YYYYYYYYYYYYYYYYYYYYYYYY TRANSVERSALIS: %@", obj);
+                  if ([obj.name isEqualTo: @"In Glut und Lohe ohne Weh"]) NSLog(@"YYYYYYYYYYYYYYYYYYYYYYYY TRANSVERSALIS: %@", obj);
+      if ([[obj category] isEqualTo: spellCategory])
+        {
+          [self.popupLevelUpBottom addItemWithTitle: [obj name]];
+          SEL canLevelUpSpell = @selector(canLevelUpSpell:);
+          if ([model respondsToSelector: canLevelUpSpell])
+            {
+              BOOL (*func)(id, SEL, DSASpell *) = (void *)objc_msgSend;
+              if (func(model, canLevelUpSpell,[model.spells objectForKey: [obj name]]))
+                {
+                  [[self.popupLevelUpBottom itemWithTitle: [obj name]] setEnabled: YES];
+                }
+              else
+                {
+                  [[self.popupLevelUpBottom itemWithTitle: [obj name]] setEnabled: NO];
+                }
+            }
+        }
+    }];
+
+    //[self.popupLevelUpBottom removeAllItems];
+    [self.popupLevelUpBottom addItemsWithTitles: spells];  
+
+    // try again to select same item as was before
+    [self.popupLevelUpBottom selectItemWithTitle: selectedItemTitle];
+    // the now selected item might be disabled, if that's the case
+    // try find some other enabled item and select that one
+    if (![[self.popupLevelUpBottom selectedItem] isEnabled])
+      {
+        for (NSInteger i=0;i< [self.popupLevelUpBottom numberOfItems];i++)
+         {
+           if ([[self.popupLevelUpBottom itemAtIndex: i] isEnabled])
+             {
+               [self.popupLevelUpBottom selectItemAtIndex: i];
+               break;
+             }
+         }
+      }
+    
+/*    for (NSString *spell in spells)
+      {
+        NSMenuItem *item = [[NSMenuItem alloc] init];
+        item = (NSMenuItem *)[self.popupLevelUpBottom itemWithTitle: spell];
+      } */
+   [self.popupLevelUpBottom setNeedsDisplay:YES];    
+}
+
+- (void)levelUpSpell:(id)sender
+{
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+  BOOL result;
+  
+  SEL levelUpSpell = @selector(levelUpSpell:);
+  
+  if ([model respondsToSelector: levelUpSpell])
+    {
+      BOOL (*func)(id, SEL, DSASpell *) = (void *)objc_msgSend;
+      result = func(model, levelUpSpell, [model.spells objectForKey: [[self.popupLevelUpBottom selectedItem] title]]);
+//      result = [model levelUpSpell: [model.spells objectForKey: [[self.popupLevelUpBottom selectedItem] title]]];      
+    }
+  else
+    {
+      NSLog(@"DSACharacterDocument: levelUpSpell : The target character doesn't support: levelUpSpell?");
+      result = NO;
+    }
+    
+  if (result)
+    {
+      [self.fieldLevelUpFeedback setStringValue: _(@"Geschafft!")];
+      [self.fieldLevelUpFeedback setHidden: NO];
+    }
+  else
+    {
+      [self.fieldLevelUpFeedback setStringValue: _(@"Leider nicht geschafft.")];
+      [self.fieldLevelUpFeedback setHidden: NO];    
+    }
+  [self.fieldLevelUpTrialsCounter setStringValue: [NSString stringWithFormat: @"Verbleibende Versuche: %@", model.maxLevelUpSpellsTriesTmp]];
+  [self populateLevelUpBottomPopupWithSpells: nil];
+  if ([model.maxLevelUpSpellsTriesTmp integerValue] == 0)
+    {
+      [self.popupLevelUpTop setEnabled: NO];
+      [self.popupLevelUpBottom setEnabled: NO];
+      [self.buttonLevelUpDoIt setTarget:self];
+      [self.buttonLevelUpDoIt setTitle: _(@"Fertig")];
+      [self.buttonLevelUpDoIt setAction:@selector(finishLevelUp:)];
+    }
+}
+
+- (IBAction)finishLevelUp: (id)sender
+{
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+  
+  [model finishLevelUp];
+  [self.levelUpPanel close];
+}
+
+-(IBAction)manageMoney: (id)sender
+{
+  NSLog(@"DSACharacterWindowController manageMoney called!");
+}
+
+-(IBAction)useTalent: (id)sender
+{
+  NSLog(@"DSACharacterWindowController useTalent called!");
+}
+
+-(void)addAdventurePoints: (id)sender
+{
+  NSLog(@"DSACharacterWindowController addAdventurePoints called!");
+  
+  if (!self.adventurePointsPanel)
+    {
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSAAdventurePoints" owner:self];
+    }
+  [self.fieldAdditionalAdventurePoints setBackgroundColor: [NSColor whiteColor]];
+  [self.fieldAdditionalAdventurePoints setStringValue: @""];  
+  [self.adventurePointsPanel makeKeyAndOrderFront:nil];  
+}
+
+-(IBAction)verifyAndFinishAddAdventurePoints: (id)sender
+{
+  NSLog(@"DSACharacterWindowController verifyAndFinishAddAdventurePoints called!");
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;  
+
+  NSString *inputString = [self.fieldAdditionalAdventurePoints stringValue];
+
+  // Trim any spaces or newlines
+  inputString = [inputString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+  // Use NSScanner to validate if the input is a valid integer
+  NSScanner *scanner = [NSScanner scannerWithString:inputString];
+  int inputValue;
+  BOOL isNumeric = [scanner scanInt:&inputValue] && [scanner isAtEnd];
+
+  if (isNumeric && inputValue > 0)
+    {
+      NSLog(@"Input is a positive integer.");
+      // You can proceed with the value, as it is a valid positive integer
+      model.adventurePoints = [NSNumber numberWithInteger: [model.adventurePoints integerValue] + [inputString integerValue]];
+      [self.adventurePointsPanel close];
+    } else {
+      NSLog(@"Input is not a positive integer.");
+      // Handle the error (e.g., show a warning to the user)
+      [self.fieldAdditionalAdventurePoints setBackgroundColor: [NSColor redColor]];
+    }
+  
 }
 
 - (void)closePanel:(id)sender {

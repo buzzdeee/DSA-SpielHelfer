@@ -79,7 +79,9 @@
 	    buttonNG,
 	    buttonGG,
 	    buttonJZ,
-	    imageViewPortrait
+	    imageViewPortrait,
+	    popupElements,
+	    popupReligions
 	);
 	Super = NSWindowController;
     };

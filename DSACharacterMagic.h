@@ -5,7 +5,7 @@
 
    Author: Sebastian Reitenbach
 
-   Created: 2024-09-11 21:50:12 +0200 by sebastia
+   Created: 2024-09-24 21:49:09 +0200 by sebastia
 
    This application is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -26,12 +26,19 @@
 #define _DSACHARACTERMAGIC_H_
 
 #import <Foundation/Foundation.h>
-#import "DSASpell.h"
+@class DSASpellResult;
+@class DSASpell;
 
 @protocol DSACharacterMagic <NSObject>
+- (DSASpellResult *) castSpell: (DSASpell *) spell;
+- (DSASpellResult *) castSpell: (DSASpell *) spell on: (id) target;
+- (DSASpellResult *) castSpell: (DSASpell *) spell withSource: (id) source onTarget: (id) target;
+- (BOOL) levelUpSpell: (DSASpell *)spell;
+- (BOOL) canLevelUpSpell: (DSASpell *)spell;   // some characters have restrictions in leveling up spells
 
-- (void)levelUpSpell: (DSASpell *) spell;
-
+@optional
+- (DSASpellResult *) meditate;
+- (DSASpellResult *) enchantStaff: (id) staff;
 @end
 
 #endif // _DSACHARACTERMAGIC_H_

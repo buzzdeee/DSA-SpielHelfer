@@ -1,6 +1,8 @@
 {
  "Praios": {
   "Sternbild": "Greif",
+  "Typkategorie": [ "Mensch" ],
+  "Monat": "Januar",
   "Basiswerte": {
     "MU": 1
   },
@@ -8,6 +10,8 @@
  },
  "Rondra": {
   "Sternbild": "Schwert",
+  "Typkategorie": [ "Mensch" ],  
+  "Monat": "Februar",  
   "Basiswerte": { },
   "Talente": {
     "Kampftechniken": {
@@ -19,6 +23,8 @@
  },
  "Efferd": {
   "Sternbild": "Delphin",
+  "Typkategorie": [ "Mensch" ],  
+  "Monat": "März",  
   "Basiswerte": { },
   "Talente": {
     "Körperliche Talente": {
@@ -31,6 +37,8 @@
  },
  "Travia": {
   "Sternbild": "Gans",
+  "Typkategorie": [ "Mensch" ],  
+  "Monat": "April",  
   "Basiswerte": {
     "IN": 1
   },
@@ -38,6 +46,8 @@
  },
  "Boron": {
   "Sternbild": "Rabe",
+  "Typkategorie": [ "Mensch" ],  
+  "Monat": "Mai",  
   "Basiswerte": { },
   "Talente": {
     "Gesellschaft": {
@@ -47,6 +57,8 @@
  },
  "Hesinde": {
   "Sternbild": "Schlange",
+  "Typkategorie": [ "Mensch" ],  
+  "Monat": "Juni",  
   "Basiswerte": { },
   "Talente": {
     "Wissenstalente": {
@@ -56,6 +68,8 @@
  },
  "Firun": {
   "Sternbild": "Eisbär",
+  "Typkategorie": [ "Mensch" ],  
+  "Monat": "Juli",  
   "Basiswerte": { },
   "Talente": {
     "Natur": {
@@ -70,6 +84,8 @@
  },
  "Tsa": {
   "Sternbild": "Eidechse",
+  "Typkategorie": [ "Mensch" ],  
+  "Monat": "August",  
   "Basiswerte": {
     "CH": 1
   },
@@ -77,6 +93,8 @@
  },
  "Phex": {
   "Sternbild": "Fuchs",
+  "Typkategorie": [ "Mensch" ],  
+  "Monat": "September",  
   "Basiswerte": { },
   "Talente": {
     "Handwerk": {
@@ -89,6 +107,8 @@
  },
  "Peraine": {
   "Sternbild": "Storch",
+  "Typkategorie": [ "Mensch" ],  
+  "Monat": "Oktober",  
   "Basiswerte": { },
   "Talente": {
     "Handwerk": {
@@ -99,6 +119,8 @@
  },
  "Ingerimm": {
   "Sternbild": "Hammer und Amboss",
+  "Typkategorie": [ "Mensch" ],  
+  "Monat": "November",  
   "Basiswerte": { },
   "Talente": {
     "Kampftechniken": {
@@ -110,6 +132,8 @@
  },
  "Rahja": {
   "Sternbild": "Stute",
+  "Typkategorie": [ "Mensch" ],  
+  "Monat": "Dezember",  
   "Basiswerte": { },
   "Talente": {
     "Gesellschaft": {
@@ -122,5 +146,14 @@
       "Musizieren": 1
     }
   }
+ },
+ "Swafnir": {
+   "Typus": [ "Seefahrer", "Thorwaler", "Skalde" ]
+ },
+ "Angrosch": {
+   "Typkategorie": [ "Zwerg" ]
+ },
+ "Nurti und Zerzal": {
+   "Typkategorie": [ "Elf" ]
  }
 }

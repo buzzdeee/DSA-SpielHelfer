@@ -26,24 +26,24 @@
 
 @implementation DSAOtherTalent
 
-@synthesize test;
-
-- (instancetype)initTalent: (NSString *) newName 
-                ofCategory: (NSString *) newCategory 
-                   onLevel: (NSNumber *) newLevel
-                  withTest: (NSArray *) newTest
-    withMaxTriesPerLevelUp: (NSNumber *) newMaxTriesPerLevelUp
-         withMaxUpPerLevel: (NSNumber *) newMaxUpPerLevel                  
+- (instancetype)initTalent: (NSString *) name 
+                ofCategory: (NSString *) category 
+                   onLevel: (NSNumber *) level
+                  withTest: (NSArray *) test
+    withMaxTriesPerLevelUp: (NSNumber *) maxTriesPerLevelUp
+         withMaxUpPerLevel: (NSNumber *) maxUpPerLevel 
+           withLevelUpCost: (NSNumber *) levelUpCost;                          
 {
   self = [super init];
   if (self)
     {
-      self.name = newName;
-      self.category = newCategory;
-      self.level = newLevel;
-      self.test = newTest;
-      self.maxTriesPerLevelUp = newMaxTriesPerLevelUp;
-      self.maxUpPerLevel = newMaxUpPerLevel;      
+      self.name = name;
+      self.category = category;
+      self.level = level;
+      self.test = test;
+      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
+      self.maxUpPerLevel = maxUpPerLevel;      
+      self.levelUpCost = levelUpCost;            
     }
   return self;
 }

@@ -27,16 +27,18 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DSATalent : NSObject <NSCoding>
+@interface DSATalent : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, strong) NSNumber *level;
 @property (nonatomic, strong) NSNumber *maxUpPerLevel;
 @property (nonatomic, strong) NSNumber *maxTriesPerLevelUp;
+@property (nonatomic, strong) NSNumber *levelUpCost;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *talentDescription;
 @property (nonatomic, strong) NSString *category;
+@property (nonatomic) BOOL isPersonalTalent;              // set to YES, for i.e. Musizieren for Skald or Bard
 
-                                   
+- (BOOL) levelUp;
 
 @end
 
