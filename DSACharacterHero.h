@@ -39,6 +39,7 @@
 @property (nonatomic, copy) NSMutableDictionary *levelUpTalents;       // used to track talent level up attempts when reching a new level
 @property (nonatomic, copy) NSMutableDictionary *levelUpSpells;        // used to track spell level up attempts when reching a new level
 @property (nonatomic, copy) NSMutableDictionary *levelUpProfessions;   // used to track profession level up attempts when reching a new level
+@property (nonatomic, copy) NSNumber *firstLevelUpTalentTriesPenalty;  // might have less than usual tries to level up talents to level 1
 @property (nonatomic, copy) NSNumber *maxLevelUpTalentsTries;          // how often to try to level up all talents/professions (professions mix in here...)
 @property (nonatomic, copy) NSNumber *maxLevelUpSpellsTries;           // how often to try to level up all spells
 @property (nonatomic, copy) NSNumber *maxLevelUpTalentsTriesTmp;       // holding nr of overall talent tries, once variable tries is distributed

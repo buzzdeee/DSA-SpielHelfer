@@ -37,6 +37,7 @@
 @property (readonly) NSMutableDictionary *professionsDict;
 @property (readonly) NSMutableDictionary *originsDict;
 @property (readonly) NSMutableDictionary *mageAcademiesDict;
+@property (readonly) NSMutableDictionary *warriorAcademiesDict;
 @property (readonly) NSMutableDictionary *eyeColorsDict;
 @property (readonly) NSMutableDictionary *birthdaysDict;
 @property (readonly) NSMutableDictionary *godsDict;

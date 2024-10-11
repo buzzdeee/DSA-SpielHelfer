@@ -26,6 +26,9 @@
 #import "DSACharacterWindowController.h"
 #import "DSACharacterDocument.h"
 #import "DSACharacterHero.h"
+#import "DSACharacterHeroHumanMage.h"
+#import "DSACharacterHeroHumanWarrior.h"
+#import "DSACharacterHeroDwarfGeode.h"
 #import "DSACharacterMagic.h"
 #import "DSAFightingTalent.h"
 #import "DSAOtherTalent.h"
@@ -142,9 +145,7 @@
   [self.fieldParents bind:NSValueBinding toObject:document.model withKeyPath:@"parents" options:nil];  
   
   [self.fieldMagicalDabbler setStringValue: [document.model isMagicalDabbler] ? _(@"Ja") : _(@"Nein")];
-  
-  // [self.fieldMageAcademy bind:NSValueBinding toObject:document.model withKeyPath:@"mageAcademy" options:nil];
-  
+    
   if ([document.model element])
     {
       [self.fieldMageAcademy setStringValue: [NSString stringWithFormat: @"%@ (%@)", [document.model mageAcademy], [document.model element]]];
@@ -158,11 +159,26 @@
       [self.fieldMageAcademyBold setHidden: YES];
       [self.fieldMageAcademy setHidden: YES];
     }
-  if (![document.model isMagicalDabbler])
+  if ([document.model isMemberOfClass: [DSACharacterHeroHumanMage class]])
+    {
+      [self.fieldMageAcademyBold setStringValue: _(@"Magierakademie")];
+    }
+  else if ([document.model isMemberOfClass: [DSACharacterHeroHumanWarrior class]])
+    {
+      [self.fieldMageAcademyBold setStringValue: _(@"Kriegerakademie")];
+    }
+  else if ([document.model isMemberOfClass: [DSACharacterHeroDwarfGeode class]])
+    {
+      [self.fieldMageAcademyBold setStringValue: _(@"Geodische Schule")];
+    }    
+    
+  NSLog(@"TTTTTTTTHHHHHHHHHHEEEEEEEEEEE ACADEMY: %@", [self.fieldMageAcademyBold stringValue]);  
+    
+/*  if (![document.model isMagicalDabbler])
     {
       [self.fieldMagicalDabbler setStringValue: _(@"Nein")];
     }
-  
+  */
   // Create and configure your view model
   DSACharacterViewModel *viewModel = [[DSACharacterViewModel alloc] init];
   DSACharacterHero *model = (DSACharacterHero *)document.model;
@@ -1043,7 +1059,12 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
   if ([model.maxLevelUpVariableTries integerValue] == 0)
     {
       // nothing to ask, just copy over the values
-      model.maxLevelUpTalentsTriesTmp = [model.maxLevelUpTalentsTries copy];
+      // but there might be archetypes out there, that may have a penalty on first level up talent tries, i.e. warrior
+      if ([model.firstLevelUpTalentTriesPenalty integerValue] != 0)
+        {
+          model.maxLevelUpTalentsTriesTmp = [NSNumber numberWithInteger: [model.maxLevelUpTalentsTries integerValue] + [model.firstLevelUpTalentTriesPenalty integerValue]];
+          model.firstLevelUpTalentTriesPenalty = @0;
+        }
       model.maxLevelUpSpellsTriesTmp = [model.maxLevelUpSpellsTries copy];
       [self showLevelUpTalents: nil];
       return;

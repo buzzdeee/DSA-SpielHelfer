@@ -44,11 +44,12 @@
       self.levelUpTalents = nil;
       self.levelUpSpells = nil;      
       self.levelUpProfessions = nil;
+      self.firstLevelUpTalentTriesPenalty = @0; // this is also taken into account in the DSACharacterWindowController...
       self.maxLevelUpTalentsTries = @30;        // most have this as their starting value
       self.maxLevelUpSpellsTries = @0;
-      self.maxLevelUpTalentsTriesTmp = @0;
-      self.maxLevelUpSpellsTriesTmp = @0;      
-      self.maxLevelUpVariableTries = @0;
+      self.maxLevelUpTalentsTriesTmp = @0;      // this value is set in the DSACharacterWindowController, as there are characters out there, that might have variable tries
+      self.maxLevelUpSpellsTriesTmp = @0;       // this value is set in the DSACharacterWindowController, as there are characters out there, that might have variable tries
+      self.maxLevelUpVariableTries = @0;        // thats the value the DSACharacterWindowController checks if there ar variable tries
     }
   return self;
 }
@@ -234,21 +235,14 @@
       return NO;
     }    
   
-//  if ([talent isMemberOfClass:[DSASpell class]])
-//    {
-      self.maxLevelUpTalentsTriesTmp = [NSNumber numberWithInteger: [self.maxLevelUpTalentsTriesTmp integerValue] - [[talent levelUpCost] integerValue]];
-/*    }
-  else
-    {
-      self.maxLevelUpTalentsTriesTmp = [NSNumber numberWithInteger: [self.maxLevelUpTalentsTriesTmp integerValue] - 1];    
-    } */
+  self.maxLevelUpTalentsTriesTmp = [NSNumber numberWithInteger: [self.maxLevelUpTalentsTriesTmp integerValue] - [[talent levelUpCost] integerValue]];
+
   result = [targetTalent levelUp];
   if (result)
     {
       tmpTalent.maxUpPerLevel = [NSNumber numberWithInteger: [tmpTalent.maxUpPerLevel integerValue] - 1];
       tmpTalent.maxTriesPerLevelUp = [NSNumber numberWithInteger: [tmpTalent.maxUpPerLevel integerValue] * 3];
       tmpTalent.level = targetTalent.level;
-      // result = YES;
     }
   else
     {
@@ -326,7 +320,8 @@
   [coder encodeObject:self.professions forKey:@"professions"];  
   [coder encodeObject:self.levelUpTalents forKey:@"levelUpTalents"];
   [coder encodeObject:self.levelUpSpells forKey:@"levelUpSpells"];  
-  [coder encodeObject:self.levelUpProfessions forKey:@"levelUpProfessions"];  
+  [coder encodeObject:self.levelUpProfessions forKey:@"levelUpProfessions"];
+  [coder encodeObject:self.firstLevelUpTalentTriesPenalty forKey:@"firstLevelUpTalentTriesPenalty"];  
   [coder encodeObject:self.maxLevelUpTalentsTries forKey:@"maxLevelUpTalentsTries"];
   [coder encodeObject:self.maxLevelUpSpellsTries forKey:@"maxLevelUpSpellsTries"];
   [coder encodeObject:self.maxLevelUpTalentsTriesTmp forKey:@"maxLevelUpTalentsTriesTmp"];
@@ -367,7 +362,8 @@
       self.professions = [coder decodeObjectOfClass:[NSString class] forKey:@"professions"];      
       self.levelUpTalents = [coder decodeObjectOfClass:[NSString class] forKey:@"levelUpTalents"];
       self.levelUpSpells = [coder decodeObjectOfClass:[NSString class] forKey:@"levelUpSpells"];      
-      self.levelUpProfessions = [coder decodeObjectOfClass:[NSString class] forKey:@"levelUpProfessions"];      
+      self.levelUpProfessions = [coder decodeObjectOfClass:[NSString class] forKey:@"levelUpProfessions"];
+      self.firstLevelUpTalentTriesPenalty = [coder decodeObjectOfClass:[NSString class] forKey:@"firstLevelUpTalentTriesPenalty"];            
       self.maxLevelUpTalentsTries = [coder decodeObjectOfClass:[NSString class] forKey:@"maxLevelUpTalentsTries"];
       self.maxLevelUpSpellsTries = [coder decodeObjectOfClass:[NSString class] forKey:@"maxLevelUpSpellsTries"];
       self.maxLevelUpTalentsTriesTmp = [coder decodeObjectOfClass:[NSString class] forKey:@"maxLevelUpTalentsTriesTmp"];

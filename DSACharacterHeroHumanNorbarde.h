@@ -5,7 +5,7 @@
 
    Author: Sebastian Reitenbach
 
-   Created: 2024-10-04 16:57:22 +0200 by sebastia
+   Created: 2024-10-11 19:14:19 +0200 by sebastia
 
    This application is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,19 +22,15 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
-#import "DSACharacterHeroHumanNivese.h"
+#ifndef _DSACHARACTERHEROHUMANNORBARDE_H_
+#define _DSACHARACTERHEROHUMANNORBARDE_H_
 
-@implementation DSACharacterHeroHumanNivese
+#import "DSACharacterHeroHuman.h"
 
-- (instancetype)init
-{
-  self = [super init];
-  if (self)
-    {
-      // see Mit Mantel, Schwert und Zauberstab S. 45
-      self.mrBonus = @-1;
-    }
-  return self;
-}
+@interface DSACharacterHeroHumanNorbarde : DSACharacterHeroHuman
+
 
 @end
+
+#endif // _DSACHARACTERHEROHUMANNORBARDE_H_
+

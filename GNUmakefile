@@ -151,7 +151,8 @@ Resources/Talente.json \
 Resources/Typus.json \
 Resources/Magierakademien.json \
 Resources/Zauberfertigkeiten.json \
-Resources/Magiedilettantenzauber.json 
+Resources/Magiedilettantenzauber.json \
+Resources/Kriegerakademien.json 
 
 
 #
@@ -222,7 +223,8 @@ DSACharacterHeroHumanMercenary.h \
 DSACharacterHeroHumanSkald.h \
 DSACharacterHeroHumanBard.h \
 DSACharacterHeroHumanNovadi.h \
-DSASpecialTalent.h
+DSASpecialTalent.h \
+DSACharacterHeroHumanNorbarde.h
 
 #
 # Objective-C Class files
@@ -279,7 +281,8 @@ DSACharacterHeroHumanMercenary.m \
 DSACharacterHeroHumanSkald.m \
 DSACharacterHeroHumanBard.m \
 DSACharacterHeroHumanNovadi.m \
-DSASpecialTalent.m
+DSASpecialTalent.m \
+DSACharacterHeroHumanNorbarde.m
 
 #
 # Other sources

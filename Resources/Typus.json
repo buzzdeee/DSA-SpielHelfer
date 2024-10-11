@@ -1216,66 +1216,97 @@
   "Nivese": {
     "Typkategorie": [ "Mensch" ],
     "Eigenschaften": {
-      "CH": "12+",
-      "IN": "11+",
-      "GE": "11+",
-      "RA": "6+",
-      "JZ": "5+"
+      "IN": "12+",
+      "GE": "12+",
+      "TA": "7+"
     },
     "Herkunft": {
       "Würfel": "1W20",
-      "unfrei": {
-        "1W20": [ 1, 2 ],
-        "Eltern": {
-          "Sklaven": [ 1, 2 ]
-        }
-      },
       "arm": {
-        "1W20": [ 3, 4, 5, 6, 7, 8, 9, 10 ],
+        "1W20": [ 1, 2, 3, 4, 5, 6, 7, 8 ],
         "Eltern": {
-          "Viehhirten": [ 3, 4, 5, 6 ],
-          "Nomaden": [ 7, 8, 9, 10 ]
+          "Hirten": [ 1, 2, 3, 4, 5, 6, 7, 8 ]
         }
       },
       "mittelständisch": {
-        "1W20": [ 11, 12, 13, 14, 15, 16 ],
+        "1W20": [ 9, 10, 11, 12, 13, 14, 15, 16 ],
         "Eltern": {
-          "Händler": [ 11, 12 ],
-          "Viehzüchter": [ 13 ],
-          "Karawansereibesitzer": [ 14 ],
-          "Handwerker": [ 15 ],
-          "Hairan": [ 16 ]
+          "Handwerker": [ 9, 10, 11, 12 ],
+          "Hirten": [ 13, 14, 15, 16 ]
         }
       },
       "reich": {
         "1W20": [ 17, 18, 19 ],
         "Eltern": {
-          "Kaufmann": [ 17, 18 ],
-          "Scheich": [ 19 ]
+          "Hirten": [ 17, 18, 19 ]
         }
       },
       "adelig": {
         "1W20": [ 20 ],
         "Eltern": {
-          "Sultan": [ 20 ]
+          "Häuptlinge": [ 20 ]
         }
       }
     },
     "Haarfarbe": {
-      "schwarz": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+      "kupferrot": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ],
+      "blond": [ 16 ],
       "braun": [ 17, 18 ],
-      "rot": [ 19 ],
-      "blond": [ 20 ]
+      "dunkelblond": [ 19 ],      
+      "schwarz": [ 20 ]
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [ "156", "21W20" ],
+    "Körpergröße": [ "156", "2W20" ],
     "Gewicht": -110
   },
+  "Norbarde": {
+    "Typkategorie": [ "Mensch" ],
+    "Magiedilettant": true,    
+    "Eigenschaften": {
+      "MU": "12+",
+      "KL": "12+",
+      "CH": "11+",
+      "HA": "6+",
+      "NG": "6+"
+    },
+    "Herkunft": {
+      "Würfel": "1W20",
+      "arm": {
+        "1W20": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
+        "Eltern": {
+          "Fahrende Händler": [ 3, 4, 5 ],
+          "Pelztierjäger": [ 6, 7, 8, 9, 10 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 11, 12, 13, 14, 15, 16, 17, 18 ],
+        "Eltern": {
+          "Karawanenführer": [ 11, 12, 13, 14 ],
+          "Reisende Handwerker": [ 15, 16, 17, 18 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 19, 20 ],
+        "Eltern": {
+          "Fernhändler": [ 19, 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ],
+      "kupferrot": [ 18 ],
+      "blond": [ 19 ],
+      "albino": [ 20 ]
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Körpergröße": [ "156", "2W20" ],
+    "Gewicht": -100
+  },  
   "Novadi": {
     "Typkategorie": [ "Mensch" ],
     "Magiedilettant": true,    
     "Eigenschaften": {
-      "CH": "12+",
+      "MU": "12+",
       "IN": "11+",
       "GE": "11+",
       "RA": "6+",
@@ -1327,7 +1358,7 @@
       "blond": [ 20 ]
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [ "156", "21W20" ],
+    "Körpergröße": [ "156", "2W20" ],
     "Gewicht": -110
   },  
   "Seefahrer": {

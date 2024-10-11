@@ -32,6 +32,7 @@
 #import "DSACharacterHeroHumanPhysician.h"
 #import "DSACharacterHeroHumanMoha.h"
 #import "DSACharacterHeroHumanNivese.h"
+#import "DSACharacterHeroHumanNorbarde.h"
 #import "DSACharacterHeroHumanNovadi.h"
 #import "DSACharacterHeroHumanSeafarer.h"
 #import "DSACharacterHeroHumanMercenary.h"
@@ -70,6 +71,7 @@
 @synthesize professionsDict;
 @synthesize originsDict;
 @synthesize mageAcademiesDict;
+@synthesize warriorAcademiesDict;
 @synthesize eyeColorsDict;
 @synthesize birthdaysDict;
 @synthesize godsDict;
@@ -128,7 +130,13 @@
         JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
                    options: NSJSONReadingMutableContainers
                      error: &e];
-      
+
+      filePath = [[NSBundle mainBundle] pathForResource:@"Kriegerakademien" ofType:@"json"];                 
+      warriorAcademiesDict = [NSJSONSerialization 
+        JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];                     
+                           
       filePath = [[NSBundle mainBundle] pathForResource:@"Augenfarben" ofType:@"json"];                       
       eyeColorsDict = [NSJSONSerialization 
         JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
@@ -262,6 +270,14 @@
     {
       newCharacter = [[DSACharacterHeroHumanNivese alloc] init];
     }
+  else if ([selectedArchetype isEqualToString:_(@"Norbarde")])
+    {
+      newCharacter = [[DSACharacterHeroHumanNorbarde alloc] init];
+    } 
+  else if ([selectedArchetype isEqualToString:_(@"Novadi")])
+    {
+      newCharacter = [[DSACharacterHeroHumanNovadi alloc] init];
+    }        
   else if ([selectedArchetype isEqualToString:_(@"Seefahrer")])
     {
       newCharacter = [[DSACharacterHeroHumanSeafarer alloc] init];
@@ -274,7 +290,7 @@
     {
       newCharacter = [[DSACharacterHeroHumanSkald alloc] init];
     }
-  else if ([selectedArchetype isEqualToString:_(@"Bard")])
+  else if ([selectedArchetype isEqualToString:_(@"Barde")])
     {
       newCharacter = [[DSACharacterHeroHumanBard alloc] init];
     }
@@ -383,7 +399,11 @@
     {
        newCharacter.mageAcademy = [[self.popupMageAcademies selectedItem] title];
     }
-  else
+  else if ([self.popupMageAcademies isEnabled] && [newCharacter isMemberOfClass: [DSACharacterHeroHumanWarrior class]])
+    {
+       newCharacter.mageAcademy = [[self.popupMageAcademies selectedItem] title];  // misusing mageAcademy here for the Warrior Academy as well
+    }
+  else  
     {
        newCharacter.mageAcademy = nil;
     }
@@ -489,6 +509,7 @@
   // apply Göttergeschenke and Origins modificators
   [self apply: @"Goettergeschenke" toArchetype: newCharacter];
   [self apply: @"Herkunft" toArchetype: newCharacter];
+  [self apply: @"Kriegerakademie" toArchetype: newCharacter];  
     
   // Store the generated character
   self.generatedCharacter = newCharacter;
@@ -649,14 +670,17 @@
   if ([@"Goettergeschenke" isEqualTo: modificator])
     {
       traits = [[self.godsDict objectForKey: archetype.god] objectForKey: @"Basiswerte"];
-      talents = [[self.godsDict objectForKey: archetype.god] objectForKey: @"Talente"];
-
-       
+      talents = [[self.godsDict objectForKey: archetype.god] objectForKey: @"Talente"]; 
     }
   else if ([@"Herkunft" isEqualTo: modificator])
     {
-
       talents = [[self.originsDict objectForKey: archetype.origin] objectForKey: @"Talente"]; 
+    }
+  else if ([@"Kriegerakademie" isEqualTo: modificator])
+    {
+      NSLog(@"applying Kriegerakademie modificator");
+      talents = [[self.warriorAcademiesDict objectForKey: archetype.mageAcademy] objectForKey: @"Talente"];
+      archetype.firstLevelUpTalentTriesPenalty = [[self.warriorAcademiesDict objectForKey: archetype.mageAcademy] objectForKey: @"Initiale Steigerungsversuche"];
     }
   else
     {
@@ -664,23 +688,26 @@
     }  
 
   // positive traits
-  for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
+  if ([traits count] > 0)
     {
-      if ([[traits allKeys] containsObject: field])
+      for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
         {
-          [archetype setValue: [NSNumber numberWithInteger: [[archetype valueForKeyPath: [NSString stringWithFormat: @"positiveTraits.%@.level", field]] integerValue]  + 
-                               [[traits objectForKey: field] integerValue]]
-                   forKeyPath: [NSString stringWithFormat: @"positiveTraits.%@.level", field]];
+          if ([[traits allKeys] containsObject: field])
+            {
+              [archetype setValue: [NSNumber numberWithInteger: [[archetype valueForKeyPath: [NSString stringWithFormat: @"positiveTraits.%@.level", field]] integerValue]  + 
+                                   [[traits objectForKey: field] integerValue]]
+                       forKeyPath: [NSString stringWithFormat: @"positiveTraits.%@.level", field]];
+            }
         }
-    }
-  // negative traits
-  for (NSString *field in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
-    {
-      if ([[traits allKeys] containsObject: field])
+      // negative traits
+      for (NSString *field in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
         {
-          [archetype setValue: [NSNumber numberWithInteger: [[archetype valueForKeyPath: [NSString stringWithFormat: @"negativeTraits.%@.level", field]] integerValue]  + 
-                               [[traits objectForKey: field] integerValue]]
-                   forKeyPath: [NSString stringWithFormat: @"negativeTraits.%@.level", field]];
+          if ([[traits allKeys] containsObject: field])
+            {
+              [archetype setValue: [NSNumber numberWithInteger: [[archetype valueForKeyPath: [NSString stringWithFormat: @"negativeTraits.%@.level", field]] integerValue]  + 
+                                   [[traits objectForKey: field] integerValue]]
+                       forKeyPath: [NSString stringWithFormat: @"negativeTraits.%@.level", field]];
+            }
         }
     }
   for (NSString *category in [talents allKeys])
@@ -1495,6 +1522,16 @@ NSLog(@"popupCategorySelected called!");
       [self.popupMageAcademies setAction:@selector(popupMageAcademiesSelected:)]; 
       [self.fieldMageSchool setStringValue: _(@"Geodische Schule")];           
     }
+  else if ( [[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Krieger")] )
+    {
+      [self.popupMageAcademies setEnabled: YES];
+      [self.popupMageAcademies removeAllItems];
+      [self.popupMageAcademies addItemWithTitle: _(@"Akademie wählen")];      
+      [self.popupMageAcademies addItemsWithTitles: [warriorAcademiesDict allKeys]];
+      [self.popupMageAcademies setTarget:self];
+      [self.popupMageAcademies setAction:@selector(popupMageAcademiesSelected:)]; 
+      [self.fieldMageSchool setStringValue: _(@"Kriegerakademie")];           
+    }    
   else if ([[charConstraints allKeys] containsObject: @"Magiedilettant"])
     {
       [self.popupMageAcademies setEnabled: YES];

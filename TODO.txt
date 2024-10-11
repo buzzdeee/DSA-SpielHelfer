@@ -46,23 +46,19 @@ TODO:
    * Weniger Behinderung bei jeglicher Rüstung
  * Medicus
    * Heilkunde Talente steigern mit 3W6
-   * Extra Behinderung bei Rüstung
- * Nivese
-   * Brauche die Startwerte, Mittlere Seite aus Mit Mantel Schwert und Zauberstab fehlt :(
- * Norbarde
-   * Brauche die Startwerte, Mittlere Seite aus Mit Mantel Schwert und Zauberstab fehlt :(  
+   * Extra Behinderung bei Rüstung 
  * Knappe
  * Alchimist
+
  
-IN PROGRESS:
- * Magiedilettanten
-   
 DONE:
+ * Kriegerakademien
  * Glaube/Religion (mehr werden folgen...)
  * Elemente bei Geoden/Druidenzauber beachten beim initialisieren und steigern
  * aktive und ruhende Spells
    * Die Magie des schwarzen Auges: S. 13
  * Basiswerte und Steigern: Archetypen:
+   * Magiedilettant
    * Firnelf
    * Halbelf
    * Auelf
@@ -78,6 +74,8 @@ DONE:
    * Krieger
    * Medicus
    * Moha
+   * Nivese
+   * Norbarde
    * Novadi
    * Seefahrer
    * Söldner

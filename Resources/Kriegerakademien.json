@@ -1,0 +1,278 @@
+{
+  "Akademie zu Baliho": {
+    "Langer Name": "Akademie 'Schwert und Schild' zu Baliho",
+    "Ort": "Baliho",
+    "Initiale Steigerungsversuche": 0,
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Hruruzat": -2
+        },
+        "Bewaffnete Kampftechniken": {
+          "Äxte und Beile": 1,
+          "Infanteriewaffen": -1,
+          "Kettenwaffen": 1,
+          "Schwerter": -1,
+          "Zweihänder": 3
+        },
+        "Fernkampftechniken": {
+          "Schußwaffen": -1,
+          "Wurfwaffen": -1
+        },
+        "Besondere Kampftechniken": {
+          "Linkshändig": -1,
+          "Lanzenreiten": 2
+        }
+      },
+      "Körperliche Talente": {
+        "Reiten": 2,
+        "Schleichen": -1,
+        "Tanzen": -1,
+        "Zechen": 1
+      },
+      "Gesellschaft": {
+        "Etikette": -1,
+        "Lügen": -1
+      },
+      "Natur": {
+        "Orientierung": 1,
+        "Tierkunde": 2
+      },
+      "Wissenstalente": {
+        "Geschichtswissen": 1
+      },
+      "Handwerk": {
+        "Abrichten": 2,
+        "Fahrzeug Lenken": 2
+      },
+      "Intuitive Begabungen": {
+        "Gefahreninstinkt": -1
+      }
+    }
+  },
+  "Banner des Harden von Ragathsquell": {
+    "Langer Name": "Banner des Harden von Ragathsquell",
+    "Ort": "Gareth",
+    "Initiale Steigerungsversuche": 0,
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Raufen": 2,
+          "Ringen": 2,
+          "Hruruzat": -2
+        },
+        "Bewaffnete Kampftechniken": {
+          "Äxte und Beile": -2,
+          "Stichwaffen": 2,
+          "Infanteriewaffen": -2,
+          "Kettenwaffen": -2,
+          "Schwerter": -2
+        },
+        "Fernkampftechniken": {
+          "Schußwaffen": -1
+        },
+        "Besondere Kampftechniken": {
+          "Lanzenreiten": -2
+        }
+      },
+      "Körperliche Talente": {
+        "Klettern": -1,
+        "Reiten": 1,
+        "Schleichen": 1,
+        "Zechen": 2
+      },
+      "Gesellschaft": {
+        "Etikette": -2
+      },
+      "Wissenstalente": {
+        "Götter und Kulte": -1,
+        "Kriegskunst": -1,
+        "Magiekunde": -1,
+        "Rechtskunde": -1,
+        "Staatskunst": -2
+      },
+      "Handwerk": {
+        "Singen": 2
+      },
+      "Intuitive Begabungen": {
+        "Sinnenschärfe": 1
+      }
+    }
+  },  
+  "Kämpferschule zu Prem": {
+    "Langer Name": "Freie Kämpferschule von der Trutzburg zu Prem",
+    "Ort": "Prem",
+    "Initiale Steigerungsversuche": 0,
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Raufen": 1,
+          "Hruruzat": -2
+        },
+        "Bewaffnete Kampftechniken": {
+          "Äxte und Beile": 2,
+          "Infanteriewaffen": -2,
+          "Kettenwaffen": 1,
+          "Schwerter": -1
+        },
+        "Fernkampftechniken": {
+          "Schußwaffen": -1,
+          "Wurfwaffen": 1
+        },
+        "Besondere Kampftechniken": {
+          "Linkshändig": -2,
+          "Lanzenreiten": -2
+        }
+      },
+      "Körperliche Talente": {
+        "Klettern": 1,
+        "Reiten": -2,
+        "Schleichen": -1,
+        "Schwimmen": 2,
+        "Zechen": 2
+      },
+      "Gesellschaft": {
+        "Etikette": -2
+      },
+      "Wissenstalente": {
+        "Geschichtswissen": 1,
+        "Götter und Kulte": -1,
+        "Kriegskunst": -1,
+        "Lesen/Schreiben": -1,
+        "Magiekunde": -1,
+        "Rechtskunde": -1,
+        "Staatskunst": -2
+      },
+      "Handwerk": {
+        "Boote Fahren": 2,
+        "Singen": 1
+      },
+      "Intuitive Begabungen": {
+        "Sinnenschärfe": 1
+      }
+    }
+  },  
+  "Akademie zu Vinsalt": {
+    "Langer Name": "Akademie der Kriegs- und Lebenskunst zu Vinsalt",
+    "Ort": "Vinsalt",
+    "Initiale Steigerungsversuche": -10,
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Raufen": -2,
+          "Ringen": -2,
+          "Boxen": 2
+        },
+        "Bewaffnete Kampftechniken": {
+          "Äxte und Beile": -2,
+          "Kettenwaffen": -1,
+          "Scharfe Hiebwaffen": -1,          
+          "Schwerter": -1,
+          "Stichwaffen": 3,          
+          "Stumpfe Hiebwaffen": -1,                    
+          "Zweihänder": 1
+        },
+        "Fernkampftechniken": {
+          "Schußwaffen": 1,
+          "Wurfwaffen": 1
+        },
+        "Besondere Kampftechniken": {
+          "Linkshändig": 2
+        }
+      },
+      "Körperliche Talente": {
+        "Körperbeherrschung": 1,
+        "Reiten": 1,
+        "Tanzen": 2
+      },
+      "Gesellschaft": {
+        "Bekehren/Überzeugen": 3,
+        "Betören": 1,
+        "Etikette": 2
+      },
+      "Natur": {
+        "Fährtensuchen": -1,
+        "Fallenstellen": -1,
+        "Wildnisleben": -1
+      },
+      "Wissenstalente": {
+        "Alte Sprachen": 2,
+        "Geographie": 1,
+        "Geschichtswissen": 1,        
+        "Götter und Kulte": 1,
+        "Lesen/Schreiben": 2,
+        "Magiekunde": 1,
+        "Rechnen": 2,
+        "Rechtskunde": 1,
+        "Sprachen Kennen": 2,        
+        "Staatskunst": 3
+      },
+      "Handwerk": {
+        "Fahrzeug Lenken": 1,
+        "Lederarbeiten": -1,
+        "Musizieren": 1,        
+        "Singen": 1
+      }
+    }
+  },  
+  "Akademie zu Wehrheim": {
+    "Langer Name": "Kaiserlich Wehrheimer Akademie für Strategie und Taktik",
+    "Ort": "Wehrheim",
+    "Initiale Steigerungsversuche": -10,
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Raufen": -2,
+          "Boxen": 1
+        },
+        "Bewaffnete Kampftechniken": {
+          "Äxte und Beile": -1,
+          "Infanteriewaffen": 1,
+          "Kettenwaffen": -1,
+          "Stichwaffen": 2,
+          "Zweihänder": 1
+        },
+        "Fernkampftechniken": {
+          "Schußwaffen": 1
+        },
+        "Besondere Kampftechniken": {
+          "Linkshändig": 1
+        }
+      },
+      "Körperliche Talente": {
+        "Körperbeherrschung": 1,
+        "Reiten": 1,
+        "Selbstbeherrschung": 2
+      },
+      "Gesellschaft": {
+        "Etikette": 2,
+        "Gassenwissen": -1,
+        "Lehren": 3,
+        "Lügen": -1
+      },
+      "Natur": {
+        "Fährtensuchen": -1,
+        "Fallenstellen": -1,
+        "Orientierung": 1,
+        "Wildnisleben": -1
+      },
+      "Wissenstalente": {
+        "Alte Sprachen": 2,
+        "Geographie": 1,
+        "Götter und Kulte": 1,
+        "Kriegskunst": 4,
+        "Lesen/Schreiben": 2,
+        "Mechanik": 1,
+        "Rechnen": 1,
+        "Rechtskunde": 3,
+        "Staatskunst": 3
+      },
+      "Handwerk": {
+        "Lederarbeiten": -2
+      },
+      "Intuitive Begabungen": {
+        "Glücksspiel": -2
+      }
+    }
+  }
+}

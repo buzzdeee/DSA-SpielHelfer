@@ -64,7 +64,8 @@
 	"DSACharacterHeroHumanSkald.m",
 	"DSACharacterHeroHumanBard.m",
 	"DSACharacterHeroHumanNovadi.m",
-	"DSASpecialTalent.m"
+	"DSASpecialTalent.m",
+	"DSACharacterHeroHumanNorbarde.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -128,7 +129,8 @@
 	"DSACharacterHeroHumanSkald.h",
 	"DSACharacterHeroHumanBard.h",
 	"DSACharacterHeroHumanNovadi.h",
-	"DSASpecialTalent.h"
+	"DSASpecialTalent.h",
+	"DSACharacterHeroHumanNorbarde.h"
     );
     IMAGES = (
 	"Character_1.png",
@@ -276,7 +278,8 @@
 	"Typus.json",
 	"Magierakademien.json",
 	"Zauberfertigkeiten.json",
-	"Magiedilettantenzauber.json"
+	"Magiedilettantenzauber.json",
+	"Kriegerakademien.json"
     );
     "OTHER_SOURCES" = (
 	"DSA-SpielHelfer_main.m"
