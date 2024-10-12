@@ -1,9 +1,188 @@
 {
   "Keine Akademie": {},
-  "Akademie der Magischen Rüstung zu Gareth": {
-    "Spezialgebiet": "Antimagie"
+  "Academia Armarorum Astralis Garethienses": {
+    "Weltlicher Name": "Akademie der Magischen Rüstung zu Gareth",
+    "Spezialgebiet": "Antimagie",
+    "Ausrichtung": "weiß",
+    "Akademieleiter": "Racalla von Horsen-Rabenmund",
+    "Zahl der Lehrmeister": 4,
+    "Zahl der Schüler": 24,
+    "Talente": {
+      "Kampftechniken": {
+        "Bewaffnete Kampftechniken": {
+          "Speere und Stäbe": 1,
+          "Stichwaffen": -1
+        },
+        "Fernkampftechniken": {
+          "Schußwaffen": 2,
+          "Wurfwaffen": -2
+        }
+      }
+      "Gesellschaft": {
+        "Etikette": 1,
+        "Lügen": 1
+      },
+      "Körperliche Talente": {
+        "Körperbeherrschung": 1,
+        "Selbstbeherrschung": 1
+      },
+      "Wissenstalente": {
+        "Staatskunst": 2
+      }
+    },
+    "Zaubersprüche": {
+      "Kampf": {
+        "Eisenrost und grüner Span": 1,
+        "Ignisphaero Feuerball": 1,
+        "Kalt wie Stein": 1,
+        "Fulminictus Donnerkeil": 1,
+        "Herzschlag ruhe, Atem stocke!": 1,
+        "Ignifaxius Flammenstrahl": 1,
+        "Kulminatio Kugelblitz": 1,
+        "Corpofrigo Kälteschock": 1,
+        "Saft-Kraft-Monstermacht": 1,
+        "Plumbumbarum": 1,
+        "Scharfes Auge, sichre Hand": 1,
+        "Sensattacco Meisterstreich": 1,
+        "Höllenpein zerreiße dich!": 1,
+        "Treue Klinge, Sichrer Stand": 1,
+        "Gliederschmerzen, Nadelstich": 1,
+        "Blitz dich find": 2
+      },
+      "Beherrschung": {
+        "Band und Fessel dich umringt": -1,
+        "Imeravi Animus": -1,
+        "Memorabia Falsifir": -1,
+        "Sanftmut": -1,
+        "Schelmenrausch": -1,
+        "Schwarzer Schrecken plage dich!": -1,
+        "Seidenzunge, Elfenwort": -1,
+        "Zauberzwang": -1,
+        "Herr über das Tierreich": -1,
+        "Bannbaladin": -1,
+        "Karnifilo Raserei": -1,
+        "Halluzination": -1,
+        "Panik überkomme euch!": -1,
+        "Schabernack": -1,
+        "Böser Blick": -1,
+        "Erinnerung verlasse dich!": -1,
+        "Lachkrampf": -1,
+        "Eigne Ängste quälen dich!": -1,
+        "Zunge lähmen": -1,
+        "Große Verwirrung": -1,                                                                                                                                                                
+        "Große Gier": -1,
+        "Zwingtanz": -1,                                                                                                                                                                
+        "Somnigravis Tausend Schaf": -1,
+        "Horriphobus Schreckenspein": -1                                                                                                                                                                
+      },
+      "Verwandlung von Lebewesen": {
+        "Armatrutz": 2,
+        "Arcano Psychostabilis": 2
+      },
+      "Antimagie": {
+        "Wider Hellsicht und Befehle": 1,
+        "Gardianum Paradei": 2,
+        "Kampfzauber stören": 2,
+        "Illusionen zerstören": 2
+      },
+      "Illusion": {
+        "Ignorantia Ungesehn": 1,
+        "Widerwille Ungemach": 1
+      }
+    },
+    "Haussprüche": [ "Armatrutz", "Arcano Psychostabilis", "Gardianum Paradei", "Kampfzauber stören", "Illusionen zerstören", "Ignorantia Ungesehn", "Blitz dich find" ]   
   }
-  "Halle der Antimagie zu Kuslik": {
-    "Spezialgebiet": "Antimagie"
+  "Accademia Contramagica Kuslikiensis": {
+    "Weltlicher Name": "Halle der Antimagie zu Kuslik",
+    "Spezialgebiet": "Antimagie",
+    "Ausrichtung": "grau",
+    "Akademieleiter": "Larissa Uchakbar",
+    "Zahl der Lehrmeister": 11,
+    "Zahl der Schüler": 39,
+    "Talente": {
+      "Kampftechniken": {
+        "Bewaffnete Kampftechniken": {
+          "Speere und Stäbe": 1,
+          "Stichwaffen": -1
+        },
+        "Fernkampftechniken": {
+          "Schußwaffen": 2,
+          "Wurfwaffen": -2
+        }
+      }
+      "Gesellschaft": {
+        "Etikette": 1,
+        "Lügen": 1
+      },
+      "Körperliche Talente": {
+        "Körperbeherrschung": 1,
+        "Selbstbeherrschung": 1
+      },
+      "Wissenstalente": {
+        "Staatskunst": 2
+      }
+    },
+    "Zaubersprüche": {
+      "Kampf": {
+        "Eisenrost und grüner Span": 1,
+        "Ignisphaero Feuerball": 1,
+        "Kalt wie Stein": 1,
+        "Fulminictus Donnerkeil": 1,
+        "Herzschlag ruhe, Atem stocke!": 1,
+        "Ignifaxius Flammenstrahl": 1,
+        "Kulminatio Kugelblitz": 1,
+        "Corpofrigo Kälteschock": 1,
+        "Saft-Kraft-Monstermacht": 1,
+        "Plumbumbarum": 1,
+        "Scharfes Auge, sichre Hand": 1,
+        "Sensattacco Meisterstreich": 1,
+        "Höllenpein zerreiße dich!": 1,
+        "Treue Klinge, Sichrer Stand": 1,
+        "Gliederschmerzen, Nadelstich": 1,
+        "Blitz dich find": 2
+      },
+      "Beherrschung": {
+        "Band und Fessel dich umringt": -1,
+        "Imeravi Animus": -1,
+        "Memorabia Falsifir": -1,
+        "Sanftmut": -1,
+        "Schelmenrausch": -1,
+        "Schwarzer Schrecken plage dich!": -1,
+        "Seidenzunge, Elfenwort": -1,
+        "Zauberzwang": -1,
+        "Herr über das Tierreich": -1,
+        "Bannbaladin": -1,
+        "Karnifilo Raserei": -1,
+        "Halluzination": -1,
+        "Panik überkomme euch!": -1,
+        "Schabernack": -1,
+        "Böser Blick": -1,
+        "Erinnerung verlasse dich!": -1,
+        "Lachkrampf": -1,
+        "Eigne Ängste quälen dich!": -1,
+        "Zunge lähmen": -1,
+        "Große Verwirrung": -1,                                                                                                                                                                
+        "Große Gier": -1,
+        "Zwingtanz": -1,                                                                                                                                                                
+        "Somnigravis Tausend Schaf": -1,
+        "Horriphobus Schreckenspein": -1                                                                                                                                                                
+      },
+      "Verwandlung von Lebewesen": {
+        "Armatrutz": 2,
+        "Arcano Psychostabilis": 2
+      },
+      "Antimagie": {
+        "Wider Hellsicht und Befehle": 1,
+        "Gardianum Paradei": 2,
+        "Kampfzauber stören": 2,
+        "Illusionen zerstören": 2
+      },
+      "Illusion": {
+        "Ignorantia Ungesehn": 1,
+        "Widerwille Ungemach": 1
+      }
+    },
+    "Haussprüche": [ "Armatrutz", "Arcano Psychostabilis", "Gardianum Paradei", "Kampfzauber stören", "Illusionen zerstören", "Ignorantia Ungesehn", "Blitz dich find" ]
   }
+
 }

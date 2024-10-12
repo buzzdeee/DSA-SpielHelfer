@@ -5,7 +5,7 @@
 
    Author: Sebastian Reitenbach
 
-   Created: 2024-09-28 22:33:51 +0200 by sebastia
+   Created: 2024-10-12 15:02:02 +0200 by sebastia
 
    This application is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,24 +22,26 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
-#import "DSACharacterHeroElf.h"
+#import "DSACharacterHeroHumanDruid.h"
 #import "Utils.h"
+#import "DSASpell.h"
+#import "DSASpellResult.h"
 
-@implementation DSACharacterHeroElf
+@implementation DSACharacterHeroHumanDruid
+
 - (instancetype)init
 {
   self = [super init];
   if (self)
     {
-      self.lifePoints = @25;
       self.astralEnergy = @25;
-      self.currentLifePoints = @25;
       self.currentAstralEnergy = @25;
-      self.maxLevelUpTalentsTries = @25;        // most have this as their starting value
+      self.maxLevelUpTalentsTries = @20;        // most have this as their starting value
       self.maxLevelUpSpellsTries = @25;
       self.maxLevelUpTalentsTriesTmp = @0;
       self.maxLevelUpSpellsTriesTmp = @0;      
-      self.maxLevelUpVariableTries = @0;           
+      self.maxLevelUpVariableTries = @10;
+      self.mrBonus = @2;                      // Die Magie des schwarzen Auges S. 49
     }
   return self;
 }
@@ -47,9 +49,8 @@
 
 - (NSDictionary *) levelUpBaseEnergies
 {
-  NSNumber *result;
   NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
-  result = [NSNumber numberWithInteger: [[Utils rollDice: @"1W6"] integerValue] + 2];
+  NSNumber *result = [NSNumber numberWithInteger: [[Utils rollDice: @"1W6"] integerValue] + 2];
  
   self.tempDeltaLpAe = result;
   // we have to ask the user how to distribute these
@@ -85,7 +86,7 @@
 
   if ([tmpSpell.maxUpPerLevel integerValue] == 0)
     {
-      NSLog(@"DSACharacterHeroElf: levelUpSpell: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");
+      NSLog(@"DSACharacterHeroDruid: levelUpSpell: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");
       return NO;
     }    
        
@@ -96,7 +97,6 @@
       tmpSpell.maxUpPerLevel = [NSNumber numberWithInteger: [tmpSpell.maxUpPerLevel integerValue] - 1];
       tmpSpell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [tmpSpell.maxUpPerLevel integerValue] * 3];
       tmpSpell.level = targetSpell.level;
-      result = YES;
     }
   else
     {
@@ -109,23 +109,14 @@
   return result;
 }
 
-// Non-Elf spells can only be leveled up to 11
-// See: "Dunkle Städte, Lichte Wälder", "Geheimnisse der Elfen", S. 68
 - (BOOL) canLevelUpSpell: (DSASpell *)spell
 {
-  if (![@[ @"A", @"W", @"F" ] containsObject: spell.origin])
-    {
-      if ([spell.level integerValue] == 11 )
-        {
-          return NO;
-        }
-    }
   if ([spell.level integerValue] == 18)
     {
       // we're already at the general maximum
       return NO;
     }
-  if ([[[self.levelUpSpells objectForKey: [spell name]] maxUpPerLevel] integerValue] == 0)
+  if ([[[self.levelUpSpells objectForKey: [spell name]] maxUpPerLevel] integerValue] <= 0)
     {
       return NO;
     }
@@ -134,7 +125,5 @@
       return YES;
     }    
 }
-
-
 
 @end

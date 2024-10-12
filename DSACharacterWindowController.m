@@ -128,21 +128,22 @@
 - (void) populateBasicsTab
 {
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-  [self.fieldName bind:NSValueBinding toObject:document.model withKeyPath:@"name" options:nil];
-  [self.fieldTitle bind:NSValueBinding toObject:document.model withKeyPath:@"title" options:nil];  
-  [self.fieldArchetype bind:NSValueBinding toObject:document.model withKeyPath:@"archetype" options:nil];
-  [self.fieldOrigin bind:NSValueBinding toObject:document.model withKeyPath:@"origin" options:nil];
-  [self.fieldSex bind:NSValueBinding toObject:document.model withKeyPath:@"sex" options:nil];
-  [self.fieldHairColor bind:NSValueBinding toObject:document.model withKeyPath:@"hairColor" options:nil];  
-  [self.fieldEyeColor bind:NSValueBinding toObject:document.model withKeyPath:@"eyeColor" options:nil];
-  [self.fieldHeight bind:NSValueBinding toObject:document.model withKeyPath:@"height" options:nil];    
-  [self.fieldWeight bind:NSValueBinding toObject:document.model withKeyPath:@"weight" options:nil];    
-  [self.fieldBirthday bind:NSValueBinding toObject:document.model withKeyPath:@"birthday.date" options:nil];      
-  [self.fieldGod bind:NSValueBinding toObject:document.model withKeyPath:@"god" options:nil];      
-  [self.fieldStars bind:NSValueBinding toObject:document.model withKeyPath:@"stars" options:nil];
-  [self.fieldReligion bind:NSValueBinding toObject:document.model withKeyPath:@"religion" options:nil];      
-  [self.fieldSocialStatus bind:NSValueBinding toObject:document.model withKeyPath:@"socialStatus" options:nil];  
-  [self.fieldParents bind:NSValueBinding toObject:document.model withKeyPath:@"parents" options:nil];  
+
+  [self.fieldName setStringValue: [document.model name]];
+  [self.fieldTitle setStringValue: [document.model title]];  
+  [self.fieldArchetype setStringValue: [document.model archetype]];
+  [self.fieldOrigin setStringValue: [document.model origin]];
+  [self.fieldSex setStringValue: [document.model sex]];
+  [self.fieldHairColor setStringValue: [document.model hairColor]];  
+  [self.fieldEyeColor setStringValue: [document.model eyeColor]];
+  [self.fieldHeight setStringValue: [document.model height]];    
+  [self.fieldWeight setStringValue: [document.model weight]];    
+  [self.fieldBirthday setStringValue: [[document.model birthday] objectForKey: @"date"]];      
+  [self.fieldGod setStringValue: [document.model god]];      
+  [self.fieldStars setStringValue: [document.model stars]];
+  [self.fieldReligion setStringValue: [document.model religion]];      
+  [self.fieldSocialStatus setStringValue: [document.model socialStatus]];  
+  [self.fieldParents setStringValue: [document.model parents]];   
   
   [self.fieldMagicalDabbler setStringValue: [document.model isMagicalDabbler] ? _(@"Ja") : _(@"Nein")];
     
@@ -171,14 +172,7 @@
     {
       [self.fieldMageAcademyBold setStringValue: _(@"Geodische Schule")];
     }    
-    
-  NSLog(@"TTTTTTTTHHHHHHHHHHEEEEEEEEEEE ACADEMY: %@", [self.fieldMageAcademyBold stringValue]);  
-    
-/*  if (![document.model isMagicalDabbler])
-    {
-      [self.fieldMagicalDabbler setStringValue: _(@"Nein")];
-    }
-  */
+        
   // Create and configure your view model
   DSACharacterViewModel *viewModel = [[DSACharacterViewModel alloc] init];
   DSACharacterHero *model = (DSACharacterHero *)document.model;
@@ -199,8 +193,8 @@
                      toObject:viewModel
                   withKeyPath:@"formattedKarmaPoints"
                       options:nil];                                              
-  [self.imageViewPortrait setImage:document.model.portrait];
-  [self.imageViewPortrait setImageScaling:NSImageScaleProportionallyUpOrDown];                                                                                                          
+  [self.imageViewPortrait setImage: [document.model portrait]];
+  [self.imageViewPortrait setImageScaling: NSImageScaleProportionallyUpOrDown];                                                                                                          
   for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
     {
       NSString *fieldKey = [NSString stringWithFormat:@"field%@", field]; // Constructs "fieldAG", "fieldHA", etc.
@@ -213,7 +207,7 @@
       [document.model addObserver:self 
                        forKeyPath:[NSString stringWithFormat:@"positiveTraits.%@.level", field]
                           options:NSKeyValueObservingOptionNew 
-                          context:NULL];                 
+                          context:NULL];              
     }
   for (NSString *field in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
     {
@@ -825,14 +819,20 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
       if ([[(NSDictionary *)sender allKeys] containsObject: @"deltaLifePoints"] && [[(NSDictionary *)sender objectForKey: @"deltaLifePoints"] integerValue] > 0)
         {
           [self.fieldLevelUpMainText setStringValue: 
-                       [NSString stringWithFormat: @"%@ hat %@ Lebenspunkte erhalten und kann weitere %@ Punkte auf Lebenspunkte und Astralenergie verteilen. Wieviele davon sollen auf Lebenspunkte verwendet werden?",
+                       [NSString stringWithFormat: _(@"%@ hat %@ Lebenspunkte erhalten und kann weitere %@ Punkte auf Lebenspunkte und Astralenergie verteilen. Wieviele davon sollen auf Lebenspunkte verwendet werden?"),
                        model.name, [(NSDictionary *)sender objectForKey: @"deltaLifePoints"], model.tempDeltaLpAe ]];        
+        }
+      else
+        {
+          [self.fieldLevelUpMainText setStringValue: 
+                           [NSString stringWithFormat: _(@"%@ kann %@ Punkte auf Lebenspunkte und Astralenergie verteilen. Wieviele davon sollen auf Lebenspunkte verwendet werden?"),
+                           model.name, model.tempDeltaLpAe ]];        
         }
     }
   else
     {
       [self.fieldLevelUpMainText setStringValue: 
-                       [NSString stringWithFormat: @"%@ kann %@ Punkte auf Lebenspunkte und Astralenergie verteilen. Wieviele davon sollen auf Lebenspunkte verwendet werden?",
+                       [NSString stringWithFormat: _(@"%@ kann %@ Punkte auf Lebenspunkte und Astralenergie verteilen. Wieviele davon sollen auf Lebenspunkte verwendet werden?"),
                        model.name, model.tempDeltaLpAe ]];
      }
   [self.popupLevelUpTop removeAllItems];                       

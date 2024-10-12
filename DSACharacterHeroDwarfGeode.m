@@ -31,8 +31,8 @@
   self = [super init];
   if (self)
     {
-      self.astralEnergy = [NSNumber numberWithInteger: 15];
-      self.currentAstralEnergy = [NSNumber numberWithInteger: 15];
+      self.astralEnergy = @15;
+      self.currentAstralEnergy = @15;
       self.maxLevelUpTalentsTries = @20;        // most have this as their starting value
       self.maxLevelUpSpellsTries = @20;
       self.maxLevelUpTalentsTriesTmp = @0;

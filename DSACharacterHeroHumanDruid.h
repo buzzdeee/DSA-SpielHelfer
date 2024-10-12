@@ -5,7 +5,7 @@
 
    Author: Sebastian Reitenbach
 
-   Created: 2024-10-03 20:51:04 +0200 by sebastia
+   Created: 2024-10-12 15:02:02 +0200 by sebastia
 
    This application is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,27 +22,16 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
-#import "DSACharacterHeroDwarf.h"
+#ifndef _DSACHARACTERHEROHUMANDRUID_H_
+#define _DSACHARACTERHEROHUMANDRUID_H_
 
-@implementation DSACharacterHeroDwarf
+#import "DSACharacterHeroHuman.h"
+#import "DSACharacterMagic.h"
 
-- (instancetype)init
-{
-  self = [super init];
-  if (self)
-    {
-      self.lifePoints = @40;
-      self.astralEnergy = @0;
-      self.currentLifePoints = @40;
-      self.currentAstralEnergy = @0;
-      self.maxLevelUpTalentsTries = @25;        // most have this as their starting value
-      self.maxLevelUpSpellsTries = @0;
-      self.maxLevelUpTalentsTriesTmp = @0;
-      self.maxLevelUpSpellsTriesTmp = @0;      
-      self.maxLevelUpVariableTries = @0;
-      self.mrBonus = @2;                       // Die Helden des Schwarzen Auges, Regelbuch II S. 40           
-    }
-  return self;
-}
+@interface DSACharacterHeroHumanDruid : DSACharacterHeroHuman <DSACharacterMagic>
+
 
 @end
+
+#endif // _DSACHARACTERHEROHUMANDRUID_H_
+

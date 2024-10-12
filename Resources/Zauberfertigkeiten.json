@@ -2222,7 +2222,7 @@
   "Illusion": {
     "Aureolus Güldenglanz": {
       "Probe": [ "KL", "CH", "FF" ],
-      "Ursprung": [ "M" ],
+      "Ursprung": [ "M", "Scharlatan" ],
       "Startwerte": {
         "Magier": -3,
         "Scharlatan": 0,
@@ -2239,7 +2239,7 @@
     },
     "Auris Nasus Oculus": {
       "Probe": [ "KL", "CH", "FF" ],
-      "Ursprung": [ "M" ],
+      "Ursprung": [ "M", "Scharlatan" ],
       "Startwerte": {
         "Magier": -5,
         "Scharlatan": -5,
@@ -2307,7 +2307,7 @@
     },
     "Duplicatus Doppelpein": {
       "Probe": [ "KL", "CH", "GE" ],
-      "Ursprung": [ "M" ],
+      "Ursprung": [ "M", "Scharlatan" ],
       "Startwerte": {
         "Magier": 0,
         "Scharlatan": 0,
@@ -2324,7 +2324,7 @@
     },
     "Harmlose Gestalt": {
       "Probe": [ "KL", "CH", "GE" ],
-      "Ursprung": [ "H" ],
+      "Ursprung": [ "H", "Scharlatan" ],
       "Startwerte": {
         "Magier": -6,
         "Scharlatan": -6,
@@ -2409,7 +2409,7 @@
     },
     "Luciferi Lichtertanz": {
       "Probe": [ "IN", "CH", "FF" ],
-      "Ursprung": [ "M" ],
+      "Ursprung": [ "M", "Scharlatan" ],
       "Startwerte": {
         "Magier": 0,
         "Scharlatan": 2,
@@ -2426,7 +2426,7 @@
     },
     "Menetekel Flammenzeichen": {
       "Probe": [ "KL", "CH", "FF" ],
-      "Ursprung": [ "M" ],
+      "Ursprung": [ "M", "Scharlatan" ],
       "Startwerte": {
         "Magier": -3,
         "Scharlatan": 0,
@@ -2441,6 +2441,23 @@
         "Halbelf": -8
       }
     },
+    "Reflectimago Spiegelschein": {
+      "Probe": [ "KL", "CH", "FF" ],
+      "Ursprung": [ "M", "Scharlatan" ],
+      "Startwerte": {
+        "Magier": -1,
+        "Scharlatan": 1,
+        "Hexe": -4,
+        "Druide": -8,
+        "Diener Sumus": -12,
+        "Herr der Erde": -15,
+        "Schelm": -2,
+        "Auelf": -10,
+        "Waldelf": -12,
+        "Firnelf": -11,
+        "Halbelf": -9
+      }
+    },    
     "Schelmenmaske": {
       "Probe": [ "IN", "CH", "GE" ],
       "Ursprung": [ "S" ],
@@ -2477,7 +2494,7 @@
     },
     "Vocolimbo Hohler Klang": {
       "Probe": [ "KL", "CH", "FF" ],
-      "Ursprung": [ "M" ],
+      "Ursprung": [ "M", "Scharlatan" ],
       "Startwerte": {
         "Magier": -2,
         "Scharlatan": 1,
@@ -2494,7 +2511,7 @@
     },
     "Vogelzwitchschern, Glockenspiel": {
       "Probe": [ "KL", "CH", "FF" ],
-      "Ursprung": [ "M" ],
+      "Ursprung": [ "M", "Scharlatan" ],
       "Startwerte": {
         "Magier": -1,
         "Scharlatan": 2,
@@ -2511,7 +2528,7 @@
     },
     "Weihrauch, Rose, Wohlgeruch": {
       "Probe": [ "IN", "CH", "FF" ],
-      "Ursprung": [ "M" ],
+      "Ursprung": [ "M", "Scharlatan" ],
       "Startwerte": {
         "Magier": -3,
         "Scharlatan": 0,
@@ -3166,7 +3183,7 @@
     },
     "Charisma, Persönlichkeit": {
       "Probe": [ "KL", "CH", "CH" ],
-      "Ursprung": [ "M" ],
+      "Ursprung": [ "M", "Scharlatan" ],
       "Startwerte": {
         "Magier": 0,
         "Scharlatan": 1,
@@ -3460,7 +3477,7 @@
     },
     "Ohne Kamm und ohne Schere": {
       "Probe": [ "KL", "CH", "FF" ],
-      "Ursprung": [ "M" ],
+      "Ursprung": [ "M", "Scharlatan" ],
       "Startwerte": {
         "Magier": -3,
         "Scharlatan": -4,
@@ -3667,7 +3684,7 @@
         "Firnelf": -15,
         "Halbelf": -15
       }
-    },
+    },    
     "Anvilarium Schwermetall": {
       "Probe": [ "KL", "GE", "FF" ],
       "Element": "Erz",
@@ -3686,6 +3703,23 @@
         "Halbelf": -7
       }
     },
+    "Applicatus Argelist": {
+      "Probe": [ "KL", "FF", "FF" ],
+      "Ursprung": [ "M", "Scharlatan" ],
+      "Startwerte": {
+        "Magier": -7,
+        "Scharlatan": -12,
+        "Hexe": -12,
+        "Druide": -15,
+        "Diener Sumus": -15,
+        "Herr der Erde": -12,
+        "Schelm": -10,
+        "Auelf": -10,
+        "Waldelf": -12,
+        "Firnelf": -14,
+        "Halbelf": -10
+      }
+    },    
     "Arcanovi Zauberding": {
       "Probe": [ "KL", "KL", "FF" ],
       "Ursprung": [ "M" ],

@@ -97,7 +97,25 @@
         }
       }
     },
-    "Haarfarbe": { },
+    "Haarfarbe": {
+      "pechschwarz": [1, 2 ] 
+      "schwarz": [ 3, 4 ],
+      "blauschwarz": [ 5, 6 ],
+      "braun": [ 7 ],
+      "nußbraun": [ 8 ]
+      "kastanienrot": [ 9 ],
+      "braunrot": [ 10 ],
+      "rostrot": [ 11 ],
+      "rot": [ 12 ],
+      "kupferrot": [ 13 ],
+      "rotblond": [ 14 ],
+      "dunkelblond": [ 15 ],
+      "mittelblond": [ 16 ],
+      "weizenblond": [ 17 ]
+      "hellblond": [ 18 ],
+      "weißblond": [ 19 ],
+      "albino": [ 20 ]
+    },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
     "Körpergröße": [ "165", "11W20", "1W6"],
     "Gewicht": -110,
@@ -270,7 +288,7 @@
       "ZS_zu_AE": { }
     }
   },
-  "Tänzerin": {
+  "Sharisad": {
     "Typkategorie": [ "Mensch", "Magiebegabt" ],
     "Eigenschaften": {
       "CH": "13+",

@@ -26,7 +26,7 @@
 #import "DSACharacter.h"
 #import "Utils.h"
 #import "DSACharacterHeroHumanAmazon.h"
-#import "DSACharacterHeroHumanJester.h"
+#import "DSACharacterHeroHumanJuggler.h"
 #import "DSACharacterHeroHumanHuntsman.h"
 #import "DSACharacterHeroHumanWarrior.h"
 #import "DSACharacterHeroHumanPhysician.h"
@@ -42,6 +42,10 @@
 #import "DSACharacterHeroHumanBard.h"
 
 #import "DSACharacterHeroHumanMage.h"
+#import "DSACharacterHeroHumanDruid.h"
+#import "DSACharacterHeroHumanJester.h"
+#import "DSACharacterHeroHumanCharlatan.h"
+#import "DSACharacterHeroHumanWitch.h"
 
 #import "DSACharacterHeroElfMeadow.h"
 #import "DSACharacterHeroElfSnow.h"
@@ -248,7 +252,7 @@
     }  
   else if ([selectedArchetype isEqualToString:_(@"Gaukler")])
     {
-      newCharacter = [[DSACharacterHeroHumanJester alloc] init];
+      newCharacter = [[DSACharacterHeroHumanJuggler alloc] init];
     }
   else if ([selectedArchetype isEqualToString:_(@"Jäger")])
     {
@@ -306,6 +310,22 @@
     {
       newCharacter = [[DSACharacterHeroHumanMage alloc] init];
     }
+  else if ([selectedArchetype isEqualToString:_(@"Druide")])
+    {
+      newCharacter = [[DSACharacterHeroHumanDruid alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Scharlatan")])
+    {
+      newCharacter = [[DSACharacterHeroHumanCharlatan alloc] init];
+    }      
+  else if ([selectedArchetype isEqualToString:_(@"Schelm")])
+    {
+      newCharacter = [[DSACharacterHeroHumanJester alloc] init];
+    }
+  else if ([selectedArchetype isEqualToString:_(@"Hexe")])
+    {
+      newCharacter = [[DSACharacterHeroHumanWitch alloc] init];
+    }          
   else if ([selectedArchetype isEqualToString:_(@"Auelf")])
     {
       newCharacter = [[DSACharacterHeroElfMeadow alloc] init]; 
@@ -482,6 +502,7 @@
     {
       NSDictionary *spells = [[NSDictionary alloc] init];
       spells = [self getSpellsForArchetype: selectedArchetype];
+      NSLog(@"ALL THE SPELLS!!!!!: %@", spells);
       NSMutableDictionary *newSpells = [[NSMutableDictionary alloc] init];
       for (NSString *category in spells)
         {
@@ -597,6 +618,62 @@
             }
         }      
     }
+  if ([archetype isKindOfClass: [DSACharacterHeroHumanDruid class]])
+    {
+      // All Druid spells can be leveled up three times per level
+      // All others only once, see: "Die Magie des Schwarzen Auges", S. 45
+      for (DSASpell *spell in [archetype.spells allValues])      
+        {
+          if ([spell.origin containsObject: @"D"])
+            {
+              spell.isTraditionSpell = YES;
+              spell.maxUpPerLevel = @3;
+              spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];
+            }
+        }
+    }
+  if ([archetype isKindOfClass: [DSACharacterHeroHumanWitch class]])
+    {
+      // All Witch spells can be leveled up three times per level
+      // All others only once, see: "Die Magie des Schwarzen Auges", S. 43
+      for (DSASpell *spell in [archetype.spells allValues])      
+        {
+          if ([spell.origin containsObject: @"H"])
+            {
+              spell.isTraditionSpell = YES;
+              spell.maxUpPerLevel = @3;
+              spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];
+            }
+        }
+    }    
+  if ([archetype isKindOfClass: [DSACharacterHeroHumanJester class]])
+    {
+      // All Jester spells can be leveled up three times per level
+      // All others only once, see: "Die Magie des Schwarzen Auges", S. 47
+      for (DSASpell *spell in [archetype.spells allValues])      
+        {
+          if ([spell.origin containsObject: @"S"])
+            {
+              spell.isTraditionSpell = YES;
+              spell.maxUpPerLevel = @3;
+              spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];
+            }
+        }
+    }
+  if ([archetype isKindOfClass: [DSACharacterHeroHumanCharlatan class]])
+    {
+      // Nothing special for Charlatans, only mark the start spells
+      // see "Die Magie des Schwarzen Auges", S. 34
+      NSLog(@"Applying Spell modificators for Charlatan");
+      for (DSASpell *spell in [archetype.spells allValues])      
+        {
+          NSLog(@"spell %@, origin: %@", spell.name, spell.origin);
+          if ([spell.origin containsObject: @"Scharlatan"])
+            {
+              spell.isTraditionSpell = YES;
+            }
+        }
+    }            
   else
     {
       NSLog(@"DSACharacterGenerationController: applySpellmodificatorsToArchetype: don't know about Archetype: %@", archetype.archetype);

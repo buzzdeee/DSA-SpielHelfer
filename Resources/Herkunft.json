@@ -107,7 +107,7 @@
     }
   },
   "Al' Anfa, südliche Stadtstaaten": {
-    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Scharlatan" ],
     "Basiswerte": { },
     "Talente": {
       "Kampftechniken": {
@@ -155,7 +155,7 @@
     }
   },
   "Bornland": {
-    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Scharlatan" ],
     "Basiswerte": { },
     "Talente": {
       "Kampftechniken": {
@@ -189,7 +189,7 @@
     }
   },
   "Liebliches Feld": {
-    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Scharlatan" ],
     "Basiswerte": { },
     "Talente": {
       "Kampftechniken": {
@@ -241,7 +241,7 @@
     }
   },
   "Maraskan": {
-    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Scharlatan" ],
     "Basiswerte": { },
     "Talente": {
       "Kampftechniken": {
@@ -394,7 +394,7 @@
     }
   },
   "Norbarde": {
-    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Scharlatan" ],
     "Basiswerte": { },
     "Talente": {
       "Kampftechniken": {
@@ -429,7 +429,7 @@
     }
   },
   "Novadi": {
-    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Sharisad", "Scharlatan" ],
     "Basiswerte": { },
     "Talente": {
       "Kampftechniken": {
@@ -465,7 +465,7 @@
     }
   },
   "Thorwaler": {
-    "Typen": [ "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Typen": [ "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Scharlatan" ],
     "Basiswerte": { },
     "Talente": {
       "Kampftechniken": {
@@ -507,7 +507,7 @@
     }
   },
   "Tulamide": {
-    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Sharisad", "Scharlatan" ],
     "Basiswerte": { },
     "Talente": {
       "Kampftechniken": {

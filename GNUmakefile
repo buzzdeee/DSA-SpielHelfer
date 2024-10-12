@@ -224,7 +224,11 @@ DSACharacterHeroHumanSkald.h \
 DSACharacterHeroHumanBard.h \
 DSACharacterHeroHumanNovadi.h \
 DSASpecialTalent.h \
-DSACharacterHeroHumanNorbarde.h
+DSACharacterHeroHumanNorbarde.h \
+DSACharacterHeroHumanDruid.h \
+DSACharacterHeroHumanJuggler.h \
+DSACharacterHeroHumanCharlatan.h \
+DSACharacterHeroHumanWitch.h
 
 #
 # Objective-C Class files
@@ -282,7 +286,11 @@ DSACharacterHeroHumanSkald.m \
 DSACharacterHeroHumanBard.m \
 DSACharacterHeroHumanNovadi.m \
 DSASpecialTalent.m \
-DSACharacterHeroHumanNorbarde.m
+DSACharacterHeroHumanNorbarde.m \
+DSACharacterHeroHumanDruid.m \
+DSACharacterHeroHumanJuggler.m \
+DSACharacterHeroHumanCharlatan.m \
+DSACharacterHeroHumanWitch.m
 
 #
 # Other sources

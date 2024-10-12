@@ -49,6 +49,8 @@ TODO:
    * Extra Behinderung bei Rüstung 
  * Knappe
  * Alchimist
+ * Schamanen
+ * Sharisad
 
  
 DONE:
@@ -59,6 +61,10 @@ DONE:
    * Die Magie des schwarzen Auges: S. 13
  * Basiswerte und Steigern: Archetypen:
    * Magiedilettant
+   * Scharlatan
+   * Druide
+   * Schelm
+   * Hexe
    * Firnelf
    * Halbelf
    * Auelf

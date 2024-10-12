@@ -33,10 +33,10 @@
   self = [super init];
   if (self)
     {
-      self.lifePoints = [NSNumber numberWithInteger: 25];
-      self.astralEnergy = [NSNumber numberWithInteger: 30];
-      self.currentLifePoints = [NSNumber numberWithInteger: 25];
-      self.currentAstralEnergy = [NSNumber numberWithInteger: 30];      
+      self.lifePoints = @25;
+      self.astralEnergy = @30;
+      self.currentLifePoints = @25;
+      self.currentAstralEnergy = @30;      
     }
   return self;
 }

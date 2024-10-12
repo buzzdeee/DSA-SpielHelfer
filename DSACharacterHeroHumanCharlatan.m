@@ -5,7 +5,7 @@
 
    Author: Sebastian Reitenbach
 
-   Created: 2024-09-28 22:33:51 +0200 by sebastia
+   Created: 2024-10-12 19:45:50 +0200 by sebastia
 
    This application is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,39 +22,54 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
-#import "DSACharacterHeroElf.h"
+#import "DSACharacterHeroHumanCharlatan.h"
 #import "Utils.h"
+#import "DSASpell.h"
+#import "DSASpellResult.h"
 
-@implementation DSACharacterHeroElf
+@implementation DSACharacterHeroHumanCharlatan
+
 - (instancetype)init
 {
   self = [super init];
+  // see "Die Magie des Schwarzen Auges" S. 34
   if (self)
     {
       self.lifePoints = @25;
+      self.currentLifePoints = @25;          
       self.astralEnergy = @25;
-      self.currentLifePoints = @25;
       self.currentAstralEnergy = @25;
-      self.maxLevelUpTalentsTries = @25;        // most have this as their starting value
-      self.maxLevelUpSpellsTries = @25;
-      self.maxLevelUpTalentsTriesTmp = @0;
-      self.maxLevelUpSpellsTriesTmp = @0;      
-      self.maxLevelUpVariableTries = @0;           
+      self.maxLevelUpTalentsTries = @25;        
+      self.maxLevelUpSpellsTries = @20;
+      self.maxLevelUpTalentsTriesTmp = @25;
+      self.maxLevelUpSpellsTriesTmp = @20;      
+      self.maxLevelUpVariableTries = @0;
+      self.mrBonus = @2;                               
     }
   return self;
 }
 
-
 - (NSDictionary *) levelUpBaseEnergies
 {
-  NSNumber *result;
   NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
-  result = [NSNumber numberWithInteger: [[Utils rollDice: @"1W6"] integerValue] + 2];
- 
-  self.tempDeltaLpAe = result;
-  // we have to ask the user how to distribute these
-  [resultDict setObject: result forKey: @"deltaLpAe"];
+  NSInteger result = [[Utils rollDice: @"1W6"] integerValue] + 1;
 
+  // at least 1 point always has to go to the lifePoints AND astralEnergy
+  NSNumber *tmp = self.lifePoints;
+  self.lifePoints = [NSNumber numberWithInteger: 1 + [tmp integerValue]];
+  self.currentLifePoints = [NSNumber numberWithInteger: 1 + [tmp integerValue]];
+  [resultDict setObject: @1 forKey: @"deltaLifePoints"];
+  tmp = self.astralEnergy;
+  self.astralEnergy = [NSNumber numberWithInteger: 1 + [tmp integerValue]];
+  self.currentAstralEnergy = [NSNumber numberWithInteger: 1 + [tmp integerValue]];
+  [resultDict setObject: @1 forKey: @"deltaAstralEnergy"];  
+    
+  if (result > 2)
+    {          
+      // we have to ask the user how to distribute remaining points
+      [resultDict setObject: [NSNumber numberWithInteger: result - 2 ] forKey: @"deltaLpAe"];
+      self.tempDeltaLpAe = [NSNumber numberWithInteger: result - 2 ];
+    }
   return resultDict;
 }
 
@@ -85,7 +100,7 @@
 
   if ([tmpSpell.maxUpPerLevel integerValue] == 0)
     {
-      NSLog(@"DSACharacterHeroElf: levelUpSpell: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");
+      NSLog(@"DSACharacterHeroCharlatan: levelUpSpell: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");
       return NO;
     }    
        
@@ -96,7 +111,6 @@
       tmpSpell.maxUpPerLevel = [NSNumber numberWithInteger: [tmpSpell.maxUpPerLevel integerValue] - 1];
       tmpSpell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [tmpSpell.maxUpPerLevel integerValue] * 3];
       tmpSpell.level = targetSpell.level;
-      result = YES;
     }
   else
     {
@@ -109,23 +123,14 @@
   return result;
 }
 
-// Non-Elf spells can only be leveled up to 11
-// See: "Dunkle Städte, Lichte Wälder", "Geheimnisse der Elfen", S. 68
 - (BOOL) canLevelUpSpell: (DSASpell *)spell
 {
-  if (![@[ @"A", @"W", @"F" ] containsObject: spell.origin])
-    {
-      if ([spell.level integerValue] == 11 )
-        {
-          return NO;
-        }
-    }
   if ([spell.level integerValue] == 18)
     {
       // we're already at the general maximum
       return NO;
     }
-  if ([[[self.levelUpSpells objectForKey: [spell name]] maxUpPerLevel] integerValue] == 0)
+  if ([[[self.levelUpSpells objectForKey: [spell name]] maxUpPerLevel] integerValue] <= 0)
     {
       return NO;
     }
@@ -134,7 +139,5 @@
       return YES;
     }    
 }
-
-
 
 @end
