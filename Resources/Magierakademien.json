@@ -17,7 +17,7 @@
           "Schußwaffen": 2,
           "Wurfwaffen": -2
         }
-      }
+      },
       "Gesellschaft": {
         "Etikette": 1,
         "Lügen": 1
@@ -91,7 +91,7 @@
       }
     },
     "Haussprüche": [ "Armatrutz", "Arcano Psychostabilis", "Gardianum Paradei", "Kampfzauber stören", "Illusionen zerstören", "Ignorantia Ungesehn", "Blitz dich find" ]   
-  }
+  },
   "Accademia Contramagica Kuslikiensis": {
     "Weltlicher Name": "Halle der Antimagie zu Kuslik",
     "Spezialgebiet": "Antimagie",
@@ -102,24 +102,60 @@
     "Talente": {
       "Kampftechniken": {
         "Bewaffnete Kampftechniken": {
-          "Speere und Stäbe": 1,
-          "Stichwaffen": -1
-        },
-        "Fernkampftechniken": {
-          "Schußwaffen": 2,
-          "Wurfwaffen": -2
+          "Speere und Stäbe": -1,
+          "Stichwaffen": 2
         }
-      }
+      },
       "Gesellschaft": {
-        "Etikette": 1,
-        "Lügen": 1
+        "Etikette": 3,
+        "Betören": 1,
+        "Menschenkenntnis": 1
       },
       "Körperliche Talente": {
-        "Körperbeherrschung": 1,
-        "Selbstbeherrschung": 1
+        "Schleichen": 1,
+        "Tanzen": 3
       },
       "Wissenstalente": {
-        "Staatskunst": 2
+        "Geographie": 1,
+        "Geschichtswissen": 1,
+        "Sprachen Kennen": 1,
+        "Magiekunde": -1,
+        "Rechtskunde": 2,
+        "Staatskunst": 4
+      },
+      "Natur": {
+        "Wettervorhersage": -1,
+        "Wildnisleben": -1,
+        "Fährtensuchen": -1,
+        "Fallenstellen": -1,
+        "Orientierung": -1,
+        "Pflanzenkunde": -1,
+        "Tierkunde": -1,
+        "Fesseln/Entfesseln": -1,
+        "Fischen/Angeln": -1
+      },
+      "Handwerk": {
+        "Schlösser Knacken": -1,
+        "Malen/Zeichnen": -1,
+        "Fahrzeug Lenken": -1,
+        "Taschendiebstahl": -1,
+        "Kochen": -1,
+        "Schneidern": -1,
+        "Holzbearbeitung": -1,
+        "Falschspiel": -1,
+        "Abrichten": -1,
+        "Musizieren": -1,
+        "Singen": -1,
+        "Töpfern": -1,
+        "Boote Fahren": -1,
+        "Lederarbeiten": -1
+      }
+    },
+    "Berufe": {
+      "Notiz": "Startwerte sind entweder oder das andere...",
+      "Startwerte": {
+        "Brettspiel": 3,
+        "Heraldik": 3
       }
     },
     "Zaubersprüche": {
@@ -128,7 +164,7 @@
         "Ignisphaero Feuerball": 1,
         "Kalt wie Stein": 1,
         "Fulminictus Donnerkeil": 1,
-        "Herzschlag ruhe, Atem stocke!": 1,
+        "Herzschlag ruhe, Atem stocke!": -1,
         "Ignifaxius Flammenstrahl": 1,
         "Kulminatio Kugelblitz": 1,
         "Corpofrigo Kälteschock": 1,
@@ -136,53 +172,107 @@
         "Plumbumbarum": 1,
         "Scharfes Auge, sichre Hand": 1,
         "Sensattacco Meisterstreich": 1,
-        "Höllenpein zerreiße dich!": 1,
+        "Höllenpein zerreiße dich!": -1,
         "Treue Klinge, Sichrer Stand": 1,
         "Gliederschmerzen, Nadelstich": 1,
+        "Ecliptifactus Dunkle Macht": 1,
         "Blitz dich find": 2
       },
       "Beherrschung": {
-        "Band und Fessel dich umringt": -1,
-        "Imeravi Animus": -1,
-        "Memorabia Falsifir": -1,
-        "Sanftmut": -1,
-        "Schelmenrausch": -1,
-        "Schwarzer Schrecken plage dich!": -1,
-        "Seidenzunge, Elfenwort": -1,
-        "Zauberzwang": -1,
-        "Herr über das Tierreich": -1,
-        "Bannbaladin": -1,
-        "Karnifilo Raserei": -1,
-        "Halluzination": -1,
-        "Panik überkomme euch!": -1,
-        "Schabernack": -1,
         "Böser Blick": -1,
-        "Erinnerung verlasse dich!": -1,
-        "Lachkrampf": -1,
         "Eigne Ängste quälen dich!": -1,
-        "Zunge lähmen": -1,
-        "Große Verwirrung": -1,                                                                                                                                                                
+        "Erinnerung verlasse dich!": -1,
         "Große Gier": -1,
-        "Zwingtanz": -1,                                                                                                                                                                
-        "Somnigravis Tausend Schaf": -1,
-        "Horriphobus Schreckenspein": -1                                                                                                                                                                
+        "Große Verwirrung": -1,
+        "Halluzination": -1,
+        "Herr über das Tierreich": -1,
+        "Panik überkomme euch!": -1,
+        "Sanftmut": -1,
+        "Schwarzer Schrecken plage dich!": -1,
+        "Zauberzwang": -1,
+        "Zunge lähmen": -1,
+        "Zwingtanz": -1
       },
-      "Verwandlung von Lebewesen": {
-        "Armatrutz": 2,
-        "Arcano Psychostabilis": 2
+      "Beschwörung Dämonischer Mächte": {
+        "Kröte, Natter, Schuppenleib": -1,
+        "Heptagon und Krötenei": -1,
+        "Pandemonium": -1,
+        "Furor Blut und Sulphurdampf": -1,
+        "Skelettarius Kryptaduft": -1,
+        "Weiße Mähn und goldner Huf": -1,
+        "Krähenruf": -1,
+        "Geister beschwören": -1,
+        "Krabbelnder Schrecken": -1,
+        "Stein wandle, Totes handle!": -1,
+        "Mutabili Hybridil": -1,
+        "Tlalucs Odem, siech und krank": -1,
+        "Spinne, Egel, Kriechgetier": -1,
+        "Komm Kobold komm": -1,
+        "Geister austreiben": -1
+      },
+      "Die Sieben Formeln der Zeit": {
+        "Blick in die Vergangenheit": -1
+      },
+      "Beschwörung Elementarer Kräfte": {
+        "Flammenring": -1,
+        "Meister der Elemente": -1,
+        "Zorn der Elemente": -1
+      },
+      "Bewegung": {
+        "Hexenholz": -1
+      },
+      "Heilung": {
+        "Ängste lindern": -1,
+        "Hexenspeichel": -1,
+        "Levthans Feuer": -1,
+        "Sumus Elixiere": -1,
+        "Tiere besprechen": -1
+      },
+      "Hellsicht": {
+        "Blick durch fremde Augen": -1,
+        "Mishkharas Macht erspüren": -1
       },
       "Antimagie": {
-        "Wider Hellsicht und Befehle": 1,
-        "Gardianum Paradei": 2,
-        "Kampfzauber stören": 2,
-        "Illusionen zerstören": 2
+        "Invercarno Spiegeltrick": 1
       },
       "Illusion": {
-        "Ignorantia Ungesehn": 1,
-        "Widerwille Ungemach": 1
+        "Harmlose Gestalt": -1,
+        "Hexenknoten": -1
+      },
+      "Verständigung": {
+        "Cryptographo Zauberschrift": 1,
+        "Hexenblick": -1,
+        "Magischer Raub": -1,
+        "Reise zwischen den Sphären": -1,
+        "Seelenwanderung": -1,
+        "Traumgestalt": -1
+      },
+      "Verwandlung von Lebewesen": {
+        "Atemnot": -1,
+        "Druidenrache": -1,
+        "Eins mit der Natur": -1,
+        "Empathie und Sechster Sinn": -1,
+        "Feuerbann": -1,
+        "Fluch der Pestilenz": -1,
+        "Last des Alters beuge dich!": -1,
+        "Nebelleib": -1,
+        "Spinnenlauf und Krötensprung": -1,
+        "Weisheit der Bäume": -1
+      },
+      "Verwandlung von Unbelebtem": {
+        "Brenne, toter Stoff": -1,
+        "Dunkelheit": -1,
+        "Hartes schmelze, Starres fließe!": -1,
+        "Kraft des Erzes": -1,
+        "Mahlstrom": -1,
+        "Sigillus Custodis Zauberspiegel": 1,
+        "Weiches erstarre...": -1,
+        "Wettermeisterschaft": -1,
+        "Windhose": -1
       }
+      
     },
-    "Haussprüche": [ "Armatrutz", "Arcano Psychostabilis", "Gardianum Paradei", "Kampfzauber stören", "Illusionen zerstören", "Ignorantia Ungesehn", "Blitz dich find" ]
+    "Haussprüche": [ "Beherrschungen brechen", "Bewegungen stören", "Destructibo Arcanitas", "Gardianum Paradei", "Kampfzauber stören", "Illusionen zerstören", "Wider Hellsicht und Befehle", "Sensibar Wahr und Klar" ]
   }
 
 }

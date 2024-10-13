@@ -52,9 +52,14 @@ TODO:
  * Schamanen
  * Sharisad
 
+WIP:
+ * Magierakademien und Magier
  
 DONE:
- * Kriegerakademien
+ * Kriegerakademien (wie beschrieben in: Vom Leben in Aventurien)
+ * Magierakademien:
+   * Akademie der Magischen Rüstung zu Gareth
+   * Halle der Antimagie zu Kuslik
  * Glaube/Religion (mehr werden folgen...)
  * Elemente bei Geoden/Druidenzauber beachten beim initialisieren und steigern
  * aktive und ruhende Spells
