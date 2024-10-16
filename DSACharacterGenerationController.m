@@ -1689,7 +1689,31 @@ NSLog(@"popupCategorySelected called!");
       [[self valueForKey: [NSString stringWithFormat: @"field%@", field]] setBackgroundColor: [NSColor whiteColor]];
       [[self valueForKey: [NSString stringWithFormat: @"field%@", field]] setStringValue: @""];
     }      
-        
+
+  [self updateTraitsConstraints];
+}
+
+- (IBAction) popupOriginSelected: (id)sender
+{
+  [self updateTraitsConstraints];
+}
+
+- (IBAction) popupMagicDabblerSelected: (id)sender
+{
+  [self updateTraitsConstraints];
+}
+
+- (IBAction) popupProfessionSelected: (id)sender
+{ 
+  [self updateTraitsConstraints]; 
+}
+
+// based on archetype, origin, profession, or having a magical dabbler or not, 
+// different constraints to apply. Easiest to reset and start from scratch, whichever is selected and changed.
+- (void) updateTraitsConstraints {
+  // start with the basic archetype constraints
+  NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [archetypesDict objectForKey: [[self.popupArchetypes selectedItem] title]]];
+
   NSDictionary *traitsDict = [NSDictionary dictionaryWithDictionary: [charConstraints objectForKey: @"Eigenschaften"]];      
   for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK", 
                              @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
@@ -1703,10 +1727,7 @@ NSLog(@"popupCategorySelected called!");
           [[self valueForKey: [NSString stringWithFormat: @"field%@Constraint", field]] setStringValue: [traitsDict objectForKey: field]];              
         }
     }
-}
-
-- (IBAction) popupOriginSelected: (id)sender
-{
+    
   // some origins have extra constraints
   NSDictionary *originConstraints = [[originsDict objectForKey: [[self.popupOrigins selectedItem] title]] objectForKey: @"Basiswerte"];  
   for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK", 
@@ -1716,11 +1737,20 @@ NSLog(@"popupCategorySelected called!");
         {
           [[self valueForKey: [NSString stringWithFormat: @"field%@Constraint", field]] setStringValue: [originConstraints objectForKey: field]];              
         }
-    }    
-}
-
-- (IBAction) popupMagicDabblerSelected: (id)sender
-{
+    }
+    
+  // some professions have extra constraints as well
+  NSDictionary *professionConstraints = [[[professionsDict objectForKey: [[self.popupProfessions selectedItem] title]] objectForKey: @"Bedingung"] objectForKey: @"Basiswerte"];  
+  for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK", 
+                             @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
+    {          
+      if ([professionConstraints objectForKey: field])
+        {
+          [[self valueForKey: [NSString stringWithFormat: @"field%@Constraint", field]] setStringValue: [professionConstraints objectForKey: field]];              
+        }
+    }
+    
+  // last but not least, the magical dabbler has it's own constraints
   if ([[[self.popupMageAcademies selectedItem] title] isEqualToString: _(@"Ja")])
     {      
       // As described in "Die Magie des Schwarzen Auges", S. 36
@@ -1736,28 +1766,6 @@ NSLog(@"popupCategorySelected called!");
             }             
         }
     }
-  else
-    {
-      NSLog(@"DSACharacterGenerationController: popupMagicDabblerSelected: I should reset the Magic Dabbler Constraints!!!!");
-    }
-}
-
-- (IBAction) popupProfessionSelected: (id)sender
-{  
-  NSDictionary *professionConstraints = [[[professionsDict objectForKey: [[self.popupProfessions selectedItem] title]] objectForKey: @"Bedingung"] objectForKey: @"Basiswerte"];  
-  for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK", 
-                             @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
-    {          
-      if ([professionConstraints objectForKey: field] == nil)
-        {
-          // Beruf hat stärkere Bedingung als Typus
-          // gibt eh keine logischen Konflikte, da nur Anatom Bedingung auf TA hat...
-        }
-      else
-        {
-          [[self valueForKey: [NSString stringWithFormat: @"field%@Constraint", field]] setStringValue: [professionConstraints objectForKey: field]];              
-        }
-    } 
 }
 
 - (IBAction) popupMageAcademySelected: (id)sender

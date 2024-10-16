@@ -1058,6 +1058,9 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
   DSACharacterHero *model = (DSACharacterHero *)document.model;
   if ([model.maxLevelUpVariableTries integerValue] == 0)
     {
+    
+      NSLog(@"DSACharacterWindowController showQuestionRegardingVariableTries maxLevelUpVariableTries WAS 0");
+    
       // nothing to ask, just copy over the values
       // but there might be archetypes out there, that may have a penalty on first level up talent tries, i.e. warrior
       if ([model.firstLevelUpTalentTriesPenalty integerValue] != 0)
@@ -1065,12 +1068,17 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
           model.maxLevelUpTalentsTriesTmp = [NSNumber numberWithInteger: [model.maxLevelUpTalentsTries integerValue] + [model.firstLevelUpTalentTriesPenalty integerValue]];
           model.firstLevelUpTalentTriesPenalty = @0;
         }
+      else
+        {
+          model. maxLevelUpTalentsTriesTmp = [model. maxLevelUpTalentsTries copy];
+        }
       model.maxLevelUpSpellsTriesTmp = [model.maxLevelUpSpellsTries copy];
       [self showLevelUpTalents: nil];
       return;
     }
   else
     {
+      NSLog(@"DSACharacterWindowController showQuestionRegardingVariableTries maxLevelUpVariableTries WAS NOT 0");    
       [self.fieldLevelUpHeadline setStringValue: @"Steigerungsversuche verteilen"];
 //      [self.fieldLevelUpMainText setAllowsMultipleLines: YES];      
       [self.fieldLevelUpHeadline.cell setLineBreakMode:NSLineBreakByWordWrapping];
@@ -1508,5 +1516,6 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
 
     [[sender window] close];
 }
+
 
 @end
