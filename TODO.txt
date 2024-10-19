@@ -54,8 +54,11 @@ TODO:
 
 WIP:
  * Magierakademien und Magier
- 
+ * Drucken, Layout Details, ...
+   * Extra Datei für die Druckklasse  
 DONE:
+ * Charakterbogen Drucken (A4)
+   * Charakterbogen, Talentbogen, Zauberbogen, Spezialseite (Magiedilettant)
  * Kriegerakademien (wie beschrieben in: Vom Leben in Aventurien)
  * Magierakademien:
    * Akademie der Magischen Rüstung zu Gareth
