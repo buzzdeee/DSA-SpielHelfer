@@ -228,7 +228,8 @@ DSACharacterHeroHumanNorbarde.h \
 DSACharacterHeroHumanDruid.h \
 DSACharacterHeroHumanJuggler.h \
 DSACharacterHeroHumanCharlatan.h \
-DSACharacterHeroHumanWitch.h
+DSACharacterHeroHumanWitch.h \
+DSACharacterPrintView.h
 
 #
 # Objective-C Class files
@@ -290,7 +291,8 @@ DSACharacterHeroHumanNorbarde.m \
 DSACharacterHeroHumanDruid.m \
 DSACharacterHeroHumanJuggler.m \
 DSACharacterHeroHumanCharlatan.m \
-DSACharacterHeroHumanWitch.m
+DSACharacterHeroHumanWitch.m \
+DSACharacterPrintView.m
 
 #
 # Other sources

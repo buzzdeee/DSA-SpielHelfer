@@ -69,7 +69,8 @@
 	"DSACharacterHeroHumanDruid.m",
 	"DSACharacterHeroHumanJuggler.m",
 	"DSACharacterHeroHumanCharlatan.m",
-	"DSACharacterHeroHumanWitch.m"
+	"DSACharacterHeroHumanWitch.m",
+	"DSACharacterPrintView.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -138,7 +139,8 @@
 	"DSACharacterHeroHumanDruid.h",
 	"DSACharacterHeroHumanJuggler.h",
 	"DSACharacterHeroHumanCharlatan.h",
-	"DSACharacterHeroHumanWitch.h"
+	"DSACharacterHeroHumanWitch.h",
+	"DSACharacterPrintView.h"
     );
     IMAGES = (
 	"Character_1.png",

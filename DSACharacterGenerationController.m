@@ -1259,6 +1259,186 @@
 }
 
 
+// loosely following "Vom Leven in Aventurien" S. 34
+- (NSString *) generateBirthPlace
+{
+  NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
+  NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
+
+  NSInteger diceResult = [[Utils rollDice: @"1W20"] integerValue];
+  NSInteger typusOffset = 0;
+  if ([selectedArchetype isEqualToString: _(@"Jäger")])
+    {
+      typusOffset = -8;
+    }
+  else if ([@[_(@"Gaukler"), _(@"Streuner")] containsObject: selectedArchetype])
+    {
+      typusOffset = 5;
+    }
+  else if ([@[_(@"Moha"), _(@"Nivese")] containsObject: selectedArchetype] || [@[_(@"Moha"), _(@"Nivese")] containsObject: selectedOrigin])
+    {
+      typusOffset = -17;
+    }
+  
+  NSInteger testValue = diceResult + typusOffset;  
+  if (testValue >= -16 && testValue <= 2)
+    {
+      diceResult = [[Utils rollDice: @"1W2"] integerValue];
+      if (diceResult == 1)
+        {
+          return _(@"Wildnis");
+        }
+      else
+        {
+          return _(@"Hütte im Wald");
+        }
+    }
+  else if (testValue == 3)
+    {
+      diceResult = [[Utils rollDice: @"1W3"] integerValue];
+      if (diceResult == 1)
+        {
+          return _(@"Ruine in einem verlassenem Dorf");
+        }
+      else if (diceResult == 2)
+        {
+          return _(@"Ruine einer Festung");
+        }
+      else if (diceResult == 3)
+        {
+          return _(@"Ruine eines Tempels");
+        }
+    }
+  else if (testValue >= 4 && testValue <= 12)
+    {
+      diceResult = [[Utils rollDice: @"1W3"] integerValue];
+      if (diceResult == 1)
+        {
+          return _(@"Dorf");
+        }
+      else if (diceResult == 2)
+        {
+          return _(@"Weiler");
+        }
+      else if (diceResult == 3)
+        {
+          return _(@"Burg");
+        }    
+    }
+  else if (testValue >= 13 && testValue <= 17)
+    {
+      return _(@"Stadt");
+    }
+  else if (testValue >= 19 && testValue <= 19)
+    {
+      return _(@"Großstadt");
+    }
+  else if (testValue >= 20 && testValue <= 25)
+    {
+      if ([@[_(@"Thorwaler"), _(@"Skalde"), _(@"Seefahrer")] containsObject: selectedArchetype])
+        {
+          return _(@"Schiff");
+        }
+      else
+        {
+          return _(@"Wagen auf der Straße");
+        }
+    }
+  // we shouldn't end up here, but ...    
+  return _(@"Geburtsort unbekannt");
+}
+
+// loosely following "Vom Leven in Aventurien" S. 35
+- (NSString *) generateBirthEvent
+{
+  NSInteger diceResult = [[Utils rollDice: @"1W20"] integerValue];
+  
+  if (diceResult == 1)
+    {
+      return _(@"Die Geburt war eine Zwillingsgeburt");
+    }
+  else if (diceResult == 2)
+    {
+      return _(@"Erster Sonnenstrahl nach einem schweren Unwetter");
+    }
+  else if (diceResult == 3)
+    {
+      return _(@"Sonne und Regen formten einen prächtigen Regenbogen");
+    }
+  else if (diceResult == 4)
+    {
+      return _(@"Sternschnuppen und Kometen zeigten sich am Himmel");
+    }
+  else if (diceResult == 5)
+    {
+      return _(@"Ucri, der Siegesstern, ging auf");
+    }
+  else if (diceResult == 6)
+    {
+      return _(@"Ein naher Bach färbte sich blutrot");
+    }
+  else if (diceResult == 7)
+    {
+      return _(@"Zur gleichen Zeit starb in der Nähe ein Tier");
+    }
+  else if (diceResult == 8)
+    {
+      return _(@"\"Lämmerschwänzchen\": Das Kind trägt eine auffällige Locke am Hinterkopf - angeblich ein Zeichen, daß es von den Göttern auswerwählt ist");
+    }
+  else if (diceResult == 9)
+    {
+      diceResult = [[Utils rollDice: @"1W3"] integerValue];
+      NSString *result;
+      if (diceResult == 1)
+        {
+          result = _(@"in geistige Verwirrung");
+        }
+      else if (diceResult == 2)
+        {
+          result = _(@"in Apathie");
+        }
+      else if (diceResult == 3)
+        {
+          result = _(@"in einen Weinkrampf");
+        }        
+      return [NSString stringWithFormat: _(@"Die Mutter verfiel unmittelbar nach der Geburt für mehrere Stunden %@ "), result];
+    }
+  else if (diceResult == 10)
+    {
+      return _(@"Vater stieß beim Anblick des Säuglings ein hysterisches Gelächter aus");
+    }
+  else if (diceResult == 11)
+    {
+      return _(@"Während der Geburt war aus nächster Nähe stetes, unheimliches Gepolter zu hören");
+    }
+  else if (diceResult >= 12 && diceResult <= 15)
+    {
+      return _(@"Keine besonderen Vorkommnisse bei der Geburt");
+    }
+  else if (diceResult == 16)
+    {
+      return _(@"Die Wölfe und Hunde in der Umgebung begannen zu heulen");
+    }
+  else if (diceResult == 17)
+    {
+      return _(@"Gewitter und Hagelsturm tobten den ganzen Tag");
+    }                
+  else if (diceResult == 18)
+    {
+      return _(@"Ein Blitz fuhr aus heiterem Himmel nieder");
+    }                
+  else if (diceResult == 19)
+    {
+      return _(@"Der Mond verdunkelte die Sonne während einer Sonnenfinsternis");
+    }                    
+  else if (diceResult == 20)
+    {
+      return _(@"Ein Erdbeben fand statt");
+    }
+  // we shouldn't end up here, but ...
+  return _(@"Keine besonderen Vorkommnisse bei der Geburt");               
+}
+
 - (NSString *) generateHeightForArchetype: (NSString *) archetype
 {
   NSArray *heightArr = [NSArray arrayWithArray: [[archetypesDict objectForKey: archetype] objectForKey: @"Körpergröße"]];

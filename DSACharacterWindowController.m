@@ -248,224 +248,290 @@
 
 - (void)populateFightingTalentsTab
 {
-    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-    DSACharacterHero *model = (DSACharacterHero *)document.model;
+   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+   DSACharacterHero *model = (DSACharacterHero *)document.model;
 
-    NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex:[self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 2"]];
-    NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
-    NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
-    [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+   NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex:[self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 2"]];
+   NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
+   NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
+   [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
 
-    NSMutableArray *fightingTalents = [NSMutableArray array];
-    NSMutableSet *fightingCategories = [NSMutableSet set];
+   NSMutableArray *fightingTalents = [NSMutableArray array];
+   NSMutableSet *fightingCategories = [NSMutableSet set];
 
-    // Enumerate talents to find all fighting talents
-    [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAFightingTalent *obj, BOOL *stop) {
-        if ([[obj category] isEqualToString:@"Kampftechniken"]) {
-            [fightingTalents addObject:obj];
-            [fightingCategories addObject:[obj subCategory]];
-        }
-    }];
+   // Enumerate talents to find all fighting talents
+   [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAFightingTalent *obj, BOOL *stop)
+     {
+        if ([[obj category] isEqualToString:@"Kampftechniken"])
+          {
+             [fightingTalents addObject:obj];
+             [fightingCategories addObject:[obj subCategory]];
+          }
+     }];
 
-    // Add a tab for each category using the generalized method
-    for (NSString *category in fightingCategories) {
+   // Sort the fighting categories alphabetically
+   NSArray *sortedFightingCategories = [[fightingCategories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+
+   // Sort the fighting talents by subCategory
+   NSSortDescriptor *nameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
+   NSArray *sortedFightingTalents = [fightingTalents sortedArrayUsingDescriptors:@[nameSortDescriptor]];
+        
+   // Iterate through sorted categories and create tabs for them
+   for (NSString *category in sortedFightingCategories)
+     {
         // Filter talents that belong to the current category
-        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(DSAFightingTalent *evaluatedObject, NSDictionary *bindings) {
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(DSAFightingTalent *evaluatedObject, NSDictionary *bindings)
+          {
             return [evaluatedObject.subCategory isEqualToString:category];
-        }];
-        NSArray *filteredTalents = [fightingTalents filteredArrayUsingPredicate:predicate];
+          }];
+        NSArray *filteredTalents = [sortedFightingTalents filteredArrayUsingPredicate:predicate];
         
         // Call the helper method to add the tab for this category
         [self addTabForCategory:category inSubTabView:subTabView withItems:filteredTalents];
-    }
+     }
 
-    // Set the subTabView for item 2
-    [mainTabItem setView:subTabView];
-
+   // Set the subTabView for item 2
+   [mainTabItem setView:subTabView];
 }
-
 
 - (void)populateOtherTalentsTab
 {
-    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-    DSACharacterHero *model = (DSACharacterHero *)document.model;
+   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+   DSACharacterHero *model = (DSACharacterHero *)document.model;
+   
+   NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex:[self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 3"]];
+   NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
+   NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
+   [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
     
-    NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex:[self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 3"]];
-    NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
-    NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
-    [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+   NSMutableArray *otherTalents = [NSMutableArray array];
+   NSMutableSet *talentCategories = [NSMutableSet set];
     
-    NSMutableArray *otherTalents = [NSMutableArray array];
-    NSMutableSet *talentCategories = [NSMutableSet set];
-    
-    // Enumerate talents to find all categories excluding "Kampftechniken"
-    [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
-    {
+   // Enumerate talents to find all categories excluding "Kampftechniken"
+   [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
+     {
         if (![[obj category] isEqualToString:@"Kampftechniken"])
-        {
-            [otherTalents addObject: obj];
-            [talentCategories addObject: [obj category]];
-        }
-    }];
+          {
+             [otherTalents addObject: obj];
+             [talentCategories addObject: [obj category]];
+          }
+     }];
     
-    // Add a tab for each category using the generalized method
-    for (NSString *category in talentCategories)
-    {
-        [self addTabForCategory:category inSubTabView:subTabView withItems:otherTalents];
-    }
+   // Sort the talent categories alphabetically
+   NSArray *sortedTalentCategories = [[talentCategories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     
-    // Set the subTabView for the current tab
-    [mainTabItem setView:subTabView];
-
+   // Sort the other talents by name
+   NSSortDescriptor *nameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
+   NSArray *sortedOtherTalents = [otherTalents sortedArrayUsingDescriptors:@[nameSortDescriptor]];
+    
+   // Iterate through sorted categories and create tabs for them
+   for (NSString *category in sortedTalentCategories)
+     {
+        // Filter talents that belong to the current category
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(DSAOtherTalent *evaluatedObject, NSDictionary *bindings)
+          {
+            return [evaluatedObject.category isEqualToString:category];
+          }];
+        NSArray *filteredTalents = [sortedOtherTalents filteredArrayUsingPredicate:predicate];
+        
+        // Call the helper method to add the tab for this category
+        [self addTabForCategory:category inSubTabView:subTabView withItems:filteredTalents];
+     }
+    
+   // Set the subTabView for the current tab
+   [mainTabItem setView:subTabView];
 }
-
 
 - (void)populateProfessionsTab
 {
-    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-    DSACharacterHero *model = (DSACharacterHero *)document.model;
-    NSLog(@"populateProfessionsTab");
-    NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 5"]];
+   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+   DSACharacterHero *model = (DSACharacterHero *)document.model;
+   NSLog(@"populateProfessionsTab");
+    
+   NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 5"]];
   
-    if ([model professions] == nil)
-    {
+   if ([model professions] == nil)
+     {
         NSLog(@"don't have professions, not showing professions tab");
         [self.tabViewMain removeTabViewItem:mainTabItem];
         return;
-    }
-      
-    NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
-    NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
-    [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+     }
+    
+   NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
+   NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
+   [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
   
-    NSMutableArray *professions = [NSMutableArray array];
-    NSMutableSet *categories = [NSMutableSet set];
+   NSMutableArray *professions = [NSMutableArray array];
+   NSMutableSet *categories = [NSMutableSet set];
   
-    // Enumerate professions to find all categories
-    [model.professions enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
-    {
+   // Enumerate professions to find all categories
+   [model.professions enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
+     {
         [professions addObject: obj];
         [categories addObject: [obj category]];
-    }];
+     }];
   
-    // Add a tab for each category using the generalized method
-    for (NSString *category in categories)
-    {
-        [self addTabForCategory:category inSubTabView:subTabView withItems:professions];
-    }
-  
-    // Set the subTabView for the current tab
-    [mainTabItem setView:subTabView];
+   // Sort the categories alphabetically
+   NSArray *sortedCategories = [[categories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     
+   // Sort the professions by name
+   NSSortDescriptor *nameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
+   NSArray *sortedProfessions = [professions sortedArrayUsingDescriptors:@[nameSortDescriptor]];
+    
+   // Iterate through sorted categories and create tabs for them
+   for (NSString *category in sortedCategories)
+     {
+        // Filter professions that belong to the current category
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(DSAOtherTalent *evaluatedObject, NSDictionary *bindings)
+          {
+             return [evaluatedObject.category isEqualToString:category];
+          }];
+        NSArray *filteredProfessions = [sortedProfessions filteredArrayUsingPredicate:predicate];
+        
+        // Call the helper method to add the tab for this category
+        [self addTabForCategory:category inSubTabView:subTabView withItems:filteredProfessions];
+     }
+  
+   // Set the subTabView for the current tab
+   [mainTabItem setView:subTabView];
 }
-
 
 - (void)populateMagicTalentsTab
 {
-    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-    DSACharacterHero *model = (DSACharacterHero *)document.model;
-    NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 4"]];
-  
-    if (![model conformsToProtocol:@protocol(DSACharacterMagic)] && !model.specials)
-    {
+   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+   DSACharacterHero *model = (DSACharacterHero *)document.model;
+   NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 4"]];
+ 
+   if (![model conformsToProtocol:@protocol(DSACharacterMagic)] && !model.specials)
+     {
         NSLog(@"not being magic, not showing magic talents tab");
         [self.tabViewMain removeTabViewItem:mainTabItem];
         return;
-    }
-    NSLog(@"populateMagicTalentsTab begin");
-    NSLog(@"THE SPELLS: %@", model.spells);
-    NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
-    NSTabView *subTabView = [[NSTabView alloc] initWithFrame: subTabViewFrame];  
-    [subTabView setAllowsTruncatedLabels: YES];
-    [subTabView setControlSize:NSControlSizeSmall];
-    [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+     }
+    
+   NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
+   NSTabView *subTabView = [[NSTabView alloc] initWithFrame: subTabViewFrame];  
+   [subTabView setAllowsTruncatedLabels: YES];
+   [subTabView setControlSize:NSControlSizeSmall];
+   [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
   
-    NSMutableArray *spells = [NSMutableArray array];
-    NSMutableSet *categories = [NSMutableSet set];
+   NSMutableArray *spells = [NSMutableArray array];
+   NSMutableSet *categories = [NSMutableSet set];
   
-    // enumerate talents to find all categories
-    [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
-    {
+   // Enumerate talents to find all categories
+   [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
+     {
         [spells addObject: obj];
         [categories addObject: [obj category]];
-    }];
+     }];
     
-    // Containers for categories that start with "Beschwörung" and "Verwandlung"
-    NSMutableArray *beschwoerungCategories = [NSMutableArray array];
-    NSMutableArray *verwandlungCategories = [NSMutableArray array];
+   // Sort spells by name
+   NSSortDescriptor *nameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
+   NSArray *sortedSpells = [spells sortedArrayUsingDescriptors:@[nameSortDescriptor]];
     
-    // Separate categories based on naming
-    for (NSString *category in categories)
-    {
+   // Sort categories alphabetically
+   NSArray *sortedCategories = [[categories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    
+   // Containers for categories that start with "Beschwörung" and "Verwandlung"
+   NSMutableArray *beschwoerungCategories = [NSMutableArray array];
+   NSMutableArray *verwandlungCategories = [NSMutableArray array];
+    
+   // Separate categories based on naming
+   for (NSString *category in sortedCategories)
+     {
         if ([category hasPrefix:@"Beschwörung"] || [category isEqualToString:@"Die Sieben Formeln der Zeit"])
-        {
-            [beschwoerungCategories addObject:category];
-        }
+          {
+             [beschwoerungCategories addObject:category];
+          }
         else if ([category hasPrefix:@"Verwandlung"])
-        {
-            [verwandlungCategories addObject:category];
-        }
+          {
+             [verwandlungCategories addObject:category];
+          }
         else
-        {
-            // Non-grouped categories: add them individually
-            [self addTabForCategory:category inSubTabView:subTabView withItems:spells];
-        }
-    }
+          {
+             // Non-grouped categories: filter spells and add tabs
+             NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(DSAOtherTalent *evaluatedObject, NSDictionary *bindings)
+               {
+                  return [evaluatedObject.category isEqualToString:category];
+               }];
+             NSArray *filteredSpells = [sortedSpells filteredArrayUsingPredicate:predicate];
+             [self addTabForCategory:category inSubTabView:subTabView withItems:filteredSpells];
+          }
+     }
     
-    // Create grouped tabs for "Beschwörung" and "Verwandlung"
-    if (beschwoerungCategories.count > 0)
-    {
-        [self addGroupedTabWithTitle:@"Beschwörung" categories:beschwoerungCategories inSubTabView:subTabView withSpells:spells];
-    }
-    
-    if (verwandlungCategories.count > 0)
-    {
-        [self addGroupedTabWithTitle:@"Verwandlung" categories:verwandlungCategories inSubTabView:subTabView withSpells:spells];
-    }
-  
-    // Set the subTabView for item 2
-    [mainTabItem setView:subTabView];
+   // Sort "Beschwörung" and "Verwandlung" categories alphabetically
+   NSArray *sortedBeschwoerungCategories = [beschwoerungCategories sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+   NSArray *sortedVerwandlungCategories = [verwandlungCategories sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 
+   // Create grouped tabs for "Beschwörung" and "Verwandlung"
+   if (sortedBeschwoerungCategories.count > 0)
+     {
+        [self addGroupedTabWithTitle:@"Beschwörung" categories:sortedBeschwoerungCategories inSubTabView:subTabView withSpells:sortedSpells];
+     }
+    
+   if (sortedVerwandlungCategories.count > 0)
+     {
+        [self addGroupedTabWithTitle:@"Verwandlung" categories:sortedVerwandlungCategories inSubTabView:subTabView withSpells:sortedSpells];
+     }
+   
+   // Set the subTabView for the current tab
+   [mainTabItem setView:subTabView];
 }
+
 
 - (void)populateSpecialTalentsTab
 {
-    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-    DSACharacterHero *model = (DSACharacterHero *)document.model;
-    NSLog(@"populateSpecialTalentsTab");
-    NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 6"]];
+   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+   DSACharacterHero *model = (DSACharacterHero *)document.model;
+   NSLog(@"populateSpecialTalentsTab");
+   NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 6"]];
   
-    if ([model specials] == nil)
-    {
+   if ([model specials] == nil)
+     {
         NSLog(@"don't have special talents, not showing special talents tab");
         [self.tabViewMain removeTabViewItem:mainTabItem];
         return;
-    }
+     }
       
-    NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
-    NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
-    [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+   NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
+   NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
+   [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
   
-    NSMutableArray *specials = [NSMutableArray array];
-    NSMutableSet *categories = [NSMutableSet set];
+   NSMutableArray *specials = [NSMutableArray array];
+   NSMutableSet *categories = [NSMutableSet set];
   
-    // Enumerate special talents to find all categories
-    [model.specials enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
-    {
+   // Enumerate special talents to find all categories
+   [model.specials enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
+     {
         [specials addObject: obj];
         [categories addObject: [obj category]];
-    }];
-  
-    // Add a tab for each category using the generalized method
-    for (NSString *category in categories)
-    {
-        [self addTabForCategory:category inSubTabView:subTabView withItems:specials];
-    }
-  
-    // Set the subTabView for the current tab
-    [mainTabItem setView:subTabView];
+     }];
     
+   // Sort specials by name
+   NSSortDescriptor *nameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
+   NSArray *sortedSpecials = [specials sortedArrayUsingDescriptors:@[nameSortDescriptor]];
+    
+   // Sort categories alphabetically
+   NSArray *sortedCategories = [[categories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+  
+   // Add a tab for each sorted category with the corresponding talents
+   for (NSString *category in sortedCategories)
+     {
+        // Filter talents belonging to the current category
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(DSAOtherTalent *evaluatedObject, NSDictionary *bindings)
+          {
+            return [evaluatedObject.category isEqualToString:category];
+          }];
+        NSArray *filteredSpecials = [sortedSpecials filteredArrayUsingPredicate:predicate];
+        
+        // Add the filtered talents under the corresponding category
+        [self addTabForCategory:category inSubTabView:subTabView withItems:filteredSpecials];
+     }
+  
+   // Set the subTabView for the current tab
+   [mainTabItem setView:subTabView];
 }
+
 
 #pragma mark - Helper Methods
 
@@ -735,6 +801,7 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
     
   // yes, we want to start that process NOW
   [model prepareLevelUp];
+  [document updateChangeCount:NSChangeDone];
   
   // we don't need the congrats panel for now
   [self.congratsPanel close];
@@ -1119,130 +1186,148 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
 
 - (IBAction)showLevelUpTalents:(id)sender
 {
-  NSLog(@"showLevelUpTalents");
-  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-  DSACharacterHero *model = (DSACharacterHero *)document.model;
-  if (!self.levelUpPanel)
+    NSLog(@"showLevelUpTalents");
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    DSACharacterHero *model = (DSACharacterHero *)document.model;
+    
+    if (!self.levelUpPanel)
     {
-      // Load the panel from the separate .gorm file
-      [NSBundle loadNibNamed:@"DSACharacterLevelUp" owner:self];
+        // Load the panel from the separate .gorm file
+        [NSBundle loadNibNamed:@"DSACharacterLevelUp" owner:self];
     }
-  // Set the font size of the fieldCongratsHeadline
-  
-  NSMutableSet *talentCategories = [NSMutableSet set];
-  NSMutableSet *spellCategories = [NSMutableSet set];         // silly magical dabbler handles its few spells like normal talents
-  
-  // enumerate talents to find all categories
-  [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
-    {
-      [talentCategories addObject: [obj category]];
-    }];  
+    
+    // Set the font size of the fieldCongratsHeadline
+    NSFont *currentFont = [self.fieldLevelUpHeadline font];
+    NSFont *biggerFont = [[NSFontManager sharedFontManager] convertFont:currentFont toSize:20.0]; // Set size to 20
+    [self.fieldLevelUpHeadline setFont:biggerFont];
+    [self.fieldLevelUpHeadline setStringValue: _(@"Talente steigern")];
+    [self.fieldLevelUpMainText setStringValue: _(@"Talent auswählen")];
 
-  [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop)
+    // Collect talent and spell categories
+    NSMutableSet *talentCategories = [NSMutableSet set];
+    NSMutableSet *spellCategories = [NSMutableSet set];  // For magical dabblers
+
+    // Enumerate talents to find all categories
+    [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop) {
+        [talentCategories addObject: [obj category]];
+    }];
+
+    // Enumerate spells to find all categories
+    [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop) {
+        [spellCategories addObject: [obj category]];
+    }];
+
+    // Sort talentCategories and spellCategories alphabetically
+    NSArray *sortedTalentCategories = [[talentCategories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+    NSArray *sortedSpellCategories = [[spellCategories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+
+    // Configure the popup menu
+    [self.popupLevelUpTop setEnabled: YES];
+    [self.popupLevelUpTop removeAllItems];
+    
+    // Add sorted talent categories
+    [self.popupLevelUpTop addItemsWithTitles: sortedTalentCategories];
+    
+    // Add sorted spell categories (if any)
+    if (sortedSpellCategories.count > 0 && [model isMagicalDabbler])
     {
-      [spellCategories addObject: [obj category]];
-    }];     
-      
-  NSFont *currentFont = [self.fieldLevelUpHeadline font];
-  NSFont *biggerFont = [[NSFontManager sharedFontManager] convertFont:currentFont toSize:20.0]; // Set size to 20
-  [self.fieldLevelUpHeadline setFont:biggerFont];
-  [self.fieldLevelUpHeadline setStringValue: _(@"Talente steigern")];
-  [self.fieldLevelUpMainText setStringValue: _(@"Talent auswählen")];
- 
-  [self.popupLevelUpTop setEnabled: YES];
-  [self.popupLevelUpTop removeAllItems];
-  [self.popupLevelUpTop addItemsWithTitles: [talentCategories allObjects]];
-  if (spellCategories)
-    {
-      [self.popupLevelUpTop addItemsWithTitles: [spellCategories allObjects]];    
+        [self.popupLevelUpTop addItemsWithTitles: sortedSpellCategories];
     }
-  [self.popupLevelUpTop setTarget:self];
-  [self.popupLevelUpTop setAction:@selector(populateLevelUpBottomPopupWithTalents:)];
 
-  [self.popupLevelUpBottom setHidden: NO];  
-  [self.popupLevelUpBottom setEnabled: YES];
-  [self.popupLevelUpBottom setAutoenablesItems: NO];
-  [self populateLevelUpBottomPopupWithTalents: nil];
+    // Set action for the popup
+    [self.popupLevelUpTop setTarget:self];
+    [self.popupLevelUpTop setAction:@selector(populateLevelUpBottomPopupWithTalents:)];
+
+    [self.popupLevelUpBottom setHidden: NO];
+    [self.popupLevelUpBottom setEnabled: YES];
+    [self.popupLevelUpBottom setAutoenablesItems: NO];
+    
+    // Populate the bottom popup
+    [self populateLevelUpBottomPopupWithTalents: nil];
+
+    // Other UI configurations
+    [self.fieldLevelUpFeedback setHidden: YES];
+    [self.fieldLevelUpTrialsCounter setHidden: NO];
+    [self.fieldLevelUpTrialsCounter setStringValue: [NSString stringWithFormat: @"Verbleibende Versuche: %@", model.maxLevelUpTalentsTriesTmp]];
+
+    [self.buttonLevelUpDoIt setTarget:self];
+    [self.buttonLevelUpDoIt setAction:@selector(levelUpTalent:)];
+    [self.buttonLevelUpDoIt setTitle: _(@"Steigern")];
   
-  [self.fieldLevelUpFeedback setHidden: YES];
-  [self.fieldLevelUpTrialsCounter setHidden: NO];                                                            
-  [self.fieldLevelUpTrialsCounter setStringValue: [NSString stringWithFormat: @"Verbleibende Versuche: %@", model.maxLevelUpTalentsTriesTmp]];
-  
-  [self.buttonLevelUpDoIt setTarget:self];
-  [self.buttonLevelUpDoIt setAction:@selector(levelUpTalent:)]; 
-  [self.buttonLevelUpDoIt setTitle: _(@"Steigern")];
-  
-  [self.levelUpPanel makeKeyAndOrderFront:nil];
+    [self.levelUpPanel makeKeyAndOrderFront:nil];
 }
 
 - (void)populateLevelUpBottomPopupWithTalents:(id)sender
 {
-  NSLog(@"populateLevelUpBottomPopupWithTalents called");
-  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-  DSACharacterHero *model = (DSACharacterHero *)document.model;  
-  NSString *talentCategory = [[self.popupLevelUpTop selectedItem] title];
-
-  //NSMutableArray *talents = [[NSMutableArray alloc] init];
-  
-  NSString *selectedItemTitle = [[self.popupLevelUpBottom selectedItem] title];
-  
-  // enumerate talents to find all categories
-  [self.popupLevelUpBottom removeAllItems];
-  [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
-    {
-      if ([[obj category] isEqualTo: talentCategory])
-        {
-          [self.popupLevelUpBottom addItemWithTitle: [obj name]];
-          if ([model canLevelUpTalent: [model.talents objectForKey: [obj name]]])
-            {
-              [[self.popupLevelUpBottom itemWithTitle: [obj name]] setEnabled: YES];
-            }
-          else
-            {
-              [[self.popupLevelUpBottom itemWithTitle: [obj name]] setEnabled: NO];
-            }
-
-        }
-    }];
-  [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop)
-    {
-      if ([[obj category] isEqualTo: talentCategory])  //talentCategory might be a bit misleading here ;) but it's for this silly magical dabbler
-        {
-          [self.popupLevelUpBottom addItemWithTitle: [obj name]];
-          if ([model canLevelUpTalent: [model.spells objectForKey: [obj name]]])
-            {
-              [[self.popupLevelUpBottom itemWithTitle: [obj name]] setEnabled: YES];
-            }
-          else
-            {
-              [[self.popupLevelUpBottom itemWithTitle: [obj name]] setEnabled: NO];
-            }
-
+    NSLog(@"populateLevelUpBottomPopupWithTalents called");
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    DSACharacterHero *model = (DSACharacterHero *)document.model;  
+    NSString *talentCategory = [[self.popupLevelUpTop selectedItem] title];
+    
+    // Store the previously selected item
+    NSString *selectedItemTitle = [[self.popupLevelUpBottom selectedItem] title];
+    
+    // Remove all current items
+    [self.popupLevelUpBottom removeAllItems];
+    
+    // Create arrays to hold sorted talents and spells
+    NSMutableArray *sortedTalents = [NSMutableArray array];
+    NSMutableArray *sortedSpells = [NSMutableArray array];
+    
+    // Collect talents in the given category
+    [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop) {
+        if ([[obj category] isEqualTo: talentCategory]) {
+            [sortedTalents addObject: obj];
         }
     }];
     
-    //[self.popupLevelUpBottom removeAllItems];
-    //[self.popupLevelUpBottom addItemsWithTitles: talents];  
-
-    // try again to select same item as was before
-    [self.popupLevelUpBottom selectItemWithTitle: selectedItemTitle];
-    // the now selected item might be disabled, if that's the case
-    // try find some other enabled item and select that one
-    if (![[self.popupLevelUpBottom selectedItem] isEnabled])
-      {
-        for (NSInteger i=0;i< [self.popupLevelUpBottom numberOfItems];i++)
-         {
-           if ([[self.popupLevelUpBottom itemAtIndex: i] isEnabled])
-             {
-               [self.popupLevelUpBottom selectItemAtIndex: i];
-               break;
-             }
-         }
-      }
+    // Collect spells in the given category (for magical dabblers)
+    [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop) {
+        if ([[obj category] isEqualTo: talentCategory]) {
+            [sortedSpells addObject: obj];
+        }
+    }];
     
-   [self.popupLevelUpBottom setNeedsDisplay:YES];    
+    // Sort talents and spells alphabetically by their name
+    NSArray *sortedTalentNames = [sortedTalents sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]];
+    NSArray *sortedSpellNames = [sortedSpells sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]];
+    
+    // Add sorted talents to the popup
+    for (DSAOtherTalent *talent in sortedTalentNames) {
+        [self.popupLevelUpBottom addItemWithTitle:[talent name]];
+        if ([model canLevelUpTalent:[model.talents objectForKey:[talent name]]]) {
+            [[self.popupLevelUpBottom itemWithTitle:[talent name]] setEnabled:YES];
+        } else {
+            [[self.popupLevelUpBottom itemWithTitle:[talent name]] setEnabled:NO];
+        }
+    }
+    
+    // Add sorted spells to the popup (if applicable)
+    for (DSASpell *spell in sortedSpellNames) {
+        [self.popupLevelUpBottom addItemWithTitle:[spell name]];
+        if ([model canLevelUpTalent:[model.spells objectForKey:[spell name]]]) {
+            [[self.popupLevelUpBottom itemWithTitle:[spell name]] setEnabled:YES];
+        } else {
+            [[self.popupLevelUpBottom itemWithTitle:[spell name]] setEnabled:NO];
+        }
+    }
+    
+    // Try to re-select the previously selected item
+    [self.popupLevelUpBottom selectItemWithTitle:selectedItemTitle];
+    
+    // If the selected item is disabled, select the first enabled item
+    if (![[self.popupLevelUpBottom selectedItem] isEnabled]) {
+        for (NSInteger i = 0; i < [self.popupLevelUpBottom numberOfItems]; i++) {
+            if ([[self.popupLevelUpBottom itemAtIndex:i] isEnabled]) {
+                [self.popupLevelUpBottom selectItemAtIndex:i];
+                break;
+            }
+        }
+    }
+    
+    // Update the popup button's display
+    [self.popupLevelUpBottom setNeedsDisplay:YES];    
 }
-
 
 - (void)levelUpTalent:(id)sender
 {
@@ -1291,121 +1376,119 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
 
 - (IBAction)showLevelUpSpells:(id)sender
 {
-  NSLog(@"showLevelUpSpells called");
-  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-  DSACharacterHero *model = (DSACharacterHero *)document.model;  
-  if (![model conformsToProtocol:@protocol(DSACharacterMagic)])
+    NSLog(@"showLevelUpSpells called");
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    DSACharacterHero *model = (DSACharacterHero *)document.model;  
+    
+    if (![model conformsToProtocol:@protocol(DSACharacterMagic)])
     {
-      [self finishLevelUp: self];
+        [self finishLevelUp:self];
+        return;
     }
- 
-  if (!self.levelUpPanel)
-    {
-      // Load the panel from the separate .gorm file
-      [NSBundle loadNibNamed:@"DSACharacterLevelUp" owner:self];
-    }
-  // Set the font size of the fieldCongratsHeadline
-  
-  NSMutableSet *spellCategories = [NSMutableSet set];
-  
-  // enumerate spells to find all categories
-  [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop)
-    {
-      [spellCategories addObject: [obj category]];
-    }];  
-  
-  NSFont *currentFont = [self.fieldLevelUpHeadline font];
-  NSFont *biggerFont = [[NSFontManager sharedFontManager] convertFont:currentFont toSize:20.0]; // Set size to 20
-  [self.fieldLevelUpHeadline setFont:biggerFont];
-  [self.fieldLevelUpHeadline setStringValue: _(@"Zauberfertigkeiten steigern")];
-  [self.fieldLevelUpMainText setStringValue: _(@"Spruch auswählen")];
- 
-  [self.popupLevelUpTop setEnabled: YES];
-  [self.popupLevelUpTop removeAllItems];
-  [self.popupLevelUpTop addItemsWithTitles: [spellCategories allObjects]];  
-  [self.popupLevelUpTop setTarget:self];
-  [self.popupLevelUpTop setAction:@selector(populateLevelUpBottomPopupWithSpells:)];
 
-  [self.popupLevelUpBottom setHidden: NO];  
-  [self.popupLevelUpBottom setEnabled: YES];
-  [self.popupLevelUpBottom setAutoenablesItems: NO];
-  [self populateLevelUpBottomPopupWithSpells: nil];
-  
-  [self.fieldLevelUpFeedback setHidden: YES];
-  [self.fieldLevelUpTrialsCounter setHidden: NO];                                                            
-  [self.fieldLevelUpTrialsCounter setStringValue: [NSString stringWithFormat: @"Verbleibende Versuche: %@", model.maxLevelUpSpellsTriesTmp]];
-  
-  [self.buttonLevelUpDoIt setTarget:self];
-  [self.buttonLevelUpDoIt setAction:@selector(levelUpSpell:)]; 
-  [self.buttonLevelUpDoIt setTitle: _(@"Steigern")];
-  
-  [self.levelUpPanel makeKeyAndOrderFront:nil];    
-     
+    if (!self.levelUpPanel)
+    {
+        // Load the panel from the separate .gorm file
+        [NSBundle loadNibNamed:@"DSACharacterLevelUp" owner:self];
+    }
+
+    // Set the font size of the fieldCongratsHeadline
+    NSFont *currentFont = [self.fieldLevelUpHeadline font];
+    NSFont *biggerFont = [[NSFontManager sharedFontManager] convertFont:currentFont toSize:20.0]; // Set size to 20
+    [self.fieldLevelUpHeadline setFont:biggerFont];
+    [self.fieldLevelUpHeadline setStringValue: _(@"Zauberfertigkeiten steigern")];
+    [self.fieldLevelUpMainText setStringValue: _(@"Spruch auswählen")];
+
+    // Collect spell categories
+    NSMutableSet *spellCategories = [NSMutableSet set];
+    
+    // Enumerate spells to find all categories
+    [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop) {
+        [spellCategories addObject: [obj category]];
+    }];  
+
+    // Sort spellCategories alphabetically
+    NSArray *sortedSpellCategories = [[spellCategories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+
+    // Configure the popup menu with sorted spell categories
+    [self.popupLevelUpTop setEnabled:YES];
+    [self.popupLevelUpTop removeAllItems];
+    [self.popupLevelUpTop addItemsWithTitles:sortedSpellCategories];
+    [self.popupLevelUpTop setTarget:self];
+    [self.popupLevelUpTop setAction:@selector(populateLevelUpBottomPopupWithSpells:)];
+
+    [self.popupLevelUpBottom setHidden:NO];
+    [self.popupLevelUpBottom setEnabled:YES];
+    [self.popupLevelUpBottom setAutoenablesItems:NO];
+    [self populateLevelUpBottomPopupWithSpells:nil];
+
+    // Other UI configurations
+    [self.fieldLevelUpFeedback setHidden:YES];
+    [self.fieldLevelUpTrialsCounter setHidden:NO];
+    [self.fieldLevelUpTrialsCounter setStringValue:[NSString stringWithFormat:@"Verbleibende Versuche: %@", model.maxLevelUpSpellsTriesTmp]];
+
+    [self.buttonLevelUpDoIt setTarget:self];
+    [self.buttonLevelUpDoIt setAction:@selector(levelUpSpell:)];
+    [self.buttonLevelUpDoIt setTitle:_(@"Steigern")];
+
+    [self.levelUpPanel makeKeyAndOrderFront:nil];
 }
 
 - (void)populateLevelUpBottomPopupWithSpells:(id)sender
 {
-  NSLog(@"populateLevelUpBottomPopupWithSpells called");
-  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-  DSACharacterHero *model = (DSACharacterHero *)document.model;  
-  NSString *spellCategory = [[self.popupLevelUpTop selectedItem] title];
-
-  NSMutableArray *spells = [[NSMutableArray alloc] init];
-  
-  NSString *selectedItemTitle = [[self.popupLevelUpBottom selectedItem] title];
-  
-  // enumerate talents to find all categories
-  [self.popupLevelUpBottom removeAllItems];
-  [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop)
-    {
+    NSLog(@"populateLevelUpBottomPopupWithSpells called");
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    DSACharacterHero *model = (DSACharacterHero *)document.model;
+    NSString *spellCategory = [[self.popupLevelUpTop selectedItem] title];
     
-                  if ([obj.name isEqualTo: @"Transversalis Teleport"]) NSLog(@"YYYYYYYYYYYYYYYYYYYYYYYY TRANSVERSALIS: %@", obj);
-                  if ([obj.name isEqualTo: @"Axxeleratus Blitzgeschwind"]) NSLog(@"YYYYYYYYYYYYYYYYYYYYYYYY TRANSVERSALIS: %@", obj);
-                  if ([obj.name isEqualTo: @"In Glut und Lohe ohne Weh"]) NSLog(@"YYYYYYYYYYYYYYYYYYYYYYYY TRANSVERSALIS: %@", obj);
-      if ([[obj category] isEqualTo: spellCategory])
-        {
-          [self.popupLevelUpBottom addItemWithTitle: [obj name]];
-          SEL canLevelUpSpell = @selector(canLevelUpSpell:);
-          if ([model respondsToSelector: canLevelUpSpell])
-            {
-              BOOL (*func)(id, SEL, DSASpell *) = (void *)objc_msgSend;
-              if (func(model, canLevelUpSpell,[model.spells objectForKey: [obj name]]))
-                {
-                  [[self.popupLevelUpBottom itemWithTitle: [obj name]] setEnabled: YES];
-                }
-              else
-                {
-                  [[self.popupLevelUpBottom itemWithTitle: [obj name]] setEnabled: NO];
-                }
-            }
+    // Store the previously selected item
+    NSString *selectedItemTitle = [[self.popupLevelUpBottom selectedItem] title];
+    
+    // Remove all current items
+    [self.popupLevelUpBottom removeAllItems];
+    
+    // Create an array to hold sorted spells
+    NSMutableArray *spells = [NSMutableArray array];
+    
+    // Collect spells that match the selected category
+    [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop) {
+        if ([[obj category] isEqualTo: spellCategory]) {
+            [spells addObject: obj];
         }
     }];
-
-    //[self.popupLevelUpBottom removeAllItems];
-    [self.popupLevelUpBottom addItemsWithTitles: spells];  
-
-    // try again to select same item as was before
-    [self.popupLevelUpBottom selectItemWithTitle: selectedItemTitle];
-    // the now selected item might be disabled, if that's the case
-    // try find some other enabled item and select that one
-    if (![[self.popupLevelUpBottom selectedItem] isEnabled])
-      {
-        for (NSInteger i=0;i< [self.popupLevelUpBottom numberOfItems];i++)
-         {
-           if ([[self.popupLevelUpBottom itemAtIndex: i] isEnabled])
-             {
-               [self.popupLevelUpBottom selectItemAtIndex: i];
-               break;
-             }
-         }
-      }
     
-/*    for (NSString *spell in spells)
-      {
-        NSMenuItem *item = [[NSMenuItem alloc] init];
-        item = (NSMenuItem *)[self.popupLevelUpBottom itemWithTitle: spell];
-      } */
-   [self.popupLevelUpBottom setNeedsDisplay:YES];    
+    // Sort the spells alphabetically by their name
+    NSArray *sortedSpells = [spells sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]];
+    
+    // Add sorted spells to the popup
+    for (DSASpell *spell in sortedSpells) {
+        [self.popupLevelUpBottom addItemWithTitle:[spell name]];
+        SEL canLevelUpSpell = @selector(canLevelUpSpell:);
+        if ([model respondsToSelector: canLevelUpSpell]) {
+            BOOL (*func)(id, SEL, DSASpell *) = (void *)objc_msgSend;
+            if (func(model, canLevelUpSpell, [model.spells objectForKey:[spell name]])) {
+                [[self.popupLevelUpBottom itemWithTitle:[spell name]] setEnabled:YES];
+            } else {
+                [[self.popupLevelUpBottom itemWithTitle:[spell name]] setEnabled:NO];
+            }
+        }
+    }
+    
+    // Try to re-select the previously selected item
+    [self.popupLevelUpBottom selectItemWithTitle:selectedItemTitle];
+    
+    // If the selected item is disabled, select the first enabled item
+    if (![[self.popupLevelUpBottom selectedItem] isEnabled]) {
+        for (NSInteger i = 0; i < [self.popupLevelUpBottom numberOfItems]; i++) {
+            if ([[self.popupLevelUpBottom itemAtIndex:i] isEnabled]) {
+                [self.popupLevelUpBottom selectItemAtIndex:i];
+                break;
+            }
+        }
+    }
+    
+    // Update the popup button's display
+    [self.popupLevelUpBottom setNeedsDisplay:YES];
 }
 
 - (void)levelUpSpell:(id)sender
@@ -1503,8 +1586,11 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
       NSLog(@"Input is a positive integer.");
       // You can proceed with the value, as it is a valid positive integer
       model.adventurePoints = [NSNumber numberWithInteger: [model.adventurePoints integerValue] + [inputString integerValue]];
+      [document updateChangeCount: NSChangeDone];
       [self.adventurePointsPanel close];
-    } else {
+    }
+  else
+    {
       NSLog(@"Input is not a positive integer.");
       // Handle the error (e.g., show a warning to the user)
       [self.fieldAdditionalAdventurePoints setBackgroundColor: [NSColor redColor]];

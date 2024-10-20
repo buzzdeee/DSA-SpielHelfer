@@ -134,7 +134,7 @@
       // Update the original dictionary after the loop
       @synchronized(self) {
         self.levelUpSpells = [tempLevelUpSpells mutableCopy];
-      }  
+      } 
     }
     
   if (!self.levelUpProfessions)
@@ -160,7 +160,6 @@
   @synchronized(self) {
     self.levelUpProfessions = [tempLevelUpProfessions mutableCopy];
   }  
-  
 }
 
 - (void) finishLevelUp
