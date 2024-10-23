@@ -104,6 +104,7 @@
   [self populateProfessionsTab];
   [self populateMagicTalentsTab];
   [self populateSpecialTalentsTab];
+  [self populateBiographyTab];
   
   [self handleAdventurePointsChange];
 }
@@ -532,6 +533,338 @@
    [mainTabItem setView:subTabView];
 }
 
+- (void)populateBiographyTab
+{
+   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+   DSACharacterHero *model = (DSACharacterHero *)document.model;
+   NSLog(@"populateBiographyTab %@ %@", [model birthPlace], [model legitimation]);
+   
+   NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 7"]];
+   
+   NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
+   NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
+   [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+   
+   // --- First Tab: "Geburt" ---
+   NSTabViewItem *innerTabItem1 = [[NSTabViewItem alloc] initWithIdentifier:_(@"Geburt")];
+   innerTabItem1.label = _(@"Geburt");
+    
+   NSFlippedView *innerView1 = [[NSFlippedView alloc] initWithFrame:subTabView.bounds];
+   [innerView1 setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+
+   // Create a single NSTextView to hold the merged text
+   CGFloat margin = 10.0;
+   CGFloat width = subTabView.bounds.size.width - 2 * margin;
+   NSRect textViewFrame = NSMakeRect(margin, margin, width, subTabView.bounds.size.height - 2 * margin);
+   NSTextView *textView1 = [[NSTextView alloc] initWithFrame:textViewFrame];
+   [textView1 setEditable:NO];     // Make it non-editable
+   [textView1 setVerticallyResizable:YES];
+   [textView1 setHorizontallyResizable:NO];
+   [textView1 setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+   [textView1 setBackgroundColor:[NSColor lightGrayColor]];
+
+   // Format the text as a bulleted list
+   NSString *bulletList1 = [NSString stringWithFormat:@"• %@\n• %@\n• %@\n• %@", 
+                           [model birthPlace], 
+                           [model birthEvent], 
+                           [model legitimation],
+                           [self siblingsStringForCharacter: model]];
+
+   // Create paragraph style for proper indentation of bullet points
+   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+   CGFloat bulletIndent = 15.0;  // Space from the left edge for the first line
+   CGFloat textIndent = 25.0;    // Space for wrapped lines
+   [paragraphStyle setFirstLineHeadIndent:bulletIndent];   // First line indentation (after the bullet)
+   [paragraphStyle setHeadIndent:textIndent];              // Indentation for subsequent wrapped lines
+
+   // Optional: Set line spacing for better readability
+   [paragraphStyle setLineSpacing:4.0];
+
+   // Create an attributed string with the bullet points and paragraph style
+   NSFont *font = [NSFont systemFontOfSize:12.0];  // Use a system font of size 10
+   NSMutableAttributedString *attrString1 = [[NSMutableAttributedString alloc] initWithString:bulletList1];
+   [attrString1 addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [attrString1 length])];
+   [attrString1 addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [attrString1 length])];
+
+   // Set the text in the NSTextView
+   [textView1.textStorage setAttributedString:attrString1];
+
+   // Add the NSTextView to the innerView
+   [innerView1 addSubview:textView1];
+
+   // Set the innerView as the view for the inner tab item
+   [innerTabItem1 setView:innerView1];
+   [subTabView addTabViewItem:innerTabItem1];
+   
+   // --- Second Tab: "Kindheit" ---
+   NSTabViewItem *innerTabItem2 = [[NSTabViewItem alloc] initWithIdentifier:_(@"Kindheit")];
+   innerTabItem2.label = _(@"Kindheit");
+
+   NSFlippedView *innerView2 = [[NSFlippedView alloc] initWithFrame:subTabView.bounds];
+   [innerView2 setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+   
+   // Create a text view for childhood events with the same layout
+   NSTextView *textView2 = [[NSTextView alloc] initWithFrame:textViewFrame];
+   [textView2 setEditable:NO];
+   [textView2 setVerticallyResizable:YES];
+   [textView2 setHorizontallyResizable:NO];
+   [textView2 setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+   [textView2 setBackgroundColor:[NSColor lightGrayColor]];
+
+   // Compose bulleted list for childhood events
+   NSMutableString *childhoodBullets = [[NSMutableString alloc] init];
+   for (NSString *event in [model childhoodEvents]) {
+       [childhoodBullets appendFormat:@"• %@\n", event];
+   }
+
+   // Create an attributed string with the bullet points and paragraph style
+   NSMutableAttributedString *attrString2 = [[NSMutableAttributedString alloc] initWithString:childhoodBullets];
+   [attrString2 addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [attrString2 length])];
+   [attrString2 addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [attrString2 length])];
+
+   // Set the text in the NSTextView
+   [textView2.textStorage setAttributedString:attrString2];
+   
+   // Add the text view to the second tab
+   [innerView2 addSubview:textView2];
+   [innerTabItem2 setView:innerView2];
+   [subTabView addTabViewItem:innerTabItem2];
+   
+   // Set the subTabView for the current tab
+   [mainTabItem setView:subTabView];
+}
+
+
+- (void)XXXYpopulateBiographyTab
+{
+   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+   DSACharacterHero *model = (DSACharacterHero *)document.model;
+   NSLog(@"populateBiographyTab %@ %@", [model birthPlace], [model legitimation]);
+   
+   NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 7"]];
+   
+   NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
+   NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
+   [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+   
+   NSTabViewItem *innerTabItem = [[NSTabViewItem alloc] initWithIdentifier: _(@"Geburt")];
+   innerTabItem.label = _(@"Geburt");
+    
+   NSFlippedView *innerView = [[NSFlippedView alloc] initWithFrame:subTabView.bounds];
+   [innerView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+
+   // Create a single NSTextView to hold the merged text
+   CGFloat margin = 10.0;
+   CGFloat width = subTabView.bounds.size.width - 2 * margin;
+   NSRect textViewFrame = NSMakeRect(margin, margin, width, subTabView.bounds.size.height - 2 * margin);
+   NSTextView *textView = [[NSTextView alloc] initWithFrame:textViewFrame];
+   [textView setEditable:NO];     // Make it non-editable
+   [textView setVerticallyResizable:YES];
+   [textView setHorizontallyResizable:NO];
+   [textView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+   [textView setBackgroundColor:[NSColor lightGrayColor]];
+
+   // Format the text as a bulleted list
+   NSString *bulletList = [NSString stringWithFormat:@"• %@\n• %@\n• %@\n• %@", 
+                           [model birthPlace], 
+                           [model birthEvent], 
+                           [model legitimation],
+                           [self siblingsStringForCharacter: model]];
+
+   // Create paragraph style for proper indentation of bullet points
+   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+   CGFloat bulletIndent = 15.0;  // Space from the left edge for the first line
+   CGFloat textIndent = 25.0;    // Space for wrapped lines
+   [paragraphStyle setFirstLineHeadIndent:bulletIndent];   // First line indentation (after the bullet)
+   [paragraphStyle setHeadIndent:textIndent];              // Indentation for subsequent wrapped lines
+
+   // Optional: Set line spacing for better readability
+   [paragraphStyle setLineSpacing:4.0];
+
+   // Create an attributed string with the bullet points and paragraph style
+   NSFont *font = [NSFont systemFontOfSize:10.0];  // Use a system font of size 14
+   NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:bulletList];
+   [attrString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [attrString length])];
+   [attrString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [attrString length])];
+
+   // Set the text in the NSTextView
+   [textView.textStorage setAttributedString:attrString];
+
+   // Add the NSTextView to the innerView
+   [innerView addSubview:textView];
+
+   // Set the innerView as the view for the inner tab item
+   [innerTabItem setView:innerView];
+   [subTabView addTabViewItem:innerTabItem];
+   
+   // --- Second Tab: "Kindheit" ---
+   NSTabViewItem *innerTabItem2 = [[NSTabViewItem alloc] initWithIdentifier:_(@"Kindheit")];
+   innerTabItem2.label = _(@"Kindheit");
+
+   NSFlippedView *innerView2 = [[NSFlippedView alloc] initWithFrame:subTabView.bounds];
+   [innerView2 setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+   
+   // Create a text view for childhood events with the same layout
+   NSTextView *childhoodTextView = [[NSTextView alloc] initWithFrame:NSMakeRect(10, 10, width, 100)];
+   [childhoodTextView setEditable:NO];
+   [childhoodTextView setBackgroundColor:[NSColor lightGrayColor]];
+
+   // Compose bulleted list for childhood events
+   NSMutableString *childhoodBullets = [[NSMutableString alloc] init];
+   for (NSString *event in [model childhoodEvents]) {
+       [childhoodBullets appendFormat:@"• %@\n", event];
+   }
+   [childhoodTextView setString:childhoodBullets];
+   
+   // Add the childhood events text view to the second tab
+   [innerView2 addSubview:childhoodTextView];
+   [innerTabItem2 setView:innerView2];
+   [subTabView addTabViewItem:innerTabItem2];
+   
+   // Set the subTabView for the current tab
+   [mainTabItem setView:subTabView];
+}
+
+
+// helper function used above in populateBiographyTab
+- (NSString *)siblingsStringForCharacter:(DSACharacter *)character
+{
+    NSArray *siblings = [character siblings];
+    NSString *name = [character name];
+    NSString *pronoun = [[character sex] isEqualToString:_(@"männlich")] ? @"Er" : @"Sie";
+    NSString *genderWord = [[character sex] isEqualToString:_(@"männlich")] ? @"der" : @"die";
+    
+    // If no siblings, return a simple message
+    if ([siblings count] == 0) {
+        return [NSString stringWithFormat:@"%@ hat keine Geschwister.", name];
+    }
+    
+    // Initialize counters for siblings
+    NSInteger olderBrothers = 0;
+    NSInteger youngerBrothers = 0;
+    NSInteger olderSisters = 0;
+    NSInteger youngerSisters = 0;
+    
+    // Count the number of older/younger brothers and sisters
+    for (NSDictionary *sibling in siblings) {
+        NSString *age = sibling[@"age"];
+        NSString *sex = sibling[@"sex"];
+        
+        if ([age isEqualToString:_(@"älter")]) {
+            if ([sex isEqualToString:_(@"männlich")]) {
+                olderBrothers++;
+            } else {
+                olderSisters++;
+            }
+        } else {  // "jünger"
+            if ([sex isEqualToString:_(@"männlich")]) {
+                youngerBrothers++;
+            } else {
+                youngerSisters++;
+            }
+        }
+    }
+    
+    // Total number of children in the family
+    NSInteger totalChildren = [siblings count] + 1;  // +1 to include the character
+    NSInteger numberOfOlderSiblings = olderBrothers + olderSisters;
+    NSInteger characterPosition = totalChildren - numberOfOlderSiblings;  // Position of the character among the siblings
+    // Generate a detailed sibling description
+    NSMutableString *resultString = [NSMutableString stringWithFormat:@"%@ ist %@ %ldte von %ld Kindern. ", name, genderWord, (long)characterPosition, (long)totalChildren];
+    
+    NSMutableArray *siblingDescriptions = [NSMutableArray array];
+    
+    // Build the description based on the sibling counts
+    if (olderBrothers > 0) {
+        NSString *olderBrothersString = [NSString stringWithFormat:@"%ld ältere%@ Br%@der", (long)olderBrothers, olderBrothers > 1 ? @"" : @"n", olderBrothers > 1 ? @"ü" : @"u"];
+        [siblingDescriptions addObject:olderBrothersString];
+    }
+    
+    if (olderSisters > 0) {
+        NSString *olderSistersString = [NSString stringWithFormat:@"%ld ältere Schwester%@", (long)olderSisters, olderSisters > 1 ? @"n" : @""];
+        [siblingDescriptions addObject:olderSistersString];
+    }
+    
+    if (youngerBrothers > 0) {
+        NSString *youngerBrothersString = [NSString stringWithFormat:@"%ld jüngere%@ Br%@der", (long)youngerBrothers, youngerBrothers > 1 ? @"" : @"n", youngerBrothers > 1 ? @"ü" : @"u"];
+        [siblingDescriptions addObject:youngerBrothersString];
+    }
+    
+    if (youngerSisters > 0) {
+        NSString *youngerSistersString = [NSString stringWithFormat:@"%ld jüngere Schwester%@", (long)youngerSisters, youngerSisters > 1 ? @"n" : @""];
+        [siblingDescriptions addObject:youngerSistersString];
+    }
+    
+    // Append the sibling description
+    if ([siblingDescriptions count] > 0) {
+        [resultString appendFormat:@"%@ hat %@.", pronoun, [siblingDescriptions componentsJoinedByString:@", "]];
+    }
+    
+    return resultString;
+}
+
+- (void)XXXpopulateBiographyTab
+{
+   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+   DSACharacterHero *model = (DSACharacterHero *)document.model;
+   NSLog(@"populateBiographyTab %@ %@", [model birthPlace], [model legitimation]);
+   NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 7"]];
+   
+      
+   NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
+   NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
+   [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+  
+   
+   NSTabViewItem *innerTabItem = [[NSTabViewItem alloc] initWithIdentifier: _(@"Geburt")];
+   innerTabItem.label = _(@"Geburt");
+    
+   NSFlippedView *innerView = [[NSFlippedView alloc] initWithFrame:subTabView.bounds];
+   [innerView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];    
+   
+   NSInteger Offset = 22;
+   CGFloat width = subTabView.bounds.size.width - 20;
+   NSRect fieldRect = NSMakeRect(10, Offset, width, 20);
+   NSTextField *itemField = [[NSTextField alloc] initWithFrame:fieldRect];
+   [itemField setIdentifier:@"itemFieldBirthplace"];
+   [itemField setSelectable:NO];
+   [itemField setEditable:NO];
+   [itemField setBordered:NO];
+   [itemField setBezeled:NO];
+   [itemField setBackgroundColor:[NSColor lightGrayColor]];
+   [itemField setStringValue: [model birthPlace]];
+   [innerView addSubview:itemField];
+
+   Offset += 22;
+   fieldRect = NSMakeRect(10, Offset, width, 20);
+   itemField = [[NSTextField alloc] initWithFrame:fieldRect];
+   [itemField setIdentifier:@"itemFieldBirthEvent"];
+   [itemField setSelectable:NO];
+   [itemField setEditable:NO];
+   [itemField setBordered:NO];
+   [itemField setBezeled:NO];
+   [itemField setBackgroundColor:[NSColor lightGrayColor]];
+   [itemField setStringValue: [model birthEvent]];
+   [innerView addSubview:itemField];    
+      
+   Offset += 22;
+   fieldRect = NSMakeRect(10, Offset, width, 20);
+   itemField = [[NSTextField alloc] initWithFrame:fieldRect];
+   [itemField setIdentifier:@"itemFieldLegitimation"];
+   [itemField setSelectable:NO];
+   [itemField setEditable:NO];
+   [itemField setBordered:NO];
+   [itemField setBezeled:NO];
+   [itemField setBackgroundColor:[NSColor lightGrayColor]];
+   [itemField setStringValue: [model legitimation]];
+   [innerView addSubview:itemField];     
+
+   [innerTabItem setView:innerView];
+   [subTabView addTabViewItem:innerTabItem];   
+      
+   // Set the subTabView for the current tab
+   [mainTabItem setView:subTabView];
+}
 
 #pragma mark - Helper Methods
 
@@ -599,7 +932,6 @@
         {      
           Offset += 22;
             
-          // Profession-specific fields
           NSRect fieldRect = NSMakeRect(10, Offset, 400, 20);
           NSTextField *itemField = [[NSTextField alloc] initWithFrame:fieldRect];
           [itemField setIdentifier:[NSString stringWithFormat:@"itemField%@", item]];

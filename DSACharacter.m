@@ -41,6 +41,9 @@
       self.isMagicalDabbler = NO;
       self.element = nil;
       self.religion = nil;
+      self.siblings = [[NSArray alloc] init];
+      self.childhoodEvents = [[NSArray alloc] init];
+      
     }
   return self;
 }
@@ -139,6 +142,11 @@
   [coder encodeObject:self.religion forKey:@"religion"];  
   [coder encodeObject:self.socialStatus forKey:@"socialStatus"];
   [coder encodeObject:self.parents forKey:@"parents"];
+  [coder encodeObject:self.siblings forKey:@"siblings"];
+  [coder encodeObject:self.birthPlace forKey:@"birthPlace"];    
+  [coder encodeObject:self.birthEvent forKey:@"birthEvent"];
+  [coder encodeObject:self.legitimation forKey:@"legitimation"];
+  [coder encodeObject:self.childhoodEvents forKey:@"childhoodEvents"];
   [coder encodeObject:self.money forKey:@"money"];
   [coder encodeObject:self.positiveTraits forKey:@"positiveTraits"];
   [coder encodeObject:self.negativeTraits forKey:@"negativeTraits"]; 
@@ -186,10 +194,14 @@
       self.religion = [coder decodeObjectOfClass:[NSString class] forKey:@"religion"];      
       self.socialStatus = [coder decodeObjectOfClass:[NSString class] forKey:@"socialStatus"];
       self.parents = [coder decodeObjectOfClass:[NSString class] forKey:@"parents"];
+      self.siblings = [coder decodeObjectOfClass:[NSString class] forKey:@"siblings"];
+      self.birthPlace = [coder decodeObjectOfClass:[NSString class] forKey:@"birthPlace"];
+      self.birthEvent = [coder decodeObjectOfClass:[NSString class] forKey:@"birthEvent"];
+      self.legitimation = [coder decodeObjectOfClass:[NSString class] forKey:@"legitimation"];
+      self.childhoodEvents = [coder decodeObjectOfClass:[NSString class] forKey:@"childhoodEvents"];
       self.money = [coder decodeObjectOfClass:[NSString class] forKey:@"money"];
       self.positiveTraits = [coder decodeObjectOfClass:[NSString class] forKey:@"positiveTraits"];
-      self.negativeTraits = [coder decodeObjectOfClass:[NSString class] forKey:@"negativeTraits"];
-      
+      self.negativeTraits = [coder decodeObjectOfClass:[NSString class] forKey:@"negativeTraits"]; 
     }
   return self;
 }

@@ -526,11 +526,19 @@
       newCharacter.spells = newSpells;
       [self applySpellmodificatorsToArchetype: newCharacter];    
     }
-    
+  
+  newCharacter.birthPlace = [self generateBirthPlaceForCharacter: newCharacter];
+  newCharacter.birthEvent = [self generateBirthEventForCharacter: newCharacter];  
+  newCharacter.legitimation = [self generateLegitimationForCharacter: newCharacter];
+  newCharacter.siblings = [self generateSiblings];
+  newCharacter.childhoodEvents = [self generateChildhoodEventsForCharacter: newCharacter];
+      
   // apply Göttergeschenke and Origins modificators
   [self apply: @"Goettergeschenke" toArchetype: newCharacter];
   [self apply: @"Herkunft" toArchetype: newCharacter];
   [self apply: @"Kriegerakademie" toArchetype: newCharacter];  
+  
+  
     
   // Store the generated character
   self.generatedCharacter = newCharacter;
@@ -1258,9 +1266,46 @@
   return retVal;
 }
 
+// loosely following "Vom Leben in Aventurien", S. 34
+- (NSArray *) generateSiblings
+{
+  NSInteger diceResult = [[Utils rollDice: @"1W10"] integerValue];
+  NSMutableArray *resultArr = [[NSMutableArray alloc] init];
+  if (diceResult == 1)
+    {
+      return resultArr; // no siblings
+    }
+  else
+    {
+      for (NSInteger cnt = 1;cnt <= diceResult;cnt++)
+        {
+          NSMutableDictionary *sibling = [[NSMutableDictionary alloc] init];
+          NSInteger result = [[Utils rollDice: @"1W2"] integerValue];
+          if (result == 1)
+            {
+              [sibling setObject: _(@"älter") forKey: @"age"];
+            }
+          else
+            {
+              [sibling setObject: _(@"jünger") forKey: @"age"];
+            }
+          result = [[Utils rollDice: @"1W2"] integerValue];
+          if (result == 1)
+            {
+              [sibling setObject: _(@"weiblich") forKey: @"sex"];
+            }
+          else
+            {
+              [sibling setObject: _(@"männlich") forKey: @"sex"];
+            }
+          [resultArr addObject: sibling];
+        }
+    }
+  return resultArr;  
+}
 
-// loosely following "Vom Leven in Aventurien" S. 34
-- (NSString *) generateBirthPlace
+// loosely following "Vom Leben in Aventurien" S. 34
+- (NSString *) generateBirthPlaceForCharacter: (DSACharacter *) character
 {
   NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
   NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
@@ -1281,16 +1326,18 @@
     }
   
   NSInteger testValue = diceResult + typusOffset;  
+  NSString *resultStr;
   if (testValue >= -16 && testValue <= 2)
     {
-      diceResult = [[Utils rollDice: @"1W2"] integerValue];
+      diceResult = [[Utils rollDice: @"1W20"] integerValue];
+
       if (diceResult == 1)
         {
-          return _(@"Wildnis");
+          resultStr = _(@"in der Wildnis");
         }
       else
         {
-          return _(@"Hütte im Wald");
+          resultStr = _(@"in einer Hütte im Wald");
         }
     }
   else if (testValue == 3)
@@ -1298,15 +1345,15 @@
       diceResult = [[Utils rollDice: @"1W3"] integerValue];
       if (diceResult == 1)
         {
-          return _(@"Ruine in einem verlassenem Dorf");
+          resultStr = _(@"in einer Ruine in einem verlassenem Dorf");
         }
       else if (diceResult == 2)
         {
-          return _(@"Ruine einer Festung");
+          resultStr = _(@"in einer Ruine einer Festung");
         }
       else if (diceResult == 3)
         {
-          return _(@"Ruine eines Tempels");
+          resultStr = _(@"in einer Ruine eines Tempels");
         }
     }
   else if (testValue >= 4 && testValue <= 12)
@@ -1314,76 +1361,83 @@
       diceResult = [[Utils rollDice: @"1W3"] integerValue];
       if (diceResult == 1)
         {
-          return _(@"Dorf");
+          resultStr = _(@"in einem Dorf");
         }
       else if (diceResult == 2)
         {
-          return _(@"Weiler");
+          resultStr = _(@"in einem Weiler");
         }
       else if (diceResult == 3)
         {
-          return _(@"Burg");
+          resultStr = _(@"in einer Burg");
         }    
     }
   else if (testValue >= 13 && testValue <= 17)
     {
-      return _(@"Stadt");
+      resultStr = _(@"in einer Stadt");
     }
   else if (testValue >= 19 && testValue <= 19)
     {
-      return _(@"Großstadt");
+      resultStr = _(@"in einer Großstadt");
     }
   else if (testValue >= 20 && testValue <= 25)
     {
       if ([@[_(@"Thorwaler"), _(@"Skalde"), _(@"Seefahrer")] containsObject: selectedArchetype])
         {
-          return _(@"Schiff");
+          resultStr = _(@"auf einem Schiff");
         }
       else
         {
-          return _(@"Wagen auf der Straße");
+          resultStr = _(@"in einem Wagen auf der Straße");
         }
     }
-  // we shouldn't end up here, but ...    
-  return _(@"Geburtsort unbekannt");
+
+  return [NSString stringWithFormat: _(@"%@ wird %@ geboren."), [character name], resultStr];
 }
 
 // loosely following "Vom Leven in Aventurien" S. 35
-- (NSString *) generateBirthEvent
+- (NSString *) generateBirthEventForCharacter: (DSACharacter *) character
 {
   NSInteger diceResult = [[Utils rollDice: @"1W20"] integerValue];
   
   if (diceResult == 1)
     {
-      return _(@"Die Geburt war eine Zwillingsgeburt");
+      if ([character.siblings count] == 0)
+        { 
+          return [self generateBirthEventForCharacter: character];
+        }
+      else
+        {
+          return _(@"Die Geburt war eine Zwillingsgeburt.");
+        }
     }
   else if (diceResult == 2)
     {
-      return _(@"Erster Sonnenstrahl nach einem schweren Unwetter");
+      return _(@"Es erscheint ein erster Sonnenstrahl nach einem schweren Unwetter.");
     }
   else if (diceResult == 3)
     {
-      return _(@"Sonne und Regen formten einen prächtigen Regenbogen");
+      return _(@"Die Sonne und Regen formten einen prächtigen Regenbogen.");
     }
   else if (diceResult == 4)
     {
-      return _(@"Sternschnuppen und Kometen zeigten sich am Himmel");
+      return _(@"Sternschnuppen und Kometen zeigten sich am Himmel.");
     }
   else if (diceResult == 5)
     {
-      return _(@"Ucri, der Siegesstern, ging auf");
+      return _(@"Ucri, der Siegesstern, ging auf.");
     }
   else if (diceResult == 6)
     {
-      return _(@"Ein naher Bach färbte sich blutrot");
+      return _(@"Nicht weit enfernt färbte sich ein Bach blutrot.");
     }
   else if (diceResult == 7)
     {
-      return _(@"Zur gleichen Zeit starb in der Nähe ein Tier");
+      return _(@"Zur gleichen Zeit starb in der Nähe ein Tier.");
     }
   else if (diceResult == 8)
     {
-      return _(@"\"Lämmerschwänzchen\": Das Kind trägt eine auffällige Locke am Hinterkopf - angeblich ein Zeichen, daß es von den Göttern auswerwählt ist");
+      return _(@"\"Lämmerschwänzchen\": Das Kind trägt eine auffällige Locke am Hinterkopf - angeblich ein Zeichen, daß es von den Göttern auswerwählt ist.");
     }
   else if (diceResult == 9)
     {
@@ -1401,42 +1455,654 @@
         {
           result = _(@"in einen Weinkrampf");
         }        
-      return [NSString stringWithFormat: _(@"Die Mutter verfiel unmittelbar nach der Geburt für mehrere Stunden %@ "), result];
+      return [NSString stringWithFormat: _(@"Die Mutter verfiel unmittelbar nach der Geburt für mehrere Stunden %@."), result];
     }
   else if (diceResult == 10)
     {
-      return _(@"Vater stieß beim Anblick des Säuglings ein hysterisches Gelächter aus");
+      return _(@"Der Vater stieß beim Anblick des Säuglings ein hysterisches Gelächter aus.");
     }
   else if (diceResult == 11)
     {
-      return _(@"Während der Geburt war aus nächster Nähe stetes, unheimliches Gepolter zu hören");
+      return _(@"Während der Geburt war aus nächster Nähe stetes, unheimliches Gepolter zu hören.");
     }
   else if (diceResult >= 12 && diceResult <= 15)
     {
-      return _(@"Keine besonderen Vorkommnisse bei der Geburt");
+      return _(@"Es gab keine besonderen Vorkommnisse bei der Geburt.");
     }
   else if (diceResult == 16)
     {
-      return _(@"Die Wölfe und Hunde in der Umgebung begannen zu heulen");
+      return _(@"Die Wölfe und Hunde in der Umgebung begannen zu heulen.");
     }
   else if (diceResult == 17)
     {
-      return _(@"Gewitter und Hagelsturm tobten den ganzen Tag");
+      return _(@"Gewitter und Hagelsturm tobten an diesem Tag.");
     }                
   else if (diceResult == 18)
     {
-      return _(@"Ein Blitz fuhr aus heiterem Himmel nieder");
+      return _(@"Ein Blitz fuhr aus heiterem Himmel nieder.");
     }                
   else if (diceResult == 19)
     {
-      return _(@"Der Mond verdunkelte die Sonne während einer Sonnenfinsternis");
+      return _(@"Zeitgleich verdunkelte der Mond die Sonne zu einer Sonnenfinsternis.");
     }                    
   else if (diceResult == 20)
     {
-      return _(@"Ein Erdbeben fand statt");
+      return _(@"Zeitgleich erschütterte die Erde bei einem Erdbeben.");
     }
   // we shouldn't end up here, but ...
-  return _(@"Keine besonderen Vorkommnisse bei der Geburt");               
+  return _(@"Es gab keine besonderen Vorkommnisse bei der Geburt.");               
+}
+
+- (NSString *) generateLegitimationForCharacter: (DSACharacter *)character
+{
+  NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
+  NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
+
+  NSInteger diceResult = [[Utils rollDice: @"1W20"] integerValue];
+  NSInteger typusOffset = -1;
+  if ([selectedArchetype isEqualToString: _(@"Moha")] || [selectedOrigin isEqualTo: _(@"Moha")])
+    {
+      typusOffset = 3;
+    }
+  else if ([selectedArchetype isEqualToString: _(@"Nivese")] || [selectedOrigin isEqualTo: _(@"Nivese")])
+    {
+      typusOffset = 3;
+    }
+  
+  NSInteger testValue = diceResult + typusOffset;
+  if (testValue >= 0 && testValue <= 2)
+    {
+      diceResult = [[Utils rollDice: @"1W3"] integerValue];
+      if (diceResult == 1)
+        {
+          return [NSString stringWithFormat: _(@"%@ wird in einem Dorf ausgesetzt und wächst als Findelkind bei Pflegeeltern auf."), [character name]];
+        }
+      else if (diceResult == 2)
+        {
+          return [NSString stringWithFormat: _(@"%@ wird in einer Stadt ausgesetzt und wächst als Findelkind bei Pflegeeltern auf."), [character name]];
+        } 
+      else if (diceResult == 3)
+        {
+          return [NSString stringWithFormat: _(@"%@ wird in einer Großstadt ausgesetzt und wächst als Findelkind bei Pflegeeltern auf."), [character name]];
+        }                
+    }
+  else if (testValue >= 3 && testValue <= 17)
+    {
+      return [NSString stringWithFormat: _(@"%@ wird von den Eltern bei der Geburt anerkannt."), [character name]];
+    }
+  else if (testValue == 18)
+    {
+      return [NSString stringWithFormat: _(@"%@'s Vater behauptet, daß das Kind von einem anderen Mann stammt."), [character name]];
+    } 
+  else if (testValue == 19)
+    {
+      return [NSString stringWithFormat: _(@"%@'s Mutter behauptet, daß ihr Gefährte nicht der Vater ist."), [character name]];
+    }
+  else if (testValue >= 20 && testValue <= 22)
+    {
+      return [NSString stringWithFormat: _(@"%@ gilt bei der Geburt als schwächlich und nicht lebensfähig, weshalb es in der Wildnis ausgesetzt wird. Es wird jedoch gefunden, und wächst bei einer anderen Sippe auf."), [character name]];
+    } 
+  else if (testValue == 23)
+    {
+      return [NSString stringWithFormat: _(@"%@ gilt bei der Geburt als schwächlich und nicht lebensfähig, weshalb es in der Wildnis ausgesetzt wird. Es wird bis zum sechten Jahr von Wölfen aufgezogen. Danach wird es von einer fremden Sippe aufgenommen."), [character name]];
+    }               
+}
+
+- (NSArray *) generateChildhoodEventsForCharacter: (DSACharacter *) character
+{
+  NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
+  NSInteger eventCount = [[Utils rollDice: @"1W3"] integerValue];
+  NSMutableArray *resultArr = [[NSMutableArray alloc] init];
+  
+  NSMutableArray *tracker = [[NSMutableArray alloc] init];
+  
+  NSInteger cnt = 0;
+  
+  while (cnt < eventCount)
+    {
+      NSLog(@"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX CHILDHOOD EVENT %lu of %lu", (unsigned long)cnt, (unsigned long)eventCount);
+      NSInteger eventResult = [[Utils rollDice: @"1W20"] integerValue];
+      NSString *resultStr;
+      if ([tracker containsObject: [NSNumber numberWithInteger: eventResult]])
+        {
+          continue;  // we don't want to have the same event happen twice
+        }
+      else
+        {
+          [tracker addObject: [NSNumber numberWithInteger: eventResult]];
+        }
+      if (eventResult == 1)
+        {
+          resultStr = [NSString stringWithFormat: _(@"%@ wird Zeuge eines Zwölfgöttlichen Wunders."), [character name]];
+        }
+      else if (eventResult == 2)
+        {
+          eventResult = [[Utils rollDice: @"1W7"] integerValue];
+          NSString *who;
+          if (eventResult == 1)
+            {
+              who = _(@"Dieb");
+            }
+          else if (eventResult == 2)
+            {
+              who = _(@"Räuber");
+            }
+          else if (eventResult == 3 || eventResult == 4)
+            {
+              who = _(@"Geweihter");
+            }
+          else if (eventResult == 5)
+            {
+              who = _(@"Zauberer");
+            }
+          else if (eventResult == 6)
+            {
+              who = _(@"alter Gaukler");
+            }
+          else if (eventResult == 7)
+            {
+              who = _(@"Kriegsveteran");
+            }            
+          resultStr = [NSString stringWithFormat: _(@"%@ findet einen Gönner: Ein %@ wird auf das Kleine aufmerksam, weil er in ihm eine besondere Begabung entdeckt. Er verwöhnt es mit Geschenken, erzählt ihm von seinem Leben und seinen Fahrten und bring ihm möglicherweise ein paar spezielle Fertigkeiten oder kleine Kunststücke bei."), [character name], who];
+        }
+      else if (eventResult == 3)
+        {
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          if (eventResult == 1 | eventResult == 2)
+            {
+              eventResult = [[Utils rollDice: @"2W6"] integerValue];
+              resultStr = [NSString stringWithFormat: _(@"%@ findet einen Beutel mit %lu Goldstücken."), [character name], (unsigned long) eventResult];
+            }
+          else if (eventResult == 3)
+            {
+              resultStr = [NSString stringWithFormat: _(@"%@ findet ein wertvolles Instrument."), [character name]];
+            }
+          else if (eventResult == 4)
+            {
+              resultStr = [NSString stringWithFormat: _(@"%@ findet ein wertvolles Schmuckstück."), [character name]];
+            }
+          else if (eventResult == 5)
+            {
+              resultStr = [NSString stringWithFormat: _(@"%@ findet eine kostbare Waffe."), [character name]];
+            }
+          else if (eventResult == 6)
+            {
+              resultStr = [NSString stringWithFormat: _(@"%@ findet einen magischen Gegenstand."), [character name]];
+            }            
+        }
+      else if (eventResult == 4)
+        {
+          eventResult = [[Utils rollDice: @"1W3"] integerValue];
+          // more flesh to be added here, see book
+          resultStr = _(@"Die Eltern werden vom Fürsten für eine besondere Tat belohnt.");
+
+        }
+      else if (eventResult == 5)
+        {
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSInteger socialStatus = [[Utils rollDice: @"1W6"] integerValue];
+          NSString *timeFrame;
+          NSString *status;
+          if (eventResult == 1 || eventResult == 2)
+            {
+              timeFrame = [NSString stringWithFormat: _(@"%lu Jahre"), eventResult];
+            }
+          else 
+            {
+              timeFrame = _(@"ein Leben lang");
+            }
+          if (socialStatus == 1)
+            {
+              status = _(@"unfrei");
+            }
+          else if (socialStatus == 2 || socialStatus == 3)
+            {
+              status = _(@"arm");
+            }
+          else if (socialStatus == 2 || socialStatus == 3)
+            {
+              status = _(@"reich");
+            }
+          else if (socialStatus == 6)
+            {
+              status = _(@"adelig");
+            }            
+          resultStr = [NSString stringWithFormat: _(@"%@ findet einen guten Freund gleichen Alters. Der Freund ist %@. Die Freundschaft währt %@."), [character name], status, timeFrame];
+        }
+      else if (eventResult == 6)
+        {
+          NSInteger who = [[Utils rollDice: @"1W2"] integerValue];
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSString *whoStr;
+          if (who == 1)
+            {
+              whoStr = _(@"Ein freundlicher Nachbar");
+            }
+          else
+            {
+              whoStr = _(@"Ein Geweihter");
+            }
+          if (eventResult == 1 || eventResult == 2)
+            {
+              resultStr = [NSString stringWithFormat: _(@"%@ unterweist %@ im Lesen und Schreiben."), whoStr, [character name]];
+            }
+          if (eventResult == 3 || eventResult == 4)
+            {
+              resultStr = [NSString stringWithFormat: _(@"%@ unterweist %@ im Rechnen."), whoStr, [character name]];
+            }
+          if (eventResult == 5)
+            {
+              resultStr = [NSString stringWithFormat: _(@"%@ unterweist %@ im Malen und Zeichnen."), whoStr, [character name]];
+            }            
+          if (eventResult == 6)
+            {
+              resultStr = [NSString stringWithFormat: _(@"%@ unterweist %@ im Musizieren."), whoStr, [character name]];
+            }             
+        }
+      else if (eventResult == 7)
+        {
+          eventResult = [[Utils rollDice: @"1W2"] integerValue];
+          NSString *whereTo;
+          if (eventResult == 1)
+            {
+              whereTo = _(@"eine andere Stadt");
+            }
+          else
+            {
+              whereTo = _(@"ein anderes Dorf");
+            }
+          resultStr = [NSString stringWithFormat: _(@"Die Familie zieht in %@. %@ erlebt eine unglückliche Zeit der Trennung von den Gefährten der Heimat."), whereTo, [character name]];
+        }
+      else if (eventResult == 8)
+        {
+          resultStr = [NSString stringWithFormat: _(@"Eine Wahrsagerin sagt %@ eine große Zukunft voraus."), [character name]];
+        }
+      else if (eventResult == 9)
+        {
+          resultStr = [NSString stringWithFormat: _(@"Ein alter Kämpe und guter Freund der Familie erzählt von Abenteuern und Heldentaten. %@ ist davon sehr beeindruckt und möchte es später einmal diesem Recken gleichtun."), [character name]];
+        }
+      else if (eventResult == 10)
+        {
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSInteger typusOffset = 0;
+          if ([selectedArchetype isEqualToString: _(@"Streuner")])
+            {
+              typusOffset = 2;
+            }
+          NSInteger testValue = eventResult + typusOffset;
+          NSString *whatStr;
+          if (testValue >= 1 && testValue <= 4)
+            {
+              whatStr = _(@"ist freundlich zu dem Kind");
+            }
+          else
+            {
+              whatStr = _(@"ist unfreundlich und nutzt das Kind als billige Arbeitskraft aus");
+            }
+          resultStr = [NSString stringWithFormat: _(@"Die Eltern können ihre Nachkommen nicht mehr ernähren. Sie geben %@ in die Hände einer anderen Familie. Diese %@"), [character name], whatStr];
+        }
+      else if (eventResult == 11)
+        {
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSInteger typusOffset = 0;
+          if ([selectedArchetype isEqualToString: _(@"Streuner")])
+            {
+              typusOffset = -2;
+            }
+          NSInteger testValue = eventResult + typusOffset;
+          NSString *whatStr;
+          if (testValue >= -1 && testValue <= 1)
+            {
+              whatStr = _(@"und kehrt nicht zurück und schlägt sich allein durch");
+            }
+          else if (testValue == 2)
+            {
+              whatStr = _(@"und kehrt nicht zurück und wächst bei Gauklern auf");
+            }
+          else if (testValue == 3)
+            {
+              whatStr = _(@"und kehrt nicht zurück und wächst bei anderen Pflegeeltern auf");
+            }                        
+          else
+            {
+              NSInteger days = [[Utils rollDice: @"1W6"] integerValue] + 3;
+              whatStr = [NSString stringWithFormat: _(@"und kehrt nach %lu Tagen wieder zurück"), (unsigned long) days];
+            }
+          resultStr = [NSString stringWithFormat: _(@"%@ läuft von zu Hause fort, %@"), [character name], whatStr];
+        }
+      else if (eventResult == 12)
+        {
+          resultStr = [NSString stringWithFormat: _(@"%@ wird seinen Eltern geraubt und verschleppt. Es wächst fortan bei Pflegeeltern auf."), [character name]];
+        }
+      else if (eventResult == 13)
+        {
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSString *article;
+          NSString *whatStr;
+          if ([[character sex] isEqualToString: _(@"männlich")])
+            {
+              article = _(@"er");
+            }
+          else
+            {
+              article = _(@"sie");
+            }
+          if (eventResult == 1 || eventResult == 2)
+            {
+              whatStr = [NSString stringWithFormat: _(@"%@ wird nicht erwischt"), article];
+            }
+          else if (eventResult == 3 || eventResult == 4 || eventResult == 5)
+            {
+              whatStr = [NSString stringWithFormat: _(@"%@ wird erwischt und milde bestraft"), article];
+            }
+          else
+            {
+              whatStr = [NSString stringWithFormat: _(@"%@ wird erwischt und hart bestraft"), article];
+            }
+          resultStr = [NSString stringWithFormat: _(@"Freund verführen %@ dazu, etwas verbotenes zu tun. %@."), [character name], whatStr];
+        }
+      else if (eventResult == 14)
+        {
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSString *whoStr;         
+          if (eventResult == 1)
+            {
+              whoStr = _(@"dem Vater");
+            }
+          else if (eventResult == 2)
+            {
+              whoStr = _(@"der Mutter");
+            }
+          else
+            {
+              if ([[character siblings] count] == 0)
+                {
+                  if (eventResult == 3 || eventResult == 5)
+                    {
+                      whoStr = _(@"dem Vater");
+                    }
+                  else
+                    {
+                      whoStr = _(@"der Mutter");
+                    }                  
+                }
+              else if ([[character siblings] count] == 1)
+                {
+                  if ([[[[character siblings] objectAtIndex: 0] objectForKey: @"sex"] isEqualTo: _(@"männlich")])
+                    {
+                      whoStr = _(@"dem Bruder");
+                    }
+                  else
+                    {
+                      whoStr = _(@"der Schwester");
+                    }
+                }
+              else
+                {
+                  whoStr = _(@"einem der Geschwister");
+                }
+            }
+          resultStr = [NSString stringWithFormat: _(@"%@ verstreitet sich mit %@. Zwischen beiden regiert fortan blinder Haß."), [character name], whoStr];
+        }
+      else if (eventResult == 15)
+        {
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSString *whatStr;
+          NSString *article;
+          if ([[character sex] isEqualToString: _(@"männlich")])
+            {
+              article = _(@"er");
+            }
+          else
+            {
+              article = _(@"sie");
+            }          
+          if (eventResult >= 1 && eventResult <= 4)
+            {
+              whatStr = _(@"läßt Milde walten");
+            }
+          else
+            {
+              whatStr = _(@"bleibt hart");
+            }
+          resultStr = [NSString stringWithFormat: _(@"%@ wird für etwas bestraft, was %@ nicht getan hat. Der Richter %@."), [character name], article, whatStr];
+        }
+      else if (eventResult == 16)
+        {
+          resultStr = [NSString stringWithFormat: _(@"%@ wird von einem wilden Tier schwer verletzt."), [character name]];        
+        }
+      else if (eventResult == 17)
+        {
+          eventResult = [[Utils rollDice: @"1W2"] integerValue];
+          NSString *event;
+          if (eventResult == 1)
+            {
+              event = _(@"Krieg");
+            }
+          else
+            {
+              event = _(@"Aufstand");
+            }
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSString *whatStr;
+          if (eventResult == 1 || eventResult == 2)
+            {
+              whatStr = _(@"kommt dabei zu Tode");
+            }
+          else
+            {
+              whatStr = _(@"wird dabei schwer verletzt");
+            }
+          NSString *whoStr;         
+          if (eventResult == 1)
+            {
+              whoStr = _(@"Der Vater");
+            }
+          else if (eventResult == 2)
+            {
+              whoStr = _(@"Die Mutter");
+            }
+          else
+            {
+              if ([[character siblings] count] == 0)
+                {
+                  if (eventResult == 3 || eventResult == 5)
+                    {
+                      whoStr = _(@"Der Vater");
+                    }
+                  else
+                    {
+                      whoStr = _(@"Die Mutter");
+                    }                  
+                }
+              else if ([[character siblings] count] == 1)
+                {
+                  if ([[[[character siblings] objectAtIndex: 0] objectForKey: @"sex"] isEqualTo: _(@"männlich")])
+                    {
+                      whoStr = _(@"Der Bruder");
+                    }
+                  else
+                    {
+                      whoStr = _(@"Die Schwester");
+                    }
+                }
+              else
+                {
+                  whoStr = _(@"Eines der Geschwister");
+                }
+            }
+          resultStr = [NSString stringWithFormat: _(@"Ein %@ überzieht das Land. %@ %@."), event, whoStr, whatStr];            
+        }
+      else if (eventResult == 18)
+        {
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSString *reason;
+          if (eventResult == 1)
+            {
+              reason = _(@"wegen einem berechtigtem Todesurteil");
+            }
+          else if (eventResult == 2)
+            {
+              reason = _(@"wegen einem unberechtigtem Todesurteil");
+            }
+          else if (eventResult == 3)
+            {
+              eventResult = [[Utils rollDice: @"1W3"] integerValue];
+              NSString *whoStr;
+              if (eventResult == 1)
+                {
+                  whoStr = _(@"der Orks");
+                }
+              if (eventResult == 2)
+                {
+                  whoStr = _(@"von Ogern");
+                }                
+              else
+                {
+                  whoStr = _(@"von Räubern");
+                }
+              reason = [NSString stringWithFormat: _(@"bei einem Überfall %@"), whoStr];
+            }
+          else if (eventResult == 4)
+            {
+              reason = _(@"in einer Rauferei");
+            }
+          else if (eventResult == 5)
+            {
+              reason = _(@"wegen eines Unfalles");
+            }
+          else
+            {
+              reason = _(@"bei einem Selbstmord");
+            }
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];  
+          NSString *whoStr;         
+          if (eventResult == 1)
+            {
+              whoStr = _(@"Der Vater");
+            }
+          else if (eventResult == 2)
+            {
+              whoStr = _(@"Die Mutter");
+            }
+          else
+            {
+              if ([[character siblings] count] == 0)
+                {
+                  if (eventResult == 3 || eventResult == 5)
+                    {
+                      whoStr = _(@"Der Vater");
+                    }
+                  else
+                    {
+                      whoStr = _(@"Die Mutter");
+                    }                  
+                }
+              else if ([[character siblings] count] == 1)
+                {
+                  if ([[[[character siblings] objectAtIndex: 0] objectForKey: @"sex"] isEqualTo: _(@"männlich")])
+                    {
+                      whoStr = _(@"Der Bruder");
+                    }
+                  else
+                    {
+                      whoStr = _(@"Die Schwester");
+                    }
+                }
+              else
+                {
+                  whoStr = _(@"Eines der Geschwister");
+                }
+            }
+          resultStr = [NSString stringWithFormat: _(@"%@ kommt %@ zu Tode."), whoStr, reason];            
+        }
+      else if (eventResult == 19)
+        {
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSString *sickness;
+          if (eventResult >= 1 && eventResult <= 3)
+            {
+              sickness = [NSString stringWithFormat: _(@"%@ erkrankt auch schwer, aber überlebt."), [character name]];
+            }
+          else
+            {
+              sickness = [NSString stringWithFormat: _(@"%@ bleibt von der Krankheit verschont."), [character name]];
+            }
+          
+          NSString *whoStr;         
+          if (eventResult == 1)
+            {
+              whoStr = _(@"Der Vater");
+            }
+          else if (eventResult == 2)
+            {
+              whoStr = _(@"Die Mutter");
+            }
+          else
+            {
+              if ([[character siblings] count] == 0)
+                {
+                  if (eventResult == 3 || eventResult == 5)
+                    {
+                      whoStr = _(@"Der Vater");
+                    }
+                  else
+                    {
+                      whoStr = _(@"Die Mutter");
+                    }                  
+                }
+              else if ([[character siblings] count] == 1)
+                {
+                  if ([[[[character siblings] objectAtIndex: 0] objectForKey: @"sex"] isEqualTo: _(@"männlich")])
+                    {
+                      whoStr = _(@"Der Bruder");
+                    }
+                  else
+                    {
+                      whoStr = _(@"Die Schwester");
+                    }
+                }
+              else
+                {
+                  whoStr = _(@"Eines der Geschwister");
+                }
+            }
+          resultStr = [NSString stringWithFormat: _(@"Die Familie wird von einer schweren Krankheit heimgesucht. %@ stirbt dabei. %@."), whoStr, sickness];       
+        }
+      else if (eventResult == 20)
+        {
+           eventResult = [[Utils rollDice: @"1W3"] integerValue];
+           NSString *whoStr;
+           NSString *reason;
+           if (eventResult == 1)
+             {
+               whoStr = _(@"der Orks");
+             }
+           if (eventResult == 2)
+             {
+               whoStr = _(@"von Ogern");
+             }                
+           else
+             {
+               whoStr = _(@"von Räubern");
+             }
+           reason = [NSString stringWithFormat: _(@"bei einem Überfall %@"), whoStr];
+           eventResult = [[Utils rollDice: @"1W6"] integerValue];
+           NSString *whatStr;
+           if (eventResult == 1 || eventResult == 2)
+             {
+               whatStr = [NSString stringWithFormat: _(@"%@ schlägt sich von nun an allein durch"), [character name]];
+             }
+           else
+             {
+               whatStr = [NSString stringWithFormat: _(@"%@ wird von einer Pflegefamilie aufgenommen"), [character name]];
+             }
+           resultStr = [NSString stringWithFormat: _(@"Die gesamte Familie kommt %@ ums Leben. %@."), reason, whatStr];
+        }
+      [resultArr addObject: resultStr];  
+      cnt++;
+    }
+  return resultArr;
 }
 
 - (NSString *) generateHeightForArchetype: (NSString *) archetype

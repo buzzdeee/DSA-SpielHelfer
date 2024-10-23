@@ -49,6 +49,11 @@
 @property (nonatomic, copy) NSString *religion;
 @property (nonatomic, copy) NSString *socialStatus;
 @property (nonatomic, copy) NSString *parents;
+@property (nonatomic, copy) NSArray *siblings;                         // the siblings
+@property (nonatomic, copy) NSString *birthPlace;                      // where did birth happen
+@property (nonatomic, copy) NSString *birthEvent;                      // something noteworthy happend while being born?
+@property (nonatomic, copy) NSString *legitimation;
+@property (nonatomic, copy) NSArray *childhoodEvents;
 @property (nonatomic, copy) NSMutableDictionary *money;
 @property (nonatomic, copy) NSMutableDictionary *positiveTraits;
 @property (nonatomic, copy) NSMutableDictionary *negativeTraits;
