@@ -630,6 +630,40 @@
    [innerTabItem2 setView:innerView2];
    [subTabView addTabViewItem:innerTabItem2];
    
+   // --- Third Tab: "Jugend" ---
+   NSTabViewItem *innerTabItem3 = [[NSTabViewItem alloc] initWithIdentifier:_(@"Jugend")];
+   innerTabItem3.label = _(@"Jugend");
+
+   NSFlippedView *innerView3 = [[NSFlippedView alloc] initWithFrame:subTabView.bounds];
+   [innerView3 setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+   
+   // Create a text view for childhood events with the same layout
+   NSTextView *textView3 = [[NSTextView alloc] initWithFrame:textViewFrame];
+   [textView3 setEditable:NO];
+   [textView3 setVerticallyResizable:YES];
+   [textView3 setHorizontallyResizable:NO];
+   [textView3 setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+   [textView3 setBackgroundColor:[NSColor lightGrayColor]];
+
+   // Compose bulleted list for childhood events
+   NSMutableString *youthBullets = [[NSMutableString alloc] init];
+   for (NSString *event in [model youthEvents]) {
+       [youthBullets appendFormat:@"• %@\n", event];
+   }
+
+   // Create an attributed string with the bullet points and paragraph style
+   NSMutableAttributedString *attrString3 = [[NSMutableAttributedString alloc] initWithString:youthBullets];
+   [attrString3 addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [attrString3 length])];
+   [attrString3 addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [attrString3 length])];
+
+   // Set the text in the NSTextView
+   [textView3.textStorage setAttributedString:attrString3];
+   
+   // Add the text view to the second tab
+   [innerView3 addSubview:textView3];
+   [innerTabItem3 setView:innerView3];
+   [subTabView addTabViewItem:innerTabItem3];
+      
    // Set the subTabView for the current tab
    [mainTabItem setView:subTabView];
 }

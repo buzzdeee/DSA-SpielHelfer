@@ -54,6 +54,7 @@
 @property (nonatomic, copy) NSString *birthEvent;                      // something noteworthy happend while being born?
 @property (nonatomic, copy) NSString *legitimation;
 @property (nonatomic, copy) NSArray *childhoodEvents;
+@property (nonatomic, copy) NSArray *youthEvents;
 @property (nonatomic, copy) NSMutableDictionary *money;
 @property (nonatomic, copy) NSMutableDictionary *positiveTraits;
 @property (nonatomic, copy) NSMutableDictionary *negativeTraits;

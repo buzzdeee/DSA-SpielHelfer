@@ -6,8 +6,8 @@ TODO:
  * Menüpunkt Lebenspunkte abziehen
  * KVO für berechnete Werte
  * alle KVO ins -dealloc
- * Magierakademien (Vom Leben in Aventurien)
  * Kindheit/Jugend (Vom leben in Aventurien)
+   * Auswirkung auf Talente etc....
  * Lebensgeschichte
  * Regenerieren
  * Management Geldbörse
@@ -54,12 +54,12 @@ TODO:
 
 WIP:
  * Magierakademien und Magier
- * Drucken, Layout Details, ...
-   * Extra Datei für die Druckklasse  
+
 DONE:
  * Charakterbogen Drucken (A4)
    * Charakterbogen, Talentbogen, Zauberbogen, Spezialseite (Magiedilettant)
  * Kriegerakademien (wie beschrieben in: Vom Leben in Aventurien)
+ * Basis generieren von: Geburt/Kindheit/Jugend, neuer Tab: Biografie
  * Magierakademien:
    * Akademie der Magischen Rüstung zu Gareth
    * Halle der Antimagie zu Kuslik

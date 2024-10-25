@@ -43,6 +43,7 @@
       self.religion = nil;
       self.siblings = [[NSArray alloc] init];
       self.childhoodEvents = [[NSArray alloc] init];
+      self.youthEvents = [[NSArray alloc] init];
       
     }
   return self;
@@ -147,6 +148,7 @@
   [coder encodeObject:self.birthEvent forKey:@"birthEvent"];
   [coder encodeObject:self.legitimation forKey:@"legitimation"];
   [coder encodeObject:self.childhoodEvents forKey:@"childhoodEvents"];
+  [coder encodeObject:self.youthEvents forKey:@"youthEvents"];
   [coder encodeObject:self.money forKey:@"money"];
   [coder encodeObject:self.positiveTraits forKey:@"positiveTraits"];
   [coder encodeObject:self.negativeTraits forKey:@"negativeTraits"]; 
@@ -199,6 +201,7 @@
       self.birthEvent = [coder decodeObjectOfClass:[NSString class] forKey:@"birthEvent"];
       self.legitimation = [coder decodeObjectOfClass:[NSString class] forKey:@"legitimation"];
       self.childhoodEvents = [coder decodeObjectOfClass:[NSString class] forKey:@"childhoodEvents"];
+      self.youthEvents = [coder decodeObjectOfClass:[NSString class] forKey:@"youthEvents"];
       self.money = [coder decodeObjectOfClass:[NSString class] forKey:@"money"];
       self.positiveTraits = [coder decodeObjectOfClass:[NSString class] forKey:@"positiveTraits"];
       self.negativeTraits = [coder decodeObjectOfClass:[NSString class] forKey:@"negativeTraits"]; 

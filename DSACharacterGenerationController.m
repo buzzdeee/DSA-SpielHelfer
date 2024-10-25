@@ -532,7 +532,8 @@
   newCharacter.legitimation = [self generateLegitimationForCharacter: newCharacter];
   newCharacter.siblings = [self generateSiblings];
   newCharacter.childhoodEvents = [self generateChildhoodEventsForCharacter: newCharacter];
-      
+  newCharacter.youthEvents = [self generateYouthEventsForCharacter: newCharacter];    
+  
   // apply Göttergeschenke and Origins modificators
   [self apply: @"Goettergeschenke" toArchetype: newCharacter];
   [self apply: @"Herkunft" toArchetype: newCharacter];
@@ -1645,7 +1646,7 @@
           NSString *status;
           if (eventResult == 1 || eventResult == 2)
             {
-              timeFrame = [NSString stringWithFormat: _(@"%lu Jahre"), eventResult];
+              timeFrame = [NSString stringWithFormat: _(@"%lu Jahr%@"), eventResult, eventResult == 1? _(@""): _(@"e")];
             }
           else 
             {
@@ -1799,7 +1800,7 @@
             {
               whatStr = [NSString stringWithFormat: _(@"%@ wird erwischt und hart bestraft"), article];
             }
-          resultStr = [NSString stringWithFormat: _(@"Freund verführen %@ dazu, etwas verbotenes zu tun. %@."), [character name], whatStr];
+          resultStr = [NSString stringWithFormat: _(@"Freunde verführen %@ dazu, etwas verbotenes zu tun. %@."), [character name], whatStr];
         }
       else if (eventResult == 14)
         {
@@ -2105,6 +2106,413 @@
   return resultArr;
 }
 
+
+- (NSArray *) generateYouthEventsForCharacter: (DSACharacter *) character
+{
+  NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
+  NSInteger eventCount = [[Utils rollDice: @"1W3"] integerValue];
+  NSMutableArray *resultArr = [[NSMutableArray alloc] init];
+  
+  NSMutableArray *tracker = [[NSMutableArray alloc] init];
+  
+  NSInteger cnt = 0;
+  
+  NSString *pronoun;
+  NSString *pronounUpper;
+  NSString *personalPronounDativ;
+  NSString *personalPronounDativUpper;
+  NSString *personalPronounAkkusativ;
+  NSString *possesivPronounDativ;
+  NSString *possesivPronounAkkusativ;
+  NSString *whateverTypeOfWord1Upper;
+  if ([[character sex] isEqualToString: _(@"männlich")])
+    {
+      pronoun = _(@"er");
+      pronounUpper = _(@"Er");
+      personalPronounDativ = _(@"ihm");
+      personalPronounDativUpper = _(@"Ihm");
+      personalPronounAkkusativ = _(@"ihn");
+      possesivPronounDativ = _(@"seiner");
+      possesivPronounAkkusativ = _(@"sein");
+      whateverTypeOfWord1Upper = _(@"Dieser");
+    }
+  else
+    {
+      pronoun = _(@"sie");
+      pronounUpper = _(@"Sie");
+      personalPronounDativ = _(@"ihr");
+      personalPronounDativUpper = _(@"Ihr");
+      personalPronounAkkusativ = _(@"sie");
+      possesivPronounDativ = _(@"ihrer");
+      possesivPronounAkkusativ = _(@"ihr");
+      whateverTypeOfWord1Upper = _(@"Diese");
+    }
+  
+  while (cnt < eventCount)
+    {
+      NSLog(@"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX CHILDHOOD EVENT %lu of %lu", (unsigned long)cnt, (unsigned long)eventCount);
+      NSInteger eventResult = [[Utils rollDice: @"1W20"] integerValue];
+      NSString *resultStr;
+      NSString *whatStr;
+      NSInteger testValue = 0;
+      if ([tracker containsObject: [NSNumber numberWithInteger: eventResult]])
+        {
+          continue;  // we don't want to have the same event happen twice
+        }
+      else
+        {
+          [tracker addObject: [NSNumber numberWithInteger: eventResult]];
+        }
+      if (eventResult >= 1 && eventResult <= 4)
+        {
+          eventResult = [[Utils rollDice: @"1W13"] integerValue];
+          NSString *godStr;
+          if (eventResult == 1)
+            {
+              godStr = _(@"des Praios");
+            }
+          else if (eventResult == 2)
+            {
+              godStr = _(@"der Rondra");
+            }
+          else if (eventResult == 3)
+            {
+              godStr = _(@"des Efferd");
+            }
+          else if (eventResult == 4)
+            {
+              godStr = _(@"der Travia");
+            }
+          else if (eventResult == 5)
+            {
+              godStr = _(@"des Boron");
+            }
+          else if (eventResult == 6)
+            {
+              godStr = _(@"der Hesinde");
+            }
+          else if (eventResult == 7)
+            {
+              godStr = _(@"des Firun");
+            }
+          else if (eventResult == 8)
+            {
+              godStr = _(@"der Tsa");
+            }
+          else if (eventResult == 9)
+            {
+              godStr = _(@"des Phes");
+            }
+          else if (eventResult == 10)
+            {
+              godStr = _(@"der Peraine");
+            }
+          else if (eventResult == 11)
+            {
+              godStr = _(@"des Ingerimm");
+            }
+          else if (eventResult == 12)
+            {
+              godStr = _(@"der Rahja");
+            }
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          if (eventResult == 1 || eventResult == 2)
+            {
+              whatStr = [NSString stringWithFormat: _(@"Nach dieser Zeit entscheidet %@ sich, Geweihter zu werden."), pronoun];
+            }
+          else if (eventResult == 3 || eventResult == 4)
+            {
+              whatStr = [NSString stringWithFormat: _(@"Nach dieser Zeit behält %@ einen starken Glauben an die Gottheit."), pronoun];              
+            }
+          else if (eventResult == 6)
+            {
+              whatStr = [NSString stringWithFormat: _(@"Nach dieser Zeit wendet %@ sich wieder von der Gottheit ab."), pronoun];              
+            }
+          resultStr = [NSString stringWithFormat: _(@"%@ durchlebt eine Phase der Frömmigkeit. %@ such die Nähe von Geweihten %@. %@"), [character name], pronounUpper, godStr, whatStr];
+        }
+      else if (eventResult == 5)
+        {
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSInteger typusOffset = +3;
+          NSString *akademieStr;
+          if ([@[_(@"Krieger"), _(@"Magier")] containsObject: selectedArchetype])
+            {
+              typusOffset = -3;
+            }
+          testValue = eventResult + typusOffset;            
+          if ([selectedArchetype isEqualToString: _(@"Magier")])
+            {
+              akademieStr = _(@"Magierakademie");
+            }
+          else if ([selectedArchetype isEqualToString: _(@"Krieger")])
+            {
+              akademieStr = _(@"Kriegerakademie");
+            }
+          else
+            {
+              eventResult = [[Utils rollDice: @"1W2"] integerValue];
+              if (eventResult == 1)
+                {
+                  akademieStr = _(@"Magierakademie");
+                }
+              else
+                {
+                  akademieStr = _(@"Kriegerakademie");
+                }            
+            }
+
+          if (testValue >= -2 && testValue <= 2)      
+            {
+              whatStr = [NSString stringWithFormat: _(@"%@ schafft den Abschluß."), pronounUpper];
+            }
+          else
+            {
+              whatStr = [NSString stringWithFormat: _(@"%@ fliegt von der Schule."), pronounUpper];
+            }
+          resultStr = [NSString stringWithFormat: _(@"%@ erhält ein Stipendium für eine %@. %@"), [character name], akademieStr, whatStr];
+        }
+      else if (eventResult == 6)
+        {
+          resultStr = [NSString stringWithFormat: _(@"%@ hilft einem verletzen Tier, das %@ von nun an treu folgt."), [character name], personalPronounDativ];
+        }
+      else if (eventResult >= 7 && eventResult <= 11)
+        {
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSString *whatStr;
+          if (eventResult == 1 || eventResult == 2)
+            {
+              whatStr = _(@" unsterblich, stößt aber nicht auf Gegenliebe.");
+            }
+          else if (eventResult == 3 || eventResult == 4)
+            {
+              whatStr = [NSString stringWithFormat: _(@", aber der geliebte Mensch zieht fort, und %@ kann ihn nicht mehr vergessen."), pronoun];
+            }
+          else if (eventResult == 5)
+            {
+              whatStr = _(@", doch der geliebte Mensch kommt ums Leben.");
+            }
+          else if (eventResult == 6)
+            {
+              whatStr = _(@"und stößt auf Gegenliebe.");
+            }
+          resultStr = [NSString stringWithFormat: _(@"%@ verliebt sich%@"), [character name], whatStr];
+        }
+      else if (eventResult == 12)
+        {
+          resultStr = [NSString stringWithFormat: _(@"%@ trifft auf eine berühmte Persönlichkeit und ist von ihr sehr beeindruckt."), [character name]];
+        }
+      else if (eventResult == 13)
+        {
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSString *whatStr;
+          if (eventResult == 1)
+            {
+              whatStr = _(@"Eine Warnung im Traum rettet ihm das Leben.");
+            }
+          else if (eventResult == 2)
+            {
+              eventResult = [[Utils rollDice: @"1W2"] integerValue];
+              NSString *whoStr;
+              if (eventResult == 1)
+                {
+                  whoStr = _(@"Freund");
+                }
+              else 
+                {
+                  whoStr = _(@"Verwandten");
+                }
+              whatStr = [NSString stringWithFormat: _(@"%@ begegnet einem längst verstorbenem %@."), pronounUpper, whoStr];
+            }
+          else if (eventResult == 3)
+            {
+              whatStr = [NSString stringWithFormat: _(@"%@ träumt von einer Queste. Der Gedanke daran läßt %@ nicht mehr los."), pronounUpper, personalPronounAkkusativ];
+            }
+          else if (eventResult == 4)
+            {
+              whatStr = [NSString stringWithFormat: _(@"%@ steht einem wilden Tier gegenüber, kann diesem aber offenbar befehlen, nicht anzugreifen."), pronounUpper];
+            }
+          else if (eventResult == 5)
+            {
+              eventResult = [[Utils rollDice: @"1W2"] integerValue];
+              NSString *whoStr;
+              if (eventResult == 1)
+                {
+                  whoStr = _(@"einem Kobold");
+                }
+              else
+                {
+                  whoStr = _(@"einer Fee");
+                }
+              whatStr = [NSString stringWithFormat: _(@"%@ begegnet %@."), pronounUpper, whoStr];
+            }
+          else if (eventResult == 6)
+            {
+              whatStr = [NSString stringWithFormat: _(@"%@ sieht ein Einhorn."), pronounUpper];
+            }
+          resultStr = [NSString stringWithFormat: _(@"%@ wiederfährt etwas Seltsames. %@"), [character name], whatStr];
+        }
+      else if (eventResult == 14)
+        {
+          if ([@[_(@"Krieger"), _(@"Magier")] containsObject: selectedArchetype])  //those go to academies
+            {
+              continue;
+            }
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSInteger typusOffset = 0;
+          if ([selectedArchetype isEqualToString: _(@"Streuner")])
+            {
+              typusOffset = -1;
+            }
+          testValue = eventResult + typusOffset;
+          if (testValue >= 0 && testValue <= 5)
+            {
+              eventResult = [[Utils rollDice: @"1W3"] integerValue];
+              if (eventResult == 1)
+                {
+                  whatStr =[NSString stringWithFormat: _(@"%@ bricht diese aber nach einem Jahr ab."), pronounUpper];
+                }
+              else
+                {
+                  whatStr = [NSString stringWithFormat: _(@"%@ bricht diese aber nach %lu Jahren ab."), pronounUpper, (unsigned long) eventResult];
+                }
+            }
+          else
+            {
+              whatStr = [NSString stringWithFormat: _(@"%@ erhält die Freisprechung %@ Zunft."), pronounUpper, possesivPronounDativ];
+            }
+          resultStr = [NSString stringWithFormat: _(@"Wie es üblich ist, geht %@ bei einem Handwerker in die Lehre. %@"), [character name], whatStr];  
+        }
+      else if (eventResult == 15)
+        {
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSInteger typusOffset = 0;
+          if ([selectedArchetype isEqualToString: _(@"Streuner")])
+            {
+              typusOffset = 2;
+            }
+          NSInteger testValue = eventResult + typusOffset;
+          NSString *whatStr;
+          if (testValue >= 1 && testValue <= 4)
+            {
+              whatStr = _(@"schlägt sich von nun an alleine durch.");
+            }
+          else if (testValue == 5)
+            {
+              whatStr = _(@"beginnt in jungen Jahren ein Abenteuerleben.");
+            }
+          else
+            {
+              whatStr = _(@"wird von einer anderen Familie aufgenommen.");
+            }
+          resultStr = [NSString stringWithFormat: _(@"Die Eltern können ihre Familie nicht mehr ernähren, und schicken deshalb %@ fort, allein %@ Glück zu machen. %@ %@"), [character name], possesivPronounAkkusativ, pronounUpper, whatStr];
+        } 
+      else if (eventResult == 16)
+        {
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSString *whoStr;
+          if ([[character sex] isEqualToString: _(@"männlich")])
+            {
+              whoStr = _(@"einen Rivalen");
+            }
+          else
+            {
+              whoStr = _(@"eine Rivalin");
+            }          
+          if (eventResult == 1)
+            {
+              if ([[character sex] isEqualToString: _(@"männlich")])
+                {
+                  whatStr = _(@"Dieser ist ein alter Familienfeind.");
+                }
+              else
+                {
+                  whatStr = _(@"Diese ist eine alte Feindin der Familie.");
+                }
+            }
+          else if (eventResult == 2)
+            {
+              whatStr = [NSString stringWithFormat: _(@"%@ ist neidisch auf das Äußere von %@."), whateverTypeOfWord1Upper, [character name]];
+            }
+          else if (eventResult == 3)
+            {
+              whatStr = [NSString stringWithFormat: _(@"%@ ist neidisch auf ein Besitzstück von %@."), whateverTypeOfWord1Upper, personalPronounDativ];
+            }
+          else if (eventResult >= 4 && eventResult <= 6)
+            {
+              whatStr = [NSString stringWithFormat: _(@"%@ ist in die selbe Person verliebt wie %@."), whateverTypeOfWord1Upper, pronoun];
+            }
+          resultStr = [NSString stringWithFormat: _(@"%@ hat %@. %@"), [character name], whoStr, whatStr];
+        }
+      else if (eventResult == 17 || eventResult == 18)
+        {
+          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSString *whoStr;
+          if ([[character sex] isEqualToString: _(@"männlich")])
+            {
+              whoStr = _(@"die zukünftige Ehepartnerin");
+            }
+          else
+            {
+              whoStr = _(@"der zukunftige Ehepartner");
+            }          
+          NSInteger typusOffset = 0;
+          if ([selectedArchetype isEqualToString: _(@"Streuner")])
+            {
+              typusOffset = -1;
+            }
+          NSInteger testValue = eventResult + typusOffset;
+          if (testValue >= 0 && testValue <= 5)
+            {
+              whatStr = [NSString stringWithFormat: _(@"%@ schlägt sich von nun an allein durchs Leben."), pronounUpper];
+            }
+          else
+            {
+              whatStr = [NSString stringWithFormat: _(@"%@ wird von einer anderen Familie aufgenommen."), pronounUpper];
+            }
+            
+          resultStr = [NSString stringWithFormat: _(@"%@ soll verheiratet werden. %@ jedoch gefällt %@ nicht, so das %@ fortläuft. %@"), [character name], personalPronounDativUpper, whoStr, pronoun, whatStr];
+        }
+      else if (eventResult == 19)
+        {
+          resultStr = [NSString stringWithFormat: _(@"%@ wird von einem wilden Tier schwer verletzt."), [character name]];        
+        }
+      else if (eventResult == 20)      
+        {
+           eventResult = [[Utils rollDice: @"1W3"] integerValue];
+           NSString *whoStr;
+           NSString *reason;
+           if (eventResult == 1)
+             {
+               whoStr = _(@"der Orks");
+             }
+           if (eventResult == 2)
+             {
+               whoStr = _(@"von Ogern");
+             }                
+           else
+             {
+               whoStr = _(@"von Räubern");
+             }
+           reason = [NSString stringWithFormat: _(@"bei einem Überfall %@"), whoStr];
+           eventResult = [[Utils rollDice: @"1W6"] integerValue];
+           NSString *whatStr;
+           if (eventResult == 1 || eventResult == 2)
+             {
+               whatStr = [NSString stringWithFormat: _(@"%@ schlägt sich von nun an allein durch"), [character name]];
+             }
+           else
+             {
+               whatStr = [NSString stringWithFormat: _(@"%@ wird von einer Pflegefamilie aufgenommen"), [character name]];
+             }
+           resultStr = [NSString stringWithFormat: _(@"Die gesamte Familie kommt %@ ums Leben. %@."), reason, whatStr];
+        }      
+        
+      [resultArr addObject: resultStr];
+      cnt++;
+    }
+  return resultArr;   
+}
+  
 - (NSString *) generateHeightForArchetype: (NSString *) archetype
 {
   NSArray *heightArr = [NSArray arrayWithArray: [[archetypesDict objectForKey: archetype] objectForKey: @"Körpergröße"]];
