@@ -1,0 +1,22 @@
+{
+  "Zappenduster": {
+    "ASP Kosten": 12,
+    "Probe": [ "IN", "IN", "FF" ]
+  },
+  "Papperlapapp": {
+    "ASP Kosten": 17,
+    "Probe": [ "IN", "IN", "FF", "+5" ]
+  },
+  "Murks und Patz": {
+    "ASP Kosten": 12,
+    "Probe": [ "IN", "IN", "FF", "+3" ]
+  },
+  "Holterdipolter": {
+    "ASP Kosten": 10,
+    "Probe": [ "IN", "IN", "FF", "+4" ]
+  },
+  "Purer Zufall": {
+    "ASP Kosten": 30,
+    "Probe": [ "IN", "IN", "FF", "+7" ]
+  }
+}

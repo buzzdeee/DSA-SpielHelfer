@@ -1,0 +1,4030 @@
+{
+  "Waffen": {
+    "Handwaffen": {
+      "Messer und Dolche": {
+        "Jagdmesser": {
+          "Gewicht": 20,
+          "Preis": 20,
+          "Länge": 30,
+          "Trefferpunkte": [ "1W6", 1 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 5,
+          "Waffenvergleichswert": "2/1",
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+          "Icon": [ "Jagdmesser" ]
+        },
+        "Jagdmesser, firnelfisch": {
+          "Gewicht": 15,
+          "Preis": 50,
+          "Länge": 30,
+          "Trefferpunkte": [ "1W6", 1 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "2/1",
+          "Regionen": [ "FI" ],
+          "Icon": [ "Jagdmesser-firnelfisch" ]
+        },
+        "Dolch": {
+          "Gewicht": 20,
+          "Preis": 20,
+          "Länge": 30,
+          "Trefferpunkte": [ "1W6", 1 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "2/1",
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+          "Reichweite": 25,
+          "Trefferpunkte Fernwaffe": [ "1W6" ],
+          "TP Entfernung": {
+            "extrem nah": 1,
+            "sehr nah": 0,
+            "nah": -1,
+            "mittel": -2,
+            "weit": 0,
+            "sehr weit": 0,
+            "extrem weit": 0
+          },
+          "Icon": [ "Dolch" ]
+        },
+        "Schwerer Dolch": {
+          "Gewicht": 30,
+          "Preis": 30,
+          "Länge": 35,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "3/3",
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+          "Icon": [ "Schwerer_Dolch_1", "Schwerer_Dolch_2" ]       
+        },
+        "Langdolch": {
+          "Gewicht": 30,
+          "Preis": 45,
+          "Länge": 40,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "3/4",
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ],
+          "Icon": [ "Langdolch" ]  
+        },
+        "Basilikenzunge": {
+          "Gewicht": 25,
+          "Preis": 35,
+          "Länge": 30,
+          "Trefferpunkte": [ "1W6", 1 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 4,
+          "Waffenvergleichswert": "2/1",
+          "Regionen": [ "LF", "SÜ", "ZY" ]           
+        },
+        "Basiliskenzunge, meisterlich": {
+          "Gewicht": 25,
+          "Preis": 100,
+          "Länge": 30,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 4,
+          "Waffenvergleichswert": "2/1",
+          "Regionen": [ "LF", "ZY" ]          
+        },
+        "Drachenzahn": {
+          "Gewicht": 40,
+          "Preis": 80,
+          "Länge": 40,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 0,
+          "Waffenvergleichswert": "4/3",
+          "Regionen": [ "ZW" ]           
+        },
+        "Eberfänger": {
+          "Gewicht": 40,
+          "Preis": 45,
+          "Länge": 40,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "4/2",
+          "Regionen": [ "BO", "NO", "TO", "WE" ]          
+        },
+        "Waqqif": {
+          "Gewicht": 35,
+          "Preis": 45,
+          "Länge": 45,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "4/2",
+          "Regionen": [ "KH" ]          
+        },
+        "Linkhand": {
+          "Gewicht": 30,
+          "Preis": 60,
+          "Länge": 30,
+          "Trefferpunkte": [ "1W6", 1 ],
+          "TrefferpunkteKK": -17,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "2/5",
+          "Regionen": [ "GA", "HA", "LF", "PU" ]           
+        },
+        "Hakendolch": {
+          "Gewicht": 60,
+          "Preis": 90,
+          "Länge": 60,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -17,
+          "Bruchfaktor": 0,
+          "Waffenvergleichswert": "1/3",
+          "Regionen": [ "LF", "MA", "MH" ]           
+        },
+        "Menglibar": {
+          "Gewicht": 20,
+          "Preis": 110,
+          "Länge": 25,
+          "Trefferpunkte": [ "1W6", 1 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 7,
+          "Waffenvergleichswert": "2/0",
+          "Regionen": [ "MH", "SÜ", "ZY" ]          
+        },
+        "Ogerfänger": {
+          "Gewicht": 35,
+          "Preis": 90,
+          "Länge": 35,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 4,
+          "Waffenvergleichswert": "3/2",
+          "Regionen": [ "HA" ]          
+        },
+        "Vulkanglasdolch": {
+          "Gewicht": 30,
+          "Preis": -1,
+          "Länge": 30,
+          "Trefferpunkte": [ "1W6" ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 6,
+          "Waffenvergleichswert": "2/0",
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+        }
+      },
+      "Äxte und Beile": {
+        "Kriegsbeil": {
+          "Gewicht": 120,
+          "Preis": 50,
+          "Länge": 90,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -13,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "8/4",
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]           
+        },
+        "Orknase": {
+          "Gewicht": 110,
+          "Preis": 60,
+          "Länge": 100,
+          "Trefferpunkte": [ "1W6", 5 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 4,
+          "Waffenvergleichswert": "9/4",
+          "Regionen": [ "TH" ]          
+        },
+        "Skraja": {
+          "Gewicht": 90,
+          "Preis": 50,
+          "Länge": 60,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -13,
+          "Bruchfaktor": 4,
+          "Waffenvergleichswert": "7/6",
+          "Regionen": [ "TH" ]           
+        },
+        "Zwergenskraja": {
+          "Gewicht": 80,
+          "Preis": 80,
+          "Länge": 60,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -13,
+          "Bruchfaktor": 1,
+          "Waffenvergleichswert": "7/6",
+          "Regionen": [ "ZW" ]           
+        },
+        "Lindwurmschläger": {
+          "Gewicht": 95,
+          "Preis": 100,
+          "Länge": 50,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -13,
+          "Bruchfaktor": 1,
+          "Waffenvergleichswert": "7/5",
+          "Regionen": [ "ZW" ]           
+        },
+        "Felsspalter": {
+          "Gewicht": 150,
+          "Preis": 300,
+          "Länge": 120,
+          "Trefferpunkte": [ "2W6", 2 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "9/2",
+          "Regionen": [ "ZW" ]           
+        },
+        "Barbarenstreitaxt": {
+          "Gewicht": 250,
+          "Preis": 120,
+          "Länge": 120,
+          "Trefferpunkte": [ "2W6", 4 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "10/2",
+          "Regionen": [ "NO", "TO" ]          
+        },
+        "Molokdeschnaja": {
+          "Gewicht": 100,
+          "Preis": 90,
+          "Länge": 100,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "7/5",
+          "Regionen": [ "NO" ]          
+        },
+        "Byakka": {
+          "Gewicht": 130,
+          "Preis": 90,
+          "Länge": 100,
+          "Trefferpunkte": [ "1W6", 5 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "9/4",
+          "Regionen": [ "OR" ]           
+        },
+        "Echsische Axt": {
+          "Gewicht": 90,
+          "Preis": 500,
+          "Länge": 150,
+          "Trefferpunkte": [ "1W6", 5 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "8/6",
+          "Regionen": [ "WA" ]          
+        }
+      },
+      "Scharfe Hiebwaffen": {
+        "Haumesser": {
+          "Gewicht": 90,
+          "Preis": 30,
+          "Länge": 50,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "6/3",
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+        },
+        "Entermesser": {
+          "Gewicht": 70,
+          "Preis": 45,
+          "Länge": 75,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "7/5",
+          "Regionen": [ "HA", "LF", "MH", "SÜ", "TH", "ZY" ]           
+        },
+        "Robbentöter": {
+          "Gewicht": 70,
+          "Preis": 60,
+          "Länge": 90,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "7/6",
+          "Regionen": [ "FI" ]           
+        },
+        "Säbel": {
+          "Gewicht": 60,
+          "Preis": 60,
+          "Länge": 90,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "7/7",
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+        },
+        "Arbach": {
+          "Gewicht": 100,
+          "Preis": 120,
+          "Länge": 90,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "7/7",
+          "Regionen": [ "OR" ]           
+        },
+        "Kharkush-Arbach": {
+          "Gewicht": 90,
+          "Preis": 200,
+          "Länge": 90,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 0,
+          "Waffenvergleichswert": "7/7",
+          "Regionen": [ "OR" ]           
+        },
+        "Khunchomer": {
+          "Gewicht": 90,
+          "Preis": 70,
+          "Länge": 80,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "7/5",
+          "Regionen": [ "KH", "MH" ]          
+        },
+        "Doppelkhunchomer": {
+          "Gewicht": 150,
+          "Preis": 150,
+          "Länge": 130,
+          "Trefferpunkte": [ "1W6", 6 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "10/3",
+          "Regionen": [ "KH", "MH" ]           
+        },
+        "Sklaventod": {
+          "Gewicht": 80,
+          "Preis": 250,
+          "Länge": 90,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "7/6",
+          "Regionen": [ "SÜ" ]          
+        },
+        "Großer Sklaventod": {
+          "Gewicht": 160,
+          "Preis": 350,
+          "Länge": 140,
+          "Trefferpunkte": [ "2W6", 4 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "9/4",
+          "Regionen": [ "SÜ" ]          
+        },
+        "Schnitter": {
+          "Gewicht": 70,
+          "Preis": 40,
+          "Länge": 110,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 4,
+          "Waffenvergleichswert": "7/6",
+          "Regionen": [ "MA", "MH" ]           
+        },
+        "Schnitter, alanfanisch": {
+          "Gewicht": 80,
+          "Preis": 120,
+          "Länge": 120,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "7/6",
+          "Regionen": [ "SÜ" ]          
+        }
+      },
+      "Speere und Stäbe": {
+        "Kampfstab": {
+          "Gewicht": 80,
+          "Preis": 25,
+          "Länge": 150,
+          "Trefferpunkte": [ "1W6", 1 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 5,
+          "Waffenvergleichswert": "6/6",
+          "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+        },
+        "Holzspeer": {
+          "Gewicht": 60,
+          "Preis": 10,
+          "Länge": 150,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 6,
+          "Waffenvergleichswert": "4/3",
+          "Regionen": [ "BO", "EL", "GA", "HA", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+          "Reichweite": 40,
+          "Trefferpunkte Fernwaffe": [ "1W6", 2 ],
+          "TP Entfernung": {
+            "extrem nah": 1,
+            "sehr nah": 0,
+            "nah": 0,
+            "mittel": -1,
+            "weit": -2,
+            "sehr weit": 0,
+            "extrem weit": 0
+          }
+        },
+        "Speer": {
+          "Gewicht": 80,
+          "Preis": 30,
+          "Länge": 170,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 5,
+          "Waffenvergleichswert": "5/4",
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+          "Reichweite": 40,
+          "Trefferpunkte Fernwaffe": [ "1W6", 3 ],
+          "TP Entfernung": {
+            "extrem nah": 1,
+            "sehr nah": 0,
+            "nah": 0,
+            "mittel": -1,
+            "weit": -3,
+            "sehr weit": 0,
+            "extrem weit": 0
+          }                   
+        },
+        "Jagdspieß": {
+          "Gewicht": 80,
+          "Preis": 80,
+          "Länge": 180,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 4,
+          "Waffenvergleichswert": "5/4",
+          "Regionen": [ "BO", "TO", "WE" ]          
+        },
+        "Jagdspieß, elfisch": {
+          "Gewicht": 80,
+          "Preis": 120,
+          "Länge": 180,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "5/4",
+          "Regionen": [ "EL" ]           
+        },
+        "Stoßspeer": {
+          "Gewicht": 150,
+          "Preis": 70,
+          "Länge": 200,
+          "Trefferpunkte": [ "2W6", 2 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 4,
+          "Waffenvergleichswert": "5/3",
+          "Regionen": [ "BO", "EL", "FI", "NO", "WE" ]          
+        },
+        "Dschadra": {
+          "Gewicht": 80,
+          "Preis": 120,
+          "Länge": 180,
+          "Trefferpunkte": [ "1W6", 5 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 5,
+          "Waffenvergleichswert": "4/3",
+          "Regionen": [ "KH", "MH" ]          
+        },
+        "Dreizack": {
+          "Gewicht": 90,
+          "Preis": 50,
+          "Länge": 140,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 5,
+          "Waffenvergleichswert": "4/4",
+          "Regionen": [ "HA", "LF", "TH", "ZY" ]           
+        },
+        "Zweililien": {
+          "Gewicht": 80,
+          "Preis": 100,
+          "Länge": 140,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -18,
+          "Bruchfaktor": 4,
+          "Waffenvergleichswert": "7/7",
+          "Regionen": [ "HA", "LF", "ZW" ]           
+        },
+        "Magierstab": {
+          "Gewicht": 80,
+          "Preis": -1,
+          "Länge": 30,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": -1,
+          "Waffenvergleichswert": "6/6",
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+        },
+        "Efferdbart": {
+          "Gewicht": 90,
+          "Preis": 80,
+          "Länge": 120,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "5/6",
+          "Regionen": [ "HA", "LF", "SÜ", "ZY" ],
+          "Reichweite": 25,
+          "Trefferpunkte Fernwaffe": [ "1W6", 3 ],
+          "TP Entfernung": {
+            "extrem nah": 2,
+            "sehr nah": 1,
+            "nah": 0,
+            "mittel": 0,
+            "weit": 0,
+            "sehr weit": 0,
+            "extrem weit": 0
+          }
+        }
+      },
+      "Schwerter und Zweihänder": {
+        "Kurzschwert": {
+          "Gewicht": 40,
+          "Preis": 50,
+          "Länge": 50,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 1,
+          "Waffenvergleichswert": "5/5",
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TO", "WE", "ZW", "ZY" ]          
+        },
+        "Kusliker Säbel": {
+          "Gewicht": 70,
+          "Preis": 75,
+          "Länge": 80,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 1,
+          "Waffenvergleichswert": "7/6",
+          "Regionen": [ "LF", "ZY" ]          
+        },
+        "Schwert": {
+          "Gewicht": 80,
+          "Preis": 100,
+          "Länge": 95,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 1,
+          "Waffenvergleichswert": "7/7",
+          "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TO", "WE", "ZY" ]           
+        },
+        "Breitschwert": {
+          "Gewicht": 80,
+          "Preis": 100,
+          "Länge": 85,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 1,
+          "Waffenvergleichswert": "7/6",
+          "Regionen": [ "SÜ", "TH", "ZY" ]          
+        },
+        "Barbarenschwert": {
+          "Gewicht": 100,
+          "Preis": 200,
+          "Länge": 90,
+          "Trefferpunkte": [ "1W6", 5 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "8/6",
+          "Regionen": [ "NO", "TO" ]          
+        },
+        "Amazonensäbel": {
+          "Gewicht": 90,
+          "Preis": 90,
+          "Länge": 100,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "7/5",
+          "Regionen": [ "GA", "MH", "TO" ],
+          "Icon": [ "Amazonensaebel" ]         
+        },
+        "Turnierschwert": {
+          "Gewicht": 60,
+          "Preis": 50,
+          "Länge": 70,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "7/7",
+          "Regionen": [ "GA", "PU", "WE" ]           
+        },
+        "Nachtwind": {
+          "Gewicht": 70,
+          "Preis": 250,
+          "Länge": 100,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 0,
+          "Waffenvergleichswert": "7/7",
+          "Regionen": [ "MA", "MH" ]           
+        },
+        "Bastardschwert": {
+          "Gewicht": 120,
+          "Preis": 120,
+          "Länge": 120,
+          "Trefferpunkte": [ "1W6", 5 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "8/6",
+          "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TH", "TO", "WE" ]           
+        },
+        "Rondrakamm": {
+          "Gewicht": 150,
+          "Preis": 200,
+          "Länge": 150,
+          "Trefferpunkte": [ "2W6", 2 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "9/6",
+          "Regionen": [ "GA", "LF", "MH", "ZW" ]           
+        },
+        "Rondrakamm, aus Arivor": {
+          "Gewicht": 140,
+          "Preis": 400,
+          "Länge": 150,
+          "Trefferpunkte": [ "2W6", 2 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 1,
+          "Waffenvergleichswert": "9/6",
+          "Regionen": [ "LF" ]           
+        },
+        "Zweihänder": {
+          "Gewicht": 160,
+          "Preis": 180,
+          "Länge": 155,
+          "Trefferpunkte": [ "2W6", 4 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "9/5",
+          "Regionen": [ "BO", "GA", "TO", "WE" ]           
+        },
+        "Boronssichel": {
+          "Gewicht": 160,
+          "Preis": 400,
+          "Länge": 180,
+          "Trefferpunkte": [ "2W6", 5 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "8/3",
+          "Regionen": [ "MH", "PU" ]          
+        },
+        "Andergaster": {
+          "Gewicht": 220,
+          "Preis": 350,
+          "Länge": 200,
+          "Trefferpunkte": [ "3W6", 2 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "7/3",
+          "Regionen": [ "HA", "WE" ]          
+        },
+        "Tuzakmesser": {
+          "Gewicht": 130,
+          "Preis": 200,
+          "Länge": 140,
+          "Trefferpunkte": [ "1W6", 6 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 1,
+          "Waffenvergleichswert": "7/7",
+          "Regionen": [ "GA", "MA", "MH" ]           
+        }
+      },
+      "Infanteriewaffen": {
+        "Pike": {
+          "Gewicht": 180,
+          "Preis": 50,
+          "Länge": 300,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -18,
+          "Bruchfaktor": 6,
+          "Waffenvergleichswert": "4/0",
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]           
+        },
+        "Drachentöter": {
+          "Gewicht": 400,
+          "Preis": 7000,
+          "Länge": 400,
+          "Trefferpunkte": [ "7W6" ],
+          "TrefferpunkteKK": -21,
+          "Bruchfaktor": 4,
+          "Waffenvergleichswert": "3/0",
+          "Regionen": [ "ZW" ]          
+        },
+        "Hellebarde": {
+          "Gewicht": 150,
+          "Preis": 75,
+          "Länge": 200,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 5,
+          "Waffenvergleichswert": "5/2",
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]           
+        },
+        "Prunkhellebarde": {
+          "Gewicht": 140,
+          "Preis": 150,
+          "Länge": 210,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 5,
+          "Waffenvergleichswert": "5/2",
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]          
+        },
+        "Hakenspieß": {
+          "Gewicht": 120,
+          "Preis": 45,
+          "Länge": 250,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 5,
+          "Waffenvergleichswert": "3/1",
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]           
+        },
+        "Glefe": {
+          "Gewicht": 120,
+          "Preis": 70,
+          "Länge": 200,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 5,
+          "Waffenvergleichswert": "4/2",
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]          
+        },
+        "Partisane": {
+          "Gewicht": 150,
+          "Preis": 50,
+          "Länge": 200,
+          "Trefferpunkte": [ "1W6", 5 ],
+          "TrefferpunkteKK": -17,
+          "Bruchfaktor": 4,
+          "Waffenvergleichswert": "5/3",
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]          
+        },
+        "Wurmspieß": {
+          "Gewicht": 120,
+          "Preis": 120,
+          "Länge": 180,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "5/2",
+          "Regionen": [ "ZW" ]          
+        },
+        "Pailos": {
+          "Gewicht": 160,
+          "Preis": 300,
+          "Länge": 175,
+          "Trefferpunkte": [ "2W6", 4 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "5/2",
+          "Regionen": [ "ZY" ]          
+        },
+        "Neethaner Langaxt": {
+          "Gewicht": 160,
+          "Preis": 140,
+          "Länge": 180,
+          "Trefferpunkte": [ "2W6" ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 5,
+          "Waffenvergleichswert": "6/1",
+          "Regionen": [ "LF" ]          
+        },
+        "Sturmsense": {
+          "Gewicht": 120,
+          "Preis": 40,
+          "Länge": 180,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 5,
+          "Waffenvergleichswert": "4/2",
+          "Regionen": [ "BO", "GA", "TO", "WE" ]           
+        },
+        "Kriegsflegel": {
+          "Gewicht": 120,
+          "Preis": 50,
+          "Länge": 150,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -13,
+          "Bruchfaktor": 5,
+          "Waffenvergleichswert": "5/1",
+          "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]           
+        }
+      },
+      "Stumpfe Hiebwaffen": {
+        "Knüppel": {
+          "Gewicht": 60,
+          "Preis": 1,
+          "Länge": 80,
+          "Trefferpunkte": [ "1W6", 1 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 6,
+          "Waffenvergleichswert": "5/3",
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+        },
+        "Stuhlbein": {
+          "Gewicht": 50,
+          "Preis": -1,
+          "Länge": 40,
+          "Trefferpunkte": [ "1W6" ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 7,
+          "Waffenvergleichswert": "4/3",
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]      
+        },         
+        "Keule": {
+          "Gewicht": 100,
+          "Preis": 15,
+          "Länge": 80,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -13,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "7/3",
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+        },
+        "Streitkolben": {
+          "Gewicht": 120,
+          "Preis": 50,
+          "Länge": 75,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -13,
+          "Bruchfaktor": 1,
+          "Waffenvergleichswert": "7/5",
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]           
+        },
+        "Brabakbengel": {
+          "Gewicht": 120,
+          "Preis": 80,
+          "Länge": 90,
+          "Trefferpunkte": [ "1W6", 5 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 1,
+          "Waffenvergleichswert": "7/5",
+          "Regionen": [ "SÜ", "ZY" ]          
+        },
+        "Kriegshammer": {
+          "Gewicht": 180,
+          "Preis": 100,
+          "Länge": 100,
+          "Trefferpunkte": [ "2W6", 3 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "9/3",
+          "Regionen": [ "BO", "GA", "HA", "LF", "NA", "NO", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]           
+        },
+        "Zwergenschlägel": {
+          "Gewicht": 120,
+          "Preis": 100,
+          "Länge": 120,
+          "Trefferpunkte": [ "1W6", 5 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 1,
+          "Waffenvergleichswert": "9/3",
+          "Regionen": [ "ZW" ]          
+        },
+        "Gruufhai": {
+          "Gewicht": 180,
+          "Preis": 120,
+          "Länge": 120,
+          "Trefferpunkte": [ "1W6", 6 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "10/3",
+          "Regionen": [ "OR" ]          
+        },
+        "Rabenschnabel": {
+          "Gewicht": 90,
+          "Preis": 120,
+          "Länge": 110,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "8/3",
+          "Regionen": [ "KH", "MH", "PU", "SÜ" ]           
+        },
+        "Sonnenszepter": {
+          "Gewicht": 90,
+          "Preis": 100,
+          "Länge": 70,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 1,
+          "Waffenvergleichswert": "7/5",
+          "Regionen": [ "GA" ]           
+        },
+        "Schmiedehammer": {
+          "Gewicht": 150,
+          "Preis": 150,
+          "Länge": 90,
+          "Trefferpunkte": [ "1W6", 4 ],
+          "TrefferpunkteKK": -13,
+          "Bruchfaktor": 1,
+          "Waffenvergleichswert": "7/4",
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]           
+        }
+      },
+      "Kettenwaffen": {
+        "Morgenstern": {
+          "Gewicht": 140,
+          "Preis": 90,
+          "Länge": 100,
+          "Trefferpunkte": [ "1W6", 5 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "7/2",
+          "Regionen": [ "BO", "GA", "HA", "TH", "TO", "WE" ]           
+        },
+        "Ogerschelle": {
+          "Gewicht": 240,
+          "Preis": 150,
+          "Länge": 120,
+          "Trefferpunkte": [ "2W6", 2 ],
+          "TrefferpunkteKK": -17,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "8/1",
+          "Regionen": [ "BO", "GA", "HA", "TH", "TO", "WE" ]          
+        },
+        "Ochsenherde": {
+          "Gewicht": 300,
+          "Preis": 160,
+          "Länge": 110,
+          "Trefferpunkte": [ "3W6", 3 ],
+          "TrefferpunkteKK": -17,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "9/0",
+          "Regionen": [ "BO", "GA", "HA", "TH", "TO", "WE" ]          
+        },
+        "Kettenstab": {
+          "Gewicht": 100,
+          "Preis": 90,
+          "Länge": 120,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "6/3",
+          "Regionen": [ "MA", "MH", "SÜ", "WA" ]           
+        }
+      },
+      "Stichwaffen": {
+        "Florett": {
+          "Gewicht": 30,
+          "Preis": 60,
+          "Länge": 90,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "7/5",
+          "Regionen": [ "LF" ]          
+        },
+        "Rapier": {
+          "Gewicht": 45,
+          "Preis": 70,
+          "Länge": 90,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 4,
+          "Waffenvergleichswert": "7/6",
+          "Regionen": [ "GA", "HA", "LF", "PU", "SÜ" ]           
+        },
+        "Degen": {
+          "Gewicht": 40,
+          "Preis": 65,
+          "Länge": 90,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "6/6",
+          "Regionen": [ "GA", "HA", "LF", "PU", "SÜ" ]           
+        },
+        "Wolfsmesser": {
+          "Gewicht": 50,
+          "Preis": 90,
+          "Länge": 90,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -15,
+          "Bruchfaktor": 2,
+          "Waffenvergleichswert": "7/6",
+          "Regionen": [ "EL" ]          
+        },
+        "Magierflorett": {
+          "Gewicht": 25,
+          "Preis": 70,
+          "Länge": 75,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "5/5",
+          "Regionen": [ "GA", "HA", "LF", "MH", "PU" ]          
+        },
+        "Stockdegen": {
+          "Gewicht": 35,
+          "Preis": 65,
+          "Länge": 80,
+          "Trefferpunkte": [ "1W6", 3 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 4,
+          "Waffenvergleichswert": "6/4",
+          "Regionen": [ "GA", "HA", "LF", "PU" ]          
+        }
+      },
+      "Sonstige Handwaffen": {
+        "Veteranenhand": {
+          "Gewicht": 70,
+          "Preis": 200,
+          "Länge": 0,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -17,
+          "Bruchfaktor": 4,
+          "Waffenvergleichswert": "1/1",
+          "Regionen": [ "GA", "HA", "LF" ]          
+        },
+        "Schlagring": {
+          "Gewicht": 20,
+          "Preis": 25,
+          "Länge": 0,
+          "Trefferpunkte": [ "1W6" ],
+          "TrefferpunkteKK": -14,
+          "Bruchfaktor": 4,
+          "Waffenvergleichswert": "1/0",
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+        },
+        "Orchidee": {
+          "Gewicht": 35,
+          "Preis": 250,
+          "Länge": 0,
+          "Trefferpunkte": [ "1W6", 1 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "1/0",
+          "Regionen": [ "MO", "SÜ", "WA" ]          
+        },
+        "Peitsche": {
+          "Gewicht": 60,
+          "Preis": 25,
+          "Länge": 250,
+          "Trefferpunkte": [ "1W6" ],
+          "TrefferpunkteKK": -19,
+          "Bruchfaktor": 0,
+          "Waffenvergleichswert": "8/0",
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+        },
+        "Neunschwänzige": {
+          "Gewicht": 80,
+          "Preis": 60,
+          "Länge": 180,
+          "Trefferpunkte": [ "1W6", 1 ],
+          "TrefferpunkteKK": -18,
+          "Bruchfaktor": 4,
+          "Waffenvergleichswert": "7/0",
+          "Regionen": [ "MH", "SÜ", "ZY" ]          
+        },
+        "Turnierlanze": {
+          "Gewicht": 120,
+          "Preis": 80,
+          "Länge": 300,
+          "Trefferpunkte": [ "1W6" ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 6,
+          "Waffenvergleichswert": "1/0",
+          "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TO", "WE" ]           
+        },
+        "Kriegslanze": {
+          "Gewicht": 150,
+          "Preis": 120,
+          "Länge": 300,
+          "Trefferpunkte": [ "1W6",3 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 5,
+          "Waffenvergleichswert": "1/0",
+          "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TO", "WE" ]          
+        }
+      }
+  },
+    "Wurfwaffen": {
+      "Stein": {
+        "Gewicht": 10,
+        "Preis": 0,
+        "Reichweite": 25,
+        "Trefferpunkte Fernwaffe": [ "1W6" ],
+        "TP Entfernung": {
+          "extrem nah": 1,
+          "sehr nah": 0,
+          "nah": -1,
+          "mittel": -2,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        },
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]
+      },    
+      "Wurfmesser": {
+        "Gewicht": 10,
+        "Preis": 10,
+        "Reichweite": 25,
+        "Trefferpunkte Fernwaffe": [ "1W6" ],
+        "TP Entfernung": {
+          "extrem nah": 1,
+          "sehr nah": 0,
+          "nah": 0,
+          "mittel": -1,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        },
+        "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]        
+      },
+      "Wurfdolch": {
+        "Gewicht": 20,
+        "Preis": 20,
+        "Reichweite": 25,
+        "Trefferpunkte Fernwaffe": [ "1W6", 1 ],
+        "TP Entfernung": {
+          "extrem nah": 1,
+          "sehr nah": 0,
+          "nah": 0,
+          "mittel": -1,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        },
+        "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]        
+      },
+      "Borndorn": {
+        "Gewicht": 30,
+        "Preis": 30,
+        "Reichweite": 25,
+        "Trefferpunkte Fernwaffe": [ "1W6", 2 ],
+        "TP Entfernung": {
+          "extrem nah": 1,
+          "sehr nah": 0,
+          "nah": 0,
+          "mittel": -1,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        },
+        "Regionen": [ "BO" ]        
+      },
+      "Wurfscheibe": {
+        "Gewicht": 10,
+        "Preis": 25,
+        "Reichweite": 15,
+        "Trefferpunkte Fernwaffe": [ "1W6", 1 ],
+        "TP Entfernung": {
+          "extrem nah": 1,
+          "sehr nah": 0,
+          "nah": 0,
+          "mittel": 0,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        },
+        "Regionen": [ "MA", "MH", "SÜ" ]         
+      },
+      "Wurfscheibe, Stahl": {
+        "Gewicht": 10,
+        "Preis": 40,
+        "Reichweite": 25,
+        "Trefferpunkte Fernwaffe": [ "1W6", 1 ],
+        "TP Entfernung": {
+          "extrem nah": 1,
+          "sehr nah": 0,
+          "nah": 0,
+          "mittel": -1,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        },
+        "Regionen": [ "MA" ]         
+      },
+      "Wurfspeer": {
+        "Gewicht": 80,
+        "Preis": 30,
+        "Reichweite": 40,
+        "Trefferpunkte Fernwaffe": [ "1W6", 3 ],
+        "TP Entfernung": {
+          "extrem nah": 3,
+          "sehr nah": 1,
+          "nah": 0,
+          "mittel": 0,
+          "weit": -1,
+          "sehr weit": 0,
+          "extrem weit": 0
+        },
+        "Regionen": [ "KH", "LF", "MH", "PU" ]        
+      },
+      "Wurfbeil": {
+        "Gewicht": 60,
+        "Preis": 35,
+        "Länge": 40,
+        "Trefferpunkte": [ "1W6", 3 ],
+        "TrefferpunkteKK": -13,
+        "Bruchfaktor": 4,
+        "Waffenvergleichswert": "6/2",
+        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Reichweite": 25,
+        "Trefferpunkte Fernwaffe": [ "1W6", 3 ],
+        "TP Entfernung": {
+          "extrem nah": 3,
+          "sehr nah": 1,
+          "nah": 0,
+          "mittel": -1,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        }             
+      },
+      "Schneidzahn": {
+        "Gewicht": 50,
+        "Preis": 60,
+        "Länge": 40,
+        "Trefferpunkte": [ "1W6", 4 ],
+        "TrefferpunkteKK": -14,
+        "Bruchfaktor": 4,
+        "Waffenvergleichswert": "5/1",
+        "Regionen": [ "TH" ],
+        "Reichweite": 25,
+        "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
+        "TP Entfernung": {
+          "extrem nah": 3,
+          "sehr nah": 2,
+          "nah": -1,
+          "mittel": -2,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        }               
+      },
+      "Wurfkeule": {
+        "Gewicht": 35,
+        "Preis": 18,
+        "Länge": 40,
+        "Trefferpunkte": [ "1W6", 2 ],
+        "TrefferpunkteKK": -13,
+        "Bruchfaktor": 4,
+        "Waffenvergleichswert": "6/2",
+        "Regionen": [ "FI", "NO" ],
+        "Reichweite": 25,
+        "Trefferpunkte Fernwaffe": [ "1W6", 2 ],
+        "TP Entfernung": {
+          "extrem nah": 3,
+          "sehr nah": 1,
+          "nah": 0,
+          "mittel": -1,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        }             
+      },      
+      "Wurfnetz": {
+        "Gewicht": 80,
+        "Preis": 25,
+        "Regionen": [ "HA", "SÜ" ],
+        "Reichweite": 5,
+        "Trefferpunkte Fernwaffe": [ 0 ],
+        "TP Entfernung": {
+          "extrem nah": 0,
+          "sehr nah": 0,
+          "nah": 0,
+          "mittel": 0,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        }        
+      },
+      "Schweres Netz": {
+        "Gewicht": 200,
+        "Preis": 40,
+        "Regionen": [ "SÜ" ],
+        "Reichweite": 5,
+        "Trefferpunkte Fernwaffe": [ 0 ],
+        "TP Entfernung": {
+          "extrem nah": 0,
+          "sehr nah": 0,
+          "nah": 0,
+          "mittel": 0,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        }        
+      },
+      "Fledermaus": {
+        "Gewicht": 20,
+        "Preis": 10,
+        "Regionen": [ "TO", "ZW" ],
+        "Reichweite": 25,
+        "Trefferpunkte Fernwaffe": [ "1W6", -2 ],
+        "TP Entfernung": {
+          "extrem nah": 0,
+          "sehr nah": 0,
+          "nah": 0,
+          "mittel": 0,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        }         
+      },
+      "Schleuder": {
+        "Gewicht": 10,
+        "Preis": 15,
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Reichweite": 40,
+        "Trefferpunkte Fernwaffe": [ "1W6", 2 ],
+        "TP Entfernung": {
+          "extrem nah": -1,
+          "sehr nah": 0,
+          "nah": 0,
+          "mittel": 0,
+          "weit": -1,
+          "sehr weit": 0,
+          "extrem weit": 0
+        }        
+      },
+      "Schleuderblei": {
+        "Gewicht": 2,
+        "Preis": 0.5
+      }
+    },
+    "Schußwaffen": {
+      "Kurzbogen": {
+        "Gewicht": 20,
+        "Preis": 45,
+        "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Reichweite": 60,
+        "Trefferpunkte Fernwaffe": [ "1W6", 3 ],
+        "TP Entfernung": {
+          "extrem nah": 1,
+          "sehr nah": 1,
+          "nah": 0,
+          "mittel": 0,
+          "weit": 0,
+          "sehr weit": -1,
+          "extrem weit": 0
+        },
+        "Icon": [ "Kurzbogen" ]
+      },
+      "Kompositbogen": {
+        "Gewicht": 35,
+        "Preis": 80,
+        "Regionen": [ "KH", "MA", "MH", "PU" ],
+        "Reichweite": 80,
+        "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
+        "TP Entfernung": {
+          "extrem nah": 3,
+          "sehr nah": 2,
+          "nah": 1,
+          "mittel": 1,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        }
+      },
+      "Orkischer Reiterbogen": {
+        "Gewicht": 40,
+        "Preis": 120,
+        "Regionen": [ "OR" ],
+        "Reichweite": 100,
+        "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
+        "TP Entfernung": {
+          "extrem nah": 3,
+          "sehr nah": 2,
+          "nah": 1,
+          "mittel": 0,
+          "weit": 0,
+          "sehr weit": -1,
+          "extrem weit": -2
+        }
+      },
+      "Langbogen": {
+        "Gewicht": 30,
+        "Preis": 60,
+        "Regionen": [ "BO", "EL", "GA", "HA", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Reichweite": 200,
+        "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
+        "TP Entfernung": {
+          "extrem nah": 3,
+          "sehr nah": 2,
+          "nah": 1,
+          "mittel": 0,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit":-1 
+        }
+      },
+      "Elfenbogen": {
+        "Gewicht": 25,
+        "Preis": 150,
+        "Regionen": [ "EL" ],
+        "Reichweite": 200,
+        "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
+        "TP Entfernung": {
+          "extrem nah": 3,
+          "sehr nah": 2,
+          "nah": 1,
+          "mittel": 1,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        }
+      },
+      "Kriegsbogen": {
+        "Gewicht": 45,
+        "Preis": 100,
+        "Regionen": [ "HA", "SÜ", "WE" ],
+        "Reichweite": 150,
+        "Trefferpunkte Fernwaffe": [ "1W6", 6 ],
+        "TP Entfernung": {
+          "extrem nah": 3,
+          "sehr nah": 2,
+          "nah": 1,
+          "mittel": 0,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": -1
+        }
+      },
+      "Leichte Armbrust": {
+        "Gewicht": 150,
+        "Preis": 180,
+        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "PU", "SÜ", "TO", "WE", "ZW", "ZY" ],
+        "Reichweite": 60,
+        "Trefferpunkte Fernwaffe": [ "2W6", 2 ],
+        "TP Entfernung": {
+          "extrem nah": 1,
+          "sehr nah": 1,
+          "nah": 0,
+          "mittel": 0,
+          "weit": 0,
+          "sehr weit": -1,
+          "extrem weit": 0
+        }
+      },
+      "Windenarmbrust": {
+        "Gewicht": 200,
+        "Preis": 250,
+        "Regionen": [ "HA", "LF", "ZW" ],
+        "Reichweite": 200,
+        "Trefferpunkte Fernwaffe": [ "2W6", 6 ],
+        "TP Entfernung": {
+          "extrem nah": 4,
+          "sehr nah": 2,
+          "nah": 1,
+          "mittel": 0,
+          "weit": -1,
+          "sehr weit": -2,
+          "extrem weit": -3
+        }
+      },
+      "Eisenwalder": {
+        "Gewicht": 200,
+        "Preis": 300,
+        "Regionen": [ "ZW" ],
+        "Reichweite": 40,
+        "Trefferpunkte Fernwaffe": [ "1W6", 3 ],
+        "TP Entfernung": {
+          "extrem nah": 0,
+          "sehr nah": 0,
+          "nah": 0,
+          "mittel": 0,
+          "weit": -1,
+          "sehr weit": 0,
+          "extrem weit": 0
+        }
+      },
+      "Balläster": {
+        "Gewicht": 120,
+        "Preis": 160,
+        "Regionen": [ "ZW" ],
+        "Reichweite": 100,
+        "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
+        "TP Entfernung": {
+          "extrem nah": 3,
+          "sehr nah": 2,
+          "nah": 1,
+          "mittel": 0,
+          "weit": 0,
+          "sehr weit": -1,
+          "extrem weit": -1
+        }
+      },
+      "Arbalone": {
+        "Gewicht": 480,
+        "Preis": 600,
+        "Regionen": [ "LF", "ZW" ],
+        "Reichweite": 250,
+        "Trefferpunkte Fernwaffe": [ "3W6", 8 ],
+        "TP Entfernung": {
+          "extrem nah": 3,
+          "sehr nah": 2,
+          "nah": 1,
+          "mittel": 0,
+          "weit": -1,
+          "sehr weit": -2,
+          "extrem weit": -3
+        }
+      },
+      "Arbalette": {
+        "Gewicht": 200,
+        "Preis": 400,
+        "Regionen": [ "LF", "ZW" ],
+        "Reichweite": 100,
+        "Trefferpunkte Fernwaffe": [ "2W6", 6 ],
+        "TP Entfernung": {
+          "extrem nah": 2,
+          "sehr nah": 1,
+          "nah": 1,
+          "mittel": 0,
+          "weit": -1,
+          "sehr weit": -1,
+          "extrem weit": -2
+        }
+      },
+      "Balestra": {
+        "Gewicht": 150,
+        "Preis": 350,
+        "Regionen": [ "LF" ],
+        "Reichweite": 60,
+        "Trefferpunkte Fernwaffe": [ "2W6", 2 ],
+        "TP Entfernung": {
+          "extrem nah": 2,
+          "sehr nah": 1,
+          "nah": 0,
+          "mittel": 0,
+          "weit": -1,
+          "sehr weit": -2,
+          "extrem weit": 0
+        }
+      },
+      "Balestrina": {
+        "Gewicht": 60,
+        "Preis": 250,
+        "Regionen": [ "LF" ],
+        "Reichweite": 25,
+        "Trefferpunkte Fernwaffe": [ "1W6", 5 ],
+        "TP Entfernung": {
+          "extrem nah": 1,
+          "sehr nah": 0,
+          "nah": 0,
+          "mittel": -1,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        }
+      },
+      "Pfeil, kurze Bögen": {
+        "Gewicht": 2,
+        "Preis": 0.25,
+        "Icon": [ "Kurzbogenpfeil" ],
+        "ErlaubteInventorySlots": [ "Köcher" ],
+        "MehrereProSlot": true
+      },
+      "Pfeil, lange Bögen": {
+        "Gewicht": 3,
+        "Preis": 0.4,
+        "Icon": [ "Langbogenpfeil" ],
+        "ErlaubteInventorySlots": [ "Köcher" ],
+        "MehrereProSlot": true
+      },
+      "Pfeil, Kriegsbogen": {
+        "Gewicht": 4,
+        "Preis": 0.6,
+        "ErlaubteInventorySlots": [ "Köcher" ],
+        "MehrereProSlot": true
+      },
+      "Bolzen, leichte Armbrust": {
+        "Gewicht": 4,
+        "Preis": 1.5,
+        "ErlaubteInventorySlots": [ "Bolzentasche" ],
+        "MehrereProSlot": true
+      },
+      "Bolzen, schwere Armbrust": {
+        "Gewicht": 4,
+        "Preis": 2,
+        "ErlaubteInventorySlots": [ "Bolzentasche" ],
+        "MehrereProSlot": true
+      },
+      "Bleikugel, Balläster": {
+        "Gewicht": 5,
+        "Preis": 0.6
+      },
+      "Blasrohr": {
+        "Gewicht": 15,
+        "Preis": 40,
+        "Regionen": [ "MO", "WA" ],
+        "Reichweite": 25,
+        "Trefferpunkte Fernwaffe": [ "1W6" ],
+        "TP Entfernung": {
+          "extrem nah": 0,
+          "sehr nah": 0,
+          "nah": -1,
+          "mittel": -2,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        }
+      },
+      "Blasrohrpfeil": {
+        "Gewicht": 1,
+        "Preis": 0.8
+      }
+    }
+  },
+  "Rüstzeug": {
+    "Rüstungen": {
+      "Straßenkleidung": {
+        "Gewicht": 120,
+        "Preis": 20,
+        "Rüstschutz": 1,
+        "Behinderung": 1,
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]
+      }, 
+      "Winterkleidung": {
+        "Gewicht": 200,
+        "Preis": 30,
+        "Rüstschutz": 2,
+        "Behinderung": 2,
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "LF", "MH", "NA", "NO", "OR", "PU", "TH", "TO", "WA", "WE", "ZW", "ZY" ]
+      },   
+      "Fellkleidung": {
+        "Gewicht": 220,
+        "Preis": 10,
+        "Rüstschutz": 2,
+        "Behinderung": 2,
+        "Regionen": [ "BO", "NO", "OR", "TH" ]
+      },
+      "Fellumhang": {
+        "Gewicht": 120,
+        "Preis": 10,
+        "Rüstschutz": 1,
+        "Behinderung": 0,
+        "Regionen": [ "BO", "EL", "FI", "NO", "OR", "TH", "WE" ]
+      }, 
+      "Pelzkleidung": {
+        "Gewicht": 200,
+        "Preis": 100,
+        "Rüstschutz": 2,
+        "Behinderung": 1,
+        "Regionen": [ "BO", "GA", "LF", "PU", "TO" ]
+      },
+      "Lederkleidung": {
+        "Gewicht": 150,
+        "Preis": 100,
+        "Rüstschutz": 1,
+        "Behinderung": 1,
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]
+      },                             
+      "Wattierter Waffenrock (Gambeson)": {
+        "Gewicht": 120,
+        "Preis": 40,
+        "Rüstschutz": 2,
+        "Behinderung": 2,
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]        
+      },
+      "Tuchrüstung": {
+        "Gewicht": 100,
+        "Preis": 35,
+        "Rüstschutz": 2,
+        "Behinderung": 2,
+        "Regionen": [ "LF", "MA", "MH", "SÜ", "ZY" ]        
+      },
+      "Lindwurmhaut": {
+        "Gewicht": 190,
+        "Preis": 60,
+        "Rüstschutz": 3,
+        "Behinderung": 3,
+        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]        
+      },
+      "Lederharnisch (Kurbul)": {
+        "Gewicht": 180,
+        "Preis": 80,
+        "Rüstschutz": 3,
+        "Behinderung": 3,
+        "Regionen": [ "BO", "GA", "HA", "LF", "NO", "PU", "TO", "WE" ]        
+      },
+      "Iryanrüstung": {
+        "Gewicht": 150,
+        "Preis": 130,
+        "Rüstschutz": 3,
+        "Behinderung": 2,
+        "Regionen": [ "SÜ", "WA" ]        
+      },
+      "Krötenhaut": {
+        "Gewicht": 150,
+        "Preis": 60,
+        "Rüstschutz": 3,
+        "Behinderung": 2,
+        "Regionen": [ "NO", "TH" ]        
+      },
+      "Brabakmantel": {
+        "Gewicht": 250,
+        "Preis": 120,
+        "Rüstschutz": 3,
+        "Behinderung": 4,
+        "Regionen": [ "SÜ" ]         
+      },
+      "Schuppenpanzer": {
+        "Gewicht": 480,
+        "Preis": 900,
+        "Rüstschutz": 5,
+        "Behinderung": 5,
+        "Regionen": [ "BO", "HA", "TH", "TO", "WE", "ZW" ]        
+      },
+      "Kusliker Lamellar": {
+        "Gewicht": 300,
+        "Preis": 300,
+        "Rüstschutz": 4,
+        "Behinderung": 3,
+        "Regionen": [ "LF", "SÜ", "ZY" ]
+      },
+      "Kettenhemd, kurz": {
+        "Gewicht": 200,
+        "Preis": 120,
+        "Rüstschutz": 2,
+        "Behinderung": 2,
+        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "PU", "TO", "WE", "ZW", "ZY" ]
+      },
+      "Kettenhemd, lang": {
+        "Gewicht": 250,
+        "Preis": 180,
+        "Rüstschutz": 3,
+        "Behinderung": 3,
+        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "PU", "TO", "WE", "ZW", "ZY" ]        
+      },
+      "Kettenhemd, knielang": {
+        "Gewicht": 320,
+        "Preis": 200,
+        "Rüstschutz": 4,
+        "Behinderung": 4,
+        "Regionen": [ "BO", "GA", "HA", "LF", "MH", "PU", "TO", "WE", "ZW", "ZY" ]        
+      },
+      "Kettenmantel": {
+        "Gewicht": 450,
+        "Preis": 850,
+        "Rüstschutz": 5,
+        "Behinderung": 5,
+        "Regionen": [ "BO", "GA", "HA", "TO", "WE", "ZW" ]        
+      },
+      "Spiegelpanzer": {
+        "Gewicht": 380,
+        "Preis": 1100,
+        "Rüstschutz": 5,
+        "Behinderung": 4,
+        "Regionen": [ "KH", "MH" ]        
+      },
+      "Ringelpanzer": {
+        "Gewicht": 280,
+        "Preis": 300,
+        "Rüstschutz": 4,
+        "Behinderung": 3,
+        "Regionen": [ "LF" ]        
+      },      
+      "Fünflagenharnisch": {
+        "Gewicht": 300,
+        "Preis": 220,
+        "Rüstschutz": 4,
+        "Behinderung": 4,
+        "Regionen": [ "BO", "LF", "MA" ]        
+      },
+      "Eisenmantel": {
+        "Gewicht": 250,
+        "Preis": 250,
+        "Rüstschutz": 3,
+        "Behinderung": 2,
+        "Regionen": [ "BO", "LF", "MA" ]        
+      },
+      "Hartholzharnisch": {
+        "Gewicht": 280,
+        "Preis": 800,
+        "Rüstschutz": 4,
+        "Behinderung": 2,
+        "Regionen": [ "MA" ]        
+      },
+      "Mammutonpanzer": {
+        "Gewicht": 250,
+        "Preis": 200,
+        "Rüstschutz": 5,
+        "Behinderung": 3,
+        "Regionen": [ "EL" ]        
+      },
+      "Streifenschurz": {
+        "Gewicht": 140,
+        "Preis": 40,
+        "Rüstschutz": 1,
+        "Behinderung": 0,
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]         
+      },
+      "Brustschalen": {
+        "Gewicht": 25,
+        "Preis": 20,
+        "Rüstschutz": 0,
+        "Behinderung": 0,
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]        
+      },
+      "Plattenharnisch": {
+        "Gewicht": 320,
+        "Preis": 280,
+        "Rüstschutz": 4,
+        "Behinderung": 3,
+        "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TO", "WE" ]        
+      },
+      "Küraß": {
+        "Gewicht": 160,
+        "Preis": 150,
+        "Rüstschutz": 3,
+        "Behinderung": 2,
+        "Regionen": [ "BO", "GA", "HA", "LF", "MH", "PU", "SÜ", "TO", "WE", "ZY" ]        
+      },
+      "Ritterrüstung": {
+        "Gewicht": 1200,
+        "Preis": 4000,
+        "Rüstschutz": 11,
+        "Behinderung": 10,
+        "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TO", "WE" ]         
+      },
+      "Amazonenrüstung": {
+        "Gewicht": 320,
+        "Preis": -1,
+        "Rüstschutz": 3,
+        "Behinderung": 2,
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Icon": [ "Amazonenruestung" ]         
+      }
+    },
+    "Rüstungsteile": {
+      "Lederzeug": {
+        "Gewicht": 80,
+        "Preis": 40,
+        "Rüstschutz": 1,
+        "Behinderung": 1,
+        "Regionen": [ "BO", "GA", "HA", "LF", "NO", "PU", "TO", "WE" ]        
+      },
+      "Kettenzeug": {
+        "Gewicht": 150,
+        "Preis": 120,
+        "Rüstschutz": 1,
+        "Behinderung": 1,
+        "Regionen": [ "BO", "GA", "HA", "TO", "WE", "ZW" ]        
+      },
+      "Plattenzeug": {
+        "Gewicht": 150,
+        "Preis": 150,
+        "Rüstschutz": 2,
+        "Behinderung": 2,
+        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]        
+      },
+      "Unterkleidung": {
+        "Gewicht": 100,
+        "Preis": 15
+      }
+    },
+    "Helme": {
+      "Lederhelm": {
+        "Gewicht": 60,
+        "Preis": 20,
+        "Rüstschutz": 1,
+        "Behinderung": 1,
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]        
+      },
+      "Kettenhaube": {
+        "Gewicht": 150,
+        "Preis": 80,
+        "Rüstschutz": 1,
+        "Behinderung": 1,
+        "Regionen": [ "BO", "GA", "HA", "TO", "WE", "ZW" ]        
+      },
+      "Tellerhelm": {
+        "Gewicht": 60,
+        "Preis": 30,
+        "Rüstschutz": 1,
+        "Behinderung": 1,
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]        
+      },
+      "Baburiner Hut": {
+        "Gewicht": 120,
+        "Preis": 60,
+        "Rüstschutz": 2,
+        "Behinderung": 2,
+        "Regionen": [ "KH", "MH" ]        
+      },
+      "Verstärkter Lederhelm": {
+        "Gewicht": 120,
+        "Preis": 50,
+        "Rüstschutz": 2,
+        "Behinderung": 1,
+        "Regionen": [ "HA", "TH", "WE" ]        
+      },
+      "Sturmhaube": {
+        "Gewicht": 150,
+        "Preis": 70,
+        "Rüstschutz": 2,
+        "Behinderung": 1,
+        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]        
+      },
+      "Morion": {
+        "Gewicht": 180,
+        "Preis": 80,
+        "Rüstschutz": 2,
+        "Behinderung": 1,
+        "Regionen": [ "GA", "HA", "LF", "PU", "SÜ" ]        
+      },
+      "Drachenhelm": {
+        "Gewicht": 180,
+        "Preis": 120,
+        "Rüstschutz": 2,
+        "Behinderung": 2,
+        "Regionen": [ "TH" ]        
+      },
+      "Alter Bronzehelm": {
+        "Gewicht": 200,
+        "Preis": 120,
+        "Rüstschutz": 3,
+        "Behinderung": 3,
+        "Regionen": [ "PU", "MH" ]        
+      },      
+      "Topfhelm": {
+        "Gewicht": 180,
+        "Preis": 80,
+        "Rüstschutz": 3,
+        "Behinderung": 3,
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "TH", "TO", "WA", "WE", "ZW", "ZY" ]        
+      },
+      "Stechhelm": {
+        "Gewicht": 160,
+        "Preis": 90,
+        "Rüstschutz": 3,
+        "Behinderung": 3,
+        "Regionen": [ "BO", "GA", "HA", "LF", "TO", "WE" ]        
+      }
+    },
+    "Schilde": {
+      "Einfacher Holzschild": {
+        "Gewicht": 140,
+        "Preis": 25,
+        "Waffenvergleichswert Schild": "-1/1",
+        "Bruchfaktor": 3,
+        "Behinderung": 1,
+        "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]
+      },
+      "Verstärkter Holzschild": {
+        "Gewicht": 160,
+        "Preis": 35,
+        "Waffenvergleichswert Schild": "-1/1",
+        "Bruchfaktor": 0,
+        "Behinderung": 1,
+        "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]        
+      },
+      "Lederschild": {
+        "Gewicht": 80,
+        "Preis": 20,
+        "Waffenvergleichswert Schild": "-1/2",
+        "Bruchfaktor": 5,
+        "Behinderung": 2,
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "TH", "TO", "WA", "WE", "ZW", "ZY" ]        
+      },
+      "Thorwalerschild": {
+        "Gewicht": 160,
+        "Preis": 30,
+        "Waffenvergleichswert Schild": "-2/2",
+        "Bruchfaktor": 3,
+        "Behinderung": 2,
+        "Regionen": [ "HA", "TH" ]        
+      },
+      "Großer Lederschild": {
+        "Gewicht": 120,
+        "Preis": 40,
+        "Waffenvergleichswert Schild": "-2/3",
+        "Bruchfaktor": 6,
+        "Behinderung": 3,
+        "Regionen": [ "KH", "LF", "MH", "PU" ]        
+      },
+      "Großschild": {
+        "Gewicht": 200,
+        "Preis": 45,
+        "Waffenvergleichswert Schild": "-3/3",
+        "Bruchfaktor": 2,
+        "Behinderung": 3,
+        "Regionen": [ "BO", "GA", "HA", "TO", "WE" ]         
+      },
+      "Buckler": {
+        "Gewicht": 100,
+        "Preis": 90,
+        "Waffenvergleichswert Schild": "-1/1",
+        "Bruchfaktor": -2,
+        "Behinderung": 1,
+        "Regionen": [ "GA", "LF" ]         
+      },
+      "Vollmetall-Buckler": {
+        "Gewicht": 160,
+        "Preis": 60,
+        "Waffenvergleichswert Schild": "-1/1",
+        "Bruchfaktor": -2,
+        "Behinderung": 2,
+        "Regionen": [ "GA", "LF", "PU", "SÜ" ]         
+      },
+      "Panzerarm": {
+        "Gewicht": 220,
+        "Preis": 140,
+        "Länge": 25,
+        "Trefferpunkte": [ "1W6", 2 ],
+        "TrefferpunkteKK": -16,
+        "Bruchfaktor": 0,
+        "Waffenvergleichswert": "1/3",
+        "Waffenvergleichswert Schild": "0/1",
+        "Behinderung": 2,        
+        "Regionen": [ "BO", "GA", "HA", "TO", "WE" ]        
+      },
+      "Bock": {
+        "Gewicht": 120,
+        "Preis": 80,
+        "Länge": 30,
+        "Trefferpunkte": [ "1W6", 2 ],
+        "TrefferpunkteKK": -16,
+        "Bruchfaktor": 0,
+        "Waffenvergleichswert": "2/5",
+        "Waffenvergleichswert Schild": "-1/1",
+        "Behinderung": 1,
+        "Regionen": [ "BO", "HA", "TO", "WE" ]        
+      }
+    }
+  },
+  "Waffenzubehör": {
+    "Gürtel": {
+      "Schwertgürtel": {
+        "Gewicht": 40,
+        "Preis": 15,
+        "Material": "Leder",
+        "Slots": 1
+      },
+      "Schwertgürtel, verstärkt": {
+        "Gewicht": 80,
+        "Preis": 40,
+        "Material": "Leder",
+        "Slots": 1
+      }
+    },
+    "Schultergurt": {
+      "Gewicht": 20,
+      "Preis": 10
+    },
+    "Beingurt": {
+      "Gewicht": 15,
+      "Preis": 5
+    },
+    "Waffenhalter": {
+      "Schwertscheide": {
+        "Gewicht": 60,
+        "Preis": 15,
+        "Material": "Eisen",
+        "Slottypen": [ "Schwert" ],
+        "Slots": 1
+      },
+      "Dolchscheide": {
+        "Gewicht": 10,
+        "Preis": 8,
+        "Material": "Eisen",
+        "Slottypen": [ "Dolch" ],
+        "Slots": 1
+      },
+      "Axtgehänge": {
+        "Gewicht": 40,
+        "Preis": 6,
+        "Material": "Leder",
+        "Slottypen": [ "Axt" ],
+        "Slots": 1
+      },
+      "Hüftköcher, 20 Pfeile, Leder": {
+        "Gewicht": 35,
+        "Preis": 18,
+        "Material": "Leder",
+        "Slottypen": [ "Köcher" ],
+        "Slots": 1,
+        "MaximumPerSlot": 20
+      },
+      "Bolzentasche, 10 Bolzen, Stoff": {
+        "Gewicht": 20,
+        "Preis": 2,
+        "Material": "Stoff",
+        "Slottypen": [ "Bolzentasche" ],
+        "Slots": 1,
+        "MaximumPerSlot": 10
+      }    
+    },
+    "Rückenköcher": {
+      "Pfeilköcher, 20 Pfeile, Holz": {
+        "Gewicht": 60,
+        "Preis": 6,
+        "Material": "Holz",
+        "Slottypen": [ "Köcher" ],
+        "Slots": 1,
+        "MaximumPerSlot": 20,
+        "ErlaubteInventorySlots": [ "Rückenköcher" ],
+        "Icon": [ "Pfeilkoecher_Holz" ]
+      },
+      "Pfeilköcher, 20 Pfeile, Leder": {
+        "Gewicht": 30,
+        "Preis": 15,
+        "Material": "Leder",
+        "Slottypen": [ "Köcher" ],
+        "Slots": 1,
+        "MaximumPerSlot": 20,
+        "ErlaubteInventorySlots": [ "Rückenköcher" ],
+	     "Icon": [ "Pfeilkoecher_Leder" ]
+      },
+      "Bolzenköcher, 10 Bolzen, Holz": {
+        "Gewicht": 45,
+        "Preis": 15,
+        "Material": "Holz",
+        "Slottypen": [ "Bolzentasche" ],
+        "Slots": 1,
+        "MaximumPerSlot": 10,
+        "ErlaubteInventorySlots": [ "Rückenköcher" ]
+      } 
+    },
+    "Waffenpflegeutensilien": {
+      "Gewicht": 25,
+      "Preis": 8
+    }
+  },
+  "Beleuchtung": {
+    "Leuchtmittel": {
+      "Kerze, 1 Spann": {
+        "Gewicht": 2,
+        "Preis": 0.1
+      },
+      "Kerze, 2 Spann": {
+        "Gewicht": 4,
+        "Preis": 0.2
+      },
+      "Duftkerze, 1 Spann": {
+        "Gewicht": 2,
+        "Preis": 0.3
+      },
+      "Pechfackel": {
+        "Gewicht": 50,
+        "Preis": 0.5,
+        "Länge": 40,
+        "Trefferpunkte": [ "1W6" ],
+        "TrefferpunkteKK": -15,
+        "Bruchfaktor": 7,
+        "Waffenvergleichswert": "4/3",
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]      
+      },    
+      "Öllampe": {
+        "Gewicht": 15,
+        "Preis": 3
+      },
+      "Kerzenlaterne": {
+        "Gewicht": 20,
+        "Preis": 5
+      },
+      "Sturmlaterne, Öl": {
+        "Gewicht": 30,
+        "Preis": 12
+      }
+    },
+    "Zubehör": {
+      "Lampenöl": {
+        "Gewicht": 10,
+        "Preis": 0.5
+      },
+      "Duftöl": {
+        "Gewicht": 10,
+        "Preis": 1
+      },
+      "Feuerstein und Stahl": {
+        "Gewicht": 5,
+        "Preis": 0.6
+      },
+      "Zunderkästchen, gefüllt": {
+        "Gewicht": 8,
+        "Preis": 2
+      },
+      "Zunderdose, wasserdicht": {
+        "Gewicht": 10,
+        "Preis": 7
+      }
+    }
+  },
+  "Behälter": {
+    "Beutel": {
+      "Tuchbeutel, 5 Stein": {
+        "Gewicht": 15,
+        "Preis": 0.4
+      },
+      "Geldbeutelchen": {
+        "Gewicht": 1,
+        "Preis": 0.1
+      }
+    },
+    "Rucksäcke": {
+      "Lederranzen, 8 Stein": {
+        "Gewicht": 30,
+        "Preis": 2
+      },
+      "Lederrucksack, 15 Stein": {
+        "Gewicht": 40,
+        "Preis": 4
+      }
+    },
+    "Gürteltaschen": {
+      "Gürteltaschen": {
+        "Gewicht": 5,
+        "Preis": 0.5
+      },
+      "Gürteltaschen, verstärkt": {
+        "Gewicht": 15,
+        "Preis": 4
+      }
+    },
+    "Pergamenthülle": {
+      "Gewicht": 2,
+      "Preis": 2
+    },
+    "Säcke": {
+      "Sack, 10 Stein": {
+        "Gewicht": 15,
+        "Preis": 0.8,
+	"Icon": [ "Sack_klein_1", "Sack_klein_2" ]
+      },
+      "Sack, 50 Stein": {
+        "Gewicht": 40,
+        "Preis": 2.5,
+	"Icon": [ "Sack_gross_1", "Sack_gross_2" ]
+      }
+    },
+    "Körbe": {
+      "Korb, 20 Stein": {
+        "Gewicht": 80,
+        "Preis": 4,
+        "Icon": [ "Korb_1", "Korb_2" ]
+      },
+      "Kiepe, 20 Stein": {
+        "Gewicht": 120,
+        "Preis": 7,
+        "Icon": [ "Kiepe_1", "Kiepe_2" ]
+      }
+    },
+    "Kisten": {
+      "Transportkiste": {
+        "Gewicht": 80,
+        "Preis": 4
+      },
+      "Truhe für Packpferd": {
+        "Gewicht": 100,
+        "Preis": 5
+      }
+    },
+    "Packsattel": {
+      "Gewicht": 200,
+      "Preis": 20
+    },
+    "Tragnetz": {
+      "Gewicht": 40,
+      "Preis": 1
+    },
+    "Eimer": {
+      "Eimer, Holz": {
+        "Gewicht": 60,
+        "Preis": 3
+      },
+      "Eimer, Leder": {
+        "Gewicht": 40,
+        "Preis": 2
+      }
+    },
+    "Flaschen": {
+      "Glasflasche, 3 Flux": {
+        "Gewicht": 4,
+        "Preis": 5
+      },
+      "Glasflasche, 1 Schank": {
+        "Gewicht": 10,
+        "Preis": 12,
+        "Icon": [ "Flasche_Glas_gross" ]
+      },
+      "Irdene Flasche, 1 Schank": {
+        "Gewicht": 20,
+        "Preis": 2
+      },
+      "Bronzeflasche, 1 Schank": {
+        "Gewicht": 50,
+        "Preis": 8,
+        "Icon": [ "Flasche_Bronze" ]
+      }
+    },
+    "Fässer": {
+      "Wasserfaß, 20 Maß": {
+        "Gewicht": 120,
+        "Preis": 18
+      }
+    }
+  },
+  "Koch- und Essgeschirr": {
+    "Trinkgefäße": {
+      "Trinkbecher, Holz": {
+        "Gewicht": 2,
+        "Preis": 0.2
+      },
+      "Trinkbecher, Ton": {
+        "Gewicht": 5,
+        "Preis": 0.5
+      },
+      "Trinkbecher, Zinn": {
+        "Gewicht": 5,
+        "Preis": 2
+      },
+      "Trinkglas": {
+        "Gewicht": 4,
+        "Preis": 6
+      },
+      "Kristallpokal": {
+        "Gewicht": 4,
+        "Preis": 40
+      },
+      "Pokal, Silber": {
+        "Gewicht": 10,
+        "Preis": 10
+      },
+      "Pokal, Gold": {
+        "Gewicht": 20,
+        "Preis": 25
+      },
+      "Trinkhorn": {
+        "Gewicht": 20,
+        "Preis": 10
+      },
+      "Tonkrug": {
+        "Gewicht": 30,
+        "Preis": 2
+      },
+      "Glaskaraffe": {
+        "Gewicht": 20,
+        "Preis": 20
+      }
+    },
+    "Teller": {
+      "Teller, Holz": {
+        "Gewicht": 4,
+        "Preis": 0.4
+      },
+      "Teller, irden": {
+        "Gewicht": 6,
+        "Preis": 0.5
+      },
+      "Teller, Zinn": {
+        "Gewicht": 8,
+        "Preis": 3
+      },
+      "Teller, Porzellan": {
+        "Gewicht": 7,
+        "Preis": 15
+      },
+      "Teller, Silber": {
+        "Gewicht": 10,
+        "Preis": 12
+      }
+    },
+    "Pfannen": {
+      "Eisenpfanne, 1 Spann": {
+        "Gewicht": 40,
+        "Preis": 4
+      },
+      "Eisenpfanne, 1,5 Spann": {
+        "Gewicht": 80,
+        "Preis": 8
+      }
+    },
+    "Töpfe": {
+      "Stieltopf, 6 Maß": {
+        "Gewicht": 80,
+        "Preis": 8
+      },
+      "Eisentopf, 12 Maß": {
+        "Gewicht": 120,
+        "Preis": 10
+      },
+      "Blechtopf, email, 6 Maß": {
+        "Gewicht": 60,
+        "Preis": 12
+      },
+      "Kessel, email, 6 Maß": {
+        "Gewicht": 10,
+        "Preis": 15
+      },
+      "Kuperkessel, 25 Maß": {
+        "Gewicht": 160,
+        "Preis": 20
+      }
+    },
+    "Eßwerkzeug": {
+      "Holzlöffel": {
+        "Gewicht": 3,
+        "Preis": 0.1
+      },
+      "Eßbesteck, Zinn": {
+        "Gewicht": 10,
+        "Preis": 5
+      },
+      "Eßbesteck, Silber": {
+        "Gewicht": 15,
+        "Preis": 20
+      },
+      "Eßbesteck, Gold": {
+        "Gewicht": 20,
+        "Preis": 250
+      },
+      "Kockgeschirr, sortiert, email": {
+        "Gewicht": 200,
+        "Preis": 120
+      }
+    },
+    "Sieb": {
+      "Gewicht": 15,
+      "Preis": 5
+    },
+    "Bratspieß": {
+      "Gewicht": 20,
+      "Preis": 2
+    },
+    "Schöpfkelle, Zinn": {
+      "Gewicht": 10,
+      "Preis": 3
+    },
+    "Samowar": {
+      "Gewicht": 80,
+      "Preis": 150
+    },
+    "Wasserbehälter": {
+      "Wasserschlauch, 5 Schank": {
+        "Gewicht": 5,
+        "Preis": 1
+      },
+      "Feldflasche, 5 Schank": {
+        "Gewicht": 12,
+        "Preis": 3
+      }
+    },
+    "Proviantbehälter": {
+      "Brotbeutel": {
+        "Gewicht": 8,
+        "Preis": 0.5
+      }
+    }
+  },
+  "Werkzeug": {
+    "Messer": {
+      "Gewicht": 10,
+      "Preis": 5,
+      "Länge": 25,
+      "Trefferpunkte": [ "1W6" ],
+      "TrefferpunkteKK": -16,
+      "Bruchfaktor": 4,
+      "Waffenvergleichswert": "1/0",
+      "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]
+    },
+    "Hämmer": {
+      "Hammer": {
+        "Gewicht": 20,
+        "Preis": 6
+      },
+      "Vorschlaghammer": {
+        "Gewicht": 250,
+        "Preis": 30,
+        "Länge": 90,
+        "Trefferpunkte": [ "1W6", 5 ],
+        "TrefferpunkteKK": -14,
+        "Bruchfaktor": 5,
+        "Waffenvergleichswert": "8/1",
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]      
+      }
+    },
+    "50 Nägel, sortiert": {
+      "Gewicht": 30,
+      "Preis": 10
+    },
+    "Sägen": {
+      "Fuchsschwanz": {
+        "Gewicht": 30,
+        "Preis": 15
+      },
+      "Bügelsäge": {
+        "Gewicht": 60,
+        "Preis": 20
+      }
+    },
+    "Zangen": {
+      "Zange": {
+        "Gewicht": 20,
+        "Preis": 12
+      },
+      "Schmiedezange": {
+        "Gewicht": 90,
+        "Preis": 14
+      }
+    },
+    "Brecheisen": {
+      "Gewicht": 90,
+      "Preis": 10
+    },
+    "Schüreisen": {
+      "Gewicht": 40,
+      "Preis": 8
+    },
+    "Schaufeln": {
+      "Spaten": {
+        "Gewicht": 80,
+        "Preis": 15,
+        "Icon": [ "Spaten" ]
+      },
+      "Schaufel": {
+        "Gewicht": 80,
+        "Preis": 10,
+        "Icon": [ "Schaufel" ]
+      }
+    },
+    "Hacken": {
+      "Spitzhacke": {
+        "Gewicht": 200,
+        "Preis": 30,
+        "Länge": 100,
+        "Trefferpunkte": [ "1W6", 6 ],
+        "TrefferpunkteKK": -15,
+        "Bruchfaktor": 5,
+        "Waffenvergleichswert": "8/1",
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]       
+      },
+      "Eispickel": {
+        "Gewicht": 120,
+        "Preis": 15
+      }
+    },
+    "Äxte und Beile": {
+      "Beil": {
+        "Gewicht": 70,
+        "Preis": 20,
+        "Länge": 50,
+        "Trefferpunkte": [ "1W6", 3 ],
+        "TrefferpunkteKK": -14,
+        "Bruchfaktor": 5,
+        "Waffenvergleichswert": "6/2",
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]      
+      },
+      "Fleischerbeil": {
+        "Gewicht": 60,
+        "Preis": 20,
+        "Länge": 30,
+        "Trefferpunkte": [ "1W6", 2 ],
+        "TrefferpunkteKK": -16,
+        "Bruchfaktor": 2,
+        "Waffenvergleichswert": "2/1",
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]      
+      },
+      "Holzfälleraxt": {
+        "Gewicht": 160,
+        "Preis": 80,
+        "Länge": 110,
+        "Trefferpunkte": [ "2W6" ],
+        "TrefferpunkteKK": -13,
+        "Bruchfaktor": 5,
+        "Waffenvergleichswert": "9/1",
+        "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]      
+      }
+    },
+    "Meißel, 5, sortiert": {
+      "Gewicht": 40,
+      "Preis": 12
+    },
+    "Keile": {
+      "Gewicht": 80,
+      "Preis": 4
+    },
+    "Holzfeile": {
+      "Gewicht": 15,
+      "Preis": 8
+    },
+    "Metallfeile": {
+      "Gewicht": 15,
+      "Preis": 25
+    },
+    "Hobel": {
+      "Gewicht": 50,
+      "Preis": 12
+    },
+    "Schere": {
+      "Gewicht": 15,
+      "Preis": 30
+    },
+    "Ahle": {
+      "Gewicht": 1,
+      "Preis": 10
+    },
+    "Nadel und Garn, sortiert": {
+      "Gewicht": 2,
+      "Preis": 8
+    },
+    "Kleiner Webrahmen": {
+      "Gewicht": 200,
+      "Preis": 20
+    },
+    "Spinnrad": {
+      "Gewicht": 400,
+      "Preis": 50
+    },
+    "Sichel": {
+      "Gewicht": 30,
+      "Preis": 25,
+      "Länge": 50,
+      "Trefferpunkte": [ "1W6", 2 ],
+      "TrefferpunkteKK": -17,
+      "Bruchfaktor": 5,
+      "Waffenvergleichswert": "3/1",
+      "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]       
+    },
+    "Sense": {
+      "Gewicht": 100,
+      "Preis": 30,
+      "Länge": 160,
+      "Trefferpunkte": [ "1W6", 3 ],
+      "TrefferpunkteKK": -17,
+      "Bruchfaktor": 6,
+      "Waffenvergleichswert": "3/1",
+      "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]      
+    },
+    "Dreschflegel": {
+      "Gewicht": 100,
+      "Preis": 15,
+      "Länge": 150,
+      "Trefferpunkte": [ "1W6", 2 ],
+      "TrefferpunkteKK": -14,
+      "Bruchfaktor": 6,
+      "Waffenvergleichswert": "4/2",
+      "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]      
+    },
+    "Reisigbesen": {
+      "Gewicht": 50,
+      "Preis": 0.4
+    },
+    "Besen": {
+      "Gewicht": 40,
+      "Preis": 1
+    },
+    "Staubwedel": {
+      "Gewicht": 20,
+      "Preis": 1
+    },
+    "Dietriche, sortiert": {
+      "Gewicht": 15,
+      "Preis": 120,
+      "Icon": [ "Dietriche" ]
+    },
+    "Wurfhaken, 10 Schritt Seil": {
+      "Gewicht": 30,
+      "Preis": 10
+    },
+    "Angelhaken und Schnur": {
+      "Gewicht": 1,
+      "Preis": 0.2
+    },
+    "Leim": {
+      "Gewicht": 40,
+      "Preis": 8
+    },
+    "Flaschenzug, 1 Quader": {
+      "Gewicht": 240,
+      "Preis": 1200
+    },
+    "Senkblei": {
+      "Gewicht": 8,
+      "Preis": 1
+    }
+  },
+  "Seile, Netze, Ketten": {
+    "Seile": {
+      "Hanfseil, 10 Schritt": {
+        "Gewicht": 45,
+        "Preis": 4
+      },
+      "Hanfseil, 10 Schritt, verstärkt": {
+        "Gewicht": 55,
+        "Preis": 7
+      },
+      "Kletterseil, 10 Schritt": {
+        "Gewicht": 35,
+        "Preis": 10
+      },
+      "Seidenseil": {
+        "Gewicht": 25,
+        "Preis": 120
+      },
+      "Fesselseil, 1 Schritt": {
+        "Gewicht": 10,
+        "Preis": 1
+      },
+      "Lederseil, 1 Schritt": {
+        "Gewicht": 12,
+        "Preis": 3
+      },
+      "Lasso, Leder": {
+        "Gewicht": 70,
+        "Preis": 10
+      },
+      "Tau, 20 Schritt": {
+        "Gewicht": 400,
+        "Preis": 10
+      },
+      "Schnur, 20 Schritt": {
+        "Gewicht": 10,
+        "Preis": 1
+      }      
+    },    
+    "Netze": {
+      "Fischernetz": {
+        "Gewicht": 35,
+        "Preis": 10
+      },
+      "Fischernetz, groß": {
+        "Gewicht": 80,
+        "Preis": 80
+      }
+    },
+    "Ketten": {
+      "Dünne Kette, 5 Schritt": {
+        "Gewicht": 100,
+        "Preis": 20
+      },
+      "Schwere Kette, 5 Schritt": {
+        "Gewicht": 400,
+        "Preis": 50
+      }
+    },
+    "Strickleiter, 5 Schritt": {
+      "Gewicht": 70,
+      "Preis": 12
+    }
+  },
+  "Sonstiger Reisebedarf": {
+    "Zelte": {
+      "Zelt, 2 Personen": {
+        "Gewicht": 600,
+        "Preis": 20
+      },
+      "Zelt, 4 Personen": {
+        "Gewicht": 900,
+        "Preis": 30
+      }
+    },
+    "Zeltzubehör": {
+      "Zeltboden": {
+        "Gewicht": 80,
+        "Preis": 3
+      },
+      "Zeltstangen, 2 Stück": {
+        "Gewicht": 80,
+        "Preis": 3
+      }
+    },
+    "Schlafen": {
+      "Wolldecke": {
+        "Gewicht": 60,
+        "Preis": 2
+      },
+      "Schlafsack": {
+        "Gewicht": 80,
+        "Preis": 10
+      },
+      "Hängematte": {
+        "Gewicht": 80,
+        "Preis": 13
+      }          
+    },
+    "Wanderstab": {
+      "Gewicht": 50,
+      "Preis": 0.5
+    },
+    "Wimpel": {
+      "Gewicht": 8,
+      "Preis": 4
+    },
+    "Banner": {
+      "Gewicht": 60,
+      "Preis": 18
+    },
+    "Wintersachen": {
+      "Schneeschuhe": {
+        "Gewicht": 60,
+        "Preis": 12
+      },
+      "Skier": {
+        "Gewicht": 60,
+        "Preis": 18
+      }
+    }
+  },
+  "Schreibwaren, Feinmechanik, Optik": {
+    "10 Gänsekiele, Griffel": {
+      "Gewicht": 1,
+      "Preis": 4
+    },
+    "Federmesser": {
+      "Gewicht": 5,
+      "Preis": 4
+    },
+    "Pinsel, 3, sortiert": {
+      "Gewicht": 6,
+      "Preis": 8
+    },
+    "5 Kohlestifte": {
+      "Gewicht": 2,
+      "Preis": 0.05
+    },
+    "Tinte": {
+      "Gewicht": 4,
+      "Preis": 2
+    },
+    "Tusche": {
+      "Gewicht": 4,
+      "Preis": 3
+    },
+    "Tusche, farbig": {
+      "Gewicht": 4,
+      "Preis": 8
+    },
+    "10 Blatt Pergament": {
+      "Gewicht": 1,
+      "Preis": 12
+    },
+    "Schriftrolle, 2 Schritt": {
+      "Gewicht": 30,
+      "Preis": 40
+    },
+    "Tagebuch, Papier": {
+      "Gewicht": 20,
+      "Preis": 35
+    },
+    "Papier, 10 Bögen": {
+      "Gewicht": 3,
+      "Preis": 3
+    },
+    "Schreibkreide": {
+      "Gewicht": 1,
+      "Preis": 0.4
+    },
+    "Schiefertafel": {
+      "Gewicht": 20,
+      "Preis": 2
+    },
+    "Holzlineal": {
+      "Gewicht": 3,
+      "Preis": 0.8
+    },
+    "Messinglineal": {
+      "Gewicht": 8,
+      "Preis": 3
+    },
+    "Fadenzirkel": {
+      "Gewicht": 2,
+      "Preis": 2
+    },
+    "Zirkel": {
+      "Gewicht": 4,
+      "Preis": 15
+    },
+    "Gravurwerkzeug": {
+      "Gewicht": 15,
+      "Preis": 20
+    },
+    "Stundenglas": {
+      "Gewicht": 10,
+      "Preis": 30
+    },
+    "Stundenkerze": {
+      "Gewicht": 5,
+      "Preis": 8
+    },
+    "Prisma": {
+      "Gewicht": 2,
+      "Preis": 100
+    },
+    "Brennglas": {
+      "Gewicht": 4,
+      "Preis": 50
+    },
+    "Lupe": {
+      "Gewicht": 5,
+      "Preis": 80
+    },
+    "Fernrohr": {
+      "Gewicht": 50,
+      "Preis": 800
+    },
+    "Himmelsfernrohr": {
+      "Gewicht": 160,
+      "Preis": 3000
+    },
+    "Handspiegel, Messing": {
+      "Gewicht": 20,
+      "Preis": 12
+    },
+    "Handspiegel, Glas": {
+      "Gewicht": 15,
+      "Preis": 80
+    },
+    "Brillen": {
+      "Brille": {
+        "Gewicht": 3,
+        "Preis": 400
+      },
+      "Kristallbrille, dunkel": {
+        "Gewicht": 3,
+        "Preis": 600
+      }
+    },
+    "Schiffskompaß": {
+      "Gewicht": 200,
+      "Preis": 180
+    },
+    "Südweiser": {
+      "Gewicht": 40,
+      "Preis": 80
+    },
+    "Sonnenuhr": {
+      "Gewicht": 40,
+      "Preis": 10
+    },
+    "Sonnenuhr mit Kompaß": {
+      "Gewicht": 80,
+      "Preis": 120
+    },
+    "Quadrant": {
+      "Gewicht": 30,
+      "Preis": 70
+    },
+    "Hylailer Dreikreuz": {
+      "Gewicht": 30,
+      "Preis": 20
+    },
+    "Astrolabium": {
+      "Gewicht": 120,
+      "Preis": 250
+    },
+    "Orbitarium": {
+      "Gewicht": 400,
+      "Preis": 5000
+    },
+    "Rechenmaschinen": {
+      "Abakus": {
+        "Gewicht": 20,
+        "Preis": 10
+      },
+      "Addiermaschine": {
+        "Gewicht": 120,
+        "Preis": 2000
+      },
+      "Zinsspindel": {
+        "Gewicht": 160,
+        "Preis": 6000
+      }
+    }
+  },
+  "Spielzeug, Dekoration und Luxusartikel": {
+    "Spielzeug": {
+      "Stoffpuppe": {
+        "Gewicht": 10,
+        "Preis": 0.5
+      },
+      "Wachspuppe": {
+        "Gewicht": 40,
+        "Preis": 5
+      },
+      "Holzfigürchen": {
+        "Gewicht": 1,
+        "Preis": 0.3
+      },
+      "Zinnsoldat": {
+        "Gewicht": 1,
+        "Preis": 1
+      },
+      "Steckenpferd": {
+        "Gewicht": 40,
+        "Preis": 2
+      },
+      "Holzschwert": {
+        "Gewicht": 20,
+        "Preis": 1.2
+      },
+      "Würfel, Bein, 3 Stück": {
+        "Gewicht": 1,
+        "Preis": 2
+      },
+      "Kaleidoskop": {
+        "Gewicht": 20,
+        "Preis": 8
+      }
+    },
+    "Gauklerbedarf": {
+      "3 Jonglierbälle": {
+        "Gewicht": 20,
+        "Preis": 1.5
+      },
+      "3 Jonglierkeulen": {
+        "Gewicht": 45,
+        "Preis": 4
+      }
+    },
+    "Spieluhr": {
+      "Gewicht": 8,
+      "Preis": 80
+    },
+    "Bilder": {
+      "Portrait, Öl auf Leinwand": {
+        "Gewicht": 60,
+        "Preis": 70
+      },
+      "Gemälde, Öl auf Holz": {
+        "Gewicht": 120,
+        "Preis": 100
+      }
+    },
+    "Statuetten": {
+      "Statuette, Zinn": {
+        "Gewicht": 10,
+        "Preis": 1
+      },
+      "Statuette, Silber": {
+        "Gewicht": 15,
+        "Preis": 30
+      },
+      "Statuette, Gold": {
+        "Gewicht": 10,
+        "Preis": 150
+      },
+      "Statuette, Jade": {
+        "Gewicht": 10,
+        "Preis": 50
+      },
+      "Statuette, Obsidian": {
+        "Gewicht": 10,
+        "Preis": 12
+      }
+    },
+    "Pfeifen": {
+      "Pfeife, Ton": {
+        "Gewicht": 5,
+        "Preis": 1
+      },
+      "Pfeife, Holz": {
+        "Gewicht": 5,
+        "Preis": 5
+      },
+      "Pfeife, Meerschaum": {
+        "Gewicht": 4,
+        "Preis": 10
+      },
+      "Wasserpfeife": {
+        "Gewicht": 40,
+        "Preis": 20
+      }
+    },
+    "Tabakdose, Silber": {
+      "Gewicht": 2,
+      "Preis": 3
+    }
+  },
+  "Musikinstrumente": {
+    "Flöten": {
+      "Holzflöte": {
+        "Gewicht": 8,
+        "Preis": 2
+      },
+      "Beinflöte": {
+        "Gewicht": 10,
+        "Preis": 20
+      },
+      "Silberflöte": {
+        "Gewicht": 30,
+        "Preis": 150
+      }
+    },
+    "Pfeifenbalg": {
+      "Gewicht": 80,
+      "Preis": 100
+    },
+    "Blechblasinstrumente": {
+      "Fanfare": {
+        "Gewicht": 40,
+        "Preis": 60
+      },
+      "Jagdhorn": {
+        "Gewicht": 30,
+        "Preis": 70
+      },
+      "Zwergenposaune": {
+        "Gewicht": 60,
+        "Preis": 150
+      },
+      "Reitertrompete": {
+        "Gewicht": 40,
+        "Preis": 100
+      }
+    },
+    "Trommeln": {
+      "Trommel, Dabla": {
+        "Gewicht": 20,
+        "Preis": 10
+      }, 
+      "Söldnertrommel": {
+        "Gewicht": 80,
+        "Preis": 20
+      },
+      "Pauke": {
+        "Gewicht": 100,
+        "Preis": 100
+      }
+    },
+    "Drehleier": {
+      "Gewicht": 80,
+      "Preis": 150
+    },
+    "Standharfe": {
+      "Gewicht": 3000,
+      "Preis": 1200
+    },
+    "Laute, Bandurria": {
+      "Gewicht": 80,
+      "Preis": 150
+    },
+    "Glockenspiel": {
+      "Gewicht": 120,
+      "Preis": 100
+    },
+    "Spinett": {
+      "Gewicht": 4000,
+      "Preis": 3000
+    }
+  },
+  "Tierbedarf": {
+    "Zaumzeug": {
+      "Gewicht": 80,
+      "Preis": 6
+    },
+    "Kummet": {
+      "Gewicht": 320,
+      "Preis": 10
+    },
+    "Pferdedecke": {
+      "Gewicht": 60,
+      "Preis": 2
+    },
+    "Sättel": {
+      "Sattel": {
+        "Gewicht": 240,
+        "Preis": 40
+      },
+      "Gestechsattel": {
+        "Gewicht": 400,
+        "Preis": 120
+      },
+      "Packsattel": {
+        "Gewicht": 200,
+        "Preis": 30
+      }
+    },
+    "Striegelzeug": {
+      "Gewicht": 60,
+      "Preis": 2
+    },
+    "Reitgerte": {
+      "Gewicht": 15,
+      "Preis": 1
+    },
+    "Sporen, Eisen": {
+      "Gewicht": 10,
+      "Preis": 6
+    },
+    "Sporen, Silber": {
+      "Gewicht": 15,
+      "Preis": 15
+    },
+    "Falknerhandschuh": {
+      "Gewicht": 40,
+      "Preis": 4
+    },
+    "Falkenmaske": {
+      "Gewicht": 15,
+      "Preis": 10
+    },
+    "Maulkorb": {
+      "Gewicht": 40,
+      "Preis": 3
+    },
+    "Tragegeschirr für Hunde": {
+      "Gewicht": 20,
+      "Preis": 4
+    },
+    "Halsband und Leine": {
+      "Gewicht": 20,
+      "Preis": 0.8
+    },
+    "Vogelkäfige": {
+      "Vogelkäfig, klein": {
+        "Gewicht": 80,
+        "Preis": 15
+      },
+      "Vogelkäfig, groß": {
+        "Gewicht": 200,
+        "Preis": 40
+      }
+    }
+  },
+  "Schmuck": {
+    "Ringe": {
+      "Ring, Silber": {
+        "Gewicht": 0.5,
+        "Preis": 3
+      },
+      "Ring, Gold": {
+        "Gewicht": 0.6,
+        "Preis": 9
+      },
+      "Ring, Messing": {
+        "Gewicht": 0.55,
+        "Preis": 1
+      },  
+      "Ring, Bronze": {
+        "Gewicht": 0.55,
+        "Preis": 1
+      }
+    },
+    "Ohrringe": {
+      "Ohrring, Silber": {
+        "Gewicht": 0.2,
+        "Preis": 3
+      },
+      "Ohrring, Gold": {
+        "Gewicht": 0.5,
+        "Preis": 27
+      },
+      "Ohrring, Messing": {
+        "Gewicht": 0.25,
+        "Preis": 1
+      },
+      "Ohrring, Bronze": {
+        "Gewicht": 0.25,
+        "Preis": 1
+      }
+    },       
+    "Armreifen": {
+      "Armreif, Silber": {
+        "Gewicht": 10,
+        "Preis": 60
+      },
+      "Armreif, Gold": {
+        "Gewicht": 12,
+        "Preis": 180
+      },
+      "Armreif, Messing": {
+        "Gewicht": 11,
+        "Preis": 20
+      },   
+      "Armreif, Bronze": {
+        "Gewicht": 11,
+        "Preis": 20
+      }
+    },         
+    "Stirnreifen": {
+      "Stirnreif, Silber": {
+        "Gewicht": 8,
+        "Preis": 20
+      },
+      "Stirnreif, Gold": {
+        "Gewicht": 10,
+        "Preis": 60
+      },  
+      "Stirnreif, Messing": {
+        "Gewicht": 9,
+        "Preis": 7
+      },   
+      "Stirnreif, Bronze": {
+        "Gewicht": 9,
+        "Preis": 7
+      }
+    },             
+    "Spangen": {
+      "Spange, Fiebel, Silber": {
+        "Gewicht": 1,
+        "Preis": 6
+      },
+      "Spange, Fiebel, Gold": {
+        "Gewicht": 1.2,
+        "Preis": 18
+      },   
+      "Spange, Fiebel, Messing": {
+        "Gewicht": 1.1,
+        "Preis": 2
+      },   
+      "Spange, Fiebel, Bronze": {
+        "Gewicht": 1.1,
+        "Preis": 2
+      }
+    },            
+    "Halsketten": {
+      "Halskette, Silber": {
+        "Gewicht": 0.5,
+        "Preis": 5
+      },
+      "Halskette, Gold": {
+        "Gewicht": 0.6,
+        "Preis": 15
+      },
+      "Halskette, Messing": {
+        "Gewicht": 0.6,
+        "Preis": 2
+      },   
+      "Halskette, Bronze": {
+        "Gewicht": 0.6,
+        "Preis": 2
+      }
+    },         
+    "Amulette": {
+      "Amulett, Silber": {
+        "Gewicht": 2,
+        "Preis": 4
+      },
+      "Amulett, Gold": {
+        "Gewicht": 2.4,
+        "Preis": 12
+      },
+      "Amulett, Messing": {
+        "Gewicht": 2.1,
+        "Preis": 1.2
+      },
+      "Amulett, Bronze": {
+        "Gewicht": 2.1,
+        "Preis": 1.2
+      }
+    }
+  },
+  "Körperpflege": {
+    "Seife": {
+      "Gewicht": 20,
+      "Preis": 0.2
+    },
+    "Badeöl": {
+      "Gewicht": 20,
+      "Preis": 2
+    },
+    "Parfum": {
+      "Gewicht": 1,
+      "Preis": 30
+    },
+    "Massageöl": {
+      "Gewicht": 10,
+      "Preis": 4
+    },
+    "Kräuterbranntwein": {
+      "Gewicht": 10,
+      "Preis": 4
+    },
+    "Kamm, Holz": {
+      "Gewicht": 5,
+      "Preis": 0.1
+    },
+    "Bürste": {
+      "Gewicht": 10,
+      "Preis": 0.5
+    },
+    "Nagelfeile": {
+      "Gewicht": 2,
+      "Preis": 3
+    },
+    "Schnupftuch": {
+      "Gewicht": 2,
+      "Preis": 0.1
+    },
+    "Schwamm": {
+      "Gewicht": 10,
+      "Preis": 1.2
+    },
+    "Augenschminke": {
+      "Gewicht": 1,
+      "Preis": 1
+    },
+    "Lippenrot": {
+      "Gewicht": 1,
+      "Preis": 2
+    },
+    "Puder": {
+      "Gewicht": 3,
+      "Preis": 10
+    }
+  },
+  "Kleidung und Schuhwerk": {
+    "Strümpfe": {
+      "Strümpfe, Wolle": {
+        "Gewicht": 4,
+        "Preis": 0.3,
+        "Maßgeschneidert": 3,
+	"Icon": [ "Wollstruempfe_1", "Wollstruempfe_2" ]
+      },
+      "Strümpfe, Seide": {
+        "Gewicht": 2,
+        "Preis": 12,
+        "Maßgeschneidert": 60
+      }
+    },
+    "Nachtwäsche": {
+      "Nachthemd, Leinen": {
+        "Gewicht": 15,
+        "Preis": 1,
+        "Maßgeschneidert": 8
+      },
+      "Nachthemd, Seide": {
+        "Gewicht": 5,
+        "Preis": 12,
+        "Maßgeschneidert": 80
+      }
+    },
+    "Unterwäsche": {
+      "Lendentuch": {
+        "Gewicht": 8,
+        "Preis": 0.1,
+        "Maßgeschneidert": -1
+      },
+      "Unterwäsche": {
+        "Gewicht": 40,
+        "Preis": 4,
+        "Maßgeschneidert": 100
+      },
+      "Mieder": {
+        "Gewicht": 25,
+        "Preis": 2,
+        "Maßgeschneidert": 20
+      },
+      "Unterrock": {
+        "Gewicht": 20,
+        "Preis": 1,
+        "Maßgeschneidert": 2
+      }
+    },
+    "Nachtmütze": {
+      "Gewicht": 4,
+      "Preis": 0.2,
+      "Maßgeschneidert": 2
+    },
+    "Hausmantel": {
+      "Gewicht": 30,
+      "Preis": 5,
+      "Maßgeschneidert": 100
+    },
+    "Hemden": {
+      "Hemd, Bluse, Leinen": {
+        "Gewicht": 10,
+        "Preis": 0.8,
+        "Maßgeschneidert": 8
+      },
+      "Hemd, Bluse, Wolle": {
+        "Gewicht": 15,
+        "Preis": 0.8,
+        "Maßgeschneidert": 8
+      },
+      "Hemd, Bluse, Bausch": {
+        "Gewicht": 8,
+        "Preis": 2,
+        "Maßgeschneidert": 20
+      },
+      "Hemd, Bluse, Seide": {
+        "Gewicht": 5,
+        "Preis": 12,
+        "Maßgeschneidert": 80
+      }
+    },
+    "Jacken": {
+      "Jacke, Wams, Leinen": {
+        "Gewicht": 30,
+        "Preis": 2,
+        "Maßgeschneidert": 10
+      },
+      "Jacke, Wams, Wolle": {
+        "Gewicht": 40,
+        "Preis": 2,
+        "Maßgeschneidert": 10
+      },
+      "Jacke, Wams, Leder": {
+        "Gewicht": 60,
+        "Preis": 4,
+        "Maßgeschneidert": 30
+      },
+      "Jacke, Wams, Brokat": {
+        "Gewicht": 120,
+        "Preis": 40,
+        "Maßgeschneidert": 180
+      },
+      "Teerjacke": {
+        "Gewicht": 60,
+        "Preis": 5,
+        "Maßgeschneidert": -1
+      },
+      "Fellanorak": {
+        "Gewicht": 80,
+        "Preis": 8,
+        "Maßgeschneidert": 120
+      }      
+    },
+    "Westen": {
+      "Weste, Wolle": {
+        "Gewicht": 25,
+        "Preis": 3,
+        "Maßgeschneidert": 10
+      },
+      "Weste, Leder": {
+        "Gewicht": 40,
+        "Preis": 5,
+        "Maßgeschneidert": 30
+      },
+      "Weste, Pelz": {
+        "Gewicht": 50,
+        "Preis": 5,
+        "Maßgeschneidert": 20
+      },
+      "Weste, Seide": {
+        "Gewicht": 10,
+        "Preis": 9,
+        "Maßgeschneidert": 100
+      },
+      "Weste, Brokat": {
+        "Gewicht": 30,
+        "Preis": 30,
+        "Maßgeschneidert": 150
+      }
+    },
+    "Hosen": {
+      "Beinkleider, Leinen": {
+        "Gewicht": 25,
+        "Preis": 1,
+        "Maßgeschneidert": 10
+      },
+      "Beinkleider, Wolle": {
+        "Gewicht": 30,
+        "Preis": 1,
+        "Maßgeschneidert": 10,
+	"Icon": [ "Beinkleider_Wolle_1", "Beinkleider_Wolle_2" ]
+      },
+      "Beinkleider, Bausch": {
+        "Gewicht": 15,
+        "Preis": 3,
+        "Maßgeschneidert": 30
+      },
+      "Beinkleider, Leder": {
+        "Gewicht": 50,
+        "Preis": 3,
+        "Maßgeschneidert": 40
+      },
+      "Beinkleider, Seide": {
+        "Gewicht": 10,
+        "Preis": 6,
+        "Maßgeschneidert": 120
+      },
+      "Pluderhose, Leinen": {
+        "Gewicht": 35,
+        "Preis": 2,
+        "Maßgeschneidert": 20
+      },
+      "Pluderhose, Bausch": {
+        "Gewicht": 25,
+        "Preis": 6,
+        "Maßgeschneidert": 60
+      },
+      "Pluderhose, Seide": {
+        "Gewicht": 20,
+        "Preis": 10,
+        "Maßgeschneidert": 150
+      }
+    },
+    "Röcke": {
+      "Rock, Leinen": {
+        "Gewicht": 35,
+        "Preis": 1,
+        "Maßgeschneidert": 40
+      },
+      "Rock, Wolle": {
+        "Gewicht": 45,
+        "Preis": 1,
+        "Maßgeschneidert": 40
+      },
+      "Rock, Bausch": {
+        "Gewicht": 25,
+        "Preis": 4,
+        "Maßgeschneidert": 50
+      },
+      "Rock, Leder": {
+        "Gewicht": 50,
+        "Preis": 5,
+        "Maßgeschneidert": 60
+      },
+      "Rock, Seide": {
+        "Gewicht": 15,
+        "Preis": 10,
+        "Maßgeschneidert": 70
+      }
+    },
+    "Kleider": {
+      "Kleid, Leinen": {
+        "Gewicht": 40,
+        "Preis": 1,
+        "Maßgeschneidert": 60
+      },
+      "Kleid, Wolle": {
+        "Gewicht": 50,
+        "Preis": 1,
+        "Maßgeschneidert": 60
+      },
+      "Kleid, Bausch": {
+        "Gewicht": 30,
+        "Preis": 4,
+        "Maßgeschneidert": 80
+      },
+      "Kleid, Seide": {
+        "Gewicht": 20,
+        "Preis": 30,
+        "Maßgeschneidert": 120
+      },
+      "Kleid, Leder": {
+        "Gewicht": 70,
+        "Preis": 5,
+        "Maßgeschneidert": 80
+      },
+      "Ballkleid": {
+        "Gewicht": 40,
+        "Preis": 50,
+        "Maßgeschneidert": 250
+      }
+    },
+    "Mäntel": {
+      "Wollmantel": {
+        "Gewicht": 60,
+        "Preis": 3,
+        "Maßgeschneidert": 30
+      },
+      "Pelzmantel": {
+        "Gewicht": 120,
+        "Preis": 30,
+        "Maßgeschneidert": 120
+      },
+      "Reitmantel, Leder": {
+        "Gewicht": 80,
+        "Preis": 8,
+        "Maßgeschneidert": 80
+      }
+    },
+    "Umhänge": {
+      "Kapuzenumhang": {
+        "Gewicht": 60,
+        "Preis": 4,
+        "Maßgeschneidert": 40
+      },
+      "Kutte, grobe Wolle": {
+        "Gewicht": 80,
+        "Preis": 2,
+        "Maßgeschneidert": 8
+      },
+      "Geweihtenornat": {
+        "Gewicht": -1,
+        "Preis": -1,
+        "Maßgeschneidert": 40,
+	"Icon": [ "Geweihtenornat" ]
+      },
+      "Cape": {
+        "Gewicht": 50,
+        "Preis": 2,
+        "Maßgeschneidert": 8
+      },
+      "Robe, Brokat": {
+        "Gewicht": 200,
+        "Preis": 80,
+        "Maßgeschneidert": 300,
+	"Icon": [ "Robe_Brokat" ]
+      }
+    },
+    "Kopfbedeckungen": {
+      "Wollmütze": {
+        "Gewicht": 3,
+        "Preis": 0.2,
+        "Maßgeschneidert": -1
+      },
+      "Haube, Leinen": {
+        "Gewicht": 3,
+        "Preis": 0.5,
+        "Maßgeschneidert": 5
+      },
+      "Schleier, Wolltuch": {
+        "Gewicht": 4,
+        "Preis": 0.2,
+        "Maßgeschneidert": 2
+      },
+      "Schleier, Seide": {
+        "Gewicht": 1,
+        "Preis": 8,
+        "Maßgeschneidert": 50
+      },
+      "Filzhut": {
+        "Gewicht": 4,
+        "Preis": 1,
+        "Maßgeschneidert": 8
+      },
+      "Filzhut mit Federn": {
+        "Gewicht": 10,
+        "Preis": 3,
+        "Maßgeschneidert": 20
+      },
+      "Fellmütze": {
+        "Gewicht": 30,
+        "Preis": 5,
+        "Maßgeschneidert": 50
+      },
+      "Stirnband": {
+        "Gewicht": 2,
+        "Preis": 0.5,
+        "Maßgeschneidert": 5
+      }
+    },
+    "Halstuch, Seide": {
+      "Gewicht": 2,
+      "Preis": 2,
+      "Maßgeschneidert": 10
+    },
+    "Maske, Tuch": {
+      "Gewicht": 5,
+      "Preis": 5,
+      "Maßgeschneidert": 30
+    },
+    "Maske, Leder": {
+      "Gewicht": 10,
+      "Preis": 10,
+      "Maßgeschneidert": 50
+    },
+    "Larve": {
+      "Gewicht": 2,
+      "Preis": 1,
+      "Maßgeschneidert": 8
+    },
+    "Schärpe, Seide": {
+      "Gewicht": 4,
+      "Preis": 5,
+      "Maßgeschneidert": 60
+    },
+    "Ledergürtel": {
+      "Gewicht": 6,
+      "Preis": 1,
+      "Maßgeschneidert": 6
+    },
+    "Schultergurt, Bandelier": {
+      "Gewicht": 20,
+      "Preis": 6,
+      "Maßgeschneidert": 10
+    },
+    "Handschuhe": {
+      "Lederhandschuhe": {
+        "Gewicht": 6,
+        "Preis": 3,
+        "Maßgeschneidert": 20
+      },
+      "Stulpenhandschuhe": {
+        "Gewicht": 30,
+        "Preis": 6,
+        "Maßgeschneidert": 30
+      },
+      "Wollfäustlinge": {
+        "Gewicht": 4,
+        "Preis": 0.3,
+        "Maßgeschneidert": -1
+      },
+      "Pelzfäustlinge": {
+        "Gewicht": 10,
+        "Preis": 4,
+        "Maßgeschneidert": 10
+      },
+      "Muff": {
+        "Gewicht": 30,
+        "Preis": 4,
+        "Maßgeschneidert": 20
+      }
+    },
+    "Schuhwerk": {
+      "Strohschuhe": {
+        "Gewicht": 25,
+        "Preis": 0.3,
+        "Maßgeschneidert": -1,
+	"Icon": [ "Strohschuhe" ]
+      },
+      "Holzschuhe": {
+        "Gewicht": 40,
+        "Preis": 0.4,
+        "Maßgeschneidert": 4,
+	"Icon": [ "Holzschuhe" ]
+      },
+      "Sandalen": {
+        "Gewicht": 30,
+        "Preis": 0.6,
+        "Maßgeschneidert": 2,
+	"Icon": [ "Sandalen_1", "Sandalen_2" ]
+      },
+      "Gamaschen, Leder": {
+        "Gewicht": 40,
+        "Preis": 1,
+        "Maßgeschneidert": 10
+      },
+      "Lederschuhe": {
+        "Gewicht": 40,
+        "Preis": 2,
+        "Maßgeschneidert": 10,
+	"Icon": [ "Lederschuhe_1", "Lederschuhe_2", "Lederschuhe_3" ]
+      },
+      "Spangenschuhe": {
+        "Gewicht": 40,
+        "Preis": 4,
+        "Maßgeschneidert": 20
+      },
+      "Leichte Stiefel": {
+        "Gewicht": 75,
+        "Preis": 9,
+        "Maßgeschneidert": 30
+      },
+      "Schwere Reitstiefel": {
+        "Gewicht": 100,
+        "Preis": 20,
+        "Maßgeschneidert": 50
+      },
+      "Stulpenstiefel": {
+        "Gewicht": 100,
+        "Preis": 30,
+        "Maßgeschneidert": 60
+      }
+    },
+    "Tunikas": {
+      "Tunika, Bausch": {
+        "Gewicht": 20,
+        "Preis": 2,
+        "Maßgeschneidert": 10
+      },
+      "Tunika, Leinen": {
+        "Gewicht": 30,
+        "Preis": 1,
+        "Maßgeschneidert": 6
+      },
+      "Tunika, Seide": {
+        "Gewicht": 10,
+        "Preis": 8,
+        "Maßgeschneidert": 70
+      }
+    },
+    "Burnus": {
+      "Gewicht": 50,
+      "Preis": 2,
+      "Maßgeschneidert": 20
+    }
+  },
+  "Nahrungs- und Genußmittel": {
+    "Essen": {
+      "Proviant, Tagesration": {
+        "Gewicht": 40,
+        "Preis": 3
+      },
+      "Brot": {
+        "Gewicht": 40,
+        "Preis": 0.15,
+        "Icon": [ "Brot" ]
+      },
+      "Kuchen": {
+        "Gewicht": 20,
+        "Preis": 0.2
+      },
+      "Fleisch": {
+        "Gewicht": 20,
+        "Preis": 0.3
+      },
+      "Wurst": {
+        "Gewicht": 20,
+        "Preis": 0.2
+      },
+      "Fisch": {
+        "Gewicht": 20,
+        "Preis": 0.6
+      },
+      "Efferdfrüchte": {
+        "Gewicht": 40,
+        "Preis": 0.05
+      },
+      "Käse": {
+        "Gewicht": 20,
+        "Preis": 0.15,
+        "Icon": [ "Kaese" ]
+      },
+      "Eier, 6 Stück": {
+        "Gewicht": 20,
+        "Preis": 0.09
+      },
+      "Butter": {
+        "Gewicht": 20,
+        "Preis": 0.1,
+        "Icon": [ "Butter" ]
+      },
+      "Hülsenfrüchte": {
+        "Gewicht": 20,
+        "Preis": 0.04
+      },
+      "Kohl": {
+        "Gewicht": 20,
+        "Preis": 0.03
+      },
+      "Gemüse": {
+        "Gewicht": 20,
+        "Preis": 0.1
+      },
+      "Salz": {
+        "Gewicht": 20,
+        "Preis": 1
+      },
+      "Küchenkräuter": {
+        "Gewicht": 10,
+        "Preis": 1
+      },
+      "Gewürze": {
+        "Gewicht": 10,
+        "Preis": 10
+      },
+      "Öl": {
+        "Gewicht": 20,
+        "Preis": 2
+      },
+      "Mehl": {
+        "Gewicht": 20,
+        "Preis": 0.04
+      },
+      "Honig": {
+        "Gewicht": 20,
+        "Preis": 0.8
+      },
+      "Nüsse": {
+        "Gewicht": 10,
+        "Preis": 0.2
+      },
+      "Obst": {
+        "Gewicht": 20,
+        "Preis": 0.05
+      },
+      "Naschwerk": {
+        "Gewicht": 10,
+        "Preis": 1
+      },
+      "Tee": {
+        "Gewicht": 20,
+        "Preis": 0.05
+      },
+      "Kakao": {
+        "Gewicht": 20,
+        "Preis": 8
+      }
+    },
+    "Getränke": {
+      "Alkoholisch": {
+        "Bier": {
+          "Gewicht": 40,
+          "Preis": 0.1
+        },
+        "Einfacher Landwein": {
+          "Gewicht": 40,
+          "Preis": 0.3
+        },
+        "Guter Rotwein": {
+          "Gewicht": 40,
+          "Preis": 8
+        },
+        "Einfacher Schnaps": {
+          "Gewicht": 40,
+          "Preis": 0.8
+        },
+        "Guter Branntwein": {
+          "Gewicht": 40,
+          "Preis": 10
+        },
+        "Likör": {
+          "Gewicht": 20,
+          "Preis": 1
+        }
+      }
+    },
+    "Tabakwaren": {
+      "Pfeifenkraut, Knaster": {
+        "Gewicht": 2,
+        "Preis": 0.1
+      },
+      "Zigarren, 10 Stück": {
+        "Gewicht": 8,
+        "Preis": 10,
+        "Icon": [ "Zigarren" ]
+      }
+    }
+  }
+}

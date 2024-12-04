@@ -28,6 +28,11 @@
 #import <AppKit/AppKit.h>
 #import "DSASpell.h"
 
+// for the drag n drop
+@interface DragHighlightView : NSView
+@property (nonatomic, strong) NSColor *borderColor;
+@end
+
 @interface DSACharacterWindowController : NSWindowController
 
 // Add weak UI outlets here
@@ -80,6 +85,78 @@
 @property (weak) IBOutlet NSTextField *fieldWeight;
 @property (weak) IBOutlet NSTabView *tabViewMain;
 @property (weak) IBOutlet NSImageView *imageViewPortrait;
+@property (weak) IBOutlet NSImageView *bodySlot0;
+@property (weak) IBOutlet NSImageView *bodySlot1;
+@property (weak) IBOutlet NSImageView *bodySlot2;
+@property (weak) IBOutlet NSImageView *bodySlot3;
+@property (weak) IBOutlet NSImageView *bodySlot4;
+@property (weak) IBOutlet NSImageView *bodySlot5;
+@property (weak) IBOutlet NSImageView *bodySlot6;
+@property (weak) IBOutlet NSImageView *bodySlot7;
+@property (weak) IBOutlet NSImageView *bodySlot8;
+@property (weak) IBOutlet NSImageView *bodySlot9;
+@property (weak) IBOutlet NSImageView *bodySlot10;
+@property (weak) IBOutlet NSImageView *bodySlot11;
+@property (weak) IBOutlet NSImageView *bodySlot12;
+@property (weak) IBOutlet NSImageView *bodySlot13;
+@property (weak) IBOutlet NSImageView *bodySlot14;
+@property (weak) IBOutlet NSImageView *bodySlot15;
+@property (weak) IBOutlet NSImageView *bodySlot16;
+@property (weak) IBOutlet NSImageView *bodySlot17;
+@property (weak) IBOutlet NSImageView *bodySlot18;
+@property (weak) IBOutlet NSImageView *bodySlot19;
+@property (weak) IBOutlet NSImageView *bodySlot20;
+@property (weak) IBOutlet NSImageView *bodySlot21;
+@property (weak) IBOutlet NSImageView *bodySlot22;
+@property (weak) IBOutlet NSImageView *bodySlot23;
+@property (weak) IBOutlet NSImageView *bodySlot24;
+@property (weak) IBOutlet NSImageView *bodySlot25;
+@property (weak) IBOutlet NSImageView *bodySlot26;
+@property (weak) IBOutlet NSImageView *bodySlot27;
+@property (weak) IBOutlet NSImageView *bodySlot28;
+@property (weak) IBOutlet NSImageView *bodySlot29;
+@property (weak) IBOutlet NSImageView *bodySlot30;
+@property (weak) IBOutlet NSImageView *bodySlot31;
+@property (weak) IBOutlet NSImageView *bodySlot32;
+@property (weak) IBOutlet NSImageView *bodySlot33;
+@property (weak) IBOutlet NSImageView *bodySlot34;
+@property (weak) IBOutlet NSImageView *bodySlot35;
+@property (weak) IBOutlet NSImageView *bodySlot36;
+@property (weak) IBOutlet NSImageView *inventorySlot0;
+@property (weak) IBOutlet NSImageView *inventorySlot1;
+@property (weak) IBOutlet NSImageView *inventorySlot2;
+@property (weak) IBOutlet NSImageView *inventorySlot3;
+@property (weak) IBOutlet NSImageView *inventorySlot4;
+@property (weak) IBOutlet NSImageView *inventorySlot5;
+@property (weak) IBOutlet NSImageView *inventorySlot6;
+@property (weak) IBOutlet NSImageView *inventorySlot7;
+@property (weak) IBOutlet NSImageView *inventorySlot8;
+@property (weak) IBOutlet NSImageView *inventorySlot9;
+@property (weak) IBOutlet NSImageView *inventorySlot10;
+@property (weak) IBOutlet NSImageView *inventorySlot11;
+@property (weak) IBOutlet NSImageView *inventorySlot12;
+@property (weak) IBOutlet NSImageView *inventorySlot13;
+@property (weak) IBOutlet NSImageView *inventorySlot14;
+@property (weak) IBOutlet NSImageView *inventorySlot15;
+@property (weak) IBOutlet NSImageView *inventorySlot16;
+@property (weak) IBOutlet NSImageView *inventorySlot17;
+@property (weak) IBOutlet NSImageView *inventorySlot18;
+@property (weak) IBOutlet NSImageView *inventorySlot19;
+@property (weak) IBOutlet NSImageView *inventorySlot20;
+@property (weak) IBOutlet NSImageView *inventorySlot21;
+@property (weak) IBOutlet NSImageView *inventorySlot22;
+@property (weak) IBOutlet NSImageView *inventorySlot23;
+@property (weak) IBOutlet NSImageView *inventorySlot24;
+@property (weak) IBOutlet NSImageView *inventorySlot25;
+@property (weak) IBOutlet NSImageView *inventorySlot26;
+@property (weak) IBOutlet NSImageView *inventorySlot27;
+@property (weak) IBOutlet NSImageView *inventorySlot28;
+@property (weak) IBOutlet NSImageView *inventorySlot29;
+@property (weak) IBOutlet NSImageView *inventorySlot30;
+@property (weak) IBOutlet NSImageView *inventorySlot31;
+@property (weak) IBOutlet NSImageView *inventorySlot32;
+@property (weak) IBOutlet NSImageView *imageEye;
+@property (weak) IBOutlet NSImageView *imageMouth;
 
 // For the secondary .gorm file DSACharacterLevelUp
 @property (nonatomic, strong) IBOutlet NSPanel *congratsPanel;
@@ -103,6 +180,8 @@
 // to track spells and spell names NSText field relationships to be able to change color
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSTextField *> *spellItemFieldMap;
 
+// for drag n drop
+@property (nonatomic, strong) NSMutableDictionary<NSValue *, DragHighlightView *> *highlightViews;
 
 - (IBAction)closePanel:(id)sender;
 

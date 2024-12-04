@@ -75,46 +75,6 @@
     }
 }
 
-/* 
-// we don't want the windows to pop up on startup
-- (void)makeWindowControllersForNewDocument
-{
-// Log call stack
-    void *callstack[128];
-    int frames = backtrace(callstack, 128);
-    char **strs = backtrace_symbols(callstack, frames);
-
-    NSLog(@"Call stack:");
-    for (int i = 0; i < frames; i++) {
-        NSLog(@"%s", strs[i]);
-    }
-    free(strs);
-
-
-NSLog(@"DSACharacterDocument: makeWindowControllers self: %@", self);
-  
-  if (self.windowControllersCreated)
-    {
-      NSLog(@"DSACharacterDocument: windowControllers already created");
-      return; // Don't create again
-    }
-    self.windowControllersCreated = YES;
-
-  // Characters are all some kind of subclass
-  // prevents loading the window on startup
-  NSLog(@"DSACharacterDocument makeWindowControllers called model class: %@", [self.model class]);
-  
-  if (![self.model isMemberOfClass:[DSACharacter class]])
-    {
-      DSACharacterWindowController *windowController = [[DSACharacterWindowController alloc] initWithWindowNibName:[self windowNibName]];
-      [self addWindowController:windowController];
-      
-      NSLog(@"DSACharacterDocument makeWindowControllers called, and it was DSACharacter class" );
-    }
-}
-
-*/
-
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
   // Ensure the model exists       
@@ -210,14 +170,14 @@ NSLog(@"DSACharacterDocument: makeWindowControllers self: %@", self);
 
 - (void)printDocument:(id)sender
 {
-  NSInteger pages = 2;  // standard non-magical character
+  NSInteger pages = 3;  // standard non-magical character
   if ([self.model conformsToProtocol:@protocol(DSACharacterMagic)])  // add pages for spells
     {
-      pages = 5;
+      pages = 6;
     }
   else if ([self.model isMagicalDabbler])  // add page for spells and extras
     {
-      pages = 3;
+      pages = 4;
     }
   DSACharacterPrintView *printView = [[DSACharacterPrintView alloc] initWithFrame:NSMakeRect(0, 0, PAGE_WIDTH, PAGE_HEIGHT * pages)];
   printView.model = self.model; // Fill with your model data

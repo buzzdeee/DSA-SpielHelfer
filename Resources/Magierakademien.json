@@ -1,7 +1,8 @@
 {
-  "Keine Akademie": {},
-  "Academia Armarorum Astralis Garethienses": {
+  "Akademie der Magischen Rüstung": {
     "Weltlicher Name": "Akademie der Magischen Rüstung zu Gareth",
+    "Genauer Name": "Academia Armarorum Astralis Garethienses",
+    "Ort": "Gareth",
     "Spezialgebiet": "Antimagie",
     "Ausrichtung": "weiß",
     "Akademieleiter": "Racalla von Horsen-Rabenmund",
@@ -46,8 +47,7 @@
         "Sensattacco Meisterstreich": 1,
         "Höllenpein zerreiße dich!": 1,
         "Treue Klinge, Sichrer Stand": 1,
-        "Gliederschmerzen, Nadelstich": 1,
-        "Blitz dich find": 2
+        "Gliederschmerzen, Nadelstich": 1
       },
       "Beherrschung": {
         "Band und Fessel dich umringt": -1,
@@ -69,31 +69,25 @@
         "Lachkrampf": -1,
         "Eigne Ängste quälen dich!": -1,
         "Zunge lähmen": -1,
-        "Große Verwirrung": -1,                                                                                                                                                                
+        "Große Verwirrung": -1,
         "Große Gier": -1,
-        "Zwingtanz": -1,                                                                                                                                                                
+        "Zwingtanz": -1,
         "Somnigravis Tausend Schaf": -1,
-        "Horriphobus Schreckenspein": -1                                                                                                                                                                
-      },
-      "Verwandlung von Lebewesen": {
-        "Armatrutz": 2,
-        "Arcano Psychostabilis": 2
+        "Horriphobus Schreckenspein": -1
       },
       "Antimagie": {
-        "Wider Hellsicht und Befehle": 1,
-        "Gardianum Paradei": 2,
-        "Kampfzauber stören": 2,
-        "Illusionen zerstören": 2
+        "Wider Hellsicht und Befehle": 1
       },
       "Illusion": {
-        "Ignorantia Ungesehn": 1,
-        "Widerwille Ungemach": 1
+        "Widerwille Ungemach": -1
       }
     },
-    "Haussprüche": [ "Armatrutz", "Arcano Psychostabilis", "Gardianum Paradei", "Kampfzauber stören", "Illusionen zerstören", "Ignorantia Ungesehn", "Blitz dich find" ]   
+    "Haussprüche": [ { "Armatrutz": 2, "Arcano Psychostabilis": 2, "Gardianum Paradei": 2, "Kampfzauber stören": 2, "Illusionen zerstören": 2, "Ignorantia Ungesehn": 2, "Blitz dich find": 2 } ]
   },
-  "Accademia Contramagica Kuslikiensis": {
+  "Halle der Antimagie": {
     "Weltlicher Name": "Halle der Antimagie zu Kuslik",
+    "Genauer Name": "Accademia Contramagica Kuslikiensis - Kusliker Antimagie- und Hofzauberschule zur Abwehr magischen Übels durch Hesindes Kraft, gestiftet von Sr. Majestät König Khadan I. Firdayon",
+    "Ort": "Kuslik",
     "Spezialgebiet": "Antimagie",
     "Ausrichtung": "grau",
     "Akademieleiter": "Larissa Uchakbar",
@@ -272,7 +266,864 @@
       }
       
     },
-    "Haussprüche": [ "Beherrschungen brechen", "Bewegungen stören", "Destructibo Arcanitas", "Gardianum Paradei", "Kampfzauber stören", "Illusionen zerstören", "Wider Hellsicht und Befehle", "Sensibar Wahr und Klar" ]
+    "Haussprüche": [ { "Beherrschungen brechen": 2, "Bewegungen stören": 2, "Destructibo Arcanitas": 2, "Gardianum Paradei": 2, "Kampfzauber stören": 1, "Illusionen zerstören": 2, "Wider Hellsicht und Befehle": 2, "Sensibar Wahr und Klar": 2 } ]
+  },
+  "Schule der Austreibung": {
+    "Weltlicher Name": "Schule der Austreibung zu Perricum",
+    "Genauer Name": "Kaiserlich Garethische Lehranstalt der Magie wider Geister und trans-sphärische Wesenheiten zu Perricum",
+    "Ort": "Perricum",
+    "Spezialgebiet": "Antimagie",
+    "Ausrichtung": "weiß",
+    "Akademieleiter": "Olorand von Gareth-Rothenfels",
+    "Zahl der Lehrmeister": 11,
+    "Zahl der Schüler": 45,
+    "Talente": {
+      "Kampftechniken": {
+        "Bewaffnete Kampftechniken": {
+          "Stichwaffen": -1
+        },
+        "Waffenlose Kampftechniken": {
+          "Raufen": 1
+        }
+      },
+      "Gesellschaft": {
+        "Bekehren/Überzeugen": 3,
+        "Lügen": 1,
+        "Menschenkenntnis": 2
+      },
+      "Körperliche Talente": {
+        "Körperbeherrschung": -1
+      },
+      "Natur": {
+        "Fesseln/Entfesseln": 1
+      },
+      "Wissenstalente": {
+        "Götter und Kulte": 1,
+        "Lesen/Schreiben": -1,
+        "Rechtskunde": 1,
+        "Sternkunde": -2
+      },
+      "Handwerk": {
+        "Heilkunde Krankheiten": -1,
+        "Heilkunde Seele": 4,
+        "Heilkunde Wunden": -1
+      }
+    },
+    "Zaubersprüche": {
+      "Antimagie": {
+        "Hellsicht trüben": -1,
+        "Schleier der Unwissenheit": -1
+      },
+      "Beherrschung": {
+        "Bannbaladin": 1,
+        "Böser Blick": -1,
+        "Eigne Ängste quälen dich!": -1,
+        "Erinnerung verlasse dich!": 2,
+        "Große Gier": -1,
+        "Große Verwirrung": -1,
+        "Halluzination": -1,
+        "Herr über das Tierreich": -1,
+        "Panik überkomme euch!": -1,
+        "Respondami Veritar": 1,
+        "Schwarzer Schrecken plage dich!": -1,
+        "Sanftmut": -1,
+        "Somnigravis Tausend Schaf": 1,
+        "Zauberzwang": -1,
+        "Zunge lähmen": -1,
+        "Zwingtanz": -1
+      },
+      "Beschwörung Dämonischer Mächte": {
+        "Geister beschwören": 2,
+        "Heptagon und Krötenei": 1,
+        "Krabbelnder Schrecken": -1,
+        "Krähenruf": -1,
+        "Pandaemonium": -1,
+        "Stein wandle, Totes handle!": -1
+      },
+      "Beschwörung Elementarer Kräfte": {
+        "Auge des Limbus": -1,
+        "Dschinn des Feuers eil herbei": -1,
+        "Dschinn des Wassers eil herbei": -1,
+        "Dschinn des Erzes eil herbei": -1,
+        "Dschinn der Luft eil herbei": -1,
+        "Dschinn des Humus eil herbei": -1,
+        "Dschinn des Eises eil herbei": -1,
+        "Flammenring": -1,
+        "Manifesto, Kraft der Sechse": -1,
+        "Meister der Elemente": -1,
+        "Meister minderer Geister": -1,
+        "Nihilatio Gravitas": -1,
+        "Solidrid Farbenspiel": -1,
+        "Verschwindibus": -1,
+        "Wand aus Feuer, erhebe dich": -1,
+        "Wand aus Wasser, erhebe dich": -1,
+        "Wand aus Erz, erhebe dich": -1,
+        "Wand aus Luft, erhebe dich": -1,
+        "Wand aus Humus, erhebe dich": -1,
+        "Wand aus Eis, erhebe dich": -1,
+        "Zorn der Elemente": -1
+      },
+      "Bewegung": {
+        "Hexenholz": -1
+      },
+      "Die Sieben Formeln der Zeit": {
+        "Blick in die Vergangenheit": -1
+      },
+      "Heilung": {
+        "Sumus Elixiere": -1,
+        "Ängste lindern": 2,
+        "Hexenspeichel": -1,
+        "Levthans Feuer": -1,
+        "Tiere besprechen": -1
+      },
+      "Hellsicht": {
+        "Analüs Arcanstruktur": 1,
+        "Blick durch fremde Augen": -1,
+        "Eigenschaften seid gelesen": 1,
+        "In dein Trachten...": 1,
+        "Katzenaugen": -1,
+        "Mishkharas Macht erspüren": -1,
+        "Sensibar Wahr und Klar": 1
+      },
+      "Illusion": {
+        "Harmlose Gestalt": -1,
+        "Hexenknoten": -1
+      },
+      "Kampf": {
+        "Blitz dich find": -1,
+        "Corpofrigo Kälteschock": -1,
+        "Ecliptifactus Dunkle Macht": -1,
+        "Eisenrost und grüner Span": -1,
+        "Fulminictus Donnerkeil": -1,
+        "Gliederschmerzen, Nadelstich": -1,
+        "Herzschlag ruhe, Atem stocke!": -1,
+        "Höllenpein zerreiße dich!": -1,
+        "Ignifaxius Flammenstrahl": -1,
+        "Ignisphaero Feuerball": -1,
+        "Kalt wie Stein": -1,
+        "Kulminatio Kugelblitz": -1,
+        "Plumbumbarum und Narretei": -1,
+        "Radau": -1,
+        "Saft-Kraft-Monstermacht": -1,
+        "Scharfes Auge, sichre Hand": -1,
+        "Sensattacco Meisterstreich": -1,
+        "Treue Klinge, Sichrer Stand": -1
+      },
+      "Verständigung": {
+        "Hexenblick": -1,
+        "Magischer Raub": -1,
+        "Nekropathia modernd Leich": 1,
+        "Reise zwischen den Sphähren": -1,
+        "Seelenwanderung": -1,
+        "Traumgestalt": -1
+      },
+      "Verwandlung von Lebewesen": {
+        "Arcano Psychostabilis": 1,
+        "Atemnot": -1,
+        "Druidenrache": -1,
+        "Eins mit der Natur": -1,
+        "Empathie und Sechster Sinn": 1,
+        "Feuerbann": -1,
+        "Fluch der Pestilenz": -1,
+        "Klugheit, Wissen, Intellekt": 1,
+        "Last des Alters beuge dich!": -1,
+        "Nebelleib": -1,
+        "Spinnenlauf und Krötensprung": -1,
+        "Wagemut, Entschlossenheit": 1,
+        "Weisheit der Bäume": -1
+      },
+      "Verwandlung von Unbelebtem": {
+        "Brenne, toter Stoff!": -1,
+        "Dunkelheit": -1,
+        "Hartes schmelze, Starres fließe!": -1,
+        "Kraft des Erzes": -1,
+        "Mahlstrom": -1,
+        "Weiches erstarre...": -1,
+        "Wettermeisterschaft": -1,
+        "Windhose": -1
+      }
+    },
+    "Haussprüche": [ { "Pentagramma Drudenfuß": 2, "Geister austreiben": 2, "Illusionen zerstören": 2, "Beherrschungen brechen": 2, "Verwandlungen beenden": 2, "Destructibo Arcanitas": 2, "Reversalis Revidum": 2 } ]
+  },
+  "Bannakademie": {
+    "Weltlicher Name": "Bannakademie zu Ysilia",
+    "Genauer Name": "Lehranstalt wider den magischen Lug, Trug und Falschheit, dem Wahren und Guten und dem Aufbau Ysilias verpflichtet.",
+    "Ort": "Ysilia",
+    "Spezialgebiet": "Antimagie",
+    "Ausrichtung": "grau",
+    "Akademieleiter": "Jalna Ingrimsdottir",
+    "Zahl der Lehrmeister": 8,
+    "Zahl der Schüler": 30,
+    "Talente": {
+      "Kampftechniken": {
+        "Bewaffnete Kampftechniken": {
+          "Stichwaffen": -1
+        },
+        "Waffenlose Kampftechniken": {
+          "Raufen": 1
+        }
+      },
+      "Gesellschaft": {
+        "Lügen": -5
+      },
+      "Handwerk": {
+        "Holzbearbeitung": 1,
+        "Kochen": 1,
+        "Lederarbeiten": 1,
+        "Schneidern": 1,
+        "Töpfern": 1
+      }
+    },
+    "Zaubersprüche": {
+      "Antimagie": {
+        "Invercarno Spiegeltrick": 1
+      },
+      "Beherrschung": {
+        "Eigne Ängste quälen dich!": -1,
+        "Erinnerung verlasse dich!": -1,
+        "Panik überkomme euch!": -1,
+        "Schwarzer Schrecken plage dich!": -1
+      },
+      "Beschwörung Dämonischer Mächte": {
+        "Stein wandle, Totes handle!": -1
+      },
+      "Beschwörung Elementarer Kräfte": {
+        "Auge des Limbus": -1,
+        "Dschinn des Feuers eil herbei": -1,
+        "Dschinn des Wassers eil herbei": -1,
+        "Dschinn des Erzes eil herbei": -1,
+        "Dschinn der Luft eil herbei": -1,
+        "Dschinn des Humus eil herbei": -1,
+        "Dschinn des Eises eil herbei": -1,
+        "Flammenring": -1,
+        "Manifesto, Kraft der Sechse": -1,
+        "Meister der Elemente": -1,
+        "Meister minderer Geister": -1,
+        "Nihilatio Gravitas": -1,
+        "Solidrid Farbenspiel": -1,
+        "Verschwindibus": -1,
+        "Wand aus Feuer, erhebe dich": -1,
+        "Wand aus Wasser, erhebe dich": -1,
+        "Wand aus Erz, erhebe dich": -1,
+        "Wand aus Luft, erhebe dich": -1,
+        "Wand aus Humus, erhebe dich": -1,
+        "Wand aus Eis, erhebe dich": -1,
+        "Zorn der Elemente": -1
+      },
+      "Kampf": {
+        "Herzschlag ruhe, Atem stocke!": -1,
+        "Höllenpein zerreiße dich!": -1
+      },
+      "Verwandlung von Lebewesen": {
+        "Last des Alters beuge dich!": -1
+      },
+      "Verwandlung von Unbelebtem": {
+        "Brenne, toter Stoff!": -1,
+        "Hartes schmelze, Starres fließe!": -1,
+        "Weiches erstarre...": -1
+      }
+    },
+    "Berufe": {
+      "Startwerte": {
+        "Baumeister": 3 
+      } 
+    },
+    "Haussprüche": [ { "Illusionen zerstören": 2, "Verwandlungen beenden": 2, "Beherrschungen brechen": 2, "Destructibo Arcanitas": 2, "Geister austreiben": 2, "Hellsicht trüben": 1, "Gardianum Paradei": 1, "Arcano Psychostabilis": 1, "Kampfzauber stören": 1 } ]
+  },
+  "Akademie der Herrschaft": {
+    "Weltlicher Name": "Akademie der Herrschaft zu Elenvina",
+    "Genauer Name": "Akademie der Herrschaft zu Elenvina",
+    "Ort": "Elenvina",
+    "Spezialgebiet": "Beherrschung",
+    "Ausrichtung": "weiß",
+    "Akademieleiter": "Jorgen Raul Vittelbeck",
+    "Zahl der Lehrmeister": 7,
+    "Zahl der Schüler": 35,
+    "Talente": {
+      "Körperliche Talente": {
+        "Selbstbeherrschung": 2
+      }
+    },
+    "Zaubersprüche": {
+      "Antimagie": {
+        "Beherrschungen brechen": 1,
+        "Bewegungen stören": 1,
+        "Destructibo Arcanitas": 1,
+        "Gardianum Paradei": 1,
+        "Hellsicht trüben": 1,
+        "Illusionen zerstören": 1,
+        "Invercarno Spiegeltrick": 1,
+        "Kampfzauber stören": 1,
+        "Pentagramma Drudenfuß": 1,
+        "Schleier der Unwissenheit": 1,
+        "Verständigung stören": 1,
+        "Verwandlungen beenden": 1,
+        "Wider Hellsicht und Befehle": 1
+      },
+      "Beherrschung": {
+        "Böser Blick": -1,
+        "Eigne Ängste quälen dich!": -1,
+        "Erinnerung verlasse dich!": -1,
+        "Große Gier": -1,
+        "Große Verwirrung": -1,
+        "Halluzination": -1,
+        "Herr über das Tierreich": -1,
+        "Lachkrampf": -1,
+        "Panik überkomme euch!": -1,
+        "Sanftmut": -1,
+        "Schabernack": -1,
+        "Schelmenrausch": -1,
+        "Schwarzer Schrecken plage dich!": -1,
+        "Zauberzwang": -1,
+        "Zunge lähmen": -1,
+        "Zwingtanz": -1
+      },
+      "Beschwörung Dämonischer Mächte": {
+        "Furor Blut und Sulphurdampf": -2,
+        "Geister austreiben": -2,
+        "Geister beschwören": -2,
+        "Heptagon und Krötenei": -2,
+        "Komm Kobold komm": -2,
+        "Krabbelnder Schrecken": -2,
+        "Krähenruf": -2,
+        "Kröte, Natter, Schuppenleib": -2,
+        "Mutabili Hybridil": -2,
+        "Pandaemonium": -2,
+        "Skelettarius Kryptaduft": -2,
+        "Spinne, Egel, Kriechgetier": -2,
+        "Stein wandle, Totes handle!": -2,
+        "Tlalucs Odem, siech und krank": -2,
+        "Weiße Mähn und goldner Huf": -2
+      },
+      "Die Sieben Formeln der Zeit": {
+        "Blick in die Vergangenheit": -1
+      },
+      "Beschwörung Elementarer Kräfte": {
+        "Flammenring": -1,
+        "Meister der Elemente": -1,
+        "Meister minderer Geister": -1,
+        "Verschwindibus": -1,
+        "Zorn der Elemente": -1
+      },
+      "Bewegung": {
+        "Aufgeblasen, Abgehoben": -1,
+        "Durch Marmorstein und Eisenwand": -1,
+        "Hexenholz": -1,
+        "Klickeradomms": -1,
+        "Lockruf und Feenfüße": -1,
+        "Nackedei": -1 
+      },
+      "Heilung": {
+        "Ängste lindern": -1,
+        "Hexenspeichel": -1,
+        "Lach dich gesund": -1,
+        "Levthans Feuer": -1,
+        "Sumus Elixiere": -1,
+        "Tiere besprechen": -1
+      },
+      "Hellsicht": {
+        "Blick durch fremde Augen": -1,
+        "Katzenaugen": -1,
+        "Mishkharas Macht erspüren": -1,
+        "Was verschwunden...": -1
+      },
+      "Illusion": {
+        "Blendwerk": -1,
+        "Harmlose Gestalt": -1,
+        "Hexenknoten": -1,
+        "Koboldgeschenk": -1,
+        "Schelmenmaske": -1,
+        "Seidenweich, Schuppengleich": -1
+      },
+      "Kampf": {
+        "Fulminictus Donnerkeil": 1,
+        "Herzschlag ruhe, Atem stocke!": -1,
+        "Höllenpein zerreiße dich!": -1,
+        "Ignifaxius Flammenstrahl": 1,
+        "Plumbumbarum und Narretei": 1,
+        "Radau": -1
+      },
+      "Verständigung": {
+        "Hexenblick": -1,
+        "Koboldovision": -1,
+        "Magischer Raub": -1,
+        "Reise zwischen den Sphähren": -1,
+        "Seelenwanderung": -1,
+        "Traumgestalt": -1
+      },
+      "Verwandlung von Lebewesen": {
+        "Atemnot": -1,
+        "Druidenrache": -1,
+        "Eins mit der Natur": -1,
+        "Empathie und Sechster Sinn": -1,
+        "Feuerbann": -1,
+        "Fluch der Pestilenz": -1,
+        "Last des Alters beuge dich!": -1,
+        "Langer Lulatsch - Kleiner Dotz": -1,
+        "Nebelleib": -1,
+        "Weisheit der Bäume": -1
+      },
+      "Verwandlung von Unbelebtem": {
+        "Brenne, toter Stoff!": -1,
+        "Dunkelheit": -1,
+        "Hartes schmelze, Starres fließe!": -1,
+        "Kraft des Erzes": -1,
+        "Mahlstrom": -1,
+        "Schelmenkleister": -1,
+        "Weiches erstarre...": -1,
+        "Wettermeisterschaft": -1,
+        "Windhose": -1,
+        "Zagibu-Ubigaz": -1
+      }
+    },
+    "Meditation": {
+     "Astrale Meditation": {
+       "Bonus": 3
+       },
+     "Große Meditation": {
+       "ASP Bonus": 1
+     }
+    },
+    "Haussprüche": [ { "Bannbaladin": 4, "Respondami Veritar": 2, "Sensibar Wahr und Klar": 2, "In dein Trachten...": 2, "Somnigravis Tausend Schaf": 2, "Horriphobus Schreckenspein": 1, "Band und Fessel dich umringt": 1 } ]
+  },
+  "Akademie der Geistigen Kraft": {
+    "Weltlicher Name": "Akademie der Geistigen Kraft zu Fasar",
+    "Genauer Name": "Alte und Erhabene Al-Achami-Akademie der Bruderschaft der Wissenden vom Djer Tulam zu Fasir",
+    "Ort": "Fasir",
+    "Spezialgebiet": "Beherrschung",
+    "Ausrichtung": "schwarz",
+    "Akademieleiter": "Meister Thomeg Atherion",
+    "Zahl der Lehrmeister": 13,
+    "Zahl der Schüler": 70,
+    "Talente": {
+      "Kampftechniken": {
+        "Bewaffnete Kampftechniken": {
+          "Dolche": 1,
+          "Peitsche": 1,
+          "Speere und Stäbe": 1
+        }
+      },
+      "Körperliche Talente": {
+        "Gaukeleien": 1,
+        "Körperbeherrschung": 1,
+        "Reiten": 1,
+        "Selbstbeherrschung": 1
+      },
+      "Gesellschaft": {
+        "Betören": 1,
+        "Gassenwissen": 2,
+        "Menschenkenntnis": 1,
+        "Sich Verkleiden": 1
+      },
+      "Natur": {
+        "Fährtensuchen": -1,
+        "Fallenstellen": -1,
+        "Fesseln/Entfesseln": -1,
+        "Fischen/Angeln": -1,
+        "Pflanzenkunde": -1,
+        "Orientierung": -1,
+        "Tierkunde": -1,
+        "Wettervorhersage": -1,
+        "Wildnisleben": -1
+      },
+      "Wissenstalente": {
+        "Geschichtswissen": 1,
+        "Mechanik": 2
+      },
+      "Handwerk": {
+        "Fahrzeug Lenken": -1,
+        "Kochen": -1,
+        "Schlösser Knacken": -1
+      }
+    },
+    "Zaubersprüche": {
+      "Antimagie": {
+        "Schleier der Unwissenheit": 1,
+        "Verständigung stören": -1
+      },
+      "Beherrschung": {
+        "Imperavi Animus": 1,
+        "Memorabia Falsifir": 1
+      },
+      "Beschwörung Dämonischer Mächte": {
+        "Furor Blut und Sulphurdampf": 1,
+        "Heptagon und Krötenei": 1
+      },
+      "Beschwörung Elementarer Kräfte": {
+        "Solidrid Farbenspiel": -1
+      },
+      "Bewegung": {
+        "Mit dem Wind, in Sternenhöh": -1,
+        "Über Eis und über Schnee": -1
+      },
+      "Heilung": {
+        "Klarum Purum Kräutersud": 1,
+        "Ruhe Körper, ruhe Geist": -1,
+        "Von Frost und Hunger...": -1
+      },
+      "Hellsicht": {
+        "In dein Trachten...": -1
+      },
+      "Illusion": {
+        "Widerwille Ungemach": 2
+      },
+      "Kampf": {
+        "Treue Klinge, Sichrer Stand": -1
+      },
+      "Verständigung": {
+        "Elfen, Freunde, hört den Ruf": -1,
+        "Elfenstimme, Flötenton": -1,
+        "Nekropathia modernd Leich": 1,
+        "Unitatio Geistesbund": -1
+      },
+      "Verwandlung von Lebewesen": {
+        "Muskelstärke, Körperkraft": -1,
+        "Wagemut, Entschlossenheit": -1
+      },
+      "Verwandlung von Unbelebtem": {
+        "Aeolitus Windgebraus": -1,
+        "Flim Flam Funkel": -1,
+        "Metamorpho Gletscherkalt": -1,
+        "Sturmgebrüll besänft'ge dich": -1
+      }
+    },
+    "Haussprüche": [ { "Beherrschungen brechen": 2, "Bannbaladin": 2, "Halluzination": 2, "Horriphobus Schreckenspein": 2, "Respondami Veritar": 2, "Somnigravis Tausend Schaf": 2, "Band und Fessel dich umringt": 1, "Magischer Raub": 1 }, { "Horriphobus Schreckenspein": 3, "Imperavi Animus": 3, "Beherrschungen brechen": 2, "Memorabia Falsifir": 2, "Respondami Veritar": 2, "Sensibar Wahr und Klar": 1, "Widerwille Ungemach": 1 } ]
+  },
+  "Halle der Macht": {
+    "Weltlicher Name": "Halle der Macht zu Lowangen",
+    "Genauer Name": "Akademie der Kontrolle von Mensch und Getier in der Halle zu Lowangen",
+    "Ort": "Lowangen",
+    "Spezialgebiet": "Beherrschung",
+    "Ausrichtung": "schwarz",
+    "Akademieleiter": "Oswyn Puschinske",
+    "Zahl der Lehrmeister": 9,
+    "Zahl der Schüler": 35,
+    "Talente": {
+      "Kampftechniken": {
+        "Bewaffnete Kampftechniken": {
+          "Speere und Stäbe": 1
+        }
+      },
+      "Körperliche Talente": {
+        "Körperbeherrschung": 1,
+        "Selbstbeherrschung": 1
+      },
+      "Wissenstalente": {
+        "Alchimie": -1,
+        "Lesen/Schreiben": -1,
+        "Magiekunde": -1,
+        "Sprachen Kennen": -1
+      }
+    },
+    "Zaubersprüche": {
+      "Beschwörung Dämonischer Mächte": {
+        "Furor Blut und Sulphurdampf": -1,
+        "Geister austreiben": -1,
+        "Geister beschwören": -1,
+        "Heptagon und Krötenei": -1,
+        "Komm Kobold komm": -1,
+        "Krabbelnder Schrecken": -1,
+        "Krähenruf": -1,
+        "Kröte, Natter, Schuppenleib": -1,
+        "Mutabili Hybridil": -1,
+        "Pandaemonium": -1,
+        "Skelettarius Kryptaduft": -1,
+        "Spinne, Egel, Kriechgetier": -1,
+        "Stein wandle, Totes handle!": -1,
+        "Tlalucs Odem, siech und krank": -1,
+        "Weiße Mähn und goldner Huf": -1
+      },
+      "Beschwörung Elementarer Kräfte": {
+        "Auge des Limbus": -1,
+        "Dschinn des Feuers eil herbei": -1,
+        "Dschinn des Wassers eil herbei": -1,
+        "Dschinn des Erzes eil herbei": -1,
+        "Dschinn der Luft eil herbei": -1,
+        "Dschinn des Humus eil herbei": -1,
+        "Dschinn des Eises eil herbei": -1,
+        "Flammenring": -1,
+        "Manifesto, Kraft der Sechse": -1,
+        "Meister der Elemente": -1,
+        "Meister minderer Geister": -1,
+        "Nihilatio Gravitas": -1,
+        "Solidrid Farbenspiel": -1,
+        "Verschwindibus": -1,
+        "Wand aus Feuer, erhebe dich": -1,
+        "Wand aus Wasser, erhebe dich": -1,
+        "Wand aus Erz, erhebe dich": -1,
+        "Wand aus Luft, erhebe dich": -1,
+        "Wand aus Humus, erhebe dich": -1,
+        "Wand aus Eis, erhebe dich": -1,
+        "Zorn der Elemente": -1
+      },
+      "Bewegung": {
+        "Axxeleratus Blitzgeschwind": 1,
+        "Transversalis Teleport": 1
+      },
+      "Heilung": {
+        "Balsamsalabunde": 1
+      },
+      "Hellsicht": {
+        "Analüs Arcanstruktur": -2,
+        "Odem Arcanum Senserei": -2
+      },
+      "Kampf": {
+        "Ignifaxius Flammenstrahl": 1
+      },
+      "Verwandlung von Lebewesen": {
+        "Armatrutz": 1
+      }
+    },
+    "Haussprüche": [ { "Bannbaladin": 3, "Horriphobus Schreckenspein": 3, "Respondami Veritar": 2, "Somnigravis Tausend Schaf": 2, "Band und Fessel dich umringt": 2, "Sensibar Wahr und Klar": 1 } ]
+  },
+  "Schule der Beherrschung": {
+    "Weltlicher Name": "Schule der Beherrschung zu Neersand",
+    "Genauer Name": "Magister Corollkus Schule der magischen Manipulation des menschlichen Geistes zu Neersand",
+    "Ort": "Neersand",
+    "Spezialgebiet": "Beherrschung",
+    "Ausrichtung": "grau",
+    "Akademieleiter": "Magister Corollku",
+    "Zahl der Lehrmeister": 5,
+    "Zahl der Schüler": 25,
+    "Talente": {
+      "Gesellschaft": {
+        "Menschenkenntnis": -2
+      },
+      "Handwerk": {
+        "Heilkunde Seele": -2
+      },
+      "Natur": {
+        "Pflanzenkunde": 1,
+        "Wettervorhersage": 1,
+        "Wildnisleben": 1
+      },
+      "Wissenstalente": {
+        "Lesen/Schreiben": 2,
+        "Rechnen": 2
+      }
+    },
+    "Zaubersprüche": {
+      "Antimagie": {
+        "Verständigung stören": 1
+      },
+      "Beherrschung": {
+        "Eigne Ängste quälen dich!": -1,
+        "Erinnerung verlasse dich!": -1,
+        "Panik überkomme euch!": -1
+      },
+      "Beschwörung Dämonischer Mächte": {
+        "Stein wandle, Totes handle!": -1
+      },
+      "Bewegung": {
+        "Mit dem Wind, in Sternenhöh": 1,
+        "Über Eis und über Schnee": 1
+      },
+      "Heilung": {
+        "Von Frost und Hunger...": 1
+      },
+      "Hellsicht": {
+        "In dein Trachten...": 1
+      },
+      "Kampf": {
+        "Blitz dich find": 1,
+        "Corpofrigo Kälteschock": -1,
+        "Ecliptifactus Dunkle Macht": -1,
+        "Eisenrost und grüner Span": -1,
+        "Fulminictus Donnerkeil": -1,
+        "Gliederschmerzen, Nadelstich": -1,
+        "Herzschlag ruhe, Atem stocke!": -1,
+        "Höllenpein zerreiße dich!": -1,
+        "Ignifaxius Flammenstrahl": -1,
+        "Ignisphaero Feuerball": -1,
+        "Kalt wie Stein": -1,
+        "Kulminatio Kugelblitz": -1,
+        "Plumbumbarum und Narretei": -1,
+        "Radau": -1,
+        "Saft-Kraft-Monstermacht": -1,
+        "Scharfes Auge, sichre Hand": -1,
+        "Sensattacco Meisterstreich": -1,
+        "Treue Klinge, Sichrer Stand": -1
+      },
+      "Verständigung": {
+        "Elfen, Freunde, hört den Ruf": 1,
+        "Elfenstimme, Flötenton": 1,
+        "Unitatio Geistesbund": 1
+      },
+      "Verwandlung von Lebewesen": {
+        "Last des Alters beuge dich!": -1,
+        "Muskelstärke, Körperkraft": 1,
+        "Wagemut, Entschlossenheit": 1
+      },
+      "Verwandlung von Unbelebtem": {
+        "Aeolitus Windgebraus": 1,
+        "Brenne, toter Stoff!": -1,
+        "Flim Flam Funkel": 1,
+        "Hartes schmelze, Starres fließe!": -1,
+        "Metamorpho Gletscherkalt": 1,
+        "Sturmgebrüll besänft'ge dich": 1,
+        "Weiches erstarre...": -1
+      }
+    },
+    "Haussprüche": [ { "Bannbaladin": 5, "Horriphobus Schreckenspein": 2, "Halluzination": 2, "Somnigravis Tausend Schaf": 2, "Beherrschungen brechen": 2, "Sensibar Wahr und Klar": 1 } ]
+  },
+  "Dunkle Halle der Geister": {
+    "Weltlicher Name": "Dunkle Halle der Geister zu Brabak",
+    "Genauer Name": "Konvent der verfinsterten Sonnenscheibe, Sphärenkundliches Institut und Halle der Geister zu Brabak",
+    "Ort": "Brabak",
+    "Spezialgebiet": "Beschwörung Dämonischer Mächte",
+    "Ausrichtung": "schwarz",
+    "Akademieleiter": "Demelioe Nandoniella Terbysios",
+    "Zahl der Lehrmeister": 9,
+    "Zahl der Schüler": 35,
+    "Talente": {
+      "Gesellschaft": {
+        "Bekehren/Überzeugen": -1,
+        "Betören": -1,
+        "Etikette": -1,
+	"Feilschen": -1,
+	"Gassenwissen": -1,
+	"Lehren": -1,
+	"Lügen": -1,
+	"Menschenkenntnis": -1,
+	"Schätzen": -1,
+	"Sich Verkleiden": -1
+      },
+      "Handwerk": {
+        "Heilkunde Gift": 1
+      },
+      "Natur": {
+        "Fährtensuchen": -1,
+        "Fallenstellen": -1,
+        "Fesseln/Entfesseln": -1,
+        "Fischen/Angeln": -1,
+        "Orientierung": -1,
+        "Tierkunde": -1,
+        "Wettervorhersage": -1,
+        "Wildnisleben": -1
+      },
+      "Wissenstalente": {
+        "Alchimie": 1,
+	"Alte Sprachen": 2,
+	"Geschichtswissen": 1,
+	"Götter und Kulte": 1,
+	"Magiekunde": 1,
+	"Rechnen": 1,
+	"Sternkunde": 1
+      }
+    },
+    "Berufe": {
+      "Notiz": "Startwerte sind entweder oder das andere...",
+      "Startwerte": {
+        "Anatom": 3,
+        "Apothekarius": 3
+      }
+    },
+    "Zaubersprüche": {
+      "Antimagie": {
+	"Pentagramma Drudenfuß": 1,
+        "Verständigung stören": -1
+      },
+      "Beherrschung": {
+        "Lachkrampf": -1,
+	"Schabernack": -1,
+	"Schelmenrausch": -1
+      },
+      "Beschwörung Dämonischer Mächte": {
+        "Komm Kobold komm": -1,
+        "Mutabili Hybridil": 2,
+	"Pandaemonium": 1,
+	"Stein wandle, Totes handle!": 1,
+	"Tlalucs Odem, siech und krank": 1
+      },
+      "Beschwörung Elementarer Kräfte": {
+        "Auge des Limbus": -1,
+	"Dschinn des Feuers eil herbei": -1,
+	"Dschinn des Wassers eil herbei": -1,
+	"Dschinn des Erzes eil herbei": -1,
+	"Dschinn der Luft eil herbei": -1,
+	"Dschinn des Humus eil herbei": -1,
+	"Dschinn des Eises eil herbei": -1,
+	"Flammenring": -1,
+	"Manifesto, Kraft der Sechse": -1,
+	"Meister der Elemente": -1,
+	"Meister minderer Geister": -1,
+	"Nihilatio Gravitas": -1,
+	"Solidrid Farbenspiel": -1,
+	"Verschwindibus": -1,
+	"Wand aus Feuer, erhebe dich": -1,
+	"Wand aus Wasser, erhebe dich": -1,
+	"Wand aus Erz, erhebe dich": -1,
+	"Wand aus Luft, erhebe dich": -1,
+	"Wand aus Humus, erhebe dich": -1,
+	"Wand aus Eis, erhebe dich": -1,
+	"Zorn der Elemente": -1
+      },
+      "Bewegung": {
+	"Aufgeblasen, Abgehoben": -1,
+	"Durch Marmorstein und Eisenwand": -1,
+	"Klickeradomms": -1,
+	"Lockruf und Feenfüße": -1,
+	"Mit dem Wind, in Sternenhöh": -1,
+	"Nackedei": -1,
+        "Transversalis Teleport": 2,
+	"Über Eis und über Schnee": -1
+      },
+      "Heilung": {
+	"Lach dich gesund": -1,
+	"Ruhe Körper, ruhe Geist": -1,
+	"Von Frost und Hunger...": -1
+      },
+      "Hellsicht": {
+        "Analüs Arcanstruktur": 2,
+	"In dein Trachten...": -1,
+	"Was verschwunden...": -1
+      },
+      "Illusion": {
+	"Aureolus Güldenglanz": -1,
+	"Auris Nasus Oculus": -1,
+	"Blendwerk": -1,
+	"Chamaelioni Mimikry": -1,
+	"Delicioso Gaumenschmaus": -1,
+	"Duplicatus Doppelpein": -1,
+	"Harmlose Gestalt": -1,
+	"Hexenknoten": -1,
+	"Ignorantia Ungesehn": -1,
+	"Impostoris Imagotin": -1,
+	"Koboldgeschenk": -1,
+	"Luciferi Lichtertanz": -1,
+	"Menetekel Flammenzeichen": -1,
+	"Reflectimago Spiegelschein": -1,
+	"Schelmenmaske": -1,
+	"Seidenweich, Schuppengleich": -1,
+	"Vocolimbo Hohler Klang": -1,
+	"Vogelzwitchschern, Glockenspiel": -1,
+	"Weihrauch, Rose, Wohlgeruch": -1,
+	"Widerwille Ungemach": -1
+      },
+      "Kampf": {
+	"Treue Klinge, Sichrer Stand": -1
+      },
+      "Verständigung": {
+	"Cryptographo Zauberschrift": 1,
+	"Elfen, Freunde, hört den Ruf": -1,
+	"Elfenstimme, Flötenton": -1,
+	"Koboldovision": -1,
+        "Magischer Raub": 2
+      },
+      "Verwandlung von Lebewesen": {
+	"Langer Lulatsch - Kleiner Dotz": -1
+      },
+      "Verwandlung von Unbelebtem": {
+	"Aeolitus Windgebraus": -1,
+	"Metamorpho Gletscherkalt": -1,
+        "Reversalis Revidum": 2,
+	"Schelmenkleister": -1,
+	"Sigillus Custodis Zaubersiegel": 1,
+	"Sturmgebrüll besänft'ge dich": -1,
+	"Zagibu-Ubigaz": -1
+      }
+    },
+    "Haussprüche": [ { "Geister beschwören": 3, "Skelettarius Kryptaduft": 3, "Nekropathia modernd Leich": 3, "Geister austreiben": 1, "Furor Blut und Sulphurdampf": 1, "Heptagon und Krötenei": 1, "Ecliptifactus Dunkle Macht": 1, "Unitatio Geistesbund": 1 } ],
+    "Notiz": "Alle Beschwörungen von Wesen aus 'Thargunithots' Domäne sind um 3 Punkte erleichtert, alle entspr. Beherrschungen um 1 Punkt. Adepten beginnen Ihre Laufbahn mit einem geweihten magischen Schwert. Sie müssen hierfür nur 1 permanente ASP aufwenden, jedoch keine gesonderte Probe ablegen."
   }
-
 }

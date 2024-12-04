@@ -35,6 +35,7 @@
 - (DSASpellResult *) castSpell: (DSASpell *) spell withSource: (id) source onTarget: (id) target;
 - (BOOL) levelUpSpell: (DSASpell *)spell;
 - (BOOL) canLevelUpSpell: (DSASpell *)spell;   // some characters have restrictions in leveling up spells
+- (BOOL) levelUpSpecialsWithSpells;            // YES, when special talents are spells and levelled up same way, otherwise NO
 
 @optional
 - (DSASpellResult *) meditate;

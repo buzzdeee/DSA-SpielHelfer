@@ -131,12 +131,38 @@
               tempLevelUpSpells[key] = value; // Shallow copy
             }
         }
+        
+      SEL levelUpSpecialsWithSpellsSelector = @selector(levelUpSpecialsWithSpells);
+      if ([self respondsToSelector:levelUpSpecialsWithSpellsSelector])
+        {
+          // Safely invoke the selector and store the result as a BOOL
+          BOOL shouldLevelUpSpecialsWithSpells = ((BOOL (*)(id, SEL))[self methodForSelector:levelUpSpecialsWithSpellsSelector])(self, levelUpSpecialsWithSpellsSelector);
+
+          if (shouldLevelUpSpecialsWithSpells)
+            {
+              for (id key in self.specials)
+                {
+                  id value = self.specials[key];
+
+                  // Check if the value conforms to NSCopying
+                  if ([value conformsToProtocol:@protocol(NSCopying)])
+                    {
+                      tempLevelUpSpells[key] = [value copy];
+                    }
+                  else
+                    {
+                      tempLevelUpSpells[key] = value; // Shallow copy
+                    }
+                }
+            }
+        }
       // Update the original dictionary after the loop
       @synchronized(self) {
         self.levelUpSpells = [tempLevelUpSpells mutableCopy];
       } 
     }
-    
+NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
+        
   if (!self.levelUpProfessions)
     {
       self.levelUpProfessions = [[NSMutableDictionary alloc] init];
@@ -261,15 +287,11 @@
       // we're already at the general maximum
       return NO;
     }
-//  if ([talent isMemberOfClass: [DSASpell class]]) // special case magical dabbler
-//    {
-      if ([self.maxLevelUpTalentsTriesTmp integerValue] < [[talent levelUpCost] integerValue])  // spells cost
-        {
-          return NO;
-        }
-//    }
-  NSLog(@"DSACharacterHero: canLevelUpTalent: testing %@ %@", [talent name], [[self.levelUpTalents objectForKey: [talent name]] maxUpPerLevel]);
-  
+    if ([self.maxLevelUpTalentsTriesTmp integerValue] < [[talent levelUpCost] integerValue])  // spells cost
+      {
+        return NO;
+      }
+ 
   // below test shouldn't really be necessary, because of just last test above, just return YES!!!
   if ([[[self.levelUpTalents objectForKey: [talent name]] maxUpPerLevel] integerValue] <= 0) // actually should never be < 0
     {
@@ -293,9 +315,7 @@
 
     // Calculate cumulative adventure points required to reach the current level
     int requiredPoints = [self adventurePointsForNextLevel:nextLevel] - [self adventurePointsForNextLevel:currentLevel];
-    
-    NSLog(@"DSACharacterHero: canLevelUp was called: %i", [self.adventurePoints integerValue] >= requiredPoints);
-    
+        
     return [self.adventurePoints integerValue] >= requiredPoints;
 }
 
@@ -370,7 +390,8 @@
       self.maxLevelUpVariableTries = [coder decodeObjectOfClass:[NSString class] forKey:@"maxLevelUpVariableTries"];
       self.tempDeltaLpAe = [coder decodeObjectOfClass:[NSString class] forKey:@"tempDeltaLpAe"];
       self.isLevelingUp = [coder decodeBoolForKey:@"isLevelingUp"];     
-    }  
+    }
+  NSLog(@"DECODED THE AMAZON: %@", self);
   return self;
 }
 
@@ -431,7 +452,6 @@
   return [NSNumber numberWithInteger: retVal];
 }
 
-
 - (NSNumber *) encumbrance {
   NSLog(@"DSACharacterHero: Calculation for encumbrance missing!!!");
   return [NSNumber numberWithInteger: 0];
@@ -450,9 +470,7 @@
 + (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
 {
   NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
-  
-  NSLog(@"DSACharacterHero keyPathsForValuesAffectingValueForKey: %@", key);
-  
+    
   if ([key isEqualToString:@"endurance"])
     {
       keyPaths = [NSSet setWithObjects:@"lifePoints", @"positiveTraits.KK.level", nil];

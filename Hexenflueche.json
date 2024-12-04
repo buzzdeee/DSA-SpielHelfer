@@ -1,0 +1,247 @@
+{
+  "Erlernen": {
+    "Probe": [ "KL", "IN", "CH" ],
+    "Wann": "In Hexennacht",
+    "Wo": "Auf Hexentreffen",
+    "Wenn": "Eine Lehrmeister/in anwesend ist, und ihn lehrt",
+    "Wieviel": "1 Fluch je Hexennacht",
+    "Kosten": "0xASP"
+  },
+  "Fluchtechnik": {
+    "Vertrauter überbringt Fluch": {
+      "Kosten": "1xASP",
+      "Bedingung": "Hexe muss Opfer kennen"
+    },
+    "Hexe schleudert den Fluch selbst dem Opfer entgegen": {
+      "Kosten": "2xASP",
+      "Bedingung": "bestandene Charaismaprobe notwendig, nur um Mitternacht, und Opfer muss schlafen"
+    },
+    "Hexe überträgt Fluch durch gedankliche Verbindung": {
+      "Kosten": "2xASP",
+      "Bedingung": "Hexe hat Haarlocke, Fingernagel oder einige Tropen Blut vom Opfer"
+    },
+    "Hexe verflucht Gegenstand": {
+      "Kosten": "2xASP",
+      "Bedinung": "die erste Person die den Gegenstand berührt ist dann verflucht"
+    }
+  },
+  "Permanente Flüche": {
+    "Kosten": "5xASP",
+    "Notiz": "mal eventuelle andere Kosten, i.e. im Zorn gesprochen: 5*2*ASP"
+  },
+  "Flüche": {
+    "Hexenschuß": {
+      "Lernprobe Erschwert um": 2,
+      "ASP Kosten": 9,
+      "Gegenprobe": [ "KK", "+10" ],
+      "Resultat": { 
+        "GE": -6,
+        "KK": -6
+      },
+      "Dauer": {
+        "Beenden": "Nach jeder Spielrunde legt Opfer einfache KK Probe ab, wenn sie gelingt, lässt der Schmerz etwas nach, und die Einbußen gehen um je 1 Punkt zurück",
+        "Ende": "wenn einbußen auf 0",
+        "Permanent möglich": true
+      }
+    },
+    "Mit Blindheit schlagen": {
+      "Lernprobe Erschwert um": 4,
+      "ASP Kosten": 10,
+      "Gegenprobe": [ "KK", "+10" ],
+      "Resultat": { 
+        "GE": -6,
+        "AT": -6,
+        "PA": -6,
+        "KL": -4,
+        "FK": -20
+      },
+      "Notiz": "wirkt auch auf astrales Sehen",
+      "Dauer": {
+        "Ende": "Stufe der Hexe * 2 Spielrunden",
+        "Permanent möglich": true
+      }
+    },
+    "Todesfluch": {
+      "Lernprobe Erschwert um": 6,
+      "ASP Kosten": 15,
+      "Gegenprobe": [ "KK", "+10" ],
+      "Resultat": { 
+        "LP Abzug": "1LP * Spielrunde"
+      },
+      "Dauer": {
+        "Beenden": "Je spielrunde: KK +10, KK + 9, KK + 8, ..., wenn gelingt, abgewendet...",
+        "Ende": "wenn tot, oder abgewendet",
+        "Permanent möglich": true
+      }
+    },
+    "Pech an den Hals wünschen": {
+      "Lernprobe Erschwert um": 0,
+      "ASP Kosten": 8,
+      "Gegenprobe": [ "MU", "+10" ],
+      "Resultat": { 
+        "Pech": "Jegliche Proben um 1 erschwert, incl. AT/PA/FK etc., Patzer schon bei 19"
+      },
+      "Dauer": {
+        "Beenden": "Je spielrunde: MU +10, wenn gelingt, abgewendet, 1 ist immer Erfolg",
+        "Ende": "1 Woche",
+        "Permanent möglich": true
+      }
+    },
+    "Angst vor Feuer": {
+      "Lernprobe Erschwert um": 3,
+      "ASP Kosten": 12,
+      "ASP Kosten Special": "Ingerimm geweihte oder Feuer Elementaristen 60 ASP",
+      "Gegenprobe": [ "MU", "+10" ],
+      "Resultat": { 
+        "Angst": "panische Angst vor Feuer, im Kampf gegen brennende Waffen AT halbieren"
+      },
+      "Dauer": {
+        "Ende": "Stufe der Hexe * Stunden",
+        "Permanent möglich": true
+      }
+    },
+    "Warzen sprießen": {
+      "Lernprobe Erschwert um": -2,
+      "ASP Kosten": 6,
+      "Gegenprobe": [ "CH", "+12" ],
+      "Resultat": { 
+        "CH": -3
+      },
+      "Dauer": {
+        "Ende": "1 Tag",
+        "Permanent möglich": true
+      }
+    },
+    "Zunge lähmen": {
+      "Lernprobe Erschwert um": 5,
+      "ASP Kosten": 12,
+      "Gegenprobe": [ "GE", "+10" ],
+      "Resultat": { 
+        "Zuhörer": "KL + 12",
+        "Zaubern Aufschlag": 7 
+      },
+      "Dauer": {
+        "Ende": "Stufe der Hexe * Stunden",
+        "Permanent möglich": true
+      }
+    },
+    "Ängste mehren": {
+      "Lernprobe Erschwert um": 2,
+      "ASP Kosten": 10,
+      "Gegenprobe": [ "MU", "+10" ],
+      "Resultat": { 
+        "HA": "*3",
+        "TA": "*3",
+        "RA": "*3"
+      },
+      "Dauer": {
+        "Beenden": "Nach Ablauf der Zeit, sinken werte wieder je 1 Punkt/Tag. Beim nächsten Stufenanstieg dürfen die Ängste nicht gemindert werden!",
+        "Ende": "Stufe der Hexe * Tage",
+        "Permanent möglich": true
+      }
+    },
+    "Krötenkuß": {
+      "Lernprobe Erschwert um": 6,
+      "ASP Kosten": 15,
+      "Gegenprobe": [ "CH", "+12" ],
+      "Resultat": { 
+      },
+      "Notiz": "Um Gespräch zu führen: CH  Probe des Opfers, und MU Probe der anderen Person",
+      "Dauer": {
+        "Beenden": "Täglich CH + 12 Probe des Opfers, wenns gelingt, ists abgewendet. Eine 1 gilt stets als Erfolg. Nicht mögliche bei permanenter Verfluchung, dann nur durch Kundige zu brechen!",
+        "Ende": "Bis Gegenprobe gelingt",
+        "Permanent möglich": true
+      }
+    },
+    "Beiß auf Granit": {
+      "Lernprobe Erschwert um": 4,
+      "ASP Kosten": 12,
+      "Gegenprobe": [ "KL", "+12" ],
+      "Resultat": { 
+        "Trinken": "geht noch",
+        "Essen": "nur noch dünne Suppen"
+      },
+      "Notiz": "Wenn Fluch länger als 3 Tage andauert, 1W6 LP Abzug/Nacht, und keine Regeneration von LP/ASP",
+      "Dauer": {
+        "Ende": "Stufe der Hexe * Tage",
+        "Permanent möglich": true
+      }
+    },
+    "Beute!": {
+      "Lernprobe Erschwert um": 4,
+      "ASP Kosten": 13,
+      "Gegenprobe": [ "IN", "+10" ],
+      "Resultat": { 
+        "Was": "Tiere gehen auf das Opfer ab..."
+      },
+      "Dauer": {
+        "Beenden": "Täglich IN + 10 Probe des Opfers, wenns gelingt, ists abgewendet. Eine 1 gilt stets als Erfolg. Nicht mögliche bei permanenter Verfluchung, dann nur durch Kundige zu brechen!",
+        "Ende": "Bis Gegenprobe gelingt",
+        "Permanent möglich": true
+      }
+    },
+    "Rastlos, Ruhelos": {
+      "Lernprobe Erschwert um": 8,
+      "ASP Kosten": 15,
+      "Gegenprobe": [ "IN", "+12" ],
+      "Resultat": { 
+        "Was": "Opfer findet keinen Schlaf mehr, keine nächtliche Regeneration. Nach drei Tagen sinken MU, KL, KK, GG, NG um 1 Punkt/Tag, JZ steigt um 1 Punkt/Tag"
+      },
+      "Dauer": {
+        "Beenden": "Täglich IN + 10 Probe des Opfers, wenns gelingt, ists abgewendet. Eine 1 gilt stets als Erfolg. Nicht mögliche bei permanenter Verfluchung, dann nur durch Kundige zu brechen!",
+        "Ende": "Stufe der Hexe * Tage",
+        "Permanent möglich": true
+      }
+    },
+    "Kornfäule": {
+      "Lernprobe Erschwert um": 7,
+      "ASP Kosten": 40,
+      "Gegenprobe": [ ],
+      "Resultat": { 
+        "Was": "Hexe kann Stufe der Hexe * 100 Rechtschritt Kornfeld mit Korfeule, Kartoffelfeld mit Käfern, Weinberg mit Mehltau etc. verfluchen, so das die gesamte Ernte verloren ist"
+      },
+      "Dauer": {
+        "Beenden": "Täglich IN + 10 Probe des Opfers, wenns gelingt, ists abgewendet. Eine 1 gilt stets als Erfolg. Nicht mögliche bei permanenter Verfluchung, dann nur durch Kundige zu brechen!",
+        "Ende": "prinzipiell permanent",
+        "Permanent möglich": true
+      }
+    },
+    "Hagelschlag": {
+      "Lernprobe Erschwert um": 10,
+      "ASP Kosten": 27,
+      "Gegenprobe": [ ],
+      "Resultat": { 
+        "Was": "Hexe kann Stufe der Hexe * 100 Rechtschritt Gebiet mit Hagel überziehen, wenn Wolken sind"
+      },
+      "Dauer": {
+        "Ende": "Stufe der Hexe * Spielrunden, entstandener Schaden permanent",
+        "Permanent möglich": true
+      }
+    },
+    "Viehverstümmelung": {
+      "Lernprobe Erschwert um": 6,
+      "ASP Kosten": 12,
+      "Gegenprobe": [ ],
+      "Resultat": { 
+        "Was": "Hexe bestimmt Organ eines Tieres: Bein, Kopf, oder inneres Organ, das verdorrt bis zur Unkenntlichkeit, was in vielen Fällen den Tod nach sich zieht. Sollte es überleben, regeneriert sich das Organ, was in der Regel nur bei Beinen der Fall ist..."
+      },
+      "Dauer": {
+        "Ende": "Stufe der Hexe * Tage",
+        "Permanent möglich": true
+      }
+    },
+    "Unfruchtbarkeit": {
+      "Lernprobe Erschwert um": 6,
+      "ASP Kosten": 12,
+      "Gegenprobe": [ "KK" ],
+      "Resultat": { 
+        "Was": "Opfer (auch Tier), kann sich nicht mehr fortpflanzen."
+      },
+      "Dauer": {
+        "Beenden": "Tägliche KK Probe, aber nur wenn das Opfer weiß, das es verflucht wurde (Bei Tieren nicht möglich)",
+        "Ende": "Stufe der Hexe * Tage",
+        "Permanent möglich": true
+      }
+    }
+  }
+}

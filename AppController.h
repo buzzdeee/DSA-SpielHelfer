@@ -14,12 +14,16 @@
 #import <AppKit/AppKit.h>
 
 @class DSACharacterGenerationController;
+@class DSAMapViewController;
+@class DSAEquipmentListViewController;
 
 @interface AppController : NSObject
 
 
 
 @property (strong) DSACharacterGenerationController *characterGenController;
+@property (nonatomic, strong) DSAMapViewController *mapViewController; // Retain the map view controller
+@property (nonatomic, strong) DSAEquipmentListViewController *equipmentListViewController; // Retain the equipment view controller
 @property (nonatomic, weak) IBOutlet NSMenuItem *levelUpMenuItem;
 
 

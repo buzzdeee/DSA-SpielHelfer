@@ -26,19 +26,22 @@
 #define _UTILS_H_
 
 #import <Foundation/Foundation.h>
+#import "DSASlot.h"
 
 @interface Utils : NSObject
-{
-
-}
-
-
 
 + (instancetype)sharedInstance;
+
++ (NSDictionary *) getDSAObjectInfoByName: (NSString *) name;
 
 + (NSDictionary *) parseDice: (NSString *) diceDefinition;
 + (NSDictionary *) parseConstraint: (NSString *) constraintDefinition;
 + (NSNumber *) rollDice: (NSString *) diceDefinition;
+
++ (NSDictionary *) getDSAObjectsDict;
++ (NSDictionary *) getDSAObjectInfoByName: (NSString *) name;
++ (DSASlotType)slotTypeFromString:(NSString *)slotTypeString;
+
 
 @end
 

@@ -27,7 +27,17 @@
       
     }
   },
-  "Brot- und Zuckerbäcker": {
+  "Brotbäcker": {
+    "Probe": [ "KL", "FF", "FF" ],
+    "Bonus": {
+      "Kochen":
+      {
+        "wieviel": "TaW/2",
+        "wenn": [ "backen" ]
+      }
+    }
+  },
+  "Zuckerbäcker": {
     "Probe": [ "KL", "FF", "FF" ],
     "Bonus": {
       "Kochen":
@@ -74,11 +84,33 @@
   "Bettler": {
     "Probe": [ "MU", "CH", "GE" ]
   },
-  "Bogenbauer/Armbruster": {
+  "Armbruster": {
     "Typen": [ "Jäger" ],
     "Probe": [ "KL", "FF", "KK" ]
   },
-  "Brauer/Brenner/Winzer": {
+  "Bogenbauer": {
+    "Typen": [ "Jäger" ],
+    "Probe": [ "KL", "FF", "KK" ]
+  },
+  "Brauer": {
+    "Probe": [ "KL", "FF", "KK" ],
+    "Bonus": {
+      "Zechen":
+      {
+        "wieviel": "TaW/2"
+      }
+    }
+  },
+  "Brenner": {
+    "Probe": [ "KL", "FF", "KK" ],
+    "Bonus": {
+      "Zechen":
+      {
+        "wieviel": "TaW/2"
+      }
+    }
+  },
+  "Winzer": {
     "Probe": [ "KL", "FF", "KK" ],
     "Bonus": {
       "Zechen":
@@ -144,7 +176,7 @@
       }
     }
   },
-  "Gerber/Kürschner": {
+  "Gerber": {
     "Probe": [ "KL", "FF", "KK" ],
     "Bonus": {
       "Lederarbeiten":
@@ -153,7 +185,25 @@
       }
     }
   },
-  "Gesteinskundiger/Prospektor": {
+  "Kürschner": {
+    "Probe": [ "KL", "FF", "KK" ],
+    "Bonus": {
+      "Lederarbeiten":
+      {
+        "wieviel": "TaW/2"
+      }
+    }
+  },
+  "Gesteinskundiger": {
+    "Probe": [ "KL", "FF", "KK" ],
+    "Bonus": {
+      "Wildnisleben":
+      {
+        "wieviel": "TaW/2"
+      }
+    }
+  },
+  "Prospektor": {
     "Probe": [ "KL", "FF", "KK" ],
     "Bonus": {
       "Wildnisleben":
@@ -295,7 +345,7 @@
       }
     }
   },
-  "Krämer/Händler": {
+  "Krämer": {
     "Typen": [ "Medicus" ],
     "Probe": [ "KL", "CH", "FF" ],
     "Bonus": {
@@ -309,7 +359,34 @@
      }      
     }
   },
-  "Kurtisane/Gesellschafter": {
+  "Händler": {
+    "Typen": [ "Medicus" ],
+    "Probe": [ "KL", "CH", "FF" ],
+    "Bonus": {
+      "Feilschen":
+      {
+        "wieviel": "TaW/2"
+      },
+      "Schätzen":
+      {
+        "wieviel": "TaW/2"
+     }      
+    }
+  },
+  "Kurtisane": {
+    "Probe": [ "IN", "CH", "FF" ],
+    "Bonus": {
+      "Sich Verkleiden":
+      {
+        "wieviel": "TaW/2"
+      },
+      "Betören":
+      {
+        "wieviel": "TaW/2"
+      }      
+    }
+  },
+  "Gesellschafter": {
     "Probe": [ "IN", "CH", "FF" ],
     "Bonus": {
       "Sich Verkleiden":
@@ -331,7 +408,10 @@
       }
     }
   },
-  "Plättner/Harnischmacher": {
+  "Plättner": {
+    "Probe": [ "KL", "FF", "KK" ]
+  },
+  "Harnischmacher": {
     "Probe": [ "KL", "FF", "KK" ]
   },
   "Richtschütze": {
@@ -370,7 +450,16 @@
       }
     }
   },
-  "Schuster/Sattler": {
+  "Schuster": {
+    "Probe": [ "FF", "FF", "KK" ],
+    "Bonus": {
+      "Lederarbeiten":
+      {
+        "wieviel": "TaW"
+      }
+    }
+  },
+  "Sattler": {
     "Probe": [ "FF", "FF", "KK" ],
     "Bonus": {
       "Lederarbeiten":
@@ -386,10 +475,13 @@
   "Seiler": {
     "Probe": [ "FF", "FF", "KK" ]
   },
-  "Steinmetz/Maurer": {
+  "Maurer": {
     "Probe": [ "FF", "KK", "KK" ]
   },
-  "Stellmacher/Wagner": {
+  "Steinmetz": {
+    "Probe": [ "FF", "KK", "KK" ]
+  },
+  "Stellmacher": {
     "Probe": [ "KL", "FF", "KK" ],
     "Bonus": {
       "Holzbearbeitung":
@@ -398,7 +490,16 @@
       }
     }
   },
-  "Tätowierer/Bilderstecher": {
+  "Wagner": {
+    "Probe": [ "KL", "FF", "KK" ],
+    "Bonus": {
+      "Holzbearbeitung":
+      {
+        "wieviel": "TaW/2"
+      }
+    }
+  },
+  "Tätowierer": {
     "Typen": [ "Thorwaler" ],
     "Probe": [ "IN", "CH", "FF" ],
     "Bonus": {
@@ -408,7 +509,37 @@
       }
     }
   },
-  "Tischler/Zimmermann/Schiffszimmermann": {
+  "Bilderstecher": {
+    "Typen": [ "Thorwaler" ],
+    "Probe": [ "IN", "CH", "FF" ],
+    "Bonus": {
+      "Malen/Zeichnen":
+      {
+        "wieviel": "TaW"
+      }
+    }
+  },
+  "Tischler": {
+    "Probe": [ "KL", "FF", "KK" ],
+    "Bonus": {
+      "Holzbearbeitung":
+      {
+        "wieviel": "TaW",
+        "wenn": [ "Spezialgebiet" ]
+      }
+    }
+  },
+  "Zimmermann": {
+    "Probe": [ "KL", "FF", "KK" ],
+    "Bonus": {
+      "Holzbearbeitung":
+      {
+        "wieviel": "TaW",
+        "wenn": [ "Spezialgebiet" ]
+      }
+    }
+  },
+  "Schiffszimmermann": {
     "Probe": [ "KL", "FF", "KK" ],
     "Bonus": {
       "Holzbearbeitung":
@@ -478,7 +609,39 @@
       }                  
     }
   },
-  "Feinmechanikus/Schlosser/Uhrmacher": {
+  "Feinmechanikus": {
+    "Typen": [ "Angroschpriester", "Geode", "Kämpfer", "Kavalier", "Wandergeselle" ],
+    "Probe": [ "KL", "FF", "FF" ],
+    "Bonus": {
+      "Schlösser Knacken":
+      {
+        "wieviel": [ "TaW" ]
+      }
+    },
+    "Startwertbonus": {
+      "Angroschpriester": 2,
+      "Geode": 2,
+      "Kämpfer": 2,
+      "Kavalier": 2,
+      "Wandergeselle": 2
+    }
+  "Schlosser": {
+    "Typen": [ "Angroschpriester", "Geode", "Kämpfer", "Kavalier", "Wandergeselle" ],
+    "Probe": [ "KL", "FF", "FF" ],
+    "Bonus": {
+      "Schlösser Knacken":
+      {
+        "wieviel": [ "TaW" ]
+      }
+    },
+    "Startwertbonus": {
+      "Angroschpriester": 2,
+      "Geode": 2,
+      "Kämpfer": 2,
+      "Kavalier": 2,
+      "Wandergeselle": 2
+    }
+  "Uhrmacher": {
     "Typen": [ "Angroschpriester", "Geode", "Kämpfer", "Kavalier", "Wandergeselle" ],
     "Probe": [ "KL", "FF", "FF" ],
     "Bonus": {

@@ -1,0 +1,11300 @@
+[
+  {
+    "name": "Aaleinen",
+    "x": "4540",
+    "y": 7312,
+    "type": "Dorf"
+  },
+  {
+    "name": "Abagund",
+    "x": "2260",
+    "y": 5429,
+    "type": "Dorf"
+  },
+  {
+    "name": "Abilacht",
+    "x": "2464",
+    "y": 5525,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Abszint",
+    "x": "3423",
+    "y": 2673,
+    "type": "Dorf"
+  },
+  {
+    "name": "Achazak",
+    "x": "5956",
+    "y": 3073,
+    "type": "Dorf"
+  },
+  {
+    "name": "Achterholt",
+    "x": "2522",
+    "y": 6414,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ackbar",
+    "x": "3879",
+    "y": 5604,
+    "type": "Stadt"
+  },
+  {
+    "name": "Adziz",
+    "x": "4984",
+    "y": 3635,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Aelderwald",
+    "x": "4491",
+    "y": 6962,
+    "type": "Dorf"
+  },
+  {
+    "name": "Aeslaic",
+    "x": "2800",
+    "y": 3623,
+    "type": "Dorf"
+  },
+  {
+    "name": "Afardia",
+    "x": "2610",
+    "y": 3525,
+    "type": "Dorf"
+  },
+  {
+    "name": "Agendayo",
+    "x": "2636",
+    "y": 4209,
+    "type": "Dorf"
+  },
+  {
+    "name": "Agum",
+    "x": "2849",
+    "y": 4888,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Ahrholt",
+    "x": "5831",
+    "y": 6914,
+    "type": "Dorf"
+  },
+  {
+    "name": "Aimar Novad",
+    "x": "5110",
+    "y": 3466,
+    "type": "Dorf"
+  },
+  {
+    "name": "Aimar-Gor",
+    "x": "5211",
+    "y": 4202,
+    "type": "Dorf"
+  },
+  {
+    "name": "Airûla",
+    "x": "2598",
+    "y": 3465,
+    "type": "Dorf"
+  },
+  {
+    "name": "Aiwiallsburg",
+    "x": "2387",
+    "y": 5679,
+    "type": "Dorf"
+  },
+  {
+    "name": "Aiwiallsfest",
+    "x": "2363",
+    "y": 5777,
+    "type": "Dorf"
+  },
+  {
+    "name": "Akiras",
+    "x": "2514",
+    "y": 3409,
+    "type": "Dorf"
+  },
+  {
+    "name": "Al'Ahabad",
+    "x": "4911",
+    "y": 3978,
+    "type": "Stadt"
+  },
+  {
+    "name": "Al'Anfa",
+    "x": "2517",
+    "y": 1631,
+    "type": "Metropole"
+  },
+  {
+    "name": "Al'Beroshîm",
+    "x": "4929",
+    "y": 4529,
+    "type": "Dorf"
+  },
+  {
+    "name": "Al'Ghunar",
+    "x": "5007",
+    "y": 3588,
+    "type": "Dorf"
+  },
+  {
+    "name": "Al'Keshir",
+    "x": "3417",
+    "y": 4506,
+    "type": "Dorf"
+  },
+  {
+    "name": "Al'Mancha",
+    "x": "2598",
+    "y": 1599,
+    "type": "Dorf"
+  },
+  {
+    "name": "Al'Mharim",
+    "x": "3281",
+    "y": 4405,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Al'Muktur",
+    "x": "3462",
+    "y": 4706,
+    "type": "Stadt"
+  },
+  {
+    "name": "Al'Rabat",
+    "x": "5100",
+    "y": 4117,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Al'Tamur",
+    "x": "4672",
+    "y": 3550,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ala",
+    "x": "1092",
+    "y": 7208,
+    "type": "Dorf"
+  },
+  {
+    "name": "Alabasqaryah",
+    "x": "5739",
+    "y": 3065,
+    "type": "Dorf"
+  },
+  {
+    "name": "Albenheide",
+    "x": "2878",
+    "y": 5778,
+    "type": "Dorf"
+  },
+  {
+    "name": "Albenhus",
+    "x": "3025",
+    "y": 5226,
+    "type": "Stadt"
+  },
+  {
+    "name": "Albentrutz",
+    "x": "2603",
+    "y": 5510,
+    "type": "Dorf"
+  },
+  {
+    "name": "Albesh",
+    "x": "3390",
+    "y": 4616,
+    "type": "Dorf"
+  },
+  {
+    "name": "Alborath",
+    "x": "2576",
+    "y": 4923,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Albumin",
+    "x": "2783",
+    "y": 6303,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Aldenia",
+    "x": "2261",
+    "y": 2932,
+    "type": "Stadt"
+  },
+  {
+    "name": "Alderbjerg",
+    "x": "1229",
+    "y": 7654,
+    "type": "Dorf"
+  },
+  {
+    "name": "Alderow",
+    "x": "6014",
+    "y": 7293,
+    "type": "Dorf"
+  },
+  {
+    "name": "Alderstein",
+    "x": "2456",
+    "y": 6015,
+    "type": "Dorf"
+  },
+  {
+    "name": "Aldevik",
+    "x": "450",
+    "y": 8538,
+    "type": "Dorf"
+  },
+  {
+    "name": "Aldyra",
+    "x": "2495",
+    "y": 4203,
+    "type": "Stadt"
+  },
+  {
+    "name": "Alfwalden",
+    "x": "4510",
+    "y": 7167,
+    "type": "Dorf"
+  },
+  {
+    "name": "Algûn",
+    "x": "2689",
+    "y": 3705,
+    "type": "Dorf"
+  },
+  {
+    "name": "Alnuphar",
+    "x": "5438",
+    "y": 4621,
+    "type": "Dorf"
+  },
+  {
+    "name": "Alrudh",
+    "x": "2448",
+    "y": 8890,
+    "type": "Dorf"
+  },
+  {
+    "name": "Alrurdan",
+    "x": "5754",
+    "y": 3869,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Alstfurt",
+    "x": "5813",
+    "y": 6599,
+    "type": "Dorf"
+  },
+  {
+    "name": "Alsum",
+    "x": "5632",
+    "y": 6200,
+    "type": "Dorf"
+  },
+  {
+    "name": "Alt Bergenbach",
+    "x": "4751",
+    "y": 5980,
+    "type": "Dorf"
+  },
+  {
+    "name": "Alt-Bahin",
+    "x": "2871",
+    "y": 3369,
+    "type": "Dorf"
+  },
+  {
+    "name": "Altaïa",
+    "x": "3497",
+    "y": 980,
+    "type": "Stadt"
+  },
+  {
+    "name": "Altdorf",
+    "x": "5327",
+    "y": 6635,
+    "type": "Dorf"
+  },
+  {
+    "name": "Altenfaehr",
+    "x": "1905",
+    "y": 5419,
+    "type": "Dorf"
+  },
+  {
+    "name": "Altenfurt",
+    "x": "2426",
+    "y": 4999,
+    "type": "Dorf"
+  },
+  {
+    "name": "Althagen",
+    "x": "1760",
+    "y": 6457,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Altnorden",
+    "x": "4438",
+    "y": 6762,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Altovinza",
+    "x": "2570",
+    "y": 4189,
+    "type": "Dorf"
+  },
+  {
+    "name": "Altpreim",
+    "x": "2411",
+    "y": 4866,
+    "type": "Dorf"
+  },
+  {
+    "name": "Altzoll",
+    "x": "4894",
+    "y": 5887,
+    "type": "Stadt"
+  },
+  {
+    "name": "Alveransthor",
+    "x": "4011",
+    "y": 5759,
+    "type": "Dorf"
+  },
+  {
+    "name": "Amanma Rudh",
+    "x": "1913",
+    "y": 8302,
+    "type": "Dorf"
+  },
+  {
+    "name": "Amarasch",
+    "x": "5826",
+    "y": 5435,
+    "type": "Dorf"
+  },
+  {
+    "name": "Amarash",
+    "x": "5369",
+    "y": 4128,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ambelmund",
+    "x": "2562",
+    "y": 5989,
+    "type": "Dorf"
+  },
+  {
+    "name": "Amdeggynak",
+    "x": "6017",
+    "y": 3678,
+    "type": "Dorf"
+  },
+  {
+    "name": "Amhallah",
+    "x": "2922",
+    "y": 4494,
+    "type": "Stadt"
+  },
+  {
+    "name": "Amleth",
+    "x": "3012",
+    "y": 5651,
+    "type": "Dorf"
+  },
+  {
+    "name": "Anaavi",
+    "x": "4692",
+    "y": 8760,
+    "type": "Dorf"
+  },
+  {
+    "name": "Anath",
+    "x": "2951",
+    "y": 2248,
+    "type": "Dorf"
+  },
+  {
+    "name": "Anchopal",
+    "x": "4775",
+    "y": 4178,
+    "type": "Stadt"
+  },
+  {
+    "name": "Ancillaruh",
+    "x": "5267",
+    "y": 7334,
+    "type": "Dorf"
+  },
+  {
+    "name": "Anderath",
+    "x": "4390",
+    "y": 6909,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Andergast",
+    "x": "2406",
+    "y": 6560,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Anderstein",
+    "x": "2427",
+    "y": 6864,
+    "type": "Dorf"
+  },
+  {
+    "name": "Andrafall",
+    "x": "2439",
+    "y": 6619,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Andraquell",
+    "x": "2430",
+    "y": 6691,
+    "type": "Dorf"
+  },
+  {
+    "name": "Angard",
+    "x": "2693",
+    "y": 3674,
+    "type": "Dorf"
+  },
+  {
+    "name": "Angbar",
+    "x": "3236",
+    "y": 5762,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Angbodirtal",
+    "x": "1486",
+    "y": 6957,
+    "type": "Dorf"
+  },
+  {
+    "name": "Angeroth",
+    "x": "2631",
+    "y": 3632,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ankrabad",
+    "x": "4765",
+    "y": 4521,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ankram",
+    "x": "2545",
+    "y": 3911,
+    "type": "Stadt"
+  },
+  {
+    "name": "Anpforten",
+    "x": "3179",
+    "y": 5781,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ansvell",
+    "x": "3366",
+    "y": 7310,
+    "type": "Dorf"
+  },
+  {
+    "name": "Antâva",
+    "x": "2888",
+    "y": 3405,
+    "type": "Dorf"
+  },
+  {
+    "name": "Apelenfelde",
+    "x": "5484",
+    "y": 6120,
+    "type": "Dorf"
+  },
+  {
+    "name": "Appelhof",
+    "x": "4141",
+    "y": 5921,
+    "type": "Dorf"
+  },
+  {
+    "name": "Appelquell",
+    "x": "2655",
+    "y": 5144,
+    "type": "Dorf"
+  },
+  {
+    "name": "Aram Balayan",
+    "x": "4149",
+    "y": 887,
+    "type": "Dorf"
+  },
+  {
+    "name": "Aramis",
+    "x": "2725",
+    "y": 3333,
+    "type": "Dorf"
+  },
+  {
+    "name": "Aran",
+    "x": "2528",
+    "y": 5729,
+    "type": "Dorf"
+  },
+  {
+    "name": "Arbasim",
+    "x": "3644",
+    "y": 4689,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Arborea",
+    "x": "4583",
+    "y": 3985,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ardahn",
+    "x": "1073",
+    "y": 7521,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ardismôr",
+    "x": "2592",
+    "y": 4173,
+    "type": "Dorf"
+  },
+  {
+    "name": "Arenkis",
+    "x": "2603",
+    "y": 3742,
+    "type": "Stadt"
+  },
+  {
+    "name": "Argaquell",
+    "x": "2445",
+    "y": 6190,
+    "type": "Dorf"
+  },
+  {
+    "name": "Arghütten",
+    "x": "3108",
+    "y": 5751,
+    "type": "Dorf"
+  },
+  {
+    "name": "Argund",
+    "x": "331",
+    "y": 8920,
+    "type": "Dorf"
+  },
+  {
+    "name": "Arinken",
+    "x": "2389",
+    "y": 4241,
+    "type": "Stadt"
+  },
+  {
+    "name": "Arivor",
+    "x": "2453",
+    "y": 4060,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Arkossabad",
+    "x": "4522",
+    "y": 4598,
+    "type": "Dorf"
+  },
+  {
+    "name": "Arlingen",
+    "x": "4338",
+    "y": 5967,
+    "type": "Dorf"
+  },
+  {
+    "name": "Arlinsburg",
+    "x": "6302",
+    "y": 7500,
+    "type": "Dorf"
+  },
+  {
+    "name": "Arnlan",
+    "x": "5430",
+    "y": 6710,
+    "type": "Dorf"
+  },
+  {
+    "name": "Aror",
+    "x": "2730",
+    "y": 3728,
+    "type": "Dorf"
+  },
+  {
+    "name": "Arraned",
+    "x": "2525",
+    "y": 6068,
+    "type": "Dorf"
+  },
+  {
+    "name": "Arras de Mott",
+    "x": "3480",
+    "y": 6673,
+    "type": null
+  },
+  {
+    "name": "Arryach-Mûr",
+    "x": "2416",
+    "y": 8390,
+    "type": "Dorf"
+  },
+  {
+    "name": "Arsingen",
+    "x": "3241",
+    "y": 7168,
+    "type": "Dorf"
+  },
+  {
+    "name": "Artésa",
+    "x": "3250",
+    "y": 4755,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Arvun",
+    "x": "1886",
+    "y": 5222,
+    "type": "Dorf"
+  },
+  {
+    "name": "Arÿïos",
+    "x": "1916",
+    "y": 3627,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Aryn",
+    "x": "989",
+    "y": 6729,
+    "type": "Dorf"
+  },
+  {
+    "name": "As'Far",
+    "x": "5817",
+    "y": 4331,
+    "type": "Dorf"
+  },
+  {
+    "name": "As'Khunchak",
+    "x": "5779",
+    "y": 3726,
+    "type": "Dorf"
+  },
+  {
+    "name": "Asboran",
+    "x": "4244",
+    "y": 4817,
+    "type": "Stadt"
+  },
+  {
+    "name": "Aschweiler",
+    "x": "5001",
+    "y": 5506,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ashanar",
+    "x": "4648",
+    "y": 3035,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ashoc",
+    "x": "2693",
+    "y": 3718,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ask",
+    "x": "5488",
+    "y": 8146,
+    "type": "Dorf"
+  },
+  {
+    "name": "Askja und Askjahaven",
+    "x": "1751",
+    "y": 1337,
+    "type": "Dorf"
+  },
+  {
+    "name": "Asperg",
+    "x": "3283",
+    "y": 4550,
+    "type": "Dorf"
+  },
+  {
+    "name": "Aspirg",
+    "x": "1964",
+    "y": 5894,
+    "type": "Dorf"
+  },
+  {
+    "name": "Atanwald",
+    "x": "6579",
+    "y": 9023,
+    "type": "Dorf"
+  },
+  {
+    "name": "Athyros",
+    "x": "1742",
+    "y": 3168,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Aubein",
+    "x": "3960",
+    "y": 5497,
+    "type": "Dorf"
+  },
+  {
+    "name": "Auen",
+    "x": "4290",
+    "y": 6488,
+    "type": "Stadt"
+  },
+  {
+    "name": "Auengrund",
+    "x": "5799",
+    "y": 5673,
+    "type": "Dorf"
+  },
+  {
+    "name": "Auersbrück",
+    "x": "3203",
+    "y": 6104,
+    "type": "Dorf"
+  },
+  {
+    "name": "Aumond",
+    "x": "3881",
+    "y": 7852,
+    "type": "Dorf"
+  },
+  {
+    "name": "Auplog",
+    "x": "1460",
+    "y": 7001,
+    "type": "Dorf"
+  },
+  {
+    "name": "Auriler",
+    "x": "946",
+    "y": 7662,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Aurrghrhrropp",
+    "x": "5918",
+    "y": 6921,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ausjepengurken",
+    "x": "6593",
+    "y": 8240,
+    "type": "Dorf"
+  },
+  {
+    "name": "Auweiler",
+    "x": "4416",
+    "y": 6041,
+    "type": "Dorf"
+  },
+  {
+    "name": "Avesruh",
+    "x": "3642",
+    "y": 6716,
+    "type": "Dorf"
+  },
+  {
+    "name": "Avestreu",
+    "x": "3444",
+    "y": 5546,
+    "type": "Dorf"
+  },
+  {
+    "name": "Awallakand",
+    "x": "4419",
+    "y": 4586,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Ayodôn",
+    "x": "1548",
+    "y": 3595,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ayshabad",
+    "x": "4750",
+    "y": 4656,
+    "type": "Dorf"
+  },
+  {
+    "name": "Azzln",
+    "x": "3612",
+    "y": 2367,
+    "type": "Dorf"
+  },
+  {
+    "name": "Baburin",
+    "x": "4657",
+    "y": 5113,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Bachsjepengurken",
+    "x": "6589",
+    "y": 8220,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bactrim",
+    "x": "3155",
+    "y": 4535,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bagaillon",
+    "x": "3518",
+    "y": 4770,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bagfua",
+    "x": "4339",
+    "y": 4062,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Baghtiar",
+    "x": "4303",
+    "y": 4162,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bahín",
+    "x": "2867",
+    "y": 3362,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bakir",
+    "x": "4738",
+    "y": 3671,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bakrachal",
+    "x": "4926",
+    "y": 4884,
+    "type": "Dorf"
+  },
+  {
+    "name": "Balcken",
+    "x": "4605",
+    "y": 6934,
+    "type": "Dorf"
+  },
+  {
+    "name": "Baldrom",
+    "x": "5997",
+    "y": 7086,
+    "type": "Dorf"
+  },
+  {
+    "name": "Balgerick",
+    "x": "6035",
+    "y": 7499,
+    "type": "Dorf"
+  },
+  {
+    "name": "Baliho",
+    "x": "4388",
+    "y": 6842,
+    "type": "Stadt"
+  },
+  {
+    "name": "Baliiri",
+    "x": "2598",
+    "y": 4233,
+    "type": "Dorf"
+  },
+  {
+    "name": "Balsaith",
+    "x": "4204",
+    "y": 7076,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Balträa",
+    "x": "1927",
+    "y": 3489,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bandur",
+    "x": "5033",
+    "y": 3420,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bangour",
+    "x": "3217",
+    "y": 4866,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Bangra",
+    "x": "6058",
+    "y": 7185,
+    "type": "Dorf"
+  },
+  {
+    "name": "Banje",
+    "x": "4682",
+    "y": 3631,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bara Jamin",
+    "x": "4994",
+    "y": 3885,
+    "type": "Dorf"
+  },
+  {
+    "name": "Baran",
+    "x": "4228",
+    "y": 4356,
+    "type": "Dorf"
+  },
+  {
+    "name": "Barbrück",
+    "x": "4994",
+    "y": 4629,
+    "type": "Stadt"
+  },
+  {
+    "name": "Bareckshaus",
+    "x": "3317",
+    "y": 5535,
+    "type": "Dorf"
+  },
+  {
+    "name": "Barken",
+    "x": "4206",
+    "y": 6435,
+    "type": "Dorf"
+  },
+  {
+    "name": "Barnvik",
+    "x": "260",
+    "y": 8917,
+    "type": "Dorf"
+  },
+  {
+    "name": "Barqipa",
+    "x": "4206",
+    "y": 4226,
+    "type": "Dorf"
+  },
+  {
+    "name": "Barûn",
+    "x": "2590",
+    "y": 3629,
+    "type": "Dorf"
+  },
+  {
+    "name": "Beilstatt",
+    "x": "2221",
+    "y": 6393,
+    "type": "Dorf"
+  },
+  {
+    "name": "Beilunk",
+    "x": "5357",
+    "y": 5738,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Belchenhain",
+    "x": "3896",
+    "y": 6559,
+    "type": "Dorf"
+  },
+  {
+    "name": "Beldenheim",
+    "x": "3646",
+    "y": 6590,
+    "type": "Dorf"
+  },
+  {
+    "name": "Belenis",
+    "x": "2616",
+    "y": 3475,
+    "type": "Dorf"
+  },
+  {
+    "name": "Belew",
+    "x": "4538",
+    "y": 4233,
+    "type": "Dorf"
+  },
+  {
+    "name": "Belhanka",
+    "x": "2415",
+    "y": 3768,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Belkram",
+    "x": "2434",
+    "y": 3808,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ben-Oni",
+    "x": "4399",
+    "y": 4460,
+    "type": "Dorf"
+  },
+  {
+    "name": "Benderis",
+    "x": "2657",
+    "y": 3586,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bendromthal",
+    "x": "4864",
+    "y": 6531,
+    "type": "Dorf"
+  },
+  {
+    "name": "Benivilla",
+    "x": "2398",
+    "y": 2884,
+    "type": "Stadt"
+  },
+  {
+    "name": "Beonfîrn",
+    "x": "4079",
+    "y": 7142,
+    "type": "Dorf"
+  },
+  {
+    "name": "Beonspfort",
+    "x": "4605",
+    "y": 7121,
+    "type": "Dorf"
+  },
+  {
+    "name": "Berg",
+    "x": "2748",
+    "y": 5497,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bergenhus",
+    "x": "5444",
+    "y": 6416,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bergthann",
+    "x": "4734",
+    "y": 5434,
+    "type": "Dorf"
+  },
+  {
+    "name": "Berler",
+    "x": "4202",
+    "y": 6144,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bethana",
+    "x": "2210",
+    "y": 4214,
+    "type": "Stadt"
+  },
+  {
+    "name": "Betrozak",
+    "x": "5724",
+    "y": 3219,
+    "type": "Dorf"
+  },
+  {
+    "name": "Beysal",
+    "x": "4645",
+    "y": 3753,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bilhén",
+    "x": "2316",
+    "y": 3146,
+    "type": "Dorf"
+  },
+  {
+    "name": "Binsböckel",
+    "x": "4098",
+    "y": 6134,
+    "type": "Dorf"
+  },
+  {
+    "name": "Binsborn",
+    "x": "5334",
+    "y": 6221,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Bir Sharîd",
+    "x": "4477",
+    "y": 3896,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bir-es-Soltan",
+    "x": "3882",
+    "y": 3010,
+    "type": "Dorf"
+  },
+  {
+    "name": "Birchaluk",
+    "x": "4947",
+    "y": 4194,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Birgau",
+    "x": "5975",
+    "y": 7527,
+    "type": "Dorf"
+  },
+  {
+    "name": "Birkholt",
+    "x": "6039",
+    "y": 7449,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Birselhus",
+    "x": "2806",
+    "y": 3734,
+    "type": "Dorf"
+  },
+  {
+    "name": "Birtja",
+    "x": "5848",
+    "y": 7666,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bisserlsjepengurken",
+    "x": "6626",
+    "y": 8220,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bitani",
+    "x": "3431",
+    "y": 5814,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bitterfeld",
+    "x": "3617",
+    "y": 5082,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bjaldorn",
+    "x": "6196",
+    "y": 8565,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Blaûd",
+    "x": "2765",
+    "y": 3722,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bleichsee",
+    "x": "3039",
+    "y": 5017,
+    "type": "Dorf"
+  },
+  {
+    "name": "Blitzacker",
+    "x": "2804",
+    "y": 4770,
+    "type": "Dorf"
+  },
+  {
+    "name": "Blub",
+    "x": "3916",
+    "y": 5890,
+    "type": "Dorf"
+  },
+  {
+    "name": "Blütenfeld",
+    "x": "5992",
+    "y": 7366,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bockenburg",
+    "x": "3399",
+    "y": 4662,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bockshag",
+    "x": "2120",
+    "y": 5758,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Bodon",
+    "x": "1497",
+    "y": 7067,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bohlenburg",
+    "x": "4502",
+    "y": 5995,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bomed",
+    "x": "2628",
+    "y": 4385,
+    "type": "Stadt"
+  },
+  {
+    "name": "Bonna",
+    "x": "6191",
+    "y": 8267,
+    "type": "Dorf"
+  },
+  {
+    "name": "Boral",
+    "x": "3558",
+    "y": 5117,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Boran",
+    "x": "6211",
+    "y": 3926,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Borbra",
+    "x": "4615",
+    "y": 3986,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Borech",
+    "x": "5751",
+    "y": 3916,
+    "type": "Dorf"
+  },
+  {
+    "name": "Borgards Klause",
+    "x": "3236",
+    "y": 3128,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bornstein",
+    "x": "5833",
+    "y": 7700,
+    "type": "Dorf"
+  },
+  {
+    "name": "Borobunth",
+    "x": "5338",
+    "y": 5836,
+    "type": "Dorf"
+  },
+  {
+    "name": "Boron-Kapelle",
+    "x": "3000",
+    "y": 4531,
+    "type": "Dorf"
+  },
+  {
+    "name": "Boronaya",
+    "x": "2606",
+    "y": 4307,
+    "type": "Dorf"
+  },
+  {
+    "name": "Borowein",
+    "x": "6030",
+    "y": 6190,
+    "type": "Dorf"
+  },
+  {
+    "name": "Braast",
+    "x": "3128",
+    "y": 4957,
+    "type": "Dorf"
+  },
+  {
+    "name": "Brabak",
+    "x": "1783",
+    "y": 1077,
+    "type": "Stadt"
+  },
+  {
+    "name": "Braccto",
+    "x": "2751",
+    "y": 3710,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bracker",
+    "x": "4235",
+    "y": 5967,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bragahn",
+    "x": "3353",
+    "y": 5296,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Brägenhobel",
+    "x": "4541",
+    "y": 5596,
+    "type": "Dorf"
+  },
+  {
+    "name": "Brandthusen",
+    "x": "6293",
+    "y": 8294,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Branningsgrund",
+    "x": "4116",
+    "y": 5650,
+    "type": "Dorf"
+  },
+  {
+    "name": "Brattasö",
+    "x": "1490",
+    "y": 6688,
+    "type": "Dorf"
+  },
+  {
+    "name": "Braunenklamm",
+    "x": "4539",
+    "y": 6932,
+    "type": "Dorf"
+  },
+  {
+    "name": "Braunsfurt",
+    "x": "4432",
+    "y": 7023,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Brechtenow",
+    "x": "5681",
+    "y": 8273,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bredenhag",
+    "x": "2284",
+    "y": 5678,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Breida",
+    "x": "1560",
+    "y": 6770,
+    "type": "Dorf"
+  },
+  {
+    "name": "Breitenbruck",
+    "x": "3474",
+    "y": 6280,
+    "type": "Dorf"
+  },
+  {
+    "name": "Breitenquell",
+    "x": "3438",
+    "y": 6442,
+    "type": "Dorf"
+  },
+  {
+    "name": "Brelak",
+    "x": "2705",
+    "y": 3483,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Brendhil",
+    "x": "926",
+    "y": 7383,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Brendiltal",
+    "x": "4880",
+    "y": 5341,
+    "type": "Dorf"
+  },
+  {
+    "name": "Brig-Lo",
+    "x": "2997",
+    "y": 4507,
+    "type": "Dorf"
+  },
+  {
+    "name": "Brinbaum",
+    "x": "6378",
+    "y": 7843,
+    "type": "Stadt"
+  },
+  {
+    "name": "Brindâl",
+    "x": "3004",
+    "y": 4576,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Briskengrund",
+    "x": "3944",
+    "y": 5647,
+    "type": "Dorf"
+  },
+  {
+    "name": "Brodenhof",
+    "x": "2876",
+    "y": 3508,
+    "type": "Dorf"
+  },
+  {
+    "name": "Broggen",
+    "x": "2345",
+    "y": 6664,
+    "type": "Dorf"
+  },
+  {
+    "name": "Brokscal",
+    "x": "2819",
+    "y": 2600,
+    "type": "Dorf"
+  },
+  {
+    "name": "Brothûn",
+    "x": "2624",
+    "y": 3692,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bruchsee",
+    "x": "2243",
+    "y": 4867,
+    "type": "Dorf"
+  },
+  {
+    "name": "Brucken",
+    "x": "4941",
+    "y": 3415,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Bruk",
+    "x": "5877",
+    "y": 8036,
+    "type": "Dorf"
+  },
+  {
+    "name": "Brûn",
+    "x": "2666",
+    "y": 3533,
+    "type": "Dorf"
+  },
+  {
+    "name": "Brydaborn",
+    "x": "6085",
+    "y": 8676,
+    "type": "Dorf"
+  },
+  {
+    "name": "Buchenhang",
+    "x": "2810",
+    "y": 5819,
+    "type": "Dorf"
+  },
+  {
+    "name": "Buckelfrenn",
+    "x": "2439",
+    "y": 4742,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bugenhog",
+    "x": "4256",
+    "y": 5805,
+    "type": "Dorf"
+  },
+  {
+    "name": "Buli",
+    "x": "6219",
+    "y": 3370,
+    "type": "Dorf"
+  },
+  {
+    "name": "Bullstadt",
+    "x": "5927",
+    "y": 7177,
+    "type": "Dorf"
+  },
+  {
+    "name": "Buqtah",
+    "x": "3864",
+    "y": 4286,
+    "type": "Dorf"
+  },
+  {
+    "name": "Burg Ambarnis",
+    "x": "2545",
+    "y": 2998,
+    "type": "Dorf"
+  },
+  {
+    "name": "Burg Arkenheim",
+    "x": "5508",
+    "y": 6563,
+    "type": null
+  },
+  {
+    "name": "Burg Auraleth",
+    "x": "4087",
+    "y": 6174,
+    "type": null
+  },
+  {
+    "name": "Burg Dreistein",
+    "x": "4039",
+    "y": 6447,
+    "type": "Dorf"
+  },
+  {
+    "name": "Burg Ehrenstein",
+    "x": "4845",
+    "y": 6488,
+    "type": null
+  },
+  {
+    "name": "Burg Grumbold",
+    "x": "2321",
+    "y": 5258,
+    "type": "Dorf"
+  },
+  {
+    "name": "Burg Lauben",
+    "x": "3970",
+    "y": 6335,
+    "type": "Dorf"
+  },
+  {
+    "name": "Burg Naumstein",
+    "x": "2621",
+    "y": 4290,
+    "type": null
+  },
+  {
+    "name": "Burg Niriansee",
+    "x": "2060",
+    "y": 5410,
+    "type": "Dorf"
+  },
+  {
+    "name": "Burg Osenbruck",
+    "x": "3790",
+    "y": 6042,
+    "type": null
+  },
+  {
+    "name": "Burg Rabenmund",
+    "x": "4207",
+    "y": 6192,
+    "type": null
+  },
+  {
+    "name": "Burg Rudes Schild",
+    "x": "3929",
+    "y": 5791,
+    "type": null
+  },
+  {
+    "name": "Burg Tobelstein",
+    "x": "4948",
+    "y": 6686,
+    "type": null
+  },
+  {
+    "name": "Burg Ulmenhain",
+    "x": "3705",
+    "y": 6048,
+    "type": null
+  },
+  {
+    "name": "Burg Zwingzahn",
+    "x": "4140",
+    "y": 5981,
+    "type": null
+  },
+  {
+    "name": "Butterbös",
+    "x": "3240",
+    "y": 5813,
+    "type": "Dorf"
+  },
+  {
+    "name": "Calhis",
+    "x": "1227",
+    "y": 7574,
+    "type": "Dorf"
+  },
+  {
+    "name": "Calladûn",
+    "x": "2387",
+    "y": 5531,
+    "type": "Dorf"
+  },
+  {
+    "name": "Calmir",
+    "x": "2747",
+    "y": 4974,
+    "type": "Dorf"
+  },
+  {
+    "name": "Caras",
+    "x": "3370",
+    "y": 4548,
+    "type": "Dorf"
+  },
+  {
+    "name": "Cardhavn",
+    "x": "1205",
+    "y": 7472,
+    "type": "Dorf"
+  },
+  {
+    "name": "Carhag-Lo",
+    "x": "2869",
+    "y": 4696,
+    "type": "Dorf"
+  },
+  {
+    "name": "Castarosa",
+    "x": "2409",
+    "y": 4128,
+    "type": "Dorf"
+  },
+  {
+    "name": "Castel da Rosa",
+    "x": "2633",
+    "y": 3434,
+    "type": "Dorf"
+  },
+  {
+    "name": "Cavazoab",
+    "x": "6196",
+    "y": 3902,
+    "type": "Dorf"
+  },
+  {
+    "name": "Cella sub Silva",
+    "x": "2805",
+    "y": 3761,
+    "type": "Dorf"
+  },
+  {
+    "name": "Centrano",
+    "x": "2617",
+    "y": 4176,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Chabira",
+    "x": "2493",
+    "y": 2462,
+    "type": "Dorf"
+  },
+  {
+    "name": "Chag",
+    "x": "3382",
+    "y": 2497,
+    "type": "Dorf"
+  },
+  {
+    "name": "Chaleba",
+    "x": "2686",
+    "y": 3078,
+    "type": "Dorf"
+  },
+  {
+    "name": "Chalinba",
+    "x": "2303",
+    "y": 3074,
+    "type": "Dorf"
+  },
+  {
+    "name": "Challef",
+    "x": "5041",
+    "y": 3890,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Chalukand",
+    "x": "5141",
+    "y": 4464,
+    "type": "Stadt"
+  },
+  {
+    "name": "Chandiz",
+    "x": "3053",
+    "y": 2200,
+    "type": "Dorf"
+  },
+  {
+    "name": "Charasim",
+    "x": "6319",
+    "y": 4229,
+    "type": "Dorf"
+  },
+  {
+    "name": "Charypso",
+    "x": "3346",
+    "y": 1132,
+    "type": "Stadt"
+  },
+  {
+    "name": "Chatosqua",
+    "x": "2634",
+    "y": 1801,
+    "type": "Dorf"
+  },
+  {
+    "name": "Chefe",
+    "x": "5095",
+    "y": 3917,
+    "type": "Dorf"
+  },
+  {
+    "name": "Chel'gan",
+    "x": "5137",
+    "y": 4777,
+    "type": "Dorf"
+  },
+  {
+    "name": "Chella",
+    "x": "3109",
+    "y": 4589,
+    "type": "Dorf"
+  },
+  {
+    "name": "Chetan",
+    "x": "2424",
+    "y": 4206,
+    "type": "Dorf"
+  },
+  {
+    "name": "Chetoba",
+    "x": "2581",
+    "y": 3708,
+    "type": "Stadt"
+  },
+  {
+    "name": "Chi'Khro",
+    "x": "3888",
+    "y": 2581,
+    "type": "Dorf"
+  },
+  {
+    "name": "Chôer",
+    "x": "2419",
+    "y": 4178,
+    "type": "Dorf"
+  },
+  {
+    "name": "Chombaich",
+    "x": "1924",
+    "y": 8670,
+    "type": "Dorf"
+  },
+  {
+    "name": "Chorhop",
+    "x": "2477",
+    "y": 2418,
+    "type": "Stadt"
+  },
+  {
+    "name": "Chumbiri",
+    "x": "3187",
+    "y": 3099,
+    "type": "Dorf"
+  },
+  {
+    "name": "Chutal",
+    "x": "1914",
+    "y": 976,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ciragad",
+    "x": "3684",
+    "y": 5028,
+    "type": "Dorf"
+  },
+  {
+    "name": "Clameth",
+    "x": "2394",
+    "y": 4138,
+    "type": "Stadt"
+  },
+  {
+    "name": "Climer",
+    "x": "2655",
+    "y": 3713,
+    "type": "Dorf"
+  },
+  {
+    "name": "Commra",
+    "x": "2951",
+    "y": 3587,
+    "type": "Dorf"
+  },
+  {
+    "name": "Conneach",
+    "x": "2023",
+    "y": 8707,
+    "type": "Dorf"
+  },
+  {
+    "name": "Côntris",
+    "x": "2353",
+    "y": 4157,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Cophirya",
+    "x": "2705",
+    "y": 4208,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Cor",
+    "x": "6187",
+    "y": 9258,
+    "type": "Dorf"
+  },
+  {
+    "name": "Cordori",
+    "x": "2571",
+    "y": 4203,
+    "type": "Dorf"
+  },
+  {
+    "name": "Corwick",
+    "x": "3461",
+    "y": 6542,
+    "type": "Dorf"
+  },
+  {
+    "name": "Cres",
+    "x": "3597",
+    "y": 4981,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Crux",
+    "x": "2680",
+    "y": 3518,
+    "type": "Dorf"
+  },
+  {
+    "name": "Cumrat",
+    "x": "3506",
+    "y": 4612,
+    "type": "Dorf"
+  },
+  {
+    "name": "Cuoris",
+    "x": "2547",
+    "y": 2904,
+    "type": "Stadt"
+  },
+  {
+    "name": "Daffel",
+    "x": "4423",
+    "y": 6137,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dâl",
+    "x": "2842",
+    "y": 4514,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Dâl",
+    "x": "2897",
+    "y": 3526,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dâlend",
+    "x": "2893",
+    "y": 3546,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dapsilia",
+    "x": "2564",
+    "y": 3632,
+    "type": "Dorf"
+  },
+  {
+    "name": "Darbwinkel",
+    "x": "4670",
+    "y": 6893,
+    "type": "Dorf"
+  },
+  {
+    "name": "Darja",
+    "x": "4566",
+    "y": 4335,
+    "type": "Dorf"
+  },
+  {
+    "name": "Darpadingen",
+    "x": "4500",
+    "y": 5764,
+    "type": "Dorf"
+  },
+  {
+    "name": "Darrenfurt",
+    "x": "4686",
+    "y": 5272,
+    "type": "Dorf"
+  },
+  {
+    "name": "Daspota",
+    "x": "1249",
+    "y": 7036,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dela",
+    "x": "1802",
+    "y": 5528,
+    "type": "Dorf"
+  },
+  {
+    "name": "Derbans Kate",
+    "x": "3428",
+    "y": 6323,
+    "type": "Dorf"
+  },
+  {
+    "name": "Derdingen",
+    "x": "5534",
+    "y": 6910,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dergelbruck",
+    "x": "3707",
+    "y": 6669,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dergelheim",
+    "x": "4143",
+    "y": 6103,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Dergelmund",
+    "x": "4858",
+    "y": 5460,
+    "type": "Stadt"
+  },
+  {
+    "name": "Dergelsfurt",
+    "x": "3971",
+    "y": 6239,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dergelstein",
+    "x": "3905",
+    "y": 6454,
+    "type": "Dorf"
+  },
+  {
+    "name": "Despiona",
+    "x": "2570",
+    "y": 3658,
+    "type": "Stadt"
+  },
+  {
+    "name": "Dettenhofen",
+    "x": "4532",
+    "y": 5883,
+    "type": "Dorf"
+  },
+  {
+    "name": "Devensberg",
+    "x": "4650",
+    "y": 6058,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Dhargun",
+    "x": "4286",
+    "y": 3071,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dhartaech",
+    "x": "2175",
+    "y": 8677,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dinglingen",
+    "x": "6014",
+    "y": 5941,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dinoda",
+    "x": "6250",
+    "y": 3647,
+    "type": "Dorf"
+  },
+  {
+    "name": "Djambulkand",
+    "x": "4615",
+    "y": 4318,
+    "type": "Dorf"
+  },
+  {
+    "name": "Djaset",
+    "x": "2512",
+    "y": 1098,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dobirach",
+    "x": "4305",
+    "y": 5976,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dohlenfelde",
+    "x": "2849",
+    "y": 5098,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dolmen",
+    "x": "2821",
+    "y": 3575,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dommel",
+    "x": "4408",
+    "y": 5786,
+    "type": "Dorf"
+  },
+  {
+    "name": "Domo Sarkisal",
+    "x": "2421",
+    "y": 2454,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dondaris",
+    "x": "2629",
+    "y": 3589,
+    "type": "Dorf"
+  },
+  {
+    "name": "Donfanger",
+    "x": "3301",
+    "y": 6259,
+    "type": "Dorf"
+  },
+  {
+    "name": "Donken",
+    "x": "3380",
+    "y": 5332,
+    "type": "Dorf"
+  },
+  {
+    "name": "Donnerbach",
+    "x": "4269",
+    "y": 7469,
+    "type": "Stadt"
+  },
+  {
+    "name": "Dorash",
+    "x": "2549",
+    "y": 4213,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dorf am Rande der Welt",
+    "x": "6965",
+    "y": 8438,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dorf der Swafnir-Kinder",
+    "x": "793",
+    "y": 7490,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dorf der Verdammten",
+    "x": "5188",
+    "y": 4027,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dorf der Yakosh Dey",
+    "x": "2656",
+    "y": 2435,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dorgulawend",
+    "x": "4492",
+    "y": 4713,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Dorken",
+    "x": "3328",
+    "y": 7598,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dorkum",
+    "x": "4919",
+    "y": 5499,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dorn",
+    "x": "2468",
+    "y": 6141,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dornacker",
+    "x": "6014",
+    "y": 7540,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dornblut",
+    "x": "6286",
+    "y": 7844,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dornensee",
+    "x": "4016",
+    "y": 5372,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dornenwacht",
+    "x": "2800",
+    "y": 3553,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dornstein",
+    "x": "3984",
+    "y": 6540,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dorp",
+    "x": "4262",
+    "y": 5921,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dotzen",
+    "x": "5582",
+    "y": 8082,
+    "type": "Dorf"
+  },
+  {
+    "name": "Drachenturm",
+    "x": "4819",
+    "y": 6391,
+    "type": "Dorf"
+  },
+  {
+    "name": "Drachenzwinge",
+    "x": "5477",
+    "y": 7455,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dracomira",
+    "x": "2804",
+    "y": 3463,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dragenfeld",
+    "x": "5073",
+    "y": 7183,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dragenhus",
+    "x": "3544",
+    "y": 4484,
+    "type": "Dorf"
+  },
+  {
+    "name": "Drakkarsheim",
+    "x": "725",
+    "y": 7598,
+    "type": "Dorf"
+  },
+  {
+    "name": "Drakonia",
+    "x": "4080",
+    "y": 4929,
+    "type": null
+  },
+  {
+    "name": "Drauhag",
+    "x": "6057",
+    "y": 8086,
+    "type": "Dorf"
+  },
+  {
+    "name": "Draustein",
+    "x": "2120",
+    "y": 5307,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dredinet",
+    "x": "2626",
+    "y": 3572,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dreilinden",
+    "x": "4421",
+    "y": 5801,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dreiseenbroich",
+    "x": "2436",
+    "y": 6366,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dreybircken",
+    "x": "4447",
+    "y": 6985,
+    "type": "Dorf"
+  },
+  {
+    "name": "Drift",
+    "x": "3221",
+    "y": 5241,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Drileuen",
+    "x": "5301",
+    "y": 5719,
+    "type": "Dorf"
+  },
+  {
+    "name": "Drôl",
+    "x": "2598",
+    "y": 3176,
+    "type": "Stadt"
+  },
+  {
+    "name": "Drollenpfort",
+    "x": "4528",
+    "y": 6121,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Drôlsash",
+    "x": "2627",
+    "y": 3222,
+    "type": "Dorf"
+  },
+  {
+    "name": "Drum",
+    "x": "2087",
+    "y": 3308,
+    "type": "Dorf"
+  },
+  {
+    "name": "Drunidet",
+    "x": "2595",
+    "y": 3069,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dschimbas",
+    "x": "2015",
+    "y": 2243,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dûar",
+    "x": "2779",
+    "y": 3389,
+    "type": "Dorf"
+  },
+  {
+    "name": "Duderow",
+    "x": "6099",
+    "y": 7554,
+    "type": "Dorf"
+  },
+  {
+    "name": "Duhnhus",
+    "x": "1731",
+    "y": 5488,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dujar",
+    "x": "2507",
+    "y": 2945,
+    "type": "Stadt"
+  },
+  {
+    "name": "Dunkelbach",
+    "x": "3695",
+    "y": 6587,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dunkelbrunn",
+    "x": "4800",
+    "y": 7235,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dunkelgrab",
+    "x": "2921",
+    "y": 3624,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dunkelhain",
+    "x": "3070",
+    "y": 5768,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dunkelsfarn",
+    "x": "3924",
+    "y": 6382,
+    "type": "Dorf"
+  },
+  {
+    "name": "Durân",
+    "x": "5415",
+    "y": 4980,
+    "type": "Dorf"
+  },
+  {
+    "name": "Durbosch",
+    "x": "5576",
+    "y": 5638,
+    "type": "Dorf"
+  },
+  {
+    "name": "Durndâl",
+    "x": "2767",
+    "y": 3607,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dürnkrut",
+    "x": "2763",
+    "y": 3570,
+    "type": "Dorf"
+  },
+  {
+    "name": "Duskus",
+    "x": "2817",
+    "y": 3382,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dutlindhusen",
+    "x": "6374",
+    "y": 7953,
+    "type": "Dorf"
+  },
+  {
+    "name": "Dwurinsand",
+    "x": "279",
+    "y": 9042,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ebelried",
+    "x": "5377",
+    "y": 6771,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Eberfeld",
+    "x": "2350",
+    "y": 6584,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eberfels",
+    "x": "4976",
+    "y": 6687,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ebernoth",
+    "x": "3803",
+    "y": 5309,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ebernwildern",
+    "x": "1684",
+    "y": 6126,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ebershag",
+    "x": "4194",
+    "y": 5930,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eberskoje",
+    "x": "5698",
+    "y": 8244,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ebnet",
+    "x": "4463",
+    "y": 5772,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Ebrin",
+    "x": "5896",
+    "y": 8073,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ech'Chin",
+    "x": "4844",
+    "y": 3146,
+    "type": "Dorf"
+  },
+  {
+    "name": "Echas",
+    "x": "3259",
+    "y": 2562,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eckelstor",
+    "x": "5036",
+    "y": 5887,
+    "type": "Dorf"
+  },
+  {
+    "name": "Edas",
+    "x": "3423",
+    "y": 1061,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Eddesand",
+    "x": "258",
+    "y": 8597,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eestiva",
+    "x": "6281",
+    "y": 9079,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Efferdas",
+    "x": "2356",
+    "y": 3854,
+    "type": "Stadt"
+  },
+  {
+    "name": "Efferdono",
+    "x": "2686",
+    "y": 3432,
+    "type": "Dorf"
+  },
+  {
+    "name": "Efferdûn",
+    "x": "1399",
+    "y": 6632,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Egelingsfenn",
+    "x": "2557",
+    "y": 6390,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eghistorf",
+    "x": "4330",
+    "y": 5757,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eghöje",
+    "x": "1266",
+    "y": 7962,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ehristar",
+    "x": "4858",
+    "y": 3893,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eichelkamp",
+    "x": "2461",
+    "y": 6519,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eichenau",
+    "x": "4422",
+    "y": 7075,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eichenbruch",
+    "x": "4750",
+    "y": 6419,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eichenfest",
+    "x": "2465",
+    "y": 6570,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eichhafen",
+    "x": "2296",
+    "y": 6609,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Eichmoor",
+    "x": "5103",
+    "y": 6635,
+    "type": "Dorf"
+  },
+  {
+    "name": "Einweiler",
+    "x": "6677",
+    "y": 8267,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eisenbrück",
+    "x": "2688",
+    "y": 4946,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eisenhuett",
+    "x": "3409",
+    "y": 5176,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Eisenhuett",
+    "x": "2337",
+    "y": 5135,
+    "type": "Dorf"
+  },
+  {
+    "name": "El Arrat",
+    "x": "3009",
+    "y": 2683,
+    "type": "Dorf"
+  },
+  {
+    "name": "El'Dhena",
+    "x": "4266",
+    "y": 3009,
+    "type": "Stadt"
+  },
+  {
+    "name": "El'Halem",
+    "x": "2527",
+    "y": 2857,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "El'Trutz",
+    "x": "4087",
+    "y": 4369,
+    "type": "Dorf"
+  },
+  {
+    "name": "Elabad",
+    "x": "5421",
+    "y": 4901,
+    "type": "Dorf"
+  },
+  {
+    "name": "Elburum",
+    "x": "5621",
+    "y": 4778,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Elchdorf",
+    "x": "6359",
+    "y": 7405,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eldoret",
+    "x": "2628",
+    "y": 3608,
+    "type": "Stadt"
+  },
+  {
+    "name": "Elenau",
+    "x": "6308",
+    "y": 7783,
+    "type": "Dorf"
+  },
+  {
+    "name": "Elenvina",
+    "x": "2362",
+    "y": 4915,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Elger",
+    "x": "1955",
+    "y": 6004,
+    "type": "Dorf"
+  },
+  {
+    "name": "Elissaya",
+    "x": "2632",
+    "y": 4173,
+    "type": "Dorf"
+  },
+  {
+    "name": "Elkauen",
+    "x": "6288",
+    "y": 7524,
+    "type": "Dorf"
+  },
+  {
+    "name": "Elkenacker",
+    "x": "6378",
+    "y": 7445,
+    "type": "Dorf"
+  },
+  {
+    "name": "Elkfurten",
+    "x": "6313",
+    "y": 7477,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ellerdoms Hof",
+    "x": "1786",
+    "y": 5324,
+    "type": "Dorf"
+  },
+  {
+    "name": "Elmantessa",
+    "x": "2391",
+    "y": 4228,
+    "type": "Dorf"
+  },
+  {
+    "name": "Elvurund",
+    "x": "6215",
+    "y": 9181,
+    "type": "Dorf"
+  },
+  {
+    "name": "Emerencia",
+    "x": "2433",
+    "y": 2396,
+    "type": "Dorf"
+  },
+  {
+    "name": "Emmer",
+    "x": "6157",
+    "y": 7329,
+    "type": "Dorf"
+  },
+  {
+    "name": "Endivarol",
+    "x": "3004",
+    "y": 4707,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Engasal",
+    "x": "2054",
+    "y": 6689,
+    "type": "Dorf"
+  },
+  {
+    "name": "Enqui",
+    "x": "2884",
+    "y": 8227,
+    "type": "Stadt"
+  },
+  {
+    "name": "Enskar",
+    "x": "1585",
+    "y": 8012,
+    "type": "Dorf"
+  },
+  {
+    "name": "Erbarmen",
+    "x": "6308",
+    "y": 7660,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eremitenhöhle",
+    "x": "2465",
+    "y": 3290,
+    "type": "Dorf"
+  },
+  {
+    "name": "Erkenstein",
+    "x": "3910",
+    "y": 4418,
+    "type": "Stadt"
+  },
+  {
+    "name": "Erlenbruch",
+    "x": "5868",
+    "y": 7702,
+    "type": "Dorf"
+  },
+  {
+    "name": "Erlenrode",
+    "x": "2862",
+    "y": 5768,
+    "type": "Dorf"
+  },
+  {
+    "name": "Erlenstamm",
+    "x": "4186",
+    "y": 5635,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Erlingen",
+    "x": "4856",
+    "y": 5684,
+    "type": "Dorf"
+  },
+  {
+    "name": "Erlschwerd",
+    "x": "5314",
+    "y": 6837,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ertelhein",
+    "x": "4455",
+    "y": 5776,
+    "type": "Dorf"
+  },
+  {
+    "name": "Erzweiler",
+    "x": "2864",
+    "y": 5032,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eschenfurt",
+    "x": "6058",
+    "y": 7970,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Eskilsheim",
+    "x": "991",
+    "y": 7802,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eslamsbrück",
+    "x": "5515",
+    "y": 6290,
+    "type": "Stadt"
+  },
+  {
+    "name": "Eslamsgrund",
+    "x": "3952",
+    "y": 5464,
+    "type": "Stadt"
+  },
+  {
+    "name": "Eslamshof",
+    "x": "2798",
+    "y": 3398,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eslamskesh",
+    "x": "4850",
+    "y": 5239,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eslamsroden",
+    "x": "3747",
+    "y": 6257,
+    "type": "Stadt"
+  },
+  {
+    "name": "Eslamstreu",
+    "x": "3051",
+    "y": 4637,
+    "type": "Dorf"
+  },
+  {
+    "name": "Espen",
+    "x": "4502",
+    "y": 6740,
+    "type": "Dorf"
+  },
+  {
+    "name": "Espenquell",
+    "x": "2808",
+    "y": 5822,
+    "type": "Dorf"
+  },
+  {
+    "name": "Estoria",
+    "x": "2632",
+    "y": 4345,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Eternenbruch",
+    "x": "2871",
+    "y": 3664,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eternenstein",
+    "x": "2847",
+    "y": 3692,
+    "type": "Dorf"
+  },
+  {
+    "name": "Eternenwall",
+    "x": "2900",
+    "y": 3639,
+    "type": "Dorf"
+  },
+  {
+    "name": "Faéda",
+    "x": "2711",
+    "y": 3702,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fähre über den Creval",
+    "x": "3568",
+    "y": 4983,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fährstation",
+    "x": "3665",
+    "y": 7290,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fährstation Angbodirtal",
+    "x": "1483",
+    "y": 6949,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fährstation Kronau",
+    "x": "2231",
+    "y": 5242,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fährstation Tjiolia",
+    "x": "1490",
+    "y": 6839,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fährstation Wehrheim",
+    "x": "4073",
+    "y": 6143,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fairngard",
+    "x": "2372",
+    "y": 5767,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fairnhain",
+    "x": "2276",
+    "y": 5936,
+    "type": "Dorf"
+  },
+  {
+    "name": "Falado",
+    "x": "3792",
+    "y": 5137,
+    "type": "Dorf"
+  },
+  {
+    "name": "Faldoreth",
+    "x": "2601",
+    "y": 3490,
+    "type": "Dorf"
+  },
+  {
+    "name": "Falkenanger",
+    "x": "4099",
+    "y": 5720,
+    "type": "Dorf"
+  },
+  {
+    "name": "Falkenberg",
+    "x": "5370",
+    "y": 6597,
+    "type": "Dorf"
+  },
+  {
+    "name": "Falkenstein",
+    "x": "4185",
+    "y": 5442,
+    "type": "Dorf"
+  },
+  {
+    "name": "Falkenwind",
+    "x": "3619",
+    "y": 5966,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fardis",
+    "x": "2571",
+    "y": 3673,
+    "type": "Dorf"
+  },
+  {
+    "name": "Farlorn",
+    "x": "5049",
+    "y": 9261,
+    "type": "Dorf"
+  },
+  {
+    "name": "Farsid",
+    "x": "2418",
+    "y": 4458,
+    "type": "Stadt"
+  },
+  {
+    "name": "Farukand",
+    "x": "5239",
+    "y": 4881,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Farûn",
+    "x": "2920",
+    "y": 3565,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fasar",
+    "x": "4261",
+    "y": 4548,
+    "type": "Metropole"
+  },
+  {
+    "name": "Fedoran",
+    "x": "6282",
+    "y": 8317,
+    "type": "Dorf"
+  },
+  {
+    "name": "Feenbach",
+    "x": "5807",
+    "y": 5667,
+    "type": "Dorf"
+  },
+  {
+    "name": "Feenburg",
+    "x": "4436",
+    "y": 5836,
+    "type": "Dorf"
+  },
+  {
+    "name": "Feldharsch",
+    "x": "3457",
+    "y": 6085,
+    "type": "Dorf"
+  },
+  {
+    "name": "Feldstein",
+    "x": "5333",
+    "y": 6095,
+    "type": "Dorf"
+  },
+  {
+    "name": "Felsen der klagenden Ahnen",
+    "x": "5399",
+    "y": 9372,
+    "type": null
+  },
+  {
+    "name": "Felsengrund",
+    "x": "2872",
+    "y": 3595,
+    "type": "Dorf"
+  },
+  {
+    "name": "Felsenquell",
+    "x": "4631",
+    "y": 6508,
+    "type": "Dorf"
+  },
+  {
+    "name": "Felshöhe",
+    "x": "2202",
+    "y": 4730,
+    "type": "Dorf"
+  },
+  {
+    "name": "Felsing",
+    "x": "4734",
+    "y": 6396,
+    "type": "Dorf"
+  },
+  {
+    "name": "Felsteyn",
+    "x": "1467",
+    "y": 7169,
+    "type": "Dorf"
+  },
+  {
+    "name": "Felswacht",
+    "x": "2466",
+    "y": 4647,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fennain",
+    "x": "2725",
+    "y": 3551,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fennekesh",
+    "x": "4616",
+    "y": 4402,
+    "type": "Dorf"
+  },
+  {
+    "name": "Feqabab",
+    "x": "6126",
+    "y": 4677,
+    "type": "Dorf"
+  },
+  {
+    "name": "Feracinors Hort",
+    "x": "3615",
+    "y": 6805,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ferchaba",
+    "x": "3231",
+    "y": 4467,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Ferdok",
+    "x": "3372",
+    "y": 5642,
+    "type": "Stadt"
+  },
+  {
+    "name": "Ferein",
+    "x": "1782",
+    "y": 3668,
+    "type": "Dorf"
+  },
+  {
+    "name": "Feste Culming",
+    "x": "2711",
+    "y": 4711,
+    "type": null
+  },
+  {
+    "name": "Feste Feidewald",
+    "x": "4095",
+    "y": 5809,
+    "type": null
+  },
+  {
+    "name": "Feste Hohenstein",
+    "x": "4411",
+    "y": 5738,
+    "type": null
+  },
+  {
+    "name": "Festina",
+    "x": "2606",
+    "y": 2825,
+    "type": "Dorf"
+  },
+  {
+    "name": "Festum",
+    "x": "6074",
+    "y": 7219,
+    "type": "Metropole"
+  },
+  {
+    "name": "Feuerhafen",
+    "x": "6147",
+    "y": 6419,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fiering",
+    "x": "1685",
+    "y": 5377,
+    "type": "Dorf"
+  },
+  {
+    "name": "Finsterstetten",
+    "x": "3670",
+    "y": 6774,
+    "type": "Dorf"
+  },
+  {
+    "name": "Finstertann",
+    "x": "3840",
+    "y": 6860,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fiolbar",
+    "x": "1965",
+    "y": 6124,
+    "type": "Dorf"
+  },
+  {
+    "name": "Firnaysala",
+    "x": "5710",
+    "y": 10341,
+    "type": "Dorf"
+  },
+  {
+    "name": "Firunen",
+    "x": "5929",
+    "y": 7681,
+    "type": "Stadt"
+  },
+  {
+    "name": "Firunsbrunn",
+    "x": "5779",
+    "y": 6785,
+    "type": "Dorf"
+  },
+  {
+    "name": "Firunshag",
+    "x": "4594",
+    "y": 8356,
+    "type": "Dorf"
+  },
+  {
+    "name": "Firunsrast",
+    "x": "5899",
+    "y": 6850,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fischbach",
+    "x": "5733",
+    "y": 6874,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fischerdorf",
+    "x": "4472",
+    "y": 5803,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fiskwall",
+    "x": "3080",
+    "y": 8566,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fjarnigerdorf",
+    "x": "5591",
+    "y": 10361,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fjorinswohld",
+    "x": "6397",
+    "y": 8651,
+    "type": "Dorf"
+  },
+  {
+    "name": "Flarngau",
+    "x": "2622",
+    "y": 4268,
+    "type": "Dorf"
+  },
+  {
+    "name": "Floeszern",
+    "x": "4364",
+    "y": 4518,
+    "type": "Stadt"
+  },
+  {
+    "name": "Flogglond",
+    "x": "3077",
+    "y": 4880,
+    "type": "Dorf"
+  },
+  {
+    "name": "Flussbuckel",
+    "x": "5661",
+    "y": 6357,
+    "type": "Dorf"
+  },
+  {
+    "name": "Flusswacht",
+    "x": "5747",
+    "y": 6220,
+    "type": "Dorf"
+  },
+  {
+    "name": "Flusswalde",
+    "x": "4760",
+    "y": 6342,
+    "type": "Dorf"
+  },
+  {
+    "name": "Folkertshaven",
+    "x": "2430",
+    "y": 6005,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fort Laguan",
+    "x": "5466",
+    "y": 407,
+    "type": "Dorf"
+  },
+  {
+    "name": "Foss",
+    "x": "6270",
+    "y": 9116,
+    "type": "Dorf"
+  },
+  {
+    "name": "Franfeld",
+    "x": "3794",
+    "y": 5218,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Fremmelshof",
+    "x": "3697",
+    "y": 5326,
+    "type": "Dorf"
+  },
+  {
+    "name": "Friedhof der Seeschlangen",
+    "x": "6133",
+    "y": 3378,
+    "type": null
+  },
+  {
+    "name": "Friedland",
+    "x": "3153",
+    "y": 7341,
+    "type": "Dorf"
+  },
+  {
+    "name": "Friedwang",
+    "x": "4418",
+    "y": 6206,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Frigorn",
+    "x": "4960",
+    "y": 9332,
+    "type": "Dorf"
+  },
+  {
+    "name": "Frisov",
+    "x": "4867",
+    "y": 9551,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fuchswalden",
+    "x": "2441",
+    "y": 4577,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fulni",
+    "x": "2299",
+    "y": 4061,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fünfbrunnen",
+    "x": "3211",
+    "y": 5324,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fürstenhort",
+    "x": "3081",
+    "y": 5641,
+    "type": "Dorf"
+  },
+  {
+    "name": "Fuxenstein",
+    "x": "2543",
+    "y": 4483,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gadar",
+    "x": "4547",
+    "y": 4157,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gadefold",
+    "x": "299",
+    "y": 8764,
+    "type": "Dorf"
+  },
+  {
+    "name": "Galbenburg",
+    "x": "4155",
+    "y": 6334,
+    "type": "Dorf"
+  },
+  {
+    "name": "Galebbogen",
+    "x": "3029",
+    "y": 5452,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gallestra",
+    "x": "3774",
+    "y": 5466,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gallys",
+    "x": "4458",
+    "y": 6120,
+    "type": "Stadt"
+  },
+  {
+    "name": "Ganesha",
+    "x": "2692",
+    "y": 3691,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gangriba",
+    "x": "2202",
+    "y": 1205,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gänseflucht",
+    "x": "4308",
+    "y": 5907,
+    "type": "Dorf"
+  },
+  {
+    "name": "Garbeldüne",
+    "x": "6168",
+    "y": 7277,
+    "type": "Dorf"
+  },
+  {
+    "name": "Garbeln",
+    "x": "6139",
+    "y": 7290,
+    "type": "Dorf"
+  },
+  {
+    "name": "Garben",
+    "x": "4134",
+    "y": 7434,
+    "type": "Dorf"
+  },
+  {
+    "name": "Garén",
+    "x": "2203",
+    "y": 3476,
+    "type": "Stadt"
+  },
+  {
+    "name": "Gareth",
+    "x": "3996",
+    "y": 5729,
+    "type": "Metropole"
+  },
+  {
+    "name": "Gartangen",
+    "x": "6419",
+    "y": 7992,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gartimpen",
+    "x": "5835",
+    "y": 7777,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gaschenk",
+    "x": "3313",
+    "y": 5880,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gashok",
+    "x": "3742",
+    "y": 7409,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Gassel",
+    "x": "4159",
+    "y": 6055,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gaulsfurt",
+    "x": "4736",
+    "y": 5377,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gebein",
+    "x": "2638",
+    "y": 3660,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Geestwindskoje",
+    "x": "5983",
+    "y": 7059,
+    "type": "Dorf"
+  },
+  {
+    "name": "Geheimlager des Horasiats",
+    "x": "3470",
+    "y": 8999,
+    "type": "Dorf"
+  },
+  {
+    "name": "Geierschrei",
+    "x": "2977",
+    "y": 4865,
+    "type": "Dorf"
+  },
+  {
+    "name": "Geisterstadt",
+    "x": "3379",
+    "y": 7938,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gemharsbusch",
+    "x": "2319",
+    "y": 5660,
+    "type": "Dorf"
+  },
+  {
+    "name": "Geran",
+    "x": "5831",
+    "y": 3546,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gerasim",
+    "x": "4782",
+    "y": 8331,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Gerbaldsruh",
+    "x": "3858",
+    "y": 5757,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gerbalgan",
+    "x": "6230",
+    "y": 4749,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gerbental",
+    "x": "4564",
+    "y": 5306,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gergaltôr",
+    "x": "2513",
+    "y": 4528,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gerlara",
+    "x": "5633",
+    "y": 7199,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gernebruch",
+    "x": "2943",
+    "y": 5401,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gerrun",
+    "x": "3333",
+    "y": 5418,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gh'Orrgelmur",
+    "x": "2688",
+    "y": 7652,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Ghrú",
+    "x": "4977",
+    "y": 3575,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ghunash",
+    "x": "3163",
+    "y": 2100,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gildern",
+    "x": "5002",
+    "y": 6658,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gilfron",
+    "x": "2359",
+    "y": 4144,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gilgins",
+    "x": "2182",
+    "y": 5277,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ginsterfeld",
+    "x": "4024",
+    "y": 5798,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ginsterhag",
+    "x": "4094",
+    "y": 5663,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gipflak",
+    "x": "6503",
+    "y": 5122,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gjalskerfjorden",
+    "x": "1933",
+    "y": 8829,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gjalskermund",
+    "x": "1972",
+    "y": 8949,
+    "type": "Dorf"
+  },
+  {
+    "name": "Glauten",
+    "x": "5639",
+    "y": 7202,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gluckenhang",
+    "x": "4605",
+    "y": 5520,
+    "type": "Dorf"
+  },
+  {
+    "name": "Glückeskind",
+    "x": "2592",
+    "y": 4685,
+    "type": "Dorf"
+  },
+  {
+    "name": "Glutodem",
+    "x": "4733",
+    "y": 6336,
+    "type": "Dorf"
+  },
+  {
+    "name": "Glydwick",
+    "x": "2371",
+    "y": 5640,
+    "type": "Dorf"
+  },
+  {
+    "name": "Glyndhaven",
+    "x": "4508",
+    "y": 9968,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Gnitzenkuhl",
+    "x": "4652",
+    "y": 5392,
+    "type": "Dorf"
+  },
+  {
+    "name": "Goldklamm",
+    "x": "3459",
+    "y": 7722,
+    "type": "Dorf"
+  },
+  {
+    "name": "Goldsholmr",
+    "x": "309",
+    "y": 8691,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Golzheim",
+    "x": "5040",
+    "y": 6051,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gorbitz",
+    "x": "6565",
+    "y": 7939,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gordask",
+    "x": "4452",
+    "y": 8881,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gôrmel",
+    "x": "3368",
+    "y": 5721,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gorschnitz",
+    "x": "6195",
+    "y": 8081,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gradlinfurt",
+    "x": "3926",
+    "y": 5575,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gradnochsjepengurken",
+    "x": "6635",
+    "y": 8226,
+    "type": "Dorf"
+  },
+  {
+    "name": "Grafenfurt",
+    "x": "2850",
+    "y": 5754,
+    "type": "Dorf"
+  },
+  {
+    "name": "Grambusch",
+    "x": "3974",
+    "y": 5636,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gramstein",
+    "x": "3689",
+    "y": 6695,
+    "type": "Dorf"
+  },
+  {
+    "name": "Grangor",
+    "x": "2381",
+    "y": 4498,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Grannerau",
+    "x": "3831",
+    "y": 5279,
+    "type": "Dorf"
+  },
+  {
+    "name": "Grantelwacht",
+    "x": "3367",
+    "y": 5355,
+    "type": "Dorf"
+  },
+  {
+    "name": "Grassing",
+    "x": "4264",
+    "y": 5950,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gratenfels",
+    "x": "2907",
+    "y": 5751,
+    "type": "Stadt"
+  },
+  {
+    "name": "Gravenanger",
+    "x": "2653",
+    "y": 3392,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gravina",
+    "x": "2859",
+    "y": 3287,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Greifenau",
+    "x": "5358",
+    "y": 5875,
+    "type": "Dorf"
+  },
+  {
+    "name": "Greifenberg",
+    "x": "3502",
+    "y": 6359,
+    "type": "Dorf"
+  },
+  {
+    "name": "Greifenfurt",
+    "x": "3519",
+    "y": 6282,
+    "type": "Stadt"
+  },
+  {
+    "name": "Grimmsvell",
+    "x": "3356",
+    "y": 7584,
+    "type": "Dorf"
+  },
+  {
+    "name": "Groenvelden",
+    "x": "1849",
+    "y": 7273,
+    "type": "Dorf"
+  },
+  {
+    "name": "Groniza",
+    "x": "5925",
+    "y": 7738,
+    "type": "Dorf"
+  },
+  {
+    "name": "Groß Mugel",
+    "x": "2692",
+    "y": 3464,
+    "type": "Dorf"
+  },
+  {
+    "name": "Grötzenhall",
+    "x": "2058",
+    "y": 5196,
+    "type": "Dorf"
+  },
+  {
+    "name": "Grudingstein",
+    "x": "2431",
+    "y": 6128,
+    "type": "Dorf"
+  },
+  {
+    "name": "Grünau",
+    "x": "5452",
+    "y": 5894,
+    "type": "Dorf"
+  },
+  {
+    "name": "Grünfelde",
+    "x": "2861",
+    "y": 3480,
+    "type": "Dorf"
+  },
+  {
+    "name": "Grünwalden",
+    "x": "5546",
+    "y": 6425,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gruuzash",
+    "x": "3977",
+    "y": 7316,
+    "type": "Dorf"
+  },
+  {
+    "name": "Grywhick",
+    "x": "2689",
+    "y": 6596,
+    "type": "Dorf"
+  },
+  {
+    "name": "Guddasunden",
+    "x": "940",
+    "y": 6928,
+    "type": "Dorf"
+  },
+  {
+    "name": "Guladasbîd",
+    "x": "5616",
+    "y": 3187,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gulagal",
+    "x": "2224",
+    "y": 1815,
+    "type": null
+  },
+  {
+    "name": "Gulbladdirstadir",
+    "x": "2190",
+    "y": 8940,
+    "type": "Dorf"
+  },
+  {
+    "name": "Güldenfeldt",
+    "x": "3816",
+    "y": 5679,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gut Handertal",
+    "x": "3558",
+    "y": 7237,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gut Nebelstein",
+    "x": "3408",
+    "y": 6568,
+    "type": null
+  },
+  {
+    "name": "Gwerrat",
+    "x": "5245",
+    "y": 4304,
+    "type": "Dorf"
+  },
+  {
+    "name": "Gwydin",
+    "x": "1764",
+    "y": 5445,
+    "type": "Dorf"
+  },
+  {
+    "name": "H'Rabaal",
+    "x": "2307",
+    "y": 1427,
+    "type": "Stadt"
+  },
+  {
+    "name": "H'Rudd",
+    "x": "4075",
+    "y": 2717,
+    "type": "Dorf"
+  },
+  {
+    "name": "Haderstein",
+    "x": "5601",
+    "y": 6954,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hadûk",
+    "x": "2643",
+    "y": 3546,
+    "type": "Dorf"
+  },
+  {
+    "name": "Haegir",
+    "x": "797",
+    "y": 8455,
+    "type": "Dorf"
+  },
+  {
+    "name": "Haerad der Yakkach",
+    "x": "2251",
+    "y": 8760,
+    "type": "Dorf"
+  },
+  {
+    "name": "Haffith",
+    "x": "2881",
+    "y": 4952,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hagens Hof",
+    "x": "4837",
+    "y": 6020,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hagenshain",
+    "x": "4993",
+    "y": 5517,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hagensmoor",
+    "x": "6079",
+    "y": 6300,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hahnendorf",
+    "x": "3679",
+    "y": 5320,
+    "type": "Dorf"
+  },
+  {
+    "name": "Haibuthar",
+    "x": "880",
+    "y": 6829,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hainesh",
+    "x": "3740",
+    "y": 4278,
+    "type": "Dorf"
+  },
+  {
+    "name": "Haisach",
+    "x": "4666",
+    "y": 3597,
+    "type": "Dorf"
+  },
+  {
+    "name": "Halderot",
+    "x": "3475",
+    "y": 2722,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hallingen",
+    "x": "4264",
+    "y": 6360,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hamkeln",
+    "x": "6008",
+    "y": 7393,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hammelborn",
+    "x": "3877",
+    "y": 5205,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hammerberg",
+    "x": "3295",
+    "y": 5167,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hammerschlag",
+    "x": "3477",
+    "y": 5270,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hanisborch",
+    "x": "4357",
+    "y": 5851,
+    "type": "Dorf"
+  },
+  {
+    "name": "Harasim",
+    "x": "5710",
+    "y": 4856,
+    "type": "Dorf"
+  },
+  {
+    "name": "Harben",
+    "x": "2217",
+    "y": 4688,
+    "type": "Stadt"
+  },
+  {
+    "name": "Harden",
+    "x": "5767",
+    "y": 7528,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Hardorp",
+    "x": "4666",
+    "y": 7453,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hargenborn",
+    "x": "5177",
+    "y": 5652,
+    "type": "Dorf"
+  },
+  {
+    "name": "Harmlyn",
+    "x": "2372",
+    "y": 5993,
+    "type": "Dorf"
+  },
+  {
+    "name": "Harpenstein",
+    "x": "2236",
+    "y": 4617,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hartromlosch",
+    "x": "3373",
+    "y": 5202,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hartsteen",
+    "x": "4209",
+    "y": 5753,
+    "type": "Stadt"
+  },
+  {
+    "name": "Hasám",
+    "x": "2704",
+    "y": 3684,
+    "type": "Dorf"
+  },
+  {
+    "name": "Haselhain",
+    "x": "4717",
+    "y": 5344,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hasenhag",
+    "x": "5856",
+    "y": 7000,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hassal han Amayin",
+    "x": "4762",
+    "y": 5330,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hassloch",
+    "x": "4535",
+    "y": 5833,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hausen",
+    "x": "4473",
+    "y": 5694,
+    "type": "Dorf"
+  },
+  {
+    "name": "Havena",
+    "x": "1752",
+    "y": 5471,
+    "type": "Metropole"
+  },
+  {
+    "name": "Hawwah",
+    "x": "3646",
+    "y": 3063,
+    "type": "Dorf"
+  },
+  {
+    "name": "He-Sches Dorf",
+    "x": "2733",
+    "y": 2222,
+    "type": "Dorf"
+  },
+  {
+    "name": "Heidenstein",
+    "x": "4459",
+    "y": 6493,
+    "type": "Dorf"
+  },
+  {
+    "name": "Heimbach",
+    "x": "4990",
+    "y": 5504,
+    "type": "Dorf"
+  },
+  {
+    "name": "Helametto",
+    "x": "2387",
+    "y": 4187,
+    "type": "Dorf"
+  },
+  {
+    "name": "Heldenrain",
+    "x": "2844",
+    "y": 2735,
+    "type": "Dorf"
+  },
+  {
+    "name": "Heldor",
+    "x": "3605",
+    "y": 4929,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hellenstein",
+    "x": "3611",
+    "y": 5668,
+    "type": "Dorf"
+  },
+  {
+    "name": "Helmdahl",
+    "x": "4082",
+    "y": 6200,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Helmenport",
+    "x": "5663",
+    "y": 3871,
+    "type": "Dorf"
+  },
+  {
+    "name": "Helsum",
+    "x": "5824",
+    "y": 7630,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hemandu",
+    "x": "6342",
+    "y": 4850,
+    "type": "Stadt"
+  },
+  {
+    "name": "Hergerdshof",
+    "x": "4440",
+    "y": 8371,
+    "type": "Dorf"
+  },
+  {
+    "name": "Heroicum",
+    "x": "2440",
+    "y": 4072,
+    "type": "Dorf"
+  },
+  {
+    "name": "Herrschersitz des Sonnenbruders",
+    "x": "6685",
+    "y": 951,
+    "type": "Dorf"
+  },
+  {
+    "name": "Herrschersitz des Sonnensohnes",
+    "x": "6078",
+    "y": 411,
+    "type": "Dorf"
+  },
+  {
+    "name": "Herzogenfurt",
+    "x": "2762",
+    "y": 5651,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hesindelburg",
+    "x": "3017",
+    "y": 6262,
+    "type": "Dorf"
+  },
+  {
+    "name": "Heuthof",
+    "x": "4124",
+    "y": 6070,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hexenhain",
+    "x": "3176",
+    "y": 6263,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hexenhus",
+    "x": "5535",
+    "y": 8072,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hexenmühle",
+    "x": "3465",
+    "y": 5678,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hilgen",
+    "x": "5983",
+    "y": 7341,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hillhaus",
+    "x": "3781",
+    "y": 7907,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hilmen",
+    "x": "3415",
+    "y": 4682,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hiltorp",
+    "x": "3779",
+    "y": 7091,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hilvalla",
+    "x": "3125",
+    "y": 7709,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hinterbruch",
+    "x": "6291",
+    "y": 7310,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hinzk",
+    "x": "6176",
+    "y": 7742,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hirmis",
+    "x": "2905",
+    "y": 3501,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hirschfurt",
+    "x": "3542",
+    "y": 5806,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Hirschwailer",
+    "x": "4087",
+    "y": 6344,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hitalan",
+    "x": "6285",
+    "y": 4772,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hjalsingor",
+    "x": "898",
+    "y": 7015,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hjalsvidra",
+    "x": "960",
+    "y": 7569,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hjedan",
+    "x": "1500",
+    "y": 7736,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Hjerilfsness",
+    "x": "1846",
+    "y": 8667,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hoheneych",
+    "x": "2272",
+    "y": 6645,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hoichem",
+    "x": "2539",
+    "y": 2409,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hoijangar",
+    "x": "1056",
+    "y": 7595,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Holdan",
+    "x": "2450",
+    "y": 4286,
+    "type": "Dorf"
+  },
+  {
+    "name": "Holderhof",
+    "x": "4095",
+    "y": 6122,
+    "type": "Dorf"
+  },
+  {
+    "name": "Höllenwall",
+    "x": "4091",
+    "y": 5230,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hollerskoje",
+    "x": "6440",
+    "y": 7880,
+    "type": "Dorf"
+  },
+  {
+    "name": "Holmotta",
+    "x": "859",
+    "y": 8052,
+    "type": "Dorf"
+  },
+  {
+    "name": "Holthus",
+    "x": "4102",
+    "y": 6012,
+    "type": "Dorf"
+  },
+  {
+    "name": "Honâk",
+    "x": "2844",
+    "y": 3530,
+    "type": "Dorf"
+  },
+  {
+    "name": "Honingen",
+    "x": "2557",
+    "y": 5676,
+    "type": "Stadt"
+  },
+  {
+    "name": "Horasia",
+    "x": "2247",
+    "y": 4184,
+    "type": "Stadt"
+  },
+  {
+    "name": "Horeth",
+    "x": "4187",
+    "y": 6023,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Hornbach",
+    "x": "3724",
+    "y": 5777,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hornbeil",
+    "x": "3451",
+    "y": 5906,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hôt-Alem",
+    "x": "2719",
+    "y": 897,
+    "type": "Stadt"
+  },
+  {
+    "name": "Hoxforst",
+    "x": "3553",
+    "y": 5917,
+    "type": "Dorf"
+  },
+  {
+    "name": "Huab",
+    "x": "6531",
+    "y": 4590,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hugesweier",
+    "x": "5967",
+    "y": 6221,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hulga",
+    "x": "5992",
+    "y": 7401,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hulka",
+    "x": "5708",
+    "y": 6983,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hummerierdorf",
+    "x": "5437",
+    "y": 6477,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hundhof",
+    "x": "4158",
+    "y": 6062,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hundred",
+    "x": "3393",
+    "y": 4849,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Hundsgrab",
+    "x": "3668",
+    "y": 6440,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hutt",
+    "x": "4204",
+    "y": 5870,
+    "type": "Dorf"
+  },
+  {
+    "name": "Hutzenmoor",
+    "x": "4096",
+    "y": 7436,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ifirnet",
+    "x": "1125",
+    "y": 7909,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ifirnshavn",
+    "x": "1632",
+    "y": 8804,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ifirnskappeln",
+    "x": "4408",
+    "y": 7000,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ilgasalla",
+    "x": "4790",
+    "y": 4195,
+    "type": "Dorf"
+  },
+  {
+    "name": "Illstan",
+    "x": "2498",
+    "y": 4225,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Ilsur",
+    "x": "5931",
+    "y": 6346,
+    "type": "Stadt"
+  },
+  {
+    "name": "Ilumin",
+    "x": "5804",
+    "y": 8056,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ilvidoch",
+    "x": "1930",
+    "y": 5582,
+    "type": "Dorf"
+  },
+  {
+    "name": "Imdal",
+    "x": "2465",
+    "y": 4719,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Immingen",
+    "x": "4155",
+    "y": 6441,
+    "type": "Dorf"
+  },
+  {
+    "name": "Imrah",
+    "x": "2807",
+    "y": 1850,
+    "type": "Dorf"
+  },
+  {
+    "name": "Imsa",
+    "x": "2877",
+    "y": 2105,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ingfallspeugen",
+    "x": "1997",
+    "y": 6617,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ingrimsport",
+    "x": "4400",
+    "y": 735,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ingvalla",
+    "x": "1643",
+    "y": 6443,
+    "type": "Dorf"
+  },
+  {
+    "name": "Inostal",
+    "x": "2763",
+    "y": 4548,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Iornu",
+    "x": "6673",
+    "y": 9144,
+    "type": "Dorf"
+  },
+  {
+    "name": "Irberod",
+    "x": "5498",
+    "y": 7540,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Irdenhag",
+    "x": "2652",
+    "y": 6617,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ireth",
+    "x": "2508",
+    "y": 973,
+    "type": "Dorf"
+  },
+  {
+    "name": "Isenholm",
+    "x": "456",
+    "y": 8571,
+    "type": "Dorf"
+  },
+  {
+    "name": "Isoldern",
+    "x": "5849",
+    "y": 6406,
+    "type": "Dorf"
+  },
+  {
+    "name": "Istina",
+    "x": "2573",
+    "y": 2953,
+    "type": "Stadt"
+  },
+  {
+    "name": "Itzkendorf",
+    "x": "5887",
+    "y": 7058,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ivrinno",
+    "x": "4435",
+    "y": 4061,
+    "type": "Dorf"
+  },
+  {
+    "name": "Izikesh",
+    "x": "5469",
+    "y": 4926,
+    "type": "Dorf"
+  },
+  {
+    "name": "Iziqnedim",
+    "x": "4762",
+    "y": 4744,
+    "type": "Dorf"
+  },
+  {
+    "name": "Jagotin",
+    "x": "5880",
+    "y": 7930,
+    "type": "Dorf"
+  },
+  {
+    "name": "Jaiban",
+    "x": "5050",
+    "y": 3963,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Jannendoch",
+    "x": "2228",
+    "y": 5607,
+    "type": "Dorf"
+  },
+  {
+    "name": "Jarlak",
+    "x": "5438",
+    "y": 8024,
+    "type": "Dorf"
+  },
+  {
+    "name": "Jarlaksgrund",
+    "x": "4938",
+    "y": 6827,
+    "type": "Dorf"
+  },
+  {
+    "name": "Jassafheim",
+    "x": "3448",
+    "y": 4600,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Jassuula",
+    "x": "6122",
+    "y": 7613,
+    "type": "Dorf"
+  },
+  {
+    "name": "Jejleford",
+    "x": "494",
+    "y": 8560,
+    "type": "Dorf"
+  },
+  {
+    "name": "Jekdisit",
+    "x": "6288",
+    "y": 7353,
+    "type": "Dorf"
+  },
+  {
+    "name": "Jennbach",
+    "x": "3521",
+    "y": 5047,
+    "type": "Dorf"
+  },
+  {
+    "name": "Jergan",
+    "x": "6313",
+    "y": 4849,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Jindir",
+    "x": "4512",
+    "y": 4427,
+    "type": "Stadt"
+  },
+  {
+    "name": "Joborn",
+    "x": "2138",
+    "y": 6486,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Jorgeheim",
+    "x": "340",
+    "y": 8707,
+    "type": "Dorf"
+  },
+  {
+    "name": "Juldurf",
+    "x": "2682",
+    "y": 3640,
+    "type": "Dorf"
+  },
+  {
+    "name": "Jurios",
+    "x": "3659",
+    "y": 5125,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Ka'Dornak",
+    "x": "5644",
+    "y": 3205,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kabash",
+    "x": "2736",
+    "y": 3701,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Kagorah",
+    "x": "3072",
+    "y": 2292,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kaiserhain",
+    "x": "4046",
+    "y": 6051,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kaldenberg",
+    "x": "2872",
+    "y": 5329,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kalessa",
+    "x": "6270",
+    "y": 8013,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kalleth",
+    "x": "2233",
+    "y": 6547,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kaltenstein",
+    "x": "5340",
+    "y": 6282,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kaltstetten",
+    "x": "2012",
+    "y": 4981,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kammhütten",
+    "x": "3106",
+    "y": 5771,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kannemünde",
+    "x": "4045",
+    "y": 2985,
+    "type": "Stadt"
+  },
+  {
+    "name": "Kantor",
+    "x": "3055",
+    "y": 4684,
+    "type": "Dorf"
+  },
+  {
+    "name": "Karasuk",
+    "x": "2722",
+    "y": 3440,
+    "type": "Dorf"
+  },
+  {
+    "name": "Karenkis",
+    "x": "2602",
+    "y": 3707,
+    "type": "Dorf"
+  },
+  {
+    "name": "Karenow",
+    "x": "6242",
+    "y": 8181,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kargen",
+    "x": "3207",
+    "y": 5577,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kargenfels",
+    "x": "2609",
+    "y": 5089,
+    "type": "Dorf"
+  },
+  {
+    "name": "Karkriwen",
+    "x": "5563",
+    "y": 7476,
+    "type": "Dorf"
+  },
+  {
+    "name": "Karnhügel",
+    "x": "2478",
+    "y": 6118,
+    "type": "Dorf"
+  },
+  {
+    "name": "Karsina",
+    "x": "2568",
+    "y": 3611,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Kathenberg",
+    "x": "5273",
+    "y": 6405,
+    "type": "Dorf"
+  },
+  {
+    "name": "Keamonmund",
+    "x": "3991",
+    "y": 9014,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kefberg",
+    "x": "2769",
+    "y": 5772,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Kei Urdhasa",
+    "x": "3292",
+    "y": 4091,
+    "type": "Dorf"
+  },
+  {
+    "name": "Keilerau",
+    "x": "5852",
+    "y": 6139,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kela",
+    "x": "4753",
+    "y": 9283,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kellfall",
+    "x": "2968",
+    "y": 4912,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kellun",
+    "x": "1907",
+    "y": 5113,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kelnen",
+    "x": "2471",
+    "y": 5313,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kemethis",
+    "x": "1533",
+    "y": 3646,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kendram",
+    "x": "5841",
+    "y": 5839,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kendrar",
+    "x": "1395",
+    "y": 6376,
+    "type": "Stadt"
+  },
+  {
+    "name": "Kerbal",
+    "x": "4030",
+    "y": 4246,
+    "type": "Dorf"
+  },
+  {
+    "name": "Keschbrink",
+    "x": "2500",
+    "y": 6482,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kesh",
+    "x": "2747",
+    "y": 3409,
+    "type": "Dorf"
+  },
+  {
+    "name": "Keshal Fennek",
+    "x": "4496",
+    "y": 4945,
+    "type": "Dorf"
+  },
+  {
+    "name": "Keshal Taref",
+    "x": "5407",
+    "y": 4796,
+    "type": "Dorf"
+  },
+  {
+    "name": "Khahirios",
+    "x": "3849",
+    "y": 5175,
+    "type": "Dorf"
+  },
+  {
+    "name": "Khalim",
+    "x": "4647",
+    "y": 3471,
+    "type": "Dorf"
+  },
+  {
+    "name": "Khalôd",
+    "x": "2859",
+    "y": 3617,
+    "type": "Dorf"
+  },
+  {
+    "name": "Khandrazin",
+    "x": "2777",
+    "y": 3793,
+    "type": "Dorf"
+  },
+  {
+    "name": "Khânuba",
+    "x": "4793",
+    "y": 3720,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Kharkush",
+    "x": "2907",
+    "y": 7708,
+    "type": "Stadt"
+  },
+  {
+    "name": "Kharna",
+    "x": "2828",
+    "y": 3419,
+    "type": "Dorf"
+  },
+  {
+    "name": "Khattaq",
+    "x": "3930",
+    "y": 4370,
+    "type": "Dorf"
+  },
+  {
+    "name": "Khefu",
+    "x": "2473",
+    "y": 907,
+    "type": "Stadt"
+  },
+  {
+    "name": "Khezzara",
+    "x": "2755",
+    "y": 7170,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Khirr'Zsugg",
+    "x": "3550",
+    "y": 2566,
+    "type": "Dorf"
+  },
+  {
+    "name": "Khunchak",
+    "x": "5988",
+    "y": 4526,
+    "type": "Dorf"
+  },
+  {
+    "name": "Khunchom",
+    "x": "5209",
+    "y": 4010,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Kiesfurten",
+    "x": "5778",
+    "y": 5674,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kirma",
+    "x": "4811",
+    "y": 8503,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kirschhausen",
+    "x": "5949",
+    "y": 7468,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Kithairon",
+    "x": "2635",
+    "y": 3415,
+    "type": "Dorf"
+  },
+  {
+    "name": "Klappechs",
+    "x": "3547",
+    "y": 6044,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kleinbuckel",
+    "x": "2687",
+    "y": 3480,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kleinwardstein",
+    "x": "5217",
+    "y": 6779,
+    "type": "Dorf"
+  },
+  {
+    "name": "Klippag",
+    "x": "2323",
+    "y": 4988,
+    "type": "Stadt"
+  },
+  {
+    "name": "Kloster Wolfskopf",
+    "x": "4619",
+    "y": 5885,
+    "type": null
+  },
+  {
+    "name": "Knoppsberg",
+    "x": "4550",
+    "y": 5633,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kobashand",
+    "x": "3061",
+    "y": 3346,
+    "type": "Dorf"
+  },
+  {
+    "name": "Komra",
+    "x": "4068",
+    "y": 4276,
+    "type": "Dorf"
+  },
+  {
+    "name": "Koppingen",
+    "x": "5476",
+    "y": 6978,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kord",
+    "x": "916",
+    "y": 6769,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Korgraxon",
+    "x": "3806",
+    "y": 4661,
+    "type": "Dorf"
+  },
+  {
+    "name": "Korlob",
+    "x": "2667",
+    "y": 3463,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kornhammer",
+    "x": "3970",
+    "y": 5082,
+    "type": "Dorf"
+  },
+  {
+    "name": "Korushkand",
+    "x": "5535",
+    "y": 4302,
+    "type": "Dorf"
+  },
+  {
+    "name": "Korvik",
+    "x": "316",
+    "y": 8747,
+    "type": "Dorf"
+  },
+  {
+    "name": "Koschtal",
+    "x": "3136",
+    "y": 5525,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Koschwacht",
+    "x": "3029",
+    "y": 5761,
+    "type": "Dorf"
+  },
+  {
+    "name": "Koshim",
+    "x": "3012",
+    "y": 5964,
+    "type": "Dorf"
+  },
+  {
+    "name": "Koskjuk",
+    "x": "4137",
+    "y": 9222,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kral",
+    "x": "4428",
+    "y": 5923,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kranichfurt",
+    "x": "2860",
+    "y": 5783,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kravik",
+    "x": "1832",
+    "y": 6684,
+    "type": "Dorf"
+  },
+  {
+    "name": "Krayenhorst",
+    "x": "3035",
+    "y": 6658,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kreiben",
+    "x": "6094",
+    "y": 8136,
+    "type": "Dorf"
+  },
+  {
+    "name": "Krempelow",
+    "x": "6721",
+    "y": 8094,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kressenburg",
+    "x": "3655",
+    "y": 6061,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kreutzingen",
+    "x": "4651",
+    "y": 6508,
+    "type": "Dorf"
+  },
+  {
+    "name": "Krividhan",
+    "x": "3520",
+    "y": 2758,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kronling",
+    "x": "4022",
+    "y": 5780,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Krôtgard",
+    "x": "2791",
+    "y": 3699,
+    "type": "Dorf"
+  },
+  {
+    "name": "Krs-Zzah",
+    "x": "4089",
+    "y": 2352,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Krytzdorf",
+    "x": "5327",
+    "y": 6137,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Kullbach",
+    "x": "2694",
+    "y": 4626,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kummerteich",
+    "x": "5421",
+    "y": 6376,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kunchabad",
+    "x": "5318",
+    "y": 4625,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Künßberg",
+    "x": "5110",
+    "y": 6388,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kunzk",
+    "x": "6239",
+    "y": 7778,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kupfertann",
+    "x": "3548",
+    "y": 5013,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kurkum",
+    "x": "5795",
+    "y": 5680,
+    "type": null
+  },
+  {
+    "name": "Kuslik",
+    "x": "2273",
+    "y": 4047,
+    "type": "Metropole"
+  },
+  {
+    "name": "Kusmarina",
+    "x": "2254",
+    "y": 4034,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Kvillquell",
+    "x": "4398",
+    "y": 8132,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kvirasim",
+    "x": "4011",
+    "y": 8132,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Kyndoch",
+    "x": "2223",
+    "y": 5235,
+    "type": "Stadt"
+  },
+  {
+    "name": "Kynikon",
+    "x": "2615",
+    "y": 3418,
+    "type": "Dorf"
+  },
+  {
+    "name": "Kysira",
+    "x": "4439",
+    "y": 8486,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lacuna",
+    "x": "3322",
+    "y": 5611,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lafmih",
+    "x": "2722",
+    "y": 1867,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lanan",
+    "x": "4273",
+    "y": 8560,
+    "type": "Dorf"
+  },
+  {
+    "name": "Langkoppeln",
+    "x": "4040",
+    "y": 5706,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lar-Ka-Vila",
+    "x": "2866",
+    "y": 1914,
+    "type": "Dorf"
+  },
+  {
+    "name": "Larsach",
+    "x": "5687",
+    "y": 7328,
+    "type": "Dorf"
+  },
+  {
+    "name": "Larÿios",
+    "x": "1613",
+    "y": 3384,
+    "type": "Dorf"
+  },
+  {
+    "name": "Leikinen",
+    "x": "4185",
+    "y": 8409,
+    "type": "Dorf"
+  },
+  {
+    "name": "Leinhaus",
+    "x": "4376",
+    "y": 6908,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lerpin",
+    "x": "1331",
+    "y": 6459,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lervik",
+    "x": "1355",
+    "y": 6389,
+    "type": "Dorf"
+  },
+  {
+    "name": "Leskari",
+    "x": "3789",
+    "y": 9331,
+    "type": "Dorf"
+  },
+  {
+    "name": "Letran",
+    "x": "2414",
+    "y": 3896,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Lettjaskaja",
+    "x": "6147",
+    "y": 8875,
+    "type": "Dorf"
+  },
+  {
+    "name": "Letzenbronn",
+    "x": "3819",
+    "y": 5353,
+    "type": "Dorf"
+  },
+  {
+    "name": "Leuchtturm Gjaklskerhage",
+    "x": "1870",
+    "y": 9071,
+    "type": "Dorf"
+  },
+  {
+    "name": "Leustein",
+    "x": "3392",
+    "y": 5817,
+    "type": "Dorf"
+  },
+  {
+    "name": "Leuwenstein",
+    "x": "3265",
+    "y": 5908,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lhasor",
+    "x": "2568",
+    "y": 2698,
+    "type": "Stadt"
+  },
+  {
+    "name": "Liddla",
+    "x": "2641",
+    "y": 3499,
+    "type": "Dorf"
+  },
+  {
+    "name": "Liepenstein",
+    "x": "2991",
+    "y": 4961,
+    "type": "Dorf"
+  },
+  {
+    "name": "Likan",
+    "x": "3596",
+    "y": 5033,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lileyan",
+    "x": "2311",
+    "y": 5791,
+    "type": "Dorf"
+  },
+  {
+    "name": "Liliengrund",
+    "x": "5268",
+    "y": 6577,
+    "type": "Dorf"
+  },
+  {
+    "name": "Liskor",
+    "x": "1199",
+    "y": 7320,
+    "type": "Dorf"
+  },
+  {
+    "name": "Livia",
+    "x": "2657",
+    "y": 3358,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ljasdahl",
+    "x": "1196",
+    "y": 6956,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Llanka",
+    "x": "5595",
+    "y": 5016,
+    "type": "Stadt"
+  },
+  {
+    "name": "Llyndal",
+    "x": "5495",
+    "y": 4251,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lodinsand",
+    "x": "460",
+    "y": 8600,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lonatfurt",
+    "x": "5199",
+    "y": 7304,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lorfas",
+    "x": "2762",
+    "y": 2825,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Lorsunk",
+    "x": "4940",
+    "y": 5823,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lowangen",
+    "x": "3522",
+    "y": 7129,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Lrr'Zzkrot",
+    "x": "1812",
+    "y": 1106,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lupalia",
+    "x": "2671",
+    "y": 3599,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lûr",
+    "x": "3327",
+    "y": 5095,
+    "type": "Dorf"
+  },
+  {
+    "name": "Luring",
+    "x": "3537",
+    "y": 5606,
+    "type": "Stadt"
+  },
+  {
+    "name": "Lyckmoor",
+    "x": "1645",
+    "y": 6333,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Lÿios",
+    "x": "1488",
+    "y": 3465,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lyngskin",
+    "x": "2512",
+    "y": 8597,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lyngwyn",
+    "x": "1866",
+    "y": 5655,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lyngwyn",
+    "x": "2426",
+    "y": 5475,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lyrgach",
+    "x": "2144",
+    "y": 8279,
+    "type": "Dorf"
+  },
+  {
+    "name": "Lysvik",
+    "x": "298",
+    "y": 8894,
+    "type": "Dorf"
+  },
+  {
+    "name": "Machsiz",
+    "x": "3592",
+    "y": 2977,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Madasee",
+    "x": "3553",
+    "y": 4722,
+    "type": "Stadt"
+  },
+  {
+    "name": "Madrash",
+    "x": "4598",
+    "y": 3707,
+    "type": "Dorf"
+  },
+  {
+    "name": "Magierturm von Rashid und Artrix",
+    "x": "3930",
+    "y": 4541,
+    "type": null
+  },
+  {
+    "name": "Mahanobab",
+    "x": "5699",
+    "y": 3109,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mahatamrepuram",
+    "x": "4803",
+    "y": 3235,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mahlberch",
+    "x": "5401",
+    "y": 6363,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mahrenhus",
+    "x": "5447",
+    "y": 8169,
+    "type": "Dorf"
+  },
+  {
+    "name": "Makamesch",
+    "x": "3016",
+    "y": 4998,
+    "type": "Dorf"
+  },
+  {
+    "name": "Malinford",
+    "x": "550",
+    "y": 8722,
+    "type": "Dorf"
+  },
+  {
+    "name": "Malkid",
+    "x": "3300",
+    "y": 4601,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Malkillabad",
+    "x": "3585",
+    "y": 2839,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Mallaith",
+    "x": "4151",
+    "y": 7055,
+    "type": "Dorf"
+  },
+  {
+    "name": "Malqis",
+    "x": "5277",
+    "y": 4417,
+    "type": "Dorf"
+  },
+  {
+    "name": "Malur",
+    "x": "2522",
+    "y": 3750,
+    "type": "Stadt"
+  },
+  {
+    "name": "Mandelihr",
+    "x": "4471",
+    "y": 7231,
+    "type": "Dorf"
+  },
+  {
+    "name": "Manlaith",
+    "x": "4419",
+    "y": 7498,
+    "type": "Dorf"
+  },
+  {
+    "name": "Manrin",
+    "x": "845",
+    "y": 7380,
+    "type": "Dorf"
+  },
+  {
+    "name": "Maradom",
+    "x": "2115",
+    "y": 5658,
+    "type": "Dorf"
+  },
+  {
+    "name": "Maranklippe",
+    "x": "6248",
+    "y": 3500,
+    "type": "Dorf"
+  },
+  {
+    "name": "Marano",
+    "x": "3735",
+    "y": 5587,
+    "type": null
+  },
+  {
+    "name": "Mardershöh",
+    "x": "4464",
+    "y": 5545,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mardramund",
+    "x": "4513",
+    "y": 5609,
+    "type": "Dorf"
+  },
+  {
+    "name": "Maridor",
+    "x": "4271",
+    "y": 4497,
+    "type": "Dorf"
+  },
+  {
+    "name": "Marktfelden",
+    "x": "5733",
+    "y": 6444,
+    "type": "Dorf"
+  },
+  {
+    "name": "Marlamis",
+    "x": "2478",
+    "y": 3947,
+    "type": "Dorf"
+  },
+  {
+    "name": "Marmara",
+    "x": "2858",
+    "y": 3560,
+    "type": "Dorf"
+  },
+  {
+    "name": "Marmelund",
+    "x": "4793",
+    "y": 5154,
+    "type": "Dorf"
+  },
+  {
+    "name": "Marudret",
+    "x": "2633",
+    "y": 3981,
+    "type": "Stadt"
+  },
+  {
+    "name": "Marvinko",
+    "x": "2551",
+    "y": 3999,
+    "type": "Stadt"
+  },
+  {
+    "name": "Mazazaoab",
+    "x": "6340",
+    "y": 3821,
+    "type": "Dorf"
+  },
+  {
+    "name": "Meierei Wickrath",
+    "x": "5780",
+    "y": 6395,
+    "type": "Dorf"
+  },
+  {
+    "name": "Meilerhof",
+    "x": "5820",
+    "y": 5676,
+    "type": "Dorf"
+  },
+  {
+    "name": "Meilersruh",
+    "x": "5030",
+    "y": 6859,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mendena",
+    "x": "6074",
+    "y": 6192,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Mendlicum",
+    "x": "4932",
+    "y": 5167,
+    "type": "Stadt"
+  },
+  {
+    "name": "Mengbilla",
+    "x": "2462",
+    "y": 2832,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Menzheim",
+    "x": "4324",
+    "y": 6615,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Merahbad",
+    "x": "4224",
+    "y": 4452,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mergellina",
+    "x": "2589",
+    "y": 3682,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mêrin",
+    "x": "2593",
+    "y": 3664,
+    "type": "Dorf"
+  },
+  {
+    "name": "Merkem",
+    "x": "2391",
+    "y": 1046,
+    "type": "Dorf"
+  },
+  {
+    "name": "Merske",
+    "x": "1415",
+    "y": 6687,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mesaverde",
+    "x": "2376",
+    "y": 4155,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mesch",
+    "x": "2738",
+    "y": 4907,
+    "type": "Dorf"
+  },
+  {
+    "name": "Meskinneskoje",
+    "x": "5876",
+    "y": 7438,
+    "type": "Dorf"
+  },
+  {
+    "name": "Methumis",
+    "x": "2580",
+    "y": 3786,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Mhanerhaven",
+    "x": "5217",
+    "y": 4118,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Mhanessipur",
+    "x": "4667",
+    "y": 3877,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mherwed",
+    "x": "4701",
+    "y": 3749,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Mherweggyn",
+    "x": "5782",
+    "y": 3285,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mhoremis",
+    "x": "2190",
+    "y": 4163,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Mhylfurt",
+    "x": "2936",
+    "y": 3485,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mikram",
+    "x": "2614",
+    "y": 3129,
+    "type": "Dorf"
+  },
+  {
+    "name": "Milastein",
+    "x": "5825",
+    "y": 6522,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mirdin",
+    "x": "1875",
+    "y": 6390,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mirham",
+    "x": "2542",
+    "y": 1892,
+    "type": "Stadt"
+  },
+  {
+    "name": "Mirina",
+    "x": "3675",
+    "y": 4339,
+    "type": "Dorf"
+  },
+  {
+    "name": "Misabeugen",
+    "x": "5657",
+    "y": 6880,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mistelhausen",
+    "x": "4508",
+    "y": 6358,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mittenberge",
+    "x": "4370",
+    "y": 6951,
+    "type": "Dorf"
+  },
+  {
+    "name": "Miyamat",
+    "x": "3171",
+    "y": 2458,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mohahadorf",
+    "x": "2513",
+    "y": 2329,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mohema",
+    "x": "2259",
+    "y": 1109,
+    "type": "Dorf"
+  },
+  {
+    "name": "Montarena",
+    "x": "2474",
+    "y": 4103,
+    "type": "Dorf"
+  },
+  {
+    "name": "Moorbrück",
+    "x": "3396",
+    "y": 5374,
+    "type": "Dorf"
+  },
+  {
+    "name": "Moorfurt",
+    "x": "3307",
+    "y": 5518,
+    "type": "Dorf"
+  },
+  {
+    "name": "Moorsend",
+    "x": "2871",
+    "y": 5759,
+    "type": "Dorf"
+  },
+  {
+    "name": "Moorweiden",
+    "x": "6373",
+    "y": 7812,
+    "type": "Dorf"
+  },
+  {
+    "name": "Moosbrunn",
+    "x": "4614",
+    "y": 6095,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Moosgrund",
+    "x": "4354",
+    "y": 6860,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Morbal",
+    "x": "2680",
+    "y": 3025,
+    "type": "Stadt"
+  },
+  {
+    "name": "Morbar",
+    "x": "2759",
+    "y": 3684,
+    "type": "Dorf"
+  },
+  {
+    "name": "Morcan",
+    "x": "2616",
+    "y": 3669,
+    "type": "Dorf"
+  },
+  {
+    "name": "Morgan",
+    "x": "4705",
+    "y": 5687,
+    "type": "Dorf"
+  },
+  {
+    "name": "Morganabad",
+    "x": "4752",
+    "y": 5227,
+    "type": "Dorf"
+  },
+  {
+    "name": "Moribis",
+    "x": "4840",
+    "y": 4520,
+    "type": "Dorf"
+  },
+  {
+    "name": "Morlak",
+    "x": "2776",
+    "y": 3525,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mortakh",
+    "x": "2049",
+    "y": 8156,
+    "type": "Dorf"
+  },
+  {
+    "name": "Morte Folnor",
+    "x": "2631",
+    "y": 4506,
+    "type": "Dorf"
+  },
+  {
+    "name": "Muchabad",
+    "x": "4538",
+    "y": 5093,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mudrawan",
+    "x": "5029",
+    "y": 4335,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mühlbeuren",
+    "x": "5825",
+    "y": 5667,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mühlingen",
+    "x": "3496",
+    "y": 6904,
+    "type": "Dorf"
+  },
+  {
+    "name": "Muhrwick",
+    "x": "1770",
+    "y": 5477,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mundtbach",
+    "x": "5380",
+    "y": 6357,
+    "type": "Dorf"
+  },
+  {
+    "name": "Münzenberg",
+    "x": "5238",
+    "y": 6312,
+    "type": "Dorf"
+  },
+  {
+    "name": "Mura",
+    "x": "2174",
+    "y": 3368,
+    "type": "Dorf"
+  },
+  {
+    "name": "Murkhall",
+    "x": "5470",
+    "y": 9477,
+    "type": "Dorf"
+  },
+  {
+    "name": "Murolosch",
+    "x": "3486",
+    "y": 5188,
+    "type": "Stadt"
+  },
+  {
+    "name": "Muryt",
+    "x": "1179",
+    "y": 7544,
+    "type": "Stadt"
+  },
+  {
+    "name": "Muschelstrand",
+    "x": "6149",
+    "y": 6004,
+    "type": "Dorf"
+  },
+  {
+    "name": "Naaulok",
+    "x": "5172",
+    "y": 8684,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nabatil",
+    "x": "4538",
+    "y": 3216,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nabenweiler",
+    "x": "4108",
+    "y": 5758,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nablafurt",
+    "x": "2746",
+    "y": 6124,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nadoret",
+    "x": "3316",
+    "y": 5518,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Nadorp",
+    "x": "1296",
+    "y": 7801,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nadrafall",
+    "x": "1173",
+    "y": 7843,
+    "type": "Dorf"
+  },
+  {
+    "name": "Naggilah",
+    "x": "4180",
+    "y": 4409,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nagra",
+    "x": "1697",
+    "y": 1124,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nagrakoje",
+    "x": "6890",
+    "y": 8075,
+    "type": "Dorf"
+  },
+  {
+    "name": "Naichech",
+    "x": "4957",
+    "y": 3509,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nail",
+    "x": "4074",
+    "y": 6136,
+    "type": "Dorf"
+  },
+  {
+    "name": "Narai keeva Laach",
+    "x": "5191",
+    "y": 8439,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nardesfels",
+    "x": "3369",
+    "y": 6076,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nardis",
+    "x": "2115",
+    "y": 1007,
+    "type": "Dorf"
+  },
+  {
+    "name": "Narhuabad",
+    "x": "5205",
+    "y": 4780,
+    "type": "Dorf"
+  },
+  {
+    "name": "Narjeh",
+    "x": "4743",
+    "y": 3701,
+    "type": "Dorf"
+  },
+  {
+    "name": "Narvasholm",
+    "x": "2582",
+    "y": 8822,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nasha",
+    "x": "2526",
+    "y": 2241,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nasir Malkid",
+    "x": "4871",
+    "y": 4382,
+    "type": "Stadt"
+  },
+  {
+    "name": "Nasirabad",
+    "x": "4924",
+    "y": 5059,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nattersquell",
+    "x": "4118",
+    "y": 5730,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Natzungen",
+    "x": "4007",
+    "y": 5896,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nebbachodh",
+    "x": "1933",
+    "y": 8721,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nebenniedersjepengurken",
+    "x": "6617",
+    "y": 8203,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nebensjepengurken",
+    "x": "6615",
+    "y": 8213,
+    "type": "Dorf"
+  },
+  {
+    "name": "Neersand",
+    "x": "6422",
+    "y": 7348,
+    "type": "Stadt"
+  },
+  {
+    "name": "Neetha",
+    "x": "2642",
+    "y": 3447,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Nehult",
+    "x": "1558",
+    "y": 6536,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nelgab",
+    "x": "3069",
+    "y": 2545,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nembutal",
+    "x": "2885",
+    "y": 5633,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nemento",
+    "x": "3400",
+    "y": 4752,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nephado",
+    "x": "2655",
+    "y": 3641,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nerenenah",
+    "x": "4766",
+    "y": 4380,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nervuk",
+    "x": "2336",
+    "y": 4474,
+    "type": "Stadt"
+  },
+  {
+    "name": "Nesquiria",
+    "x": "2053",
+    "y": 1637,
+    "type": "Dorf"
+  },
+  {
+    "name": "Neu-Bosparan",
+    "x": "6513",
+    "y": 759,
+    "type": "Dorf"
+  },
+  {
+    "name": "Neu-Isenborn",
+    "x": "4526",
+    "y": 6205,
+    "type": "Dorf"
+  },
+  {
+    "name": "Neu-Ludgenfels",
+    "x": "2703",
+    "y": 5306,
+    "type": "Dorf"
+  },
+  {
+    "name": "Neu-Süderwacht",
+    "x": "2716",
+    "y": 4545,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Neu-Wulzen",
+    "x": "5942",
+    "y": 6996,
+    "type": "Dorf"
+  },
+  {
+    "name": "Neuborn",
+    "x": "4506",
+    "y": 5729,
+    "type": "Dorf"
+  },
+  {
+    "name": "Neuhaven",
+    "x": "6021",
+    "y": 7128,
+    "type": "Dorf"
+  },
+  {
+    "name": "Neulowangen",
+    "x": "3580",
+    "y": 7190,
+    "type": "Dorf"
+  },
+  {
+    "name": "Neuschwanen",
+    "x": "4490",
+    "y": 5774,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nevorten",
+    "x": "2274",
+    "y": 4299,
+    "type": "Stadt"
+  },
+  {
+    "name": "Nhiran",
+    "x": "5813",
+    "y": 3297,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nibquell",
+    "x": "2284",
+    "y": 6297,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nidavik",
+    "x": "359",
+    "y": 8650,
+    "type": "Dorf"
+  },
+  {
+    "name": "Niedereych",
+    "x": "2282",
+    "y": 6643,
+    "type": "Dorf"
+  },
+  {
+    "name": "Niedernberg",
+    "x": "4467",
+    "y": 5727,
+    "type": "Dorf"
+  },
+  {
+    "name": "Niedersjepengurken",
+    "x": "6604",
+    "y": 8201,
+    "type": "Dorf"
+  },
+  {
+    "name": "Niederwals",
+    "x": "6430",
+    "y": 7346,
+    "type": "Dorf"
+  },
+  {
+    "name": "Niellyn",
+    "x": "2163",
+    "y": 8416,
+    "type": "Stadt"
+  },
+  {
+    "name": "Niemith",
+    "x": "3460",
+    "y": 6177,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nija",
+    "x": "4548",
+    "y": 9044,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nimmerjoch",
+    "x": "4050",
+    "y": 5477,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nimmerquell",
+    "x": "3599",
+    "y": 6673,
+    "type": "Dorf"
+  },
+  {
+    "name": "Niraveth",
+    "x": "2657",
+    "y": 3678,
+    "type": "Dorf"
+  },
+  {
+    "name": "Niritul",
+    "x": "4501",
+    "y": 7503,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nissingen",
+    "x": "5636",
+    "y": 7199,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nivesel",
+    "x": "5997",
+    "y": 7340,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Njalsklint",
+    "x": "1417",
+    "y": 6855,
+    "type": "Dorf"
+  },
+  {
+    "name": "Njerbusch",
+    "x": "3459",
+    "y": 5989,
+    "type": "Dorf"
+  },
+  {
+    "name": "Norbeneck",
+    "x": "5986",
+    "y": 5783,
+    "type": "Dorf"
+  },
+  {
+    "name": "Norburg",
+    "x": "5498",
+    "y": 8131,
+    "type": "Stadt"
+  },
+  {
+    "name": "Nordaport",
+    "x": "2343",
+    "y": 9245,
+    "type": "Dorf"
+  },
+  {
+    "name": "Norddrakenburg",
+    "x": "2037",
+    "y": 6670,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nordek",
+    "x": "2691",
+    "y": 4268,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nordenheim",
+    "x": "4419",
+    "y": 6176,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Nordhag",
+    "x": "3909",
+    "y": 6825,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Nordhag",
+    "x": "1851",
+    "y": 5591,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nordvest",
+    "x": "1782",
+    "y": 6619,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nordweide",
+    "x": "5466",
+    "y": 6796,
+    "type": "Dorf"
+  },
+  {
+    "name": "Norhus",
+    "x": "3062",
+    "y": 7802,
+    "type": "Dorf"
+  },
+  {
+    "name": "Normia",
+    "x": "2622",
+    "y": 3516,
+    "type": "Dorf"
+  },
+  {
+    "name": "Norntal",
+    "x": "6194",
+    "y": 8779,
+    "type": "Dorf"
+  },
+  {
+    "name": "Norresundby",
+    "x": "2577",
+    "y": 3263,
+    "type": "Dorf"
+  },
+  {
+    "name": "Norrevik",
+    "x": "1049",
+    "y": 7222,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nostria",
+    "x": "1800",
+    "y": 5821,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Notmark",
+    "x": "6797",
+    "y": 8337,
+    "type": "Stadt"
+  },
+  {
+    "name": "Nova Corapia",
+    "x": "2482",
+    "y": 2373,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nova Rhûvak",
+    "x": "2646",
+    "y": 3472,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nove Trahelia",
+    "x": "2668",
+    "y": 3483,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nummath",
+    "x": "2870",
+    "y": 5431,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Nuran",
+    "x": "6291",
+    "y": 4825,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nuzell",
+    "x": "3710",
+    "y": 5725,
+    "type": "Dorf"
+  },
+  {
+    "name": "Nysjunen",
+    "x": "5184",
+    "y": 8860,
+    "type": "Dorf"
+  },
+  {
+    "name": "O'Habin",
+    "x": "4262",
+    "y": 4317,
+    "type": "Dorf"
+  },
+  {
+    "name": "Oase Achan",
+    "x": "2976",
+    "y": 4011,
+    "type": "Dorf"
+  },
+  {
+    "name": "Oase Al'Rifat",
+    "x": "4084",
+    "y": 3616,
+    "type": "Dorf"
+  },
+  {
+    "name": "Oase Alam-Terekh",
+    "x": "3614",
+    "y": 4248,
+    "type": "Dorf"
+  },
+  {
+    "name": "Oase Birscha",
+    "x": "3535",
+    "y": 3570,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Oase der Beni Khivad",
+    "x": "3534",
+    "y": 3750,
+    "type": "Dorf"
+  },
+  {
+    "name": "Oase El'Ankhra",
+    "x": "3408",
+    "y": 4181,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Oase El'Karram",
+    "x": "4137",
+    "y": 3842,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Oase Hayabeth",
+    "x": "4521",
+    "y": 3524,
+    "type": "Dorf"
+  },
+  {
+    "name": "Oase Keft",
+    "x": "3816",
+    "y": 3476,
+    "type": "Stadt"
+  },
+  {
+    "name": "Oase Kireh",
+    "x": "3770",
+    "y": 3960,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Oase Manesh",
+    "x": "3700",
+    "y": 3262,
+    "type": "Dorf"
+  },
+  {
+    "name": "Oase Shebah",
+    "x": "3355",
+    "y": 3712,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Oase Tarfui",
+    "x": "4169",
+    "y": 3279,
+    "type": "Dorf"
+  },
+  {
+    "name": "Oase Terekh",
+    "x": "3193",
+    "y": 3923,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Oase Virinlassih",
+    "x": "2967",
+    "y": 4324,
+    "type": "Dorf"
+  },
+  {
+    "name": "Oase Yiyimris",
+    "x": "3856",
+    "y": 3811,
+    "type": "Dorf"
+  },
+  {
+    "name": "Oberangbar",
+    "x": "3318",
+    "y": 5937,
+    "type": "Dorf"
+  },
+  {
+    "name": "Oberbomed",
+    "x": "2644",
+    "y": 4383,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Oberfels",
+    "x": "2708",
+    "y": 4529,
+    "type": "Stadt"
+  },
+  {
+    "name": "Oberluell",
+    "x": "1512",
+    "y": 6559,
+    "type": "Dorf"
+  },
+  {
+    "name": "Oberwaid",
+    "x": "2847",
+    "y": 3744,
+    "type": "Dorf"
+  },
+  {
+    "name": "Oblarasim",
+    "x": "4810",
+    "y": 8672,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Oblotin",
+    "x": "4887",
+    "y": 8284,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ochsenried",
+    "x": "4368",
+    "y": 5933,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Ochsenweide",
+    "x": "4223",
+    "y": 6033,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ogils Heim",
+    "x": "2858",
+    "y": 5502,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ohlnast",
+    "x": "2485",
+    "y": 6040,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ohort",
+    "x": "2697",
+    "y": 7708,
+    "type": "Stadt"
+  },
+  {
+    "name": "Ohzara",
+    "x": "2346",
+    "y": 2952,
+    "type": "Stadt"
+  },
+  {
+    "name": "Okdrâgosch",
+    "x": "4783",
+    "y": 5636,
+    "type": "Dorf"
+  },
+  {
+    "name": "Okol",
+    "x": "6052",
+    "y": 7319,
+    "type": "Dorf"
+  },
+  {
+    "name": "Okûl",
+    "x": "2613",
+    "y": 3640,
+    "type": "Dorf"
+  },
+  {
+    "name": "Olabith",
+    "x": "5513",
+    "y": 4194,
+    "type": "Dorf"
+  },
+  {
+    "name": "Olat",
+    "x": "4226",
+    "y": 7176,
+    "type": "Dorf"
+  },
+  {
+    "name": "Olbris",
+    "x": "2598",
+    "y": 3771,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Olkstein",
+    "x": "3978",
+    "y": 6016,
+    "type": "Dorf"
+  },
+  {
+    "name": "Olkstubben",
+    "x": "3322",
+    "y": 5557,
+    "type": "Dorf"
+  },
+  {
+    "name": "Olport",
+    "x": "1148",
+    "y": 7875,
+    "type": "Stadt"
+  },
+  {
+    "name": "Olstade",
+    "x": "5527",
+    "y": 6294,
+    "type": "Dorf"
+  },
+  {
+    "name": "Olvirsdal",
+    "x": "1492",
+    "y": 7894,
+    "type": "Dorf"
+  },
+  {
+    "name": "Omlad",
+    "x": "3384",
+    "y": 4541,
+    "type": "Stadt"
+  },
+  {
+    "name": "Ommdablabad",
+    "x": "4825",
+    "y": 4986,
+    "type": "Dorf"
+  },
+  {
+    "name": "Onjaro",
+    "x": "2634",
+    "y": 3892,
+    "type": "Stadt"
+  },
+  {
+    "name": "Oppstein",
+    "x": "4454",
+    "y": 6296,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Orbatal",
+    "x": "2102",
+    "y": 5524,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Orkbrand",
+    "x": "1459",
+    "y": 7101,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Orkenhort",
+    "x": "2241",
+    "y": 6950,
+    "type": "Dorf"
+  },
+  {
+    "name": "Orkentrutz",
+    "x": "3535",
+    "y": 6561,
+    "type": "Dorf"
+  },
+  {
+    "name": "Orkenwall",
+    "x": "3669",
+    "y": 6255,
+    "type": "Dorf"
+  },
+  {
+    "name": "Orkgard",
+    "x": "1345",
+    "y": 7253,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Ornaldsruh",
+    "x": "5281",
+    "y": 7231,
+    "type": "Dorf"
+  },
+  {
+    "name": "Orrakhar",
+    "x": "2922",
+    "y": 7432,
+    "type": "Stadt"
+  },
+  {
+    "name": "Orrehjal",
+    "x": "257",
+    "y": 8884,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ortis",
+    "x": "2554",
+    "y": 5892,
+    "type": "Dorf"
+  },
+  {
+    "name": "Orvanola",
+    "x": "2625",
+    "y": 4515,
+    "type": "Dorf"
+  },
+  {
+    "name": "Orvil",
+    "x": "1037",
+    "y": 7126,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Osten Ara",
+    "x": "2653",
+    "y": 3451,
+    "type": "Dorf"
+  },
+  {
+    "name": "Otra",
+    "x": "6304",
+    "y": 7601,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ottahal",
+    "x": "2569",
+    "y": 3699,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ottarje",
+    "x": "1165",
+    "y": 6981,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ottasheim",
+    "x": "1021",
+    "y": 7849,
+    "type": "Dorf"
+  },
+  {
+    "name": "Otterntal",
+    "x": "2258",
+    "y": 5524,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ou'Roboch",
+    "x": "4170",
+    "y": 2731,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ouvenmas",
+    "x": "6459",
+    "y": 8139,
+    "type": "Stadt"
+  },
+  {
+    "name": "Overthorn",
+    "x": "1028",
+    "y": 7348,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Oyandagh",
+    "x": "4646",
+    "y": 4597,
+    "type": "Dorf"
+  },
+  {
+    "name": "Paavi",
+    "x": "6533",
+    "y": 9300,
+    "type": "Stadt"
+  },
+  {
+    "name": "Palakar",
+    "x": "1497",
+    "y": 3545,
+    "type": "Dorf"
+  },
+  {
+    "name": "Pallingen",
+    "x": "4216",
+    "y": 6731,
+    "type": "Dorf"
+  },
+  {
+    "name": "Palmyrabad",
+    "x": "4569",
+    "y": 4882,
+    "type": "Stadt"
+  },
+  {
+    "name": "Papenstein",
+    "x": "3682",
+    "y": 6684,
+    "type": "Dorf"
+  },
+  {
+    "name": "Paphla",
+    "x": "2688",
+    "y": 3399,
+    "type": "Dorf"
+  },
+  {
+    "name": "Papilio",
+    "x": "2396",
+    "y": 4201,
+    "type": "Dorf"
+  },
+  {
+    "name": "Parju",
+    "x": "4618",
+    "y": 8366,
+    "type": "Dorf"
+  },
+  {
+    "name": "Parkauki",
+    "x": "2837",
+    "y": 8038,
+    "type": "Dorf"
+  },
+  {
+    "name": "Parsek",
+    "x": "2580",
+    "y": 3868,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Paßweiser",
+    "x": "3090",
+    "y": 5762,
+    "type": "Dorf"
+  },
+  {
+    "name": "Patras",
+    "x": "2650",
+    "y": 1681,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Peilinen",
+    "x": "1665",
+    "y": 6735,
+    "type": "Dorf"
+  },
+  {
+    "name": "Pekkaani",
+    "x": "5729",
+    "y": 9025,
+    "type": "Dorf"
+  },
+  {
+    "name": "Pelqanan",
+    "x": "5401",
+    "y": 4373,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Perain",
+    "x": "3192",
+    "y": 4726,
+    "type": "Dorf"
+  },
+  {
+    "name": "Perainefelden",
+    "x": "3986",
+    "y": 6701,
+    "type": "Dorf"
+  },
+  {
+    "name": "Perainefurten",
+    "x": "5413",
+    "y": 6898,
+    "type": "Stadt"
+  },
+  {
+    "name": "Perainidal",
+    "x": "2470",
+    "y": 4235,
+    "type": "Stadt"
+  },
+  {
+    "name": "Perainis",
+    "x": "2664",
+    "y": 3500,
+    "type": "Dorf"
+  },
+  {
+    "name": "Perainsgarten",
+    "x": "4349",
+    "y": 5601,
+    "type": "Dorf"
+  },
+  {
+    "name": "Pergelgrund",
+    "x": "3698",
+    "y": 6708,
+    "type": "Dorf"
+  },
+  {
+    "name": "Periusa",
+    "x": "2619",
+    "y": 3464,
+    "type": "Dorf"
+  },
+  {
+    "name": "Perricum",
+    "x": "4855",
+    "y": 5444,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Persanzig",
+    "x": "6301",
+    "y": 8213,
+    "type": "Dorf"
+  },
+  {
+    "name": "Pertakis",
+    "x": "2393",
+    "y": 4160,
+    "type": "Stadt"
+  },
+  {
+    "name": "Pervin",
+    "x": "5944",
+    "y": 7968,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Perz",
+    "x": "4074",
+    "y": 6125,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Pessina",
+    "x": "2621",
+    "y": 3497,
+    "type": "Dorf"
+  },
+  {
+    "name": "Pfalz Goldenstein",
+    "x": "4120",
+    "y": 5685,
+    "type": null
+  },
+  {
+    "name": "Pfortenstein",
+    "x": "3100",
+    "y": 5180,
+    "type": "Dorf"
+  },
+  {
+    "name": "Pharvila",
+    "x": "2734",
+    "y": 4545,
+    "type": "Dorf"
+  },
+  {
+    "name": "Phexcaer",
+    "x": "1812",
+    "y": 7222,
+    "type": "Stadt"
+  },
+  {
+    "name": "Phexhilf",
+    "x": "2644",
+    "y": 4728,
+    "type": "Dorf"
+  },
+  {
+    "name": "Phrenoshof",
+    "x": "2842",
+    "y": 3379,
+    "type": "Dorf"
+  },
+  {
+    "name": "Pichel",
+    "x": "2801",
+    "y": 3487,
+    "type": "Dorf"
+  },
+  {
+    "name": "Pildek",
+    "x": "2800",
+    "y": 4698,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Pinnacht",
+    "x": "2805",
+    "y": 1812,
+    "type": "Dorf"
+  },
+  {
+    "name": "Pjagelholm",
+    "x": "371",
+    "y": 8731,
+    "type": "Dorf"
+  },
+  {
+    "name": "Pjeschen",
+    "x": "6441",
+    "y": 7399,
+    "type": "Dorf"
+  },
+  {
+    "name": "Plesse",
+    "x": "1652",
+    "y": 1196,
+    "type": "Dorf"
+  },
+  {
+    "name": "Plötzingen",
+    "x": "6291",
+    "y": 7409,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Poppenricht",
+    "x": "4618",
+    "y": 6056,
+    "type": "Dorf"
+  },
+  {
+    "name": "Porlum",
+    "x": "2719",
+    "y": 3714,
+    "type": "Dorf"
+  },
+  {
+    "name": "Port Charybyss",
+    "x": "3996",
+    "y": 2545,
+    "type": "Dorf"
+  },
+  {
+    "name": "Port Corrad",
+    "x": "3046",
+    "y": 2622,
+    "type": "Stadt"
+  },
+  {
+    "name": "Port Emer",
+    "x": "2910",
+    "y": 770,
+    "type": "Dorf"
+  },
+  {
+    "name": "Port Honak",
+    "x": "5494",
+    "y": 429,
+    "type": "Dorf"
+  },
+  {
+    "name": "Port Kellis",
+    "x": "4454",
+    "y": 2817,
+    "type": "Dorf"
+  },
+  {
+    "name": "Port Oreal",
+    "x": "4728",
+    "y": 473,
+    "type": "Dorf"
+  },
+  {
+    "name": "Port Peleiston",
+    "x": "4313",
+    "y": 927,
+    "type": "Dorf"
+  },
+  {
+    "name": "Port Rulat",
+    "x": "6270",
+    "y": 5936,
+    "type": "Stadt"
+  },
+  {
+    "name": "Port Stoerrebrandt",
+    "x": "5067",
+    "y": 364,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Port Syrdalok",
+    "x": "6086",
+    "y": 6640,
+    "type": "Dorf"
+  },
+  {
+    "name": "Port Visar",
+    "x": "2825",
+    "y": 1655,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Port Zornbrecht",
+    "x": "3317",
+    "y": 2417,
+    "type": "Dorf"
+  },
+  {
+    "name": "Porto Paligan",
+    "x": "3569",
+    "y": 1215,
+    "type": "Dorf"
+  },
+  {
+    "name": "Praiosau",
+    "x": "5186",
+    "y": 5921,
+    "type": "Dorf"
+  },
+  {
+    "name": "Praiosdank",
+    "x": "5479",
+    "y": 2838,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Praiosingen",
+    "x": "5088",
+    "y": 7313,
+    "type": "Dorf"
+  },
+  {
+    "name": "Praiostal",
+    "x": "3945",
+    "y": 5315,
+    "type": "Dorf"
+  },
+  {
+    "name": "Praske",
+    "x": "4952",
+    "y": 6465,
+    "type": "Dorf"
+  },
+  {
+    "name": "Prem",
+    "x": "1008",
+    "y": 6830,
+    "type": "Stadt"
+  },
+  {
+    "name": "Protzingen",
+    "x": "5316",
+    "y": 6807,
+    "type": "Dorf"
+  },
+  {
+    "name": "Puleth",
+    "x": "4040",
+    "y": 5996,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Pundred",
+    "x": "3500",
+    "y": 4993,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Punin",
+    "x": "3637",
+    "y": 4737,
+    "type": "Metropole"
+  },
+  {
+    "name": "Purfo",
+    "x": "2780",
+    "y": 3475,
+    "type": "Dorf"
+  },
+  {
+    "name": "Puspereiken",
+    "x": "6362",
+    "y": 7326,
+    "type": "Dorf"
+  },
+  {
+    "name": "Putras",
+    "x": "1675",
+    "y": 3670,
+    "type": "Dorf"
+  },
+  {
+    "name": "Qashuk",
+    "x": "4944",
+    "y": 3739,
+    "type": "Dorf"
+  },
+  {
+    "name": "Qinsay",
+    "x": "2765",
+    "y": 1187,
+    "type": "Dorf"
+  },
+  {
+    "name": "Qir",
+    "x": "3581",
+    "y": 3021,
+    "type": "Dorf"
+  },
+  {
+    "name": "Quadanagar",
+    "x": "4034",
+    "y": 4363,
+    "type": "Dorf"
+  },
+  {
+    "name": "Quaranca",
+    "x": "3608",
+    "y": 4889,
+    "type": "Dorf"
+  },
+  {
+    "name": "Quastenbroich",
+    "x": "3764",
+    "y": 6114,
+    "type": "Dorf"
+  },
+  {
+    "name": "Quasulerando",
+    "x": "2766",
+    "y": 3765,
+    "type": "Dorf"
+  },
+  {
+    "name": "Quelldunkel",
+    "x": "6742",
+    "y": 8298,
+    "type": "Dorf"
+  },
+  {
+    "name": "Quergel",
+    "x": "2779",
+    "y": 3749,
+    "type": "Dorf"
+  },
+  {
+    "name": "Quirod",
+    "x": "3628",
+    "y": 4803,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Rab El'Dash",
+    "x": "4714",
+    "y": 3610,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rabangen",
+    "x": "3250",
+    "y": 7303,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rabenfeld",
+    "x": "5106",
+    "y": 5911,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rabicum",
+    "x": "4793",
+    "y": 5420,
+    "type": "Dorf"
+  },
+  {
+    "name": "Radil",
+    "x": "5154",
+    "y": 6176,
+    "type": "Dorf"
+  },
+  {
+    "name": "Radoleth",
+    "x": "2663",
+    "y": 4132,
+    "type": "Stadt"
+  },
+  {
+    "name": "Ragath",
+    "x": "3624",
+    "y": 4982,
+    "type": "Stadt"
+  },
+  {
+    "name": "Rahjastein",
+    "x": "2969",
+    "y": 3547,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rakulbruck",
+    "x": "3390",
+    "y": 5636,
+    "type": "Dorf"
+  },
+  {
+    "name": "Raldûn",
+    "x": "329",
+    "y": 9001,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rallerfeste",
+    "x": "5946",
+    "y": 6300,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rallerquell",
+    "x": "3702",
+    "y": 5810,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ralûnk",
+    "x": "2560",
+    "y": 3684,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ramaúd",
+    "x": "2214",
+    "y": 4043,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Ranak",
+    "x": "2032",
+    "y": 994,
+    "type": "Dorf"
+  },
+  {
+    "name": "Randersburg",
+    "x": "3798",
+    "y": 5754,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Randolphsweg",
+    "x": "4151",
+    "y": 6112,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rankaraliratena",
+    "x": "4279",
+    "y": 5898,
+    "type": "Stadt"
+  },
+  {
+    "name": "Rantzig",
+    "x": "5995",
+    "y": 7868,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ranuch",
+    "x": "3622",
+    "y": 5180,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rappenfluhe",
+    "x": "4440",
+    "y": 6398,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Ras Abris",
+    "x": "5320",
+    "y": 4944,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ras El'Bir",
+    "x": "4410",
+    "y": 4261,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ras Nefidim",
+    "x": "5755",
+    "y": 4935,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Ras Surya",
+    "x": "5254",
+    "y": 4555,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ras-ma-mud",
+    "x": "4451",
+    "y": 4270,
+    "type": "Dorf"
+  },
+  {
+    "name": "Raschid Ra'Ad",
+    "x": "3394",
+    "y": 2605,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rash Lamashu",
+    "x": "4537",
+    "y": 5175,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rashdul",
+    "x": "4824",
+    "y": 3723,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Rashûn",
+    "x": "2777",
+    "y": 3435,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ratheln",
+    "x": "5884",
+    "y": 6906,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rathila",
+    "x": "4617",
+    "y": 7327,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rathilmuend",
+    "x": "4482",
+    "y": 7315,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rathmos",
+    "x": "5595",
+    "y": 4513,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Rattingen",
+    "x": "4862",
+    "y": 6197,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ratzingen",
+    "x": "3303",
+    "y": 4711,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Raudups",
+    "x": "5860",
+    "y": 7256,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rauffenberg",
+    "x": "5502",
+    "y": 6261,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ravendoch",
+    "x": "1781",
+    "y": 5461,
+    "type": "Dorf"
+  },
+  {
+    "name": "Raxx'Mal",
+    "x": "1756",
+    "y": 1079,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rayyadh",
+    "x": "2426",
+    "y": 8354,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Re'Cha",
+    "x": "5660",
+    "y": 392,
+    "type": "Dorf"
+  },
+  {
+    "name": "Reck",
+    "x": "4255",
+    "y": 5870,
+    "type": "Dorf"
+  },
+  {
+    "name": "Reelia",
+    "x": "6354",
+    "y": 10525,
+    "type": "Dorf"
+  },
+  {
+    "name": "Reichsabtei St. Praiodan",
+    "x": "4047",
+    "y": 6089,
+    "type": null
+  },
+  {
+    "name": "Reichsend",
+    "x": "3997",
+    "y": 7200,
+    "type": "Dorf"
+  },
+  {
+    "name": "Reichsweg",
+    "x": "3895",
+    "y": 6268,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rengor",
+    "x": "3008",
+    "y": 4806,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Rethis",
+    "x": "2223",
+    "y": 3432,
+    "type": "Stadt"
+  },
+  {
+    "name": "Retohaven",
+    "x": "5470",
+    "y": 3141,
+    "type": "Dorf"
+  },
+  {
+    "name": "Retosgrund",
+    "x": "3814",
+    "y": 5634,
+    "type": "Dorf"
+  },
+  {
+    "name": "Revennis",
+    "x": "4716",
+    "y": 4987,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Rhodenstein",
+    "x": "4059",
+    "y": 6833,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rhondur",
+    "x": "3201",
+    "y": 5555,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Rhun",
+    "x": "1721",
+    "y": 3663,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rhûvak",
+    "x": "2636",
+    "y": 3470,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rickenhausen",
+    "x": "2784",
+    "y": 5711,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rieden",
+    "x": "2871",
+    "y": 5556,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rindsfurt",
+    "x": "4087",
+    "y": 5710,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rior",
+    "x": "3833",
+    "y": 5299,
+    "type": "Dorf"
+  },
+  {
+    "name": "Risa",
+    "x": "2487",
+    "y": 3354,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ritterfurt",
+    "x": "5783",
+    "y": 7076,
+    "type": "Dorf"
+  },
+  {
+    "name": "Riur'lara",
+    "x": "4052",
+    "y": 8130,
+    "type": "Dorf"
+  },
+  {
+    "name": "Riva",
+    "x": "3687",
+    "y": 8493,
+    "type": "Stadt"
+  },
+  {
+    "name": "Rivilauken",
+    "x": "6330",
+    "y": 7461,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Rodaschmund",
+    "x": "2224",
+    "y": 5259,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rodebrannt",
+    "x": "5955",
+    "y": 7836,
+    "type": "Stadt"
+  },
+  {
+    "name": "Rohalssteg",
+    "x": "3220",
+    "y": 5615,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Rohalsweiler",
+    "x": "4045",
+    "y": 5758,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rommilys",
+    "x": "4486",
+    "y": 5763,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Rondberg",
+    "x": "2025",
+    "y": 5025,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rondrasdank",
+    "x": "3201",
+    "y": 6073,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ronishagen",
+    "x": "4676",
+    "y": 3003,
+    "type": "Stadt"
+  },
+  {
+    "name": "Ropaddes Hof",
+    "x": "5899",
+    "y": 8009,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rorkvell",
+    "x": "3331",
+    "y": 7629,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rosenteich",
+    "x": "3530",
+    "y": 5074,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rossol",
+    "x": "2806",
+    "y": 4999,
+    "type": "Dorf"
+  },
+  {
+    "name": "Roswylde",
+    "x": "5534",
+    "y": 4237,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rothof",
+    "x": "4153",
+    "y": 6007,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rottan",
+    "x": "3401",
+    "y": 5580,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rovamund",
+    "x": "1648",
+    "y": 6636,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rovik",
+    "x": "1005",
+    "y": 7085,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rubreth",
+    "x": "3645",
+    "y": 5550,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ruchin",
+    "x": "4294",
+    "y": 5558,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rucken",
+    "x": "6210",
+    "y": 7299,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rudein",
+    "x": "4401",
+    "y": 6847,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Rukian",
+    "x": "1495",
+    "y": 6878,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rûl",
+    "x": "2700",
+    "y": 3612,
+    "type": "Dorf"
+  },
+  {
+    "name": "Rulat",
+    "x": "6313",
+    "y": 5878,
+    "type": "Dorf"
+  },
+  {
+    "name": "Runhag",
+    "x": "4764",
+    "y": 7011,
+    "type": "Dorf"
+  },
+  {
+    "name": "Runinshaven",
+    "x": "1095",
+    "y": 6732,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ruthor",
+    "x": "2392",
+    "y": 4359,
+    "type": "Stadt"
+  },
+  {
+    "name": "Rybon",
+    "x": "1262",
+    "y": 7086,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sala der Blütentänzer",
+    "x": "3917",
+    "y": 6015,
+    "type": "Dorf"
+  },
+  {
+    "name": "Saladuk",
+    "x": "2895",
+    "y": 3581,
+    "type": "Dorf"
+  },
+  {
+    "name": "Salderholt",
+    "x": "5792",
+    "y": 7330,
+    "type": "Dorf"
+  },
+  {
+    "name": "Salderkeim",
+    "x": "5806",
+    "y": 7369,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Saldersand",
+    "x": "6099",
+    "y": 5687,
+    "type": "Dorf"
+  },
+  {
+    "name": "Salikum",
+    "x": "2302",
+    "y": 4001,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Salina",
+    "x": "2670",
+    "y": 1927,
+    "type": "Dorf"
+  },
+  {
+    "name": "Salmingen",
+    "x": "3496",
+    "y": 5523,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Salsweiler",
+    "x": "6492",
+    "y": 7912,
+    "type": "Dorf"
+  },
+  {
+    "name": "Salthel",
+    "x": "4680",
+    "y": 6943,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Saltumbra",
+    "x": "2863",
+    "y": 3422,
+    "type": "Dorf"
+  },
+  {
+    "name": "Salwynsfelden",
+    "x": "4988",
+    "y": 6609,
+    "type": "Dorf"
+  },
+  {
+    "name": "Salza",
+    "x": "1493",
+    "y": 6262,
+    "type": "Stadt"
+  },
+  {
+    "name": "Salzerhaven",
+    "x": "1478",
+    "y": 6266,
+    "type": "Stadt"
+  },
+  {
+    "name": "Salzsteige",
+    "x": "2302",
+    "y": 4772,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sameach",
+    "x": "4608",
+    "y": 3332,
+    "type": "Dorf"
+  },
+  {
+    "name": "Samlor",
+    "x": "3842",
+    "y": 5535,
+    "type": "Dorf"
+  },
+  {
+    "name": "Samra",
+    "x": "4562",
+    "y": 4074,
+    "type": "Dorf"
+  },
+  {
+    "name": "San Festo",
+    "x": "2535",
+    "y": 4190,
+    "type": "Dorf"
+  },
+  {
+    "name": "San Therbuna",
+    "x": "3612",
+    "y": 4842,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sant Ascanio",
+    "x": "4640",
+    "y": 523,
+    "type": "Dorf"
+  },
+  {
+    "name": "Santa Thalionmel",
+    "x": "2714",
+    "y": 3486,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sapallyo",
+    "x": "2592",
+    "y": 4189,
+    "type": "Dorf"
+  },
+  {
+    "name": "Saphirna",
+    "x": "6677",
+    "y": 926,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sarauklis",
+    "x": "5831",
+    "y": 7138,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sardosk",
+    "x": "6159",
+    "y": 6104,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sassandra-Südwall",
+    "x": "6155",
+    "y": 5893,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Satara",
+    "x": "2370",
+    "y": 4227,
+    "type": "Dorf"
+  },
+  {
+    "name": "Saz'adzz",
+    "x": "1833",
+    "y": 1202,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schatodor",
+    "x": "5761",
+    "y": 5561,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schattengrund",
+    "x": "2192",
+    "y": 4862,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schelf",
+    "x": "2276",
+    "y": 4097,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Schellwick",
+    "x": "1680",
+    "y": 5416,
+    "type": "Dorf"
+  },
+  {
+    "name": "Scheutzen",
+    "x": "3995",
+    "y": 7138,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schilfsend",
+    "x": "5700",
+    "y": 6876,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schimochen",
+    "x": "6197",
+    "y": 7517,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schindmeringen",
+    "x": "2570",
+    "y": 5406,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schlangentodt",
+    "x": "3689",
+    "y": 4776,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Schloß Nevelung",
+    "x": "5283",
+    "y": 6529,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schlund",
+    "x": "4295",
+    "y": 5499,
+    "type": null
+  },
+  {
+    "name": "Schlüsselfels",
+    "x": "5994",
+    "y": 7559,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schmalfurt",
+    "x": "3216",
+    "y": 6068,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schnayttach",
+    "x": "3709",
+    "y": 6350,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schossko",
+    "x": "5662",
+    "y": 8063,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Schotzen",
+    "x": "5947",
+    "y": 7672,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schradok",
+    "x": "2612",
+    "y": 4666,
+    "type": "Stadt"
+  },
+  {
+    "name": "Schrotenstein",
+    "x": "3738",
+    "y": 4941,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Schwanen",
+    "x": "4451",
+    "y": 5839,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schwarzbuckel",
+    "x": "5825",
+    "y": 6290,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schwarzenstein",
+    "x": "5824",
+    "y": 5656,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schwarzmos",
+    "x": "5837",
+    "y": 7894,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schwarztannen",
+    "x": "3467",
+    "y": 5742,
+    "type": "Dorf"
+  },
+  {
+    "name": "Schwertbergen",
+    "x": "6164",
+    "y": 7370,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Seefluren",
+    "x": "4506",
+    "y": 5782,
+    "type": "Dorf"
+  },
+  {
+    "name": "Seeheim",
+    "x": "4436",
+    "y": 5907,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Seewiesen",
+    "x": "2634",
+    "y": 6252,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sefjanil",
+    "x": "5760",
+    "y": 5003,
+    "type": "Dorf"
+  },
+  {
+    "name": "Seggenhorst",
+    "x": "2465",
+    "y": 6337,
+    "type": "Dorf"
+  },
+  {
+    "name": "Selaque",
+    "x": "3861",
+    "y": 4981,
+    "type": "Dorf"
+  },
+  {
+    "name": "Selem",
+    "x": "3334",
+    "y": 2557,
+    "type": "Stadt"
+  },
+  {
+    "name": "Selicum",
+    "x": "3951",
+    "y": 4327,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Selshed",
+    "x": "2297",
+    "y": 4364,
+    "type": "Stadt"
+  },
+  {
+    "name": "Senan",
+    "x": "5828",
+    "y": 3457,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sensenhöh",
+    "x": "5374",
+    "y": 5959,
+    "type": "Dorf"
+  },
+  {
+    "name": "Serrevik",
+    "x": "428",
+    "y": 8583,
+    "type": "Dorf"
+  },
+  {
+    "name": "Serrinmoor",
+    "x": "3410",
+    "y": 6029,
+    "type": "Dorf"
+  },
+  {
+    "name": "Serske",
+    "x": "1438",
+    "y": 6764,
+    "type": "Dorf"
+  },
+  {
+    "name": "Serûn",
+    "x": "2554",
+    "y": 3590,
+    "type": "Dorf"
+  },
+  {
+    "name": "Seshwick",
+    "x": "2494",
+    "y": 5597,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Setepen",
+    "x": "2668",
+    "y": 774,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sewamund",
+    "x": "2413",
+    "y": 4381,
+    "type": "Stadt"
+  },
+  {
+    "name": "Shafirs Hort",
+    "x": "2918",
+    "y": 3758,
+    "type": "Dorf"
+  },
+  {
+    "name": "Shamaham",
+    "x": "5775",
+    "y": 5828,
+    "type": "Stadt"
+  },
+  {
+    "name": "Shanasala",
+    "x": "6271",
+    "y": 9578,
+    "type": "Dorf"
+  },
+  {
+    "name": "Shani",
+    "x": "2847",
+    "y": 2370,
+    "type": "Dorf"
+  },
+  {
+    "name": "Shara",
+    "x": "4920",
+    "y": 4983,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sharbak",
+    "x": "2787",
+    "y": 3732,
+    "type": "Dorf"
+  },
+  {
+    "name": "Shariwan",
+    "x": "5349",
+    "y": 4287,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Sharûk",
+    "x": "2715",
+    "y": 3463,
+    "type": "Dorf"
+  },
+  {
+    "name": "Shenilo",
+    "x": "2325",
+    "y": 4178,
+    "type": "Stadt"
+  },
+  {
+    "name": "Sherbeth",
+    "x": "3224",
+    "y": 4617,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Shilish",
+    "x": "2708",
+    "y": 3413,
+    "type": "Dorf"
+  },
+  {
+    "name": "Shin-ka-Vila",
+    "x": "2875",
+    "y": 1994,
+    "type": "Dorf"
+  },
+  {
+    "name": "Shinadra",
+    "x": "2984",
+    "y": 4443,
+    "type": "Dorf"
+  },
+  {
+    "name": "Shirdar",
+    "x": "4002",
+    "y": 4380,
+    "type": "Dorf"
+  },
+  {
+    "name": "Shiror",
+    "x": "2914",
+    "y": 2401,
+    "type": "Dorf"
+  },
+  {
+    "name": "Shobilla",
+    "x": "4186",
+    "y": 4114,
+    "type": "Dorf"
+  },
+  {
+    "name": "Shoy'Rina",
+    "x": "2590",
+    "y": 1652,
+    "type": "Dorf"
+  },
+  {
+    "name": "Shumir",
+    "x": "2503",
+    "y": 4287,
+    "type": "Stadt"
+  },
+  {
+    "name": "Sibra",
+    "x": "3126",
+    "y": 7461,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sibur",
+    "x": "2632",
+    "y": 4068,
+    "type": "Stadt"
+  },
+  {
+    "name": "Sichelbruch",
+    "x": "2578",
+    "y": 6239,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sicheln",
+    "x": "2391",
+    "y": 4496,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sichelweg",
+    "x": "4723",
+    "y": 6968,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sicherlingen",
+    "x": "2654",
+    "y": 6581,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sienna",
+    "x": "2302",
+    "y": 3448,
+    "type": "Dorf"
+  },
+  {
+    "name": "Silas",
+    "x": "2549",
+    "y": 3944,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Silberhuett",
+    "x": "4584",
+    "y": 5973,
+    "type": "Dorf"
+  },
+  {
+    "name": "Silfurningen",
+    "x": "4320",
+    "y": 6700,
+    "type": "Dorf"
+  },
+  {
+    "name": "Siljen",
+    "x": "1366",
+    "y": 7572,
+    "type": "Dorf"
+  },
+  {
+    "name": "Silkwiesen",
+    "x": "3993",
+    "y": 5678,
+    "type": "Dorf"
+  },
+  {
+    "name": "Silling",
+    "x": "6224",
+    "y": 7972,
+    "type": "Dorf"
+  },
+  {
+    "name": "Silpio",
+    "x": "2608",
+    "y": 3541,
+    "type": "Dorf"
+  },
+  {
+    "name": "Silva Alicorni",
+    "x": "2706",
+    "y": 3443,
+    "type": "Dorf"
+  },
+  {
+    "name": "Silz",
+    "x": "3702",
+    "y": 5941,
+    "type": "Dorf"
+  },
+  {
+    "name": "Simiador",
+    "x": "4212",
+    "y": 4741,
+    "type": "Stadt"
+  },
+  {
+    "name": "Simorenia",
+    "x": "2363",
+    "y": 2394,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sindibab",
+    "x": "6347",
+    "y": 4904,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sinoda",
+    "x": "5789",
+    "y": 3027,
+    "type": "Stadt"
+  },
+  {
+    "name": "Sinopje",
+    "x": "4803",
+    "y": 7362,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sirbana",
+    "x": "2504",
+    "y": 6127,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sirmgalvis",
+    "x": "6147",
+    "y": 7473,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Sirsinkis",
+    "x": "5923",
+    "y": 7302,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sjepengurken",
+    "x": "6601",
+    "y": 8212,
+    "type": "Dorf"
+  },
+  {
+    "name": "Skardan",
+    "x": "1449",
+    "y": 6439,
+    "type": "Dorf"
+  },
+  {
+    "name": "Skebos",
+    "x": "1635",
+    "y": 3437,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Skelellen",
+    "x": "1842",
+    "y": 6775,
+    "type": "Dorf"
+  },
+  {
+    "name": "Skerdûn",
+    "x": "723",
+    "y": 7883,
+    "type": "Dorf"
+  },
+  {
+    "name": "Skirza",
+    "x": "2832",
+    "y": 3438,
+    "type": "Dorf"
+  },
+  {
+    "name": "Skjal",
+    "x": "1032",
+    "y": 6915,
+    "type": "Dorf"
+  },
+  {
+    "name": "Skorpsky",
+    "x": "5905",
+    "y": 6936,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Skovbjerg",
+    "x": "1272",
+    "y": 7315,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Skullen",
+    "x": "5972",
+    "y": 7251,
+    "type": "Dorf"
+  },
+  {
+    "name": "Smamid",
+    "x": "4794",
+    "y": 3819,
+    "type": "Dorf"
+  },
+  {
+    "name": "Smijad",
+    "x": "5520",
+    "y": 4753,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sodanyo",
+    "x": "2350",
+    "y": 4204,
+    "type": "Dorf"
+  },
+  {
+    "name": "Söderland-Ottajasko",
+    "x": "4812",
+    "y": 8381,
+    "type": "Dorf"
+  },
+  {
+    "name": "Solfeld",
+    "x": "2773",
+    "y": 3708,
+    "type": "Dorf"
+  },
+  {
+    "name": "Solfurt",
+    "x": "2874",
+    "y": 5245,
+    "type": "Dorf"
+  },
+  {
+    "name": "Solon",
+    "x": "2726",
+    "y": 3416,
+    "type": "Dorf"
+  },
+  {
+    "name": "Solstono",
+    "x": "2251",
+    "y": 4134,
+    "type": "Dorf"
+  },
+  {
+    "name": "Somina",
+    "x": "2600",
+    "y": 3607,
+    "type": "Dorf"
+  },
+  {
+    "name": "Somininia",
+    "x": "2587",
+    "y": 3607,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sonnenfelde",
+    "x": "4076",
+    "y": 6172,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sonngrunden",
+    "x": "6250",
+    "y": 7303,
+    "type": "Dorf"
+  },
+  {
+    "name": "Soprieten",
+    "x": "6093",
+    "y": 7253,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sorabis",
+    "x": "2470",
+    "y": 3327,
+    "type": "Dorf"
+  },
+  {
+    "name": "Soramis",
+    "x": "2599",
+    "y": 3511,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sorbik",
+    "x": "2356",
+    "y": 3971,
+    "type": "Stadt"
+  },
+  {
+    "name": "Soroban",
+    "x": "3405",
+    "y": 4719,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Spinnried",
+    "x": "3489",
+    "y": 5584,
+    "type": "Dorf"
+  },
+  {
+    "name": "Spogelsen",
+    "x": "5113",
+    "y": 6842,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ssd'l",
+    "x": "4073",
+    "y": 2492,
+    "type": "Dorf"
+  },
+  {
+    "name": "Stadt der Toten",
+    "x": "6025",
+    "y": 8232,
+    "type": null
+  },
+  {
+    "name": "Steinbrücken",
+    "x": "3332",
+    "y": 5818,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Steinhav",
+    "x": "5162",
+    "y": 9782,
+    "type": "Dorf"
+  },
+  {
+    "name": "Steinwiesen",
+    "x": "2843",
+    "y": 5752,
+    "type": "Dorf"
+  },
+  {
+    "name": "Stepp",
+    "x": "4413",
+    "y": 5892,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sternfeld",
+    "x": "3410",
+    "y": 7527,
+    "type": "Dorf"
+  },
+  {
+    "name": "Steynebruk",
+    "x": "3875",
+    "y": 5364,
+    "type": "Dorf"
+  },
+  {
+    "name": "Stineshof",
+    "x": "4102",
+    "y": 5684,
+    "type": "Dorf"
+  },
+  {
+    "name": "Stippwitz",
+    "x": "3239",
+    "y": 5736,
+    "type": "Dorf"
+  },
+  {
+    "name": "Storsjen",
+    "x": "1264",
+    "y": 7584,
+    "type": "Dorf"
+  },
+  {
+    "name": "Striazirros",
+    "x": "2552",
+    "y": 4224,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sturmfels",
+    "x": "4592",
+    "y": 5805,
+    "type": "Dorf"
+  },
+  {
+    "name": "Suderhus",
+    "x": "5528",
+    "y": 6281,
+    "type": "Dorf"
+  },
+  {
+    "name": "Suderstein",
+    "x": "2835",
+    "y": 3479,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sumpera",
+    "x": "2641",
+    "y": 3522,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sundby",
+    "x": "1001",
+    "y": 7304,
+    "type": "Dorf"
+  },
+  {
+    "name": "Svafdûn",
+    "x": "1359",
+    "y": 6542,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Svallmund",
+    "x": "3239",
+    "y": 7395,
+    "type": "Dorf"
+  },
+  {
+    "name": "Svalltermoor",
+    "x": "3249",
+    "y": 7237,
+    "type": "Dorf"
+  },
+  {
+    "name": "Svegan",
+    "x": "1406",
+    "y": 7794,
+    "type": "Dorf"
+  },
+  {
+    "name": "Svellmia",
+    "x": "3272",
+    "y": 7368,
+    "type": "Dorf"
+  },
+  {
+    "name": "Swafnirsheim",
+    "x": "706",
+    "y": 7687,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sykand",
+    "x": "6698",
+    "y": 7097,
+    "type": "Dorf"
+  },
+  {
+    "name": "Sylla",
+    "x": "3269",
+    "y": 1176,
+    "type": "Stadt"
+  },
+  {
+    "name": "Sylphur",
+    "x": "2099",
+    "y": 1296,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Sylveccio",
+    "x": "2725",
+    "y": 3668,
+    "type": "Dorf"
+  },
+  {
+    "name": "Syneggyn",
+    "x": "5806",
+    "y": 3082,
+    "type": "Dorf"
+  },
+  {
+    "name": "Syrrenholt",
+    "x": "3818",
+    "y": 5600,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Taël",
+    "x": "2760",
+    "y": 3462,
+    "type": "Dorf"
+  },
+  {
+    "name": "Taindoch",
+    "x": "2277",
+    "y": 5206,
+    "type": "Dorf"
+  },
+  {
+    "name": "Taining",
+    "x": "1745",
+    "y": 5321,
+    "type": "Dorf"
+  },
+  {
+    "name": "Taladur",
+    "x": "3502",
+    "y": 4888,
+    "type": "Stadt"
+  },
+  {
+    "name": "Talf",
+    "x": "4348",
+    "y": 6135,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tallon",
+    "x": "3577",
+    "y": 5423,
+    "type": "Dorf"
+  },
+  {
+    "name": "Talued",
+    "x": "5917",
+    "y": 3835,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tamaris",
+    "x": "4596",
+    "y": 4742,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tandosch",
+    "x": "2422",
+    "y": 5307,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tangor",
+    "x": "2672",
+    "y": 3686,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tankred",
+    "x": "2878",
+    "y": 3469,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tannfurt",
+    "x": "3109",
+    "y": 5797,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tanngrund",
+    "x": "4717",
+    "y": 6353,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tannweiler",
+    "x": "4723",
+    "y": 6687,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tannwirk",
+    "x": "3778",
+    "y": 5951,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tapam-Waba",
+    "x": "4819",
+    "y": 477,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tarashim",
+    "x": "4676",
+    "y": 4491,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tardesch",
+    "x": "2877",
+    "y": 3382,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tares",
+    "x": "5398",
+    "y": 280,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tarim",
+    "x": "3261",
+    "y": 2168,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tarmis",
+    "x": "4151",
+    "y": 4244,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tarnelfurt",
+    "x": "3561",
+    "y": 5437,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tarschoggyn",
+    "x": "5908",
+    "y": 3538,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tarsis",
+    "x": "2666",
+    "y": 3702,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tashbar",
+    "x": "2810",
+    "y": 3748,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tashbek",
+    "x": "2722",
+    "y": 4217,
+    "type": "Dorf"
+  },
+  {
+    "name": "Taubental",
+    "x": "3009",
+    "y": 4879,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tavaljuk",
+    "x": "4052",
+    "y": 8904,
+    "type": "Dorf"
+  },
+  {
+    "name": "Teichenberg",
+    "x": "4461",
+    "y": 6571,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tel-Han",
+    "x": "4322",
+    "y": 4299,
+    "type": "Dorf"
+  },
+  {
+    "name": "Telf",
+    "x": "2440",
+    "y": 3297,
+    "type": "Dorf"
+  },
+  {
+    "name": "Telfenhain",
+    "x": "3905",
+    "y": 5667,
+    "type": "Dorf"
+  },
+  {
+    "name": "Temphis",
+    "x": "4937",
+    "y": 3884,
+    "type": "Stadt"
+  },
+  {
+    "name": "Teneth",
+    "x": "2632",
+    "y": 4194,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tenkingsesch",
+    "x": "2506",
+    "y": 6450,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tennach",
+    "x": "3656",
+    "y": 6738,
+    "type": "Dorf"
+  },
+  {
+    "name": "Teralkira",
+    "x": "4732",
+    "y": 4878,
+    "type": "Dorf"
+  },
+  {
+    "name": "Terdan",
+    "x": "2894",
+    "y": 3433,
+    "type": "Dorf"
+  },
+  {
+    "name": "Terekand",
+    "x": "5108",
+    "y": 4320,
+    "type": "Dorf"
+  },
+  {
+    "name": "Teremon",
+    "x": "1540",
+    "y": 3531,
+    "type": "Stadt"
+  },
+  {
+    "name": "Teriliabad",
+    "x": "5608",
+    "y": 4639,
+    "type": "Dorf"
+  },
+  {
+    "name": "Terkis",
+    "x": "2438",
+    "y": 3739,
+    "type": "Dorf"
+  },
+  {
+    "name": "Terrinda",
+    "x": "2296",
+    "y": 4270,
+    "type": "Dorf"
+  },
+  {
+    "name": "Terubis",
+    "x": "2317",
+    "y": 3956,
+    "type": "Stadt"
+  },
+  {
+    "name": "Teshkal",
+    "x": "2839",
+    "y": 6712,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Thabuleth",
+    "x": "4691",
+    "y": 3184,
+    "type": "Dorf"
+  },
+  {
+    "name": "Thalhaus",
+    "x": "3149",
+    "y": 5388,
+    "type": "Dorf"
+  },
+  {
+    "name": "Thalimshof",
+    "x": "2772",
+    "y": 3398,
+    "type": "Dorf"
+  },
+  {
+    "name": "Thalusa",
+    "x": "4823",
+    "y": 3202,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Thalusfurt",
+    "x": "4664",
+    "y": 3200,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tharsina",
+    "x": "2647",
+    "y": 3608,
+    "type": "Dorf"
+  },
+  {
+    "name": "Thegûn",
+    "x": "2682",
+    "y": 3668,
+    "type": "Stadt"
+  },
+  {
+    "name": "Then",
+    "x": "3618",
+    "y": 4662,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Thendar",
+    "x": "2801",
+    "y": 2041,
+    "type": "Dorf"
+  },
+  {
+    "name": "Thenesh",
+    "x": "2547",
+    "y": 3289,
+    "type": "Dorf"
+  },
+  {
+    "name": "Theniran",
+    "x": "2384",
+    "y": 3192,
+    "type": "Dorf"
+  },
+  {
+    "name": "Theringen",
+    "x": "3056",
+    "y": 7376,
+    "type": "Dorf"
+  },
+  {
+    "name": "Theron",
+    "x": "2541",
+    "y": 3676,
+    "type": "Dorf"
+  },
+  {
+    "name": "Theves",
+    "x": "3591",
+    "y": 2929,
+    "type": "Dorf"
+  },
+  {
+    "name": "Thinar",
+    "x": "1166",
+    "y": 7788,
+    "type": "Dorf"
+  },
+  {
+    "name": "Thorwal",
+    "x": "1434",
+    "y": 6792,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Thorwasra",
+    "x": "5674",
+    "y": 4808,
+    "type": "Dorf"
+  },
+  {
+    "name": "Thoss",
+    "x": "1221",
+    "y": 7266,
+    "type": "Dorf"
+  },
+  {
+    "name": "Thûn",
+    "x": "2776",
+    "y": 4186,
+    "type": "Dorf"
+  },
+  {
+    "name": "Thunata",
+    "x": "3829",
+    "y": 7929,
+    "type": "Dorf"
+  },
+  {
+    "name": "Thunderbach",
+    "x": "2077",
+    "y": 5335,
+    "type": "Dorf"
+  },
+  {
+    "name": "Thunklipp",
+    "x": "2233",
+    "y": 4506,
+    "type": "Dorf"
+  },
+  {
+    "name": "Thurana",
+    "x": "2621",
+    "y": 6370,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Thuranx",
+    "x": "2516",
+    "y": 6367,
+    "type": "Dorf"
+  },
+  {
+    "name": "Thûrbrück",
+    "x": "3182",
+    "y": 5241,
+    "type": "Dorf"
+  },
+  {
+    "name": "Thures Tor",
+    "x": "1447",
+    "y": 6839,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tiefenfurt",
+    "x": "5169",
+    "y": 7283,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tiefhusen",
+    "x": "3141",
+    "y": 7603,
+    "type": "Stadt"
+  },
+  {
+    "name": "Tikech",
+    "x": "3605",
+    "y": 2918,
+    "type": "Dorf"
+  },
+  {
+    "name": "Timbergrund",
+    "x": "2709",
+    "y": 3639,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tingil",
+    "x": "4415",
+    "y": 4141,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tinqil",
+    "x": "4809",
+    "y": 3683,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tisal",
+    "x": "6163",
+    "y": 5734,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tizamsauen",
+    "x": "5401",
+    "y": 6898,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Tjanset",
+    "x": "1137",
+    "y": 7275,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tjoila",
+    "x": "1496",
+    "y": 6837,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tjolmar",
+    "x": "2985",
+    "y": 7852,
+    "type": "Stadt"
+  },
+  {
+    "name": "Tolacas",
+    "x": "2864",
+    "y": 4566,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tolakstein",
+    "x": "4240",
+    "y": 5368,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tolkram",
+    "x": "2439",
+    "y": 3823,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tommeldomm",
+    "x": "2157",
+    "y": 5938,
+    "type": "Dorf"
+  },
+  {
+    "name": "Toricum",
+    "x": "2436",
+    "y": 3835,
+    "type": "Stadt"
+  },
+  {
+    "name": "Torquil",
+    "x": "2732",
+    "y": 3389,
+    "type": "Dorf"
+  },
+  {
+    "name": "Torrias",
+    "x": "2814",
+    "y": 4493,
+    "type": "Dorf"
+  },
+  {
+    "name": "Torsin",
+    "x": "5838",
+    "y": 8051,
+    "type": "Dorf"
+  },
+  {
+    "name": "Torstorsgard",
+    "x": "1289",
+    "y": 7901,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Torvilio",
+    "x": "2530",
+    "y": 3845,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Tosch Mur",
+    "x": "3036",
+    "y": 4971,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tota-Kape",
+    "x": "2600",
+    "y": 2415,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tovalhus",
+    "x": "2642",
+    "y": 3714,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tovenkis",
+    "x": "2619",
+    "y": 3716,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Trachau",
+    "x": "6295",
+    "y": 7582,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trackenborn",
+    "x": "3075",
+    "y": 5061,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trallestedt",
+    "x": "1307",
+    "y": 7927,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trallik",
+    "x": "3214",
+    "y": 5874,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trallop",
+    "x": "4425",
+    "y": 7123,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Trallopfurten",
+    "x": "4468",
+    "y": 7123,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trallsky",
+    "x": "6338",
+    "y": 7787,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trasik",
+    "x": "3908",
+    "y": 8701,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trautemanns Hus",
+    "x": "6204",
+    "y": 8413,
+    "type": "Dorf"
+  },
+  {
+    "name": "Traviarim",
+    "x": "2331",
+    "y": 5387,
+    "type": "Dorf"
+  },
+  {
+    "name": "Traviasfurt",
+    "x": "4588",
+    "y": 5484,
+    "type": "Dorf"
+  },
+  {
+    "name": "Travingen",
+    "x": "5052",
+    "y": 7864,
+    "type": "Dorf"
+  },
+  {
+    "name": "Travinspforte",
+    "x": "4551",
+    "y": 6023,
+    "type": "Dorf"
+  },
+  {
+    "name": "Treban",
+    "x": "982",
+    "y": 6718,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trebesco",
+    "x": "2680",
+    "y": 4337,
+    "type": "Dorf"
+  },
+  {
+    "name": "Treie",
+    "x": "6321",
+    "y": 7928,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trelm",
+    "x": "2399",
+    "y": 4893,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trepelow",
+    "x": "6546",
+    "y": 8175,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trescha",
+    "x": "6324",
+    "y": 7686,
+    "type": "Dorf"
+  },
+  {
+    "name": "Treuenbollstein",
+    "x": "2487",
+    "y": 5004,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trevia",
+    "x": "2680",
+    "y": 3619,
+    "type": "Dorf"
+  },
+  {
+    "name": "Triveth",
+    "x": "2176",
+    "y": 4795,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Trolleth",
+    "x": "4835",
+    "y": 5691,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trollhaus",
+    "x": "4398",
+    "y": 6011,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trollshoved",
+    "x": "1481",
+    "y": 6732,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trontsand",
+    "x": "1641",
+    "y": 6034,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Trottweiler",
+    "x": "3124",
+    "y": 5773,
+    "type": "Dorf"
+  },
+  {
+    "name": "Truhjebor",
+    "x": "1908",
+    "y": 5488,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trunbach",
+    "x": "2465",
+    "y": 6073,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trutstein",
+    "x": "4433",
+    "y": 6771,
+    "type": "Dorf"
+  },
+  {
+    "name": "Trutzbach (InOff)",
+    "x": "5321",
+    "y": 6868,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tsafelde",
+    "x": "2879",
+    "y": 5360,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tsaida",
+    "x": "2635",
+    "y": 3679,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tsastrand",
+    "x": "6037",
+    "y": 7138,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tschelacon",
+    "x": "2917",
+    "y": 4800,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tschorkeffskoje",
+    "x": "6244",
+    "y": 7287,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tsh'Awah",
+    "x": "3621",
+    "y": 2643,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tul'ka'var",
+    "x": "2088",
+    "y": 3563,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tullasheim",
+    "x": "693",
+    "y": 7857,
+    "type": "Dorf"
+  },
+  {
+    "name": "Turehall",
+    "x": "2271",
+    "y": 5099,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tuzak",
+    "x": "5832",
+    "y": 3480,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Twergenhausen",
+    "x": "2828",
+    "y": 5156,
+    "type": "Stadt"
+  },
+  {
+    "name": "Twergentrutz",
+    "x": "3075",
+    "y": 5798,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tyldon",
+    "x": "1287",
+    "y": 7408,
+    "type": "Dorf"
+  },
+  {
+    "name": "Tyrakos",
+    "x": "1931",
+    "y": 3454,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Tyrinth",
+    "x": "2642",
+    "y": 1360,
+    "type": "Dorf"
+  },
+  {
+    "name": "Uddahjal",
+    "x": "1080",
+    "y": 7799,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Ufergrunden",
+    "x": "3252",
+    "y": 5764,
+    "type": "Dorf"
+  },
+  {
+    "name": "Uhdenau",
+    "x": "2662",
+    "y": 5603,
+    "type": "Dorf"
+  },
+  {
+    "name": "Uhdenberg",
+    "x": "4921",
+    "y": 7496,
+    "type": "Stadt"
+  },
+  {
+    "name": "Ukuban",
+    "x": "3524",
+    "y": 4608,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Ulahbar",
+    "x": "4580",
+    "y": 4399,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ulmenau",
+    "x": "3943",
+    "y": 6670,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ulmenbruch",
+    "x": "2760",
+    "y": 3654,
+    "type": "Dorf"
+  },
+  {
+    "name": "Ulva",
+    "x": "3770",
+    "y": 8605,
+    "type": "Dorf"
+  },
+  {
+    "name": "Unau",
+    "x": "3917",
+    "y": 3114,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Ungolfsroden",
+    "x": "3074",
+    "y": 5076,
+    "type": "Dorf"
+  },
+  {
+    "name": "Unicornia",
+    "x": "2707",
+    "y": 3662,
+    "type": "Dorf"
+  },
+  {
+    "name": "Unterfels",
+    "x": "2663",
+    "y": 4490,
+    "type": "Stadt"
+  },
+  {
+    "name": "Untergras",
+    "x": "3681",
+    "y": 5649,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Untersternheim",
+    "x": "4699",
+    "y": 5042,
+    "type": "Dorf"
+  },
+  {
+    "name": "Unterwaid",
+    "x": "2845",
+    "y": 3732,
+    "type": "Dorf"
+  },
+  {
+    "name": "Urbasi",
+    "x": "2566",
+    "y": 4028,
+    "type": "Stadt"
+  },
+  {
+    "name": "Urbet",
+    "x": "2519",
+    "y": 3969,
+    "type": "Stadt"
+  },
+  {
+    "name": "Uru'Achin",
+    "x": "3441",
+    "y": 2533,
+    "type": "Dorf"
+  },
+  {
+    "name": "Usdaran",
+    "x": "6301",
+    "y": 4056,
+    "type": "Dorf"
+  },
+  {
+    "name": "Uslenried",
+    "x": "3600",
+    "y": 5840,
+    "type": "Dorf"
+  },
+  {
+    "name": "Usnadamm",
+    "x": "5742",
+    "y": 6879,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Uspiaunen",
+    "x": "6218",
+    "y": 7456,
+    "type": "Dorf"
+  },
+  {
+    "name": "Uta",
+    "x": "4409",
+    "y": 9255,
+    "type": "Dorf"
+  },
+  {
+    "name": "Uuz'Dornak",
+    "x": "5645",
+    "y": 3284,
+    "type": "Dorf"
+  },
+  {
+    "name": "Uztrutz",
+    "x": "3270",
+    "y": 5285,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Va'Ahak",
+    "x": "2448",
+    "y": 1660,
+    "type": "Stadt"
+  },
+  {
+    "name": "Vairningen",
+    "x": "2654",
+    "y": 5749,
+    "type": "Dorf"
+  },
+  {
+    "name": "Valavet",
+    "x": "2611",
+    "y": 3559,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Valdahon",
+    "x": "5584",
+    "y": 5817,
+    "type": "Dorf"
+  },
+  {
+    "name": "Valenca",
+    "x": "3783",
+    "y": 5019,
+    "type": "Dorf"
+  },
+  {
+    "name": "Valhog",
+    "x": "3762",
+    "y": 5282,
+    "type": "Dorf"
+  },
+  {
+    "name": "Vallusa",
+    "x": "5939",
+    "y": 6871,
+    "type": "Stadt"
+  },
+  {
+    "name": "Valpokrug",
+    "x": "3680",
+    "y": 5088,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Valpolust",
+    "x": "4231",
+    "y": 5701,
+    "type": "Dorf"
+  },
+  {
+    "name": "Valquirbrück",
+    "x": "3617",
+    "y": 4798,
+    "type": "Dorf"
+  },
+  {
+    "name": "Valrashûn",
+    "x": "2811",
+    "y": 3412,
+    "type": "Dorf"
+  },
+  {
+    "name": "Vardall",
+    "x": "1920",
+    "y": 6635,
+    "type": "Dorf"
+  },
+  {
+    "name": "Varmhag",
+    "x": "1385",
+    "y": 6894,
+    "type": "Dorf"
+  },
+  {
+    "name": "Varmur",
+    "x": "3447",
+    "y": 8457,
+    "type": "Dorf"
+  },
+  {
+    "name": "Varnheim",
+    "x": "1286",
+    "y": 6978,
+    "type": "Dorf"
+  },
+  {
+    "name": "Varnuati",
+    "x": "5314",
+    "y": 8975,
+    "type": "Dorf"
+  },
+  {
+    "name": "Varnyth",
+    "x": "1963",
+    "y": 5816,
+    "type": "Dorf"
+  },
+  {
+    "name": "Veharis",
+    "x": "4882",
+    "y": 4795,
+    "type": "Dorf"
+  },
+  {
+    "name": "Veliris",
+    "x": "2508",
+    "y": 4452,
+    "type": "Stadt"
+  },
+  {
+    "name": "Venga",
+    "x": "2445",
+    "y": 4564,
+    "type": "Stadt"
+  },
+  {
+    "name": "Veschar",
+    "x": "4548",
+    "y": 4111,
+    "type": "Dorf"
+  },
+  {
+    "name": "Vesterbygt",
+    "x": "917",
+    "y": 7744,
+    "type": "Dorf"
+  },
+  {
+    "name": "Vestia",
+    "x": "2571",
+    "y": 4221,
+    "type": "Dorf"
+  },
+  {
+    "name": "Vey",
+    "x": "2874",
+    "y": 2293,
+    "type": "Dorf"
+  },
+  {
+    "name": "Vhelsandt",
+    "x": "2637",
+    "y": 3392,
+    "type": "Dorf"
+  },
+  {
+    "name": "Vhelwán",
+    "x": "2599",
+    "y": 3304,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Viallana",
+    "x": "2648",
+    "y": 3566,
+    "type": "Dorf"
+  },
+  {
+    "name": "Viaurelia",
+    "x": "2612",
+    "y": 4199,
+    "type": "Dorf"
+  },
+  {
+    "name": "Vidsand",
+    "x": "1191",
+    "y": 7394,
+    "type": "Dorf"
+  },
+  {
+    "name": "Viereichen",
+    "x": "5340",
+    "y": 6431,
+    "type": "Dorf"
+  },
+  {
+    "name": "Vierok",
+    "x": "4046",
+    "y": 5664,
+    "type": "Stadt"
+  },
+  {
+    "name": "Vierwinden",
+    "x": "6319",
+    "y": 8086,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Villa Elissa",
+    "x": "5764",
+    "y": 244,
+    "type": "Dorf"
+  },
+  {
+    "name": "Vilnvad",
+    "x": "1489",
+    "y": 7069,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Vinay",
+    "x": "2180",
+    "y": 1036,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Vinreb",
+    "x": "2747",
+    "y": 3480,
+    "type": "Dorf"
+  },
+  {
+    "name": "Vinsalt",
+    "x": "2591",
+    "y": 4219,
+    "type": "Metropole"
+  },
+  {
+    "name": "Virilys",
+    "x": "3994",
+    "y": 6498,
+    "type": "Dorf"
+  },
+  {
+    "name": "Virport",
+    "x": "1457",
+    "y": 7987,
+    "type": "Dorf"
+  },
+  {
+    "name": "Viryamun",
+    "x": "3141",
+    "y": 4880,
+    "type": "Dorf"
+  },
+  {
+    "name": "Vishia",
+    "x": "3077",
+    "y": 2902,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Vishid",
+    "x": "4047",
+    "y": 4178,
+    "type": "Dorf"
+  },
+  {
+    "name": "Vordersjepengurken",
+    "x": "6581",
+    "y": 8199,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wagenhalt",
+    "x": "3959",
+    "y": 5823,
+    "type": "Dorf"
+  },
+  {
+    "name": "Waldbergen",
+    "x": "5087",
+    "y": 6895,
+    "type": "Dorf"
+  },
+  {
+    "name": "Waldbrünnlein",
+    "x": "2200",
+    "y": 4842,
+    "type": "Dorf"
+  },
+  {
+    "name": "Walden",
+    "x": "5758",
+    "y": 8055,
+    "type": "Dorf"
+  },
+  {
+    "name": "Waldenau",
+    "x": "2114",
+    "y": 5632,
+    "type": "Dorf"
+  },
+  {
+    "name": "Waldenbrück",
+    "x": "3744",
+    "y": 6874,
+    "type": "Dorf"
+  },
+  {
+    "name": "Waldfang",
+    "x": "3633",
+    "y": 5707,
+    "type": "Dorf"
+  },
+  {
+    "name": "Waldheim",
+    "x": "5785",
+    "y": 5678,
+    "type": "Dorf"
+  },
+  {
+    "name": "Waldrast",
+    "x": "3771",
+    "y": 6635,
+    "type": "Dorf"
+  },
+  {
+    "name": "Waldsend",
+    "x": "4110",
+    "y": 6240,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Wallerheim",
+    "x": "3327",
+    "y": 5574,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Wallersrain",
+    "x": "2075",
+    "y": 5680,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wallmut",
+    "x": "2662",
+    "y": 3687,
+    "type": "Dorf"
+  },
+  {
+    "name": "Walserwacht",
+    "x": "6707",
+    "y": 8009,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wandleth",
+    "x": "4279",
+    "y": 5623,
+    "type": "Stadt"
+  },
+  {
+    "name": "Wanka",
+    "x": "2758",
+    "y": 3377,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wanka am Arninkelwald",
+    "x": "2339",
+    "y": 4219,
+    "type": "Dorf"
+  },
+  {
+    "name": "Waraqis",
+    "x": "4939",
+    "y": 4649,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wardby",
+    "x": "1342",
+    "y": 7974,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wargen",
+    "x": "5344",
+    "y": 6330,
+    "type": "Dorf"
+  },
+  {
+    "name": "Warneburg",
+    "x": "3374",
+    "y": 5250,
+    "type": "Dorf"
+  },
+  {
+    "name": "Warunk",
+    "x": "5330",
+    "y": 6023,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Waskir",
+    "x": "1311",
+    "y": 7518,
+    "type": "Stadt"
+  },
+  {
+    "name": "Wasserburg",
+    "x": "4575",
+    "y": 5510,
+    "type": "Stadt"
+  },
+  {
+    "name": "Wassertälern",
+    "x": "4773",
+    "y": 5826,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wederath",
+    "x": "4420",
+    "y": 7038,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wegetal",
+    "x": "3081",
+    "y": 5780,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wehrheim",
+    "x": "4071",
+    "y": 6151,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Wehrkloster Göttertrutz",
+    "x": "5278",
+    "y": 6807,
+    "type": null
+  },
+  {
+    "name": "Weidenau",
+    "x": "1987",
+    "y": 5371,
+    "type": "Dorf"
+  },
+  {
+    "name": "Weidensee",
+    "x": "5281",
+    "y": 8197,
+    "type": "Dorf"
+  },
+  {
+    "name": "Weidlingen",
+    "x": "5789",
+    "y": 5666,
+    "type": "Dorf"
+  },
+  {
+    "name": "Weihenhorst",
+    "x": "3438",
+    "y": 6400,
+    "type": "Dorf"
+  },
+  {
+    "name": "Weiler bei Espen",
+    "x": "4482",
+    "y": 6748,
+    "type": "Dorf"
+  },
+  {
+    "name": "Weinbergen",
+    "x": "3201",
+    "y": 4525,
+    "type": "Stadt"
+  },
+  {
+    "name": "Weißbruch",
+    "x": "2958",
+    "y": 3560,
+    "type": "Dorf"
+  },
+  {
+    "name": "Weißenrod",
+    "x": "2405",
+    "y": 6667,
+    "type": "Dorf"
+  },
+  {
+    "name": "Weißenstein",
+    "x": "2284",
+    "y": 5053,
+    "type": "Dorf"
+  },
+  {
+    "name": "Welferode",
+    "x": "5425",
+    "y": 6907,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wellenreiter-Ottajasko",
+    "x": "1399",
+    "y": 7959,
+    "type": "Dorf"
+  },
+  {
+    "name": "Welse",
+    "x": "4445",
+    "y": 5894,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wen-es Mocha",
+    "x": "4181",
+    "y": 4188,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wengenholm",
+    "x": "3001",
+    "y": 6119,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wengerich",
+    "x": "3244",
+    "y": 5981,
+    "type": "Dorf"
+  },
+  {
+    "name": "Westenende",
+    "x": "2181",
+    "y": 4067,
+    "type": "Stadt"
+  },
+  {
+    "name": "Westfar",
+    "x": "2338",
+    "y": 4064,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Weyring",
+    "x": "3896",
+    "y": 5722,
+    "type": "Stadt"
+  },
+  {
+    "name": "Wichten",
+    "x": "2857",
+    "y": 5071,
+    "type": "Dorf"
+  },
+  {
+    "name": "Widdernhall",
+    "x": "2294",
+    "y": 4914,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wieha",
+    "x": "3973",
+    "y": 5611,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Wiesengrund",
+    "x": "4166",
+    "y": 5557,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wietraun",
+    "x": "2174",
+    "y": 5272,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wildenfest",
+    "x": "3770",
+    "y": 4763,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wildwick",
+    "x": "1794",
+    "y": 5395,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wilsemund",
+    "x": "3724",
+    "y": 5069,
+    "type": "Dorf"
+  },
+  {
+    "name": "Windanach",
+    "x": "1774",
+    "y": 5508,
+    "type": "Dorf"
+  },
+  {
+    "name": "Windgau",
+    "x": "5603",
+    "y": 6638,
+    "type": "Dorf"
+  },
+  {
+    "name": "Winhall",
+    "x": "2481",
+    "y": 6010,
+    "type": "Stadt"
+  },
+  {
+    "name": "Winneb",
+    "x": "2668",
+    "y": 2980,
+    "type": "Dorf"
+  },
+  {
+    "name": "Winsheym",
+    "x": "5403",
+    "y": 6274,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wispeneich",
+    "x": "2257",
+    "y": 6607,
+    "type": "Dorf"
+  },
+  {
+    "name": "Witzichenberg",
+    "x": "2668",
+    "y": 5670,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wobran",
+    "x": "2663",
+    "y": 3332,
+    "type": "Stadt"
+  },
+  {
+    "name": "Wolfen",
+    "x": "5889",
+    "y": 6722,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wolfenhag",
+    "x": "2802",
+    "y": 5357,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wolffsrath",
+    "x": "4654",
+    "y": 6935,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wolfspfort",
+    "x": "3960",
+    "y": 7089,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wolfstein",
+    "x": "4460",
+    "y": 8785,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wolfsversteck",
+    "x": "3513",
+    "y": 6546,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wolkenried",
+    "x": "4653",
+    "y": 6123,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wollhus",
+    "x": "5639",
+    "y": 7198,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wosna",
+    "x": "5636",
+    "y": 8234,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wotereck",
+    "x": "6192",
+    "y": 5869,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wulfen",
+    "x": "5538",
+    "y": 5797,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wulfenbein",
+    "x": "2731",
+    "y": 3606,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wulfenhag",
+    "x": "5270",
+    "y": 6563,
+    "type": "Dorf"
+  },
+  {
+    "name": "Wutzenwald",
+    "x": "4330",
+    "y": 6233,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Wyrmingen",
+    "x": "2692",
+    "y": 3538,
+    "type": "Dorf"
+  },
+  {
+    "name": "Xorlosch",
+    "x": "2619",
+    "y": 5229,
+    "type": "Stadt"
+  },
+  {
+    "name": "Yaisir",
+    "x": "5269",
+    "y": 3871,
+    "type": "Dorf"
+  },
+  {
+    "name": "Yaisirabad",
+    "x": "5470",
+    "y": 5044,
+    "type": "Stadt"
+  },
+  {
+    "name": "Yakosh-Dej-Lager",
+    "x": "2602",
+    "y": 2429,
+    "type": "Dorf"
+  },
+  {
+    "name": "Yakshabar",
+    "x": "4600",
+    "y": 4962,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Yalusdei",
+    "x": "2821",
+    "y": 3391,
+    "type": "Dorf"
+  },
+  {
+    "name": "Yantibair",
+    "x": "2006",
+    "y": 5550,
+    "type": "Dorf"
+  },
+  {
+    "name": "Yaquirbrück",
+    "x": "2494",
+    "y": 4216,
+    "type": "Dorf"
+  },
+  {
+    "name": "Yar'dasham",
+    "x": "3186",
+    "y": 895,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Yasamir",
+    "x": "3731",
+    "y": 5129,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Yaspilil",
+    "x": "4495",
+    "y": 4777,
+    "type": "Dorf"
+  },
+  {
+    "name": "Yel",
+    "x": "2498",
+    "y": 4175,
+    "type": "Dorf"
+  },
+  {
+    "name": "Yerkesh",
+    "x": "4842",
+    "y": 4686,
+    "type": "Dorf"
+  },
+  {
+    "name": "Yerkilan",
+    "x": "6347",
+    "y": 4395,
+    "type": "Dorf"
+  },
+  {
+    "name": "Yetidorf der Wächter",
+    "x": "4288",
+    "y": 10684,
+    "type": "Dorf"
+  },
+  {
+    "name": "Yleha",
+    "x": "2934",
+    "y": 1141,
+    "type": "Dorf"
+  },
+  {
+    "name": "Yol-Ghurmak",
+    "x": "5278",
+    "y": 6619,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Yoledamm",
+    "x": "1544",
+    "y": 6174,
+    "type": "Dorf"
+  },
+  {
+    "name": "Yrn",
+    "x": "4614",
+    "y": 10643,
+    "type": "Dorf"
+  },
+  {
+    "name": "Yrramis",
+    "x": "3480",
+    "y": 6996,
+    "type": "Dorf"
+  },
+  {
+    "name": "Yskam",
+    "x": "2849",
+    "y": 3408,
+    "type": "Dorf"
+  },
+  {
+    "name": "Zabel",
+    "x": "4404",
+    "y": 5885,
+    "type": "Dorf"
+  },
+  {
+    "name": "Zackenberg",
+    "x": "4633",
+    "y": 5594,
+    "type": "Dorf"
+  },
+  {
+    "name": "Zagbar",
+    "x": "3628",
+    "y": 5458,
+    "type": "Dorf"
+  },
+  {
+    "name": "Zalgo",
+    "x": "3354",
+    "y": 6043,
+    "type": "Dorf"
+  },
+  {
+    "name": "Zedernbach",
+    "x": "2959",
+    "y": 3461,
+    "type": "Dorf"
+  },
+  {
+    "name": "Zedernhof",
+    "x": "3853",
+    "y": 5325,
+    "type": "Dorf"
+  },
+  {
+    "name": "Zedrakin",
+    "x": "4317",
+    "y": 4594,
+    "type": "Dorf"
+  },
+  {
+    "name": "Zhamorrah",
+    "x": "4577",
+    "y": 4074,
+    "type": "Metropole"
+  },
+  {
+    "name": "Ziegenhain",
+    "x": "3359",
+    "y": 5550,
+    "type": "Dorf"
+  },
+  {
+    "name": "Zinnen am Ratsforst",
+    "x": "2341",
+    "y": 4931,
+    "type": "Dorf"
+  },
+  {
+    "name": "Zinobab",
+    "x": "5844",
+    "y": 3110,
+    "type": "Dorf"
+  },
+  {
+    "name": "Zirapur",
+    "x": "4239",
+    "y": 4281,
+    "type": "Dorf"
+  },
+  {
+    "name": "Zollhaus",
+    "x": "4861",
+    "y": 7188,
+    "type": "Dorf"
+  },
+  {
+    "name": "Zorgan",
+    "x": "5043",
+    "y": 4788,
+    "type": "Großstadt"
+  },
+  {
+    "name": "Zshorrkh",
+    "x": "3733",
+    "y": 2560,
+    "type": "Dorf"
+  },
+  {
+    "name": "Zweimühlen",
+    "x": "4280",
+    "y": 6101,
+    "type": "Kleinstadt"
+  },
+  {
+    "name": "Zweizwiebeln",
+    "x": "3084",
+    "y": 6175,
+    "type": "Dorf"
+  },
+  {
+    "name": "Zwerch",
+    "x": "4402",
+    "y": 5825,
+    "type": "Stadt"
+  },
+  {
+    "name": "Zwischenwasser",
+    "x": "3242",
+    "y": 5581,
+    "type": "Dorf"
+  }
+]

@@ -1,0 +1,37 @@
+{
+  "Sorgenlied": {
+    "Probe": [ "Musizieren", "Singen" ],
+    "ASP Kosten": 5,
+    "Dauer": "15 Minuten"
+  },
+  "Zaubermelodie": {
+    "Probe": [ "Musizieren", "Singen" ],
+    "ASP Kosten": 9,
+    "Dauer": "30 Minuten"
+  },
+  "Das Friedenslied": {
+    "Probe": [ "Musizieren" ],
+    "ASP Kosten": 10,
+    "Dauer": "60 Minuten"
+  },
+  "Windgeflüster": {
+    "Probe": [ "Musizieren" ],
+    "ASP Kosten": 3,
+    "Dauer": "Anzahl Spielrunden"
+  },
+  "Das Lied der Elfen": {
+    "Probe": [ "Musizieren" ],
+    "ASP Kosten": "5 je Stunde",
+    "Dauer": "X Stunden"
+  },
+  "Freundschaftslied": {
+    "Probe": [ "Musizieren" ],
+    "ASP Kosten": "5 je Strophe (Tag)",
+    "Dauer": "3 Tage"
+  },
+  "Erinnerungsmelodie": {
+    "Probe": [ "Musizieren" ],
+    "ASP Kosten": "5 je SR",
+    "Dauer": "3 Tage"
+  }
+}

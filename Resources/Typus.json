@@ -50,7 +50,7 @@
       "albino": [ 20 ]
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [ "160", "11W20", "3W6" ],
+    "Körpergröße": [ "160", "1W20", "3W6" ],
     "Gewicht": -110
   },
   "Scharlatan": {
@@ -98,11 +98,11 @@
       }
     },
     "Haarfarbe": {
-      "pechschwarz": [1, 2 ] 
+      "pechschwarz": [1, 2 ],
       "schwarz": [ 3, 4 ],
       "blauschwarz": [ 5, 6 ],
       "braun": [ 7 ],
-      "nußbraun": [ 8 ]
+      "nußbraun": [ 8 ],
       "kastanienrot": [ 9 ],
       "braunrot": [ 10 ],
       "rostrot": [ 11 ],
@@ -111,13 +111,13 @@
       "rotblond": [ 14 ],
       "dunkelblond": [ 15 ],
       "mittelblond": [ 16 ],
-      "weizenblond": [ 17 ]
+      "weizenblond": [ 17 ],
       "hellblond": [ 18 ],
       "weißblond": [ 19 ],
       "albino": [ 20 ]
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [ "165", "11W20", "1W6"],
+    "Körpergröße": [ "165", "1W20", "1W6"],
     "Gewicht": -110,
     "LE": 25,
     "AE": 25,
@@ -140,23 +140,25 @@
     },
     "Herkunft": {
       "Würfel": "1W20",
-      "Hexenei": { 
-        "1W20": [ 1 ],
+      "arm": { 
+        "1W20": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
         "Eltern": {
-           "Hexenei": [ 1 ]
+           "Hexenei": [ 1 ],
+           "Findelkind": [ 2, 3 ],
+           "von Eltern verkauft": [ 4, 5, 6 ],
+           "Kind einer Hexe": [ 7, 8, 9, 10 ]
         }
       },
-      "Kind normaler Eltern": {
-        "1W20": [ 2, 3 ], 
+      "mittleständisch": {
+        "1W20": [ 11, 12, 13, 14, 15, 16, 17 ], 
         "Eltern": {
-          "Findelkind": [ 1, 2 ],
-          "von Eltern verkauft": [ 3, 4, 5, 6 ]
+          "Kind einer Hexe": [ 11, 12, 13, 14, 15, 16, 17 ]
         }
       },
-      "Kind einer Hexe": {
-        "1W20": [ 4, 5, 6, 7, 8, 9, 10, 11, 12 ,13, 14, 15, 16, 17, 18, 19, 20 ],
+      "reich": {
+        "1W20": [ 18, 19, 20 ],
         "Eltern": {
-          "Hexen": [ 4, 5, 6, 7, 8, 9, 10, 11, 12 ,13, 14, 15, 16, 17, 18, 19, 20 ]
+          "Kind einer Hexe": [ 18, 19, 20 ]
         }
       }
     },
@@ -170,7 +172,7 @@
       "weißblond": [ 20 ]
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [ "150", "11W20", "3W6"],
+    "Körpergröße": [ "150", "1W20", "3W6"],
     "Gewicht": -115,
     "LE": 25,
     "AE": 25,
@@ -233,7 +235,7 @@
       "kahlköpfig": [ 19, 20 ]
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [ "150", "11W20", "3W6"],
+    "Körpergröße": [ "150", "1W20", "3W6"],
     "Gewicht": -110,
     "LE": 30,
     "AE": 25,
@@ -248,6 +250,89 @@
       "ZS_zu_AE": { }
     }
   },
+  "Schamane": {
+    "Typkategorie": [ "Mensch", "Magiebegabt" ],
+    "Eigenschaften": {
+      "KL": "12+",
+      "IN": "13+",
+      "CH": "13+",
+      "TA": "4-"
+    },
+    "Typus": {
+      "Moha": {
+        "Herkunft": {
+          "Würfel": "1W20",
+          "unfrei": {
+            "1W20": [ 1, 2 ],
+            "Eltern": {
+              "Sklaven": [ 1 ],
+              "Ausgestoßene": [ 2 ]
+            }
+          },
+          "arm": {
+            "1W20": [ 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ],
+            "Eltern": {
+              "Stammesangehörige": [ 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+            }
+          },
+          "mittelständisch": {
+            "1W20": [ 13, 14, 15, 16, 17, 18 ],
+            "Eltern": {
+              "Schamanen": [ 13, 14, 15, 16, 17, 18 ]
+            }
+          },
+          "reich": {
+            "1W20": [ 19, 20 ],
+            "Eltern": {
+              "Häuptlinge": [ 19 ],
+              "Stammesvorstände": [ 20 ]
+            }
+          }         
+        },
+        "Haarfarbe": {
+          "schwarz": [ 1, 2, 3, 4, 5 ],
+          "blauschwarz": [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ],
+          "albino": [ 20 ]
+        },
+        "Körpergröße": [ "152", "3W6" ]
+      },
+      "Nivese": {
+        "Herkunft": {
+          "Würfel": "1W20",
+          "arm": {
+            "1W20": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ],
+            "Eltern": {
+              "Hirten": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ]
+            }
+          },
+          "mittelständisch": {
+            "1W20": [ 13, 14, 15, 16, 17, 18 ],
+            "Eltern": {
+              "Schamanen": [ 13, 14, 15, 16, 17, 18 ]
+            }
+          },
+          "reich": {
+            "1W20": [ 19, 20 ],
+            "Eltern": {
+              "Häuptlinge": [ 19 ],
+              "Stammesvorstände": [ 20 ]
+            }
+          }
+        },
+        "Haarfarbe": {
+          "kupferrot": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15 ],
+          "blond": [ 16 ],
+          "braun": [ 17, 18 ],
+          "dunkelblond": [ 19 ],      
+          "schwarz": [ 20 ]
+        },
+        "Geschlecht": [ "männlich", "weiblich", "divers" ],
+        "Körpergröße": [ "156", "2W20" ]
+      }
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Gewicht": -110
+  },  
   "Schelm": {
     "Typkategorie": [ "Mensch", "Magiebegabt" ],
     "Eigenschaften": {
@@ -273,7 +358,7 @@
       "weizenblond": [ 18, 19, 20 ]
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [ "148","11W20", "1W6"],
+    "Körpergröße": [ "148","1W20", "1W6"],
     "Gewicht": -110,
     "LE": 30,
     "AE": 25,
@@ -873,6 +958,56 @@
     "Körpergröße": [ "166", "1W20", "4W6" ],
     "Gewicht": -120
   },
+  "Alchimist": {
+    "Typkategorie": [ "Mensch" ],
+    "Magiedilettant": true,    
+    "Eigenschaften": {
+      "KL": "12+",
+      "IN": "11+",
+      "FF": "12+",
+      "NG": "5+",
+      "AG": "4-"
+    },
+    "Herkunft": {
+      "Würfel": "1W20",
+      "arm": {
+        "1W20": [ 1, 2, 3, 4],
+        "Eltern": {
+          "arme Städter": [ 1, 2, 3, 4 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ],
+        "Eltern": {
+          "Handwerker": [ 5, 6, 7, 8 ],
+          "Kaufleute": [ 9, 10, 11 ],
+          "Magier": [12, 13 ],
+          "Geweihte": [ 14 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 15, 16, 17, 18, 19, 20 ],
+        "Eltern": {
+          "Kaufleute": [ 15 ],
+          "Magier": [ 16, 17 ],
+          "Gelehrte": [ 18, 19 ],
+          "Hochgeweihte": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6 ],
+      "braun": [ 7, 8, 9, 10 ],
+      "dunkelblond": [ 11, 12, 13, 14 ],
+      "blond": [ 15, 16, 17 ],
+      "rot": [ 18 ],
+      "grau": [ 19 ],
+      "kahl": [ 20 ]
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Körpergröße": [ "150", "1W20", "3W6" ],
+    "Gewicht": -105
+  },  
   "Amazone": {
     "Typkategorie": [ "Mensch" ],
     "Eigenschaften": {
@@ -889,13 +1024,15 @@
         "1W20": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ,18, 19 ],
         "Eltern": {
           "Ordensmitglied": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ,18, 19 ]
-        }
+        },
+        "Equipment": [ {"Amazonenrüstung": 1}, {"Amazonensäbel": 1}, {"Kurzbogen": 1}, {"Lederschild": 1}, {"Pfeilköcher, 20 Pfeile, Holz": 1}, {"Pfeil, kurze Bögen": 10}, {"Cape": 1} ]
       },
       "reich": {
         "1W20": [ 20 ],
         "Eltern": {
           "Burgherrin": [ 20 ]
-        }
+        },
+        "Equipment": [ {"Amazonenrüstung": 1}, {"Amazonensäbel": 1}, {"Kurzbogen": 1}, {"Großer Lederschild": 1}, {"Hüftköcher, 20 Pfeile, Leder": 1}, {"Pfeil, kurze Bögen": 20}, {"Cape": 1} ]
       }
     },
     "Haarfarbe": {
@@ -907,20 +1044,8 @@
       "albino": [ 20 ]
     },
     "Geschlecht": [ "weiblich" ],
-    "Körpergröße": [ "160", "21W20"],
-    "Gewicht": -105,
-    "LE": 35,
-    "AE": 0,
-    "KE": 0,
-    "MRBonus": 0,
-    "Stufenanstieg": {
-      "LE_AE": "1W6",
-      "MaxAE": 0,
-      "TS": 30,
-      "ZS": 0,
-      "Egal": 0,
-      "ZS_zu_AE": { }
-    }
+    "Körpergröße": [ "160", "2W20"],
+    "Gewicht": -105
   },
   "Gaukler": {
     "Typkategorie": [ "Mensch" ],
@@ -937,25 +1062,29 @@
         "1W20": [ 1, 2 ],
         "Eltern": {
           "unbekannt": [ 1, 2 ]
-        }
+        },
+        "Equipment": [ {"3 Jonglierbälle": 1}, {"Beinkleider, Leinen": 1}, {"Hemd, Bluse, Leinen": 1}, {"Messer": 1} ]
       },
       "arm": {
         "1W20": [ 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ],
         "Eltern": {
           "Gaukler": [ 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ]
-        }
+        },
+        "Equipment": [ {"3 Jonglierbälle": 1}, {"Beinkleider, Leinen": 1}, {"Hemd, Bluse, Leinen": 1}, {"Dolch": 1} ]
       },
       "mittelständisch": {
         "1W20": [ 15, 16, 17, 18, 19 ],
         "Eltern": {
           "Schausteller": [ 15, 16, 17, 18, 19 ]
-        }
+        },
+        "Equipment": [ {"3 Jonglierkeulen": 1}, {"Beinkleider, Leinen": 1}, {"Hemd, Bluse, Leinen": 1}, {"Dolch": 1} ]
       },
       "reich": {
         "1W20": [ 20 ],
         "Eltern": {
           "Hofartist": [ 20 ]
-        }
+        },
+        "Equipment": [ {"3 Jonglierkeulen": 1}, {"3 Jonglierbälle": 1}, {"Beinkleider, Leinen": 1}, {"Hemd, Bluse, Leinen": 1}, {"Rapier": 1} ]
       }
     },
     "Haarfarbe": {
@@ -967,20 +1096,8 @@
       "albino": [ 20 ]
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [ "145", "21W20" ],
-    "Gewicht": -110,
-    "LE": 30,
-    "AE": 0,
-    "KE": 0,
-    "MRBonus": 0,
-    "Stufenanstieg": {
-      "LE_AE": "1W6",
-      "MaxAE": 0,
-      "TS": 30,
-      "ZS": 0,
-      "Egal": 0,
-      "ZS_zu_AE": { }
-    }
+    "Körpergröße": [ "145", "2W20" ],
+    "Gewicht": -110
   },
   "Jäger": {
     "Typkategorie": [ "Mensch" ],
@@ -996,14 +1113,16 @@
         "1W20": [ 1, 2 ],
         "Eltern": {
           "Leibeigene": [ 1, 2 ]
-        }
+        },
+        "Equipment": [ {"Beinkleider, Leinen": 1}, {"Hemd, Bluse, Leinen": 1}, {"Jagdmesser": 1} ]
       },
       "arm": {
         "1W20": [ 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ],
         "Eltern": {
           "Bauern": [ 3, 4, 5, 6, 7 ],
           "Wilderer": [8, 9, 10, 11, 12 ]
-        }
+        },
+        "Equipment": [ {"Beinkleider, Leder": 1}, {"Hemd, Bluse, Leinen": 1}, {"Jagdmesser": 1}, {"Kurzbogen": 1}, {"Pfeil, kurze Bögen": 10} ]
       },
       "mittelständisch": {
         "1W20": [ 13, 14, 15, 16, 17, 18, 19, 20 ],
@@ -1011,7 +1130,8 @@
           "Bauern": [ 13, 14 ],
           "Jäger": [ 15, 16, 17, 18 ],
           "Wildhüter": [ 19, 20 ]
-        }
+        },
+        "Equipment": [ {"Beinkleider, Leder": 1}, {"Hemd, Bluse, Leinen": 1}, {"Jagdmesser": 1}, {"Jacke, Wams, Leder": 1}, {"Langbogen": 1}, {"Pfeil, lange Bögen": 10} ]
       }
     },
     "Haarfarbe": {
@@ -1024,20 +1144,8 @@
       "albino": [ 20 ]
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [ "158", "11W20", "2W6" ],
-    "Gewicht": -110,
-    "LE": 30,
-    "AE": 0,
-    "KE": 0,
-    "MRBonus": 0,
-    "Stufenanstieg": {
-      "LE_AE": "1W6",
-      "MaxAE": 0,
-      "TS": 30,
-      "ZS": 0,
-      "Egal": 0,
-      "ZS_zu_AE": { }
-    }
+    "Körpergröße": [ "158", "1W20", "2W6" ],
+    "Gewicht": -110
   },
   "Krieger": {
     "Typkategorie": [ "Mensch" ],
@@ -1095,7 +1203,7 @@
       "albino": [ 20 ]
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [ "163", "21W20" ],
+    "Körpergröße": [ "163", "2W20" ],
     "Gewicht": -105,
     "LE": 30,
     "AE": 0,
@@ -1435,7 +1543,7 @@
       "weißblond": [ 20 ]
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [ "155", "21W20" ],
+    "Körpergröße": [ "155", "2W20" ],
     "Gewicht": -100,
     "LE": 30,
     "AE": 0,
@@ -1501,7 +1609,7 @@
       "grau": [ 19, 20 ]
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [ "160", "21W20" ],
+    "Körpergröße": [ "160", "2W20" ],
     "Gewicht": -100,
     "LE": 30,
     "AE": 0,
@@ -1571,7 +1679,7 @@
       "albino": [ 20 ]
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [ "154", "21W20" ],
+    "Körpergröße": [ "154", "2W20" ],
     "Gewicht": -110
   },
   "Thorwaler": {
@@ -1628,7 +1736,7 @@
       "schwarz": [ 20 ]
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
-    "Körpergröße": [ "168", "21W20" ],
+    "Körpergröße": [ "168", "2W20" ],
     "Gewicht": -100
   },
   "Skalde": {
@@ -1758,18 +1866,745 @@
     },
     "Geschlecht": [ "männlich", "weiblich", "divers" ],
     "Körpergröße": [ "160", "5W6" ],
-    "Gewicht": -100,
-    "LE": 30,
-    "AE": 0,
-    "KE": 0,
-    "MRBonus": 0,
-    "Stufenanstieg": {
-      "LE_AE": "1W6",
-      "MaxAE": 0,
-      "TS": 30,
-      "ZS": 0,
-      "Egal": 0,
-      "ZS_zu_AE": { }
-    }
+    "Gewicht": -100
+  },
+  "Praiosgeweihter": {
+    "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Eigenschaften": {
+      "MU": "13+",
+      "KL": "12+",
+      "CH": "12+"
+    },
+    "Herkunft": {
+      "Würfel": "1W20",
+      "unfrei": {
+        "1W20": [ 1 ],
+        "Eltern": {
+          "Leibeigene": [ 1 ]
+        }
+      },
+      "arm": {
+        "1W20": [ 2, 3, 4, 5 ],
+        "Eltern": {
+          "Bauern": [ 2 ],
+          "Fischer": [ 3 ],
+          "Söldner": [ 4 ],
+          "Tempeldiener": [ 5 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+        "Eltern": {
+          "Geweihte": [ 6, 7, 8, 9 ],
+          "Handwerker": [ 10, 11, 12, 13 ],
+          "Händler": [ 14, 15, 16 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 17, 18, 19 ],
+        "Eltern": {
+          "Hochgeweihte": [ 17, 18 ],
+          "Kaufleute": [ 19 ]
+        }
+      },
+      "adelig": {
+        "1W20": [ 20 ],
+        "Eltern": {
+          "höchste Geweihte": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6 ],
+      "braun": [ 7, 8, 9, 10, 11 ],
+      "blond": [ 12, 13, 14, 15 ],
+      "hellblond": [ 16, 17 ],
+      "grau": [ 18, 19, 20 ]
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Körpergröße": [ "158", "2W20", "1W6" ],
+    "Gewicht": -110
+  },
+  "Rondrageweihter": {
+    "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Eigenschaften": {
+      "MU": "12+",
+      "CH": "12+",
+      "GE": "11+"
+    },
+    "Herkunft": {
+      "Würfel": "1W20",
+      "unfrei": {
+        "1W20": [ 1 ],
+        "Eltern": {
+          "Leibeigene": [ 1 ]
+        }
+      },
+      "arm": {
+        "1W20": [ 2, 3, 4, 5 ],
+        "Eltern": {
+          "Bauern": [ 2 ],
+          "Fischer": [ 3 ],
+          "Söldner": [ 4 ],
+          "Tempeldiener": [ 5 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+        "Eltern": {
+          "Geweihte": [ 6, 7, 8, 9 ],
+          "Handwerker": [ 10, 11, 12, 13 ],
+          "Händler": [ 14, 15, 16 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 17, 18, 19 ],
+        "Eltern": {
+          "Hochgeweihte": [ 17, 18 ],
+          "Kaufleute": [ 19 ]
+        }
+      },
+      "adelig": {
+        "1W20": [ 20 ],
+        "Eltern": {
+          "höchste Geweihte": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6 ],
+      "braun": [ 7, 8, 9, 10, 11 ],
+      "blond": [ 12, 13, 14, 15 ],
+      "hellblond": [ 16, 17 ],
+      "grau": [ 18, 19, 20 ]
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Körpergröße": [ "158", "2W20", "1W6" ],
+    "Gewicht": -110
+  },
+  "Efferdgeweihter": {
+    "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Eigenschaften": {
+      "KL": "12+",
+      "CH": "12+",
+      "IN": "11+"
+    },
+    "Herkunft": {
+      "Würfel": "1W20",
+      "unfrei": {
+        "1W20": [ 1 ],
+        "Eltern": {
+          "Leibeigene": [ 1 ]
+        }
+      },
+      "arm": {
+        "1W20": [ 2, 3, 4, 5 ],
+        "Eltern": {
+          "Bauern": [ 2 ],
+          "Fischer": [ 3 ],
+          "Söldner": [ 4 ],
+          "Tempeldiener": [ 5 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+        "Eltern": {
+          "Geweihte": [ 6, 7, 8, 9 ],
+          "Handwerker": [ 10, 11, 12, 13 ],
+          "Händler": [ 14, 15, 16 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 17, 18, 19 ],
+        "Eltern": {
+          "Hochgeweihte": [ 17, 18 ],
+          "Kaufleute": [ 19 ]
+        }
+      },
+      "adelig": {
+        "1W20": [ 20 ],
+        "Eltern": {
+          "höchste Geweihte": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6 ],
+      "braun": [ 7, 8, 9, 10, 11 ],
+      "blond": [ 12, 13, 14, 15 ],
+      "hellblond": [ 16, 17 ],
+      "grau": [ 18, 19, 20 ]
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Körpergröße": [ "158", "2W20", "1W6" ],
+    "Gewicht": -110
+  },
+  "Traviageweihter": {
+    "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Eigenschaften": {
+      "KL": "12+",
+      "CH": "13+",
+      "FF": "11+"
+    },
+    "Herkunft": {
+      "Würfel": "1W20",
+      "unfrei": {
+        "1W20": [ 1 ],
+        "Eltern": {
+          "Leibeigene": [ 1 ]
+        }
+      },
+      "arm": {
+        "1W20": [ 2, 3, 4, 5 ],
+        "Eltern": {
+          "Bauern": [ 2 ],
+          "Fischer": [ 3 ],
+          "Söldner": [ 4 ],
+          "Tempeldiener": [ 5 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+        "Eltern": {
+          "Geweihte": [ 6, 7, 8, 9 ],
+          "Handwerker": [ 10, 11, 12, 13 ],
+          "Händler": [ 14, 15, 16 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 17, 18, 19 ],
+        "Eltern": {
+          "Hochgeweihte": [ 17, 18 ],
+          "Kaufleute": [ 19 ]
+        }
+      },
+      "adelig": {
+        "1W20": [ 20 ],
+        "Eltern": {
+          "höchste Geweihte": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6 ],
+      "braun": [ 7, 8, 9, 10, 11 ],
+      "blond": [ 12, 13, 14, 15 ],
+      "hellblond": [ 16, 17 ],
+      "grau": [ 18, 19, 20 ]
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Körpergröße": [ "158", "2W20", "1W6" ],
+    "Gewicht": -110
+  },
+  "Borongeweihter": {
+    "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Eigenschaften": {
+      "MU": "11+",
+      "KL": "13+",
+      "TA": "4-"
+    },
+    "Herkunft": {
+      "Würfel": "1W20",
+      "unfrei": {
+        "1W20": [ 1 ],
+        "Eltern": {
+          "Leibeigene": [ 1 ]
+        }
+      },
+      "arm": {
+        "1W20": [ 2, 3, 4, 5 ],
+        "Eltern": {
+          "Bauern": [ 2 ],
+          "Fischer": [ 3 ],
+          "Söldner": [ 4 ],
+          "Tempeldiener": [ 5 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+        "Eltern": {
+          "Geweihte": [ 6, 7, 8, 9 ],
+          "Handwerker": [ 10, 11, 12, 13 ],
+          "Händler": [ 14, 15, 16 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 17, 18, 19 ],
+        "Eltern": {
+          "Hochgeweihte": [ 17, 18 ],
+          "Kaufleute": [ 19 ]
+        }
+      },
+      "adelig": {
+        "1W20": [ 20 ],
+        "Eltern": {
+          "höchste Geweihte": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6 ],
+      "braun": [ 7, 8, 9, 10, 11 ],
+      "blond": [ 12, 13, 14, 15 ],
+      "hellblond": [ 16, 17 ],
+      "grau": [ 18, 19, 20 ]
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Körpergröße": [ "158", "2W20", "1W6" ],
+    "Gewicht": -110
+  },
+  "Hesindegeweihter": {
+    "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Eigenschaften": {
+      "KL": "13+",
+      "CH": "12+",
+      "AG": "4-"
+    },
+    "Herkunft": {
+      "Würfel": "1W20",
+      "unfrei": {
+        "1W20": [ 1 ],
+        "Eltern": {
+          "Leibeigene": [ 1 ]
+        }
+      },
+      "arm": {
+        "1W20": [ 2, 3, 4, 5 ],
+        "Eltern": {
+          "Bauern": [ 2 ],
+          "Fischer": [ 3 ],
+          "Söldner": [ 4 ],
+          "Tempeldiener": [ 5 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+        "Eltern": {
+          "Geweihte": [ 6, 7, 8, 9 ],
+          "Handwerker": [ 10, 11, 12, 13 ],
+          "Händler": [ 14, 15, 16 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 17, 18, 19 ],
+        "Eltern": {
+          "Hochgeweihte": [ 17, 18 ],
+          "Kaufleute": [ 19 ]
+        }
+      },
+      "adelig": {
+        "1W20": [ 20 ],
+        "Eltern": {
+          "höchste Geweihte": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6 ],
+      "braun": [ 7, 8, 9, 10, 11 ],
+      "blond": [ 12, 13, 14, 15 ],
+      "hellblond": [ 16, 17 ],
+      "grau": [ 18, 19, 20 ]
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Körpergröße": [ "158", "2W20", "1W6" ],
+    "Gewicht": -110
+  },
+  "Firungeweihter": {
+    "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Eigenschaften": {
+      "MU": "12+",
+      "IN": "12+",
+      "KK": "12+"
+    },
+    "Herkunft": {
+      "Würfel": "1W20",
+      "unfrei": {
+        "1W20": [ 1 ],
+        "Eltern": {
+          "Leibeigene": [ 1 ]
+        }
+      },
+      "arm": {
+        "1W20": [ 2, 3, 4, 5 ],
+        "Eltern": {
+          "Bauern": [ 2 ],
+          "Fischer": [ 3 ],
+          "Söldner": [ 4 ],
+          "Tempeldiener": [ 5 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+        "Eltern": {
+          "Geweihte": [ 6, 7, 8, 9 ],
+          "Handwerker": [ 10, 11, 12, 13 ],
+          "Händler": [ 14, 15, 16 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 17, 18, 19 ],
+        "Eltern": {
+          "Hochgeweihte": [ 17, 18 ],
+          "Kaufleute": [ 19 ]
+        }
+      },
+      "adelig": {
+        "1W20": [ 20 ],
+        "Eltern": {
+          "höchste Geweihte": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6 ],
+      "braun": [ 7, 8, 9, 10, 11 ],
+      "blond": [ 12, 13, 14, 15 ],
+      "hellblond": [ 16, 17 ],
+      "grau": [ 18, 19, 20 ]
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Körpergröße": [ "158", "2W20", "1W6" ],
+    "Gewicht": -110
+  },
+  "Tsageweihter": {
+    "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Eigenschaften": {
+      "IN": "12+",
+      "CH": "12+",
+      "GE": "12+"
+    },
+    "Herkunft": {
+      "Würfel": "1W20",
+      "unfrei": {
+        "1W20": [ 1 ],
+        "Eltern": {
+          "Leibeigene": [ 1 ]
+        }
+      },
+      "arm": {
+        "1W20": [ 2, 3, 4, 5 ],
+        "Eltern": {
+          "Bauern": [ 2 ],
+          "Fischer": [ 3 ],
+          "Söldner": [ 4 ],
+          "Tempeldiener": [ 5 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+        "Eltern": {
+          "Geweihte": [ 6, 7, 8, 9 ],
+          "Handwerker": [ 10, 11, 12, 13 ],
+          "Händler": [ 14, 15, 16 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 17, 18, 19 ],
+        "Eltern": {
+          "Hochgeweihte": [ 17, 18 ],
+          "Kaufleute": [ 19 ]
+        }
+      },
+      "adelig": {
+        "1W20": [ 20 ],
+        "Eltern": {
+          "höchste Geweihte": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6 ],
+      "braun": [ 7, 8, 9, 10, 11 ],
+      "blond": [ 12, 13, 14, 15 ],
+      "hellblond": [ 16, 17 ],
+      "grau": [ 18, 19, 20 ]
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Körpergröße": [ "158", "2W20", "1W6" ],
+    "Gewicht": -110
+  },
+  "Phexgeweihter": {
+    "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Eigenschaften": {
+      "KL": "12+",
+      "CH": "11+",
+      "FF": "13+"
+    },
+    "Herkunft": {
+      "Würfel": "1W20",
+      "unfrei": {
+        "1W20": [ 1 ],
+        "Eltern": {
+          "Leibeigene": [ 1 ]
+        }
+      },
+      "arm": {
+        "1W20": [ 2, 3, 4, 5 ],
+        "Eltern": {
+          "Bauern": [ 2 ],
+          "Fischer": [ 3 ],
+          "Söldner": [ 4 ],
+          "Tempeldiener": [ 5 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+        "Eltern": {
+          "Geweihte": [ 6, 7, 8, 9 ],
+          "Handwerker": [ 10, 11, 12, 13 ],
+          "Händler": [ 14, 15, 16 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 17, 18, 19 ],
+        "Eltern": {
+          "Hochgeweihte": [ 17, 18 ],
+          "Kaufleute": [ 19 ]
+        }
+      },
+      "adelig": {
+        "1W20": [ 20 ],
+        "Eltern": {
+          "höchste Geweihte": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6 ],
+      "braun": [ 7, 8, 9, 10, 11 ],
+      "blond": [ 12, 13, 14, 15 ],
+      "hellblond": [ 16, 17 ],
+      "grau": [ 18, 19, 20 ]
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Körpergröße": [ "158", "2W20", "1W6" ],
+    "Gewicht": -110
+  },
+  "Perainegeweihter": {
+    "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Eigenschaften": {
+      "KL": "12+",
+      "CH": "13+",
+      "FF": "11+"
+   },
+    "Herkunft": {
+      "Würfel": "1W20",
+      "unfrei": {
+        "1W20": [ 1 ],
+        "Eltern": {
+          "Leibeigene": [ 1 ]
+        }
+      },
+      "arm": {
+        "1W20": [ 2, 3, 4, 5 ],
+        "Eltern": {
+          "Bauern": [ 2 ],
+          "Fischer": [ 3 ],
+          "Söldner": [ 4 ],
+          "Tempeldiener": [ 5 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+        "Eltern": {
+          "Geweihte": [ 6, 7, 8, 9 ],
+          "Handwerker": [ 10, 11, 12, 13 ],
+          "Händler": [ 14, 15, 16 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 17, 18, 19 ],
+        "Eltern": {
+          "Hochgeweihte": [ 17, 18 ],
+          "Kaufleute": [ 19 ]
+        }
+      },
+      "adelig": {
+        "1W20": [ 20 ],
+        "Eltern": {
+          "höchste Geweihte": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6 ],
+      "braun": [ 7, 8, 9, 10, 11 ],
+      "blond": [ 12, 13, 14, 15 ],
+      "hellblond": [ 16, 17 ],
+      "grau": [ 18, 19, 20 ]
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Körpergröße": [ "158", "2W20", "1W6" ],
+    "Gewicht": -110
+  },
+  "Ingerimmgeweihter": {
+    "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Eigenschaften": {
+      "KL": "12+",
+      "FF": "12+",
+      "KK": "12+"
+    },
+    "Herkunft": {
+      "Würfel": "1W20",
+      "unfrei": {
+        "1W20": [ 1 ],
+        "Eltern": {
+          "Leibeigene": [ 1 ]
+        }
+      },
+      "arm": {
+        "1W20": [ 2, 3, 4, 5 ],
+        "Eltern": {
+          "Bauern": [ 2 ],
+          "Fischer": [ 3 ],
+          "Söldner": [ 4 ],
+          "Tempeldiener": [ 5 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+        "Eltern": {
+          "Geweihte": [ 6, 7, 8, 9 ],
+          "Handwerker": [ 10, 11, 12, 13 ],
+          "Händler": [ 14, 15, 16 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 17, 18, 19 ],
+        "Eltern": {
+          "Hochgeweihte": [ 17, 18 ],
+          "Kaufleute": [ 19 ]
+        }
+      },
+      "adelig": {
+        "1W20": [ 20 ],
+        "Eltern": {
+          "höchste Geweihte": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6 ],
+      "braun": [ 7, 8, 9, 10, 11 ],
+      "blond": [ 12, 13, 14, 15 ],
+      "hellblond": [ 16, 17 ],
+      "grau": [ 18, 19, 20 ]
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Körpergröße": [ "158", "2W20", "1W6" ],
+    "Gewicht": -110
+  },
+  "Rahjageweihter": {
+    "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Eigenschaften": {
+      "IN": "11+",
+      "CH": "13+",
+      "GE": "12+"
+    },
+    "Herkunft": {
+      "Würfel": "1W20",
+      "unfrei": {
+        "1W20": [ 1 ],
+        "Eltern": {
+          "Leibeigene": [ 1 ]
+        }
+      },
+      "arm": {
+        "1W20": [ 2, 3, 4, 5 ],
+        "Eltern": {
+          "Bauern": [ 2 ],
+          "Fischer": [ 3 ],
+          "Söldner": [ 4 ],
+          "Tempeldiener": [ 5 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ],
+        "Eltern": {
+          "Geweihte": [ 6, 7, 8, 9 ],
+          "Handwerker": [ 10, 11, 12, 13 ],
+          "Händler": [ 14, 15, 16 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 17, 18, 19 ],
+        "Eltern": {
+          "Hochgeweihte": [ 17, 18 ],
+          "Kaufleute": [ 19 ]
+        }
+      },
+      "adelig": {
+        "1W20": [ 20 ],
+        "Eltern": {
+          "höchste Geweihte": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "schwarz": [ 1, 2, 3, 4, 5, 6 ],
+      "braun": [ 7, 8, 9, 10, 11 ],
+      "blond": [ 12, 13, 14, 15 ],
+      "hellblond": [ 16, 17 ],
+      "grau": [ 18, 19, 20 ]
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Körpergröße": [ "158", "2W20", "1W6" ],
+    "Gewicht": -110
+  },
+  "Swafnirgeweihter": {
+    "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Eigenschaften": {
+      "MU": "13+",
+      "CH": "13+",
+      "KK": "12+",
+      "AG": "5-"
+    },
+    "Herkunft": {
+      "Würfel": "1W20",
+      "arm": {
+        "1W20": [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+        "Eltern": {
+          "Fischer": [ 1, 2, 3 ],
+          "Landarbeiter": [ 4, 5 ],
+          "Hafenarbeiter": [ 6, 7 ],
+          "Bauern": [ 8, 9 ]
+        }
+      },
+      "mittelständisch": {
+        "1W20": [ 10, 11, 12, 13, 14 ],
+        "Eltern": {
+          "Fischer": [ 10 ], 
+          "Bauern": [ 11 ],
+          "Handwerker": [ 12 ],
+          "Geweihte/Skalden": [ 13 ],
+          "Seefahrer": [ 14 ]
+        }
+      },
+      "reich": {
+        "1W20": [ 15, 16, 17, 18, 19 ],
+        "Eltern": {
+          "Kauffahrerkapitäne": [ 15, 16, 17 ],
+          "Piratenkapitäne": [ 18, 19 ]
+        }
+      },
+      "adelig": {
+        "1W20": [ 20 ],
+        "Eltern": {
+          "Hetleute": [ 20 ]
+        }
+      }
+    },
+    "Haarfarbe": {
+      "blond": [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ],
+      "rotblond": [ 10, 11, 12, 13, 14, 15 ],
+      "weißblond": [ 16, 17 ],
+      "dunkelblond": [ 18 ],
+      "braun": [ 19 ],
+      "schwarz": [ 20 ]
+    },
+    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Körpergröße": [ "168", "2W20" ],
+    "Gewicht": -100
   }
 }

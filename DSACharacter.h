@@ -26,6 +26,9 @@
 #define _DSACHARACTER_H_
 
 #import <Foundation/Foundation.h>
+#import "DSAObject.h"
+#import "DSAInventory.h"
+#import "DSABodyParts.h"
 
 @interface DSACharacter : NSObject <NSCoding>
 
@@ -69,6 +72,8 @@
 @property (nonatomic, copy) NSNumber *currentKarmaPoints;
 @property (nonatomic, copy) NSNumber *mrBonus;
 @property (nonatomic, strong) NSImage *portrait;
+@property (nonatomic, strong) DSAInventory *inventory;
+@property (nonatomic, strong) DSABodyParts *bodyParts;
 
 
 @property (readonly, copy) NSNumber *attackBaseValue;
@@ -80,8 +85,14 @@
 @property (readonly, copy) NSNumber *parryBaseValue;
 @property (readonly, copy) NSNumber *rangedCombatBaseValue;
 
-
-
+- (NSString *) siblingsString;
+/*
+- (BOOL) canUseWeapon: (DSAObjectWeapon *) weapon;
+- (BOOL) canUseArmor: (DSAObjectArmor *) armor;
+- (BOOL) canCarryObject: (DSAObject *) object;
+- (void) wearCloth: (DSAObjectCloth *) cloth onBodyPart: (NSString *) bodyPart;
+- (void) carryObject: (DSAObject *) object;
+*/
 @end
 
 #endif // _DSACHARACTER_H_

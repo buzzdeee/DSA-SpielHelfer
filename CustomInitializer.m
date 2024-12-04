@@ -24,10 +24,12 @@
 
 #import "CustomInitializer.h"
 #import "DSADocumentController.h"
+#import "Utils.h"
 
 @implementation CustomInitializer
 + (void)initializeCustomDocumentController
 {
   [DSADocumentController sharedDocumentController];
+  [Utils sharedInstance];
 }
 @end

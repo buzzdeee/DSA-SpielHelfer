@@ -126,4 +126,8 @@
     }    
 }
 
+- (BOOL) levelUpSpecialsWithSpells
+{
+  return NO;
+}
 @end

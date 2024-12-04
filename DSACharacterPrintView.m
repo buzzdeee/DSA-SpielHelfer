@@ -113,9 +113,13 @@
     {
       methodName = @"drawTalentsPageWithRect:";    
     }
+  else if (page == 3)
+    {
+      methodName = @"drawBiographyPageWithRect:";    
+    }    
   else
     {
-      if (page == 3 && self.pages == 3)  // magical Dabbler
+      if (page == 4 && self.pages == 4)  // magical Dabbler
         {
           methodName = @"drawMagicalDabblerPageWithRect:";
         }
@@ -217,8 +221,6 @@
   [[NSColor whiteColor] setFill];
   NSRectFill(dirtyRect);
     
-  
-  
   CGFloat pageTopY = [self paperHeightForPage] * (self.currentPage - 1);
   NSLog(@"drawMagicalDabblerPageWithRect: pageTopY %lu", (unsigned long) pageTopY);  
 
@@ -230,6 +232,26 @@
   [self drawTitleAtY:titleY withTitle: _(@"Magiedilettant")];
   CGFloat tableY = [self drawPositiveTraitsHeaderAtY: titleY];
   [self drawMagicalDabblerSpecials: tableY];
+}
+
+- (void) drawBiographyPageWithRect: (NSRect)dirtyRect
+{
+  [super drawRect:dirtyRect];
+  // Fill the background
+  [[NSColor whiteColor] setFill];
+  NSRectFill(dirtyRect);
+    
+  CGFloat pageTopY = [self paperHeightForPage] * (self.currentPage - 1);
+  NSLog(@"drawMagicalDabblerPageWithRect: pageTopY %lu", (unsigned long) pageTopY);  
+
+  // Start drawing from the top
+  CGFloat titleHeight = 20; // Height for the title
+  CGFloat titleY = pageTopY + titleHeight; // Y position for the title    
+
+  // Draw the title
+  [self drawTitleAtY:titleY withTitle: _(@"Biografie")];
+  CGFloat tableY = [self drawPositiveTraitsHeaderAtY: titleY];
+  [self drawBiography: tableY];
 }
 
 - (void) drawSpellsWithRect: (NSRect)dirtyRect
@@ -563,6 +585,338 @@
           y += cellHeight;
         }
     }
+    
+}
+
+- (void) YYYXXXdrawBiography:(CGFloat)y {
+    CGFloat cellHeight = 12;         // Adjusted height for rows
+    CGFloat cellFontSize = 10;       // Font size for content text
+    CGFloat tableWidth = self.bounds.size.width;
+    CGFloat minY = y;
+    CGFloat maxY = [self paperHeightForPage] * self.currentPage;
+    CGFloat lineSpacing = 4.0;       // Additional line spacing for readability
+    
+    NSFont *font = [NSFont systemFontOfSize:cellFontSize];
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    paragraphStyle.lineSpacing = lineSpacing;
+
+    // Create attributes for regular text
+    NSDictionary *attributes = @{
+        NSFontAttributeName: font,
+        NSParagraphStyleAttributeName: paragraphStyle,
+        NSForegroundColorAttributeName: [NSColor blackColor]
+    };
+
+    // Draw each section header and bullet points
+    NSArray *sections = @[
+        @{ @"title": _(@"Geburt"), @"content": [self birthContent] },
+        @{ @"title": _(@"Kindheit"), @"content": [self childhoodContent] },
+        @{ @"title": _(@"Jugend"), @"content": [self youthContent] }
+    ];
+
+    for (NSDictionary *section in sections) {
+        NSString *title = section[@"title"];
+        NSString *content = section[@"content"];
+
+        // Draw section header
+        NSRect headerRect = NSMakeRect(0, y, tableWidth, cellHeight);
+        [self drawCategoryHeaderInRect:headerRect withTitle:title];
+        y += 2* (cellHeight + lineSpacing);
+
+        // Draw section content
+        if (y + cellHeight < maxY) {
+            NSAttributedString *attrContent = [[NSAttributedString alloc] initWithString:content attributes:attributes];
+            NSRect textRect = NSMakeRect(0, y, tableWidth, attrContent.size.height);
+            [attrContent drawInRect:textRect];
+            y += attrContent.size.height + lineSpacing;
+        }
+    }
+}
+
+- (void) drawBiography:(CGFloat)y {
+    CGFloat cellHeight = 12;         // Increased height for headers
+    CGFloat cellFontSize = 10;       // Font size for content text
+    CGFloat tableWidth = self.bounds.size.width;
+    CGFloat maxY = [self paperHeightForPage] * self.currentPage;
+    CGFloat bulletLineSpacing = 0.0; // Smaller line spacing for bullets to reduce extra space
+
+    NSFont *font = [NSFont systemFontOfSize:cellFontSize];
+
+    // Create paragraph style with bullet indentation
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    CGFloat bulletIndent = 10.0; // Indent for bullets
+    CGFloat textIndent = 15.0;   // Indent for wrapped lines to align with text
+
+    [paragraphStyle setFirstLineHeadIndent:bulletIndent];
+    [paragraphStyle setHeadIndent:textIndent];
+    [paragraphStyle setLineSpacing:bulletLineSpacing]; // Tighter line spacing between bullets
+
+    // Create attributes for the text with the paragraph style
+    NSDictionary *attributes = @{
+        NSFontAttributeName: font,
+        NSParagraphStyleAttributeName: paragraphStyle,
+        NSForegroundColorAttributeName: [NSColor blackColor]
+    };
+
+    // Define each section with title and content
+    NSArray *sections = @[
+        @{ @"title": _(@"Geburt"), @"content": [self birthContent] },
+        @{ @"title": _(@"Kindheit"), @"content": [self childhoodContent] },
+        @{ @"title": _(@"Jugend"), @"content": [self youthContent] }
+    ];
+
+    for (NSDictionary *section in sections) {
+        NSString *title = section[@"title"];
+        NSString *content = section[@"content"];
+
+        // Draw section header
+        NSRect headerRect = NSMakeRect(0, y, tableWidth, cellHeight);
+        y += cellHeight + 16.0; // Add space after header for better separation
+        [self drawCategoryHeaderInRect:headerRect withTitle:title];
+        y += cellHeight + 16.0; // Add space after header for better separation
+
+        // Draw section content using NSTextStorage, NSTextContainer, and NSLayoutManager for proper wrapping
+        NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:content attributes:attributes];
+        NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(tableWidth, maxY - y)];
+        textContainer.lineFragmentPadding = 0; // No padding around the lines
+
+        NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
+        [layoutManager addTextContainer:textContainer];
+        [textStorage addLayoutManager:layoutManager];
+
+        NSUInteger glyphIndex = 0;
+        while (glyphIndex < layoutManager.numberOfGlyphs && y < maxY) {
+            NSRange glyphRange;
+            NSRect lineRect = [layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex effectiveRange:&glyphRange];
+
+            // Adjust line rect to the correct vertical position
+            lineRect.origin.y = y;
+            y += lineRect.size.height; // Adjust y based on actual line height
+            
+            // Ensure the content does not exceed the page height
+            if (y + bulletLineSpacing < maxY) {
+                [layoutManager drawGlyphsForGlyphRange:glyphRange atPoint:lineRect.origin];
+            }
+            glyphIndex = NSMaxRange(glyphRange);
+        }
+
+        // Additional space between sections
+        y += 40.0; // Adjust this value for desired spacing between sections
+    }
+}
+
+- (void) FASDFFdrawBiography:(CGFloat)y {
+    CGFloat cellHeight = 12;         // Height for headers
+    CGFloat cellFontSize = 10;       // Font size for content text
+    CGFloat tableWidth = self.bounds.size.width;
+    CGFloat maxY = [self paperHeightForPage] * self.currentPage;
+    CGFloat lineSpacing = 0.0;       // Additional line spacing for readability
+
+    NSFont *font = [NSFont systemFontOfSize:cellFontSize];
+
+    // Create paragraph style with bullet indentation
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    CGFloat bulletIndent = 10.0; // Indent for bullets
+    CGFloat textIndent = 20.0;   // Indent for wrapped lines to align with text
+
+    [paragraphStyle setFirstLineHeadIndent:bulletIndent];
+    [paragraphStyle setHeadIndent:textIndent];
+    [paragraphStyle setLineSpacing:lineSpacing];
+
+    // Create attributes for the text with the paragraph style
+    NSDictionary *attributes = @{
+        NSFontAttributeName: font,
+        NSParagraphStyleAttributeName: paragraphStyle,
+        NSForegroundColorAttributeName: [NSColor blackColor]
+    };
+
+    // Define each section with title and content
+    NSArray *sections = @[
+        @{ @"title": _(@"Geburt"), @"content": [self birthContent] },
+        @{ @"title": _(@"Kindheit"), @"content": [self childhoodContent] },
+        @{ @"title": _(@"Jugend"), @"content": [self youthContent] }
+    ];
+
+    for (NSDictionary *section in sections) {
+        NSString *title = section[@"title"];
+        NSString *content = section[@"content"];
+
+        // Draw section header
+        NSRect headerRect = NSMakeRect(0, y, tableWidth, cellHeight);
+        [self drawCategoryHeaderInRect:headerRect withTitle:title];
+        y += 2 * (cellHeight + lineSpacing);
+
+        // Draw section content using NSTextStorage, NSTextContainer, and NSLayoutManager for proper wrapping
+        NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:content attributes:attributes];
+        NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(tableWidth, maxY - y)];
+        textContainer.lineFragmentPadding = 0; // No padding around the lines
+
+        NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
+        [layoutManager addTextContainer:textContainer];
+        [textStorage addLayoutManager:layoutManager];
+
+        NSUInteger glyphIndex = 0;
+        while (glyphIndex < layoutManager.numberOfGlyphs && y < maxY) {
+            NSRange glyphRange;
+            NSRect lineRect = [layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex effectiveRange:&glyphRange];
+
+            // Adjust line rect to the correct vertical position
+            lineRect.origin.y = y;
+            y += lineRect.size.height + lineSpacing;
+
+            // Ensure the content does not exceed the page height
+            if (y < maxY) {
+                [layoutManager drawGlyphsForGlyphRange:glyphRange atPoint:lineRect.origin];
+            }
+            glyphIndex = NSMaxRange(glyphRange);
+        }
+    }
+}
+
+
+- (void) YUCKdrawBiography:(CGFloat)y {
+    CGFloat cellHeight = 12;         // Adjusted height for headers
+    CGFloat cellFontSize = 10;       // Font size for content text
+    CGFloat tableWidth = self.bounds.size.width;
+    CGFloat minY = y;
+    CGFloat maxY = [self paperHeightForPage] * self.currentPage;
+    CGFloat lineSpacing = 4.0;       // Additional line spacing for readability
+
+    NSFont *font = [NSFont systemFontOfSize:cellFontSize];
+
+    // Create paragraph style with bullet indentation
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    CGFloat bulletIndent = 10.0; // Indent for bullets
+    CGFloat textIndent = 20.0;   // Indent for wrapped lines to align with text
+
+    [paragraphStyle setFirstLineHeadIndent:bulletIndent];
+    [paragraphStyle setHeadIndent:textIndent];
+    [paragraphStyle setLineSpacing:lineSpacing];
+
+    // Create attributes for the text with the paragraph style
+    NSDictionary *attributes = @{
+        NSFontAttributeName: font,
+        NSParagraphStyleAttributeName: paragraphStyle,
+        NSForegroundColorAttributeName: [NSColor blackColor]
+    };
+
+    // Draw each section header and content
+    NSArray *sections = @[
+        @{ @"title": _(@"Geburt"), @"content": [self birthContent] },
+        @{ @"title": _(@"Kindheit"), @"content": [self childhoodContent] },
+        @{ @"title": _(@"Jugend"), @"content": [self youthContent] }
+    ];
+
+    for (NSDictionary *section in sections) {
+        NSString *title = section[@"title"];
+        NSString *content = section[@"content"];
+
+        // Draw section header
+        NSRect headerRect = NSMakeRect(0, y, tableWidth, cellHeight);
+        [self drawCategoryHeaderInRect:headerRect withTitle:title];
+        y += 2* (cellHeight + lineSpacing);
+
+        // Draw section content
+        if (y + cellHeight < maxY) {
+            NSAttributedString *attrContent = [[NSAttributedString alloc] initWithString:content attributes:attributes];
+            NSRect textRect = NSMakeRect(0, y, tableWidth, attrContent.size.height);
+            [attrContent drawInRect:textRect];
+            y += attrContent.size.height + lineSpacing;
+        }
+    }
+}
+
+- (void) ABXdrawBiography:(CGFloat)y {
+    CGFloat cellHeight = 12;         // Adjusted height for headers
+    CGFloat cellFontSize = 10;       // Font size for content text
+    CGFloat tableWidth = self.bounds.size.width;
+    CGFloat minY = y;
+    CGFloat maxY = [self paperHeightForPage] * self.currentPage;
+    CGFloat lineSpacing = 4.0;       // Additional line spacing for readability
+
+    NSFont *font = [NSFont systemFontOfSize:cellFontSize];
+
+    // Create paragraph style with bullet indentation
+    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+    CGFloat bulletIndent = 10.0; // Indent for bullets
+    CGFloat textIndent = 20.0;   // Indent for wrapped lines to align with text
+
+    [paragraphStyle setFirstLineHeadIndent:bulletIndent];
+    [paragraphStyle setHeadIndent:textIndent];
+    [paragraphStyle setLineSpacing:lineSpacing];
+
+    // Create attributes for the text with the paragraph style
+    NSDictionary *attributes = @{
+        NSFontAttributeName: font,
+        NSParagraphStyleAttributeName: paragraphStyle,
+        NSForegroundColorAttributeName: [NSColor blackColor]
+    };
+
+    // Draw each section header and content
+    NSArray *sections = @[
+        @{ @"title": _(@"Geburt"), @"content": [self birthContent] },
+        @{ @"title": _(@"Kindheit"), @"content": [self childhoodContent] },
+        @{ @"title": _(@"Jugend"), @"content": [self youthContent] }
+    ];
+
+    for (NSDictionary *section in sections) {
+        NSString *title = section[@"title"];
+        NSString *content = section[@"content"];
+
+        // Draw section header
+        NSRect headerRect = NSMakeRect(0, y, tableWidth, cellHeight);
+        [self drawCategoryHeaderInRect:headerRect withTitle:title];
+        y += 2* (cellHeight + lineSpacing);
+
+        // Draw section content
+        if (y + cellHeight < maxY) {
+            NSAttributedString *attrContent = [[NSAttributedString alloc] initWithString:content attributes:attributes];
+            NSRect textRect = NSMakeRect(0, y, tableWidth, attrContent.size.height);
+            [attrContent drawInRect:textRect];
+            y += attrContent.size.height + lineSpacing;
+        }
+    }
+}
+
+// Method to retrieve birth-related content as a bulleted string
+- (NSString *)birthContent {
+    return [NSString stringWithFormat:@"• %@\n• %@\n• %@\n• %@",
+            [self.model birthPlace],
+            [self.model birthEvent],
+            [self.model legitimation],
+            [self.model siblingsString]];
+}
+
+// Method to retrieve childhood events as a bulleted string
+- (NSString *)childhoodContent {
+    NSMutableString *childhoodBullets = [NSMutableString string];
+    for (NSString *event in [self.model childhoodEvents]) {
+        [childhoodBullets appendFormat:@"• %@\n", event];
+    }
+    return [childhoodBullets copy];
+}
+
+// Method to retrieve youth events as a bulleted string
+- (NSString *)youthContent {   
+    NSMutableString *youthBullets = [NSMutableString string];
+    for (NSString *event in [self.model youthEvents]) {
+        [youthBullets appendFormat:@"• %@\n", event];
+    }
+    return [youthBullets copy];
+}
+
+- (void) XXXdrawBiography: (CGFloat)y
+{
+  // CGFloat margin = 10.0; // Example margin
+  CGFloat cellHeight = 12; // Height for less space between rows
+  CGFloat cellFontSize = 10;
+  CGFloat tableWidth = self.bounds.size.width; // Total width of the table area
+
+  CGFloat minY = y;
+  CGFloat maxY = [self paperHeightForPage] * self.currentPage;
+  
+  NSRect headerRect = NSMakeRect(0, y, tableWidth, cellHeight);                   
+  [self drawCategoryHeaderInRect: headerRect withTitle: _(@"Geburt")];
     
 }
 

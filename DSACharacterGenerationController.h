@@ -42,6 +42,15 @@
 @property (readonly) NSMutableDictionary *birthdaysDict;
 @property (readonly) NSMutableDictionary *godsDict;
 @property (readonly) NSMutableDictionary *magicalDabblerSpellsDict;
+@property (readonly) NSMutableDictionary *witchCursesDict;
+@property (readonly) NSMutableDictionary *druidRitualsDict;
+@property (readonly) NSMutableDictionary *geodeRitualsDict;
+@property (readonly) NSMutableDictionary *mischievousPranksDict;
+@property (readonly) NSMutableDictionary *elvenSongsDict;
+@property (readonly) NSMutableDictionary *shamanOriginsDict;
+@property (readonly) NSMutableDictionary *shamanRitualsDict;
+@property (readonly) NSMutableDictionary *sharisadDancesDict;
+@property (readonly) NSMutableDictionary *blessedLiturgiesDict;
 @property (readonly) NSMutableArray *portraitsArray;
 @property (nonatomic, assign) NSInteger currentPortraitIndex; // To track the current image index
 
@@ -67,6 +76,7 @@
 @property (weak) IBOutlet NSButton *buttonGenerate;
 @property (weak) IBOutlet NSButton *buttonFinish;
 @property (weak) IBOutlet NSTextField *fieldMageSchool;
+@property (weak) IBOutlet NSTextField *fieldElement;
 @property (weak) IBOutlet NSTextField *fieldName;
 @property (weak) IBOutlet NSTextField *fieldTitle;
 @property (weak) IBOutlet NSTextField *fieldHairColor;

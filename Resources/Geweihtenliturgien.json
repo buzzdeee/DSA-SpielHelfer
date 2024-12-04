@@ -1,0 +1,309 @@
+{
+  "META": {
+    "Quelle": "https://de.wiki-aventurica.de/wiki/Sto%C3%9Fgebet/Liste"
+  },
+  "Liturgie": {
+    "Blendstrahl": {
+      "Anwender": [ "Praios" ],
+      "Nicht Anwender": [ ]
+    },
+    "Des Einen bezaubernder Sphärenklang": {
+      "Anwender": [ "Namenloser" ],
+      "Nicht Anwender": [ ]
+    },
+    "Ehrenhaftigkeit": {
+      "Anwender": [ "Rondra" ],
+      "Nicht Anwender": [ ]
+    },
+    "Exorzismus": {
+      "Anwender": [ "Al'Anfaner", "Aves", "Efferd", "Firun", "Hesinde", "Ifirn", "Ingerimm", "Kor", "Nandus", "Peraine", "Phex", "Praios", "Puniner", "Rahja", "Rondra", "Swafnir", "Travia", "Tsa" ],
+      "Nicht Anwender": [ ]
+    },
+    "Feuerwall": {
+      "Anwender": [ "Ingerimm", "Angrosch" ],
+      "Nicht Anwender": [ ]
+    },
+    "Friedfertigkeit": {
+      "Anwender": [ "Travia", "Tsa" ],
+      "Nicht Anwender": [ ]
+    },
+    "Friedvoller Rausch": {
+      "Anwender": [ "Rahja" ],
+      "Nicht Anwender": [ ]
+    },
+    "Gebieter der Flammen": {
+      "Anwender": [ "Ingerimm", "Angrosch" ],
+      "Nicht Anwender": [ ]
+    },
+    "Gesegneter Rausch": {
+      "Anwender": [ "Rahja" ],
+      "Nicht Anwender": [ ]
+    },
+    "Goldene Hand": {
+      "Anwender": [ "Namenloser" ],
+      "Nicht Anwender": [ ]
+    },
+    "Goldene Rüstung": {
+      "Anwender": [ "Praios" ],
+      "Nicht Anwender": [ ]
+    },
+    "Göttliche Verständigung": {
+      "Anwender": [ ],
+      "Nicht Anwender": [ ]
+    },
+    "Göttliches Zeichen": {
+      "Anwender": [ ],
+      "Nicht Anwender": [ ]
+    },
+    "Heiliger Befehl": {
+      "Anwender": [ ],
+      "Nicht Anwender": [ ]
+    },
+    "Heilsegen": {
+      "Anwender": [ "Peraine" ],
+      "Nicht Anwender": [ ]
+    },
+    "Herr der Flammen": {
+      "Anwender": [ "Ingerimm", "Angrosch" ],
+      "Nicht Anwender": [ ]
+    },
+    "Innere Ruhe": {
+      "Anwender": [ "Boron", "Numinoru", "Praios", "Shinxir" ],
+      "Nicht Anwender": [ ]
+    },
+    "Magiesicht": {
+      "Anwender": [ "Praios", "Hesinde", "Nandus" ],
+      "Nicht Anwender": [ ]
+    },
+    "Magiespiegel": {
+      "Anwender": [ "Hesinde", "Namenloser" ],
+      "Nicht Anwender": [ ]
+    },
+    "Mit Dummheit schlagen": {
+      "Anwender": [ "Nandus" ],
+      "Nicht Anwender": [ ]
+    },
+    "Mondsilberzunge": {
+      "Anwender": [ "Phex" ],
+      "Nicht Anwender": [ ]
+    },
+    "Mächtiger Angriff": {
+      "Anwender": [ "Kor" ],
+      "Nicht Anwender": [ ]
+    },
+    "Namenlose Kälte": {
+      "Anwender": [ "Namenloser" ],
+      "Nicht Anwender": [ ]
+    },
+    "Namenlose Raserei": {
+      "Anwender": [ "Namenloser" ],
+      "Nicht Anwender": [ ]
+    },
+    "Numinorus Fesseln": {
+      "Anwender": [ "Numinoru" ],
+      "Nicht Anwender": [ ]
+    },
+    "Opfergang": {
+      "Anwender": [ "Rondra" ],
+      "Nicht Anwender": [ ]
+    },
+    "Pech und Schwefel": {
+      "Anwender": [ "Namenloser" ],
+      "Nicht Anwender": [ ]
+    },
+    "Regenbogenbrücke": {
+      "Anwender": [ "Tsa" ],
+      "Nicht Anwender": [ ]
+    },
+    "Schlangenstab": {
+      "Anwender": [ "Hesinde" ],
+      "Nicht Anwender": [ ]
+    },
+    "Schleichende Fäulnis": {
+      "Anwender": [ "Namenloser" ],
+      "Nicht Anwender": [ ]
+    },
+    "Schutzsegen": {
+      "Anwender": [ ],
+      "Nicht Anwender": [ ]
+    },
+    "Schwindende Zauberkraft": {
+      "Anwender": [ "Namenloser" ],
+      "Nicht Anwender": [ ]
+    },
+    "Zähe Haut": {
+      "Anwender": [ "Kor" ],
+      "Nicht Anwender": [ ]
+    }
+  },
+  "Segnung": {
+    "Feuersegen": {
+      "Anwender": [ ],
+      "Nicht Anwender": [ "Nandus", "Numinoru", "Swafnir" ]
+    },
+    "Glückssegen": {
+      "Anwender": [ ],
+      "Nicht Anwender": [ "Ifirn", "Marbo" ]
+    },
+    "Grabsegen": {
+      "Anwender": [ ],
+      "Nicht Anwender": [ "Aves", "Numinoru" ]
+    },
+    "Harmoniesegen": {
+      "Anwender": [ ],
+      "Nicht Anwender": [ "Kor" ]
+    },
+    "Speisesegen": {
+      "Anwender": [ ],
+      "Nicht Anwender": [ "Marbo", "Numinoru", "Swafnir" ]
+    },
+    "Stärkungssegen": {
+      "Anwender": [ ],
+      "Nicht Anwender": [ "Nandus" ]
+    },
+    "Tranksegen": {
+      "Anwender": [ ],
+      "Nicht Anwender": [ "Ifirn" ]
+    },
+    "Weisheitssegen": {
+      "Anwender": [ ],
+      "Nicht Anwender": [ "Aves", "Ifirn", "Levthan" ]
+    }
+  },
+  "Stogßgebet": {
+    "Aller Welt Freund": {
+      "Anwender": [ "Aves" ],
+      "Nicht Anwender": []
+    },
+    "Birkenzweig": {
+      "Anwender": [ "Ifirn" ],
+      "Nicht Anwender": [ ]
+    },
+    "Der über das Schlachtfeld schreitet": {
+      "Anwender": [ "Kor" ],
+      "Nicht Anwender": [ ]
+    },
+    "Eidechsenhaut": {
+      "Anwender": [ "Tsa", "Zsahh" ],
+      "Nicht Anwender": [ ]
+    },
+    "Fall ins Nichts": {
+      "Anwender": [ "Phex" ],
+      "Nicht Anwender": [ ]
+    },
+    "Firuns Zorn": {
+      "Anwender": [ "Firun" ],
+      "Nicht Anwender": [ ]
+    },
+    "Gebet des kristallklaren Blicks": {
+      "Anwender": [ "Efferd" ],
+      "Nicht Anwender": [ ]
+    },
+    "Gleichklang des Geistes": {
+      "Anwender": [ "Peraine", "Rahja", "Tsa", "Efferd" ],
+      "Nicht Anwender": [ ]
+    },
+    "Herbeirufung der Diener des Herren": {
+      "Anwender": [ "Namenloser" ],
+      "Nicht Anwender": [ ]
+    },
+    "Herbeirufung der Heerscharen des Rattenkindes": {
+      "Anwender": [ "Namenloser" ],
+      "Nicht Anwender": [ ]
+    },
+    "Kirschblütenregen": {
+      "Anwender": [ "Tsa" ],
+      "Nicht Anwender": [ ]
+    },
+    "Lidaris Herz": {
+      "Anwender": [ "Ifirn" ],
+      "Nicht Anwender": [ ]
+    },
+    "Nebelkrähenschwarm": {
+      "Anwender": [ "Tairach" ],
+      "Nicht Anwender": [ ]
+    },
+    "Phexens Augenzwinkern": {
+      "Anwender": [ "Phex" ],
+      "Nicht Anwender": [ ]
+    },
+    "Phexens Schatten": {
+      "Anwender": [ "Phex" ],
+      "Nicht Anwender": [ ]
+    },
+    "Phexens Sternenwurf": {
+      "Anwender": [ "Phex" ],
+      "Nicht Anwender": [ ]
+    },
+    "Rahjas Begehren": {
+      "Anwender": [ "Rahja" ],
+      "Nicht Anwender": [ ]
+    },
+    "Rondras wundersame Rüstung": {
+      "Anwender": [ "Rondra" ],
+      "Nicht Anwender": [ ]
+    },
+    "Ruf zur Ruhe": {
+      "Anwender": [ "Boron", "Kamaluq" ],
+      "Nicht Anwender": [ ]
+    },
+    "Schnell wie eine Eidechse": {
+      "Anwender": [ "Tsa" ],
+      "Nicht Anwender": [ ]
+    },
+    "Segen der Heiligen Ardare": {
+      "Anwender": [ "Rondra" ],
+      "Nicht Anwender": [ ]
+    },
+    "Sternenspur": {
+      "Anwender": [ "Phex", "Aves", "Nandus" ],
+      "Nicht Anwender": [ ]
+    },
+    "Sternenstaub": {
+      "Anwender": [ "Phex" ],
+      "Nicht Anwender": [ ]
+    },
+    "Travias Gebet der sicheren Zuflucht": {
+      "Anwender": [ "Travia" ],
+      "Nicht Anwender": [ ]
+    },
+    "Tsas segensreicher Neuanfang": {
+      "Anwender": [ "Tsa", "Ingerimm", "Gravesh" ],
+      "Nicht Anwender": [ ]
+    },
+    "Verborgen wie der Neumond": {
+      "Anwender": [ "Phex", "Tsa" ],
+      "Nicht Anwender": [ ]
+    },
+    "Vertrauter des Felsens": {
+      "Anwender": [ "Ingerimm", "Angrosch" ],
+      "Nicht Anwender": [ ]
+    },
+    "Vertrauter des Wassers": {
+      "Anwender": [ "Numinoru" ],
+      "Nicht Anwender": [ ]
+    },
+    "Weg des Fuchses": {
+      "Anwender": [ "Phex", "Aves" ],
+      "Nicht Anwender": [ ]
+    },
+    "Wegzehrung der Heiligen Selma": {
+      "Anwender": [ "Peraine" ],
+      "Nicht Anwender": [ ]
+    }
+  },
+  "Zeremonie": {
+    "Himmlische Schatzkammer": {
+      "Anwender": [ "Phex" ],
+      "Nicht Anwender": [ ]
+    },
+    "Liturgieabsorption": {
+      "Anwender": [ "Namenloser" ],
+      "Nicht Anwender": [ ]
+    },
+    "Wiederherstellung": {
+      "Anwender": [ "Ingerimm", "Angrosch", "Tsa" ],
+      "Nicht Anwender": [ ]
+    }
+  }
+}

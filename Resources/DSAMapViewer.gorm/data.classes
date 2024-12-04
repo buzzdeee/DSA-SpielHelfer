@@ -1,0 +1,29 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSAMapViewController = {
+	Actions = (
+	    "zoomChanged:",
+	    "searchLocation:"
+	);
+	Outlets = (
+	    fieldLocationSearch,
+	    sliderZoom,
+	    mapScrollView
+	);
+	Super = NSWindowController;
+    };
+    DSAPannableScrollView = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSScrollView;
+    };
+    FirstResponder = {
+	Actions = (
+	    "zoomChanged:",
+	    "searchLocation:"
+	);
+	Super = NSObject;
+    };
+}

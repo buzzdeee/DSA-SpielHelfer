@@ -1,0 +1,42 @@
+{
+  "Magische Tänze": {
+    "Tanz der Liebe": {
+      "Typen": [ "Novadi", "Tulamide" ],
+      "Probe": [ "CH", "CH", "CH" ]
+    },
+    "Tanz der Freude": {
+      "Typen": [ "Novadi", "Tulamide" ],
+      "Probe": [ "KL", "CH", "CH" ]
+    },
+    "Tanz der Ermutigung": {
+      "Typen": [ "Novadi", "Tulamide" ],
+      "Probe": [ "MU", "CH", "GE" ]
+    },
+    "Tanz der Wahrheit": {
+      "Typen": [ "Novadi", "Tulamide" ],
+      "Probe": [ "CH", "CH", "GE" ]
+    },
+    "Tanz der Erlösung": {
+      "Typen": [ "Novadi", "Tulamide" ],
+      "Probe": [ "MU", "CH", "KK" ]
+    },
+    "Tanz der Bilder": {
+      "Typen": [ "Novadi", "Tulamide" ],
+      "Probe": [ "CH", "KK", "KK" ]
+    },
+    "Tanz ohne Ende": {
+      "Typen": [ "Novadi", "Tulamide" ],
+      "Probe": [ "CH", "KK", "KK" ]
+    },
+    "Tanz der Weisheit": {
+      "Typen": [ "Novadi" ],
+      "Glaube": [ "Rastullah" ],
+      "Probe": [ "KL", "CH", "GE" ]
+    },
+    "Tanz der Unantastbarkeit": {
+      "Typen": [ "Novadi" ],
+      "Glaube": [ "Rastullah" ],
+      "Probe": [ "MU", "CH", "CH" ]
+    }
+  }
+}

@@ -26,9 +26,38 @@
 #import "DSACharacter.h"
 #import "AppKit/AppKit.h"
 
+#import "DSACharacterHeroHumanAmazon.h"
+#import "DSACharacterHeroHumanJuggler.h"
+#import "DSACharacterHeroHumanHuntsman.h"
+#import "DSACharacterHeroHumanWarrior.h"
+#import "DSACharacterHeroHumanPhysician.h"
+
+
 @implementation DSACharacter
 
+static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
++ (void)initialize {
+    if (self == [DSACharacter class]) {
+        typeToClassMap = @{
+            _(@"Alchimist"): [DSACharacterHeroHumanAmazon class],
+            _(@"Amazone"): [DSACharacterHeroHumanAmazon class],
+            _(@"Gaukler"): [DSACharacterHeroHumanJuggler class],
+            _(@"Jäger"): [DSACharacterHeroHumanHuntsman class],
+            _(@"Krieger"): [DSACharacterHeroHumanWarrior class],
+            _(@"Medicus"): [DSACharacterHeroHumanPhysician class],
+        };
+    }
+}
+
++ (instancetype)characterWithType:(NSString *)type {
+    Class subclass = [typeToClassMap objectForKey:type];
+    if (subclass) {
+        return [[subclass alloc] init];
+    }
+    // Handle unknown type
+    return nil;
+}
 
 - (instancetype)init
 {
@@ -44,7 +73,8 @@
       self.siblings = [[NSArray alloc] init];
       self.childhoodEvents = [[NSArray alloc] init];
       self.youthEvents = [[NSArray alloc] init];
-      
+      self.inventory = [[DSAInventory alloc] init];
+      self.bodyParts = [[DSABodyParts alloc] init];
     }
   return self;
 }
@@ -151,7 +181,9 @@
   [coder encodeObject:self.youthEvents forKey:@"youthEvents"];
   [coder encodeObject:self.money forKey:@"money"];
   [coder encodeObject:self.positiveTraits forKey:@"positiveTraits"];
-  [coder encodeObject:self.negativeTraits forKey:@"negativeTraits"]; 
+  [coder encodeObject:self.negativeTraits forKey:@"negativeTraits"];
+  [coder encodeObject:self.inventory forKey:@"inventory"];
+  [coder encodeObject:self.bodyParts forKey:@"bodyParts"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder
@@ -204,9 +236,85 @@
       self.youthEvents = [coder decodeObjectOfClass:[NSString class] forKey:@"youthEvents"];
       self.money = [coder decodeObjectOfClass:[NSString class] forKey:@"money"];
       self.positiveTraits = [coder decodeObjectOfClass:[NSString class] forKey:@"positiveTraits"];
-      self.negativeTraits = [coder decodeObjectOfClass:[NSString class] forKey:@"negativeTraits"]; 
+      self.negativeTraits = [coder decodeObjectOfClass:[NSString class] forKey:@"negativeTraits"];
+      self.inventory = [coder decodeObjectOfClass:[NSString class] forKey:@"inventory"];
+      self.bodyParts = [coder decodeObjectOfClass:[NSString class] forKey:@"bodyParts"];
     }
   return self;
+}
+
+// helper function to produce a string based on siblings.
+- (NSString *)siblingsString
+{
+    NSString *pronoun = [self.sex isEqualToString:_(@"männlich")] ? @"Er" : @"Sie";
+    NSString *genderWord = [self.sex isEqualToString:_(@"männlich")] ? @"der" : @"die";
+    
+    // If no siblings, return a simple message
+    if ([self.siblings count] == 0) {
+        return [NSString stringWithFormat:@"%@ hat keine Geschwister.", self.name];
+    }
+    
+    // Initialize counters for siblings
+    NSInteger olderBrothers = 0;
+    NSInteger youngerBrothers = 0;
+    NSInteger olderSisters = 0;
+    NSInteger youngerSisters = 0;
+    
+    // Count the number of older/younger brothers and sisters
+    for (NSDictionary *sibling in self.siblings) {
+        NSString *age = sibling[@"age"];
+        NSString *sex = sibling[@"sex"];
+        
+        if ([age isEqualToString:_(@"älter")]) {
+            if ([sex isEqualToString:_(@"männlich")]) {
+                olderBrothers++;
+            } else {
+                olderSisters++;
+            }
+        } else {  // "jünger"
+            if ([sex isEqualToString:_(@"männlich")]) {
+                youngerBrothers++;
+            } else {
+                youngerSisters++;
+            }
+        }
+    }
+    
+    // Total number of children in the family
+    NSInteger totalChildren = [self.siblings count] + 1;  // +1 to include the character
+    NSInteger numberOfOlderSiblings = olderBrothers + olderSisters;
+    NSInteger characterPosition = totalChildren - numberOfOlderSiblings;  // Position of the character among the siblings
+    // Generate a detailed sibling description
+    NSMutableString *resultString = [NSMutableString stringWithFormat:@"%@ ist %@ %ldte von %ld Kindern. ", self.name, genderWord, (long)characterPosition, (long)totalChildren];
+    
+    NSMutableArray *siblingDescriptions = [NSMutableArray array];
+    
+    // Build the description based on the sibling counts
+    if (olderBrothers > 0) {
+        NSString *olderBrothersString = [NSString stringWithFormat:@"%ld ältere%@ Br%@der", (long)olderBrothers, olderBrothers > 1 ? @"" : @"n", olderBrothers > 1 ? @"ü" : @"u"];
+        [siblingDescriptions addObject:olderBrothersString];
+    }
+    
+    if (olderSisters > 0) {
+        NSString *olderSistersString = [NSString stringWithFormat:@"%ld ältere Schwester%@", (long)olderSisters, olderSisters > 1 ? @"n" : @""];
+        [siblingDescriptions addObject:olderSistersString];
+    }
+    
+    if (youngerBrothers > 0) {
+        NSString *youngerBrothersString = [NSString stringWithFormat:@"%ld jüngere%@ Br%@der", (long)youngerBrothers, youngerBrothers > 1 ? @"" : @"n", youngerBrothers > 1 ? @"ü" : @"u"];
+        [siblingDescriptions addObject:youngerBrothersString];
+    }
+    
+    if (youngerSisters > 0) {
+        NSString *youngerSistersString = [NSString stringWithFormat:@"%ld jüngere Schwester%@", (long)youngerSisters, youngerSisters > 1 ? @"n" : @""];
+        [siblingDescriptions addObject:youngerSistersString];
+    }
+    
+    // Append the sibling description
+    if ([siblingDescriptions count] > 0) {
+        [resultString appendFormat:@"%@ hat %@.", pronoun, [siblingDescriptions componentsJoinedByString:@", "]];
+    }    
+    return resultString;
 }
 
 @end

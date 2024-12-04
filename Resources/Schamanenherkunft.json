@@ -1,0 +1,134 @@
+{
+  "Moha": {
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Boxen": -2,
+          "Raufen": -2,
+          "Ringen": -2
+        },
+        "Bewaffnete Kampftechniken": {
+          "Äxte und Beile": -2,
+          "Infanteriewaffen": -2,
+          "Kettenwaffen": -2,
+          "Peitsche": -2,
+          "Scharfe Hiebwaffen": -2,
+          "Schwerter": -2,
+          "Stichwaffen": -2,
+          "Zweihänder": -2
+        },
+        "Besondere Kampftechniken": {
+          "Lanzenreiten": -2,
+          "Linkshändig": -2
+        },
+        "Fernkampftechniken": {
+          "Schleuder": -2
+        }
+      },
+      "Körperliche Talente": {
+        "Schleichen": -2,
+        "Selbstbeherrschung": 3,
+        "Tanzen": 2
+      },
+      "Gesellschaft": {
+        "Bekehren/Überzeugen": 6,
+        "Betören": -4,
+        "Lehren": 2,
+        "Schätzen": -2,
+        "Sich Verkleiden": -2
+      },
+      "Natur": {
+        "Pflanzenkunde": -1,
+        "Orientierung": 1,
+        "Wettervorhersage": 4
+      },
+      "Wissenstalente": {
+        "Magiekunde": 5,
+        "Sternkunde": 5
+      },
+      "Handwerk": {
+        "Heilkunde Gift": 1,
+        "Heilkunde Krankheit": 3,
+        "Heilkunde Seele": 2,
+        "Heilkunde Wunden": 1,
+        "Kochen": 1,
+        "Schneidern": 1,
+        "Singen": 3,
+        "Taschendiebstahl": -1,
+        "Töpfern": -2
+      },
+      "Intuitive Begabungen": {
+        "Prophezeien": 4,
+        "Stimmen Imitieren": -2
+      }
+    }
+  },
+  "Nivese": {
+    "Talente": {
+      "Kampftechniken": {
+        "Waffenlose Kampftechniken": {
+          "Boxen": -2,
+          "Hruruzat": -2
+        },
+        "Bewaffnete Kampftechniken": {
+          "Äxte und Beile": -2,
+          "Infanteriewaffen": -2,
+          "Kettenwaffen": -2,
+          "Peitsche": -2,
+          "Scharfe Hiebwaffen": -2,
+          "Schwerter": -2,
+          "Stichwaffen": -2,
+          "Zweihänder": -2
+        },
+        "Fernkampftechniken": {
+          "Schußwaffen": -2,
+          "Wurfwaffen": -2
+        }
+      },
+      "Körperliche Talente": {
+        "Reiten": -1,
+        "Schleichen": -1,
+        "Selbstbeherrschung": 4,
+        "Sich Verstecken": -1,
+        "Tanzen": 3,
+        "Zechen": -1
+      },
+      "Gesellschaft": {
+        "Bekehren/Überzeugen": 6,
+        "Betören": -2,
+        "Feilschen": -1,
+        "Lehren": 1,
+        "Lügen": -1,
+        "Schätzen": -2,
+        "Sich Verkleiden": -2
+      },
+      "Natur": {
+        "Fischen/Angeln": -1,
+        "Pflanzenkunde": 2,
+        "Orientierung": 2,
+        "Tierkunde": 1,
+        "Wettervorhersage": 2
+      },
+      "Wissenstalente": {
+        "Magiekunde": 4,
+        "Mechanik": -1,
+        "Sternkunde": 2
+      },
+      "Handwerk": {
+        "Boote Fahren": -1,
+        "Fahrzeug Lenken": -2,
+        "Heilkunde Gift": 2,
+        "Heilkunde Krankheiten": 2,
+        "Heilkunde Seele": 5,
+        "Heilkunde Wunden": 1,
+        "Lederarbeiten": -2,
+        "Schneidern": -2,
+        "Töpfern": -1
+      },
+      "Intuitive Begabungen": {
+        "Prophezeien": 6,
+        "Stimmen Imitieren": -2
+      }
+    }
+  }
+}

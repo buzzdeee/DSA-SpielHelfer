@@ -7,7 +7,9 @@
 	    "levelUp:",
 	    "manageMoney:",
 	    "addAdventurePoints:",
-	    "useTalent:"
+	    "useTalent:",
+	    "openMap:",
+	    "showEquipmentList:"
 	);
 	Outlets = (
 	);
@@ -45,8 +47,9 @@
 	    "levelUp:",
 	    "levelUpBaseValues:",
 	    "manageMoney:",
-	    "newAction:",
+	    "showEquipmentList:",
 	    "newCharacterGeneration:",
+	    "openMap:",
 	    "orderFrontFontPanel:",
 	    "showPrefPanel:",
 	    "useTalent:"

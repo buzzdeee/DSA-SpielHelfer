@@ -27,10 +27,37 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DSAObject : NSObject
-{
 
-}
+@interface DSAObject : NSObject <NSCoding, NSCopying>
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *icon;
+@property (nonatomic, strong) NSString *category;
+@property (nonatomic, strong) NSString *subCategory;
+@property (nonatomic, strong) NSString *subSubCategory;
+@property (nonatomic, strong) NSNumber *weight;
+@property (nonatomic, strong) NSNumber *price;
+@property (nonatomic, strong) NSArray *regions;
+
+@property (nonatomic) BOOL isMagic;
+@property (nonatomic) BOOL isPoisoned;
+@property (nonatomic) BOOL canShareSlot;
+@property (nonatomic, strong) NSSet<NSString *> *occupiedBodyParts; // Body parts this item occupies
+@property (nonatomic, strong) NSArray<NSNumber *> *validSlotTypes; // List of DSASlotTypes this object can be placed in
+
+
+- (instancetype) initWithName: (NSString *) name;
+- (instancetype) initWithName: (NSString *) name
+                     withIcon: (NSString *) icon
+                   inCategory: (NSString *) category
+                inSubCategory: (NSString *) subCategory
+             inSubSubCategory: (NSString *) subSubCategory
+                   withWeight: (NSNumber *) weight
+                    withPrice: (NSNumber *) price
+      validInventorySlotTypes: (NSArray *) validSlotTypes
+                 canShareSlot: (BOOL) canShareSlot
+                  withRegions: (NSArray *) regions;
+- (BOOL)isCompatibleWithObject:(DSAObject *)otherObject;                    
+                    
 
 @end
 

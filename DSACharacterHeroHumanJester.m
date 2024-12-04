@@ -37,8 +37,8 @@
     {
       self.astralEnergy = @25;
       self.currentAstralEnergy = @25;
-      self.maxLevelUpTalentsTries = @25;        
-      self.maxLevelUpSpellsTries = @30;
+      self.maxLevelUpTalentsTries = @30;        
+      self.maxLevelUpSpellsTries = @20;
       self.maxLevelUpTalentsTriesTmp = @30;
       self.maxLevelUpSpellsTriesTmp = @20;      
       self.maxLevelUpVariableTries = @0;
@@ -127,4 +127,8 @@
     }    
 }
 
+- (BOOL) levelUpSpecialsWithSpells
+{
+  return NO;
+}
 @end

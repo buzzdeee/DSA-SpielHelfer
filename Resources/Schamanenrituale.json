@@ -1,0 +1,84 @@
+{
+  "Schamanenrituale": { 
+    "Geistheilung": {
+      "Probe": [ "IN", "FF", "KK" ],
+      "Typen": [ "Moha", "Nivese" ],
+      "Startwerte": {
+        "Moha": 0,
+        "Nivese": 0
+      }
+    },
+    "Exorzismus": {
+      "Probe": [ "MU", "MU", "CH" ],
+      "Typen": [ "Moha", "Nivese" ],
+      "Startwerte": {
+        "Moha": 0,
+        "Nivese": 0
+      }
+    },
+    "Die Macht der Elemente": {
+      "Probe": [ "CH", "CH", "KK" ],
+      "Typen": [ "Moha", "Nivese" ],
+      "Startwerte": {
+        "Moha": 0,
+        "Nivese": 0
+      }
+    },
+    "Rat der Ahnen": {
+      "Probe": [ "MU", "IN", "CH" ],
+      "Typen": [ "Moha", "Nivese" ],
+      "Startwerte": {
+        "Moha": 0,
+        "Nivese": 0
+      }
+    },
+    "Wolfsruf": {
+      "Probe": [ "MU", "IN", "CH" ],
+      "Typen": [ "Nivese" ],
+      "Startwerte": {
+        "Moha": 0,
+        "Nivese": 0
+      }
+    },
+    "Wegzeichen": {
+      "Probe": [ "KL", "IN", "IN" ],
+      "Typen": [ "Nivese" ],
+      "Startwerte": {
+        "Moha": 0,
+        "Nivese": 0
+      }
+    },
+    "Weg des Windes": {
+      "Probe": [ "IN", "GE", "KK" ],
+      "Typen": [ "Nivese" ],
+      "Startwerte": {
+        "Moha": 0,
+        "Nivese": 0
+      }
+    },
+    "Schlangenfluch": {
+      "Probe": [ "MU", "MU", "KK" ],
+      "Typen": [ "Moha" ],
+      "Startwerte": {
+        "Moha": 0,
+        "Nivese": 0
+      }
+    },
+    "Tabuzone": {
+      "Probe": [ "IN", "CH", "KK" ],
+      "Typen": [ "Moha" ],
+      "Startwerte": {
+        "Moha": 0,
+        "Nivese": 0
+      }
+    },
+    "Stimme des Nipakau": {
+      "Probe": [ "IN", "IN", "CH" ],
+      "Typen": [ "Moha" ],
+      "Startwerte": {
+        "Moha": 0,
+        "Nivese": 0
+      }
+    }
+  }
+}

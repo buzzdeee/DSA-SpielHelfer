@@ -1,0 +1,65 @@
+{
+  "Herrschaftsrituale": {
+    "Die Miniatur der Herrschaft": {
+      "Probe": [ "MU", "KL", "IN", "+MR" ],
+      "Typen": [ "Druide", "Schamane" ],
+      "Entfernungsaufschlag": "1 Punkt je 10 Meilen",
+      "Dauer": "2W6 Tage, maximal bis nächsten Vollmond",
+      "ASP Kosten": 13
+    },
+    "Das Amulett der Herrschaft": {
+      "Probe": [ "MU", "KL", "IN", "+MR" ],
+      "Typen": [ "Druide", "Schamane" ],
+      "Entfernung": "Max 7 Meilen",
+      "Dauer": "3W6 Tage, maximal bis nächsten Vollmond",
+      "ASP Kosten": 17
+    },
+    "Die Wurzel der Herrschaft": {
+      "Probe": [ "MU", "KL", "IN", "+2xMR" ],
+      "Typen": [ "Druide", "Schamane" ],
+      "Entfernungsaufschlag": "1 Punkt je 10 Meilen",
+      "Dauer": "4W6 Tage",
+      "ASP Kosten": 21
+    },
+    "Der Kristall der Herrschaft": {
+      "Probe": [ "MU", "KL", "IN", "+2xMR" ],
+      "Typen": [ "Druide", "Schamane" ],
+      "Entfernungsaufschlag": "1 Punkt je 10 Meilen",
+      "Dauer": "5W6 Tage, maximal bis nächsten Vollmond",
+      "ASP Kosten": 25
+    }
+  },
+  "Metamagie": {
+    "Sumus Blut": {
+      "Probe": [ "MU", "MU", "IN", "+5" ],
+      "Typen": [ "Druide", "Schamane" ],
+      "Entfernungsaufschlag": "keiner",
+      "Dauer": "1 Tag",
+      "ASP Kosten": 23
+    }
+  },
+  "Dolchrituale": {
+    "Die Kraft des Dolches": {
+      "Order": 1,
+      "Probe": [ "KL", "IN", "KK", "+1" ],
+      "Typen": [ "Druide" ],
+      "ASP Kosten": 17,
+      "davon permanente ASP Kosten": 1
+    },
+    "Der Weg des Dolches": {
+      "Order": 2,
+      "Probe": [ "KL", "IN", "KK", "+3" ],
+      "Typen": [ "Druide" ],
+      "ASP Kosten": 19,
+      "davon permanente ASP Kosten": 1
+    },
+    "Das Licht des Dolches": {
+      "Order": 3,
+      "Probe": [ "KL", "IN", "KK", "+5" ],
+      "Typen": [ "Druide" ],
+      "ASP Kosten": 21,
+      "davon permanente ASP Kosten": 1
+    }
+  },
+  "META": "Wie beschrieben Die Magie des schwarzen Auges S. 69FF. Metamagie auch unter Hexen bekannt. Dolchrituale auch bei Geoden, Herr der Erde, mit goldener Sichel möglich. Herrschaftsrituale und Metamagie auch bei Druidoschamanen." 
+}

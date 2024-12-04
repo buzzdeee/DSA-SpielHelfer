@@ -35,9 +35,26 @@
 #import "DSASpecialTalent.h"
 #import "DSAProfession.h"
 #import "DSASpell.h"
+#import "DSALiturgy.h"
 #import "NSFlippedView.h"
 #import "DSACharacterViewModel.h"
 #import "DSARightAlignedStringTransformer.h"
+
+// for the drag n drop highlighting targets
+
+
+@implementation DragHighlightView
+
+- (void)drawRect:(NSRect)dirtyRect {
+    [super drawRect:dirtyRect];
+    
+    if (self.borderColor) {
+        [self.borderColor set];
+        NSFrameRect(dirtyRect); // Draw the border around the view
+    }
+}
+
+@end
 
 @implementation DSACharacterWindowController
 
@@ -85,7 +102,7 @@
   [super windowDidLoad];
   // Perform additional setup after loading the window
   NSLog(@"DSACharacterWindowController: windowDidLoad called");
-      
+  self.highlightViews = [NSMutableDictionary dictionary];    
   // central KVO observers
   
   // Register the value transformer
@@ -97,7 +114,29 @@
                    forKeyPath:@"adventurePoints"
                       options:NSKeyValueObservingOptionNew
                       context:NULL];
-                        
+  
+    // Log the window
+    if (!self.window) {
+        NSLog(@"Error: No window found for DSACharacterWindowController!");
+        return;
+    }
+    NSLog(@"Window: %@", self.window);
+
+    // Log the content view
+    NSView *contentView = (NSView *)self.window.contentView;
+    if (!contentView) {
+        NSLog(@"Error: No content view found!");
+        // Set a default content view if missing
+        contentView = [[NSView alloc] initWithFrame:self.window.frame];
+        [self.window setContentView:contentView];
+        NSLog(@"Content view has been set manually.");
+    } else {
+        NSLog(@"Window content view: %@", contentView);
+    }
+
+    // Log the subviews of the content view
+    NSLog(@"Window content view subviews: %@", contentView.subviews);  
+    [self logViewHierarchy:(NSView *)self.window.contentView level:0];                                      
   [self populateBasicsTab];
   [self populateFightingTalentsTab];
   [self populateOtherTalentsTab];
@@ -107,6 +146,18 @@
   [self populateBiographyTab];
   
   [self handleAdventurePointsChange];
+  
+}
+
+
+// just for debugging purposes...
+- (void)logViewHierarchy:(NSView *)view level:(NSInteger)level {
+    NSString *indentation = [@"" stringByPaddingToLength:level * 2 withString:@" " startingAtIndex:0];
+    NSLog(@"%@%@ %@", indentation, view.className, NSStringFromRect(view.frame));
+
+    for (NSView *subview in view.subviews) {
+        [self logViewHierarchy:subview level:level + 1];
+    }
 }
 
 // private method, used in windowDidLoad, to find menu items of interest
@@ -148,15 +199,21 @@
   
   [self.fieldMagicalDabbler setStringValue: [document.model isMagicalDabbler] ? _(@"Ja") : _(@"Nein")];
     
-  if ([document.model element])
+  if ([document.model element] && [document.model mageAcademy])
     {
       [self.fieldMageAcademy setStringValue: [NSString stringWithFormat: @"%@ (%@)", [document.model mageAcademy], [document.model element]]];
     }
-  else
+  
+  else if ([document.model element] && ![document.model mageAcademy])
+    {
+      [self.fieldMageAcademy setStringValue: [NSString stringWithFormat: @"%@", [document.model element]]];
+      [self.fieldMageAcademyBold setStringValue: _(@"Element")];  
+    }
+  else if (![document.model element] && [document.model mageAcademy])
     {
       [self.fieldMageAcademy setStringValue: [document.model mageAcademy]];
     }
-  if (![document.model mageAcademy])
+  else
     {
       [self.fieldMageAcademyBold setHidden: YES];
       [self.fieldMageAcademy setHidden: YES];
@@ -245,6 +302,434 @@
   [self.fieldAdventurePoints bind:NSValueBinding toObject:document.model withKeyPath:@"adventurePoints" options:nil];    
   [document.model addObserver:self forKeyPath: @"adventurePoints" options:NSKeyValueObservingOptionNew context: NULL];
   NSLog(@"End of populateBasicsTab");   
+
+  NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"eye-64x64" ofType:@"webp"];
+  [self.imageEye setImage: [[NSImage alloc] initWithContentsOfFile:imagePath]];
+  imagePath = [[NSBundle mainBundle] pathForResource:@"mouth-64x64" ofType:@"webp"];
+  [self.imageMouth setImage: [[NSImage alloc] initWithContentsOfFile:imagePath]];
+  
+  
+  for (NSInteger slotCounter = 0; slotCounter < [[[document.model inventory] slots] count]; slotCounter++)
+    {
+      DSASlot *slot = [[[document.model inventory] slots] objectAtIndex:slotCounter];
+      NSString *iconName = [slot.object icon];
+      iconName = [NSString stringWithFormat:@"%@-64x64", iconName];
+      NSString *imagePath = [[NSBundle mainBundle] pathForResource:iconName ofType:@"webp"];
+
+      // Load the image for the slot
+      NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
+      NSString *uiName = [NSString stringWithFormat:@"inventorySlot%lu", (long)slotCounter];
+
+      // Access the corresponding NSImageView
+      NSImageView *imageView = [self valueForKey:uiName];
+      if (imageView)
+        {
+          // Set or clear the image
+          [imageView setImage:image ?: nil];
+          imageView.enabled = YES;
+          [imageView registerForDraggedTypes:@[NSPasteboardTypeString]];
+
+          // Add a click handler to start the drag operation
+          [imageView setTarget:self];
+          [imageView setAction:@selector(startDrag:)];          
+          
+          // Update or create a text field for the quantity
+          NSTextField *quantityLabel = [imageView viewWithTag:999];
+          if (!quantityLabel)
+            {
+              // Create the quantity label if it doesn't exist
+              quantityLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(1, 1, 30, 15)];
+              quantityLabel.editable = NO;
+              quantityLabel.bordered = NO;
+              quantityLabel.bezeled = NO;
+              quantityLabel.focusRingType = NSFocusRingTypeNone;
+              quantityLabel.backgroundColor = [NSColor blackColor];
+              quantityLabel.drawsBackground = YES;
+              quantityLabel.textColor = [NSColor redColor];
+              quantityLabel.font = [NSFont boldSystemFontOfSize:10];
+              quantityLabel.alignment = NSTextAlignmentLeft;
+              quantityLabel.tag = 999; // Unique tag to identify this label
+              [imageView addSubview:quantityLabel];
+            }
+
+          if (slot.quantity > 0)
+            {
+              // Update the label with the current quantity
+              NSString *quantityString = [NSString stringWithFormat:@"%ld", (long)slot.quantity];
+              quantityLabel.stringValue = quantityString;
+              quantityLabel.hidden = NO;
+
+              // Calculate the size of the text and adjust the label's frame
+              NSDictionary *attributes = @{NSFontAttributeName: quantityLabel.font};
+              NSSize textSize = [quantityString sizeWithAttributes:attributes];
+              quantityLabel.frame = NSMakeRect(1, 1, textSize.width, textSize.height);
+            }
+          else
+            {
+              // Hide the label if the quantity is 0
+              quantityLabel.hidden = YES;
+            }
+        }
+    }  // end of for loop to populate the general inventory
+    
+// continue with the body Inventory slots:    
+NSArray<DSAInventory *> *bodyInventories = @[
+    document.model.bodyParts.head,
+    document.model.bodyParts.neck,
+    document.model.bodyParts.eyes,
+    document.model.bodyParts.leftEar,
+    document.model.bodyParts.rightEar,
+    document.model.bodyParts.nose,
+    document.model.bodyParts.face,
+    document.model.bodyParts.back,
+    document.model.bodyParts.shoulder,
+    document.model.bodyParts.leftArm,
+    document.model.bodyParts.rightArm,
+    document.model.bodyParts.leftHand,
+    document.model.bodyParts.rightHand,
+    document.model.bodyParts.leftHandFingers,
+    document.model.bodyParts.rightHandFingers,
+    document.model.bodyParts.hip,
+    document.model.bodyParts.upperBody,
+    document.model.bodyParts.lowerBody,
+    document.model.bodyParts.leftLeg,
+    document.model.bodyParts.rightLeg,
+    document.model.bodyParts.leftFoot,
+    document.model.bodyParts.rightFoot
+];
+
+// Iterate through body slots
+NSInteger bodySlotCounter = 0; // Track which bodySlot we're working with
+for (DSAInventory *inventory in bodyInventories) {
+    for (NSInteger slotCounter = 0; slotCounter < inventory.slots.count; slotCounter++) {
+        DSASlot *slot = inventory.slots[slotCounter];
+        NSString *iconName = [slot.object icon];
+        iconName = [NSString stringWithFormat:@"%@-32x32", iconName]; // Smaller size for body slots
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource:iconName ofType:@"webp"];
+
+        // Load the image for the slot
+        NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
+        NSString *uiName = [NSString stringWithFormat:@"bodySlot%lu", (long)bodySlotCounter];
+
+        // Access the corresponding NSImageView
+        NSImageView *imageView = [self valueForKey:uiName];
+        if (imageView) {
+            // Set or clear the image
+            [imageView setImage:image ?: nil];
+            imageView.enabled = YES;
+            [imageView registerForDraggedTypes:@[NSPasteboardTypeString]];
+            
+            // Add a click handler to start the drag operation
+            [imageView setTarget:self];
+            [imageView setAction:@selector(startDrag:)];            
+            
+            // Update or create a text field for the quantity
+            NSTextField *quantityLabel = [imageView viewWithTag:999];
+            if (!quantityLabel) {
+                // Create the quantity label if it doesn't exist
+                quantityLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(1, 1, 30, 15)];
+                quantityLabel.editable = NO;
+                quantityLabel.bordered = NO;
+                quantityLabel.bezeled = NO;
+                quantityLabel.focusRingType = NSFocusRingTypeNone;
+                quantityLabel.backgroundColor = [NSColor blackColor];
+                quantityLabel.drawsBackground = YES;
+                quantityLabel.textColor = [NSColor redColor];
+                quantityLabel.font = [NSFont boldSystemFontOfSize:8]; // Smaller font for body slots
+                quantityLabel.alignment = NSTextAlignmentLeft;
+                quantityLabel.tag = 999; // Unique tag to identify this label
+                [imageView addSubview:quantityLabel];
+            }
+
+            if (slot.quantity > 0) {
+                // Update the label with the current quantity
+                NSString *quantityString = [NSString stringWithFormat:@"%ld", (long)slot.quantity];
+                quantityLabel.stringValue = quantityString;
+                quantityLabel.hidden = NO;
+
+                // Calculate the size of the text and adjust the label's frame
+                NSDictionary *attributes = @{NSFontAttributeName: quantityLabel.font};
+                NSSize textSize = [quantityString sizeWithAttributes:attributes];
+                quantityLabel.frame = NSMakeRect(1, 1, textSize.width, textSize.height);
+            } else {
+                // Hide the label if the quantity is 0
+                quantityLabel.hidden = YES;
+            }
+        }
+        bodySlotCounter++; // Move to the next body slot
+    }
+}    
+}
+
+- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender {
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    NSLog(@"DSACharacterWindowController performDragOperation called");
+    NSPasteboard *pasteboard = [sender draggingPasteboard];
+    NSString *sourceSlotIndexString = [pasteboard stringForType:NSPasteboardTypeString];
+
+    if (sourceSlotIndexString) {
+        NSInteger sourceSlotIndex = [sourceSlotIndexString integerValue];
+        DSASlot *sourceSlot = [[[document.model inventory] slots] objectAtIndex:sourceSlotIndex];
+        DSAObject *draggedObject = sourceSlot.object;
+
+        // Access the content view of the window
+        NSView *contentView = self.window.contentView;
+
+        // Get the mouse location in the content view
+        NSPoint mouseLocation = [contentView convertPoint:[sender draggingLocation] fromView:nil];
+        NSImageView *targetView = (NSImageView *)[contentView hitTest:mouseLocation];
+
+        if (![targetView isKindOfClass:[NSImageView class]]) {
+            return NO; // Not a valid drop target
+        }
+
+        // Get the corresponding slot for the target view
+        NSInteger targetSlotIndex = [self indexForImageView:targetView];
+        DSASlot *targetSlot = [[[document.model inventory] slots] objectAtIndex:targetSlotIndex];
+
+        // Validate and handle the drop
+        if ([draggedObject.validSlotTypes containsObject:@(targetSlot.slotType)] &&
+            (!targetSlot.object || [targetSlot.object isCompatibleWithObject:draggedObject])) {
+            
+            // Handle the drop logic
+            if (!targetSlot.object) {
+                targetSlot.object = draggedObject;
+                targetSlot.quantity = 1;
+            } else if ([targetSlot.object isCompatibleWithObject:draggedObject] && targetSlot.quantity < targetSlot.maxItemsPerSlot) {
+                targetSlot.quantity += 1;
+            }
+
+            // Update the source slot
+            sourceSlot.quantity -= 1;
+            if (sourceSlot.quantity == 0) {
+                sourceSlot.object = nil;
+            }
+
+            // Update the UI
+            [self updateInventoryUI];
+
+            return YES; // Drop succeeded
+        }
+    }
+
+    return NO; // Drop failed
+}
+
+- (NSView *)hitTest:(NSPoint)point {
+    NSLog(@"hitTest called with point: %@", NSStringFromPoint(point));
+    NSView *hitView = [[[super window] contentView] hitTest:point];
+    NSLog(@"hitTest found view: %@", hitView);
+    return hitView;
+}
+
+
+- (void)updateInventoryUI {
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    // Iterate through all slots and update their UI representation
+    for (NSInteger slotCounter = 0; slotCounter < [[[document.model inventory] slots] count]; slotCounter++) {
+        DSASlot *slot = [[[document.model inventory] slots] objectAtIndex:slotCounter];
+        NSString *iconName = [slot.object icon];
+        iconName = [NSString stringWithFormat:@"%@-64x64", iconName];
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource:iconName ofType:@"webp"];
+        
+        // Get the corresponding NSImageView for this slot
+        NSString *uiName = [NSString stringWithFormat:@"inventorySlot%lu", (long)slotCounter];
+        NSImageView *imageView = [self valueForKey:uiName];
+        
+        // Set the image or clear it if the slot is empty
+        if (imageView) {
+            if (slot.object) {
+                NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
+                [imageView setImage:image];
+            } else {
+                [imageView setImage:nil];
+            }
+
+            // Update or create a text field for the quantity
+            NSTextField *quantityLabel = [imageView viewWithTag:999]; // Look for a tag
+            if (!quantityLabel) {
+                quantityLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(1, 1, 30, 15)];
+                quantityLabel.editable = NO;
+                quantityLabel.bordered = NO;
+                quantityLabel.bezeled = NO;
+                quantityLabel.focusRingType = NSFocusRingTypeNone;
+                quantityLabel.backgroundColor = [NSColor blackColor];
+                quantityLabel.drawsBackground = YES;
+                quantityLabel.textColor = [NSColor redColor];
+                quantityLabel.font = [NSFont boldSystemFontOfSize:10];
+                quantityLabel.alignment = NSTextAlignmentLeft;
+                quantityLabel.tag = 999;
+                [imageView addSubview:quantityLabel];
+            }
+
+            if (slot.quantity > 0) {
+                NSString *quantityString = [NSString stringWithFormat:@"%ld", (long)slot.quantity];
+                quantityLabel.stringValue = quantityString;
+                quantityLabel.hidden = NO;
+
+                // Calculate the size of the text and adjust the label's frame
+                NSDictionary *attributes = @{NSFontAttributeName: quantityLabel.font};
+                NSSize textSize = [quantityString sizeWithAttributes:attributes];
+                quantityLabel.frame = NSMakeRect(1, 1, textSize.width, textSize.height);
+            } else {
+                quantityLabel.hidden = YES; // Hide the label if quantity is 0
+            }
+        }
+    }
+}
+- (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
+    NSLog(@"DSACharacterWindowController draggingSourceOperationMaskForLocal called");
+    return NSDragOperationMove; // Allow the move operation
+}
+
+- (void)startDrag:(NSImageView *)imageView {
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    NSLog(@"DSACharacterWindowController startDrag called");
+    // Get the source slot
+    NSInteger sourceSlotIndex = [self indexForImageView:imageView];
+    DSASlot *sourceSlot = [[[document.model inventory] slots] objectAtIndex:sourceSlotIndex];
+    DSAObject *draggedObject = sourceSlot.object;
+    
+    if (!draggedObject) {
+        return; // No object to drag
+    }
+    
+    // Create a pasteboard for the drag operation
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    [pasteboard declareTypes:@[NSPasteboardTypeString] owner:self];
+    [pasteboard setString:[NSString stringWithFormat:@"%ld", (long)sourceSlotIndex] forType:NSPasteboardTypeString];
+    
+    // Begin the drag operation
+    [imageView dragImage:imageView.image
+                      at:imageView.frame.origin
+                  offset:NSMakeSize(0, 0)
+                   event:nil // Using nil since we already have the imageView
+              pasteboard:pasteboard
+                  source:self
+               slideBack:YES];
+}
+
+- (void)mouseDown:(NSEvent *)event {
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    NSLog(@"DSACharacterWindowController mouseDown called");
+    // Access the content view of the window
+    NSView *contentView = self.window.contentView;
+
+    // Get the mouse location in the content view
+    NSPoint mouseLocation = [contentView convertPoint:[event locationInWindow] fromView:nil];
+    NSImageView *sourceView = (NSImageView *)[contentView hitTest:mouseLocation];
+
+    if (![sourceView isKindOfClass:[NSImageView class]]) {
+        return; // Not an NSImageView, no drag operation
+    }
+
+    // Identify the source slot and the item being dragged
+    NSInteger sourceSlotIndex = [self indexForImageView:sourceView];
+    DSASlot *sourceSlot = [[[document.model inventory] slots] objectAtIndex:sourceSlotIndex];
+    DSAObject *draggedObject = sourceSlot.object;
+
+    if (!draggedObject) {
+        return; // No object to drag
+    }
+
+    // Prepare the pasteboard with the slot index (or any identifier)
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    [pasteboard declareTypes:@[NSPasteboardTypeString] owner:self];
+    [pasteboard setString:[NSString stringWithFormat:@"%ld", (long)sourceSlotIndex] forType:NSPasteboardTypeString];
+
+    // Start the drag operation
+    [sourceView dragImage:sourceView.image
+                       at:NSMakePoint(0, 0)
+                   offset:NSMakeSize(0, 0)
+                    event:event
+               pasteboard:pasteboard
+                   source:self
+                slideBack:YES];
+}
+
+- (NSInteger)indexForImageView:(NSImageView *)imageView {
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    NSLog(@"DSACharacterWindowController indexForImageView called");
+    for (NSInteger i = 0; i < [[[document.model inventory] slots] count]; i++) {
+        NSString *uiName = [NSString stringWithFormat:@"inventorySlot%ld", (long)i];
+        NSImageView *currentImageView = [self valueForKey:uiName];
+        if (currentImageView == imageView) {
+            return i;
+        }
+    }
+    return -1; // Not found
+}
+
+// Highlight valid slots when dragging over them
+- (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender {
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    NSLog(@"DSACharacterWindowController draggingEntered called");
+    NSPasteboard *pasteboard = [sender draggingPasteboard];
+    NSString *sourceSlotIndexString = [pasteboard stringForType:NSPasteboardTypeString];
+    
+    if (sourceSlotIndexString) {
+        NSInteger sourceSlotIndex = [sourceSlotIndexString integerValue];
+        DSASlot *sourceSlot = [[[document.model inventory] slots] objectAtIndex:sourceSlotIndex];
+        DSAObject *draggedObject = sourceSlot.object;
+
+        // Loop through all inventory slots to find valid drop targets
+        for (NSInteger i = 0; i < [[[document.model inventory] slots] count]; i++) {
+            DSASlot *slot = [[[document.model inventory] slots] objectAtIndex:i];
+            NSImageView *slotView = [self valueForKey:[NSString stringWithFormat:@"inventorySlot%ld", (long)i]];
+
+            // Create a DragHighlightView for valid slots
+            if ([draggedObject.validSlotTypes containsObject:@(slot.slotType)] &&
+                (!slot.object || [slot.object isCompatibleWithObject:draggedObject])) {
+                
+                // Wrap the NSImageView with NSValue
+                NSValue *slotViewKey = [NSValue valueWithNonretainedObject:slotView];
+
+                // Check if the highlight already exists in the dictionary
+                DragHighlightView *highlightView = self.highlightViews[slotViewKey];
+                if (!highlightView) {
+                    // Create and store the highlight view in the dictionary
+                    highlightView = [[DragHighlightView alloc] initWithFrame:slotView.bounds];
+                    highlightView.borderColor = [NSColor greenColor]; // Set the border color
+                    self.highlightViews[slotViewKey] = highlightView; // Store the highlight view in the dictionary
+                    [slotView addSubview:highlightView];
+                }
+            } else {
+                // Remove the highlight for invalid slots
+                NSValue *slotViewKey = [NSValue valueWithNonretainedObject:slotView];
+                DragHighlightView *highlightView = self.highlightViews[slotViewKey];
+                if (highlightView) {
+                    [highlightView removeFromSuperview];
+                    [self.highlightViews removeObjectForKey:slotViewKey]; // Remove from dictionary
+                }
+            }
+        }
+
+        return NSDragOperationMove; // Allow the move operation
+    }
+
+    return NSDragOperationNone; // If no valid target, don't allow the move
+}
+
+- (void)draggingExited:(id<NSDraggingInfo>)sender {
+    [self clearSlotHighlights];
+}
+
+- (void)draggingEnded:(id<NSDraggingInfo>)sender {
+    [self clearSlotHighlights];
+}
+
+- (void)clearSlotHighlights {
+    // Loop through all stored highlight views in the dictionary
+    for (NSValue *slotViewKey in self.highlightViews) {
+        // Get the NSImageView object from the NSValue
+        DragHighlightView *highlightView = self.highlightViews[slotViewKey];
+        
+        // Remove the highlight view from the slot's view
+        [highlightView removeFromSuperview];
+    }
+    
+    // Clear the dictionary to remove all references
+    [self.highlightViews removeAllObjects];
 }
 
 - (void)populateFightingTalentsTab
@@ -403,7 +888,7 @@
    DSACharacterHero *model = (DSACharacterHero *)document.model;
    NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 4"]];
  
-   if (![model conformsToProtocol:@protocol(DSACharacterMagic)] && !model.specials)
+   if (model.spells == nil || [model.spells count] == 0)
      {
         NSLog(@"not being magic, not showing magic talents tab");
         [self.tabViewMain removeTabViewItem:mainTabItem];
@@ -500,7 +985,7 @@
   
    NSMutableArray *specials = [NSMutableArray array];
    NSMutableSet *categories = [NSMutableSet set];
-  
+
    // Enumerate special talents to find all categories
    [model.specials enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
      {
@@ -514,7 +999,7 @@
     
    // Sort categories alphabetically
    NSArray *sortedCategories = [[categories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-  
+   NSLog(@"populateSpecialTalentsTab before the for loop");  
    // Add a tab for each sorted category with the corresponding talents
    for (NSString *category in sortedCategories)
      {
@@ -530,7 +1015,9 @@
      }
   
    // Set the subTabView for the current tab
+   NSLog(@"populateSpecialTalentsTab At the end of it");
    [mainTabItem setView:subTabView];
+   NSLog(@"populateSpecialTalentsTab At the very end of it");   
 }
 
 - (void)populateBiographyTab
@@ -568,7 +1055,7 @@
                            [model birthPlace], 
                            [model birthEvent], 
                            [model legitimation],
-                           [self siblingsStringForCharacter: model]];
+                           [model siblingsString]];
 
    // Create paragraph style for proper indentation of bullet points
    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
@@ -668,238 +1155,6 @@
    [mainTabItem setView:subTabView];
 }
 
-
-- (void)XXXYpopulateBiographyTab
-{
-   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-   DSACharacterHero *model = (DSACharacterHero *)document.model;
-   NSLog(@"populateBiographyTab %@ %@", [model birthPlace], [model legitimation]);
-   
-   NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 7"]];
-   
-   NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
-   NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
-   [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
-   
-   NSTabViewItem *innerTabItem = [[NSTabViewItem alloc] initWithIdentifier: _(@"Geburt")];
-   innerTabItem.label = _(@"Geburt");
-    
-   NSFlippedView *innerView = [[NSFlippedView alloc] initWithFrame:subTabView.bounds];
-   [innerView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
-
-   // Create a single NSTextView to hold the merged text
-   CGFloat margin = 10.0;
-   CGFloat width = subTabView.bounds.size.width - 2 * margin;
-   NSRect textViewFrame = NSMakeRect(margin, margin, width, subTabView.bounds.size.height - 2 * margin);
-   NSTextView *textView = [[NSTextView alloc] initWithFrame:textViewFrame];
-   [textView setEditable:NO];     // Make it non-editable
-   [textView setVerticallyResizable:YES];
-   [textView setHorizontallyResizable:NO];
-   [textView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
-   [textView setBackgroundColor:[NSColor lightGrayColor]];
-
-   // Format the text as a bulleted list
-   NSString *bulletList = [NSString stringWithFormat:@"• %@\n• %@\n• %@\n• %@", 
-                           [model birthPlace], 
-                           [model birthEvent], 
-                           [model legitimation],
-                           [self siblingsStringForCharacter: model]];
-
-   // Create paragraph style for proper indentation of bullet points
-   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-   CGFloat bulletIndent = 15.0;  // Space from the left edge for the first line
-   CGFloat textIndent = 25.0;    // Space for wrapped lines
-   [paragraphStyle setFirstLineHeadIndent:bulletIndent];   // First line indentation (after the bullet)
-   [paragraphStyle setHeadIndent:textIndent];              // Indentation for subsequent wrapped lines
-
-   // Optional: Set line spacing for better readability
-   [paragraphStyle setLineSpacing:4.0];
-
-   // Create an attributed string with the bullet points and paragraph style
-   NSFont *font = [NSFont systemFontOfSize:10.0];  // Use a system font of size 14
-   NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:bulletList];
-   [attrString addAttribute:NSFontAttributeName value:font range:NSMakeRange(0, [attrString length])];
-   [attrString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [attrString length])];
-
-   // Set the text in the NSTextView
-   [textView.textStorage setAttributedString:attrString];
-
-   // Add the NSTextView to the innerView
-   [innerView addSubview:textView];
-
-   // Set the innerView as the view for the inner tab item
-   [innerTabItem setView:innerView];
-   [subTabView addTabViewItem:innerTabItem];
-   
-   // --- Second Tab: "Kindheit" ---
-   NSTabViewItem *innerTabItem2 = [[NSTabViewItem alloc] initWithIdentifier:_(@"Kindheit")];
-   innerTabItem2.label = _(@"Kindheit");
-
-   NSFlippedView *innerView2 = [[NSFlippedView alloc] initWithFrame:subTabView.bounds];
-   [innerView2 setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
-   
-   // Create a text view for childhood events with the same layout
-   NSTextView *childhoodTextView = [[NSTextView alloc] initWithFrame:NSMakeRect(10, 10, width, 100)];
-   [childhoodTextView setEditable:NO];
-   [childhoodTextView setBackgroundColor:[NSColor lightGrayColor]];
-
-   // Compose bulleted list for childhood events
-   NSMutableString *childhoodBullets = [[NSMutableString alloc] init];
-   for (NSString *event in [model childhoodEvents]) {
-       [childhoodBullets appendFormat:@"• %@\n", event];
-   }
-   [childhoodTextView setString:childhoodBullets];
-   
-   // Add the childhood events text view to the second tab
-   [innerView2 addSubview:childhoodTextView];
-   [innerTabItem2 setView:innerView2];
-   [subTabView addTabViewItem:innerTabItem2];
-   
-   // Set the subTabView for the current tab
-   [mainTabItem setView:subTabView];
-}
-
-
-// helper function used above in populateBiographyTab
-- (NSString *)siblingsStringForCharacter:(DSACharacter *)character
-{
-    NSArray *siblings = [character siblings];
-    NSString *name = [character name];
-    NSString *pronoun = [[character sex] isEqualToString:_(@"männlich")] ? @"Er" : @"Sie";
-    NSString *genderWord = [[character sex] isEqualToString:_(@"männlich")] ? @"der" : @"die";
-    
-    // If no siblings, return a simple message
-    if ([siblings count] == 0) {
-        return [NSString stringWithFormat:@"%@ hat keine Geschwister.", name];
-    }
-    
-    // Initialize counters for siblings
-    NSInteger olderBrothers = 0;
-    NSInteger youngerBrothers = 0;
-    NSInteger olderSisters = 0;
-    NSInteger youngerSisters = 0;
-    
-    // Count the number of older/younger brothers and sisters
-    for (NSDictionary *sibling in siblings) {
-        NSString *age = sibling[@"age"];
-        NSString *sex = sibling[@"sex"];
-        
-        if ([age isEqualToString:_(@"älter")]) {
-            if ([sex isEqualToString:_(@"männlich")]) {
-                olderBrothers++;
-            } else {
-                olderSisters++;
-            }
-        } else {  // "jünger"
-            if ([sex isEqualToString:_(@"männlich")]) {
-                youngerBrothers++;
-            } else {
-                youngerSisters++;
-            }
-        }
-    }
-    
-    // Total number of children in the family
-    NSInteger totalChildren = [siblings count] + 1;  // +1 to include the character
-    NSInteger numberOfOlderSiblings = olderBrothers + olderSisters;
-    NSInteger characterPosition = totalChildren - numberOfOlderSiblings;  // Position of the character among the siblings
-    // Generate a detailed sibling description
-    NSMutableString *resultString = [NSMutableString stringWithFormat:@"%@ ist %@ %ldte von %ld Kindern. ", name, genderWord, (long)characterPosition, (long)totalChildren];
-    
-    NSMutableArray *siblingDescriptions = [NSMutableArray array];
-    
-    // Build the description based on the sibling counts
-    if (olderBrothers > 0) {
-        NSString *olderBrothersString = [NSString stringWithFormat:@"%ld ältere%@ Br%@der", (long)olderBrothers, olderBrothers > 1 ? @"" : @"n", olderBrothers > 1 ? @"ü" : @"u"];
-        [siblingDescriptions addObject:olderBrothersString];
-    }
-    
-    if (olderSisters > 0) {
-        NSString *olderSistersString = [NSString stringWithFormat:@"%ld ältere Schwester%@", (long)olderSisters, olderSisters > 1 ? @"n" : @""];
-        [siblingDescriptions addObject:olderSistersString];
-    }
-    
-    if (youngerBrothers > 0) {
-        NSString *youngerBrothersString = [NSString stringWithFormat:@"%ld jüngere%@ Br%@der", (long)youngerBrothers, youngerBrothers > 1 ? @"" : @"n", youngerBrothers > 1 ? @"ü" : @"u"];
-        [siblingDescriptions addObject:youngerBrothersString];
-    }
-    
-    if (youngerSisters > 0) {
-        NSString *youngerSistersString = [NSString stringWithFormat:@"%ld jüngere Schwester%@", (long)youngerSisters, youngerSisters > 1 ? @"n" : @""];
-        [siblingDescriptions addObject:youngerSistersString];
-    }
-    
-    // Append the sibling description
-    if ([siblingDescriptions count] > 0) {
-        [resultString appendFormat:@"%@ hat %@.", pronoun, [siblingDescriptions componentsJoinedByString:@", "]];
-    }
-    
-    return resultString;
-}
-
-- (void)XXXpopulateBiographyTab
-{
-   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-   DSACharacterHero *model = (DSACharacterHero *)document.model;
-   NSLog(@"populateBiographyTab %@ %@", [model birthPlace], [model legitimation]);
-   NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 7"]];
-   
-      
-   NSRect subTabViewFrame = mainTabItem.view ? mainTabItem.view.bounds : NSMakeRect(0, 0, 400, 300);
-   NSTabView *subTabView = [[NSTabView alloc] initWithFrame:subTabViewFrame];
-   [subTabView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
-  
-   
-   NSTabViewItem *innerTabItem = [[NSTabViewItem alloc] initWithIdentifier: _(@"Geburt")];
-   innerTabItem.label = _(@"Geburt");
-    
-   NSFlippedView *innerView = [[NSFlippedView alloc] initWithFrame:subTabView.bounds];
-   [innerView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];    
-   
-   NSInteger Offset = 22;
-   CGFloat width = subTabView.bounds.size.width - 20;
-   NSRect fieldRect = NSMakeRect(10, Offset, width, 20);
-   NSTextField *itemField = [[NSTextField alloc] initWithFrame:fieldRect];
-   [itemField setIdentifier:@"itemFieldBirthplace"];
-   [itemField setSelectable:NO];
-   [itemField setEditable:NO];
-   [itemField setBordered:NO];
-   [itemField setBezeled:NO];
-   [itemField setBackgroundColor:[NSColor lightGrayColor]];
-   [itemField setStringValue: [model birthPlace]];
-   [innerView addSubview:itemField];
-
-   Offset += 22;
-   fieldRect = NSMakeRect(10, Offset, width, 20);
-   itemField = [[NSTextField alloc] initWithFrame:fieldRect];
-   [itemField setIdentifier:@"itemFieldBirthEvent"];
-   [itemField setSelectable:NO];
-   [itemField setEditable:NO];
-   [itemField setBordered:NO];
-   [itemField setBezeled:NO];
-   [itemField setBackgroundColor:[NSColor lightGrayColor]];
-   [itemField setStringValue: [model birthEvent]];
-   [innerView addSubview:itemField];    
-      
-   Offset += 22;
-   fieldRect = NSMakeRect(10, Offset, width, 20);
-   itemField = [[NSTextField alloc] initWithFrame:fieldRect];
-   [itemField setIdentifier:@"itemFieldLegitimation"];
-   [itemField setSelectable:NO];
-   [itemField setEditable:NO];
-   [itemField setBordered:NO];
-   [itemField setBezeled:NO];
-   [itemField setBackgroundColor:[NSColor lightGrayColor]];
-   [itemField setStringValue: [model legitimation]];
-   [innerView addSubview:itemField];     
-
-   [innerTabItem setView:innerView];
-   [subTabView addTabViewItem:innerTabItem];   
-      
-   // Set the subTabView for the current tab
-   [mainTabItem setView:subTabView];
-}
-
 #pragma mark - Helper Methods
 
 // Helper method to add an individual tab for a category
@@ -941,7 +1196,13 @@
           DSASpecialTalent *specialTalentItem = (DSASpecialTalent *)item;
           categoryToCheck = specialTalentItem.category; // Use category for this class
           fontColor = [NSColor blackColor];
-        }        
+        } 
+      else if ([item isKindOfClass:[DSALiturgy class]])
+        {
+          DSALiturgy *liturgyItem = (DSALiturgy *)item;
+          categoryToCheck = liturgyItem.category; // Use category for this class
+          fontColor = [NSColor blackColor];
+        }               
       else if ([item isKindOfClass:[DSASpell class]])
         {
           DSASpell *spellItem = (DSASpell *)item;
@@ -961,7 +1222,7 @@
           NSLog(@"Unknown item class: %@", [item class]);
           continue; // Skip unknown classes
         }
-                  
+        
       if ([categoryToCheck isEqualToString:category])
         {      
           Offset += 22;
@@ -990,7 +1251,12 @@
                   [itemField setStringValue:[NSString stringWithFormat:@"%@", item.name]];
                 }
               [itemField setTextColor: fontColor];                           
-            }            
+            }
+          else if ([item isMemberOfClass: [DSALiturgy class]])
+            {
+              [itemField setStringValue:[NSString stringWithFormat:@"%@", item.name]];
+              [itemField setTextColor: fontColor];
+            }
           else
             {
               [itemField setStringValue:[NSString stringWithFormat:@"%@ (%@) (%@)", item.name, [item.test componentsJoinedByString:@"/"], item.maxUpPerLevel]];
@@ -1013,8 +1279,8 @@
           NSFont *boldFont = [NSFont boldSystemFontOfSize:[NSFont systemFontSize]];
           [itemField setFont:boldFont];
           [innerView addSubview:itemField];
-            
-          if (![item isMemberOfClass: [DSASpecialTalent class]])
+        
+          if (!([item isMemberOfClass: [DSASpecialTalent class]] || [item isMemberOfClass: [DSALiturgy class]]))
             {
               NSRect fieldValueRect = NSMakeRect(420, Offset, 20, 20);
               NSTextField *itemFieldValue = [[NSTextField alloc] initWithFrame:fieldValueRect];
@@ -1068,8 +1334,8 @@
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem
 {
-  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-  DSACharacterHero *model = (DSACharacterHero *)document.model;    
+  //DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  //DSACharacterHero *model = (DSACharacterHero *)document.model;    
   // Get the action (selector) associated with the menu item
   SEL menuItemAction = [menuItem action];
     
@@ -1091,7 +1357,6 @@
                         change:(NSDictionary<NSKeyValueChangeKey,id> *)change 
                        context:(void *)context
 {
-NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
   if ([keyPath isEqualToString:@"adventurePoints"])
     {
       [self handleAdventurePointsChange];
@@ -1099,7 +1364,6 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
   else if ([keyPath isEqualToString:@"isActiveSpell"])
     {
       DSASpell *spellItem = (DSASpell *)object;
-      NSLog(@"spellItem in observeValueForKeyPath: %@", spellItem);  
       // Get the associated itemField using the spellItem
       NSTextField *itemField = [self.spellItemFieldMap objectForKey:[spellItem name]];
       if (itemField)
@@ -1245,10 +1509,8 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
   [self.fieldLevelUpHeadline setStringValue: @"Lebenspunkte und Astralenergie verteilen"];
   [self.fieldLevelUpHeadline.cell setLineBreakMode:NSLineBreakByWordWrapping];
   [self.fieldLevelUpHeadline.cell setUsesSingleLineMode:NO];
-  NSLog(@"checking if sender is NSDictionary: %@", [sender class]);
   if ([sender isKindOfClass: [NSDictionary class]])
     {
-        NSLog(@"sender is NSDictionary: %@", sender);
       if ([[(NSDictionary *)sender allKeys] containsObject: @"deltaLifePoints"] && [[(NSDictionary *)sender objectForKey: @"deltaLifePoints"] integerValue] > 0)
         {
           [self.fieldLevelUpMainText setStringValue: 
@@ -1305,8 +1567,6 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
   NSLog(@"showLevelUpPositiveTraits called");
   if (!self.levelUpPanel)
     {
-      // Load the panel from the separate .gorm file
-      NSLog(@"showLevelUpPositiveTraits loading DSACharacterLevelUp.gorm");
       [NSBundle loadNibNamed:@"DSACharacterLevelUp" owner:self];
     }
   // Set the font size of the fieldCongratsHeadline
@@ -1771,7 +2031,21 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
     // Enumerate spells to find all categories
     [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop) {
         [spellCategories addObject: [obj category]];
-    }];  
+    }];
+
+    // there are characters out there, that have specials, that level up together with spells
+    SEL levelUpSpecialsWithSpellsSelector = @selector(levelUpSpecialsWithSpells);
+    if ([model respondsToSelector:levelUpSpecialsWithSpellsSelector])
+      {
+        BOOL shouldLevelUpSpecialsWithSpells = ((BOOL (*)(id, SEL))[model methodForSelector:levelUpSpecialsWithSpellsSelector])(model, levelUpSpecialsWithSpellsSelector);
+        if (shouldLevelUpSpecialsWithSpells)
+          {
+            [model.specials enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop)
+              {
+                [spellCategories addObject: [obj category]];
+              }];           
+          }
+      }    
 
     // Sort spellCategories alphabetically
     NSArray *sortedSpellCategories = [[spellCategories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
@@ -1815,17 +2089,37 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
     
     // Create an array to hold sorted spells
     NSMutableArray *spells = [NSMutableArray array];
+    NSMutableArray *specials = [NSMutableArray array];
     
     // Collect spells that match the selected category
-    [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop) {
-        if ([[obj category] isEqualTo: spellCategory]) {
+    [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop)
+      {
+        if ([[obj category] isEqualTo: spellCategory])
+          {
             [spells addObject: obj];
-        }
-    }];
-    
-    // Sort the spells alphabetically by their name
+          }
+      }];
     NSArray *sortedSpells = [spells sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]];
     
+    // there are characters out there, that have specials, that level up together with spells
+    SEL levelUpSpecialsWithSpellsSelector = @selector(levelUpSpecialsWithSpells);
+    if ([model respondsToSelector:levelUpSpecialsWithSpellsSelector])
+      {
+        BOOL shouldLevelUpSpecialsWithSpells = ((BOOL (*)(id, SEL))[model methodForSelector:levelUpSpecialsWithSpellsSelector])(model, levelUpSpecialsWithSpellsSelector);
+        if (shouldLevelUpSpecialsWithSpells)
+          {
+            [model.specials enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop)
+              {
+                if ([[obj category] isEqualTo: spellCategory])
+                  {
+                    [specials addObject: obj];
+                  }
+              }];            
+          }
+      }
+
+    // Sort the spells alphabetically by their name
+    NSArray *sortedSpecials = [specials sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]];
     // Add sorted spells to the popup
     for (DSASpell *spell in sortedSpells) {
         [self.popupLevelUpBottom addItemWithTitle:[spell name]];
@@ -1839,7 +2133,21 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
             }
         }
     }
+    // add eventual sorted specials to the popup as well
+    for (DSASpell *special in sortedSpecials) {
+        [self.popupLevelUpBottom addItemWithTitle:[special name]];
+        SEL canLevelUpSpell = @selector(canLevelUpSpell:);
+        if ([model respondsToSelector: canLevelUpSpell]) {
+            BOOL (*func)(id, SEL, DSASpell *) = (void *)objc_msgSend;
+            if (func(model, canLevelUpSpell, [model.specials objectForKey:[special name]])) {
+                [[self.popupLevelUpBottom itemWithTitle:[special name]] setEnabled:YES];
+            } else {
+                [[self.popupLevelUpBottom itemWithTitle:[special name]] setEnabled:NO];
+            }
+        }
+    }
     
+        
     // Try to re-select the previously selected item
     [self.popupLevelUpBottom selectItemWithTitle:selectedItemTitle];
     
@@ -1861,15 +2169,34 @@ NSLog(@"DSACharacterWindowController observeValueForKeyPath %@", keyPath);
 {
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   DSACharacterHero *model = (DSACharacterHero *)document.model;
+  NSString *spell = [[self.popupLevelUpBottom selectedItem] title];
   BOOL result;
   
   SEL levelUpSpell = @selector(levelUpSpell:);
   
   if ([model respondsToSelector: levelUpSpell])
     {
+      // first have to find out, if there are special talents that might be dealt with like spells as well
+      BOOL shouldLevelUpSpecialsWithSpells = NO;
+      SEL levelUpSpecialsWithSpellsSelector = @selector(levelUpSpecialsWithSpells);
+      if ([model respondsToSelector:levelUpSpecialsWithSpellsSelector])
+        {
+          shouldLevelUpSpecialsWithSpells = ((BOOL (*)(id, SEL))[model methodForSelector:levelUpSpecialsWithSpellsSelector])(model, levelUpSpecialsWithSpellsSelector);
+        }
+      NSDictionary *containerToUse;
+      if (shouldLevelUpSpecialsWithSpells)
+        {
+          if ([model.spells objectForKey: spell])
+            {
+              containerToUse = model.spells;
+            }
+          else
+            {
+              containerToUse = model.specials;
+            }
+        }
       BOOL (*func)(id, SEL, DSASpell *) = (void *)objc_msgSend;
-      result = func(model, levelUpSpell, [model.spells objectForKey: [[self.popupLevelUpBottom selectedItem] title]]);
-//      result = [model levelUpSpell: [model.spells objectForKey: [[self.popupLevelUpBottom selectedItem] title]]];      
+      result = func(model, levelUpSpell, [containerToUse objectForKey: spell]);
     }
   else
     {

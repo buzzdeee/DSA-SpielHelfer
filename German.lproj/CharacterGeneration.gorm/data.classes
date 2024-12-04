@@ -13,7 +13,8 @@
 	    "popupSexSelected:",
 	    "textFieldUpdated:",
 	    "buttonTraitsClicked:",
-	    "buttonImageClicked:"
+	    "buttonImageClicked:",
+	    "popupElementSelected:"
 	);
 	Outlets = (
 	    popupCategories,
@@ -81,7 +82,8 @@
 	    buttonJZ,
 	    imageViewPortrait,
 	    popupElements,
-	    popupReligions
+	    popupReligions,
+	    fieldElement
 	);
 	Super = NSWindowController;
     };
@@ -89,10 +91,11 @@
 	Actions = (
 	    "buttonFinishClicked:",
 	    "buttonGenerateClicked:",
+	    "buttonImageClicked:",
 	    "buttonTraitsClicked:",
 	    "finishButtonPressed:",
 	    "generateButtonPressed:",
-	    "buttonImageClicked:",
+	    "popupElementSelected:",
 	    "popupArchetypeSelected:",
 	    "popupCategorySelected:",
 	    "popupMageAcademySelected:",

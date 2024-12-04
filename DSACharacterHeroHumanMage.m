@@ -36,7 +36,13 @@
       self.lifePoints = @25;
       self.astralEnergy = @30;
       self.currentLifePoints = @25;
-      self.currentAstralEnergy = @30;      
+      self.currentAstralEnergy = @30; 
+      self.maxLevelUpTalentsTries = @15;        // Talent und ZF Steigerungen lt. Compendium Salamandris S. 28      
+      self.maxLevelUpSpellsTries = @40;
+      self.maxLevelUpTalentsTriesTmp = @15;
+      self.maxLevelUpSpellsTriesTmp = @40;      
+      self.maxLevelUpVariableTries = @10;
+      self.mrBonus = @3;           
     }
   return self;
 }
@@ -63,6 +69,11 @@
 - (BOOL) canLevelUpSpell: (DSASpell *)spell
 {
   return YES;
+}
+
+- (BOOL) levelUpSpecialsWithSpells
+{
+  return NO;
 }
 
 - (DSASpellResult *) meditate

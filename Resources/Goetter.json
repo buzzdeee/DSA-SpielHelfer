@@ -2,6 +2,7 @@
  "Praios": {
   "Sternbild": "Greif",
   "Typkategorie": [ "Mensch" ],
+  "Typus": [ "Praiosgeweihter" ],
   "Monat": "Januar",
   "Basiswerte": {
     "MU": 1
@@ -10,7 +11,8 @@
  },
  "Rondra": {
   "Sternbild": "Schwert",
-  "Typkategorie": [ "Mensch" ],  
+  "Typkategorie": [ "Mensch" ], 
+  "Typus": [ "Rondrageweihter" ], 
   "Monat": "Februar",  
   "Basiswerte": { },
   "Talente": {
@@ -23,7 +25,8 @@
  },
  "Efferd": {
   "Sternbild": "Delphin",
-  "Typkategorie": [ "Mensch" ],  
+  "Typkategorie": [ "Mensch" ],
+  "Typus": [ "Efferdgeweihter" ], 
   "Monat": "März",  
   "Basiswerte": { },
   "Talente": {
@@ -37,7 +40,8 @@
  },
  "Travia": {
   "Sternbild": "Gans",
-  "Typkategorie": [ "Mensch" ],  
+  "Typkategorie": [ "Mensch" ],
+  "Typus": [ "Traviageweihter" ],  
   "Monat": "April",  
   "Basiswerte": {
     "IN": 1
@@ -46,7 +50,8 @@
  },
  "Boron": {
   "Sternbild": "Rabe",
-  "Typkategorie": [ "Mensch" ],  
+  "Typkategorie": [ "Mensch" ],
+  "Typus": [ "Borongeweihter" ], 
   "Monat": "Mai",  
   "Basiswerte": { },
   "Talente": {
@@ -57,7 +62,8 @@
  },
  "Hesinde": {
   "Sternbild": "Schlange",
-  "Typkategorie": [ "Mensch" ],  
+  "Typkategorie": [ "Mensch" ],
+  "Typus": [ "Hesindegeweihter" ],  
   "Monat": "Juni",  
   "Basiswerte": { },
   "Talente": {
@@ -68,7 +74,8 @@
  },
  "Firun": {
   "Sternbild": "Eisbär",
-  "Typkategorie": [ "Mensch" ],  
+  "Typkategorie": [ "Mensch" ],
+  "Typus": [ "Firungeweihter" ],  
   "Monat": "Juli",  
   "Basiswerte": { },
   "Talente": {
@@ -84,7 +91,8 @@
  },
  "Tsa": {
   "Sternbild": "Eidechse",
-  "Typkategorie": [ "Mensch" ],  
+  "Typkategorie": [ "Mensch" ],
+  "Typus": [ "Tsageweihter" ],  
   "Monat": "August",  
   "Basiswerte": {
     "CH": 1
@@ -93,7 +101,8 @@
  },
  "Phex": {
   "Sternbild": "Fuchs",
-  "Typkategorie": [ "Mensch" ],  
+  "Typkategorie": [ "Mensch" ],
+  "Typus": [ "Phexgeweihter" ],  
   "Monat": "September",  
   "Basiswerte": { },
   "Talente": {
@@ -107,7 +116,8 @@
  },
  "Peraine": {
   "Sternbild": "Storch",
-  "Typkategorie": [ "Mensch" ],  
+  "Typkategorie": [ "Mensch" ],
+  "Typus": [ "Perainegeweihter" ],  
   "Monat": "Oktober",  
   "Basiswerte": { },
   "Talente": {
@@ -119,7 +129,8 @@
  },
  "Ingerimm": {
   "Sternbild": "Hammer und Amboss",
-  "Typkategorie": [ "Mensch" ],  
+  "Typkategorie": [ "Mensch" ],
+  "Typus": [ "Ingerimmgeweihter" ],  
   "Monat": "November",  
   "Basiswerte": { },
   "Talente": {
@@ -132,7 +143,8 @@
  },
  "Rahja": {
   "Sternbild": "Stute",
-  "Typkategorie": [ "Mensch" ],  
+  "Typkategorie": [ "Mensch" ],
+  "Typus": [ "Rahjageweihter" ],
   "Monat": "Dezember",  
   "Basiswerte": { },
   "Talente": {
@@ -148,12 +160,16 @@
   }
  },
  "Swafnir": {
-   "Typus": [ "Seefahrer", "Thorwaler", "Skalde" ]
+   "Typus": [ "Seefahrer", "Thorwaler", "Skalde", "Swafnirgeweihter" ]
  },
  "Angrosch": {
    "Typkategorie": [ "Zwerg" ]
  },
  "Nurti und Zerzal": {
    "Typkategorie": [ "Elf" ]
+ },
+ "Rastullah": {
+   "Typus": [ "Novadi" ],
+   "Herkunft": [ "Novadi" ]
  }
 }

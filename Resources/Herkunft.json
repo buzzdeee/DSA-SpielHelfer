@@ -155,7 +155,7 @@
     }
   },
   "Bornland": {
-    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Scharlatan" ],
+    "Typen": [ "Druide", "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Scharlatan" ],
     "Basiswerte": { },
     "Talente": {
       "Kampftechniken": {
@@ -285,7 +285,7 @@
     }
   },
   "Moha": {
-    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Schamane", "Seefahrer", "Söldner", "Streuner", "Magier"],
     "Basiswerte": { },
     "Talente": {
       "Kampftechniken": {
@@ -350,7 +350,7 @@
     }
   },
   "Nivese": {
-    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier"],
+    "Typen": [ "Druide", "Barde", "Gaukler", "Medicus", "Krieger", "Schamane", "Seefahrer", "Söldner", "Streuner", "Magier"],
     "Basiswerte": { },
     "Talente": {
       "Kampftechniken": {
@@ -465,7 +465,7 @@
     }
   },
   "Thorwaler": {
-    "Typen": [ "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Scharlatan" ],
+    "Typen": [ "Druide", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Scharlatan" ],
     "Basiswerte": { },
     "Talente": {
       "Kampftechniken": {
@@ -556,7 +556,52 @@
     }
   },
   "Mittelreich": {
-    "Typen": [ "Barde", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Schelm", "Druide", "Hexe", "Jäger", "Scharlatan", "Seefahrer" ],
+    "Typen": [ "Barde", "Bürger", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Schelm", "Druide", "Hexe", "Jäger", "Scharlatan", "Seefahrer" ],
+    "Basiswerte": {},
+    "Talente": {}
+  },
+  "Andergast": {
+    "Typen": [ "Druide" ],
+    "Basiswerte": {},
+    "Talente": {}
+  }, 
+  "Nostria": {
+    "Typen": [ "Druide" ],
+    "Basiswerte": {},
+    "Talente": {}
+  },    
+  "Svellttal": {
+    "Typen": [ "Druide" ],
+    "Basiswerte": {},
+    "Talente": {}
+  },   
+  "Paavi": {
+    "Typen": [ "Druide" ],
+    "Basiswerte": {},
+    "Talente": {}
+  },  
+  "Glorania": {
+    "Typen": [ "Druide" ],
+    "Basiswerte": {},
+    "Talente": {}
+  },
+  "Elfenlande": {
+    "Typen": [ "Druide", "Auelf", "Firnelf", "Halbelf", "Waldelf" ],
+    "Basiswerte": {},
+    "Talente": {}
+  },
+  "Horasreich": {
+    "Typen": [ "Bürger" ],
+    "Basiswerte": {},
+    "Talente": {}
+  },
+  "Brabak": {
+    "Typen": [ "Moha" ],
+    "Basiswerte": {},
+    "Talente": {}
+  },  
+  "Regengebirge & Dschungel": {
+    "Typen": [ "Moha" ],
     "Basiswerte": {},
     "Talente": {}
   }

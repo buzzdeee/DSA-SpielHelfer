@@ -1,0 +1,24 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSAEquipmentListViewController = {
+	Actions = (
+	    "filterList:",
+	    "selectView:"
+	);
+	Outlets = (
+	    popupViewSelector,
+	    scrollView,
+	    tableView,
+	    fieldSearch,
+	    dummyIdentifier
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "filterList:",
+	    "selectView:"
+	);
+	Super = NSObject;
+    };
+}

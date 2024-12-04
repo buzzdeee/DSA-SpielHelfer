@@ -14,6 +14,8 @@
 #import "DSACharacterWindowController.h"
 #import "DSACharacterDocument.h"
 #import "DSACharacterHero.h"
+#import "DSAMapViewController.h"
+#import "DSAEquipmentListViewController.h"
 
 @implementation AppController
 
@@ -59,6 +61,25 @@
   NSLog(@"AppController: setupApplication was called");
 }
 
+- (IBAction)openMap:(id)sender
+{
+  NSLog(@"AppController openMap called!!!");
+  // Initialize and retain the DSAMapViewController
+  self.mapViewController = [[DSAMapViewController alloc] init];
+    
+  // Show the window
+  [self.mapViewController showWindow:self];
+}
+
+- (IBAction)showEquipmentList:(id)sender
+{
+  NSLog(@"AppController showEquipmentList called!!!");
+  // Initialize and retain the DSAEquipmentListViewController
+  self.equipmentListViewController = [[DSAEquipmentListViewController alloc] init];
+    
+  // Show the window
+  [self.equipmentListViewController showWindow:self];
+}
 
 - (IBAction)newCharacterGeneration:(id)sender
 {
