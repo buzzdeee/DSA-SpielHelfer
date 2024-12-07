@@ -336,4 +336,36 @@
         }
     }
 }
+
+- (NSInteger)countInventories {
+    return [[self inventoryPropertyNames] count];
+}
+
+- (NSArray<NSString *> *)inventoryPropertyNames {
+    return @[
+        @"head",
+        @"neck",
+        @"eyes",
+        @"leftEar",
+        @"rightEar",
+        @"nose",
+        @"face",
+        @"back",
+        @"shoulder",
+        @"leftArm",
+        @"rightArm",
+        @"leftHand",
+        @"rightHand",
+        @"leftHandFingers",
+        @"rightHandFingers",
+        @"hip",
+        @"upperBody",
+        @"lowerBody",
+        @"leftLeg",
+        @"rightLeg",
+        @"leftFoot",
+        @"rightFoot"
+    ];
+}
+
 @end

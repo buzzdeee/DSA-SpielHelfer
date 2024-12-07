@@ -28,11 +28,6 @@
 #import <AppKit/AppKit.h>
 #import "DSASpell.h"
 
-// for the drag n drop
-@interface DragHighlightView : NSView
-@property (nonatomic, strong) NSColor *borderColor;
-@end
-
 @interface DSACharacterWindowController : NSWindowController
 
 // Add weak UI outlets here
@@ -179,9 +174,6 @@
 @property (weak) IBOutlet NSTextField *fieldAdditionalAdventurePoints;
 // to track spells and spell names NSText field relationships to be able to change color
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSTextField *> *spellItemFieldMap;
-
-// for drag n drop
-@property (nonatomic, strong) NSMutableDictionary<NSValue *, DragHighlightView *> *highlightViews;
 
 - (IBAction)closePanel:(id)sender;
 

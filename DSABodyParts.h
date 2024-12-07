@@ -56,6 +56,9 @@
 - (instancetype)init;
 - (DSAEquipResult *)equipObject:(DSAObject *)object;
 
+- (NSInteger)countInventories;
+- (NSArray<NSString *> *)inventoryPropertyNames;
+
 @end
 
 #endif // _DSABODYPARTS_H_

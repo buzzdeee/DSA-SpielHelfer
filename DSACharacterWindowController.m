@@ -39,22 +39,7 @@
 #import "NSFlippedView.h"
 #import "DSACharacterViewModel.h"
 #import "DSARightAlignedStringTransformer.h"
-
-// for the drag n drop highlighting targets
-
-
-@implementation DragHighlightView
-
-- (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect];
-    
-    if (self.borderColor) {
-        [self.borderColor set];
-        NSFrameRect(dirtyRect); // Draw the border around the view
-    }
-}
-
-@end
+#import "DSAInventorySlotView.h"
 
 @implementation DSACharacterWindowController
 
@@ -69,6 +54,8 @@
     }
   return self;
 }
+
+
 
 - (void)dealloc
 {
@@ -102,7 +89,6 @@
   [super windowDidLoad];
   // Perform additional setup after loading the window
   NSLog(@"DSACharacterWindowController: windowDidLoad called");
-  self.highlightViews = [NSMutableDictionary dictionary];    
   // central KVO observers
   
   // Register the value transformer
@@ -133,10 +119,7 @@
     } else {
         NSLog(@"Window content view: %@", contentView);
     }
-
-    // Log the subviews of the content view
-    NSLog(@"Window content view subviews: %@", contentView.subviews);  
-    [self logViewHierarchy:(NSView *)self.window.contentView level:0];                                      
+                             
   [self populateBasicsTab];
   [self populateFightingTalentsTab];
   [self populateOtherTalentsTab];
@@ -301,437 +284,296 @@
   [document.model addObserver:self forKeyPath: @"level" options:NSKeyValueObservingOptionNew context: NULL];
   [self.fieldAdventurePoints bind:NSValueBinding toObject:document.model withKeyPath:@"adventurePoints" options:nil];    
   [document.model addObserver:self forKeyPath: @"adventurePoints" options:NSKeyValueObservingOptionNew context: NULL];
+  
+  [self populateInventory];
+  
   NSLog(@"End of populateBasicsTab");   
 
-  NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"eye-64x64" ofType:@"webp"];
-  [self.imageEye setImage: [[NSImage alloc] initWithContentsOfFile:imagePath]];
-  imagePath = [[NSBundle mainBundle] pathForResource:@"mouth-64x64" ofType:@"webp"];
-  [self.imageMouth setImage: [[NSImage alloc] initWithContentsOfFile:imagePath]];
-  
-  
-  for (NSInteger slotCounter = 0; slotCounter < [[[document.model inventory] slots] count]; slotCounter++)
-    {
-      DSASlot *slot = [[[document.model inventory] slots] objectAtIndex:slotCounter];
-      NSString *iconName = [slot.object icon];
-      iconName = [NSString stringWithFormat:@"%@-64x64", iconName];
-      NSString *imagePath = [[NSBundle mainBundle] pathForResource:iconName ofType:@"webp"];
 
-      // Load the image for the slot
-      NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
-      NSString *uiName = [NSString stringWithFormat:@"inventorySlot%lu", (long)slotCounter];
+}
 
-      // Access the corresponding NSImageView
-      NSImageView *imageView = [self valueForKey:uiName];
-      if (imageView)
-        {
-          // Set or clear the image
-          [imageView setImage:image ?: nil];
-          imageView.enabled = YES;
-          [imageView registerForDraggedTypes:@[NSPasteboardTypeString]];
+/*
 
-          // Add a click handler to start the drag operation
-          [imageView setTarget:self];
-          [imageView setAction:@selector(startDrag:)];          
-          
-          // Update or create a text field for the quantity
-          NSTextField *quantityLabel = [imageView viewWithTag:999];
-          if (!quantityLabel)
-            {
-              // Create the quantity label if it doesn't exist
-              quantityLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(1, 1, 30, 15)];
-              quantityLabel.editable = NO;
-              quantityLabel.bordered = NO;
-              quantityLabel.bezeled = NO;
-              quantityLabel.focusRingType = NSFocusRingTypeNone;
-              quantityLabel.backgroundColor = [NSColor blackColor];
-              quantityLabel.drawsBackground = YES;
-              quantityLabel.textColor = [NSColor redColor];
-              quantityLabel.font = [NSFont boldSystemFontOfSize:10];
-              quantityLabel.alignment = NSTextAlignmentLeft;
-              quantityLabel.tag = 999; // Unique tag to identify this label
-              [imageView addSubview:quantityLabel];
-            }
+- (void)populateInventory {
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
 
-          if (slot.quantity > 0)
-            {
-              // Update the label with the current quantity
-              NSString *quantityString = [NSString stringWithFormat:@"%ld", (long)slot.quantity];
-              quantityLabel.stringValue = quantityString;
-              quantityLabel.hidden = NO;
-
-              // Calculate the size of the text and adjust the label's frame
-              NSDictionary *attributes = @{NSFontAttributeName: quantityLabel.font};
-              NSSize textSize = [quantityString sizeWithAttributes:attributes];
-              quantityLabel.frame = NSMakeRect(1, 1, textSize.width, textSize.height);
-            }
-          else
-            {
-              // Hide the label if the quantity is 0
-              quantityLabel.hidden = YES;
-            }
-        }
-    }  // end of for loop to populate the general inventory
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"eye-64x64" ofType:@"webp"];
+    [self.imageEye setImage: [[NSImage alloc] initWithContentsOfFile:imagePath]];
+    imagePath = [[NSBundle mainBundle] pathForResource:@"mouth-64x64" ofType:@"webp"];
+    [self.imageMouth setImage: [[NSImage alloc] initWithContentsOfFile:imagePath]];    
     
-// continue with the body Inventory slots:    
-NSArray<DSAInventory *> *bodyInventories = @[
-    document.model.bodyParts.head,
-    document.model.bodyParts.neck,
-    document.model.bodyParts.eyes,
-    document.model.bodyParts.leftEar,
-    document.model.bodyParts.rightEar,
-    document.model.bodyParts.nose,
-    document.model.bodyParts.face,
-    document.model.bodyParts.back,
-    document.model.bodyParts.shoulder,
-    document.model.bodyParts.leftArm,
-    document.model.bodyParts.rightArm,
-    document.model.bodyParts.leftHand,
-    document.model.bodyParts.rightHand,
-    document.model.bodyParts.leftHandFingers,
-    document.model.bodyParts.rightHandFingers,
-    document.model.bodyParts.hip,
-    document.model.bodyParts.upperBody,
-    document.model.bodyParts.lowerBody,
-    document.model.bodyParts.leftLeg,
-    document.model.bodyParts.rightLeg,
-    document.model.bodyParts.leftFoot,
-    document.model.bodyParts.rightFoot
-];
-
-// Iterate through body slots
-NSInteger bodySlotCounter = 0; // Track which bodySlot we're working with
-for (DSAInventory *inventory in bodyInventories) {
-    for (NSInteger slotCounter = 0; slotCounter < inventory.slots.count; slotCounter++) {
-        DSASlot *slot = inventory.slots[slotCounter];
-        NSString *iconName = [slot.object icon];
-        iconName = [NSString stringWithFormat:@"%@-32x32", iconName]; // Smaller size for body slots
-        NSString *imagePath = [[NSBundle mainBundle] pathForResource:iconName ofType:@"webp"];
-
-        // Load the image for the slot
-        NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
-        NSString *uiName = [NSString stringWithFormat:@"bodySlot%lu", (long)bodySlotCounter];
-
-        // Access the corresponding NSImageView
-        NSImageView *imageView = [self valueForKey:uiName];
-        if (imageView) {
-            // Set or clear the image
-            [imageView setImage:image ?: nil];
-            imageView.enabled = YES;
-            [imageView registerForDraggedTypes:@[NSPasteboardTypeString]];
-            
-            // Add a click handler to start the drag operation
-            [imageView setTarget:self];
-            [imageView setAction:@selector(startDrag:)];            
-            
-            // Update or create a text field for the quantity
-            NSTextField *quantityLabel = [imageView viewWithTag:999];
-            if (!quantityLabel) {
-                // Create the quantity label if it doesn't exist
-                quantityLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(1, 1, 30, 15)];
-                quantityLabel.editable = NO;
-                quantityLabel.bordered = NO;
-                quantityLabel.bezeled = NO;
-                quantityLabel.focusRingType = NSFocusRingTypeNone;
-                quantityLabel.backgroundColor = [NSColor blackColor];
-                quantityLabel.drawsBackground = YES;
-                quantityLabel.textColor = [NSColor redColor];
-                quantityLabel.font = [NSFont boldSystemFontOfSize:8]; // Smaller font for body slots
-                quantityLabel.alignment = NSTextAlignmentLeft;
-                quantityLabel.tag = 999; // Unique tag to identify this label
-                [imageView addSubview:quantityLabel];
-            }
-
-            if (slot.quantity > 0) {
-                // Update the label with the current quantity
-                NSString *quantityString = [NSString stringWithFormat:@"%ld", (long)slot.quantity];
-                quantityLabel.stringValue = quantityString;
-                quantityLabel.hidden = NO;
-
-                // Calculate the size of the text and adjust the label's frame
-                NSDictionary *attributes = @{NSFontAttributeName: quantityLabel.font};
-                NSSize textSize = [quantityString sizeWithAttributes:attributes];
-                quantityLabel.frame = NSMakeRect(1, 1, textSize.width, textSize.height);
-            } else {
-                // Hide the label if the quantity is 0
-                quantityLabel.hidden = YES;
-            }
-        }
-        bodySlotCounter++; // Move to the next body slot
-    }
-}    
-}
-
-- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender {
-    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-    NSLog(@"DSACharacterWindowController performDragOperation called");
-    NSPasteboard *pasteboard = [sender draggingPasteboard];
-    NSString *sourceSlotIndexString = [pasteboard stringForType:NSPasteboardTypeString];
-
-    if (sourceSlotIndexString) {
-        NSInteger sourceSlotIndex = [sourceSlotIndexString integerValue];
-        DSASlot *sourceSlot = [[[document.model inventory] slots] objectAtIndex:sourceSlotIndex];
-        DSAObject *draggedObject = sourceSlot.object;
-
-        // Access the content view of the window
-        NSView *contentView = self.window.contentView;
-
-        // Get the mouse location in the content view
-        NSPoint mouseLocation = [contentView convertPoint:[sender draggingLocation] fromView:nil];
-        NSImageView *targetView = (NSImageView *)[contentView hitTest:mouseLocation];
-
-        if (![targetView isKindOfClass:[NSImageView class]]) {
-            return NO; // Not a valid drop target
-        }
-
-        // Get the corresponding slot for the target view
-        NSInteger targetSlotIndex = [self indexForImageView:targetView];
-        DSASlot *targetSlot = [[[document.model inventory] slots] objectAtIndex:targetSlotIndex];
-
-        // Validate and handle the drop
-        if ([draggedObject.validSlotTypes containsObject:@(targetSlot.slotType)] &&
-            (!targetSlot.object || [targetSlot.object isCompatibleWithObject:draggedObject])) {
-            
-            // Handle the drop logic
-            if (!targetSlot.object) {
-                targetSlot.object = draggedObject;
-                targetSlot.quantity = 1;
-            } else if ([targetSlot.object isCompatibleWithObject:draggedObject] && targetSlot.quantity < targetSlot.maxItemsPerSlot) {
-                targetSlot.quantity += 1;
-            }
-
-            // Update the source slot
-            sourceSlot.quantity -= 1;
-            if (sourceSlot.quantity == 0) {
-                sourceSlot.object = nil;
-            }
-
-            // Update the UI
-            [self updateInventoryUI];
-
-            return YES; // Drop succeeded
-        }
-    }
-
-    return NO; // Drop failed
-}
-
-- (NSView *)hitTest:(NSPoint)point {
-    NSLog(@"hitTest called with point: %@", NSStringFromPoint(point));
-    NSView *hitView = [[[super window] contentView] hitTest:point];
-    NSLog(@"hitTest found view: %@", hitView);
-    return hitView;
-}
-
-
-- (void)updateInventoryUI {
-    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-    // Iterate through all slots and update their UI representation
+    // General inventory slots
     for (NSInteger slotCounter = 0; slotCounter < [[[document.model inventory] slots] count]; slotCounter++) {
         DSASlot *slot = [[[document.model inventory] slots] objectAtIndex:slotCounter];
-        NSString *iconName = [slot.object icon];
-        iconName = [NSString stringWithFormat:@"%@-64x64", iconName];
-        NSString *imagePath = [[NSBundle mainBundle] pathForResource:iconName ofType:@"webp"];
-        
-        // Get the corresponding NSImageView for this slot
+        NSString *iconName = slot.object ? [NSString stringWithFormat:@"%@-64x64", [slot.object icon]] : nil;
+        NSString *imagePath = iconName ? [[NSBundle mainBundle] pathForResource:iconName ofType:@"webp"] : nil;
+
+        // Load the image for the slot if it exists
+        NSImage *image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
         NSString *uiName = [NSString stringWithFormat:@"inventorySlot%lu", (long)slotCounter];
-        NSImageView *imageView = [self valueForKey:uiName];
-        
-        // Set the image or clear it if the slot is empty
-        if (imageView) {
+
+        // Access the corresponding NSImageView and replace it dynamically
+        NSImageView *originalImageView = [self valueForKey:uiName];
+        if (originalImageView) {
+            DSAInventorySlotView *slotView = [[DSAInventorySlotView alloc] initWithFrame:originalImageView.frame];
+            slotView.slotIndex = slotCounter;
+            slotView.inventoryIdentifier = @"general";
+            slotView.item = slot.object; // Set the object in the slot
+            slotView.image = image;      // Set the image (nil for empty slots)
+
+            // Copy appearance-related properties from the original NSImageView
+            slotView.editable = originalImageView.isEditable;
+            slotView.imageScaling = originalImageView.imageScaling;
+            slotView.alphaValue = originalImageView.alphaValue;
+            slotView.toolTip = originalImageView.toolTip;
+            slotView.imageFrameStyle = originalImageView.imageFrameStyle;  
+            slotView.model = document.model;
+            [slotView setInitiatesDrag:YES];
+            // Replace the original NSImageView in the superview
+            [originalImageView.superview replaceSubview:originalImageView with:slotView];
+
+            // Add drag-and-drop registration
+            [slotView registerForDraggedTypes:@[NSStringPboardType]];
+
+            // Handle quantity for filled slots
             if (slot.object) {
-                NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
-                [imageView setImage:image];
-            } else {
-                [imageView setImage:nil];
-            }
-
-            // Update or create a text field for the quantity
-            NSTextField *quantityLabel = [imageView viewWithTag:999]; // Look for a tag
-            if (!quantityLabel) {
-                quantityLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(1, 1, 30, 15)];
-                quantityLabel.editable = NO;
-                quantityLabel.bordered = NO;
-                quantityLabel.bezeled = NO;
-                quantityLabel.focusRingType = NSFocusRingTypeNone;
-                quantityLabel.backgroundColor = [NSColor blackColor];
-                quantityLabel.drawsBackground = YES;
-                quantityLabel.textColor = [NSColor redColor];
-                quantityLabel.font = [NSFont boldSystemFontOfSize:10];
-                quantityLabel.alignment = NSTextAlignmentLeft;
-                quantityLabel.tag = 999;
-                [imageView addSubview:quantityLabel];
-            }
-
-            if (slot.quantity > 0) {
-                NSString *quantityString = [NSString stringWithFormat:@"%ld", (long)slot.quantity];
-                quantityLabel.stringValue = quantityString;
-                quantityLabel.hidden = NO;
-
-                // Calculate the size of the text and adjust the label's frame
-                NSDictionary *attributes = @{NSFontAttributeName: quantityLabel.font};
-                NSSize textSize = [quantityString sizeWithAttributes:attributes];
-                quantityLabel.frame = NSMakeRect(1, 1, textSize.width, textSize.height);
-            } else {
-                quantityLabel.hidden = YES; // Hide the label if quantity is 0
+                [self updateQuantityLabelForSlotView:slotView withQuantity:slot.quantity];
             }
         }
     }
-}
-- (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
-    NSLog(@"DSACharacterWindowController draggingSourceOperationMaskForLocal called");
-    return NSDragOperationMove; // Allow the move operation
-}
 
-- (void)startDrag:(NSImageView *)imageView {
-    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-    NSLog(@"DSACharacterWindowController startDrag called");
-    // Get the source slot
-    NSInteger sourceSlotIndex = [self indexForImageView:imageView];
-    DSASlot *sourceSlot = [[[document.model inventory] slots] objectAtIndex:sourceSlotIndex];
-    DSAObject *draggedObject = sourceSlot.object;
-    
-    if (!draggedObject) {
-        return; // No object to drag
-    }
-    
-    // Create a pasteboard for the drag operation
-    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-    [pasteboard declareTypes:@[NSPasteboardTypeString] owner:self];
-    [pasteboard setString:[NSString stringWithFormat:@"%ld", (long)sourceSlotIndex] forType:NSPasteboardTypeString];
-    
-    // Begin the drag operation
-    [imageView dragImage:imageView.image
-                      at:imageView.frame.origin
-                  offset:NSMakeSize(0, 0)
-                   event:nil // Using nil since we already have the imageView
-              pasteboard:pasteboard
-                  source:self
-               slideBack:YES];
-}
+    // Body part inventories
+    NSArray<DSAInventory *> *bodyInventories = @[
+        document.model.bodyParts.head,
+        document.model.bodyParts.neck,
+        document.model.bodyParts.eyes,
+        document.model.bodyParts.leftEar,
+        document.model.bodyParts.rightEar,
+        document.model.bodyParts.nose,
+        document.model.bodyParts.face,
+        document.model.bodyParts.back,
+        document.model.bodyParts.shoulder,
+        document.model.bodyParts.leftArm,
+        document.model.bodyParts.rightArm,
+        document.model.bodyParts.leftHand,
+        document.model.bodyParts.rightHand,
+        document.model.bodyParts.leftHandFingers,
+        document.model.bodyParts.rightHandFingers,
+        document.model.bodyParts.hip,
+        document.model.bodyParts.upperBody,
+        document.model.bodyParts.lowerBody,
+        document.model.bodyParts.leftLeg,
+        document.model.bodyParts.rightLeg,
+        document.model.bodyParts.leftFoot,
+        document.model.bodyParts.rightFoot
+    ];
 
-- (void)mouseDown:(NSEvent *)event {
-    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-    NSLog(@"DSACharacterWindowController mouseDown called");
-    // Access the content view of the window
-    NSView *contentView = self.window.contentView;
+    NSInteger bodySlotCounter = 0; // Track which bodySlot we're working with
+    for (DSAInventory *inventory in bodyInventories) {
+        for (NSInteger slotCounter = 0; slotCounter < inventory.slots.count; slotCounter++) {
+            DSASlot *slot = inventory.slots[slotCounter];
+            NSString *iconName = slot.object ? [NSString stringWithFormat:@"%@-32x32", [slot.object icon]] : nil;
+            NSString *imagePath = iconName ? [[NSBundle mainBundle] pathForResource:iconName ofType:@"webp"] : nil;
 
-    // Get the mouse location in the content view
-    NSPoint mouseLocation = [contentView convertPoint:[event locationInWindow] fromView:nil];
-    NSImageView *sourceView = (NSImageView *)[contentView hitTest:mouseLocation];
+            // Load the image for the slot if it exists
+            NSImage *image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
+            NSString *uiName = [NSString stringWithFormat:@"bodySlot%lu", (long)bodySlotCounter];
 
-    if (![sourceView isKindOfClass:[NSImageView class]]) {
-        return; // Not an NSImageView, no drag operation
-    }
-
-    // Identify the source slot and the item being dragged
-    NSInteger sourceSlotIndex = [self indexForImageView:sourceView];
-    DSASlot *sourceSlot = [[[document.model inventory] slots] objectAtIndex:sourceSlotIndex];
-    DSAObject *draggedObject = sourceSlot.object;
-
-    if (!draggedObject) {
-        return; // No object to drag
-    }
-
-    // Prepare the pasteboard with the slot index (or any identifier)
-    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-    [pasteboard declareTypes:@[NSPasteboardTypeString] owner:self];
-    [pasteboard setString:[NSString stringWithFormat:@"%ld", (long)sourceSlotIndex] forType:NSPasteboardTypeString];
-
-    // Start the drag operation
-    [sourceView dragImage:sourceView.image
-                       at:NSMakePoint(0, 0)
-                   offset:NSMakeSize(0, 0)
-                    event:event
-               pasteboard:pasteboard
-                   source:self
-                slideBack:YES];
-}
-
-- (NSInteger)indexForImageView:(NSImageView *)imageView {
-    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-    NSLog(@"DSACharacterWindowController indexForImageView called");
-    for (NSInteger i = 0; i < [[[document.model inventory] slots] count]; i++) {
-        NSString *uiName = [NSString stringWithFormat:@"inventorySlot%ld", (long)i];
-        NSImageView *currentImageView = [self valueForKey:uiName];
-        if (currentImageView == imageView) {
-            return i;
-        }
-    }
-    return -1; // Not found
-}
-
-// Highlight valid slots when dragging over them
-- (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender {
-    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-    NSLog(@"DSACharacterWindowController draggingEntered called");
-    NSPasteboard *pasteboard = [sender draggingPasteboard];
-    NSString *sourceSlotIndexString = [pasteboard stringForType:NSPasteboardTypeString];
-    
-    if (sourceSlotIndexString) {
-        NSInteger sourceSlotIndex = [sourceSlotIndexString integerValue];
-        DSASlot *sourceSlot = [[[document.model inventory] slots] objectAtIndex:sourceSlotIndex];
-        DSAObject *draggedObject = sourceSlot.object;
-
-        // Loop through all inventory slots to find valid drop targets
-        for (NSInteger i = 0; i < [[[document.model inventory] slots] count]; i++) {
-            DSASlot *slot = [[[document.model inventory] slots] objectAtIndex:i];
-            NSImageView *slotView = [self valueForKey:[NSString stringWithFormat:@"inventorySlot%ld", (long)i]];
-
-            // Create a DragHighlightView for valid slots
-            if ([draggedObject.validSlotTypes containsObject:@(slot.slotType)] &&
-                (!slot.object || [slot.object isCompatibleWithObject:draggedObject])) {
+            // Access the corresponding NSImageView and replace it dynamically
+            NSImageView *originalImageView = [self valueForKey:uiName];
+            if (originalImageView) {
+                DSAInventorySlotView *slotView = [[DSAInventorySlotView alloc] initWithFrame:originalImageView.frame];
+                slotView.slotIndex = bodySlotCounter;
+                slotView.inventoryIdentifier = @"bodyPart";
+                slotView.item = slot.object; // Set the object in the slot
+                slotView.image = image;      // Set the image (nil for empty slots)
+                slotView.model = document.model;
+                [slotView setInitiatesDrag:YES];
+                // Copy appearance-related properties from the original NSImageView
+                slotView.editable = originalImageView.isEditable;
+                slotView.imageScaling = originalImageView.imageScaling;
+                slotView.alphaValue = originalImageView.alphaValue;
+                slotView.toolTip = originalImageView.toolTip;
+                slotView.imageFrameStyle = originalImageView.imageFrameStyle;
                 
-                // Wrap the NSImageView with NSValue
-                NSValue *slotViewKey = [NSValue valueWithNonretainedObject:slotView];
+                // Replace the original NSImageView in the superview
+                [originalImageView.superview replaceSubview:originalImageView with:slotView];
 
-                // Check if the highlight already exists in the dictionary
-                DragHighlightView *highlightView = self.highlightViews[slotViewKey];
-                if (!highlightView) {
-                    // Create and store the highlight view in the dictionary
-                    highlightView = [[DragHighlightView alloc] initWithFrame:slotView.bounds];
-                    highlightView.borderColor = [NSColor greenColor]; // Set the border color
-                    self.highlightViews[slotViewKey] = highlightView; // Store the highlight view in the dictionary
-                    [slotView addSubview:highlightView];
-                }
-            } else {
-                // Remove the highlight for invalid slots
-                NSValue *slotViewKey = [NSValue valueWithNonretainedObject:slotView];
-                DragHighlightView *highlightView = self.highlightViews[slotViewKey];
-                if (highlightView) {
-                    [highlightView removeFromSuperview];
-                    [self.highlightViews removeObjectForKey:slotViewKey]; // Remove from dictionary
+                // Add drag-and-drop registration
+                [slotView registerForDraggedTypes:@[NSStringPboardType]];
+
+                // Handle quantity for filled slots
+                if (slot.object) {
+                    [self updateQuantityLabelForSlotView:slotView withQuantity:slot.quantity];
                 }
             }
+            bodySlotCounter++;
         }
+    }
+}
 
-        return NSDragOperationMove; // Allow the move operation
+*/
+
+- (void)populateInventory {
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+
+    // Example for specific image setup
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"eye-64x64" ofType:@"webp"];
+    [self.imageEye setImage:[[NSImage alloc] initWithContentsOfFile:imagePath]];
+    imagePath = [[NSBundle mainBundle] pathForResource:@"mouth-64x64" ofType:@"webp"];
+    [self.imageMouth setImage:[[NSImage alloc] initWithContentsOfFile:imagePath]];
+
+    // General inventory slots
+    for (NSInteger slotCounter = 0; slotCounter < [[[document.model inventory] slots] count]; slotCounter++) {
+        DSASlot *slot = [[[document.model inventory] slots] objectAtIndex:slotCounter];
+        NSString *iconName = slot.object ? [NSString stringWithFormat:@"%@-64x64", [slot.object icon]] : nil;
+        NSString *imagePath = iconName ? [[NSBundle mainBundle] pathForResource:iconName ofType:@"webp"] : nil;
+
+        // Load the image for the slot if it exists
+        NSImage *image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
+        NSString *uiName = [NSString stringWithFormat:@"inventorySlot%lu", (long)slotCounter];
+
+        // Access the corresponding NSImageView and replace it dynamically
+        NSImageView *originalImageView = [self valueForKey:uiName];
+        if (originalImageView) {
+            DSAInventorySlotView *slotView = [[DSAInventorySlotView alloc] initWithFrame:originalImageView.frame];
+            slotView.slotIndex = slotCounter;
+            slotView.inventoryIdentifier = @"general";
+            slotView.item = slot.object; // Set the object in the slot
+            slotView.image = image;      // Set the image (nil for empty slots)
+
+            // Copy appearance-related properties from the original NSImageView
+            slotView.editable = originalImageView.isEditable;
+            slotView.imageScaling = originalImageView.imageScaling;
+            slotView.alphaValue = originalImageView.alphaValue;
+            slotView.toolTip = originalImageView.toolTip;
+            slotView.imageFrameStyle = originalImageView.imageFrameStyle;
+            slotView.model = document.model;
+            [slotView setInitiatesDrag:YES];
+
+            // Replace the original NSImageView in the superview
+            [originalImageView.superview replaceSubview:originalImageView with:slotView];
+
+            // Add drag-and-drop registration
+            [slotView registerForDraggedTypes:@[NSStringPboardType]];
+
+            // Handle quantity for filled slots
+            if (slot.object) {
+                [self updateQuantityLabelForSlotView:slotView withQuantity:slot.quantity];
+            }
+        }
     }
 
-    return NSDragOperationNone; // If no valid target, don't allow the move
+    // Body part inventories
+    NSInteger bodySlotCounter = 0; // Track a global body slot counter
+    for (NSString *propertyName in document.model.bodyParts.inventoryPropertyNames) {
+        DSAInventory *inventory = [document.model.bodyParts valueForKey:propertyName];
+        for (NSInteger slotCounter = 0; slotCounter < inventory.slots.count; slotCounter++) {
+            DSASlot *slot = inventory.slots[slotCounter];
+            NSString *iconName = slot.object ? [NSString stringWithFormat:@"%@-32x32", slot.object.icon] : nil;
+            NSString *imagePath = iconName ? [[NSBundle mainBundle] pathForResource:iconName ofType:@"webp"] : nil;
+
+            // Load the image for the slot if it exists
+            NSImage *image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
+            NSString *uiName = [NSString stringWithFormat:@"bodySlot%lu", (long)bodySlotCounter];
+
+            // Access the corresponding NSImageView and replace it dynamically
+            NSImageView *originalImageView = [self valueForKey:uiName];
+            if (originalImageView) {
+                DSAInventorySlotView *slotView = [[DSAInventorySlotView alloc] initWithFrame:originalImageView.frame];
+                slotView.slotIndex = bodySlotCounter;  // Use the global counter
+                slotView.inventoryIdentifier = @"bodyParts";  // Identifier for body parts
+                slotView.item = slot.object; // Set the object in the slot
+                slotView.image = image;      // Set the image (nil for empty slots)
+                slotView.model = document.model;
+                [slotView setInitiatesDrag:YES];
+
+                // Copy appearance-related properties from the original NSImageView
+                slotView.editable = originalImageView.isEditable;
+                slotView.imageScaling = originalImageView.imageScaling;
+                slotView.alphaValue = originalImageView.alphaValue;
+                slotView.toolTip = originalImageView.toolTip;
+                slotView.imageFrameStyle = originalImageView.imageFrameStyle;
+
+                // Replace the original NSImageView in the superview
+                [originalImageView.superview replaceSubview:originalImageView with:slotView];
+
+                // Add drag-and-drop registration
+                [slotView registerForDraggedTypes:@[NSStringPboardType]];
+
+                // Handle quantity for filled slots
+                if (slot.object) {
+                    [self updateQuantityLabelForSlotView:slotView withQuantity:slot.quantity];
+                }
+            }
+            bodySlotCounter++; // Increment the global counter after processing each slot
+        }
+    }
 }
 
-- (void)draggingExited:(id<NSDraggingInfo>)sender {
-    [self clearSlotHighlights];
+/*
+// Helper method to style empty slots
+- (void)styleEmptySlotView:(DSAInventorySlotView *)slotView {
+    slotView.image = nil; // Clear any image
+    slotView.layer.borderWidth = 1.0;  // Apply a visible border
+    slotView.layer.borderColor = [NSColor lightGrayColor].CGColor; // Light gray for empty slots
+}
+*/
+// Helper method to update quantity labels
+- (void)updateQuantityLabelForSlotView:(DSAInventorySlotView *)slotView withQuantity:(NSInteger)quantity {
+    NSTextField *quantityLabel = [slotView viewWithTag:999];
+    if (!quantityLabel) {
+        // Create the quantity label if it doesn't exist
+        quantityLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(1, 1, 30, 15)];
+        quantityLabel.editable = NO;
+        quantityLabel.bordered = NO;
+        quantityLabel.bezeled = NO;
+        quantityLabel.focusRingType = NSFocusRingTypeNone;
+        quantityLabel.backgroundColor = [NSColor blackColor];
+        quantityLabel.drawsBackground = YES;
+        quantityLabel.textColor = [NSColor redColor];
+        quantityLabel.font = [NSFont boldSystemFontOfSize:8]; // Smaller font for body slots
+        quantityLabel.alignment = NSTextAlignmentLeft;
+        quantityLabel.tag = 999; // Unique tag to identify this label
+        [slotView addSubview:quantityLabel];
+    }
+
+    if (quantity > 0) {
+        // Update the label with the current quantity
+        NSString *quantityString = [NSString stringWithFormat:@"%ld", (long)quantity];
+        quantityLabel.stringValue = quantityString;
+        quantityLabel.hidden = NO;
+
+        // Calculate the size of the text and adjust the label's frame
+        NSDictionary *attributes = @{NSFontAttributeName: quantityLabel.font};
+        NSSize textSize = [quantityString sizeWithAttributes:attributes];
+        quantityLabel.frame = NSMakeRect(1, 1, textSize.width, textSize.height);
+    } else {
+        // Hide the label if the quantity is 0
+        quantityLabel.hidden = YES;
+    }
 }
 
-- (void)draggingEnded:(id<NSDraggingInfo>)sender {
-    [self clearSlotHighlights];
-}
+/*
+- (void)setupCustomClassesForImageViews {
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    NSMutableArray<NSImageView *> *inventorySlots;
 
-- (void)clearSlotHighlights {
-    // Loop through all stored highlight views in the dictionary
-    for (NSValue *slotViewKey in self.highlightViews) {
-        // Get the NSImageView object from the NSValue
-        DragHighlightView *highlightView = self.highlightViews[slotViewKey];
+  for (NSInteger slotCounter = 0; slotCounter < [[[document.model inventory] slots] count]; slotCounter++)
+    {
+      NSString *uiName = [NSString stringWithFormat:@"inventorySlot%lu", (long)slotCounter];
+      [inventorySlots addObject: [self valueForKey:uiName]];
+    }
         
-        // Remove the highlight view from the slot's view
-        [highlightView removeFromSuperview];
+    for (NSImageView *slotView in inventorySlots) {
+        if (![slotView isKindOfClass:[InteractiveImageView class]]) {
+            InteractiveImageView *customView = [[InteractiveImageView alloc] initWithFrame:slotView.frame];
+            customView.image = slotView.image; // Transfer the image
+            [slotView.superview replaceSubview:slotView with:customView];
+        }
     }
-    
-    // Clear the dictionary to remove all references
-    [self.highlightViews removeAllObjects];
 }
-
+*/
 - (void)populateFightingTalentsTab
 {
    DSACharacterDocument *document = (DSACharacterDocument *)self.document;

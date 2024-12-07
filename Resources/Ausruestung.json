@@ -1411,7 +1411,8 @@
           "weit": 0,
           "sehr weit": 0,
           "extrem weit":-1 
-        }
+        },
+        "Icon": [ "Langbogen" ]
       },
       "Elfenbogen": {
         "Gewicht": 25,
@@ -3793,22 +3794,26 @@
       "Stulpenhandschuhe": {
         "Gewicht": 30,
         "Preis": 6,
-        "Maßgeschneidert": 30
+        "Maßgeschneidert": 30,
+        "Icon": [ "Stulpenhandschuhe" ]
       },
       "Wollfäustlinge": {
         "Gewicht": 4,
         "Preis": 0.3,
-        "Maßgeschneidert": -1
+        "Maßgeschneidert": -1,
+        "Icon": [ "Wollfaeustlinge" ]
       },
       "Pelzfäustlinge": {
         "Gewicht": 10,
         "Preis": 4,
-        "Maßgeschneidert": 10
+        "Maßgeschneidert": 10,
+        "Icon": [ "Pelzfaeustlinge" ]
       },
       "Muff": {
         "Gewicht": 30,
         "Preis": 4,
-        "Maßgeschneidert": 20
+        "Maßgeschneidert": 20,
+        "Icon": [ "Muff" ]
       }
     },
     "Schuhwerk": {
@@ -3833,7 +3838,8 @@
       "Gamaschen, Leder": {
         "Gewicht": 40,
         "Preis": 1,
-        "Maßgeschneidert": 10
+        "Maßgeschneidert": 10,
+        "Icon": [ "Gamaschen" ]
       },
       "Lederschuhe": {
         "Gewicht": 40,
@@ -3844,45 +3850,53 @@
       "Spangenschuhe": {
         "Gewicht": 40,
         "Preis": 4,
-        "Maßgeschneidert": 20
+        "Maßgeschneidert": 20,
+        "Icon": [ "Spangenschuhe_1", "Spangenschuhe_2" ]
       },
       "Leichte Stiefel": {
         "Gewicht": 75,
         "Preis": 9,
-        "Maßgeschneidert": 30
+        "Maßgeschneidert": 30,
+        "Icon": [ "Leichte_Stiefel_1", "Leichte_Stiefel_2" ]
       },
       "Schwere Reitstiefel": {
         "Gewicht": 100,
         "Preis": 20,
-        "Maßgeschneidert": 50
+        "Maßgeschneidert": 50,
+        "Icon": [ "Reitstiefel" ]
       },
       "Stulpenstiefel": {
         "Gewicht": 100,
         "Preis": 30,
-        "Maßgeschneidert": 60
+        "Maßgeschneidert": 60,
+        "Icon": [ "Stulpenstiefel_1", "Stulpenstiefel_2" ]
       }
     },
     "Tunikas": {
       "Tunika, Bausch": {
         "Gewicht": 20,
         "Preis": 2,
-        "Maßgeschneidert": 10
+        "Maßgeschneidert": 10,
+        "Icon": [ "Tunika_Bausch" ]
       },
       "Tunika, Leinen": {
         "Gewicht": 30,
         "Preis": 1,
-        "Maßgeschneidert": 6
+        "Maßgeschneidert": 6,
+        "Icon": [ "Tunika_Leinen_1", "Tunika_Leinen_2" ]
       },
       "Tunika, Seide": {
         "Gewicht": 10,
         "Preis": 8,
-        "Maßgeschneidert": 70
+        "Maßgeschneidert": 70,
+        "Icon": [ "Tunika_Seide" ]
       }
     },
     "Burnus": {
       "Gewicht": 50,
       "Preis": 2,
-      "Maßgeschneidert": 20
+      "Maßgeschneidert": 20,
+      "Icon": [ "Burnus_1", "Burnus_2" ]
     }
   },
   "Nahrungs- und Genußmittel": {
@@ -3898,23 +3912,28 @@
       },
       "Kuchen": {
         "Gewicht": 20,
-        "Preis": 0.2
+        "Preis": 0.2,
+        "Icon": [ "Kuchen_1", "Kuchen_2" ]
       },
       "Fleisch": {
         "Gewicht": 20,
-        "Preis": 0.3
+        "Preis": 0.3,
+        "Icon": [ "Fleisch_1", "Fleisch_2" ]
       },
       "Wurst": {
         "Gewicht": 20,
-        "Preis": 0.2
+        "Preis": 0.2,
+        "Icon": [ "Wurst" ]
       },
       "Fisch": {
         "Gewicht": 20,
-        "Preis": 0.6
+        "Preis": 0.6,
+        "Icon": [ "Fisch_1", "Fisch_2" ]
       },
       "Efferdfrüchte": {
         "Gewicht": 40,
-        "Preis": 0.05
+        "Preis": 0.05,
+        "Icon": [ "Efferdfruechte" ]
       },
       "Käse": {
         "Gewicht": 20,
@@ -3923,7 +3942,8 @@
       },
       "Eier, 6 Stück": {
         "Gewicht": 20,
-        "Preis": 0.09
+        "Preis": 0.09,
+        "Icon": [ "Eier" ]
       },
       "Butter": {
         "Gewicht": 20,
@@ -3932,93 +3952,114 @@
       },
       "Hülsenfrüchte": {
         "Gewicht": 20,
-        "Preis": 0.04
+        "Preis": 0.04,
+        "Icon": [ "Huelsenfruechte_1", "Huelsenfruechte_2" ]
       },
       "Kohl": {
         "Gewicht": 20,
-        "Preis": 0.03
+        "Preis": 0.03,
+        "Icon": [ "Kohl_1", "Kohl_2" ]
       },
       "Gemüse": {
         "Gewicht": 20,
-        "Preis": 0.1
+        "Preis": 0.1,
+        "Icon": [ "Gemuese_1", "Gemuese_2" ]
       },
       "Salz": {
         "Gewicht": 20,
-        "Preis": 1
+        "Preis": 1,
+        "Icon": [ "Salz" ]
       },
       "Küchenkräuter": {
         "Gewicht": 10,
-        "Preis": 1
+        "Preis": 1,
+        "Icon": [ "Kuechenkraeuter" ]
       },
       "Gewürze": {
         "Gewicht": 10,
-        "Preis": 10
+        "Preis": 10,
+        "Icon": [ "Gewuerze" ]
       },
       "Öl": {
         "Gewicht": 20,
-        "Preis": 2
+        "Preis": 2,
+        "Icon": [ "Oel" ]
       },
       "Mehl": {
         "Gewicht": 20,
-        "Preis": 0.04
+        "Preis": 0.04,
+        "Icon": [ "Mehl" ]
       },
       "Honig": {
         "Gewicht": 20,
-        "Preis": 0.8
+        "Preis": 0.8,
+        "Icon": [ "Honig_1", "Honig_2" ]
       },
       "Nüsse": {
         "Gewicht": 10,
-        "Preis": 0.2
+        "Preis": 0.2,
+        "Icon": [ "Nuesse" ]
       },
       "Obst": {
         "Gewicht": 20,
-        "Preis": 0.05
+        "Preis": 0.05,
+        "Icon": [ "Obst_1", "Obst_2" ]
       },
       "Naschwerk": {
         "Gewicht": 10,
-        "Preis": 1
+        "Preis": 1,
+        "Icon": [ "Naschwerk" ]
       },
       "Tee": {
         "Gewicht": 20,
-        "Preis": 0.05
+        "Preis": 0.05,
+        "Icon": [ "Tee_1", "Tee_2" ]
       },
       "Kakao": {
         "Gewicht": 20,
-        "Preis": 8
+        "Preis": 8,
+        "Icon": [ "Kakao_1", "Kakao_2" ]
       }
     },
     "Getränke": {
       "Alkoholisch": {
         "Bier": {
           "Gewicht": 40,
-          "Preis": 0.1
+          "Preis": 0.1,
+	  "Icon": [ "Bier" ]
         },
         "Einfacher Landwein": {
           "Gewicht": 40,
-          "Preis": 0.3
+          "Preis": 0.3,
+	  "Icon": [ "Landwein" ]
         },
         "Guter Rotwein": {
           "Gewicht": 40,
-          "Preis": 8
+          "Preis": 8,
+	  "Icon": [ "Rotwein" ]
         },
         "Einfacher Schnaps": {
           "Gewicht": 40,
-          "Preis": 0.8
+          "Preis": 0.8,
+	  "Icon": [ "Schnaps" ]
         },
         "Guter Branntwein": {
           "Gewicht": 40,
-          "Preis": 10
+          "Preis": 10,
+	  "Icon": [ "Branntwein" ]
         },
         "Likör": {
           "Gewicht": 20,
-          "Preis": 1
+          "Preis": 1,
+	  "Icon": [ "Likoer" ]
         }
       }
     },
     "Tabakwaren": {
       "Pfeifenkraut, Knaster": {
         "Gewicht": 2,
-        "Preis": 0.1
+        "Preis": 0.1,
+	"Icon": [ "Tabak" ]
       },
       "Zigarren, 10 Stück": {
         "Gewicht": 8,
