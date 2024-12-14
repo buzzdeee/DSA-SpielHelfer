@@ -1842,7 +1842,8 @@
         "Preis": 4000,
         "Rüstschutz": 11,
         "Behinderung": 10,
-        "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TO", "WE" ]         
+        "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TO", "WE" ],
+	     "belegteKörperSlots": [ "Körperrüstung", "Kopfbedeckung", "Armrüstung", "Beinrüstung", "Handschuhe", "Schuh" ]
       },
       "Amazonenrüstung": {
         "Gewicht": 320,
@@ -1850,6 +1851,7 @@
         "Rüstschutz": 3,
         "Behinderung": 2,
         "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+	     "belegteKörperSlots": [ "Körperrüstung", "Kopfbedeckung", "Armrüstung", "Beinrüstung", "Armrüstung", "Beinrüstung" ],
         "Icon": [ "Amazonenruestung" ]         
       }
     },
@@ -3537,60 +3539,70 @@
       "Weste, Wolle": {
         "Gewicht": 25,
         "Preis": 3,
-        "Maßgeschneidert": 10
+        "Maßgeschneidert": 10,
+        "Icon": [ "Weste_Wolle_1", "Weste_Wolle_2" ]
       },
       "Weste, Leder": {
         "Gewicht": 40,
         "Preis": 5,
-        "Maßgeschneidert": 30
+        "Maßgeschneidert": 30,
+        "Icon": [ "Weste_Leder_1", "Weste_Leder_2" ]
       },
       "Weste, Pelz": {
         "Gewicht": 50,
         "Preis": 5,
-        "Maßgeschneidert": 20
+        "Maßgeschneidert": 20,
+        "Icon": [ "Weste_Fell_1", "Weste_Fell_2" ]
       },
       "Weste, Seide": {
         "Gewicht": 10,
         "Preis": 9,
-        "Maßgeschneidert": 100
+        "Maßgeschneidert": 100,
+        "Icon": [ "Weste_Seide_1", "Weste_Seide_2" ]
       },
       "Weste, Brokat": {
         "Gewicht": 30,
         "Preis": 30,
-        "Maßgeschneidert": 150
+        "Maßgeschneidert": 150,
+        "Icon": [ "Weste_Brokat_1", "Weste_Brokat_2" ]
       }
     },
     "Hosen": {
       "Beinkleider, Leinen": {
         "Gewicht": 25,
         "Preis": 1,
-        "Maßgeschneidert": 10
+        "Maßgeschneidert": 10,
+        "Icon": [ "Hose_Leinen_1", "Hose_Leinen_2" ]
       },
       "Beinkleider, Wolle": {
         "Gewicht": 30,
         "Preis": 1,
         "Maßgeschneidert": 10,
-	"Icon": [ "Beinkleider_Wolle_1", "Beinkleider_Wolle_2" ]
+	     "Icon": [ "Beinkleider_Wolle_1", "Beinkleider_Wolle_2" ]
       },
       "Beinkleider, Bausch": {
         "Gewicht": 15,
         "Preis": 3,
-        "Maßgeschneidert": 30
+        "Maßgeschneidert": 30,
+        "Icon": [ "Hose_Bausch_1", "Hose_Bausch_2" ]
       },
       "Beinkleider, Leder": {
         "Gewicht": 50,
         "Preis": 3,
-        "Maßgeschneidert": 40
+        "Maßgeschneidert": 40,
+        "Icon": [ "Hose_Leder_1", "Hose_Leder_2" ]
       },
       "Beinkleider, Seide": {
         "Gewicht": 10,
         "Preis": 6,
-        "Maßgeschneidert": 120
+        "Maßgeschneidert": 120,
+        "Icon": [ "Hose_Seide_1", "Hose_Seide_2" ]
       },
       "Pluderhose, Leinen": {
         "Gewicht": 35,
         "Preis": 2,
-        "Maßgeschneidert": 20
+        "Maßgeschneidert": 20,
+        "Icon": [ "Pluderhose_Leinen_1" ]
       },
       "Pluderhose, Bausch": {
         "Gewicht": 25,
@@ -3600,95 +3612,112 @@
       "Pluderhose, Seide": {
         "Gewicht": 20,
         "Preis": 10,
-        "Maßgeschneidert": 150
+        "Maßgeschneidert": 150,
+        "Icon": [ "Pluderhose_Seide_1", "Pluderhose_Seide_2" ]
       }
     },
     "Röcke": {
       "Rock, Leinen": {
         "Gewicht": 35,
         "Preis": 1,
-        "Maßgeschneidert": 40
+        "Maßgeschneidert": 40,
+        "Icon": [ "Rock_Leinen_1", "Rock_Leinen_2" ]
       },
       "Rock, Wolle": {
         "Gewicht": 45,
         "Preis": 1,
-        "Maßgeschneidert": 40
+        "Maßgeschneidert": 40,
+        "Icon": [ "Rock_Wolle_1", "Rock_Wolle_2" ]
       },
       "Rock, Bausch": {
         "Gewicht": 25,
         "Preis": 4,
-        "Maßgeschneidert": 50
+        "Maßgeschneidert": 50,
+        "Icon": [ "Rock_Bausch_1", "Rock_Bausch_2" ]
       },
       "Rock, Leder": {
         "Gewicht": 50,
         "Preis": 5,
-        "Maßgeschneidert": 60
+        "Maßgeschneidert": 60,
+        "Icon": [ "Rock_Leder_1", "Rock_Leder_2" ]
       },
       "Rock, Seide": {
         "Gewicht": 15,
         "Preis": 10,
-        "Maßgeschneidert": 70
+        "Maßgeschneidert": 70,
+        "Icon": [ "Rock_Seide" ]
       }
     },
     "Kleider": {
       "Kleid, Leinen": {
         "Gewicht": 40,
         "Preis": 1,
-        "Maßgeschneidert": 60
+        "Maßgeschneidert": 60,
+        "Icon": [ "Kleid_Leinen_1", "Kleid_Leinen_2" ]
       },
       "Kleid, Wolle": {
         "Gewicht": 50,
         "Preis": 1,
-        "Maßgeschneidert": 60
+        "Maßgeschneidert": 60,
+	"Icon": [ "Kleid_Wolle" ]
       },
       "Kleid, Bausch": {
         "Gewicht": 30,
         "Preis": 4,
-        "Maßgeschneidert": 80
+        "Maßgeschneidert": 80,
+	"Icon": [ "Kleid_Bausch_1", "Kleid_Bausch_2" ]
       },
       "Kleid, Seide": {
         "Gewicht": 20,
         "Preis": 30,
-        "Maßgeschneidert": 120
+        "Maßgeschneidert": 120,
+	"Icon": [ "Kleid_Seide" ]
       },
       "Kleid, Leder": {
         "Gewicht": 70,
         "Preis": 5,
-        "Maßgeschneidert": 80
+        "Maßgeschneidert": 80,
+	"Icon": [ "Kleid_Leder" ]
       },
       "Ballkleid": {
         "Gewicht": 40,
         "Preis": 50,
-        "Maßgeschneidert": 250
+        "Maßgeschneidert": 250,
+	"Icon": [ "Ballkleid" ]
       }
     },
     "Mäntel": {
       "Wollmantel": {
         "Gewicht": 60,
         "Preis": 3,
-        "Maßgeschneidert": 30
+        "Maßgeschneidert": 30,
+	"Icon": [ "Wollmantel" ]
       },
       "Pelzmantel": {
         "Gewicht": 120,
         "Preis": 30,
-        "Maßgeschneidert": 120
+        "Maßgeschneidert": 120,
+	"Icon": [ "Pelzmantel" ]
       },
       "Reitmantel, Leder": {
         "Gewicht": 80,
         "Preis": 8,
-        "Maßgeschneidert": 80
+        "Maßgeschneidert": 80,
+	"Icon": [ "Reitmantel_1", "Reitmantel_2" ]
       }
     },
     "Umhänge": {
       "Kapuzenumhang": {
         "Gewicht": 60,
         "Preis": 4,
-        "Maßgeschneidert": 40
+        "Maßgeschneidert": 40,
+	"Icon": [ "Kapuzenumhang_1", "Kapuzenumhang_2" ]
       },
       "Kutte, grobe Wolle": {
         "Gewicht": 80,
         "Preis": 2,
-        "Maßgeschneidert": 8
+        "Maßgeschneidert": 8,
+	"Icon": [ "Kutte" ]
       },
       "Geweihtenornat": {
         "Gewicht": -1,
@@ -3699,7 +3728,8 @@
       "Cape": {
         "Gewicht": 50,
         "Preis": 2,
-        "Maßgeschneidert": 8
+        "Maßgeschneidert": 8,
+        "Icon": [ "Cape" ]
       },
       "Robe, Brokat": {
         "Gewicht": 200,
@@ -3712,84 +3742,100 @@
       "Wollmütze": {
         "Gewicht": 3,
         "Preis": 0.2,
-        "Maßgeschneidert": -1
+        "Maßgeschneidert": -1,
+        "Icon": [ "Wollmuetze_1", "Wollmuetze_2" ]
       },
       "Haube, Leinen": {
         "Gewicht": 3,
         "Preis": 0.5,
-        "Maßgeschneidert": 5
+        "Maßgeschneidert": 5,
+        "Icon": [ "Haube_Leinen" ]
       },
       "Schleier, Wolltuch": {
         "Gewicht": 4,
         "Preis": 0.2,
-        "Maßgeschneidert": 2
+        "Maßgeschneidert": 2,
+        "Icon": [ "Schleier_Wolle" ]
       },
       "Schleier, Seide": {
         "Gewicht": 1,
         "Preis": 8,
-        "Maßgeschneidert": 50
+        "Maßgeschneidert": 50,
+        "Icon": [ "Schleier_Seide" ]
       },
       "Filzhut": {
         "Gewicht": 4,
         "Preis": 1,
-        "Maßgeschneidert": 8
+        "Maßgeschneidert": 8,
+        "Icon": [ "Filzhut" ]
       },
       "Filzhut mit Federn": {
         "Gewicht": 10,
         "Preis": 3,
-        "Maßgeschneidert": 20
+        "Maßgeschneidert": 20,
+        "Icon": [ "Filzhut_Feder" ]
       },
       "Fellmütze": {
         "Gewicht": 30,
         "Preis": 5,
-        "Maßgeschneidert": 50
+        "Maßgeschneidert": 50,
+        "Icon": [ "Fellmuetze" ]
       },
       "Stirnband": {
         "Gewicht": 2,
         "Preis": 0.5,
-        "Maßgeschneidert": 5
+        "Maßgeschneidert": 5,
+        "Icon": [ "Stirnband" ]
       }
     },
     "Halstuch, Seide": {
       "Gewicht": 2,
       "Preis": 2,
-      "Maßgeschneidert": 10
+      "Maßgeschneidert": 10,
+      "Icon": [ "Seidenschal" ]
     },
     "Maske, Tuch": {
       "Gewicht": 5,
       "Preis": 5,
-      "Maßgeschneidert": 30
+      "Maßgeschneidert": 30,
+      "Icon": [ "Maske_Tuch" ]
     },
     "Maske, Leder": {
       "Gewicht": 10,
       "Preis": 10,
-      "Maßgeschneidert": 50
+      "Maßgeschneidert": 50,
+      "Icon": [ "Ledermaske" ]
     },
     "Larve": {
       "Gewicht": 2,
       "Preis": 1,
-      "Maßgeschneidert": 8
+      "Maßgeschneidert": 8,
+      "Icon": [ "Larve" ]
     },
     "Schärpe, Seide": {
       "Gewicht": 4,
       "Preis": 5,
-      "Maßgeschneidert": 60
+      "Maßgeschneidert": 60,
+      "Icon": [ "Schaerpe_Seide" ]
     },
     "Ledergürtel": {
       "Gewicht": 6,
       "Preis": 1,
-      "Maßgeschneidert": 6
+      "Maßgeschneidert": 6,
+      "Icon": [ "Lederguertel" ]
     },
     "Schultergurt, Bandelier": {
       "Gewicht": 20,
       "Preis": 6,
-      "Maßgeschneidert": 10
+      "Maßgeschneidert": 10,
+      "Icon": [ "Bandelier_1", "Bandelier_2" ]
     },
     "Handschuhe": {
       "Lederhandschuhe": {
         "Gewicht": 6,
         "Preis": 3,
-        "Maßgeschneidert": 20
+        "Maßgeschneidert": 20,
+        "Icon": [ "Lederhandschuhe_1", "Lederhandschuhe_2" ]
       },
       "Stulpenhandschuhe": {
         "Gewicht": 30,
@@ -3903,7 +3949,8 @@
     "Essen": {
       "Proviant, Tagesration": {
         "Gewicht": 40,
-        "Preis": 3
+        "Preis": 3,
+        "Icon": [ "Proviantpaket" ]
       },
       "Brot": {
         "Gewicht": 40,

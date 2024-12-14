@@ -231,13 +231,13 @@
     DSAEquipResult *result = [[DSAEquipResult alloc] init];
     result.error = DSAEquipErrorNone;
     
-    if (!object.occupiedBodyParts || object.occupiedBodyParts.count == 0) {
+    if (!object.occupiedBodySlots || object.occupiedBodySlots.count == 0) {
         result.error = DSAEquipErrorNoFreeSlot;
         result.errorMessage = @"The object does not specify any body parts to occupy.";
         return result;
     }
 
-    for (NSString *bodyPart in object.occupiedBodyParts) {
+    for (NSString *bodyPart in object.occupiedBodySlots) {
         DSAInventory *inventory = [self inventoryForBodyPart:bodyPart];
         DSASlot *freeSlot = [self findFreeSlotInInventory:inventory forObject:object];
         if (!freeSlot) {
@@ -248,7 +248,7 @@
     }
 
     // If no errors, proceed to equip
-    for (NSString *bodyPart in object.occupiedBodyParts) {
+    for (NSString *bodyPart in object.occupiedBodySlots) {
         DSAInventory *inventory = [self inventoryForBodyPart:bodyPart];
         DSASlot *freeSlot = [self findFreeSlotInInventory:inventory forObject:object];
         freeSlot.object = object;
@@ -327,7 +327,7 @@
 }
 
 - (void)unequipObject:(DSAObject *)object {
-    for (NSString *bodyPart in object.occupiedBodyParts) {
+    for (NSString *bodyPart in object.occupiedBodySlots) {
         DSAInventory *inventory = [self inventoryForBodyPart:bodyPart];
         for (DSASlot *slot in inventory.slots) {
             if ([slot.object isEqual:object]) {

@@ -78,7 +78,6 @@ static NSMutableDictionary *objectsDict;
 + (void)enrichEquipmentData:(NSMutableDictionary *)data withParentKeys:(NSArray<NSString *> *)parentKeys {
     for (NSString *key in data) {
         id value = data[key];
-        NSLog(@"ENRICHING DATA: %@", value);
         if ([value isKindOfClass:[NSMutableDictionary class]]) {
             NSMutableDictionary *entry = (NSMutableDictionary *)value;
 
@@ -166,7 +165,23 @@ static NSMutableDictionary *objectsDict;
 
             // Store the parsed validSlotTypes as enum values
             entry[@"validSlotTypes"] = validSlotTypesEnum;              
-                            
+            
+            NSArray *occupiedBodySlots = entry[@"belegteKörperSlots"];
+            NSMutableArray<NSNumber *> * occupiedBodySlotsEnum = [NSMutableArray array];
+            // If occupiedBodySlots is missing or empty, we're fine with it, the item only occpuies a single named slot
+            if (occupiedBodySlots == nil || occupiedBodySlots.count == 0) {
+                occupiedBodySlots = nil;
+            } else {
+                // Convert slot types in JSON to DSASlotType enums
+                for (NSString *slotTypeString in occupiedBodySlots) {
+                    DSASlotType slotType = [self slotTypeFromString:slotTypeString];
+                    if (slotType != NSNotFound) {
+                        [occupiedBodySlotsEnum addObject:@(slotType)];
+                    }
+                }
+            }
+            entry[@"occupiedBodySlots"] = occupiedBodySlotsEnum;
+                        
             // Recurse into deeper dictionaries with updated hierarchy
             [Utils enrichEquipmentData:entry withParentKeys:[parentKeys arrayByAddingObject:key]];
         } else if ([value isKindOfClass:[NSMutableArray class]]) {

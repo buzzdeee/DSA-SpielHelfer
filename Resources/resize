@@ -4,7 +4,6 @@ IMAGES=$(ls *webp)
 SIZES="32x32 64x64 128x128 256x256 512x512"
 
 for IMAGE in ${IMAGES}; do
-        echo "$IMAGE"
         
         # Reset continue_outer_loop flag before checking
         unset continue_outer_loop
@@ -23,11 +22,14 @@ for IMAGE in ${IMAGES}; do
                 continue
         fi
         
+        echo "$IMAGE"
         BASENAME=$(basename "$IMAGE" .webp)
         
         for SIZE in ${SIZES}; do
-                echo "convert $IMAGE -resize $SIZE ${BASENAME}-${SIZE}.webp"
-                convert "$IMAGE" -resize "$SIZE" "${BASENAME}-${SIZE}.webp"
+		if [ ! -e "${BASENAME}-${SIZE}.webp" ];then
+                	echo "convert $IMAGE -resize $SIZE ${BASENAME}-${SIZE}.webp"
+                	convert "$IMAGE" -resize "$SIZE" "${BASENAME}-${SIZE}.webp"
+		fi
         done
 done
 

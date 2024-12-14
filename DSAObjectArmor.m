@@ -36,6 +36,7 @@
                withProtection: (NSNumber *) protection
                   withPenalty: (NSNumber *) penalty
       validInventorySlotTypes: (NSArray *) validSlotTypes
+            occupiedBodySlots: (NSArray *) occupiedBodySlots
                   withRegions: (NSArray *) regions
 {
   self = [super init];
@@ -51,6 +52,7 @@
       self.protection = protection;
       self.penalty = penalty;
       self.validSlotTypes = validSlotTypes;
+      self.occupiedBodySlots = occupiedBodySlots;      
       self.regions = regions;
     }  
   return self;

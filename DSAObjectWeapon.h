@@ -29,7 +29,6 @@
 
 @interface DSAObjectWeapon : DSAObject
 @property (nonatomic, strong) NSArray *hitPoints;
-@property (nonatomic, strong) NSArray *regions;
 @property (nonatomic) BOOL isPersonalWeapon;
 
 @end

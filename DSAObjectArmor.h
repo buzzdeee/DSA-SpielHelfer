@@ -40,7 +40,8 @@
                     withPrice: (NSNumber *) price
                withProtection: (NSNumber *) protection
                   withPenalty: (NSNumber *) penalty
-      validInventorySlotTypes: (NSArray *) validSlotTypes                  
+      validInventorySlotTypes: (NSArray *) validSlotTypes  
+            occupiedBodySlots: (NSArray *) occupiedBodySlots                
                   withRegions: (NSArray *) regions;
 @end
 

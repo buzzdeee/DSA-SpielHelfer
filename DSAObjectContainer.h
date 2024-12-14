@@ -42,6 +42,7 @@
                 withNrOfSlots: (NSInteger) nrOfSlots
               maxItemsPerSlot: (NSInteger) maxItemsPerSlot
       validInventorySlotTypes: (NSArray *) validSlotTypes
+            occupiedBodySlots: (NSArray *) occupiedBodySlots
                   withRegions: (NSArray *) regions;
 
 @end

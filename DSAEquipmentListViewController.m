@@ -63,19 +63,6 @@
     return NO; // Prevent editing
 }
 
-// Delegate method to set alternating row colors -> NOT WORKING AT ALL
-- (void)XXXtableView:(NSTableView *)tableView willDisplayCell:(id)cell forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    NSLog(@"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx");
-    if (row % 2 == 0) {
-        //[cell setBackgroundColor:[NSColor colorWithCalibratedWhite:0.95 alpha:0.5]]; // Light color for even rows
-        [cell setBackgroundColor: [NSColor greenColor]];
-        
-    } else {
-            [cell setBackgroundColor: [NSColor redColor]];
-        //[cell setBackgroundColor:[NSColor colorWithCalibratedWhite:0.55 alpha:1.0]]; // Dark color for odd rows
-    }
-}
-
 - (NSArray *)flattenEquipmentData:(NSDictionary *)data {
     NSMutableArray *flatData = [NSMutableArray array];
     [self traverseData:data parentKeys:@[] intoArray:flatData];
@@ -138,7 +125,6 @@
                 row[@"Kategorie"] = keys.count > 1 ? keys[1] : @"";
                 row[@"Unterkategorie"] = keys.count > 2 ? keys[2] : @"";
                 row[@"Maßgeschneidert"] = value[@"Maßgeschneidert"] ? value[@"Maßgeschneidert"] : @"";
-                NSLog(@"going to add the row to the flat data: %@", row);
                 [flatData addObject:row];
             } else {
                 // Recurse deeper if not terminal
@@ -358,38 +344,6 @@
   else
     {
       NSLog(@"DSAEquipmentListViewController selectView: don't know how to handle: %@", [[sender selectedItem] title]);
-    }
-}
-
-- (void)XXXresizeColumnsToFit {
-    NSDictionary *attributes = @{NSFontAttributeName: [NSFont systemFontOfSize:[NSFont systemFontSize]]};
-
-    for (NSTableColumn *column in self.tableView.tableColumns) {
-        NSString *identifier = column.identifier;
-
-        // Calculate header width
-        CGFloat maxWidth = [column.title sizeWithAttributes:attributes].width + 20; // Padding for the header
-
-        // Calculate maximum row width
-        for (NSDictionary *row in self.tableData) {
-            id value = row[identifier];
-            if ([value isKindOfClass:[NSString class]]) {
-                CGFloat rowWidth = [value sizeWithAttributes:attributes].width + 20; // Padding for row values
-                if (rowWidth > maxWidth) {
-                    maxWidth = rowWidth;
-                }
-            } else if ([value isKindOfClass:[NSArray class]]) {
-                NSString *joinedValue = [(NSArray *)value componentsJoinedByString:@", "];
-                CGFloat rowWidth = [joinedValue sizeWithAttributes:attributes].width + 20;
-                if (rowWidth > maxWidth) {
-                    maxWidth = rowWidth;
-                }
-            }
-        }
-
-        // Update column width
-        column.minWidth = maxWidth;
-        column.maxWidth = maxWidth;
     }
 }
 

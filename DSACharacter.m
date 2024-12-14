@@ -36,17 +36,26 @@
 @implementation DSACharacter
 
 static NSDictionary<NSString *, Class> *typeToClassMap = nil;
+static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
+
 
 + (void)initialize {
     if (self == [DSACharacter class]) {
-        typeToClassMap = @{
-            _(@"Alchimist"): [DSACharacterHeroHumanAmazon class],
-            _(@"Amazone"): [DSACharacterHeroHumanAmazon class],
-            _(@"Gaukler"): [DSACharacterHeroHumanJuggler class],
-            _(@"Jäger"): [DSACharacterHeroHumanHuntsman class],
-            _(@"Krieger"): [DSACharacterHeroHumanWarrior class],
-            _(@"Medicus"): [DSACharacterHeroHumanPhysician class],
-        };
+        @synchronized(self) {
+            if (!characterRegistry) {
+                characterRegistry = [NSMutableDictionary dictionary];
+            }
+            if (!typeToClassMap) {
+                typeToClassMap = @{
+                    _(@"Alchimist"): [DSACharacterHeroHumanAmazon class],
+                    _(@"Amazone"): [DSACharacterHeroHumanAmazon class],
+                    _(@"Gaukler"): [DSACharacterHeroHumanJuggler class],
+                    _(@"Jäger"): [DSACharacterHeroHumanHuntsman class],
+                    _(@"Krieger"): [DSACharacterHeroHumanWarrior class],
+                    _(@"Medicus"): [DSACharacterHeroHumanPhysician class],
+                };
+            }
+        }
     }
 }
 
@@ -59,29 +68,59 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     return nil;
 }
 
-- (instancetype)init
-{
-  self = [super init];
-  if (self)
-    {
-      // Most characters aren't magic or blessed ones
-      self.isMagic = NO;
-      self.isBlessedOne = NO;
-      self.isMagicalDabbler = NO;
-      self.element = nil;
-      self.religion = nil;
-      self.siblings = [[NSArray alloc] init];
-      self.childhoodEvents = [[NSArray alloc] init];
-      self.youthEvents = [[NSArray alloc] init];
-      self.inventory = [[DSAInventory alloc] init];
-      self.bodyParts = [[DSABodyParts alloc] init];
++ (DSACharacter *)characterWithModelID:(NSString *)modelID {
+    @synchronized(characterRegistry) {
+    for (NSString *key in [characterRegistry allKeys]) {
+        if ([key isEqualToString:modelID]) {
+            NSLog(@"Found matching modelID: %@", key);
+            return characterRegistry[modelID];
+        }
+    }    
+        NSLog(@"searching character with model ID: %@ in all keys: %@", modelID, [characterRegistry allKeys]);
+        return characterRegistry[modelID];
     }
-  return self;
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        // Generate a unique UUID for modelID
+        @synchronized([DSACharacter class]) {
+            if (!characterRegistry) {
+                characterRegistry = [NSMutableDictionary dictionary];
+            }
+
+            _modelID = [[NSUUID UUID] UUIDString]; // Use NSUUID for a truly unique ID
+            NSLog(@"Generated modelID: %@", _modelID);
+
+            if (!characterRegistry[_modelID]) {
+                characterRegistry[_modelID] = self; // Register the character
+            } else {
+                NSLog(@"Warning: modelID %@ already exists!", _modelID);
+            }
+        }
+
+        // Initialize other properties
+        _isMagic = NO;
+        _isBlessedOne = NO;
+        _isMagicalDabbler = NO;
+        _element = nil;
+        _religion = nil;
+        _siblings = [[NSArray alloc] init];
+        _childhoodEvents = [[NSArray alloc] init];
+        _youthEvents = [[NSArray alloc] init];
+        _inventory = [[DSAInventory alloc] init];
+        _bodyParts = [[DSABodyParts alloc] init];
+    }
+    return self;
 }
 
 - (void)dealloc
 {
-  NSLog(@"%@ is being deallocated.", [self class]);
+    @synchronized([DSACharacter class]) {
+        [characterRegistry removeObjectForKey:_modelID];
+        NSLog(@"Character with modelID %@ removed from registry.", _modelID);
+    }
 }
 
 - (NSString *)description
@@ -143,7 +182,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       // Encode the PNG data with a key
       [coder encodeObject:pngData forKey:@"portraitData"];
     }
-  
+  [coder encodeObject:self.modelID forKey:@"modelID"];  
   [coder encodeObject:self.name forKey:@"name"];
   [coder encodeObject:self.title forKey:@"title"];
   [coder encodeObject:self.archetype forKey:@"archetype"];
@@ -198,6 +237,16 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
         {
           self.portrait = [[NSImage alloc] initWithData:imageData];
         }    
+      _modelID = [coder decodeObjectOfClass:[NSString class] forKey:@"modelID"];
+      if (!self.modelID)
+        {
+          _modelID = [[NSUUID UUID] UUIDString];  //backward compat
+        }
+      if (!characterRegistry[_modelID]) {
+          characterRegistry[_modelID] = self; // Register the character
+      } else {
+          NSLog(@"Warning: modelID %@ already exists!", _modelID);
+      }      
       
       self.name = [coder decodeObjectOfClass:[NSString class] forKey:@"name"];
       self.title = [coder decodeObjectOfClass:[NSString class] forKey:@"title"];
@@ -242,6 +291,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     }
   return self;
 }
+
 
 // helper function to produce a string based on siblings.
 - (NSString *)siblingsString

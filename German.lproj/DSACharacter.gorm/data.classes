@@ -1,5 +1,12 @@
 {
     "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSAActionIcon = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSImageView;
+    };
     DSACharacterWindowController = {
 	Actions = (
 	    "updateModel:"
@@ -124,9 +131,17 @@
 	    bodySlot33,
 	    bodySlot34,
 	    bodySlot35,
-	    bodySlot36
+	    bodySlot36,
+	    imageTrash
 	);
 	Super = NSWindowController;
+    };
+    DSAInventorySlotView = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSImageView;
     };
     DSATabView = {
 	Actions = (

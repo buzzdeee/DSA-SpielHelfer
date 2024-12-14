@@ -37,6 +37,7 @@
                 withNrOfSlots: (NSInteger) nrOfSlots
               maxItemsPerSlot: (NSInteger) maxItemsPerSlot
       validInventorySlotTypes: (NSArray *) validSlotTypes
+            occupiedBodySlots: (NSArray *) occupiedBodySlots
                   withRegions: (NSArray *) regions
 {
   self = [super init];
@@ -51,6 +52,7 @@
       self.price = price;
       self.regions = regions;
       self.validSlotTypes = validSlotTypes;
+      self.occupiedBodySlots = occupiedBodySlots;
       self.slots = [NSMutableArray arrayWithCapacity:nrOfSlots];
       for (NSInteger i = 0; i < nrOfSlots; i++)
         {

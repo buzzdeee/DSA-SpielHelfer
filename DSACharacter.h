@@ -32,6 +32,8 @@
 
 @interface DSACharacter : NSObject <NSCoding>
 
+@property (nonatomic, strong, readonly) NSString *modelID; // Unique ID for each model
+
 // copy properties, to prevent others fiddling with the model...
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *title;
@@ -84,6 +86,8 @@
 @property (readonly, copy) NSNumber *magicResistance;
 @property (readonly, copy) NSNumber *parryBaseValue;
 @property (readonly, copy) NSNumber *rangedCombatBaseValue;
+
++ (DSACharacter *)characterWithModelID:(NSString *)modelID;
 
 - (NSString *) siblingsString;
 /*

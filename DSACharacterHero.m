@@ -391,7 +391,6 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
       self.tempDeltaLpAe = [coder decodeObjectOfClass:[NSString class] forKey:@"tempDeltaLpAe"];
       self.isLevelingUp = [coder decodeBoolForKey:@"isLevelingUp"];     
     }
-  NSLog(@"DECODED THE AMAZON: %@", self);
   return self;
 }
 

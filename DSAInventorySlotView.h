@@ -29,19 +29,22 @@
 #import "DSAObject.h"
 #import "DSACharacter.h"
 
-@interface DSAInventorySlotView : NSImageView
+@interface DSAInventorySlotView : NSImageView 
 @property (nonatomic, strong) DSAObject *item;
 @property (nonatomic, assign) NSInteger slotIndex;
 @property (nonatomic, strong) NSString *inventoryIdentifier;
 @property (nonatomic, strong) NSString *inventoryType;
 @property (nonatomic, strong) DSACharacter *model;  // Add a reference to the model
+@property (nonatomic, strong) DSASlot *slot;                     // Link to the corresponding slot
 
 @property (nonatomic, strong) DSAInventorySlotView *sourceImageView;   // The source image view for the drag
 @property (nonatomic, strong) DSAInventorySlotView *targetImageView;   // The target image view for the drop
 @property (nonatomic, strong) NSBox *highlightView; // Add this property to track the highlight
 
 - (void)highlightTargetView:(BOOL)highlight;
-
+- (void)updateQuantityLabelWithQuantity:(NSInteger)quantity;
+- (void)updateToolTip;
+              
 @end
 
 #endif // _DSAINVENTORYSLOTVIEW_H_

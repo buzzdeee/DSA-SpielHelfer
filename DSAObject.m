@@ -51,6 +51,7 @@
                                    withProtection: [objectInfo objectForKey: @"Rüstschutz"]
                                       withPenalty: [objectInfo objectForKey: @"Behinderung"]
                           validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
+                                occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
                                       withRegions: [objectInfo objectForKey: @"Regionen"]];
     }
     
@@ -67,6 +68,7 @@
                                         withNrOfSlots: [objectInfo objectForKey: @"Slots" ] ? [[objectInfo objectForKey: @"Slots" ] integerValue] : 1
                                       maxItemsPerSlot: [objectInfo objectForKey: @"MaximumPerSlot" ] ? [[objectInfo objectForKey: @"MaximumPerSlot" ] integerValue] : 1
                               validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
+                                    occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
                                           withRegions: [objectInfo objectForKey: @"Regionen"]];                                          
                                             
     }
@@ -81,6 +83,7 @@
                                   withWeight: [objectInfo objectForKey: @"Gewicht"]
                                    withPrice: [objectInfo objectForKey: @"Preis"]
                      validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
+                           occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]                     
                                 canShareSlot: [[objectInfo objectForKey: @"canShareSlot"] boolValue]
                                  withRegions: [objectInfo objectForKey: @"Regionen"]];     
     }
@@ -96,6 +99,7 @@
                    withWeight: (NSNumber *) weight
                     withPrice: (NSNumber *) price
       validInventorySlotTypes: (NSArray *) validSlotTypes
+            occupiedBodySlots: (NSArray *) occupiedBodySlots
                  canShareSlot: (BOOL) canShareSlot
                   withRegions: (NSArray *) regions
 {
@@ -113,6 +117,7 @@
       self.isPoisoned = NO;
       self.canShareSlot = canShareSlot;
       self.validSlotTypes = validSlotTypes;
+      self.occupiedBodySlots = occupiedBodySlots;
       self.regions = regions;
     }  
   return self;
@@ -135,6 +140,7 @@
       self.isPoisoned = [coder decodeBoolForKey:@"isPoisoned"];
       self.canShareSlot = [coder decodeBoolForKey:@"canShareSlot"];
       self.validSlotTypes = [coder decodeObjectForKey:@"validSlotTypes"];
+      self.occupiedBodySlots = [coder decodeObjectForKey:@"occupiedBodySlots"];
     }
   return self;
 }
@@ -153,6 +159,7 @@
   [coder encodeBool:self.isPoisoned forKey:@"isPoisoned"];
   [coder encodeBool:self.canShareSlot forKey:@"canShareSlot"];
   [coder encodeObject:self.validSlotTypes forKey:@"validSlotTypes"];
+  [coder encodeObject:self.occupiedBodySlots forKey:@"occupiedBodySlots"];
 }
 
 
