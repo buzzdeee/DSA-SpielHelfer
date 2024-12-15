@@ -20,16 +20,11 @@ TODO:
    * Schwert
    * Schale
  * Grundausstattung aller Archetypen
- * Rucksack
  * Sachen anziehen, in die Hand nehmen
  * Sachen anschauen
  * Essen/Trinken
  * Zustand:
    * gesund, krank, vergiftet, betrunken....
- * Gegenstände (Lanze, Helm und Federkiel)
- * Waffen
-   * Bruchfaktor
-   * etc.
  * Behinderung berechnen
  * Geburtstag ordentlich machen
  * Kein Eisen für magische Archetypen, i.e. Elf, Druide, ...
@@ -48,8 +43,16 @@ TODO:
 
 WIP:
  * Magierakademien und Magier
-
+ * Icons für Gegenstände
+ * Gegenstände als Objekte
+ 
 DONE:
+ * Inventory
+   * Generelles Inventory, und Körperslots
+   * drag 'n drop
+   * wegwerfen, ansehen
+ * Gegenstände und Waffen aus Mit Lanze, Schwert und Federkiel, und Kaiser Retos Waffenkammer
+ * AppIcon
  * Charakterbogen Drucken (A4)
    * Charakterbogen, Talentbogen, Zauberbogen, Spezialseite (Magiedilettant)
  * Kriegerakademien (wie beschrieben in: Vom Leben in Aventurien)

@@ -3463,76 +3463,90 @@
       "Mieder": {
         "Gewicht": 25,
         "Preis": 2,
-        "Maßgeschneidert": 20
+        "Maßgeschneidert": 20,
+        "Icon": [ "Mieder_1", "Mieder_2" ]
       },
       "Unterrock": {
         "Gewicht": 20,
         "Preis": 1,
-        "Maßgeschneidert": 2
+        "Maßgeschneidert": 2,
+        "Icon": [ "Unterrock_1", "Unterrock_2" ]
       }
     },
     "Nachtmütze": {
       "Gewicht": 4,
       "Preis": 0.2,
-      "Maßgeschneidert": 2
+      "Maßgeschneidert": 2,
+      "Icon": [ "Nachtmuetze_1", "Nachtmuetze_2" ]
     },
     "Hausmantel": {
       "Gewicht": 30,
       "Preis": 5,
-      "Maßgeschneidert": 100
+      "Maßgeschneidert": 100,
+      "Icon": [ "Hausmantel" ]
     },
     "Hemden": {
       "Hemd, Bluse, Leinen": {
         "Gewicht": 10,
         "Preis": 0.8,
-        "Maßgeschneidert": 8
+        "Maßgeschneidert": 8,
+        "Icon": [ "Hemd_Leinen_1", "Hemd_Leinen_2" ]
       },
       "Hemd, Bluse, Wolle": {
         "Gewicht": 15,
         "Preis": 0.8,
-        "Maßgeschneidert": 8
+        "Maßgeschneidert": 8,
+        "Icon": [ "Hemd_Wolle_1", "Hemd_Wolle_2" ]
       },
       "Hemd, Bluse, Bausch": {
         "Gewicht": 8,
         "Preis": 2,
-        "Maßgeschneidert": 20
+        "Maßgeschneidert": 20,
+        "Icon": [ "Hemd_Bausch_1", "Hemd_Bausch_2" ]
       },
       "Hemd, Bluse, Seide": {
         "Gewicht": 5,
         "Preis": 12,
-        "Maßgeschneidert": 80
+        "Maßgeschneidert": 80,
+        "Icon": [ "Hemd_Seide_1", "Hemd_Seide_2" ]
       }
     },
     "Jacken": {
       "Jacke, Wams, Leinen": {
         "Gewicht": 30,
         "Preis": 2,
-        "Maßgeschneidert": 10
+        "Maßgeschneidert": 10,
+        "Icon": [ "Jacke_Leinen_1", "Jacke_Leinen_2" ]
       },
       "Jacke, Wams, Wolle": {
         "Gewicht": 40,
         "Preis": 2,
-        "Maßgeschneidert": 10
+        "Maßgeschneidert": 10,
+        "Icon": [ "Jacke_Wolle_1", "Jacke_Wolle_2" ]
       },
       "Jacke, Wams, Leder": {
         "Gewicht": 60,
         "Preis": 4,
-        "Maßgeschneidert": 30
+        "Maßgeschneidert": 30,
+        "Icon": [ "Jacke_Leder_1", "Jacke_Leder_2" ]
       },
       "Jacke, Wams, Brokat": {
         "Gewicht": 120,
         "Preis": 40,
-        "Maßgeschneidert": 180
+        "Maßgeschneidert": 180,
+        "Icon": [ "Jacke_Brokat_1", "Jacke_Brokat_2" ]
       },
       "Teerjacke": {
         "Gewicht": 60,
         "Preis": 5,
-        "Maßgeschneidert": -1
+        "Maßgeschneidert": -1,
+        "Icon": [ "Teerjacke_1", "Teerjacke_2" ]
       },
       "Fellanorak": {
         "Gewicht": 80,
         "Preis": 8,
-        "Maßgeschneidert": 120
+        "Maßgeschneidert": 120,
+        "Icon": [ "Fellanorak_1", "Fellanorak_2" ]
       }      
     },
     "Westen": {
@@ -3602,7 +3616,7 @@
         "Gewicht": 35,
         "Preis": 2,
         "Maßgeschneidert": 20,
-        "Icon": [ "Pluderhose_Leinen_1" ]
+        "Icon": [ "Pluderhose_Leinen" ]
       },
       "Pluderhose, Bausch": {
         "Gewicht": 25,

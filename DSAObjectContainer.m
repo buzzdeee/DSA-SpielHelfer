@@ -31,8 +31,8 @@
                    inCategory: (NSString *) category
                 inSubCategory: (NSString *) subCategory
              inSubSubCategory: (NSString *) subSubCategory
-                   withWeight: (NSNumber *) weight
-                    withPrice: (NSNumber *) price
+                   withWeight: (NSInteger) weight
+                    withPrice: (NSInteger) price
                    ofSlotType: (NSInteger) slotType
                 withNrOfSlots: (NSInteger) nrOfSlots
               maxItemsPerSlot: (NSInteger) maxItemsPerSlot

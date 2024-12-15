@@ -105,8 +105,26 @@ static NSMutableDictionary *objectsDict;
             if (entry[@"TP Entfernung"] != nil) {
                 entry[@"TP Entfernung Formatted"] = [Utils formatTPEntfernung:entry[@"TP Entfernung"]];
             }
+            if (entry[@"Waffenvergleichswert"] != nil) {
+                NSString *waffenvergleichswert = entry[@"Waffenvergleichswert"];
+                NSArray *values = [waffenvergleichswert componentsSeparatedByString:@"/"];
+    
+                if (values.count == 2) {
+                  // Parse the attackPower and parryValue as integers
+                  NSInteger attackPower = [values[0] integerValue];
+                  NSInteger parryValue = [values[1] integerValue];
+        
+                  // Assign them back to the dictionary
+                  entry[@"attackPower"] = @(attackPower);
+                  entry[@"parryValue"] = @(parryValue);
+                } else {
+                  NSLog(@"Invalid Waffenvergleichswert format: %@", waffenvergleichswert);
+                }
+            }          
             if (entry[@"Regionen"] != nil) {
-                entry[@"Regionen"] = [entry[@"Regionen"] componentsJoinedByString:@", "];
+                entry[@"Regionen Formatted"] = [entry[@"Regionen"] componentsJoinedByString:@", "];
+                NSArray *regionen = [NSArray arrayWithArray: entry[@"Regionen"]];
+                entry[@"Regionen"] = regionen;
             }
             
             // Add hierarchical information

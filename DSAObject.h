@@ -34,12 +34,13 @@
 @property (nonatomic, strong) NSString *category;
 @property (nonatomic, strong) NSString *subCategory;
 @property (nonatomic, strong) NSString *subSubCategory;
-@property (nonatomic, strong) NSNumber *weight;
-@property (nonatomic, strong) NSNumber *price;
+@property (nonatomic, assign) NSInteger weight;
+@property (nonatomic, assign) NSInteger price;
 @property (nonatomic, strong) NSArray *regions;
 
 @property (nonatomic) BOOL isMagic;
 @property (nonatomic) BOOL isPoisoned;
+@property (nonatomic) BOOL isConsumable;
 @property (nonatomic) BOOL canShareSlot;
 @property (nonatomic, strong) NSArray<NSNumber *> *occupiedBodySlots; // Body parts this item occupies
 @property (nonatomic, strong) NSArray<NSNumber *> *validSlotTypes; // List of DSASlotTypes this object can be placed in
@@ -51,8 +52,8 @@
                    inCategory: (NSString *) category
                 inSubCategory: (NSString *) subCategory
              inSubSubCategory: (NSString *) subSubCategory
-                   withWeight: (NSNumber *) weight
-                    withPrice: (NSNumber *) price
+                   withWeight: (NSInteger) weight
+                    withPrice: (NSInteger) price
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
                  canShareSlot: (BOOL) canShareSlot

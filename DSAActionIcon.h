@@ -27,10 +27,14 @@
 
 #import <AppKit/AppKit.h>
 #import "DSACharacter.h"
+#import "DSAItemInspectionController.h"
 
-@interface DSAActionIcon : NSImageView
+@interface DSAActionIcon : NSImageView <DSAItemInspectionControllerDelegate>
 
 @property (nonatomic, strong) NSString *actionType;  // This can store values like "eye", "mouth", "trash"
+@property (strong, nonatomic) DSAItemInspectionController *inspectionController;  // to keep a reference to item inspection window
+
+
 
 - (void)showPopupForItem:(id)item;
 - (void)consumeItem:(id)item;

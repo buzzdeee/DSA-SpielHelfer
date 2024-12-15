@@ -28,13 +28,6 @@
 
 @implementation DSAActionIcon
 
-/*
-- (NSView *)hitTest:(NSPoint)aPoint {
-  NSLog(@"hit test self class: %@", [self class]);
-    
-    return nil; // Return nil if the point is outside the view's bounds
-}
-*/
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -154,10 +147,13 @@
 
 // Show a short popup with information about the item
 - (void)showPopupForItem:(id)item {
-    // Implement the logic to show a popup with item details
-    // Example:
     NSLog(@"Showing info for item: %@", item);
-    // Use an alert or custom view to show the information
+    if (!self.inspectionController) {
+        // Lazily initialize the controller if it doesn't already exist
+        self.inspectionController = [[DSAItemInspectionController alloc] initWithWindowNibName:@"DSAItemInspection"];
+        self.inspectionController.delegate = self;
+    }
+    [self.inspectionController inspectItem:item];
 }
 
 // Consume the item (e.g., eating or using the item)
@@ -174,6 +170,7 @@
     // Show a confirmation dialog to confirm the action
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setMessageText:_(@"Bist du sicher das du das wegwerfen willst?")];
+    [alert setAlertStyle: NSInformationalAlertStyle];
     [alert addButtonWithTitle:_(@"Behalten")];
     [alert addButtonWithTitle:_(@"Wegwerfen")];
 
@@ -202,4 +199,8 @@
     }
 }
 
+- (void)itemInspectionControllerDidClose:(DSAItemInspectionController *)controller {
+    NSLog(@"Inspection window closed for controller: %@", controller);
+    self.inspectionController = nil; // Release the reference
+}
 @end

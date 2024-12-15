@@ -25,7 +25,7 @@ include $(GNUSTEP_MAKEFILES)/common.make
 VERSION = 0.1
 PACKAGE_NAME = DSA-SpielHelfer
 APP_NAME = DSA-SpielHelfer
-DSA-SpielHelfer_APPLICATION_ICON = 
+DSA-SpielHelfer_APPLICATION_ICON = Logo-Fanprojekt.png
 GNUSTEP_INSTALLATION_DOMAIN = USER
 
 
@@ -38,6 +38,7 @@ Resources/DSAAdventurePoints.gorm \
 Resources/DSACharacterGenerationMagicalDabbler.gorm \
 Resources/DSAMapViewer.gorm \
 Resources/DSAEquipmentListViewer.gorm \
+Resources/DSAItemInspection.gorm \
 Resources/Character_1.png \
 Resources/Character_10.png \
 Resources/Character_100.png \
@@ -1165,6 +1166,157 @@ Resources/Weste_Wolle_2-32x32.webp \
 Resources/Weste_Wolle_2-512x512.webp \
 Resources/Weste_Wolle_2-64x64.webp \
 Resources/Weste_Wolle_2.webp \
+Resources/Logo-Fanprojekt.png \
+Resources/Hemd_Bausch_2-128x128.webp \
+Resources/Hausmantel-128x128.webp \
+Resources/Hausmantel-256x256.webp \
+Resources/Hausmantel-32x32.webp \
+Resources/Hausmantel-512x512.webp \
+Resources/Hausmantel-64x64.webp \
+Resources/Hausmantel.webp \
+Resources/Hemd_Bausch_1-128x128.webp \
+Resources/Hemd_Bausch_1-256x256.webp \
+Resources/Hemd_Bausch_1-32x32.webp \
+Resources/Hemd_Bausch_1-512x512.webp \
+Resources/Hemd_Bausch_1-64x64.webp \
+Resources/Hemd_Bausch_1.webp \
+Resources/Hemd_Bausch_2-256x256.webp \
+Resources/Hemd_Bausch_2-32x32.webp \
+Resources/Hemd_Bausch_2-512x512.webp \
+Resources/Hemd_Bausch_2-64x64.webp \
+Resources/Hemd_Bausch_2.webp \
+Resources/Hemd_Leinen_1-128x128.webp \
+Resources/Hemd_Leinen_1-256x256.webp \
+Resources/Hemd_Leinen_1-32x32.webp \
+Resources/Hemd_Leinen_1-512x512.webp \
+Resources/Hemd_Leinen_1-64x64.webp \
+Resources/Hemd_Leinen_1.webp \
+Resources/Hemd_Leinen_2-128x128.webp \
+Resources/Hemd_Leinen_2-256x256.webp \
+Resources/Hemd_Leinen_2-32x32.webp \
+Resources/Hemd_Leinen_2-512x512.webp \
+Resources/Hemd_Leinen_2-64x64.webp \
+Resources/Hemd_Leinen_2.webp \
+Resources/Hemd_Seide_1-128x128.webp \
+Resources/Hemd_Seide_1-256x256.webp \
+Resources/Hemd_Seide_1-32x32.webp \
+Resources/Hemd_Seide_1-512x512.webp \
+Resources/Hemd_Seide_1-64x64.webp \
+Resources/Hemd_Seide_1.webp \
+Resources/Hemd_Seide_2-128x128.webp \
+Resources/Hemd_Seide_2-256x256.webp \
+Resources/Hemd_Seide_2-32x32.webp \
+Resources/Hemd_Seide_2-512x512.webp \
+Resources/Hemd_Seide_2-64x64.webp \
+Resources/Hemd_Seide_2.webp \
+Resources/Hemd_Wolle_1-128x128.webp \
+Resources/Hemd_Wolle_1-256x256.webp \
+Resources/Hemd_Wolle_1-32x32.webp \
+Resources/Hemd_Wolle_1-512x512.webp \
+Resources/Hemd_Wolle_1-64x64.webp \
+Resources/Hemd_Wolle_1.webp \
+Resources/Hemd_Wolle_2-128x128.webp \
+Resources/Hemd_Wolle_2-256x256.webp \
+Resources/Hemd_Wolle_2-32x32.webp \
+Resources/Hemd_Wolle_2-512x512.webp \
+Resources/Hemd_Wolle_2-64x64.webp \
+Resources/Hemd_Wolle_2.webp \
+Resources/Jacke_Brokat_1-128x128.webp \
+Resources/Jacke_Brokat_1-256x256.webp \
+Resources/Jacke_Brokat_1-32x32.webp \
+Resources/Jacke_Brokat_1-512x512.webp \
+Resources/Jacke_Brokat_1-64x64.webp \
+Resources/Jacke_Brokat_1.webp \
+Resources/Jacke_Brokat_2-128x128.webp \
+Resources/Jacke_Brokat_2-256x256.webp \
+Resources/Jacke_Brokat_2-32x32.webp \
+Resources/Jacke_Brokat_2-512x512.webp \
+Resources/Jacke_Brokat_2-64x64.webp \
+Resources/Jacke_Brokat_2.webp \
+Resources/Jacke_Leder_1-128x128.webp \
+Resources/Jacke_Leder_1-256x256.webp \
+Resources/Jacke_Leder_1-32x32.webp \
+Resources/Jacke_Leder_1-512x512.webp \
+Resources/Jacke_Leder_1-64x64.webp \
+Resources/Jacke_Leder_1.webp \
+Resources/Jacke_Leder_2-128x128.webp \
+Resources/Jacke_Leder_2-256x256.webp \
+Resources/Jacke_Leder_2-32x32.webp \
+Resources/Jacke_Leder_2-512x512.webp \
+Resources/Jacke_Leder_2-64x64.webp \
+Resources/Jacke_Leder_2.webp \
+Resources/Jacke_Leinen_1-128x128.webp \
+Resources/Jacke_Leinen_1-256x256.webp \
+Resources/Jacke_Leinen_1-32x32.webp \
+Resources/Jacke_Leinen_1-512x512.webp \
+Resources/Jacke_Leinen_1-64x64.webp \
+Resources/Jacke_Leinen_1.webp \
+Resources/Jacke_Leinen_2-128x128.webp \
+Resources/Jacke_Leinen_2-256x256.webp \
+Resources/Jacke_Leinen_2-32x32.webp \
+Resources/Jacke_Leinen_2-512x512.webp \
+Resources/Jacke_Leinen_2-64x64.webp \
+Resources/Jacke_Leinen_2.webp \
+Resources/Jacke_Wolle_1-128x128.webp \
+Resources/Jacke_Wolle_1-256x256.webp \
+Resources/Jacke_Wolle_1-32x32.webp \
+Resources/Jacke_Wolle_1-512x512.webp \
+Resources/Jacke_Wolle_1-64x64.webp \
+Resources/Jacke_Wolle_1.webp \
+Resources/Jacke_Wolle_2-128x128.webp \
+Resources/Jacke_Wolle_2-256x256.webp \
+Resources/Jacke_Wolle_2-32x32.webp \
+Resources/Jacke_Wolle_2-512x512.webp \
+Resources/Jacke_Wolle_2-64x64.webp \
+Resources/Jacke_Wolle_2.webp \
+Resources/Mieder_1-128x128.webp \
+Resources/Mieder_1-256x256.webp \
+Resources/Mieder_1-32x32.webp \
+Resources/Mieder_1-512x512.webp \
+Resources/Mieder_1-64x64.webp \
+Resources/Mieder_1.webp \
+Resources/Mieder_2-128x128.webp \
+Resources/Mieder_2-256x256.webp \
+Resources/Mieder_2-32x32.webp \
+Resources/Mieder_2-512x512.webp \
+Resources/Mieder_2-64x64.webp \
+Resources/Mieder_2.webp \
+Resources/Nachtmuetze_1-128x128.webp \
+Resources/Nachtmuetze_1-256x256.webp \
+Resources/Nachtmuetze_1-32x32.webp \
+Resources/Nachtmuetze_1-512x512.webp \
+Resources/Nachtmuetze_1-64x64.webp \
+Resources/Nachtmuetze_1.webp \
+Resources/Nachtmuetze_2-128x128.webp \
+Resources/Nachtmuetze_2-256x256.webp \
+Resources/Nachtmuetze_2-32x32.webp \
+Resources/Nachtmuetze_2-512x512.webp \
+Resources/Nachtmuetze_2-64x64.webp \
+Resources/Nachtmuetze_2.webp \
+Resources/Teerjacke_1-128x128.webp \
+Resources/Teerjacke_1-256x256.webp \
+Resources/Teerjacke_1-32x32.webp \
+Resources/Teerjacke_1-512x512.webp \
+Resources/Teerjacke_1-64x64.webp \
+Resources/Teerjacke_1.webp \
+Resources/Teerjacke_2-128x128.webp \
+Resources/Teerjacke_2-256x256.webp \
+Resources/Teerjacke_2-32x32.webp \
+Resources/Teerjacke_2-512x512.webp \
+Resources/Teerjacke_2-64x64.webp \
+Resources/Teerjacke_2.webp \
+Resources/Unterrock_1-128x128.webp \
+Resources/Unterrock_1-256x256.webp \
+Resources/Unterrock_1-32x32.webp \
+Resources/Unterrock_1-512x512.webp \
+Resources/Unterrock_1-64x64.webp \
+Resources/Unterrock_1.webp \
+Resources/Unterrock_2-128x128.webp \
+Resources/Unterrock_2-256x256.webp \
+Resources/Unterrock_2-32x32.webp \
+Resources/Unterrock_2-512x512.webp \
+Resources/Unterrock_2-64x64.webp \
+Resources/Unterrock_2.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \
@@ -1303,7 +1455,10 @@ DSABodyParts.h \
 DSAEquipResult.h \
 DSAInventorySlotView.h \
 DSAInventoryManager.h \
-DSAActionIcon.h
+DSAActionIcon.h \
+DSAItemInspectionController.h \
+DSAObjectWeaponHandWeapon.h \
+DSAObjectWeaponLongRange.h
 
 #
 # Objective-C Class files
@@ -1405,7 +1560,10 @@ DSABodyParts.m \
 DSAEquipResult.m \
 DSAInventorySlotView.m \
 DSAInventoryManager.m \
-DSAActionIcon.m
+DSAActionIcon.m \
+DSAItemInspectionController.m \
+DSAObjectWeaponHandWeapon.m \
+DSAObjectWeaponLongRange.m
 
 #
 # Other sources

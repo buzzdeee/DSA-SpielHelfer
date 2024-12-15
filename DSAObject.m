@@ -25,9 +25,10 @@
 #import <objc/runtime.h>
 #import "DSAObject.h"
 #import "DSAObjectArmor.h"
-#import "DSAObjectWeapon.h"
+#import "DSAObjectWeaponHandWeapon.h"
 #import "DSAObjectContainer.h"
 #import "DSAObjectCloth.h"
+
 #import "Utils.h"
 #import "DSASlot.h"
 
@@ -38,7 +39,29 @@
   self = [super init];
   NSDictionary *objectInfo = [Utils getDSAObjectInfoByName: name];
   NSLog(@"THE OBJECT INFO: %@", objectInfo);
-  if ([[objectInfo objectForKey: @"isArmor"] isEqualTo: @YES])
+  if ([[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] && 
+      ! [[objectInfo objectForKey: @"isDistantWeapon"] isEqualTo: @YES] && 
+      ! [[objectInfo objectForKey: @"isArmor"] isEqualTo: @YES])
+    {
+      NSLog(@"a normal hand weapon");
+      self = [[DSAObjectWeaponHandWeapon alloc] initWithName: name
+                                         withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
+                                       inCategory: [objectInfo objectForKey: @"category"]
+                                    inSubCategory: [objectInfo objectForKey: @"category1"]
+                                 inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] integerValue]
+                                        withPrice: [[objectInfo objectForKey: @"Preis"] integerValue]
+                                       withLength: [[objectInfo objectForKey: @"Länge"] integerValue]
+                                    withHitPoints: [objectInfo objectForKey: @"Trefferpunkte"]  // Array of NSNumbers 
+                                  withHitPointsKK: [[objectInfo objectForKey: @"TrefferpunkteKK"] integerValue]
+                                  withBreakFactor: [[objectInfo objectForKey: @"Bruchfaktor"] integerValue]
+                                  withAttackPower: [[objectInfo objectForKey: @"attackPower"] integerValue]
+                                   withParryValue: [[objectInfo objectForKey: @"parryValue"] integerValue]
+                          validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
+                                occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
+                                      withRegions: [objectInfo objectForKey: @"Regionen"]];      
+    }
+  else if ([[objectInfo objectForKey: @"isArmor"] isEqualTo: @YES])
     {
     NSLog(@"HERE IN isArmor");
       self = [[DSAObjectArmor alloc] initWithName: name
@@ -46,10 +69,10 @@
                                        inCategory: [objectInfo objectForKey: @"category"]
                                     inSubCategory: [objectInfo objectForKey: @"category1"]
                                  inSubSubCategory: [objectInfo objectForKey: @"category2"]
-                                       withWeight: [objectInfo objectForKey: @"Gewicht"]
-                                        withPrice: [objectInfo objectForKey: @"Preis"]
-                                   withProtection: [objectInfo objectForKey: @"Rüstschutz"]
-                                      withPenalty: [objectInfo objectForKey: @"Behinderung"]
+                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] integerValue]
+                                        withPrice: [[objectInfo objectForKey: @"Preis"] integerValue]
+                                   withProtection: [[objectInfo objectForKey: @"Rüstschutz"] integerValue]
+                                      withPenalty: [[objectInfo objectForKey: @"Behinderung"] integerValue]
                           validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                                 occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
                                       withRegions: [objectInfo objectForKey: @"Regionen"]];
@@ -62,8 +85,8 @@
                                            inCategory: [objectInfo objectForKey: @"category"]
                                         inSubCategory: [objectInfo objectForKey: @"category1"]
                                      inSubSubCategory: [objectInfo objectForKey: @"category2"]
-                                           withWeight: [objectInfo objectForKey: @"Gewicht"]
-                                            withPrice: [objectInfo objectForKey: @"Preis"]
+                                           withWeight: [[objectInfo objectForKey: @"Gewicht"] integerValue]
+                                            withPrice: [[objectInfo objectForKey: @"Preis"] integerValue]
                                            ofSlotType: [objectInfo objectForKey: @"Slottypen" ] ? [Utils slotTypeFromString: [[objectInfo objectForKey: @"Slottypen" ] objectAtIndex: 0]] : DSASlotTypeGeneral
                                         withNrOfSlots: [objectInfo objectForKey: @"Slots" ] ? [[objectInfo objectForKey: @"Slots" ] integerValue] : 1
                                       maxItemsPerSlot: [objectInfo objectForKey: @"MaximumPerSlot" ] ? [[objectInfo objectForKey: @"MaximumPerSlot" ] integerValue] : 1
@@ -80,8 +103,8 @@
                                   inCategory: [objectInfo objectForKey: @"category"]
                                inSubCategory: [objectInfo objectForKey: @"category1"]
                             inSubSubCategory: [objectInfo objectForKey: @"category2"]
-                                  withWeight: [objectInfo objectForKey: @"Gewicht"]
-                                   withPrice: [objectInfo objectForKey: @"Preis"]
+                                  withWeight: [[objectInfo objectForKey: @"Gewicht"] integerValue]
+                                   withPrice: [[objectInfo objectForKey: @"Preis"] integerValue]
                      validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                            occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]                     
                                 canShareSlot: [[objectInfo objectForKey: @"canShareSlot"] boolValue]
@@ -96,8 +119,8 @@
                    inCategory: (NSString *) category
                 inSubCategory: (NSString *) subCategory
              inSubSubCategory: (NSString *) subSubCategory
-                   withWeight: (NSNumber *) weight
-                    withPrice: (NSNumber *) price
+                   withWeight: (NSInteger) weight
+                    withPrice: (NSInteger) price
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
                  canShareSlot: (BOOL) canShareSlot
@@ -115,6 +138,7 @@
       self.price = price;
       self.isMagic = NO;
       self.isPoisoned = NO;
+      self.isConsumable = NO;
       self.canShareSlot = canShareSlot;
       self.validSlotTypes = validSlotTypes;
       self.occupiedBodySlots = occupiedBodySlots;
@@ -133,11 +157,12 @@
       self.category = [coder decodeObjectForKey:@"category"];
       self.subCategory = [coder decodeObjectForKey:@"subCategory"];
       self.subSubCategory = [coder decodeObjectForKey:@"subSubCategory"];
-      self.weight = [coder decodeObjectForKey:@"weight"];
-      self.price = [coder decodeObjectForKey:@"price"];
+      self.weight = [coder decodeIntegerForKey:@"weight"];
+      self.price = [coder decodeIntegerForKey:@"price"];
       self.regions = [coder decodeObjectForKey:@"regions"];
       self.isMagic = [coder decodeBoolForKey:@"isMagic"];
       self.isPoisoned = [coder decodeBoolForKey:@"isPoisoned"];
+      self.isConsumable = [coder decodeBoolForKey:@"isConsumable"];
       self.canShareSlot = [coder decodeBoolForKey:@"canShareSlot"];
       self.validSlotTypes = [coder decodeObjectForKey:@"validSlotTypes"];
       self.occupiedBodySlots = [coder decodeObjectForKey:@"occupiedBodySlots"];
@@ -152,11 +177,12 @@
   [coder encodeObject:self.category forKey:@"category"];
   [coder encodeObject:self.subCategory forKey:@"subCategory"];
   [coder encodeObject:self.subSubCategory forKey:@"subSubCategory"];
-  [coder encodeObject:self.weight forKey:@"weight"];
-  [coder encodeObject:self.price forKey:@"price"];
+  [coder encodeInteger:self.weight forKey:@"weight"];
+  [coder encodeInteger:self.price forKey:@"price"];
   [coder encodeObject:self.regions forKey:@"regions"];
   [coder encodeBool:self.isMagic forKey:@"isMagic"];
   [coder encodeBool:self.isPoisoned forKey:@"isPoisoned"];
+  [coder encodeBool:self.isConsumable forKey:@"isConsumable"];
   [coder encodeBool:self.canShareSlot forKey:@"canShareSlot"];
   [coder encodeObject:self.validSlotTypes forKey:@"validSlotTypes"];
   [coder encodeObject:self.occupiedBodySlots forKey:@"occupiedBodySlots"];

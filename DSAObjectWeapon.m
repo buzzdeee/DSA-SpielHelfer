@@ -40,7 +40,6 @@
 {
   [super encodeWithCoder: coder];
   [coder encodeObject:self.hitPoints forKey:@"hitPoints"];
-  [coder encodeObject:self.regions forKey:@"regions"];
   [coder encodeBool:self.isPersonalWeapon forKey:@"isPersonalWeapon"];    
 }
 

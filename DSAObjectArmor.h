@@ -28,18 +28,18 @@
 #import "DSAObject.h"
 
 @interface DSAObjectArmor : DSAObject
-@property (nonatomic, strong) NSNumber *protection;
-@property (nonatomic, strong) NSNumber *penalty;
+@property (nonatomic, assign) NSInteger protection;
+@property (nonatomic, assign) NSInteger penalty;
 
 - (instancetype) initWithName: (NSString *) name
                      withIcon: (NSString *) icon
                    inCategory: (NSString *) category
                 inSubCategory: (NSString *) subCategory
              inSubSubCategory: (NSString *) subSubCategory
-                   withWeight: (NSNumber *) weight
-                    withPrice: (NSNumber *) price
-               withProtection: (NSNumber *) protection
-                  withPenalty: (NSNumber *) penalty
+                   withWeight: (NSInteger) weight
+                    withPrice: (NSInteger) price
+               withProtection: (NSInteger) protection
+                  withPenalty: (NSInteger) penalty
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots                
                   withRegions: (NSArray *) regions;
