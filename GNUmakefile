@@ -1317,6 +1317,90 @@ Resources/Unterrock_2-32x32.webp \
 Resources/Unterrock_2-512x512.webp \
 Resources/Unterrock_2-64x64.webp \
 Resources/Unterrock_2.webp \
+Resources/Lendentuch-128x128.webp \
+Resources/Lendentuch-256x256.webp \
+Resources/Lendentuch-32x32.webp \
+Resources/Lendentuch-512x512.webp \
+Resources/Lendentuch-64x64.webp \
+Resources/Lendentuch.webp \
+Resources/Unterwaesche_1-128x128.webp \
+Resources/Unterwaesche_1-256x256.webp \
+Resources/Unterwaesche_1-32x32.webp \
+Resources/Unterwaesche_1-512x512.webp \
+Resources/Unterwaesche_1-64x64.webp \
+Resources/Unterwaesche_1.webp \
+Resources/Unterwaesche_2-128x128.webp \
+Resources/Unterwaesche_2-256x256.webp \
+Resources/Unterwaesche_2-32x32.webp \
+Resources/Unterwaesche_2-512x512.webp \
+Resources/Unterwaesche_2-64x64.webp \
+Resources/Unterwaesche_2.webp \
+Resources/Unterwaesche_3-128x128.webp \
+Resources/Unterwaesche_3-256x256.webp \
+Resources/Unterwaesche_3-32x32.webp \
+Resources/Unterwaesche_3-512x512.webp \
+Resources/Unterwaesche_3-64x64.webp \
+Resources/Unterwaesche_3.webp \
+Resources/Augenschminke-128x128.webp \
+Resources/Augenschminke-256x256.webp \
+Resources/Augenschminke-32x32.webp \
+Resources/Augenschminke-512x512.webp \
+Resources/Augenschminke-64x64.webp \
+Resources/Augenschminke.webp \
+Resources/Lippenrot-128x128.webp \
+Resources/Lippenrot-256x256.webp \
+Resources/Lippenrot-32x32.webp \
+Resources/Lippenrot-512x512.webp \
+Resources/Lippenrot-64x64.webp \
+Resources/Lippenrot.webp \
+Resources/Nachthemd_Leinen-128x128.webp \
+Resources/Nachthemd_Leinen-256x256.webp \
+Resources/Nachthemd_Leinen-32x32.webp \
+Resources/Nachthemd_Leinen-512x512.webp \
+Resources/Nachthemd_Leinen-64x64.webp \
+Resources/Nachthemd_Leinen.webp \
+Resources/Nachthemd_Seide_1-128x128.webp \
+Resources/Nachthemd_Seide_1-256x256.webp \
+Resources/Nachthemd_Seide_1-32x32.webp \
+Resources/Nachthemd_Seide_1-512x512.webp \
+Resources/Nachthemd_Seide_1-64x64.webp \
+Resources/Nachthemd_Seide_1.webp \
+Resources/Nachthemd_Seide_2-128x128.webp \
+Resources/Nachthemd_Seide_2-256x256.webp \
+Resources/Nachthemd_Seide_2-32x32.webp \
+Resources/Nachthemd_Seide_2-512x512.webp \
+Resources/Nachthemd_Seide_2-64x64.webp \
+Resources/Nachthemd_Seide_2.webp \
+Resources/Puder-128x128.webp \
+Resources/Puder-256x256.webp \
+Resources/Puder-32x32.webp \
+Resources/Puder-512x512.webp \
+Resources/Puder-64x64.webp \
+Resources/Puder.webp \
+Resources/Schwamm_1-128x128.webp \
+Resources/Schwamm_1-256x256.webp \
+Resources/Schwamm_1-32x32.webp \
+Resources/Schwamm_1-512x512.webp \
+Resources/Schwamm_1-64x64.webp \
+Resources/Schwamm_1.webp \
+Resources/Schwamm_2-128x128.webp \
+Resources/Schwamm_2-256x256.webp \
+Resources/Schwamm_2-32x32.webp \
+Resources/Schwamm_2-512x512.webp \
+Resources/Schwamm_2-64x64.webp \
+Resources/Schwamm_2.webp \
+Resources/Seidenstruempfe-128x128.webp \
+Resources/Seidenstruempfe-256x256.webp \
+Resources/Seidenstruempfe-32x32.webp \
+Resources/Seidenstruempfe-512x512.webp \
+Resources/Seidenstruempfe-64x64.webp \
+Resources/Seidenstruempfe.webp \
+Resources/Wollstruempfe_3-128x128.webp \
+Resources/Wollstruempfe_3-256x256.webp \
+Resources/Wollstruempfe_3-32x32.webp \
+Resources/Wollstruempfe_3-512x512.webp \
+Resources/Wollstruempfe_3-64x64.webp \
+Resources/Wollstruempfe_3.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \
@@ -1458,7 +1542,10 @@ DSAInventoryManager.h \
 DSAActionIcon.h \
 DSAItemInspectionController.h \
 DSAObjectWeaponHandWeapon.h \
-DSAObjectWeaponLongRange.h
+DSAObjectWeaponLongRange.h \
+DSAObjectWeaponHandAndLongRangeWeapon.h \
+DSAObjectShield.h \
+DSAObjectShieldAndParry.h
 
 #
 # Objective-C Class files
@@ -1563,7 +1650,10 @@ DSAInventoryManager.m \
 DSAActionIcon.m \
 DSAItemInspectionController.m \
 DSAObjectWeaponHandWeapon.m \
-DSAObjectWeaponLongRange.m
+DSAObjectWeaponLongRange.m \
+DSAObjectWeaponHandAndLongRangeWeapon.m \
+DSAObjectShield.m \
+DSAObjectShieldAndParry.m
 
 #
 # Other sources

@@ -1348,6 +1348,7 @@
       }
     },
     "Schußwaffen": {
+      "Bögen": {
       "Kurzbogen": {
         "Gewicht": 20,
         "Preis": 45,
@@ -1445,7 +1446,8 @@
           "sehr weit": 0,
           "extrem weit": -1
         }
-      },
+      }},
+      "Armbrüste": {
       "Leichte Armbrust": {
         "Gewicht": 150,
         "Preis": 180,
@@ -1494,22 +1496,7 @@
           "extrem weit": 0
         }
       },
-      "Balläster": {
-        "Gewicht": 120,
-        "Preis": 160,
-        "Regionen": [ "ZW" ],
-        "Reichweite": 100,
-        "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
-        "TP Entfernung": {
-          "extrem nah": 3,
-          "sehr nah": 2,
-          "nah": 1,
-          "mittel": 0,
-          "weit": 0,
-          "sehr weit": -1,
-          "extrem weit": -1
-        }
-      },
+
       "Arbalone": {
         "Gewicht": 480,
         "Preis": 600,
@@ -1573,8 +1560,47 @@
           "sehr weit": 0,
           "extrem weit": 0
         }
-      },
-      "Pfeil, kurze Bögen": {
+      }},
+      "Kugelschußwaffen": {
+            "Balläster": {
+        "Gewicht": 120,
+        "Preis": 160,
+        "Regionen": [ "ZW" ],
+        "Reichweite": 100,
+        "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
+        "TP Entfernung": {
+          "extrem nah": 3,
+          "sehr nah": 2,
+          "nah": 1,
+          "mittel": 0,
+          "weit": 0,
+          "sehr weit": -1,
+          "extrem weit": -1
+        }
+      }},
+      
+      "Blasrohre": {
+      "Blasrohr": {
+        "Gewicht": 15,
+        "Preis": 40,
+        "Regionen": [ "MO", "WA" ],
+        "Reichweite": 25,
+        "Trefferpunkte Fernwaffe": [ "1W6" ],
+        "TP Entfernung": {
+          "extrem nah": 0,
+          "sehr nah": 0,
+          "nah": -1,
+          "mittel": -2,
+          "weit": 0,
+          "sehr weit": 0,
+          "extrem weit": 0
+        }
+      }}
+    }
+  },
+  "Munition": {
+    "Pfeile": {
+        "Pfeil, kurze Bögen": {
         "Gewicht": 2,
         "Preis": 0.25,
         "Icon": [ "Kurzbogenpfeil" ],
@@ -1593,7 +1619,9 @@
         "Preis": 0.6,
         "ErlaubteInventorySlots": [ "Köcher" ],
         "MehrereProSlot": true
-      },
+      }
+    },
+    "Bolzen": {
       "Bolzen, leichte Armbrust": {
         "Gewicht": 4,
         "Preis": 1.5,
@@ -1605,27 +1633,15 @@
         "Preis": 2,
         "ErlaubteInventorySlots": [ "Bolzentasche" ],
         "MehrereProSlot": true
-      },
+      }
+    },
+    "Kugeln": {
       "Bleikugel, Balläster": {
         "Gewicht": 5,
         "Preis": 0.6
-      },
-      "Blasrohr": {
-        "Gewicht": 15,
-        "Preis": 40,
-        "Regionen": [ "MO", "WA" ],
-        "Reichweite": 25,
-        "Trefferpunkte Fernwaffe": [ "1W6" ],
-        "TP Entfernung": {
-          "extrem nah": 0,
-          "sehr nah": 0,
-          "nah": -1,
-          "mittel": -2,
-          "weit": 0,
-          "sehr weit": 0,
-          "extrem weit": 0
-        }
-      },
+      }
+    },
+    "Blasrohrpfeile": {
       "Blasrohrpfeil": {
         "Gewicht": 1,
         "Preis": 0.8
@@ -3408,19 +3424,23 @@
     },
     "Schwamm": {
       "Gewicht": 10,
-      "Preis": 1.2
+      "Preis": 1.2,
+      "Icon": [ "Schwamm_1", "Schwamm_2" ]
     },
     "Augenschminke": {
       "Gewicht": 1,
-      "Preis": 1
+      "Preis": 1,
+      "Icon": [ "Augenschminke" ]
     },
     "Lippenrot": {
       "Gewicht": 1,
-      "Preis": 2
+      "Preis": 2,
+      "Icon": [ "Lippenrot" ]
     },
     "Puder": {
       "Gewicht": 3,
-      "Preis": 10
+      "Preis": 10,
+      "Icon": [ "Puder" ]
     }
   },
   "Kleidung und Schuhwerk": {
@@ -3429,36 +3449,41 @@
         "Gewicht": 4,
         "Preis": 0.3,
         "Maßgeschneidert": 3,
-	"Icon": [ "Wollstruempfe_1", "Wollstruempfe_2" ]
+	"Icon": [ "Wollstruempfe_1", "Wollstruempfe_2", "Wollstruempfe_3" ]
       },
       "Strümpfe, Seide": {
         "Gewicht": 2,
         "Preis": 12,
-        "Maßgeschneidert": 60
+        "Maßgeschneidert": 60,
+        "Icon": [ "Seidenstruempfe" ]
       }
     },
     "Nachtwäsche": {
       "Nachthemd, Leinen": {
         "Gewicht": 15,
         "Preis": 1,
-        "Maßgeschneidert": 8
+        "Maßgeschneidert": 8,
+        "Icon": [ "Nachthemd_Leinen" ]
       },
       "Nachthemd, Seide": {
         "Gewicht": 5,
         "Preis": 12,
-        "Maßgeschneidert": 80
+        "Maßgeschneidert": 80,
+        "Icon": [ "Nachthemd_Seide_1", "Nachthemd_Seide_2" ]
       }
     },
     "Unterwäsche": {
       "Lendentuch": {
         "Gewicht": 8,
         "Preis": 0.1,
-        "Maßgeschneidert": -1
+        "Maßgeschneidert": -1,
+        "Icon": [ "Lendentuch" ]
       },
       "Unterwäsche": {
         "Gewicht": 40,
         "Preis": 4,
-        "Maßgeschneidert": 100
+        "Maßgeschneidert": 100,
+        "Icon": [ "Unterwaesche_1", "Unterwaesche_2", "Unterwaesche_3" ]
       },
       "Mieder": {
         "Gewicht": 25,

@@ -1,0 +1,21 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSAItemInspectionController = {
+	Actions = (
+	    "closeWindow:"
+	);
+	Outlets = (
+	    itemImageView,
+	    itemName,
+	    itemInfoTextView,
+	    buttonClose
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "closeWindow:"
+	);
+	Super = NSObject;
+    };
+}

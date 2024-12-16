@@ -41,7 +41,7 @@
 + (NSDictionary *) getDSAObjectsDict;
 + (NSDictionary *) getDSAObjectInfoByName: (NSString *) name;
 + (DSASlotType)slotTypeFromString:(NSString *)slotTypeString;
-
++ (NSString *)formatTPEntfernung:(NSDictionary *)tpEntfernung;
 
 @end
 

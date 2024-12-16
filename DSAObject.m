@@ -26,6 +26,10 @@
 #import "DSAObject.h"
 #import "DSAObjectArmor.h"
 #import "DSAObjectWeaponHandWeapon.h"
+#import "DSAObjectWeaponHandAndLongRangeWeapon.h"
+#import "DSAObjectWeaponLongRange.h"
+#import "DSAObjectShield.h"
+#import "DSAObjectShieldAndParry.h"
 #import "DSAObjectContainer.h"
 #import "DSAObjectCloth.h"
 
@@ -41,7 +45,8 @@
   NSLog(@"THE OBJECT INFO: %@", objectInfo);
   if ([[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] && 
       ! [[objectInfo objectForKey: @"isDistantWeapon"] isEqualTo: @YES] && 
-      ! [[objectInfo objectForKey: @"isArmor"] isEqualTo: @YES])
+      ! [[objectInfo objectForKey: @"isArmor"] isEqualTo: @YES] &&
+      ! [[objectInfo objectForKey: @"isShield"] isEqualTo: @YES])
     {
       NSLog(@"a normal hand weapon");
       self = [[DSAObjectWeaponHandWeapon alloc] initWithName: name
@@ -61,6 +66,95 @@
                                 occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
                                       withRegions: [objectInfo objectForKey: @"Regionen"]];      
     }
+  else if (! [[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] && 
+           [[objectInfo objectForKey: @"isDistantWeapon"] isEqualTo: @YES] && 
+           ! [[objectInfo objectForKey: @"isArmor"] isEqualTo: @YES] &&
+           ! [[objectInfo objectForKey: @"isShield"] isEqualTo: @YES])
+    {
+      NSLog(@"a normal distant weapon");
+      self = [[DSAObjectWeaponLongRange alloc] initWithName: name
+                                         withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
+                                       inCategory: [objectInfo objectForKey: @"category"]
+                                    inSubCategory: [objectInfo objectForKey: @"category1"]
+                                 inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] integerValue]
+                                        withPrice: [[objectInfo objectForKey: @"Preis"] integerValue]
+                                  withMaxDistance: [[objectInfo objectForKey: @"Reichweite"] integerValue]
+                              withDistancePenalty: [objectInfo objectForKey: @"TP Entfernung"]                                        
+                           withHitPointsLongRange: [objectInfo objectForKey: @"Trefferpunkte Fernwaffe"]  // Array of NSNumbers 
+                          validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
+                                occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
+                                      withRegions: [objectInfo objectForKey: @"Regionen"]];      
+    }
+  else if ([[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] && 
+           [[objectInfo objectForKey: @"isDistantWeapon"] isEqualTo: @YES] && 
+           ! [[objectInfo objectForKey: @"isArmor"] isEqualTo: @YES] &&
+           ! [[objectInfo objectForKey: @"isShield"] isEqualTo: @YES])
+    {
+      NSLog(@"a hand weapon but also a distant weapon");
+      self = [[DSAObjectWeaponHandAndLongRangeWeapon alloc] initWithName: name
+                                         withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
+                                       inCategory: [objectInfo objectForKey: @"category"]
+                                    inSubCategory: [objectInfo objectForKey: @"category1"]
+                                 inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] integerValue]
+                                        withPrice: [[objectInfo objectForKey: @"Preis"] integerValue]
+                                       withLength: [[objectInfo objectForKey: @"Länge"] integerValue]
+                                    withHitPoints: [objectInfo objectForKey: @"Trefferpunkte"]  // Array of NSNumbers 
+                                  withHitPointsKK: [[objectInfo objectForKey: @"TrefferpunkteKK"] integerValue]
+                                  withBreakFactor: [[objectInfo objectForKey: @"Bruchfaktor"] integerValue]
+                                  withAttackPower: [[objectInfo objectForKey: @"attackPower"] integerValue]
+                                   withParryValue: [[objectInfo objectForKey: @"parryValue"] integerValue]
+                                  withMaxDistance: [[objectInfo objectForKey: @"Reichweite"] integerValue]
+                              withDistancePenalty: [objectInfo objectForKey: @"TP Entfernung"]                                        
+                           withHitPointsLongRange: [objectInfo objectForKey: @"Trefferpunkte Fernwaffe"]  // Array of NSNumbers                                   
+                          validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
+                                occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
+                                      withRegions: [objectInfo objectForKey: @"Regionen"]];           
+    }
+  else if ([[objectInfo objectForKey: @"isShield"] isEqualTo: @YES] && 
+           [[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] )
+    {
+      NSLog(@"a shield and a parry weapon");
+      self = [[DSAObjectShieldAndParry alloc] initWithName: name
+                                         withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
+                                       inCategory: [objectInfo objectForKey: @"category"]
+                                    inSubCategory: [objectInfo objectForKey: @"category1"]
+                                 inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] integerValue]
+                                        withPrice: [[objectInfo objectForKey: @"Preis"] integerValue]
+                                       withLength: [[objectInfo objectForKey: @"Länge"] integerValue]
+                                      withPenalty: [[objectInfo objectForKey: @"Behinderung"] integerValue]
+                            withShieldAttackPower: [[objectInfo objectForKey: @"shieldAttackPower"] integerValue]
+                             withShieldParryValue: [[objectInfo objectForKey: @"shieldParryValue"] integerValue]
+                                    withHitPoints: [objectInfo objectForKey: @"Trefferpunkte"]  // Array of NSNumbers 
+                                  withHitPointsKK: [[objectInfo objectForKey: @"TrefferpunkteKK"] integerValue]
+                                  withBreakFactor: [[objectInfo objectForKey: @"Bruchfaktor"] integerValue]
+                                  withAttackPower: [[objectInfo objectForKey: @"attackPower"] integerValue]
+                                   withParryValue: [[objectInfo objectForKey: @"parryValue"] integerValue]                                                        
+                          validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
+                                occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
+                                      withRegions: [objectInfo objectForKey: @"Regionen"]];                
+    }
+  else if ([[objectInfo objectForKey: @"isShield"] isEqualTo: @YES] && 
+           ! [[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] )
+    {
+      NSLog(@"a shield and a parry weapon");
+      self = [[DSAObjectShield alloc] initWithName: name
+                                         withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
+                                       inCategory: [objectInfo objectForKey: @"category"]
+                                    inSubCategory: [objectInfo objectForKey: @"category1"]
+                                 inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] integerValue]
+                                        withPrice: [[objectInfo objectForKey: @"Preis"] integerValue]
+                                  withBreakFactor: [[objectInfo objectForKey: @"Bruchfaktor"] integerValue]                                        
+                                      withPenalty: [[objectInfo objectForKey: @"Behinderung"] integerValue]
+                            withShieldAttackPower: [[objectInfo objectForKey: @"shieldAttackPower"] integerValue]
+                             withShieldParryValue: [[objectInfo objectForKey: @"shieldParryValue"] integerValue]
+                          validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
+                                occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
+                                      withRegions: [objectInfo objectForKey: @"Regionen"]];                                                   
+    }             
   else if ([[objectInfo objectForKey: @"isArmor"] isEqualTo: @YES])
     {
     NSLog(@"HERE IN isArmor");

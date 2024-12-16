@@ -93,6 +93,13 @@ static NSMutableDictionary *objectsDict;
             if (entry[@"Rüstschutz"] != nil) {
                 entry[@"isArmor"] = @YES;
             }
+            if (entry[@"Waffenvergleichswert Schild"]) {
+                entry[@"isShield"] = @YES;
+                if (entry[@"Waffenvergleichswert"]) {
+                  entry[@"isHandWeapon"] = @YES;
+                }
+            }
+            
             if (entry[@"Slottypen"] != nil)
               {
                 entry[@"isContainer"] = @YES;
@@ -120,7 +127,23 @@ static NSMutableDictionary *objectsDict;
                 } else {
                   NSLog(@"Invalid Waffenvergleichswert format: %@", waffenvergleichswert);
                 }
-            }          
+            }
+            if (entry[@"Waffenvergleichswert Schild"] != nil) {
+                NSString *waffenvergleichswertSchild = entry[@"Waffenvergleichswert Schild"];
+                NSArray *values = [waffenvergleichswertSchild componentsSeparatedByString:@"/"];
+    
+                if (values.count == 2) {
+                  // Parse the attackPower and parryValue as integers
+                  NSInteger shieldAttackPower = [values[0] integerValue];
+                  NSInteger shieldParryValue = [values[1] integerValue];
+        
+                  // Assign them back to the dictionary
+                  entry[@"shieldAttackPower"] = @(shieldAttackPower);
+                  entry[@"shieldParryValue"] = @(shieldParryValue);
+                } else {
+                  NSLog(@"Invalid Waffenvergleichswert Schild format: %@", waffenvergleichswertSchild);
+                }
+            }                 
             if (entry[@"Regionen"] != nil) {
                 entry[@"Regionen Formatted"] = [entry[@"Regionen"] componentsJoinedByString:@", "];
                 NSArray *regionen = [NSArray arrayWithArray: entry[@"Regionen"]];
@@ -296,7 +319,7 @@ static NSMutableDictionary *objectsDict;
     }
     
     // Join the values with "/"
-    return [values componentsJoinedByString:@"/"];
+    return [NSString stringWithFormat: @"(%@)", [values componentsJoinedByString:@"/"]];
 }
 
 + (NSDictionary *)getDSAObjectInfoByName:(NSString *)name

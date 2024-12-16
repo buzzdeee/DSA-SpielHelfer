@@ -1025,14 +1025,14 @@
         "Eltern": {
           "Ordensmitglied": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ,18, 19 ]
         },
-        "Equipment": [ {"Amazonenrüstung": 1}, {"Amazonensäbel": 1}, {"Kurzbogen": 1}, {"Lederschild": 1}, {"Pfeilköcher, 20 Pfeile, Holz": 1}, {"Pfeil, kurze Bögen": 10}, {"Cape": 1}, {"Pfeil, kurze Bögen": 10}, {"Cape": 1}, {"Bolzen, leichte Armbrust": 10} ]
+        "Equipment": [ {"Amazonenrüstung": 1}, {"Amazonensäbel": 1}, {"Kurzbogen": 1}, {"Lederschild": 1}, {"Pfeilköcher, 20 Pfeile, Holz": 1}, {"Pfeil, kurze Bögen": 10}, {"Cape": 1}, {"Pfeil, kurze Bögen": 10}, {"Cape": 1}, {"Bolzen, leichte Armbrust": 10}, {"Wurfbeil": 1}, {"Buckler": 1}, {"Panzerarm": 1} ]
       },
       "reich": {
         "1W20": [ 20 ],
         "Eltern": {
           "Burgherrin": [ 20 ]
         },
-        "Equipment": [ {"Amazonenrüstung": 1}, {"Amazonensäbel": 1}, {"Kurzbogen": 1}, {"Großer Lederschild": 1}, {"Hüftköcher, 20 Pfeile, Leder": 1}, {"Pfeil, kurze Bögen": 20}, {"Cape": 1} ]
+        "Equipment": [ {"Amazonenrüstung": 1}, {"Amazonensäbel": 1}, {"Kurzbogen": 1}, {"Großer Lederschild": 1}, {"Hüftköcher, 20 Pfeile, Leder": 1}, {"Pfeil, kurze Bögen": 20}, {"Cape": 1}, {"Wurfbeil": 1}, {"Buckler": 1}, {"Panzerarm": 1} ]
       }
     },
     "Haarfarbe": {
