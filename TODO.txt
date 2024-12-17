@@ -45,6 +45,7 @@ WIP:
  * Magierakademien und Magier
  * Icons für Gegenstände
  * Gegenstände als Objekte
+ * convert all weight and height to float
  
 DONE:
  * Inventory

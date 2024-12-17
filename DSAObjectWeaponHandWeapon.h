@@ -29,7 +29,7 @@
 
 @interface DSAObjectWeaponHandWeapon : DSAObjectWeapon
 @property (nonatomic, assign) NSInteger hitPointsKK;
-@property (nonatomic, assign) NSInteger length;
+@property (nonatomic, assign) float length;
 @property (nonatomic, assign) NSInteger breakFactor;
 @property (nonatomic, assign) NSInteger attackPower;
 @property (nonatomic, assign) NSInteger parryValue;
@@ -40,8 +40,8 @@
                 inSubCategory: (NSString *) subCategory
              inSubSubCategory: (NSString *) subSubCategory
                    withWeight: (NSInteger) weight
-                    withPrice: (NSInteger) price
-                   withLength: (NSInteger) length
+                    withPrice: (float) price
+                   withLength: (float) length
                 withHitPoints: (NSArray *) hitPoints
               withHitPointsKK: (NSInteger) hitPointsKK
               withBreakFactor: (NSInteger) breakFactor              

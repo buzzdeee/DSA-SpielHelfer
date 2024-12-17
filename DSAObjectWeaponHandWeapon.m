@@ -31,8 +31,8 @@
                 inSubCategory: (NSString *) subCategory
              inSubSubCategory: (NSString *) subSubCategory
                    withWeight: (NSInteger) weight
-                    withPrice: (NSInteger) price
-                   withLength: (NSInteger) length
+                    withPrice: (float) price
+                   withLength: (float) length
                 withHitPoints: (NSArray *) hitPoints
               withHitPointsKK: (NSInteger) hitPointsKK
               withBreakFactor: (NSInteger) breakFactor              
@@ -69,7 +69,7 @@
     self = [super initWithCoder: coder];
     if (self)
       {
-        self.length = [coder decodeIntegerForKey:@"length"];
+        self.length = [[coder decodeObjectForKey:@"length"] floatValue];
         self.hitPointsKK = [coder decodeIntegerForKey:@"hitPointsKK"];
         self.breakFactor = [coder decodeIntegerForKey:@"breakFactor"];
         self.attackPower = [coder decodeIntegerForKey:@"attackPower"];
@@ -81,7 +81,7 @@
 - (void)encodeWithCoder:(NSCoder *)coder
 {
   [super encodeWithCoder: coder];
-  [coder encodeInteger:self.length forKey:@"length"];
+  [coder encodeObject:@(self.length) forKey:@"length"];
   [coder encodeInteger:self.hitPointsKK forKey:@"hitPointsKK"];
   [coder encodeInteger:self.breakFactor forKey:@"breakFactor"];
   [coder encodeInteger:self.attackPower forKey:@"attackPower"];

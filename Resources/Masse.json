@@ -1,0 +1,362 @@
+{
+    "length": {
+        "Halbfinger": {
+            "value": 1,
+            "unit": "cm",
+            "to_higher": {
+                "multiplier": 2,
+                "unit": "Finger"
+            }
+        },
+        "Finger": {
+            "value": 2,
+            "unit": "cm",
+            "to_lower": {
+                "multiplier": 0.5,
+                "unit": "Halbfinger"
+            },
+            "to_higher": {
+                "multiplier": 10,
+                "unit": "Spann"
+            }
+        },
+        "Spann": {
+            "value": 20,
+            "unit": "cm",
+            "to_lower": {
+                "multiplier": 0.1,
+                "unit": "Finger"
+            },
+            "to_higher": {
+                "multiplier": 4,
+                "unit": "Kaisersarm"
+            }
+        },
+        "Kaisersarm": {
+            "value": 80,
+            "unit": "cm",
+            "to_lower": {
+                "multiplier": 0.25,
+                "unit": "Spann"
+            },
+            "to_higher": {
+                "multiplier": 1.25,
+                "unit": "Schritt"
+            }
+        },
+        "Schritt": {
+            "value": 100,
+            "unit": "cm",
+            "to_lower": {
+                "multiplier": 0.8,
+                "unit": "Kaisersarm"
+            },
+            "to_higher": {
+                "multiplier": 2,
+                "unit": "Faden"
+            }
+        },
+        "Faden": {
+            "value": 200,
+            "unit": "cm",
+            "to_lower": {
+                "multiplier": 0.5,
+                "unit": "Schritt"
+            },
+            "to_higher": {
+                "multiplier": 5,
+                "unit": "Lot"
+            }
+        },
+        "Lot": {
+            "value": 1000,
+            "unit": "cm",
+            "to_lower": {
+                "multiplier": 0.2,
+                "unit": "Faden"
+            },
+            "to_higher": {
+                "multiplier": 100,
+                "unit": "(rohalsche) Meile"
+            }
+        },
+        "(rohalsche) Meile": {
+            "value": 100000,
+            "unit": "cm",
+            "to_lower": {
+                "multiplier": 0.01,
+                "unit": "Lot"
+            },
+            "to_higher": {
+                "multiplier": 1.2,
+                "unit": "Tagesreise"
+            }
+        },
+        "Tagesreise": {
+            "value": 1200000,
+            "unit": "cm",
+            "to_lower": {
+                "multiplier": 0.8333,
+                "unit": "(rohalsche) Meile"
+            },
+            "to_higher": {
+                "multiplier": 1.25,
+                "unit": "Baryd"
+            }
+        },
+        "Baryd": {
+            "value": 1500000,
+            "unit": "cm",
+            "to_lower": {
+                "multiplier": 0.8,
+                "unit": "Tagesreise"
+            }
+        }
+    },
+    "area": {
+        "Rechtspann": {
+            "value": 400,
+            "unit": "cm2",
+            "to_higher": {
+                "multiplier": 25,
+                "unit": "Rechtschritt"
+            }
+        },
+        "Rechtschritt": {
+            "value": 10000,
+            "unit": "cm2",
+            "to_lower": {
+                "multiplier": 0.04,
+                "unit": "Rechtspann"
+            },
+            "to_higher": {
+                "multiplier": 625,
+                "unit": "Platz"
+            }
+        },
+        "Platz": {
+            "value": 25000000,
+            "unit": "cm2",
+            "to_lower": {
+                "multiplier": 0.0016,
+                "unit": "Rechtschritt"
+            },
+            "to_higher": {
+                "multiplier": 120,
+                "unit": "Morgen"
+            }
+        },
+        "Morgen": {
+            "value": 300000000,
+            "unit": "cm2",
+            "to_lower": {
+                "multiplier": 0.0083,
+                "unit": "Platz"
+            },
+            "to_higher": {
+                "multiplier": 33.3333,
+                "unit": "Acker"
+            }
+        },
+        "Acker": {
+            "value": 1000000000,
+            "unit": "cm2",
+            "to_lower": {
+                "multiplier": 0.03,
+                "unit": "Morgen"
+            },
+            "to_higher": {
+                "multiplier": 100,
+                "unit": "Rechtmeile"
+            }
+        },
+        "Rechtmeile": {
+            "value": 100000000000,
+            "unit": "cm2",
+            "to_lower": {
+                "multiplier": 0.01,
+                "unit": "Acker"
+            },
+            "to_higher": {
+                "multiplier": 4,
+                "unit": "Land"
+            }
+        },
+        "Land": {
+            "value": 400000000000,
+            "unit": "cm2",
+            "to_lower": {
+                "multiplier": 0.25,
+                "unit": "Rechtmeile"
+            }
+        }
+    },
+    "volume": {
+        "Flux": {
+            "value": 8,
+            "unit": "cm3",
+            "to_higher": {
+                "multiplier": 25,
+                "unit": "Schank"
+            }
+        },
+        "Schank": {
+            "value": 200,
+            "unit": "cm3",
+            "to_lower": {
+                "multiplier": 0.04,
+                "unit": "Flux"
+            },
+            "to_higher": {
+                "multiplier": 4,
+                "unit": "Maß"
+            }
+        },
+        "Maß": {
+            "value": 800,
+            "unit": "cm3",
+            "to_lower": {
+                "multiplier": 0.25,
+                "unit": "Schank"
+            },
+            "to_higher": {
+                "multiplier": 10,
+                "unit": "Urn"
+            }
+        },
+        "Urn": {
+            "value": 8000,
+            "unit": "cm3",
+            "to_lower": {
+                "multiplier": 0.1,
+                "unit": "Maß"
+            },
+            "to_higher": {
+                "multiplier": 10,
+                "unit": "Fass"
+            }
+        },
+        "Fass": {
+            "value": 80000,
+            "unit": "cm3",
+            "to_lower": {
+                "multiplier": 0.1,
+                "unit": "Urn"
+            },
+            "to_higher": {
+                "multiplier": 12,
+                "unit": "Ox"
+            }
+        },
+        "Ox": {
+            "value": 960000,
+            "unit": "cm3",
+            "to_lower": {
+                "multiplier": 0.0833,
+                "unit": "Fass"
+            },
+            "to_higher": {
+                "multiplier": 1.0417,
+                "unit": "Raumschritt"
+            }
+        },
+        "Raumschritt": {
+            "value": 1000000,
+            "unit": "cm3",
+            "to_lower": {
+                "multiplier": 0.96,
+                "unit": "Ox"
+            }
+        }
+    },
+    "weight": {
+        "Gran": {
+            "value": 0.04,
+            "unit": "g",
+            "to_higher": {
+                "multiplier": 5,
+                "unit": "Karat"
+            }
+        },
+        "Karat": {
+            "value": 0.2,
+            "unit": "g",
+            "to_lower": {
+                "multiplier": 25,
+                "unit": "Gran"
+            },
+            "to_higher": {
+                "multiplier": 5,
+                "unit": "Skrupel"
+            }
+        },
+        "Skrupel": {
+            "value": 1,
+            "unit": "g",
+            "to_lower": {
+                "multiplier": 5,
+                "unit": "Karat"
+            },
+            "to_higher": {
+                "multiplier": 25,
+                "unit": "Unze"
+            }
+        },
+        "Unze": {
+            "value": 25,
+            "unit": "g",
+            "to_lower": {
+                "multiplier": 0.04,
+                "unit": "Skrupel"
+            },
+            "to_higher": {
+                "multiplier": 40,
+                "unit": "Stein"
+            }
+        },
+        "Stein": {
+            "value": 1000,
+            "unit": "g",
+            "to_lower": {
+                "multiplier": 25,
+                "unit": "Unze"
+            },
+            "to_higher": {
+                "multiplier": 1,
+                "unit": "Sack"
+            }
+        },
+        "Sack": {
+            "value": 100000,
+            "unit": "g",
+            "to_lower": {
+                "multiplier": 0.1,
+                "unit": "Stein"
+            },
+            "to_higher": {
+                "multiplier": 10,
+                "unit": "Quader"
+            }
+        },
+        "Quader": {
+            "value": 1000000,
+            "unit": "g",
+            "to_lower": {
+                "multiplier": 0.1,
+                "unit": "Sack"
+            },
+            "to_higher": {
+                "multiplier": 6.2,
+                "unit": "Rommilyser Bündel"
+            }
+        },
+        "Rommilyser Bündel": {
+            "value": 6200000,
+            "unit": "g",
+            "to_lower": {
+                "multiplier": 0.16,
+                "unit": "Quader"
+            }
+        }
+    }
+}

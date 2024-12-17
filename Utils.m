@@ -29,6 +29,7 @@
 
 static Utils *sharedInstance = nil;
 static NSMutableDictionary *objectsDict;
+static NSMutableDictionary *masseDict;
 
 + (instancetype)sharedInstance
 {
@@ -53,7 +54,19 @@ static NSMutableDictionary *objectsDict;
             {
               [Utils enrichEquipmentData: objectsDict withParentKeys:@[]];
             }                            
-            
+          filePath = [[NSBundle mainBundle] pathForResource:@"Masse" ofType:@"json"];
+          masseDict = [NSJSONSerialization 
+          JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+               options: NSJSONReadingMutableContainers
+                 error: &e];
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }
+          else
+            {
+              [Utils enrichEquipmentData: objectsDict withParentKeys:@[]];
+            }
         }
     }
   return sharedInstance;

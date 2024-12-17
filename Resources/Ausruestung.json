@@ -3392,35 +3392,43 @@
     },
     "Badeöl": {
       "Gewicht": 20,
-      "Preis": 2
+      "Preis": 2,
+      "Icon": [ "Badeoel_1", "Badeoel_2" ]
     },
     "Parfum": {
       "Gewicht": 1,
-      "Preis": 30
+      "Preis": 30,
+      "Icon": [ "Parfum_1", "Parfum_2" ]
     },
     "Massageöl": {
       "Gewicht": 10,
-      "Preis": 4
+      "Preis": 4,
+      "Icon": [ "Massageoel_1", "Massageoel_2" ]
     },
     "Kräuterbranntwein": {
       "Gewicht": 10,
-      "Preis": 4
+      "Preis": 4,
+      "Icon": [ "Kraeuterbranntwein_1", "Kraeuterbranntwein_2" ]
     },
     "Kamm, Holz": {
       "Gewicht": 5,
-      "Preis": 0.1
+      "Preis": 0.1,
+      "Icon": [ "Kamm_Holz" ]
     },
     "Bürste": {
       "Gewicht": 10,
-      "Preis": 0.5
+      "Preis": 0.5,
+      "Icon": [ "Buerste_1", "Buerste_2" ]
     },
     "Nagelfeile": {
       "Gewicht": 2,
-      "Preis": 3
+      "Preis": 3,
+      "Icon": [ "Nagelfeile" ]
     },
     "Schnupftuch": {
       "Gewicht": 2,
-      "Preis": 0.1
+      "Preis": 0.1,
+      "Icon": [ "Schnupftuch_1", "Schnupftuch_2" ]
     },
     "Schwamm": {
       "Gewicht": 10,

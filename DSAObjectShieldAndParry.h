@@ -28,7 +28,7 @@
 #import "DSAObjectShield.h"
 
 @interface DSAObjectShieldAndParry : DSAObjectShield
-@property (nonatomic, assign) NSInteger length;
+@property (nonatomic, assign) float length;
 @property (nonatomic, strong) NSArray *hitPoints;
 @property (nonatomic, assign) NSInteger hitPointsKK;
 @property (nonatomic, assign) NSInteger attackPower;
@@ -40,8 +40,8 @@
                 inSubCategory: (NSString *) subCategory
              inSubSubCategory: (NSString *) subSubCategory
                    withWeight: (NSInteger) weight
-                    withPrice: (NSInteger) price
-                   withLength: (NSInteger) length
+                    withPrice: (float) price
+                   withLength: (float) length
                   withPenalty: (NSInteger) penalty
         withShieldAttackPower: (NSInteger) shieldAttackPower
          withShieldParryValue: (NSInteger) shieldParryValue

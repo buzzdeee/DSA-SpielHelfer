@@ -95,7 +95,7 @@
     NSMutableString *details = [NSMutableString string];
     [details appendFormat:_(@"Kategorie: %@ / %@ / %@\n"), item.category, item.subCategory, item.subSubCategory ?: @"-"];
     [details appendFormat:_(@"Gewicht: %ld\n"), (unsigned long) item.weight];
-    [details appendFormat:_(@"Preis: %ld\n"), (unsigned long) item.price];
+    [details appendFormat:_(@"Preis: %f\n"), item.price];
     [details appendFormat:_(@"Handelsregionen: %@\n"), item.regions ? [item.regions componentsJoinedByString:@", "] : _(@"alle")];
     [details appendFormat:_(@"ist Magisch: %@\n"), item.isMagic ? _(@"Ja") : _(@"Nein")];
     [details appendFormat:_(@"ist Vergiftet: %@\n"), item.isPoisoned ? _(@"Ja") : _(@"Nein")];
@@ -107,7 +107,7 @@
         [details appendFormat:_(@"Anzahl Slots: %ld\n"), [container.slots count]];
     } else if ([item isKindOfClass:[DSAObjectWeaponHandAndLongRangeWeapon class]]) {
         DSAObjectWeaponHandAndLongRangeWeapon *weapon = (DSAObjectWeaponHandAndLongRangeWeapon *)item;
-        [details appendFormat:_(@"Länge: %ld\n"), (unsigned long) weapon.length];
+        [details appendFormat:_(@"Länge: %f\n"), weapon.length];
         [details appendFormat:_(@"Trefferpunkte: %@\n"), weapon.hitPoints ? [weapon.hitPoints componentsJoinedByString:@" + "] : @"-"];
         [details appendFormat:_(@"TrefferpunkteKK: %ld\n"), (unsigned long) weapon.hitPointsKK];
         [details appendFormat:_(@"Bruchfaktor: %ld\n"), (unsigned long) weapon.breakFactor];
@@ -118,7 +118,7 @@
         [details appendFormat:_(@"ist persönliche Waffe: %@\n"), weapon.isPersonalWeapon ? _(@"Ja") : _(@"Nein")];         
     } else if ([item isKindOfClass:[DSAObjectWeaponHandWeapon class]]) {
         DSAObjectWeaponHandWeapon *weapon = (DSAObjectWeaponHandWeapon *)item;
-        [details appendFormat:_(@"Länge: %ld\n"), (unsigned long) weapon.length];
+        [details appendFormat:_(@"Länge: %f\n"), weapon.length];
         [details appendFormat:_(@"Trefferpunkte: %@\n"), weapon.hitPoints ? [weapon.hitPoints componentsJoinedByString:@" + "] : @"-"];
         [details appendFormat:_(@"TrefferpunkteKK: %ld\n"), (unsigned long) weapon.hitPointsKK];
         [details appendFormat:_(@"Bruchfaktor: %ld\n"), (unsigned long) weapon.breakFactor];

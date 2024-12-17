@@ -39,7 +39,7 @@
                 inSubCategory: (NSString *) subCategory
              inSubSubCategory: (NSString *) subSubCategory
                    withWeight: (NSInteger) weight
-                    withPrice: (NSInteger) price
+                    withPrice: (float) price
               withBreakFactor: (NSInteger) breakFactor
                   withPenalty: (NSInteger) penalty
         withShieldAttackPower: (NSInteger) shieldAttackPower

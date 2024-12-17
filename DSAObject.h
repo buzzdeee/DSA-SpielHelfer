@@ -35,7 +35,7 @@
 @property (nonatomic, strong) NSString *subCategory;
 @property (nonatomic, strong) NSString *subSubCategory;
 @property (nonatomic, assign) NSInteger weight;
-@property (nonatomic, assign) NSInteger price;
+@property (nonatomic, assign) float price;
 @property (nonatomic, strong) NSArray *regions;
 
 @property (nonatomic) BOOL isMagic;
@@ -53,7 +53,7 @@
                 inSubCategory: (NSString *) subCategory
              inSubSubCategory: (NSString *) subSubCategory
                    withWeight: (NSInteger) weight
-                    withPrice: (NSInteger) price
+                    withPrice: (float) price
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
                  canShareSlot: (BOOL) canShareSlot
