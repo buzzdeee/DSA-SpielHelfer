@@ -351,7 +351,7 @@
     }
     
     // Display the popup
-    [self showPopupWithText:popupText atCoordinates:coordinates];
+    //[self showPopupWithText:popupText atCoordinates:coordinates];
 }
 
 - (NSDictionary *)findEntryWithMatchingOrt:(NSString *)locationName inDictionary:(NSDictionary *)dictionary {
