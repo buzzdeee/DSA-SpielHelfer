@@ -47,6 +47,7 @@
 @property (weak) IBOutlet NSTextField *fieldDodge;
 @property (weak) IBOutlet NSTextField *fieldEncumbrance;
 @property (weak) IBOutlet NSTextField *fieldEndurance;
+@property (weak) IBOutlet NSTextField *fieldLoad;
 @property (weak) IBOutlet NSTextField *fieldEyeColor;
 @property (weak) IBOutlet NSTextField *fieldFF;
 @property (weak) IBOutlet NSTextField *fieldGE;

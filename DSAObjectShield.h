@@ -29,7 +29,6 @@
 
 @interface DSAObjectShield : DSAObject
 @property (nonatomic, assign) NSInteger breakFactor;
-@property (nonatomic, assign) NSInteger penalty;
 @property (nonatomic, assign) NSInteger shieldAttackPower;
 @property (nonatomic, assign) NSInteger shieldParryValue;
 
@@ -38,10 +37,10 @@
                    inCategory: (NSString *) category
                 inSubCategory: (NSString *) subCategory
              inSubSubCategory: (NSString *) subSubCategory
-                   withWeight: (NSInteger) weight
+                   withWeight: (float) weight
                     withPrice: (float) price
               withBreakFactor: (NSInteger) breakFactor
-                  withPenalty: (NSInteger) penalty
+                  withPenalty: (float) penalty
         withShieldAttackPower: (NSInteger) shieldAttackPower
          withShieldParryValue: (NSInteger) shieldParryValue
       validInventorySlotTypes: (NSArray *) validSlotTypes  

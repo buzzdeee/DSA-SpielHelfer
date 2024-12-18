@@ -31,10 +31,10 @@
                    inCategory: (NSString *) category
                 inSubCategory: (NSString *) subCategory
              inSubSubCategory: (NSString *) subSubCategory
-                   withWeight: (NSInteger) weight
+                   withWeight: (float) weight
                     withPrice: (float) price
                withProtection: (NSInteger) protection
-                  withPenalty: (NSInteger) penalty
+                  withPenalty: (float) penalty
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
                   withRegions: (NSArray *) regions
@@ -63,7 +63,6 @@
     if (self)
       {
         self.protection = [coder decodeIntegerForKey:@"protection"];
-        self.penalty = [coder decodeIntegerForKey:@"penalty"];
       }
     return self;
 }
@@ -72,6 +71,5 @@
 {
   [super encodeWithCoder: coder];
   [coder encodeInteger:self.protection forKey:@"protection"];
-  [coder encodeInteger:self.penalty forKey:@"penalty"];
 }
 @end

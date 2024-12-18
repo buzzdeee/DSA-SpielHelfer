@@ -1283,8 +1283,8 @@ for (NSInteger column = 0; column < [titles count] * 2; column++) {
         [[(DSATrait *)[self.model.positiveTraits objectForKey: @"FF"] level] stringValue] ?: @"",
         [[(DSATrait *)[self.model.positiveTraits objectForKey: @"GE"] level] stringValue] ?: @"",
         [[(DSATrait *)[self.model.positiveTraits objectForKey: @"KK"] level] stringValue] ?: @"",
-        [self.model.carryingCapacity  stringValue] ?: @"",
-        [self.model.encumbrance  stringValue] ?: @""
+        [self.model.carryingCapacity stringValue] ?: @"",
+        self.model.encumbrance ? [NSString stringWithFormat: @"%.0f", self.model.encumbrance] : @""
     ];
 
     NSArray *secondTitles = @[@"Aberglaube", @"Höhenangst", @"Raumangst", @"Totenangst", @"Neugier", @"Goldgier", @"Jähzorn", @"Attacke", @"Parade"];
@@ -1400,8 +1400,8 @@ for (NSInteger column = 0; column < [titles count] * 2; column++) {
         self.model.sex ?: @"",
         self.model.hairColor ?: @"",
         self.model.eyeColor ?: @"",
-        self.model.height ?: @"",
-        self.model.weight ?: @"",
+        self.model.height ? [NSString stringWithFormat: @"%f", self.model.height] : @"",
+        self.model.weight ? [NSString stringWithFormat: @"%f", self.model.weight] : @"",
         @""
     ];
 

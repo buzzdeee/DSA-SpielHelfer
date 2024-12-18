@@ -3355,40 +3355,48 @@
       },
       "Halskette, Gold": {
         "Gewicht": 0.6,
-        "Preis": 15
+        "Preis": 15,
+        "Icon": [ "Halskette_Gold_1", "Halskette_Gold_2" ]
       },
       "Halskette, Messing": {
         "Gewicht": 0.6,
-        "Preis": 2
+        "Preis": 2,
+        "Icon": [ "Halskette_Messing_1", "Halskette_Messing_2" ]
       },   
       "Halskette, Bronze": {
         "Gewicht": 0.6,
-        "Preis": 2
+        "Preis": 2,
+        "Icon": [ "Halskette_Bronze_1", "Halskette_Bronze_2" ]
       }
     },         
     "Amulette": {
       "Amulett, Silber": {
         "Gewicht": 2,
-        "Preis": 4
+        "Preis": 4,
+        "Icon": [ "Amulett_Silber_1", "Amulett_Silber_2", "Amulett_Silber_3", "Amulett_Silber_4" ]
       },
       "Amulett, Gold": {
         "Gewicht": 2.4,
-        "Preis": 12
+        "Preis": 12,
+        "Icon": [ "Amulett_Gold_1", "Amulett_Gold_2" ]
       },
       "Amulett, Messing": {
         "Gewicht": 2.1,
-        "Preis": 1.2
+        "Preis": 1.2,
+        "Icon": [ "Amulett_Messing_1", "Amulett_Messing_2" ]
       },
       "Amulett, Bronze": {
         "Gewicht": 2.1,
-        "Preis": 1.2
+        "Preis": 1.2,
+        "Icon": [ "Amulett_Bronze_1", "Amulett_Bronze_2" ]
       }
     }
   },
   "Körperpflege": {
     "Seife": {
       "Gewicht": 20,
-      "Preis": 0.2
+      "Preis": 0.2,
+      "Icon": [ "Seife_1", "Seife_2" ]
     },
     "Badeöl": {
       "Gewicht": 20,

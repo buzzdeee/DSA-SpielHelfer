@@ -29,6 +29,7 @@
 #import "DSAObject.h"
 #import "DSAInventory.h"
 #import "DSABodyParts.h"
+#import "DSAObjectContainer.h"
 
 @interface DSACharacter : NSObject <NSCoding>
 
@@ -46,8 +47,8 @@
 @property (nonatomic, copy) NSString *sex;
 @property (nonatomic, copy) NSString *hairColor;
 @property (nonatomic, copy) NSString *eyeColor;
-@property (nonatomic, copy) NSString *height;
-@property (nonatomic, copy) NSString *weight;
+@property (nonatomic, assign) float height;
+@property (nonatomic, assign) float weight;
 @property (nonatomic, copy) NSDictionary *birthday;
 @property (nonatomic, copy) NSString *god;
 @property (nonatomic, copy) NSString *stars;
@@ -81,8 +82,9 @@
 @property (readonly, copy) NSNumber *attackBaseValue;
 @property (readonly, copy) NSNumber *carryingCapacity;
 @property (readonly, copy) NSNumber *dodge;
-@property (readonly, copy) NSNumber *encumbrance;
-@property (readonly, copy) NSNumber *endurance;
+@property (readonly, assign) float encumbrance;         // Behinderung durch Sachen/Rüstung etc.
+@property (readonly, copy) NSNumber *endurance;           // Ausdauer
+@property (readonly, assign) float load;                // Last der mitgeschleppten Gegenstände
 @property (readonly, copy) NSNumber *magicResistance;
 @property (readonly, copy) NSNumber *parryBaseValue;
 @property (readonly, copy) NSNumber *rangedCombatBaseValue;

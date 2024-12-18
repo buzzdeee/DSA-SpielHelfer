@@ -30,10 +30,10 @@
                    inCategory: (NSString *) category
                 inSubCategory: (NSString *) subCategory
              inSubSubCategory: (NSString *) subSubCategory
-                   withWeight: (NSInteger) weight
+                   withWeight: (float) weight
                     withPrice: (float) price
                    withLength: (float) length
-                  withPenalty: (NSInteger) penalty
+                  withPenalty: (float) penalty
         withShieldAttackPower: (NSInteger) shieldAttackPower
          withShieldParryValue: (NSInteger) shieldParryValue
                 withHitPoints: (NSArray *) hitPoints
@@ -78,7 +78,6 @@
         self.length = [[coder decodeObjectForKey:@"length"] floatValue];
         self.hitPoints = [coder decodeObjectForKey:@"hitPoints"];
         self.hitPointsKK = [coder decodeIntegerForKey:@"hitPointsKK"];
-        self.penalty = [coder decodeIntegerForKey:@"penalty"];
         self.attackPower = [coder decodeIntegerForKey:@"attackPower"];
         self.parryValue = [coder decodeIntegerForKey:@"parryValue"];
       }

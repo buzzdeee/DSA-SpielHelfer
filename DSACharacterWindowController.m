@@ -192,8 +192,8 @@
   [self.fieldSex setStringValue: [document.model sex]];
   [self.fieldHairColor setStringValue: [document.model hairColor]];  
   [self.fieldEyeColor setStringValue: [document.model eyeColor]];
-  [self.fieldHeight setStringValue: [document.model height]];    
-  [self.fieldWeight setStringValue: [document.model weight]];    
+  [self.fieldHeight setStringValue: [NSString stringWithFormat: @"%f", [document.model height]]];    
+  [self.fieldWeight setStringValue: [NSString stringWithFormat: @"%f", [document.model weight]]];    
   [self.fieldBirthday setStringValue: [[document.model birthday] objectForKey: @"date"]];      
   [self.fieldGod setStringValue: [document.model god]];      
   [self.fieldStars setStringValue: [document.model stars]];
@@ -285,14 +285,17 @@
                           options:NSKeyValueObservingOptionNew 
                           context:NULL];                 
     }
+  NSLog(@"BEFORE displaying the LOAD");
+  [self.fieldLoad setStringValue: [NSString stringWithFormat: @"%.2f", [document.model load]]];
+  [self.fieldLoad setStringValue: [NSString stringWithFormat: @"%.0f", [document.model encumbrance]]];
+  NSLog(@"AFTER displaying the LOAD");  
+  
   [self.fieldAttackBaseValue bind:NSValueBinding toObject:document.model withKeyPath:@"attackBaseValue" options:nil];    
   [document.model addObserver:self forKeyPath: @"attackBaseValue" options:NSKeyValueObservingOptionNew context: NULL];
   [self.fieldCarryingCapacity bind:NSValueBinding toObject:document.model withKeyPath:@"carryingCapacity" options:nil];    
   [document.model addObserver:self forKeyPath: @"carryingCapacity" options:NSKeyValueObservingOptionNew context: NULL];
   [self.fieldDodge bind:NSValueBinding toObject:document.model withKeyPath:@"dodge" options:nil];    
   [document.model addObserver:self forKeyPath: @"dodge" options:NSKeyValueObservingOptionNew context: NULL];
-  [self.fieldEncumbrance bind:NSValueBinding toObject:document.model withKeyPath:@"encumbrance" options:nil];    
-  [document.model addObserver:self forKeyPath: @"encumbrance" options:NSKeyValueObservingOptionNew context: NULL];
   [self.fieldEndurance bind:NSValueBinding toObject:document.model withKeyPath:@"endurance" options:nil];    
   [document.model addObserver:self forKeyPath: @"endurance" options:NSKeyValueObservingOptionNew context: NULL];
   [self.fieldMagicResistance bind:NSValueBinding toObject:document.model withKeyPath:@"magicResistance" options:nil];    
@@ -353,6 +356,9 @@
                                              startingSlotCounter:bodySlotCounter];
     }
     NSLog(@"after body part inventories");
+    
+    [self updateLoadDisplay];
+    [self updateEncumbranceDisplay];
 }
 
 // Updates all slots in the specified inventory
@@ -413,413 +419,31 @@
     slotView.image = image;
 }
 
-/*
-- (void)populateInventory {
+- (void)updateLoadDisplay {
     DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-    NSLog(@"DSACharacterWindowController populateInventory called");
+    if (!document.model) return;
 
-    // Example for specific image setup (could be refactored to a helper method)
-    [self updateSlotImageForSlotView:self.imageEye withImageNamed:@"eye-64x64"];
-    [self updateSlotImageForSlotView:self.imageMouth withImageNamed:@"mouth-64x64"];
-    NSLog(@"after eye and mouth");
-    // General inventory slots
-    [self updateInventorySlotsWithInventory:document.model.inventory
-                           inventoryIdentifier:@"inventory" 
-                        startingSlotCounter:0]; // General inventory starts at slot 0
-    NSLog(@"after general inventory");
-    // Body part inventories
-    NSInteger bodySlotCounter = 0;  // Track a global body slot counter
-    for (NSString *propertyName in document.model.bodyParts.inventoryPropertyNames) {
-        DSAInventory *inventory = [document.model.bodyParts valueForKey:propertyName];
-        // Accumulate the slot counter across body part inventories
-        bodySlotCounter = [self updateInventorySlotsWithInventory:inventory
-                                            inventoryIdentifier:@"body"
-                                         startingSlotCounter:bodySlotCounter];
-    }
-    NSLog(@"after body part inventories");
-}
+    // Calculate the total weight from the character model
+    float totalLoad = [document.model load];
 
-// Helper method for updating the slot images and labels
-- (NSInteger)updateInventorySlotsWithInventory:(DSAInventory *)inventory
-                         inventoryIdentifier:(NSString *)inventoryIdentifier
-                      startingSlotCounter:(NSInteger)startingSlotCounter {
-    NSInteger slotCounter = startingSlotCounter;
-    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    // Update the UI field with the total weight
+    self.fieldLoad.stringValue = [NSString stringWithFormat:@"%.2f", totalLoad];
     
-    for (NSInteger i = 0; i < inventory.slots.count; i++) {
-        DSASlot *slot = inventory.slots[i];
-        NSString *iconName = slot.object ? [NSString stringWithFormat:@"%@-64x64", [slot.object icon]] : nil;
-        NSString *imagePath = iconName ? [[NSBundle mainBundle] pathForResource:iconName ofType:@"webp"] : nil;
-
-        // Load the image for the slot if it exists
-        NSImage *image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
-        NSString *uiName = [NSString stringWithFormat:@"%@Slot%ld", inventoryIdentifier, (long)slotCounter]; // Use slotCounter for unique slot names
-        NSLog(@"uiName: %@", uiName);
-        // Access the corresponding NSImageView and update it dynamically
-        NSImageView *originalImageView = [self valueForKey:uiName];
-        if (originalImageView) {
-            NSLog(@"I have originalImageView: %lu %@", (unsigned long) slotCounter, [slot.object icon]);
-            DSAInventorySlotView *slotView = [[DSAInventorySlotView alloc] initWithFrame:originalImageView.frame];
-            slotView.slot = slot;
-            slotView.slotIndex = slotCounter;
-            slotView.inventoryIdentifier = inventoryIdentifier;
-            slotView.item = slot.object; // Set the object in the slot
-            slotView.image = image;      // Set the image (nil for empty slots)
-            slotView.model = document.model;
-
-            // Copy appearance-related properties from the original NSImageView
-            slotView.editable = originalImageView.isEditable;
-            slotView.imageScaling = originalImageView.imageScaling;
-            slotView.alphaValue = originalImageView.alphaValue;
-            slotView.toolTip = originalImageView.toolTip;
-            slotView.imageFrameStyle = originalImageView.imageFrameStyle;
-
-            // Replace the original NSImageView in the superview
-            [originalImageView.superview replaceSubview:originalImageView with:slotView];
-            [slotView setInitiatesDrag:YES];
-            // Register drag-and-drop
-            [slotView registerForDraggedTypes:@[NSStringPboardType]];
-            [slotView setNeedsDisplay:YES];
-            // Update the quantity label
-            if (slot.object) {
-                [slotView updateQuantityLabelWithQuantity:slot.quantity];
-            }
-        }
-        // Increment the slot counter for the next slot
-        slotCounter++;
-    }
-
-    // Return the updated slot counter for use in the next inventory
-    return slotCounter;
+    NSLog(@"Updated load display: %.2f", totalLoad);
 }
-
-// Helper method for setting slot images
-- (void)updateSlotImageForSlotView:(NSImageView *)slotView withImageNamed:(NSString *)imageName {
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"webp"];
-    [slotView setImage:[[NSImage alloc] initWithContentsOfFile:imagePath]];
-}
-*/
-
-/*
-- (void)populateInventory {
+- (void)updateEncumbranceDisplay {
     DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-    NSLog(@"DSACharacterWindowController populateInventory called");
+    if (!document.model) return;
 
-    // Update specific slots (e.g., eye and mouth slots)
-    [self updateSlotImageForSlotView:self.imageEye withImageNamed:@"eye-64x64"];
-    [self updateSlotImageForSlotView:self.imageMouth withImageNamed:@"mouth-64x64"];
-    NSLog(@"after eye and mouth");
+    // Calculate the total weight from the character model
+    float totalEncumbrance = [document.model encumbrance];
 
-    // Update general inventory slots
-    [self updateInventorySlotsWithInventory:document.model.inventory
-                          inventoryIdentifier:@"inventory"
-                         startingSlotCounter:0];
-    NSLog(@"after general inventory");
-
-    // Update body part inventories
-    NSInteger bodySlotCounter = 0; // Start a global body slot counter
-    for (NSString *propertyName in document.model.bodyParts.inventoryPropertyNames) {
-        DSAInventory *inventory = [document.model.bodyParts valueForKey:propertyName];
-        bodySlotCounter = [self updateInventorySlotsWithInventory:inventory
-                                              inventoryIdentifier:@"body"
-                                             startingSlotCounter:bodySlotCounter];
-    }
-    NSLog(@"after body part inventories");
+    // Update the UI field with the total weight
+    self.fieldEncumbrance.stringValue = [NSString stringWithFormat:@"%.0f", totalEncumbrance];
+    
+    NSLog(@"Updated load display: %.2f", totalEncumbrance);
 }
 
-// Updates all slots in the specified inventory
-- (NSInteger)updateInventorySlotsWithInventory:(DSAInventory *)inventory
-                           inventoryIdentifier:(NSString *)inventoryIdentifier
-                          startingSlotCounter:(NSInteger)startingSlotCounter {
-    NSInteger slotCounter = startingSlotCounter;
-
-    for (NSInteger i = 0; i < inventory.slots.count; i++) {
-        DSASlot *slot = inventory.slots[i];
-        NSString *iconName = slot.object ? [NSString stringWithFormat:@"%@-64x64", [slot.object icon]] : nil;
-        NSString *imagePath = iconName ? [[NSBundle mainBundle] pathForResource:iconName ofType:@"webp"] : nil;
-
-        // Generate the name of the slot view from the identifier
-        NSString *uiName = [NSString stringWithFormat:@"%@Slot%ld", inventoryIdentifier, (long)slotCounter];
-        NSLog(@"Updating UI for: %@", uiName);
-
-        // Access the slot view (already a DSAInventorySlotView)
-        DSAInventorySlotView *slotView = [self valueForKey:uiName];
-        if (slotView) {
-            NSLog(@"Found slotView for %@, updating properties", uiName);
-
-            // Update properties directly
-            slotView.slot = slot;
-            slotView.slotIndex = slotCounter;
-            slotView.inventoryIdentifier = inventoryIdentifier;
-            slotView.item = slot.object; // Set the item in the slot
-
-            // Update the image
-            NSImage *image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
-            slotView.image = image;
-
-            // Set drag-and-drop configuration
-            [slotView setInitiatesDrag:YES];
-            [slotView registerForDraggedTypes:@[NSStringPboardType]];
-
-            // Update the quantity label
-            [slotView updateQuantityLabelWithQuantity:slot.quantity];
-        } else {
-            NSLog(@"Slot view %@ not found, skipping update", uiName);
-        }
-
-        // Increment the slot counter for the next slot
-        slotCounter++;
-    }
-
-    // Return the updated slot counter for chaining
-    return slotCounter;
-}
-
-// Helper method for setting the image for a specific slot view
-- (void)updateSlotImageForSlotView:(DSAInventorySlotView *)slotView withImageNamed:(NSString *)imageName {
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"webp"];
-    NSImage *image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
-    slotView.image = image;
-}
-- (void) populateInventory {
-    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-    NSLog(@"DSACharacterWindowController populateInventory called");
-
-    // Update specific slots (e.g., eye and mouth slots)
-    [self updateSlotImageForSlotView:self.imageEye withImageNamed:@"eye-64x64"];
-    [self updateSlotImageForSlotView:self.imageMouth withImageNamed:@"mouth-64x64"];
-    NSLog(@"after eye and mouth");
-
-    // Update general inventory slots
-    [self updateInventorySlotsWithInventory:document.model.inventory
-                          inventoryIdentifier:@"inventory"
-                         startingSlotCounter:0];
-    NSLog(@"after general inventory");
-
-    // Update body part inventories
-    NSInteger bodySlotCounter = 0; // Start a global body slot counter
-    for (NSString *propertyName in document.model.bodyParts.inventoryPropertyNames) {
-        DSAInventory *inventory = [document.model.bodyParts valueForKey:propertyName];
-        bodySlotCounter = [self updateInventorySlotsWithInventory:inventory
-                                              inventoryIdentifier:@"body"
-                                             startingSlotCounter:bodySlotCounter];
-    }
-    NSLog(@"after body part inventories");
-}
-
-// Updates all slots in the specified inventory
-- (NSInteger)updateInventorySlotsWithInventory:(DSAInventory *)inventory
-                           inventoryIdentifier:(NSString *)inventoryIdentifier
-                          startingSlotCounter:(NSInteger)startingSlotCounter {
-    NSInteger slotCounter = startingSlotCounter;
-
-    for (NSInteger i = 0; i < inventory.slots.count; i++) {
-        DSASlot *slot = inventory.slots[i];
-        NSString *iconName = slot.object ? [NSString stringWithFormat:@"%@-64x64", [slot.object icon]] : nil;
-        NSString *imagePath = iconName ? [[NSBundle mainBundle] pathForResource:iconName ofType:@"webp"] : nil;
-
-        // Generate the name of the slot view from the identifier
-        NSString *uiName = [NSString stringWithFormat:@"%@Slot%ld", inventoryIdentifier, (long)slotCounter];
-        NSLog(@"Updating UI for: %@", uiName);
-
-        // Access the slot view (already a DSAInventorySlotView)
-        DSAInventorySlotView *slotView = [self valueForKey:uiName];
-        if (slotView) {
-            NSLog(@"Found slotView for %@, updating properties", uiName);
-
-            // Update properties directly
-            slotView.slot = slot;
-            slotView.slotIndex = slotCounter;
-            slotView.inventoryIdentifier = inventoryIdentifier;
-            slotView.item = slot.object; // Set the item in the slot
-
-            // Update the image
-            NSImage *image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
-            slotView.image = image;
-
-            // Set drag-and-drop configuration
-            [slotView setInitiatesDrag:YES];
-            [slotView registerForDraggedTypes:@[NSStringPboardType]];
-
-            // Update the quantity label
-            [slotView updateQuantityLabelWithQuantity:slot.quantity];
-        } else {
-            NSLog(@"Slot view %@ not found, skipping update", uiName);
-        }
-
-        // Increment the slot counter for the next slot
-        slotCounter++;
-    }
-
-    // Return the updated slot counter for chaining
-    return slotCounter;
-}
-
-// Helper method for setting the image for a specific slot view
-- (void)updateSlotImageForSlotView:(DSAInventorySlotView *)slotView withImageNamed:(NSString *)imageName {
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:@"webp"];
-    NSImage *image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
-    slotView.image = image;
-}
-
-- (void)populateInventory {
-    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-    NSLog(@"DSACharacterWindowController populateInventory called");
-    // Example for specific image setup
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"eye-64x64" ofType:@"webp"];
-    [self.imageEye setImage:[[NSImage alloc] initWithContentsOfFile:imagePath]];
-    imagePath = [[NSBundle mainBundle] pathForResource:@"mouth-64x64" ofType:@"webp"];
-    [self.imageMouth setImage:[[NSImage alloc] initWithContentsOfFile:imagePath]];
-
-    // General inventory slots
-    for (NSInteger slotCounter = 0; slotCounter < [[[document.model inventory] slots] count]; slotCounter++) {
-        DSASlot *slot = [[[document.model inventory] slots] objectAtIndex:slotCounter];
-        NSString *iconName = slot.object ? [NSString stringWithFormat:@"%@-64x64", [slot.object icon]] : nil;
-        NSString *imagePath = iconName ? [[NSBundle mainBundle] pathForResource:iconName ofType:@"webp"] : nil;
-
-        // Load the image for the slot if it exists
-        NSImage *image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
-        NSString *uiName = [NSString stringWithFormat:@"inventorySlot%lu", (long)slotCounter];
-
-        // Access the corresponding NSImageView and replace it dynamically
-        NSImageView *originalImageView = [self valueForKey:uiName];
-        if (originalImageView) {
-            DSAInventorySlotView *slotView = [[DSAInventorySlotView alloc] initWithFrame:originalImageView.frame];
-            slotView.slot = slot;
-            slotView.slotIndex = slotCounter;
-            slotView.inventoryIdentifier = @"general";
-            slotView.item = slot.object; // Set the object in the slot
-            slotView.image = image;      // Set the image (nil for empty slots)
-
-            // Copy appearance-related properties from the original NSImageView
-            slotView.editable = originalImageView.isEditable;
-            slotView.imageScaling = originalImageView.imageScaling;
-            slotView.alphaValue = originalImageView.alphaValue;
-            slotView.toolTip = originalImageView.toolTip;
-            slotView.imageFrameStyle = originalImageView.imageFrameStyle;
-            slotView.model = document.model;
-            [slotView setInitiatesDrag:YES];
-
-            // Replace the original NSImageView in the superview
-            [originalImageView.superview replaceSubview:originalImageView with:slotView];
-
-            // Add drag-and-drop registration
-            [slotView registerForDraggedTypes:@[NSStringPboardType]];
-
-            // Handle quantity for filled slots
-            if (slot.object) {
-                //[self updateQuantityLabelForSlotView:slotView withQuantity:slot.quantity];
-                [slotView updateQuantityLabelWithQuantity:slot.quantity];
-            }
-        }
-    }
-
-    // Body part inventories
-    NSInteger bodySlotCounter = 0; // Track a global body slot counter
-    for (NSString *propertyName in document.model.bodyParts.inventoryPropertyNames) {
-        DSAInventory *inventory = [document.model.bodyParts valueForKey:propertyName];
-        for (NSInteger slotCounter = 0; slotCounter < inventory.slots.count; slotCounter++) {
-            DSASlot *slot = inventory.slots[slotCounter];
-            NSString *iconName = slot.object ? [NSString stringWithFormat:@"%@-32x32", slot.object.icon] : nil;
-            NSString *imagePath = iconName ? [[NSBundle mainBundle] pathForResource:iconName ofType:@"webp"] : nil;
-
-            // Load the image for the slot if it exists
-            NSImage *image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
-            NSString *uiName = [NSString stringWithFormat:@"bodySlot%lu", (long)bodySlotCounter];
-
-            // Access the corresponding NSImageView and replace it dynamically
-            NSImageView *originalImageView = [self valueForKey:uiName];
-            if (originalImageView) {
-                DSAInventorySlotView *slotView = [[DSAInventorySlotView alloc] initWithFrame:originalImageView.frame];
-                slotView.slot = slot;
-                slotView.slotIndex = bodySlotCounter;  // Use the global counter
-                slotView.inventoryIdentifier = @"bodyParts";  // Identifier for body parts
-                slotView.item = slot.object; // Set the object in the slot
-                slotView.image = image;      // Set the image (nil for empty slots)
-                slotView.model = document.model;
-                [slotView setInitiatesDrag:YES];
-
-                // Copy appearance-related properties from the original NSImageView
-                slotView.editable = originalImageView.isEditable;
-                slotView.imageScaling = originalImageView.imageScaling;
-                slotView.alphaValue = originalImageView.alphaValue;
-                slotView.toolTip = originalImageView.toolTip;
-                slotView.imageFrameStyle = originalImageView.imageFrameStyle;
-
-                // Replace the original NSImageView in the superview
-                [originalImageView.superview replaceSubview:originalImageView with:slotView];
-
-                // Add drag-and-drop registration
-                [slotView registerForDraggedTypes:@[NSStringPboardType]];
-
-                // Handle quantity for filled slots
-                if (slot.object) {
-                    //[self updateQuantityLabelForSlotView:slotView withQuantity:slot.quantity];
-                    [slotView updateQuantityLabelWithQuantity:slot.quantity];
-                }
-            }
-            bodySlotCounter++; // Increment the global counter after processing each slot
-        }
-    }
-}
-*/
-
-/*
-// Helper method to update quantity labels
-- (void)updateQuantityLabelForSlotView:(DSAInventorySlotView *)slotView withQuantity:(NSInteger)quantity {
-    NSTextField *quantityLabel = [slotView viewWithTag:999];
-    if (!quantityLabel) {
-        // Create the quantity label if it doesn't exist
-        quantityLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(1, 1, 30, 15)];
-        quantityLabel.editable = NO;
-        quantityLabel.bordered = NO;
-        quantityLabel.bezeled = NO;
-        quantityLabel.focusRingType = NSFocusRingTypeNone;
-        quantityLabel.backgroundColor = [NSColor blackColor];
-        quantityLabel.drawsBackground = YES;
-        quantityLabel.textColor = [NSColor redColor];
-        quantityLabel.font = [NSFont boldSystemFontOfSize:8]; // Smaller font for body slots
-        quantityLabel.alignment = NSTextAlignmentLeft;
-        quantityLabel.tag = 999; // Unique tag to identify this label
-        [slotView addSubview:quantityLabel];
-    }
-
-    if (quantity > 0) {
-        // Update the label with the current quantity
-        NSString *quantityString = [NSString stringWithFormat:@"%ld", (long)quantity];
-        quantityLabel.stringValue = quantityString;
-        quantityLabel.hidden = NO;
-
-        // Calculate the size of the text and adjust the label's frame
-        NSDictionary *attributes = @{NSFontAttributeName: quantityLabel.font};
-        NSSize textSize = [quantityString sizeWithAttributes:attributes];
-        quantityLabel.frame = NSMakeRect(1, 1, textSize.width, textSize.height);
-    } else {
-        // Hide the label if the quantity is 0
-        quantityLabel.hidden = YES;
-    }
-}
-*/
-/*
-- (void)setupCustomClassesForImageViews {
-    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-    NSMutableArray<NSImageView *> *inventorySlots;
-
-  for (NSInteger slotCounter = 0; slotCounter < [[[document.model inventory] slots] count]; slotCounter++)
-    {
-      NSString *uiName = [NSString stringWithFormat:@"inventorySlot%lu", (long)slotCounter];
-      [inventorySlots addObject: [self valueForKey:uiName]];
-    }
-        
-    for (NSImageView *slotView in inventorySlots) {
-        if (![slotView isKindOfClass:[InteractiveImageView class]]) {
-            InteractiveImageView *customView = [[InteractiveImageView alloc] initWithFrame:slotView.frame];
-            customView.image = slotView.image; // Transfer the image
-            [slotView.superview replaceSubview:slotView with:customView];
-        }
-    }
-}
-*/
 - (void)populateFightingTalentsTab
 {
    DSACharacterDocument *document = (DSACharacterDocument *)self.document;

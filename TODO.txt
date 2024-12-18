@@ -20,38 +20,34 @@ TODO:
    * Schwert
    * Schale
  * Grundausstattung aller Archetypen
- * Sachen anziehen, in die Hand nehmen
- * Sachen anschauen
  * Essen/Trinken
  * Zustand:
    * gesund, krank, vergiftet, betrunken....
- * Behinderung berechnen
  * Geburtstag ordentlich machen
  * Kein Eisen für magische Archetypen, i.e. Elf, Druide, ...
  * Altern
  * Schicksalspunkte
    * Siehe Kirchen, Kulte, Ordenskrieger S.127
- Amazone
-   * Amazonenrüsung weniger Behinderung
  * Krieger
    * Weniger Behinderung bei jeglicher Rüstung
  * Medicus
    * Heilkunde Talente steigern mit 3W6
    * Extra Behinderung bei Rüstung 
  * Knappe
- * Schmane (erz dinger...)
+ * Schamane (erz dinger...)
 
 WIP:
  * Magierakademien und Magier
  * Icons für Gegenstände
  * Gegenstände als Objekte
- * convert all weight and height to float
+ * convert all weight and to float
  
 DONE:
+ * Behinderung und Last Berechnung
  * Inventory
    * Generelles Inventory, und Körperslots
    * drag 'n drop
-   * wegwerfen, ansehen
+   * wegwerfen, ansehen, anziehen
  * Gegenstände und Waffen aus Mit Lanze, Schwert und Federkiel, und Kaiser Retos Waffenkammer
  * AppIcon
  * Charakterbogen Drucken (A4)

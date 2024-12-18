@@ -37,7 +37,7 @@
                    inCategory: (NSString *) category
                 inSubCategory: (NSString *) subCategory
              inSubSubCategory: (NSString *) subSubCategory
-                   withWeight: (NSInteger) weight
+                   withWeight: (float) weight
                     withPrice: (float) price
                    withLength: (float) length
                 withHitPoints: (NSArray *) hitPoints

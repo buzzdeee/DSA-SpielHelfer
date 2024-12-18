@@ -204,8 +204,8 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
   [coder encodeObject:self.sex forKey:@"sex"];
   [coder encodeObject:self.hairColor forKey:@"hairColor"];
   [coder encodeObject:self.eyeColor forKey:@"eyeColor"];
-  [coder encodeObject:self.height forKey:@"height"];
-  [coder encodeObject:self.weight forKey:@"weight"];
+  [coder encodeObject:@(self.height) forKey:@"height"];
+  [coder encodeObject:@(self.weight) forKey:@"weight"];
   [coder encodeObject:self.birthday forKey:@"birthday"];
   [coder encodeObject:self.god forKey:@"god"];
   [coder encodeObject:self.stars forKey:@"stars"];
@@ -269,8 +269,8 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
       self.sex = [coder decodeObjectOfClass:[NSString class] forKey:@"sex"];
       self.hairColor = [coder decodeObjectOfClass:[NSString class] forKey:@"hairColor"];
       self.eyeColor = [coder decodeObjectOfClass:[NSString class] forKey:@"eyeColor"];
-      self.height = [coder decodeObjectOfClass:[NSString class] forKey:@"height"];
-      self.weight = [coder decodeObjectOfClass:[NSString class] forKey:@"weight"];
+      self.height = [[coder decodeObjectForKey:@"height"] floatValue];
+      self.weight = [[coder decodeObjectForKey:@"weight"] floatValue];
       self.birthday = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"birthday"];
       self.god = [coder decodeObjectOfClass:[NSString class] forKey:@"god"];
       self.stars = [coder decodeObjectOfClass:[NSString class] forKey:@"stars"];
@@ -366,5 +366,133 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
     }    
     return resultString;
 }
+
+// Calculate load of carried items
+- (float)load {
+    float totalWeight = 0.0;
+    NSMutableSet<DSAObject *> *countedItems = [NSMutableSet set]; // For multi-slot items
+    
+    // Add weight from the general inventory
+    totalWeight += [self weightOfInventory:self.inventory countedItems:countedItems];
+    
+    // Add weight from each body part inventory
+    for (NSString *inventoryName in self.bodyParts.inventoryPropertyNames) {
+        DSAInventory *inventory = [self.bodyParts valueForKey:inventoryName];
+        totalWeight += [self weightOfInventory:inventory countedItems:countedItems];
+    }
+    
+    return totalWeight;
+}
+
+- (float)weightOfInventory:(DSAInventory *)inventory countedItems:(NSMutableSet<DSAObject *> *)countedItems {
+    float totalWeight = 0.0;
+    NSLog(@"weightOfInventory before for loop: %@", inventory);
+    for (DSASlot *slot in inventory.slots) {
+        DSAObject *item = slot.object;
+        NSLog(@"weightOfInventory %@", item.name);
+        if (!item) continue; // Skip empty slots
+        
+        if ([countedItems containsObject:item]) {
+            continue; // Skip already-counted multi-slot items
+        }
+        
+        // Add the item's weight, considering quantity
+        if ([item isKindOfClass:[DSAObjectContainer class]]) {
+            // For containers, include the weight of the container and its contents
+            DSAObjectContainer *container = (DSAObjectContainer *)item;
+            NSLog(@"found a container: %@", container);
+            totalWeight += (item.weight + [self weightOfContainer:container countedItems:countedItems]);
+        } else {
+            // Add the item's weight, multiplied by quantity for single-slot items
+            totalWeight += item.weight * slot.quantity;
+        }
+        
+        // If this is a multi-slot item, mark it as counted
+        if (item.occupiedBodySlots.count > 0) {
+            [countedItems addObject:item];
+        }
+    }
+    
+    return totalWeight;
+}
+
+- (float)weightOfContainer:(DSAObjectContainer *)container countedItems:(NSMutableSet<DSAObject *> *)countedItems {
+    float totalWeight = 0.0;
+    NSLog(@"weightOfContainer %@ before for loop", container);
+
+    // If the container has no slots, its weight is just the container itself
+    if ([container.slots count] == 0) {
+        NSLog(@"weightOfContainer returning totalWeight: %f", totalWeight);
+        return totalWeight;
+    }
+
+    // Iterate over the slots in the container
+    for (DSASlot *slot in container.slots) { // Assuming `slots` is an array of `DSASlot`
+        DSAObject *containedItem = slot.object; // Get the actual object in the slot
+        if (!containedItem) {
+            continue; // Skip empty slots
+        }
+
+        NSLog(@"weightOfContainer inspecting item: %@", containedItem.name);
+
+        if ([countedItems containsObject:containedItem]) {
+            continue; // Skip already-counted items to avoid infinite recursion or double-counting
+        }
+
+        if ([containedItem isKindOfClass:[DSAObjectContainer class]]) {
+            // Recursively calculate weight for nested containers
+            DSAObjectContainer *nestedContainer = (DSAObjectContainer *)containedItem;
+            totalWeight += (containedItem.weight + [self weightOfContainer:nestedContainer countedItems:countedItems]);
+        } else {
+            totalWeight += containedItem.weight;
+        }
+
+        // Mark the item as counted if it's a multi-slot item
+        if (containedItem.occupiedBodySlots.count > 0) {
+            [countedItems addObject:containedItem];
+        }
+    }
+
+    NSLog(@"weightOfContainer returning totalWeight: %f", totalWeight);
+    return totalWeight;
+}
+
+- (float)encumbrance {
+    float totalEncumbrance = 0.0;
+    NSMutableSet<DSAObject *> *countedItems = [NSMutableSet set];
+
+    // Iterate over body parts inventories
+    for (NSString *propertyName in self.bodyParts.inventoryPropertyNames) {
+        DSAInventory *inventory = [self.bodyParts valueForKey:propertyName];
+
+        // Iterate through all slots in the body part inventory
+        for (DSASlot *slot in inventory.slots) {
+            DSAObject *item = slot.object;
+
+            // Skip empty slots
+            if (!item) {
+                continue;
+            }
+
+            // Skip already-counted multi-slot items
+            if ([countedItems containsObject:item]) {
+                continue;
+            }
+
+            // Add the penalty value to the total if it exists
+            if (item.penalty > 0) {
+                totalEncumbrance += item.penalty;
+            }
+
+            // Mark multi-slot items as counted
+            if (item.occupiedBodySlots.count > 0) {
+                [countedItems addObject:item];
+            }
+        }
+    }
+
+    return totalEncumbrance;
+}
+
 
 @end

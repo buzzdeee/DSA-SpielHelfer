@@ -94,8 +94,8 @@
     NSLog(@"THE REGIONS: %@", item.regions);
     NSMutableString *details = [NSMutableString string];
     [details appendFormat:_(@"Kategorie: %@ / %@ / %@\n"), item.category, item.subCategory, item.subSubCategory ?: @"-"];
-    [details appendFormat:_(@"Gewicht: %ld\n"), (unsigned long) item.weight];
-    [details appendFormat:_(@"Preis: %f\n"), item.price];
+    [details appendFormat:_(@"Gewicht: %.2f\n"), item.weight];
+    [details appendFormat:_(@"Preis: %.2f\n"), item.price];
     [details appendFormat:_(@"Handelsregionen: %@\n"), item.regions ? [item.regions componentsJoinedByString:@", "] : _(@"alle")];
     [details appendFormat:_(@"ist Magisch: %@\n"), item.isMagic ? _(@"Ja") : _(@"Nein")];
     [details appendFormat:_(@"ist Vergiftet: %@\n"), item.isPoisoned ? _(@"Ja") : _(@"Nein")];
@@ -129,13 +129,13 @@
         [details appendFormat:_(@"Trefferpunkte: %@\n"), weapon.hitPoints ? [weapon.hitPoints componentsJoinedByString:@" + "] : @"-"];
         [details appendFormat:_(@"TrefferpunkteKK: %ld\n"), (unsigned long) weapon.hitPointsKK];
         [details appendFormat:_(@"Bruchfaktor: %ld\n"), (unsigned long) weapon.breakFactor];
-        [details appendFormat:_(@"Behinderung: %ld\n"), (unsigned long)weapon.penalty];
+        [details appendFormat:_(@"Behinderung: %.0f\n"), weapon.penalty];
         [details appendFormat:_(@"Waffenvergleichswert: %ld/%ld\n"), (unsigned long) weapon.attackPower, (unsigned long) weapon.parryValue];
         [details appendFormat:_(@"Waffenvergleichswert Schild: %ld/%ld\n"), (unsigned long) weapon.shieldAttackPower, (unsigned long) weapon.shieldParryValue];
     } else if ([item isKindOfClass:[DSAObjectShield class]]) {
         DSAObjectShield *weapon = (DSAObjectShield *)item;
         [details appendFormat:_(@"Bruchfaktor: %ld\n"), (unsigned long) weapon.breakFactor];
-        [details appendFormat:_(@"Behinderung: %ld\n"), (unsigned long)weapon.penalty];
+        [details appendFormat:_(@"Behinderung: %.0f\n"), weapon.penalty];
         [details appendFormat:_(@"Waffenvergleichswert Schild: %ld/%ld\n"), (unsigned long) weapon.shieldAttackPower, (unsigned long) weapon.shieldParryValue];
     } else if ([item isKindOfClass:[DSAObjectWeaponLongRange class]]) {
         DSAObjectWeaponLongRange *weapon = (DSAObjectWeaponLongRange *)item;
@@ -146,7 +146,7 @@
     } else if ([item isKindOfClass:[DSAObjectArmor class]]) {
         DSAObjectArmor *armor = (DSAObjectArmor *)item;
         [details appendFormat:_(@"Rüstschutz: %ld\n"), (unsigned long)armor.protection];
-        [details appendFormat:_(@"Behinderung: %ld\n"), (unsigned long)armor.penalty];
+        [details appendFormat:_(@"Behinderung: %.0f\n"), armor.penalty];
     }
 
     [self.itemInfoTextView setStringValue:details];

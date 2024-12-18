@@ -533,8 +533,8 @@
   newCharacter.religion = [[self.popupReligions selectedItem] title]; 
   newCharacter.hairColor = [self.fieldHairColor stringValue];
   newCharacter.eyeColor = [self.fieldEyeColor stringValue];
-  newCharacter.height = [self.fieldHeight stringValue];
-  newCharacter.weight = [self.fieldWeight stringValue];
+  newCharacter.height = [self.fieldHeight floatValue];
+  newCharacter.weight = [self.fieldWeight floatValue];
   newCharacter.god = [self.fieldGod stringValue];
   newCharacter.stars = [self.fieldStars stringValue];
   newCharacter.socialStatus = [self.fieldSocialStatus stringValue];
@@ -2861,7 +2861,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   return resultArr;   
 }
   
-- (NSString *) generateHeightForArchetype: (NSString *) archetype
+- (float) generateHeightForArchetype: (NSString *) archetype
 {
   NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
   NSArray *heightArr;
@@ -2874,19 +2874,19 @@ NSLog(@"generateFamilyBackground %@", retVal);
     {
       heightArr = [NSArray arrayWithArray: [[_archetypesDict objectForKey: archetype] objectForKey: @"Körpergröße"]];      
     }
-  unsigned int height = [[heightArr objectAtIndex: 0] intValue];
+  float height = [[heightArr objectAtIndex: 0] floatValue];
   unsigned int count = [heightArr count];
   for (unsigned int i = 1;i<count; i++)
     {
-      height += [[Utils rollDice: [heightArr objectAtIndex: i]] intValue];
+      height += [[Utils rollDice: [heightArr objectAtIndex: i]] floatValue];
     }
-  return [NSString stringWithFormat: @"%u", height];
+  return height;
 }
 
-- (NSString *) generateWeightForArchetype: (NSString *) archetype withHeight: (NSString *) height
+- (float) generateWeightForArchetype: (NSString *) archetype withHeight: (float) height
 {
-  int weight = [[[_archetypesDict objectForKey: archetype] objectForKey: @"Gewicht"] intValue];
-  return [NSString stringWithFormat: @"%u", (weight + [height intValue])];
+  float weight = [[[_archetypesDict objectForKey: archetype] objectForKey: @"Gewicht"] floatValue];
+  return weight + height;
 }
 
 - (void) addElvenSongsToCharacter: (DSACharacterHero *) character
@@ -3612,8 +3612,8 @@ NSLog(@"popupCategorySelected called!");
   [self.fieldEyeColor setStringValue: [self generateEyeColorForArchetype: [[self.popupArchetypes selectedItem] title] withHairColor: [self.fieldHairColor stringValue]]];  
   birthday = [self generateBirthday];
   [self.fieldBirthday setStringValue: [birthday objectForKey: @"date"]];
-  [self.fieldHeight setStringValue: [self generateHeightForArchetype: [[self.popupArchetypes selectedItem] title]]];
-  [self.fieldWeight setStringValue: [self generateWeightForArchetype: [[self.popupArchetypes selectedItem] title] withHeight: [self.fieldHeight stringValue]]];
+  [self.fieldHeight setStringValue: [NSString stringWithFormat: @"%f", [self generateHeightForArchetype: [[self.popupArchetypes selectedItem] title]]]];
+  [self.fieldWeight setStringValue: [NSString stringWithFormat: @"%f", [self generateWeightForArchetype: [[self.popupArchetypes selectedItem] title] withHeight: [self.fieldHeight floatValue]]]];
   [self.fieldName setEnabled: YES];
   [self.fieldTitle setEnabled: YES];
   

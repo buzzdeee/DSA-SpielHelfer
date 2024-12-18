@@ -29,17 +29,16 @@
 
 @interface DSAObjectArmor : DSAObject
 @property (nonatomic, assign) NSInteger protection;
-@property (nonatomic, assign) NSInteger penalty;
 
 - (instancetype) initWithName: (NSString *) name
                      withIcon: (NSString *) icon
                    inCategory: (NSString *) category
                 inSubCategory: (NSString *) subCategory
              inSubSubCategory: (NSString *) subSubCategory
-                   withWeight: (NSInteger) weight
+                   withWeight: (float) weight
                     withPrice: (float) price
                withProtection: (NSInteger) protection
-                  withPenalty: (NSInteger) penalty
+                  withPenalty: (float) penalty
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots                
                   withRegions: (NSArray *) regions;

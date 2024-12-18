@@ -365,8 +365,6 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
       self.sex = [coder decodeObjectOfClass:[NSString class] forKey:@"sex"];
       self.hairColor = [coder decodeObjectOfClass:[NSString class] forKey:@"hairColor"];
       self.eyeColor = [coder decodeObjectOfClass:[NSString class] forKey:@"eyeColor"];
-      self.height = [coder decodeObjectOfClass:[NSString class] forKey:@"height"];
-      self.weight = [coder decodeObjectOfClass:[NSString class] forKey:@"weight"];
       self.birthday = [coder decodeObjectOfClass:[NSString class] forKey:@"birthday"];
       self.god = [coder decodeObjectOfClass:[NSString class] forKey:@"god"];
       self.stars = [coder decodeObjectOfClass:[NSString class] forKey:@"stars"];
@@ -447,13 +445,8 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
   retVal = floor(([[self.positiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
                  [[self.positiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
                  [[self.positiveTraits valueForKeyPath: @"GE.level"] integerValue]) / 4) - 
-                 [[self encumbrance] integerValue];
+                 roundf(self.encumbrance);
   return [NSNumber numberWithInteger: retVal];
-}
-
-- (NSNumber *) encumbrance {
-  NSLog(@"DSACharacterHero: Calculation for encumbrance missing!!!");
-  return [NSNumber numberWithInteger: 0];
 }
 
 - (NSNumber *) magicResistance {

@@ -54,7 +54,7 @@
                                        inCategory: [objectInfo objectForKey: @"category"]
                                     inSubCategory: [objectInfo objectForKey: @"category1"]
                                  inSubSubCategory: [objectInfo objectForKey: @"category2"]
-                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] integerValue]
+                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                        withLength: [[objectInfo objectForKey: @"Länge"] floatValue]
                                     withHitPoints: [objectInfo objectForKey: @"Trefferpunkte"]  // Array of NSNumbers 
@@ -77,7 +77,7 @@
                                        inCategory: [objectInfo objectForKey: @"category"]
                                     inSubCategory: [objectInfo objectForKey: @"category1"]
                                  inSubSubCategory: [objectInfo objectForKey: @"category2"]
-                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] integerValue]
+                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                   withMaxDistance: [[objectInfo objectForKey: @"Reichweite"] integerValue]
                               withDistancePenalty: [objectInfo objectForKey: @"TP Entfernung"]                                        
@@ -97,7 +97,7 @@
                                        inCategory: [objectInfo objectForKey: @"category"]
                                     inSubCategory: [objectInfo objectForKey: @"category1"]
                                  inSubSubCategory: [objectInfo objectForKey: @"category2"]
-                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] integerValue]
+                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                        withLength: [[objectInfo objectForKey: @"Länge"] floatValue]
                                     withHitPoints: [objectInfo objectForKey: @"Trefferpunkte"]  // Array of NSNumbers 
@@ -121,7 +121,7 @@
                                        inCategory: [objectInfo objectForKey: @"category"]
                                     inSubCategory: [objectInfo objectForKey: @"category1"]
                                  inSubSubCategory: [objectInfo objectForKey: @"category2"]
-                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] integerValue]
+                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                        withLength: [[objectInfo objectForKey: @"Länge"] floatValue]
                                       withPenalty: [[objectInfo objectForKey: @"Behinderung"] integerValue]
@@ -145,7 +145,7 @@
                                        inCategory: [objectInfo objectForKey: @"category"]
                                     inSubCategory: [objectInfo objectForKey: @"category1"]
                                  inSubSubCategory: [objectInfo objectForKey: @"category2"]
-                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] integerValue]
+                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                   withBreakFactor: [[objectInfo objectForKey: @"Bruchfaktor"] integerValue]                                        
                                       withPenalty: [[objectInfo objectForKey: @"Behinderung"] integerValue]
@@ -163,7 +163,7 @@
                                        inCategory: [objectInfo objectForKey: @"category"]
                                     inSubCategory: [objectInfo objectForKey: @"category1"]
                                  inSubSubCategory: [objectInfo objectForKey: @"category2"]
-                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] integerValue]
+                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                    withProtection: [[objectInfo objectForKey: @"Rüstschutz"] integerValue]
                                       withPenalty: [[objectInfo objectForKey: @"Behinderung"] integerValue]
@@ -179,7 +179,7 @@
                                            inCategory: [objectInfo objectForKey: @"category"]
                                         inSubCategory: [objectInfo objectForKey: @"category1"]
                                      inSubSubCategory: [objectInfo objectForKey: @"category2"]
-                                           withWeight: [[objectInfo objectForKey: @"Gewicht"] integerValue]
+                                           withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                             withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                            ofSlotType: [objectInfo objectForKey: @"Slottypen" ] ? [Utils slotTypeFromString: [[objectInfo objectForKey: @"Slottypen" ] objectAtIndex: 0]] : DSASlotTypeGeneral
                                         withNrOfSlots: [objectInfo objectForKey: @"Slots" ] ? [[objectInfo objectForKey: @"Slots" ] integerValue] : 1
@@ -197,7 +197,7 @@
                                   inCategory: [objectInfo objectForKey: @"category"]
                                inSubCategory: [objectInfo objectForKey: @"category1"]
                             inSubSubCategory: [objectInfo objectForKey: @"category2"]
-                                  withWeight: [[objectInfo objectForKey: @"Gewicht"] integerValue]
+                                  withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                    withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                      validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                            occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]                     
@@ -213,7 +213,7 @@
                    inCategory: (NSString *) category
                 inSubCategory: (NSString *) subCategory
              inSubSubCategory: (NSString *) subSubCategory
-                   withWeight: (NSInteger) weight
+                   withWeight: (float) weight
                     withPrice: (float) price
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
@@ -230,6 +230,7 @@
       self.subSubCategory = subSubCategory;
       self.weight = weight;
       self.price = price;
+      self.penalty = 0.0;
       self.isMagic = NO;
       self.isPoisoned = NO;
       self.isConsumable = NO;
@@ -251,8 +252,9 @@
       self.category = [coder decodeObjectForKey:@"category"];
       self.subCategory = [coder decodeObjectForKey:@"subCategory"];
       self.subSubCategory = [coder decodeObjectForKey:@"subSubCategory"];
-      self.weight = [coder decodeIntegerForKey:@"weight"];
+      self.weight = [[coder decodeObjectForKey:@"weight"] floatValue];
       self.price = [[coder decodeObjectForKey:@"price"] floatValue];
+      self.penalty = [[coder decodeObjectForKey:@"penalty"] floatValue];      
       self.regions = [coder decodeObjectForKey:@"regions"];
       self.isMagic = [coder decodeBoolForKey:@"isMagic"];
       self.isPoisoned = [coder decodeBoolForKey:@"isPoisoned"];
@@ -271,8 +273,9 @@
   [coder encodeObject:self.category forKey:@"category"];
   [coder encodeObject:self.subCategory forKey:@"subCategory"];
   [coder encodeObject:self.subSubCategory forKey:@"subSubCategory"];
-  [coder encodeInteger:self.weight forKey:@"weight"];
+  [coder encodeObject:@(self.weight) forKey:@"weight"];
   [coder encodeObject:@(self.price) forKey:@"price"];
+  [coder encodeObject:@(self.penalty) forKey:@"penalty"];    
   [coder encodeObject:self.regions forKey:@"regions"];
   [coder encodeBool:self.isMagic forKey:@"isMagic"];
   [coder encodeBool:self.isPoisoned forKey:@"isPoisoned"];

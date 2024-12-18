@@ -30,10 +30,10 @@
                    inCategory: (NSString *) category
                 inSubCategory: (NSString *) subCategory
              inSubSubCategory: (NSString *) subSubCategory
-                   withWeight: (NSInteger) weight
+                   withWeight: (float) weight
                     withPrice: (float) price
               withBreakFactor: (NSInteger) breakFactor
-                  withPenalty: (NSInteger) penalty
+                  withPenalty: (float) penalty
         withShieldAttackPower: (NSInteger) shieldAttackPower
          withShieldParryValue: (NSInteger) shieldParryValue
       validInventorySlotTypes: (NSArray *) validSlotTypes  
@@ -66,7 +66,6 @@
     if (self)
       {
         self.breakFactor = [coder decodeIntegerForKey:@"breakFactor"];
-        self.penalty = [coder decodeIntegerForKey:@"penalty"];
         self.shieldAttackPower = [coder decodeIntegerForKey:@"shieldAttackPower"];
         self.shieldParryValue = [coder decodeIntegerForKey:@"shieldParryValue"];
       }
@@ -77,7 +76,6 @@
 {
   [super encodeWithCoder: coder];
   [coder encodeInteger:self.breakFactor forKey:@"breakFactor"];
-  [coder encodeInteger:self.penalty forKey:@"penalty"];  
   [coder encodeInteger:self.shieldAttackPower forKey:@"shieldAttackPower"];
   [coder encodeInteger:self.shieldParryValue forKey:@"shieldParryValue"];
 }
