@@ -28,6 +28,7 @@
 #import <AppKit/AppKit.h>
 
 @class DSACharacter;
+@class DSAAventurianDate;
 
 @interface DSACharacterGenerationController : NSWindowController
 
@@ -61,7 +62,7 @@
 // used to keep track, how many switches to select at a maximum in the Magical Dabbler creation
 @property (nonatomic) NSInteger magicalDabblerMaxSwitchesToBeSelected;
 @property (nonatomic) NSInteger magicalDabblerDiceResult;
-@property (nonatomic, strong) NSDictionary *birthday;
+@property (nonatomic, strong) DSAAventurianDate *birthday;
 @property (nonatomic, strong) NSDictionary *wealth;
 // UI elements
 

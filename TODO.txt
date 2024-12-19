@@ -19,11 +19,9 @@ TODO:
    * Kristallkugel
    * Schwert
    * Schale
- * Grundausstattung aller Archetypen
  * Essen/Trinken
  * Zustand:
    * gesund, krank, vergiftet, betrunken....
- * Geburtstag ordentlich machen
  * Kein Eisen für magische Archetypen, i.e. Elf, Druide, ...
  * Altern
  * Schicksalspunkte
@@ -41,8 +39,10 @@ WIP:
  * Icons für Gegenstände
  * Gegenstände als Objekte
  * convert all weight and to float
+ * Grundausstattung aller Archetypen
  
 DONE:
+ * Aventurischer Kalender
  * Behinderung und Last Berechnung
  * Inventory
    * Generelles Inventory, und Körperslots

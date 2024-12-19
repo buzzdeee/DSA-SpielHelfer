@@ -1593,6 +1593,96 @@ Resources/Seife_2-32x32.webp \
 Resources/Seife_2-512x512.webp \
 Resources/Seife_2-64x64.webp \
 Resources/Seife_2.webp \
+Resources/Halskette_Silber-128x128.webp \
+Resources/Halskette_Silber-256x256.webp \
+Resources/Halskette_Silber-32x32.webp \
+Resources/Halskette_Silber-512x512.webp \
+Resources/Halskette_Silber-64x64.webp \
+Resources/Halskette_Silber.webp \
+Resources/Spange_Bronze_1-128x128.webp \
+Resources/Spange_Bronze_1-256x256.webp \
+Resources/Spange_Bronze_1-32x32.webp \
+Resources/Spange_Bronze_1-512x512.webp \
+Resources/Spange_Bronze_1-64x64.webp \
+Resources/Spange_Bronze_1.webp \
+Resources/Spange_Bronze_2-128x128.webp \
+Resources/Spange_Bronze_2-256x256.webp \
+Resources/Spange_Bronze_2-32x32.webp \
+Resources/Spange_Bronze_2-512x512.webp \
+Resources/Spange_Bronze_2-64x64.webp \
+Resources/Spange_Bronze_2.webp \
+Resources/Spange_Gold_1-128x128.webp \
+Resources/Spange_Gold_1-256x256.webp \
+Resources/Spange_Gold_1-32x32.webp \
+Resources/Spange_Gold_1-512x512.webp \
+Resources/Spange_Gold_1-64x64.webp \
+Resources/Spange_Gold_1.webp \
+Resources/Spange_Gold_2-128x128.webp \
+Resources/Spange_Gold_2-256x256.webp \
+Resources/Spange_Gold_2-32x32.webp \
+Resources/Spange_Gold_2-512x512.webp \
+Resources/Spange_Gold_2-64x64.webp \
+Resources/Spange_Gold_2.webp \
+Resources/Spange_Messing_1-128x128.webp \
+Resources/Spange_Messing_1-256x256.webp \
+Resources/Spange_Messing_1-32x32.webp \
+Resources/Spange_Messing_1-512x512.webp \
+Resources/Spange_Messing_1-64x64.webp \
+Resources/Spange_Messing_1.webp \
+Resources/Spange_Silber_1-128x128.webp \
+Resources/Spange_Silber_1-256x256.webp \
+Resources/Spange_Silber_1-32x32.webp \
+Resources/Spange_Silber_1-512x512.webp \
+Resources/Spange_Silber_1-64x64.webp \
+Resources/Spange_Silber_1.webp \
+Resources/Spange_Silber_2-128x128.webp \
+Resources/Spange_Silber_2-256x256.webp \
+Resources/Spange_Silber_2-32x32.webp \
+Resources/Spange_Silber_2-512x512.webp \
+Resources/Spange_Silber_2-64x64.webp \
+Resources/Spange_Silber_2.webp \
+Resources/Stirnreif_Bronze-128x128.webp \
+Resources/Stirnreif_Bronze-256x256.webp \
+Resources/Stirnreif_Bronze-32x32.webp \
+Resources/Stirnreif_Bronze-512x512.webp \
+Resources/Stirnreif_Bronze-64x64.webp \
+Resources/Stirnreif_Bronze.webp \
+Resources/Stirnreif_Gold_1-128x128.webp \
+Resources/Stirnreif_Gold_1-256x256.webp \
+Resources/Stirnreif_Gold_1-32x32.webp \
+Resources/Stirnreif_Gold_1-512x512.webp \
+Resources/Stirnreif_Gold_1-64x64.webp \
+Resources/Stirnreif_Gold_1.webp \
+Resources/Stirnreif_Gold_2-128x128.webp \
+Resources/Stirnreif_Gold_2-256x256.webp \
+Resources/Stirnreif_Gold_2-32x32.webp \
+Resources/Stirnreif_Gold_2-512x512.webp \
+Resources/Stirnreif_Gold_2-64x64.webp \
+Resources/Stirnreif_Gold_2.webp \
+Resources/Stirnreif_Messing_1-128x128.webp \
+Resources/Stirnreif_Messing_1-256x256.webp \
+Resources/Stirnreif_Messing_1-32x32.webp \
+Resources/Stirnreif_Messing_1-512x512.webp \
+Resources/Stirnreif_Messing_1-64x64.webp \
+Resources/Stirnreif_Messing_1.webp \
+Resources/Stirnreif_Messing_2-128x128.webp \
+Resources/Stirnreif_Messing_2-256x256.webp \
+Resources/Stirnreif_Messing_2-32x32.webp \
+Resources/Stirnreif_Messing_2-512x512.webp \
+Resources/Stirnreif_Messing_2-64x64.webp \
+Resources/Stirnreif_Messing_2.webp \
+Resources/Stirnreif_Silber_1-128x128.webp \
+Resources/Stirnreif_Silber_1-256x256.webp \
+Resources/Stirnreif_Silber_1-32x32.webp \
+Resources/Stirnreif_Silber_1-512x512.webp \
+Resources/Stirnreif_Silber_1-64x64.webp \
+Resources/Stirnreif_Silber_1.webp \
+Resources/Stirnreif_Silber_2-128x128.webp \
+Resources/Stirnreif_Silber_2-256x256.webp \
+Resources/Stirnreif_Silber_2-32x32.webp \
+Resources/Stirnreif_Silber_2-512x512.webp \
+Resources/Stirnreif_Silber_2-64x64.webp \
+Resources/Stirnreif_Silber_2.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \
@@ -1738,7 +1828,9 @@ DSAObjectWeaponHandWeapon.h \
 DSAObjectWeaponLongRange.h \
 DSAObjectWeaponHandAndLongRangeWeapon.h \
 DSAObjectShield.h \
-DSAObjectShieldAndParry.h
+DSAObjectShieldAndParry.h \
+DSAAventurianDate.h \
+DSAAventurianCalendar.h
 
 #
 # Objective-C Class files
@@ -1846,7 +1938,9 @@ DSAObjectWeaponHandWeapon.m \
 DSAObjectWeaponLongRange.m \
 DSAObjectWeaponHandAndLongRangeWeapon.m \
 DSAObjectShield.m \
-DSAObjectShieldAndParry.m
+DSAObjectShieldAndParry.m \
+DSAAventurianDate.m \
+DSAAventurianCalendar.m
 
 #
 # Other sources

@@ -30,6 +30,7 @@
 #import "DSAInventory.h"
 #import "DSABodyParts.h"
 #import "DSAObjectContainer.h"
+#import "DSAAventurianDate.h"
 
 @interface DSACharacter : NSObject <NSCoding>
 
@@ -49,7 +50,7 @@
 @property (nonatomic, copy) NSString *eyeColor;
 @property (nonatomic, assign) float height;
 @property (nonatomic, assign) float weight;
-@property (nonatomic, copy) NSDictionary *birthday;
+@property (nonatomic, copy) DSAAventurianDate *birthday;
 @property (nonatomic, copy) NSString *god;
 @property (nonatomic, copy) NSString *stars;
 @property (nonatomic, copy) NSString *religion;

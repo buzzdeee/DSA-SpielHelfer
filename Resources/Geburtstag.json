@@ -1,17 +1,17 @@
 {
   "Monat": {
-    "Januar": [ 1, 2],
-    "Februar": [ 3, 4],
-    "März": [ 5, 6],
-    "April": [ 7, 8],
-    "Mai": [9, 10],
-    "Juni": [11],
-    "Juli": [12],
-    "August": [13],
-    "September": [14, 15, 16],
-    "Oktober": [17],
-    "November": [18],
-    "Dezember": [19, 20]
+    "Firun": [ 1, 2],
+    "Tsa": [ 3, 4],
+    "Phex": [ 5, 6],
+    "Peraine": [ 7, 8],
+    "Ingerimm": [9, 10],
+    "Rahja": [11],
+    "Praios": [12],
+    "Rondra": [13],
+    "Efferd": [14, 15, 16],
+    "Travia": [17],
+    "Boron": [18],
+    "Hesinde": [19, 20]
   },
   "Monatsfuenftel": {
     "1": [ 1, 2, 3, 4],

@@ -1403,11 +1403,15 @@ for (NSInteger column = 0; column < [titles count] * 2; column++) {
         self.model.height ? [NSString stringWithFormat: @"%f", self.model.height] : @"",
         self.model.weight ? [NSString stringWithFormat: @"%f", self.model.weight] : @"",
         @""
-    ];
-
+    ];  
+    
     NSArray *thirdTitles = @[@"Geburtstag", @"Geburtsgott", @"Sterne", @"Glaube", @"Stand", @"Eltern"];
     NSArray *thirdProperties = @[
-        [self.model.birthday objectForKey:@"date"] ?: @"",
+        [NSString stringWithFormat: @"%lu. %@ %lu %@", 
+                                          (unsigned long)[[self.model birthday] day], 
+                                          [[self.model birthday] monthName], 
+                                          (unsigned long)[[self.model birthday] year], 
+                                          [[self.model birthday] year] > 0 ? @"AF" : @"BF"],
         self.model.god ?: @"",
         self.model.stars ?: @"",
         self.model.religion ?: @"",

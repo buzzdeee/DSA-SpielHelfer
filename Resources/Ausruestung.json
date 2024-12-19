@@ -3315,43 +3315,52 @@
     "Stirnreifen": {
       "Stirnreif, Silber": {
         "Gewicht": 8,
-        "Preis": 20
+        "Preis": 20,
+        "Icon": [ "Stirnreif_Silber_1", "Stirnreif_Silber_2" ]
       },
       "Stirnreif, Gold": {
         "Gewicht": 10,
-        "Preis": 60
+        "Preis": 60,
+        "Icon": [ "Stirnreif_Gold_1", "Stirnreif_Gold_2" ]
       },  
       "Stirnreif, Messing": {
         "Gewicht": 9,
-        "Preis": 7
+        "Preis": 7,
+        "Icon": [ "Stirnreif_Messing_1", "Stirnreif_Messing_2" ]
       },   
       "Stirnreif, Bronze": {
         "Gewicht": 9,
-        "Preis": 7
+        "Preis": 7,
+        "Icon": [ "Stirnreif_Bronze_1" ]
       }
     },             
     "Spangen": {
       "Spange, Fiebel, Silber": {
         "Gewicht": 1,
-        "Preis": 6
+        "Preis": 6,
+        "Icon": [ "Spange_Silber_1", "Spange_Silber_2" ]
       },
       "Spange, Fiebel, Gold": {
         "Gewicht": 1.2,
-        "Preis": 18
+        "Preis": 18,
+        "Icon": [ "Spange_Gold_1", "Spange_Gold_2" ]
       },   
       "Spange, Fiebel, Messing": {
         "Gewicht": 1.1,
-        "Preis": 2
+        "Preis": 2,
+        "Icon": [ "Spange_Messing_1" ]
       },   
       "Spange, Fiebel, Bronze": {
         "Gewicht": 1.1,
-        "Preis": 2
+        "Preis": 2,
+        "Icon": [ "Spange_Bronze_1", "Spange_Bronze_2" ]
       }
     },            
     "Halsketten": {
       "Halskette, Silber": {
         "Gewicht": 0.5,
-        "Preis": 5
+        "Preis": 5,
+        "Icon": [ "Halskette_Silber" ]
       },
       "Halskette, Gold": {
         "Gewicht": 0.6,

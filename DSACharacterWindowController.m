@@ -194,7 +194,11 @@
   [self.fieldEyeColor setStringValue: [document.model eyeColor]];
   [self.fieldHeight setStringValue: [NSString stringWithFormat: @"%f", [document.model height]]];    
   [self.fieldWeight setStringValue: [NSString stringWithFormat: @"%f", [document.model weight]]];    
-  [self.fieldBirthday setStringValue: [[document.model birthday] objectForKey: @"date"]];      
+  [self.fieldBirthday setStringValue: [NSString stringWithFormat: @"%lu. %@ %lu %@", 
+                                          (unsigned long)[[document.model birthday] day], 
+                                          [[document.model birthday] monthName], 
+                                          (unsigned long)[[document.model birthday] year], 
+                                          [[document.model birthday] year] > 0 ? @"AF" : @"BF"]];  
   [self.fieldGod setStringValue: [document.model god]];      
   [self.fieldStars setStringValue: [document.model stars]];
   [self.fieldReligion setStringValue: [document.model religion]];      

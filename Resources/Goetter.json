@@ -3,7 +3,7 @@
   "Sternbild": "Greif",
   "Typkategorie": [ "Mensch" ],
   "Typus": [ "Praiosgeweihter" ],
-  "Monat": "Januar",
+  "Monat": "Praios",
   "Basiswerte": {
     "MU": 1
   },
@@ -13,7 +13,7 @@
   "Sternbild": "Schwert",
   "Typkategorie": [ "Mensch" ], 
   "Typus": [ "Rondrageweihter" ], 
-  "Monat": "Februar",  
+  "Monat": "Rondra",  
   "Basiswerte": { },
   "Talente": {
     "Kampftechniken": {
@@ -27,7 +27,7 @@
   "Sternbild": "Delphin",
   "Typkategorie": [ "Mensch" ],
   "Typus": [ "Efferdgeweihter" ], 
-  "Monat": "März",  
+  "Monat": "Efferd",  
   "Basiswerte": { },
   "Talente": {
     "Körperliche Talente": {
@@ -42,7 +42,7 @@
   "Sternbild": "Gans",
   "Typkategorie": [ "Mensch" ],
   "Typus": [ "Traviageweihter" ],  
-  "Monat": "April",  
+  "Monat": "Travia",  
   "Basiswerte": {
     "IN": 1
   },
@@ -52,7 +52,7 @@
   "Sternbild": "Rabe",
   "Typkategorie": [ "Mensch" ],
   "Typus": [ "Borongeweihter" ], 
-  "Monat": "Mai",  
+  "Monat": "Boron",  
   "Basiswerte": { },
   "Talente": {
     "Gesellschaft": {
@@ -64,7 +64,7 @@
   "Sternbild": "Schlange",
   "Typkategorie": [ "Mensch" ],
   "Typus": [ "Hesindegeweihter" ],  
-  "Monat": "Juni",  
+  "Monat": "Hesinde",  
   "Basiswerte": { },
   "Talente": {
     "Wissenstalente": {
@@ -76,7 +76,7 @@
   "Sternbild": "Eisbär",
   "Typkategorie": [ "Mensch" ],
   "Typus": [ "Firungeweihter" ],  
-  "Monat": "Juli",  
+  "Monat": "Firun",  
   "Basiswerte": { },
   "Talente": {
     "Natur": {
@@ -93,7 +93,7 @@
   "Sternbild": "Eidechse",
   "Typkategorie": [ "Mensch" ],
   "Typus": [ "Tsageweihter" ],  
-  "Monat": "August",  
+  "Monat": "Tsa",  
   "Basiswerte": {
     "CH": 1
   },
@@ -103,7 +103,7 @@
   "Sternbild": "Fuchs",
   "Typkategorie": [ "Mensch" ],
   "Typus": [ "Phexgeweihter" ],  
-  "Monat": "September",  
+  "Monat": "Phex",  
   "Basiswerte": { },
   "Talente": {
     "Handwerk": {
@@ -118,7 +118,7 @@
   "Sternbild": "Storch",
   "Typkategorie": [ "Mensch" ],
   "Typus": [ "Perainegeweihter" ],  
-  "Monat": "Oktober",  
+  "Monat": "Peraine",  
   "Basiswerte": { },
   "Talente": {
     "Handwerk": {
@@ -131,7 +131,7 @@
   "Sternbild": "Hammer und Amboss",
   "Typkategorie": [ "Mensch" ],
   "Typus": [ "Ingerimmgeweihter" ],  
-  "Monat": "November",  
+  "Monat": "Ingerimm",  
   "Basiswerte": { },
   "Talente": {
     "Kampftechniken": {
@@ -145,7 +145,7 @@
   "Sternbild": "Stute",
   "Typkategorie": [ "Mensch" ],
   "Typus": [ "Rahjageweihter" ],
-  "Monat": "Dezember",  
+  "Monat": "Rahja",  
   "Basiswerte": { },
   "Talente": {
     "Gesellschaft": {

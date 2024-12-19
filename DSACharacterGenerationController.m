@@ -90,6 +90,7 @@
 #import "DSALiturgy.h"
 #import "DSAProfession.h"
 #import "NSMutableDictionary+Extras.h"
+#import "DSAAventurianCalendar.h"
 
 #import "DSAObject.h"
 
@@ -103,7 +104,7 @@
       self.generatedCharacter = [[DSACharacter alloc] init];
       self.traitsDict = [[NSMutableDictionary alloc] init];
       self.wealth = [[NSMutableDictionary alloc] init];
-      self.birthday = [[NSMutableDictionary alloc] init];
+      self.birthday = [[DSAAventurianDate alloc] init];
       _portraitsArray = [[NSMutableArray alloc] init];
     
       NSError *e = nil;
@@ -1582,6 +1583,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
 /* generates the birthday, as described in  "Die Helden des Schwarzen Auges",
    Regelbuch II, S. 9. */
 
+/*   
 - (NSDictionary *) generateBirthday
 {
   NSString *monthName = [[NSString alloc] init];
@@ -1614,6 +1616,46 @@ NSLog(@"generateFamilyBackground %@", retVal);
   [retVal setObject: year forKey: @"year"];
   [retVal setObject: [NSString stringWithFormat: @"%@. %@ im Jahr %@ Hal", day, monthName, year] forKey: @"date"];
   return retVal;
+}
+*/
+
+- (DSAAventurianDate *) generateBirthday
+{
+  NSLog(@"generateBirthday called");
+  NSString *monthName = [[NSString alloc] init];
+  NSUInteger day;
+  NSInteger year;
+  NSNumber *diceResult = [Utils rollDice: @"1W20"];
+  NSArray *months = [[_birthdaysDict objectForKey: @"Monat"] allKeys];
+
+  for (NSString *month in months)
+    {
+      if ([[[_birthdaysDict objectForKey: @"Monat"] objectForKey: month] containsObject: diceResult])
+        {
+          monthName = [NSString stringWithFormat: @"%@", month];
+        }
+    }
+
+  diceResult = [Utils rollDice: @"1W20"];
+  NSArray *fifthOfMonth = [[_birthdaysDict objectForKey: @"Monatsfuenftel"] allKeys];
+  for (NSString *fifth in fifthOfMonth)  
+    {
+      if ([[[_birthdaysDict objectForKey: @"Monatsfuenftel"] objectForKey: fifth] containsObject: diceResult])
+        {
+          day = [fifth intValue] + [[Utils rollDice: @"1W6"] intValue] - 1;
+        }
+    }
+  NSLog(@"generateBirthday before year with this month %lu for monthName: %@", (unsigned long) [DSAAventurianCalendar monthForString: monthName], monthName);
+  year = [DSAAventurianCalendar calculateAventurianYearOfBirthFromCurrentDate: [DSAAventurianCalendar convertToAventurian: [NSDate date]]
+                                                                birthdayMonth: [DSAAventurianCalendar monthForString: monthName]
+                                                                  birthdayDay: day
+                                                                   currentAge: 16];   // always starting with 16 years for now
+
+  NSLog(@"generateBirthday after year %li", (long) year);                                                                     
+  return [[DSAAventurianDate alloc] initWithYear: year
+                                           month: [DSAAventurianCalendar monthForString: monthName]
+                                             day: day
+                                            hour: 5];         // for now, everyone is born at 5 am in the morning
 }
 
 // loosely following "Vom Leben in Aventurien", S. 34
@@ -3597,7 +3639,7 @@ NSLog(@"popupCategorySelected called!");
   NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [_archetypesDict objectForKey: [[self.popupArchetypes selectedItem] title]]];
   NSArray *positiveArr = [NSArray arrayWithArray: [self generatePositiveTraits]];
   NSArray *negativeArr = [NSArray arrayWithArray: [self generateNegativeTraits]];
-  NSDictionary *birthday = [[NSDictionary alloc] init];
+  DSAAventurianDate *birthday = [[DSAAventurianDate alloc] init];
   NSDictionary *socialStatusParents = [self generateFamilyBackground: [[self.popupArchetypes selectedItem] title]];
   if ([[self.fieldMageSchool stringValue] isEqualToString: _(@"Magiedilettant")])
     {
@@ -3611,7 +3653,7 @@ NSLog(@"popupCategorySelected called!");
   [self.fieldHairColor setStringValue: [self generateHairColorForArchetype: [[self.popupArchetypes selectedItem] title]]];
   [self.fieldEyeColor setStringValue: [self generateEyeColorForArchetype: [[self.popupArchetypes selectedItem] title] withHairColor: [self.fieldHairColor stringValue]]];  
   birthday = [self generateBirthday];
-  [self.fieldBirthday setStringValue: [birthday objectForKey: @"date"]];
+  [self.fieldBirthday setStringValue: [NSString stringWithFormat: @"%lu. %@ %lu %@", (unsigned long)birthday.day, birthday.monthName, (unsigned long)birthday.year, birthday.year > 0 ? @"AF" : @"BF"]];
   [self.fieldHeight setStringValue: [NSString stringWithFormat: @"%f", [self generateHeightForArchetype: [[self.popupArchetypes selectedItem] title]]]];
   [self.fieldWeight setStringValue: [NSString stringWithFormat: @"%f", [self generateWeightForArchetype: [[self.popupArchetypes selectedItem] title] withHeight: [self.fieldHeight floatValue]]]];
   [self.fieldName setEnabled: YES];
@@ -3646,7 +3688,7 @@ NSLog(@"popupCategorySelected called!");
                                               [wealthDict objectForKey: @"K"]]];
   for (NSString *god in [_godsDict allKeys])
     {
-      if ([[[_godsDict objectForKey: god] objectForKey: @"Monat"] isEqualToString: [birthday objectForKey: @"month"]])
+      if ([[[_godsDict objectForKey: god] objectForKey: @"Monat"] isEqualToString: birthday.monthName])
         {
           [self.fieldStars setStringValue: [[_godsDict objectForKey: god] objectForKey: @"Sternbild"]];
           [self.fieldGod setStringValue: god];
