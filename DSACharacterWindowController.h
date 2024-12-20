@@ -82,7 +82,8 @@
 @property (weak) IBOutlet NSTextField *fieldTitle;
 @property (weak) IBOutlet NSTextField *fieldWeight;
 @property (weak) IBOutlet NSTabView *tabViewMain;
-@property (weak) IBOutlet DSAInventorySlotView *imageViewPortrait;
+@property (weak) IBOutlet NSImageView *imageViewPortrait;
+@property (weak) IBOutlet NSImageView *imageViewBodyShape;
 @property (weak) IBOutlet DSAInventorySlotView *bodySlot0;
 @property (weak) IBOutlet DSAInventorySlotView *bodySlot1;
 @property (weak) IBOutlet DSAInventorySlotView *bodySlot2;
@@ -178,11 +179,12 @@
 @property (weak) IBOutlet NSTextField *fieldAdditionalAdventurePoints;
 // to track spells and spell names NSText field relationships to be able to change color
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSTextField *> *spellItemFieldMap;
+@property (nonatomic, strong) NSMutableSet *observedObjects;
 
 - (IBAction)closePanel:(id)sender;
 
 
-@property (nonatomic, weak) IBOutlet NSMenuItem *menuItemLevelUp;
+@property (nonatomic, strong) NSMutableDictionary<id<NSCopying>, NSMutableSet<NSString *> *> *observedKeyPaths;
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 

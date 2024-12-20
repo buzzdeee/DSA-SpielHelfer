@@ -50,7 +50,7 @@
 @property (nonatomic, copy) NSString *eyeColor;
 @property (nonatomic, assign) float height;
 @property (nonatomic, assign) float weight;
-@property (nonatomic, copy) DSAAventurianDate *birthday;
+@property (nonatomic, strong) DSAAventurianDate *birthday;
 @property (nonatomic, copy) NSString *god;
 @property (nonatomic, copy) NSString *stars;
 @property (nonatomic, copy) NSString *religion;
@@ -75,7 +75,8 @@
 @property (nonatomic, copy) NSNumber *karmaPoints;
 @property (nonatomic, copy) NSNumber *currentKarmaPoints;
 @property (nonatomic, copy) NSNumber *mrBonus;
-@property (nonatomic, strong) NSImage *portrait;
+@property (nonatomic, strong, readonly) NSImage *portrait;
+@property (nonatomic, copy) NSString *portraitName;
 @property (nonatomic, strong) DSAInventory *inventory;
 @property (nonatomic, strong) DSABodyParts *bodyParts;
 

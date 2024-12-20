@@ -36,7 +36,7 @@
        self.eyes = [[DSAInventory alloc] initWithSlotType: DSASlotTypeGlasses quantity: 1 maxItemsPerSlot: 1];
        self.leftEar = [[DSAInventory alloc] initWithSlotType: DSASlotTypeEarring quantity: 1 maxItemsPerSlot: 1];
        self.rightEar = [[DSAInventory alloc] initWithSlotType: DSASlotTypeEarring quantity: 1 maxItemsPerSlot: 1];
-       self.nose = [[DSAInventory alloc] initWithSlotType: DSASlotTypeEarring quantity: 1 maxItemsPerSlot: 1];
+       self.nose = [[DSAInventory alloc] initWithSlotType: DSASlotTypeNosering quantity: 1 maxItemsPerSlot: 1];
        self.face = [[DSAInventory alloc] initWithSlotType: DSASlotTypeMask quantity: 1 maxItemsPerSlot: 1];    
        self.back = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeBackquiver), @(DSASlotTypeBackpack)] maxItemsPerSlot: 1];
        self.shoulder = [[DSAInventory alloc] initWithSlotType: DSASlotTypeSash quantity: 2 maxItemsPerSlot: 1];                
@@ -44,8 +44,8 @@
        self.rightArm = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeArmArmor)] maxItemsPerSlot: 1];
        self.leftHand = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeGeneral), @(DSASlotTypeGloves)] maxItemsPerSlot: 1];
        self.rightHand = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeGeneral), @(DSASlotTypeGloves)] maxItemsPerSlot: 1];
-       self.leftHandFingers = [[DSAInventory alloc] initWithSlotType: DSASlotTypeNecklace quantity: 1 maxItemsPerSlot: 1];
-       self.rightHandFingers = [[DSAInventory alloc] initWithSlotType: DSASlotTypeNecklace quantity: 1 maxItemsPerSlot: 1];
+       self.leftHandFingers = [[DSAInventory alloc] initWithSlotType: DSASlotTypeRing quantity: 1 maxItemsPerSlot: 1];
+       self.rightHandFingers = [[DSAInventory alloc] initWithSlotType: DSASlotTypeRing quantity: 1 maxItemsPerSlot: 1];
        self.hip = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeHip)] maxItemsPerSlot: 1];       
        self.upperBody = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeBodyArmor), @(DSASlotTypeVest), @(DSASlotTypeJacket), @(DSASlotTypeShirt), @(DSASlotTypeUnderwear)] maxItemsPerSlot: 1];
        self.lowerBody = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeUnderwear)] maxItemsPerSlot: 1];
@@ -311,13 +311,13 @@
     if ([bodyPart isEqualToString:@"back"]) return self.back;
     if ([bodyPart isEqualToString:@"shoulder"]) return self.shoulder;
     if ([bodyPart isEqualToString:@"leftArm"]) return self.leftArm;
-    if ([bodyPart isEqualToString:@"leftArm"]) return self.leftArm;
     if ([bodyPart isEqualToString:@"rightArm"]) return self.rightArm;
     if ([bodyPart isEqualToString:@"leftHand"]) return self.leftHand;
     if ([bodyPart isEqualToString:@"rightHand"]) return self.rightHand;
     if ([bodyPart isEqualToString:@"leftHandFingers"]) return self.leftHandFingers;
     if ([bodyPart isEqualToString:@"rightHandFingers"]) return self.rightHandFingers;
     if ([bodyPart isEqualToString:@"hip"]) return self.hip;
+    if ([bodyPart isEqualToString:@"upperBody"]) return self.upperBody;
     if ([bodyPart isEqualToString:@"lowerBody"]) return self.lowerBody;
     if ([bodyPart isEqualToString:@"leftLeg"]) return self.leftLeg;
     if ([bodyPart isEqualToString:@"rightLeg"]) return self.rightLeg;

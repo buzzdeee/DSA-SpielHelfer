@@ -235,6 +235,7 @@
   return self;
 }
 
+/*
 - (void)loadPortraits {
     // Get the main bundle path
     NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
@@ -263,6 +264,31 @@
             if (image) {
                 [_portraitsArray addObject:image];
             }
+        }
+    }
+}
+*/
+
+- (void)loadPortraits {
+    // Get the main bundle path
+    NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
+    
+    // Create file manager
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    // Get all files in the resource directory
+    NSArray *allFiles = [fileManager contentsOfDirectoryAtPath:resourcePath error:nil];
+    
+    // Regular expression to match "Character_XXXX.png" where XXXX is a number
+    NSString *pattern = @"^Character_\\d*\\.png$";
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
+    
+    // Iterate through the files and filter for files that match the pattern
+    for (NSString *fileName in allFiles) {
+        NSRange range = NSMakeRange(0, fileName.length);
+        if ([regex numberOfMatchesInString:fileName options:0 range:range] > 0) {
+            // Add the file name to the array
+            [_portraitsArray addObject:fileName];
         }
     }
 }
@@ -499,10 +525,11 @@
       NSLog(@"DSACharacterGenerationController: createCharacter: don't know how to create Archetype: %@", selectedArchetype);
     }
 
+  NSLog(@"DSACharacterGenerationController: created newCharacter for archetype: %@", selectedArchetype);
   // Set common properties for the new character
   newCharacter.name = characterName;
   newCharacter.archetype = selectedArchetype;
-
+  NSLog(@"DSACharacterGenerationController: assigned archetype to newCharacter");
   if ([self.popupProfessions isEnabled] && [self.popupProfessions indexOfSelectedItem] != 0)
     {
       NSDictionary *professionDict = [NSDictionary dictionaryWithDictionary: [_professionsDict objectForKey: selectedProfession]];
@@ -530,7 +557,7 @@
     {
       newCharacter.element = nil;
     }
-  
+  NSLog(@"DSACharacterGenerationController: assigned professions to newCharacter");
   newCharacter.religion = [[self.popupReligions selectedItem] title]; 
   newCharacter.hairColor = [self.fieldHairColor stringValue];
   newCharacter.eyeColor = [self.fieldEyeColor stringValue];
@@ -542,10 +569,13 @@
   newCharacter.parents = [self.fieldParents stringValue];
   newCharacter.sex = [[self.popupSex selectedItem] title];
   newCharacter.title = [self.fieldTitle stringValue];
+  NSLog(@"DSACharacterGenerationController: before assiging birthday to newCharacter");
   newCharacter.birthday = self.birthday;
+  NSLog(@"DSACharacterGenerationController: assigned birthday to newCharacter");
   newCharacter.money = [NSMutableDictionary dictionaryWithDictionary: self.wealth];
-  newCharacter.portrait = [self.imageViewPortrait image];
-  
+  //newCharacter.portrait = [self.imageViewPortrait image];
+  newCharacter.portraitName = _portraitsArray[_currentPortraitIndex];
+  NSLog(@"DSACharacterGenerationController: assigned portrait to newCharacter");
   // A Mage or Geode
   if ([self.popupMageAcademies isEnabled] && ([newCharacter isMemberOfClass: [DSACharacterHeroHumanMage class]] || 
                                               [newCharacter isMemberOfClass: [DSACharacterHeroDwarfGeode class]]))
@@ -587,7 +617,7 @@
                          forKey: field];  
     }
   newCharacter.negativeTraits = negativeTraits;
-    
+  NSLog(@"DSACharacterGenerationController: assigned traits to newCharacter");  
   // handle talents
   NSDictionary *talents = [[NSDictionary alloc] init];
   talents = [self getTalentsForArchetype: selectedArchetype];
@@ -629,7 +659,7 @@
         }        
     }
   newCharacter.talents = newTalents;
-    
+  NSLog(@"DSACharacterGenerationController: assigned talents to newCharacter");  
   if ([newCharacter conformsToProtocol:@protocol(DSACharacterMagic)])
     {
       NSDictionary *spells = [[NSDictionary alloc] init];
@@ -675,14 +705,14 @@
             }
         }        
     }
-  
+  NSLog(@"DSACharacterGenerationController: assigned spells to newCharacter");
   newCharacter.birthPlace = [self generateBirthPlaceForCharacter: newCharacter];
   newCharacter.birthEvent = [self generateBirthEventForCharacter: newCharacter];  
   newCharacter.legitimation = [self generateLegitimationForCharacter: newCharacter];
   newCharacter.siblings = [self generateSiblings];
   newCharacter.childhoodEvents = [self generateChildhoodEventsForCharacter: newCharacter];
   newCharacter.youthEvents = [self generateYouthEventsForCharacter: newCharacter];    
-  
+  NSLog(@"DSACharacterGenerationController: assigned events to newCharacter");
   if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanWitch class]])
     {
       [self addWichCursesToCharacter: newCharacter];
@@ -724,7 +754,7 @@
   [self apply: @"Kriegerakademie" toArchetype: newCharacter];  
   [self apply: @"Schamanenmodifikatoren" toArchetype: newCharacter];
   [self addEquipmentToCharacter: newCharacter];
-
+  NSLog(@"DSACharacterGenerationController: assigned equipment to newCharacter");
   // Store the generated character
   self.generatedCharacter = newCharacter;
 }
@@ -3726,7 +3756,8 @@ NSLog(@"popupCategorySelected called!");
       NSImage *firstImage = [self.portraitsArray objectAtIndex:0];
     
       // Set it to the image view
-      [self.imageViewPortrait setImage:firstImage];
+      //[self.imageViewPortrait setImage:firstImage];
+      [self assignPortraitToCharacter];
       [self.imageViewPortrait setImageScaling:NSImageScaleProportionallyUpOrDown];
     }
   else
@@ -3817,6 +3848,62 @@ NSLog(@"popupCategorySelected called!");
    
 }
 
+- (void)assignPortraitToCharacter {
+    // Get the current portrait file name from the array
+    NSString *selectedPortraitName = _portraitsArray[_currentPortraitIndex];
+
+    // Assign the name to the new character's portraitName property
+    // newCharacter.portraitName = selectedPortraitName;
+
+    // Dynamically load the image and set it to the imageView
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:selectedPortraitName ofType:nil];
+    if (imagePath) {
+        self.imageViewPortrait.image = [[NSImage alloc] initWithContentsOfFile:imagePath];
+    }
+}
+
+
+- (IBAction)buttonImageClicked:(NSButton *)sender
+{
+    // Check the button's tag: 0 for previous, 1 for next
+    if (sender.tag == 0)
+    {
+        // Previous button clicked
+        self.currentPortraitIndex--;
+        if (self.currentPortraitIndex < 0)
+        {
+            self.currentPortraitIndex = self.portraitsArray.count - 1; // Wrap around to the last image
+        }
+    }
+    else if (sender.tag == 1)
+    {
+        // Next button clicked
+        self.currentPortraitIndex++;
+        if (self.currentPortraitIndex >= self.portraitsArray.count)
+        {
+            self.currentPortraitIndex = 0; // Wrap around to the first image
+        }
+    }
+    
+    // Get the current portrait file name
+    NSString *currentPortraitName = [self.portraitsArray objectAtIndex:self.currentPortraitIndex];
+    
+    // Dynamically load the image from the app bundle
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:currentPortraitName ofType:nil];
+    if (imagePath)
+    {
+        NSImage *newImage = [[NSImage alloc] initWithContentsOfFile:imagePath];
+        [self.imageViewPortrait setImage:newImage];
+    }
+    else
+    {
+        // Handle the case where the image is missing or cannot be loaded
+        NSLog(@"Error: Image file %@ could not be found in the bundle.", currentPortraitName);
+        [self.imageViewPortrait setImage:nil]; // Clear the image view if loading fails
+    }
+}
+
+/*
 - (IBAction)buttonImageClicked:(NSButton *)sender
 {
   // Check the button's tag: 0 for previous, 1 for next
@@ -3843,7 +3930,7 @@ NSLog(@"popupCategorySelected called!");
   NSImage *newImage = [self.portraitsArray objectAtIndex:self.currentPortraitIndex];
   [self.imageViewPortrait setImage:newImage];
 }
-
+*/
 - (IBAction) textFieldUpdated: (id)sender
 {
   if ([[sender stringValue] length] > 0)

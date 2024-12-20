@@ -81,8 +81,9 @@
   DSASpell *tmpSpell = nil;
 
   targetSpell = spell;
+  NSLog(@"DSACharacterHeroElf: the Spell: %@", spell);
   tmpSpell = [self.levelUpSpells objectForKey: spell.name];
-
+  NSLog(@"DSACharacterHeroElf: nr of spells in levelUpSpells: %@", self.levelUpSpells);
   if ([tmpSpell.maxUpPerLevel integerValue] == 0)
     {
       NSLog(@"DSACharacterHeroElf: levelUpSpell: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");

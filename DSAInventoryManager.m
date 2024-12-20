@@ -86,8 +86,8 @@
         [self postDSAInventoryChangedNotificationForSourceModel: sourceModel targetModel: targetModel];
         return YES;
     } else if (!sourceSlot.object.canShareSlot && targetSlot.object == nil) {
-        NSLog(@"Before updating slots: Source Slot: %@, Quantity: %ld", sourceSlot.object, sourceSlot.quantity);
-        NSLog(@"Before updating slots: Target Slot: %@, Quantity: %ld", targetSlot.object, targetSlot.quantity);    
+        //NSLog(@"Before updating slots: Source Slot: %@, Quantity: %ld", sourceSlot.object, sourceSlot.quantity);
+        //NSLog(@"Before updating slots: Target Slot: %@, Quantity: %ld", targetSlot.object, targetSlot.quantity);    
         // If item can't share slot, just move it over if target is empty
         targetSlot.object = sourceSlot.object;
         targetSlot.quantity = sourceSlot.quantity;

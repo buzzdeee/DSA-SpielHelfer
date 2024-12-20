@@ -111,6 +111,8 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
         _youthEvents = [[NSArray alloc] init];
         _inventory = [[DSAInventory alloc] init];
         _bodyParts = [[DSABodyParts alloc] init];
+        NSLog(@"DSACharacter: allocating DSAAventurianDate in init");
+        _birthday = [[DSAAventurianDate alloc] init];
     }
     return self;
 }
@@ -161,6 +163,82 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
   return descriptionString;
 }
 
+// Ignores readonly variables with the assumption
+// they are all calculated
+- (id)copyWithZone:(NSZone *)zone
+{
+  // Create a new instance of the class
+  DSACharacter *copy = [[[self class] allocWithZone:zone] init];
+
+  Class currentClass = [self class];
+  while (currentClass != [NSObject class])
+    {  // Loop through class hierarchy
+      // Get a list of all properties for this class
+      unsigned int propertyCount;
+      objc_property_t *properties = class_copyPropertyList(currentClass, &propertyCount);
+        
+      // Iterate over each property
+      for (unsigned int i = 0; i < propertyCount; i++)
+        {
+          objc_property_t property = properties[i];
+          // Get the property name
+          const char *propertyName = property_getName(property);
+          NSString *key = [NSString stringWithUTF8String:propertyName];
+
+          // Get the property attributes
+          const char *attributes = property_getAttributes(property);
+          NSString *attributesString = [NSString stringWithUTF8String:attributes];
+          // Check if the property is readonly by looking for the "R" attribute
+          if ([attributesString containsString:@",R"])
+            {
+              // This is a readonly property, skip copying it
+              continue;
+            }
+            
+          // Get the value of the property for the current object
+          id value = [self valueForKey:key];
+
+          if (value)
+            {
+              // Handle arrays specifically
+              if ([value isKindOfClass:[NSArray class]])
+                {
+                  // Create a mutable array to copy the elements
+                  NSMutableArray *copiedArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)value count]];
+                  for (id item in (NSArray *)value)
+                    {
+                      if ([item conformsToProtocol:@protocol(NSCopying)])
+                        {
+                          [copiedArray addObject:[item copyWithZone:zone]];
+                        } else {
+                          [copiedArray addObject:item]; // Fallback to shallow copy
+                        }
+                    }
+                  [copy setValue:[NSArray arrayWithArray:copiedArray] forKey:key];
+                }
+              // Check if the property conforms to NSCopying
+              else if ([value conformsToProtocol:@protocol(NSCopying)])
+                {
+                  [copy setValue:[value copyWithZone:zone] forKey:key];
+                }
+              else
+                {
+                    // Just assign the reference (shallow copy)
+                    [copy setValue:value forKey:key];
+                }
+            }
+        }
+
+      // Free the property list memory
+      free(properties);
+        
+      // Move to superclass
+      currentClass = [currentClass superclass];
+    }    
+  return copy;
+}
+
+
 // Since we use NSKeyedArchiver, and we use secure coding
 // we have to support it with the following three methods
 // BUT: GNUstep doesn't support the SecureCoding protocol yet :(
@@ -171,7 +249,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-  // Get the image's representations (NSImage can have multiple representations)
+/*  // Get the image's representations (NSImage can have multiple representations)
   NSImageRep *imageRep = [[self.portrait representations] objectAtIndex:0];    
   // Check if the representation is a bitmap image rep and convert it to PNG data
   if ([imageRep isKindOfClass:[NSBitmapImageRep class]])
@@ -181,7 +259,8 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
       NSData *pngData = [bitmapRep representationUsingType:NSPNGFileType properties:@{}];        
       // Encode the PNG data with a key
       [coder encodeObject:pngData forKey:@"portraitData"];
-    }
+    } */
+  [coder encodeObject:self.portraitName forKey:@"portraitName"];  
   [coder encodeObject:self.modelID forKey:@"modelID"];  
   [coder encodeObject:self.name forKey:@"name"];
   [coder encodeObject:self.title forKey:@"title"];
@@ -230,13 +309,13 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     {
-      // Decode the PNG data
+/*      // Decode the PNG data
       NSData *imageData = [coder decodeObjectForKey:@"portraitData"]; 
       // Convert the PNG data back to an NSImage
       if (imageData)
         {
           self.portrait = [[NSImage alloc] initWithData:imageData];
-        }    
+        }     */
       _modelID = [coder decodeObjectOfClass:[NSString class] forKey:@"modelID"];
       if (!self.modelID)
         {
@@ -247,7 +326,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
       } else {
           NSLog(@"Warning: modelID %@ already exists!", _modelID);
       }      
-      
+      self.portraitName = [coder decodeObjectOfClass:[NSString class] forKey:@"portraitName"];
       self.name = [coder decodeObjectOfClass:[NSString class] forKey:@"name"];
       self.title = [coder decodeObjectOfClass:[NSString class] forKey:@"title"];
       self.archetype = [coder decodeObjectOfClass:[NSString class] forKey:@"archetype"];
@@ -494,5 +573,14 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
     return totalEncumbrance;
 }
 
-
+- (NSImage *)portrait {
+    // Dynamically load the portrait from the app bundle
+    if (self.portraitName) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource:self.portraitName ofType:nil];
+        if (imagePath) {
+            return [[NSImage alloc] initWithContentsOfFile:imagePath];
+        }
+    }
+    return nil; // Return nil if the portraitName or imagePath is invalid
+}
 @end

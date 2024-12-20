@@ -24,8 +24,18 @@ for IMAGE in ${IMAGES}; do
         
         echo "$IMAGE"
         BASENAME=$(basename "$IMAGE" .webp)
-        
+                
         for SIZE in ${SIZES}; do
+		if echo "$IMAGE" | grep -q placeholder; then
+			if [ "${SIZE}" != "32x32" ];then
+				continue
+			else
+				SIZE="16x16"
+				if echo "$IMAGE" | grep -q "${SIZE}"; then
+					continue
+				fi
+			fi
+		fi
 		if [ ! -e "${BASENAME}-${SIZE}.webp" ];then
                 	echo "convert $IMAGE -resize $SIZE ${BASENAME}-${SIZE}.webp"
                 	convert "$IMAGE" -resize "$SIZE" "${BASENAME}-${SIZE}.webp"

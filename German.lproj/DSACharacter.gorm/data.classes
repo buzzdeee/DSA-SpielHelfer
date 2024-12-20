@@ -133,7 +133,8 @@
 	    bodySlot35,
 	    bodySlot36,
 	    imageTrash,
-	    fieldLoad
+	    fieldLoad,
+	    imageViewBodyShape
 	);
 	Super = NSWindowController;
     };

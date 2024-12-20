@@ -36,6 +36,7 @@ typedef NS_ENUM(NSUInteger, DSASlotType) {
     DSASlotTypeShoes,                           // holds shoes
     DSASlotTypeNecklace,                        // holds necklaces, medaillons
     DSASlotTypeEarring,                         // holds earrings
+    DSASlotTypeNosering,                        // holds noserings
     DSASlotTypeGlasses,                         // holds glasses
     DSASlotTypeMask,                            // holds mask
     DSASlotTypeBackpack,                        // holds backpacks on the back of character

@@ -38,7 +38,7 @@
   if (self)
     {
       // Initialize your document here
-      self.model = [[DSACharacter alloc] init];
+      self.model = [[DSACharacter alloc] init];                                         
     }
   NSLog(@"DSACharacterDocument init was called");  
   return self;

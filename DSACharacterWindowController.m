@@ -59,13 +59,20 @@
 
 - (void)dealloc
 {
-  // Clean up KVO observer
-  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-  
   NSLog(@"DSACharacterWindowController is being deallocated.");   
   
-  [document.model removeObserver:self forKeyPath:@"adventurePoints"];
-  //[[NSNotificationCenter defaultCenter] removeObserver:self];
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  
+  // Remove all observers
+  for (id object in self.observedKeyPaths) {
+      NSSet<NSString *> *keyPaths = self.observedKeyPaths[object];
+      for (NSString *keyPath in keyPaths) {
+          [object removeObserver:self forKeyPath:keyPath];
+      }
+  }
+  // Clear the dictionary
+  [self.observedKeyPaths removeAllObjects];
+  
 }
 
 - (DSACharacterWindowController *)initWithWindowNibName:(NSString *)nibNameOrNil
@@ -76,6 +83,7 @@
     {
       NSLog(@"DSACharacterWindowController initialized with nib: %@", nibNameOrNil);
       self.spellItemFieldMap = [NSMutableDictionary dictionary];
+      _observedKeyPaths = [NSMutableDictionary dictionary];
     }
   else
     {
@@ -95,33 +103,13 @@
   // Register the value transformer
   [NSValueTransformer setValueTransformer:[[DSARightAlignedStringTransformer alloc] init] 
                                   forName:@"RightAlignedStringTransformer"];
-  
-  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-  [document.model addObserver:self
-                   forKeyPath:@"adventurePoints"
-                      options:NSKeyValueObservingOptionNew
-                      context:NULL];
-  
+    
     // Register for DSAInventoryChangedNotification specific to this document's model
-/*    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(populateInventory)
-                                                 name:@"DSAInventoryChangedNotification"
-                                               object:[(DSACharacterDocument *)self.document model]];  // Listen for notifications for this model           */
-/*    [[NSNotificationCenter defaultCenter] addObserverForName:@"DSAInventoryChangedNotification"
-                                                  object:nil
-                                                   queue:[NSOperationQueue mainQueue]
-                                              usingBlock:^(NSNotification *note) {
-    NSLog(@"Global observer: Received notification for sourceModel: %@ (address: %p), targetModel: %@ (address: %p)", 
-          note.userInfo[@"sourceModel"], note.userInfo[@"sourceModel"], 
-          note.userInfo[@"targetModel"], note.userInfo[@"targetModel"]);
-}];
-*/
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(populateInventory)
+                                             selector:@selector(handleInventoryUpdate)
                                                  name:@"DSAInventoryChangedNotification"
-                                               object:nil]; // listen for notifications of any object...
+                                               object:nil]; // listen for notifications of any object... (XXX TODO limit to listen to only THIS object)
                                                          
-    NSLog(@"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX DSACharacterWindowController: Registered for model: %p", [(DSACharacterDocument *)self.document model]);                  
     // Log the window
     if (!self.window) {
         NSLog(@"Error: No window found for DSACharacterWindowController!");
@@ -140,19 +128,39 @@
     } else {
         NSLog(@"Window content view: %@", contentView);
     }
-                             
+      
+  NSLog(@"DSACharacterWindowController: before populateBasicsTab");                         
   [self populateBasicsTab];
+  NSLog(@"DSACharacterWindowController: before populateFightingTalentsTab");
   [self populateFightingTalentsTab];
+  NSLog(@"DSACharacterWindowController: before populateOtherTalentsTab");
   [self populateOtherTalentsTab];
+  NSLog(@"DSACharacterWindowController: before populateProfessionsTab");
   [self populateProfessionsTab];
+  NSLog(@"DSACharacterWindowController: before populateMagicTalentsTab");
   [self populateMagicTalentsTab];
+  NSLog(@"DSACharacterWindowController: before populateSpecialTalentsTab");
   [self populateSpecialTalentsTab];
+  NSLog(@"DSACharacterWindowController: before populateBiographyTab");
   [self populateBiographyTab];
-  
+  NSLog(@"DSACharacterWindowController: before handleAdventurePointsChange");
   [self handleAdventurePointsChange];
   
 }
 
+- (void)addObserverForObject:(id)object keyPath:(NSString *)keyPath {
+    // Add observer
+    NSLog(@"DSACharacterWindowController: addObserverForObject keyPath: %@", keyPath);
+    [object addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:NULL];
+    
+    // Track the object and keyPath
+    NSMutableSet<NSString *> *keyPaths = self.observedKeyPaths[object];
+    if (!keyPaths) {
+        keyPaths = [NSMutableSet set];
+        self.observedKeyPaths[(id<NSCopying>)object] = keyPaths;
+    }
+    [keyPaths addObject:keyPath];
+}
 
 // just for debugging purposes...
 - (void)logViewHierarchy:(NSView *)view level:(NSInteger)level {
@@ -270,10 +278,7 @@
                 toObject:document.model
              withKeyPath:[NSString stringWithFormat:@"positiveTraits.%@.level", field]
                  options:nil];
-      [document.model addObserver:self 
-                       forKeyPath:[NSString stringWithFormat:@"positiveTraits.%@.level", field]
-                          options:NSKeyValueObservingOptionNew 
-                          context:NULL];              
+      [self addObserverForObject: document.model keyPath: [NSString stringWithFormat:@"positiveTraits.%@.level", field]];         
     }
   for (NSString *field in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
     {
@@ -284,10 +289,7 @@
                 toObject:document.model
              withKeyPath:[NSString stringWithFormat:@"negativeTraits.%@.level", field]
                  options:nil];
-      [document.model addObserver:self 
-                       forKeyPath:[NSString stringWithFormat:@"negativeTraits.%@.level", field]
-                          options:NSKeyValueObservingOptionNew 
-                          context:NULL];                 
+      [self addObserverForObject: document.model keyPath: [NSString stringWithFormat:@"negativeTraits.%@.level", field]];                                         
     }
   NSLog(@"BEFORE displaying the LOAD");
   [self.fieldLoad setStringValue: [NSString stringWithFormat: @"%.2f", [document.model load]]];
@@ -295,23 +297,23 @@
   NSLog(@"AFTER displaying the LOAD");  
   
   [self.fieldAttackBaseValue bind:NSValueBinding toObject:document.model withKeyPath:@"attackBaseValue" options:nil];    
-  [document.model addObserver:self forKeyPath: @"attackBaseValue" options:NSKeyValueObservingOptionNew context: NULL];
+  [self addObserverForObject: document.model keyPath: @"attackBaseValue"];
   [self.fieldCarryingCapacity bind:NSValueBinding toObject:document.model withKeyPath:@"carryingCapacity" options:nil];    
-  [document.model addObserver:self forKeyPath: @"carryingCapacity" options:NSKeyValueObservingOptionNew context: NULL];
+  [self addObserverForObject: document.model keyPath: @"carryingCapacity"];
   [self.fieldDodge bind:NSValueBinding toObject:document.model withKeyPath:@"dodge" options:nil];    
-  [document.model addObserver:self forKeyPath: @"dodge" options:NSKeyValueObservingOptionNew context: NULL];
+  [self addObserverForObject: document.model keyPath: @"dodge"];
   [self.fieldEndurance bind:NSValueBinding toObject:document.model withKeyPath:@"endurance" options:nil];    
-  [document.model addObserver:self forKeyPath: @"endurance" options:NSKeyValueObservingOptionNew context: NULL];
+  [self addObserverForObject: document.model keyPath: @"endurance"];
   [self.fieldMagicResistance bind:NSValueBinding toObject:document.model withKeyPath:@"magicResistance" options:nil];    
-  [document.model addObserver:self forKeyPath: @"magicResistance" options:NSKeyValueObservingOptionNew context: NULL];
+  [self addObserverForObject: document.model keyPath: @"magicResistance"];
   [self.fieldParryBaseValue bind:NSValueBinding toObject:document.model withKeyPath:@"parryBaseValue" options:nil];    
-  [document.model addObserver:self forKeyPath: @"parryBaseValue" options:NSKeyValueObservingOptionNew context: NULL];
+  [self addObserverForObject: document.model keyPath: @"parryBaseValue"];
   [self.fieldRangedCombatBaseValue bind:NSValueBinding toObject:document.model withKeyPath:@"rangedCombatBaseValue" options:nil];    
-  [document.model addObserver:self forKeyPath: @"rangedCombatBaseValue" options:NSKeyValueObservingOptionNew context: NULL];              
+  [self addObserverForObject: document.model keyPath: @"rangedCombatBaseValue"];            
   [self.fieldLevel bind:NSValueBinding toObject:document.model withKeyPath:@"level" options:nil];    
-  [document.model addObserver:self forKeyPath: @"level" options:NSKeyValueObservingOptionNew context: NULL];
+  [self addObserverForObject: document.model keyPath: @"level"];
   [self.fieldAdventurePoints bind:NSValueBinding toObject:document.model withKeyPath:@"adventurePoints" options:nil];    
-  [document.model addObserver:self forKeyPath: @"adventurePoints" options:NSKeyValueObservingOptionNew context: NULL];
+  [self addObserverForObject: document.model keyPath: @"adventurePoints"];
   
   [self populateInventory];
   
@@ -344,7 +346,17 @@
     self.imageTrash.toolTip = _(@"Dinge wegwerfen"); 
     [self.imageTrash registerForDraggedTypes:@[NSStringPboardType]];   
     NSLog(@"after eye and mouth and trash");
-
+    if ([document.model.sex isEqualToString: _(@"männlich")])
+      {
+        imagePath = [[NSBundle mainBundle] pathForResource:@"Male_shape" ofType:@"png"];
+      }
+    else
+      {
+        imagePath = [[NSBundle mainBundle] pathForResource:@"Female_shape" ofType:@"png"];
+      }
+    image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
+    self.imageViewBodyShape.image = image;
+    //[self.imageViewBodyShape setDrawsBackground:NO];
     // Update general inventory slots
     [self updateInventorySlotsWithInventory:document.model.inventory
                           inventoryIdentifier:@"inventory"
@@ -355,14 +367,19 @@
     NSInteger bodySlotCounter = 0; // Start a global body slot counter
     for (NSString *propertyName in document.model.bodyParts.inventoryPropertyNames) {
         DSAInventory *inventory = [document.model.bodyParts valueForKey:propertyName];
+        NSLog(@"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX DSACharacterWindowController populateInventory for propertyName: %@ inventory: %@", propertyName, inventory);
         bodySlotCounter = [self updateInventorySlotsWithInventory:inventory
                                               inventoryIdentifier:@"body"
                                              startingSlotCounter:bodySlotCounter];
     }
     NSLog(@"after body part inventories");
-    
-    [self updateLoadDisplay];
-    [self updateEncumbranceDisplay];
+}
+
+- (void) handleInventoryUpdate {
+  [self populateInventory];
+  [self updateLoadDisplay];
+  [self updateEncumbranceDisplay];
+  [self.document updateChangeCount: NSChangeDone];  
 }
 
 // Updates all slots in the specified inventory
@@ -685,7 +702,7 @@
 {
    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
    DSACharacterHero *model = (DSACharacterHero *)document.model;
-   NSLog(@"populateSpecialTalentsTab");
+   NSLog(@"DSACharacterWindowController: populateSpecialTalentsTab");
    NSTabViewItem *mainTabItem = [self.tabViewMain tabViewItemAtIndex: [self.tabViewMain indexOfTabViewItemWithIdentifier:@"item 6"]];
   
    if ([model specials] == nil)
@@ -703,6 +720,7 @@
    NSMutableSet *categories = [NSMutableSet set];
 
    // Enumerate special talents to find all categories
+   NSLog(@"DSACharacterWindowController: populateSpecialTalentsTab before block enumeration");
    [model.specials enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
      {
         [specials addObject: obj];
@@ -710,6 +728,7 @@
      }];
     
    // Sort specials by name
+   NSLog(@"DSACharacterWindowController: populateSpecialTalentsTab after block enumeration");
    NSSortDescriptor *nameSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)];
    NSArray *sortedSpecials = [specials sortedArrayUsingDescriptors:@[nameSortDescriptor]];
     
@@ -981,10 +1000,7 @@
                 {
                   DSASpell *spellItem = (DSASpell *)item;
                   [self.spellItemFieldMap setObject: itemField forKey: [spellItem name]];
-                  [spellItem addObserver: self
-                              forKeyPath: @"isActiveSpell"
-                                 options: NSKeyValueObservingOptionNew 
-                                 context: nil];
+                  [self addObserverForObject: spellItem keyPath: @"isActiveSpell"];                                 
                 }
               else
                 {
@@ -1886,6 +1902,7 @@
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   DSACharacterHero *model = (DSACharacterHero *)document.model;
   NSString *spell = [[self.popupLevelUpBottom selectedItem] title];
+  NSLog(@"DSACharacterWindowController levelUpSpell: %@", spell);
   BOOL result;
   
   SEL levelUpSpell = @selector(levelUpSpell:);
@@ -1902,6 +1919,7 @@
       NSDictionary *containerToUse;
       if (shouldLevelUpSpecialsWithSpells)
         {
+          NSLog(@"have to level up specials together with spells");
           if ([model.spells objectForKey: spell])
             {
               containerToUse = model.spells;
@@ -1910,6 +1928,11 @@
             {
               containerToUse = model.specials;
             }
+        }
+      else
+        {
+          NSLog(@"just leveling up my normal spells");          
+          containerToUse = model.spells;
         }
       BOOL (*func)(id, SEL, DSASpell *) = (void *)objc_msgSend;
       result = func(model, levelUpSpell, [containerToUse objectForKey: spell]);

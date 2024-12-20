@@ -3116,144 +3116,178 @@
       "Holzflöte": {
         "Gewicht": 8,
         "Preis": 2
+    
       },
       "Beinflöte": {
         "Gewicht": 10,
-        "Preis": 20
+        "Preis": 20,
+        "Icon": [ "Beinfloete_1", "Beinfloete_2" ]
       },
       "Silberflöte": {
         "Gewicht": 30,
-        "Preis": 150
+        "Preis": 150,
+        "Icon": [ "Silberfloete_1", "Silberfloete_2" ]
       }
     },
     "Pfeifenbalg": {
       "Gewicht": 80,
-      "Preis": 100
+      "Preis": 100,
+      "Icon": [ "Pfeifenbalg_1", "Pfeifenbalg_2" ]
     },
     "Blechblasinstrumente": {
       "Fanfare": {
         "Gewicht": 40,
-        "Preis": 60
+        "Preis": 60,
+        "Icon": [ "Fanfare_1", "Fanfare_2" ]
       },
       "Jagdhorn": {
         "Gewicht": 30,
-        "Preis": 70
+        "Preis": 70,
+        "Icon": [ "Jagdhorn_1", "Jagdhorn_2" ]
       },
       "Zwergenposaune": {
         "Gewicht": 60,
-        "Preis": 150
+        "Preis": 150,
+        "Icon": [ "Zwergenposaune_1", "Zwergenposaune_2" ]
       },
       "Reitertrompete": {
         "Gewicht": 40,
-        "Preis": 100
+        "Preis": 100,
+        "Icon": [ "Reitertrompete_1", "Reitertrompete_2" ]
       }
     },
     "Trommeln": {
       "Trommel, Dabla": {
         "Gewicht": 20,
-        "Preis": 10
+        "Preis": 10,
+        "Icon": [ "Trommel_1", "Trommel_2" ]
       }, 
       "Söldnertrommel": {
         "Gewicht": 80,
-        "Preis": 20
+        "Preis": 20,
+        "Icon": [ "Soeldnertrommel_1", "Soeldnertrommel_2" ]
       },
       "Pauke": {
         "Gewicht": 100,
-        "Preis": 100
+        "Preis": 100,
+        "Icon": [ "Pauke_1", "Pauke_2" ]
       }
     },
     "Drehleier": {
       "Gewicht": 80,
-      "Preis": 150
+      "Preis": 150,
+      "Icon": [ "Drehleier_1", "Drehleier_2" ]
     },
     "Standharfe": {
       "Gewicht": 3000,
-      "Preis": 1200
+      "Preis": 1200,
+      "Icon": [ "Standharfe_1", "Standharfe_2" ]
     },
     "Laute, Bandurria": {
       "Gewicht": 80,
-      "Preis": 150
+      "Preis": 150,
+      "Icon": [ "Laute_1", "Laute_2" ]
     },
     "Glockenspiel": {
       "Gewicht": 120,
-      "Preis": 100
+      "Preis": 100,
+      "Icon": [ "Glockenspiel" ]
     },
     "Spinett": {
       "Gewicht": 4000,
-      "Preis": 3000
+      "Preis": 3000,
+      "Icon": [ "Spinett_1", "Spinett_2" ]
     }
   },
   "Tierbedarf": {
     "Zaumzeug": {
       "Gewicht": 80,
-      "Preis": 6
+      "Preis": 6,
+      "Icon": [ "Zaumzeug_1", "Zaumzeug_2" ]
     },
     "Kummet": {
       "Gewicht": 320,
-      "Preis": 10
+      "Preis": 10,
+      "Icon": [ "Kummet_1", "Kummet_2" ]
     },
     "Pferdedecke": {
       "Gewicht": 60,
-      "Preis": 2
+      "Preis": 2,
+      "Icon": [ "Pferdedecke_1", "Pferdedecke_2" ]
     },
     "Sättel": {
       "Sattel": {
         "Gewicht": 240,
-        "Preis": 40
+        "Preis": 40,
+        "Icon": [ "Sattel_1", "Sattel_2" ]
       },
       "Gestechsattel": {
         "Gewicht": 400,
-        "Preis": 120
+        "Preis": 120,
+        "Icon": [ "Gestechsattel_1", "Gestechsattel_2" ]
       },
       "Packsattel": {
         "Gewicht": 200,
-        "Preis": 30
+        "Preis": 30,
+        "Icon": [ "Packsattel_1", "Packsattel_2" ]
       }
     },
     "Striegelzeug": {
       "Gewicht": 60,
-      "Preis": 2
+      "Preis": 2,
+      "Icon": [ "Striegelzeug_1", "Striegelzeug_2" ]
     },
     "Reitgerte": {
       "Gewicht": 15,
-      "Preis": 1
+      "Preis": 1,
+      "Icon": [ "Reitgerte_1", "Reitgerte_2" ]
+      
     },
     "Sporen, Eisen": {
       "Gewicht": 10,
-      "Preis": 6
+      "Preis": 6,
+      "Icon": [ "Sporen_Eisen_1", "Sporen_Eisen_2" ]
     },
     "Sporen, Silber": {
       "Gewicht": 15,
-      "Preis": 15
+      "Preis": 15,
+      "Icon": [ "Sporen_Silber_1", "Sporen_Silber_2" ]
     },
     "Falknerhandschuh": {
       "Gewicht": 40,
-      "Preis": 4
+      "Preis": 4,
+      "Icon": [ "Falknerhandschuh_1", "Falknerhandschuh_2" ]
     },
-    "Falkenmaske": {
+    "Falkenhaube": {
       "Gewicht": 15,
-      "Preis": 10
+      "Preis": 10,
+      "Icon": [ "Falkenhaube_1", "Falkenhaube_2" ]
     },
     "Maulkorb": {
       "Gewicht": 40,
-      "Preis": 3
+      "Preis": 3,
+      "Icon": [ "Maulkorb_1", "Maulkorb_2" ]
     },
     "Tragegeschirr für Hunde": {
       "Gewicht": 20,
-      "Preis": 4
+      "Preis": 4,
+      "Icon": [ "Tragegeschirr_Hunde_1", "Tragegeschirr_Hunde_2" ]
     },
     "Halsband und Leine": {
       "Gewicht": 20,
-      "Preis": 0.8
+      "Preis": 0.8,
+      "Icon": [ "Halsband_1", "Halsband_2" ]
     },
     "Vogelkäfige": {
       "Vogelkäfig, klein": {
         "Gewicht": 80,
-        "Preis": 15
+        "Preis": 15,
+        "Icon": [ "Vogelkaefig_klein_1", "Vogelkaefig_klein_2" ]
       },
       "Vogelkäfig, groß": {
         "Gewicht": 200,
-        "Preis": 40
+        "Preis": 40,
+        "Icon": [ "Vogelkaefig_gross_1", "Vogelkaefig_gross_2" ]
       }
     }
   },
@@ -3261,55 +3295,67 @@
     "Ringe": {
       "Ring, Silber": {
         "Gewicht": 0.5,
-        "Preis": 3
+        "Preis": 3,
+        "Icon": [ "Ring_Silber_1", "Ring_Silber_2" ]
       },
       "Ring, Gold": {
         "Gewicht": 0.6,
-        "Preis": 9
+        "Preis": 9,
+        "Icon": [ "Ring_Gold_1", "Ring_Gold_2" ]
       },
       "Ring, Messing": {
         "Gewicht": 0.55,
-        "Preis": 1
+        "Preis": 1,
+        "Icon": [ "Ring_Messing_1", "Ring_Messing_2" ]
       },  
       "Ring, Bronze": {
         "Gewicht": 0.55,
-        "Preis": 1
+        "Preis": 1,
+        "Icon": [ "Ring_Bronze_1", "Ring_Bronze_2" ]
       }
     },
     "Ohrringe": {
       "Ohrring, Silber": {
         "Gewicht": 0.2,
-        "Preis": 3
+        "Preis": 3,
+        "Icon": [ "Ohrringe_Silber_1", "Ohrringe_Silber_2" ]
       },
       "Ohrring, Gold": {
         "Gewicht": 0.5,
-        "Preis": 27
+        "Preis": 27,
+        "Icon": [ "Ohrringe_Gold_1", "Ohrringe_Gold_2" ]
       },
       "Ohrring, Messing": {
         "Gewicht": 0.25,
-        "Preis": 1
+        "Preis": 1,
+        "Icon": [ "Ohrringe_Messing_1", "Ohrringe_Messing_2" ]
       },
       "Ohrring, Bronze": {
         "Gewicht": 0.25,
-        "Preis": 1
+        "Preis": 1,
+        "Icon": [ "Ohrringe_Bronze_1", "Ohrringe_Bronze_2" ]
       }
     },       
     "Armreifen": {
       "Armreif, Silber": {
         "Gewicht": 10,
-        "Preis": 60
+        "Preis": 60,
+        "Icon": [ "Armreif_Silber_1", "Armreif_Silber_2" ]
       },
       "Armreif, Gold": {
         "Gewicht": 12,
-        "Preis": 180
+        "Preis": 180,
+        "Icon": [ "Armreif_Gold_1", "Armreif_Gold_2" ]
       },
       "Armreif, Messing": {
         "Gewicht": 11,
-        "Preis": 20
+        "Preis": 20,
+        "Icon": [ "Armreif_Messing_1", "Armreif_Messing_2" ]
       },   
       "Armreif, Bronze": {
         "Gewicht": 11,
-        "Preis": 20
+        "Preis": 20,
+        "Icon": [ "Armreif_Silber_1", "Armreif_Silber_2" ]
       }
     },         
     "Stirnreifen": {

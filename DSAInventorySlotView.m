@@ -71,6 +71,19 @@
     }
 }
 
+- (void)setImage:(NSImage *)image {
+    // Check if the slot is empty and set the placeholder image
+    if (!self.slot.object) {
+        image = [self placeholderImageForSlotType:self.slot.slotType];
+    }
+
+    // Call the superclass method directly to update the view
+    [super setImage:image];
+    
+    // Mark the view for redrawing
+    [self setNeedsDisplay:YES];
+}
+
 - (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
     NSLog(@"DSAInventorySlotView: draggingSourceOperationMaskForLocal: %@", isLocal ? @"YES" : @"NO");
 
@@ -423,13 +436,97 @@
     if (self.slot && self.slot.object) {
         // Generate a tooltip based on the item in the slot
         DSAObject *item = self.slot.object;
-        NSString *tooltip = item.name;
+        NSString *tooltip = [NSString stringWithFormat: @"%@ (%lu)", item.name, self.slot.slotType];
 
         self.toolTip = tooltip;
     } else {
         // Clear the tooltip if the slot is empty
-        self.toolTip = _(@"leer");
+        self.toolTip = [NSString stringWithFormat: _(@"leer (%lu)"), self.slot.slotType];
     }
 }
+
+- (NSImage *)placeholderImageForSlotType:(DSASlotType)slotType {
+    NSString *placeholderImageName = nil;
+
+    switch (slotType) {
+        case DSASlotTypeGeneral:
+            placeholderImageName = @"placeholder_hand-16x16"; // Placeholder for general slots
+            break;
+        case DSASlotTypeHeadgear:
+            placeholderImageName = @"placeholder_head-16x16"; // Placeholder for head slots
+            break;            
+        case DSASlotTypeEarring:
+            placeholderImageName = @"placeholder_ear-16x16"; // Placeholder for head slots
+            break;
+        case DSASlotTypeNosering:
+            placeholderImageName = @"placeholder_nose-16x16"; // Placeholder for head slots
+            break;            
+        case DSASlotTypeGlasses:
+            placeholderImageName = @"placeholder_eyes-16x16"; // Placeholder for body slots
+            break;
+        case DSASlotTypeMask:
+            placeholderImageName = @"placeholder_face-16x16"; // Placeholder for hand slots
+            break;
+        case DSASlotTypeNecklace:
+            placeholderImageName = @"placeholder_neck-16x16"; // Placeholder for hand slots
+            break;            
+        case DSASlotTypeArmArmor:
+            placeholderImageName = @"placeholder_armarmor-16x16"; // Placeholder for hand slots
+            break;
+        case DSASlotTypeLegArmor:
+            placeholderImageName = @"placeholder_legarmor-16x16"; // Placeholder for hand slots
+            break;  
+        case DSASlotTypeShoes:
+            placeholderImageName = @"placeholder_shoes-16x16"; // Placeholder for hand slots
+            break;
+        case DSASlotTypeSocks:
+            placeholderImageName = @"placeholder_socks-16x16"; // Placeholder for hand slots
+            break;  
+        case DSASlotTypeVest:
+            placeholderImageName = @"placeholder_vest-16x16"; // Placeholder for hand slots
+            break; 
+        case DSASlotTypeJacket:
+            placeholderImageName = @"placeholder_jacket-16x16"; // Placeholder for hand slots
+            break;
+        case DSASlotTypeBackquiver:
+            placeholderImageName = @"placeholder_back-16x16"; // Placeholder for hand slots
+            break;
+        case DSASlotTypeBackpack:
+            placeholderImageName = @"placeholder_back-16x16"; // Placeholder for hand slots
+            break;  
+        case DSASlotTypeRing:
+            placeholderImageName = @"placeholder_finger-16x16"; // Placeholder for hand slots
+            break;
+        case DSASlotTypeGloves:
+            placeholderImageName = @"placeholder_handschuh-16x16"; // Placeholder for hand slots
+            break; 
+        case DSASlotTypeBodyArmor:
+            placeholderImageName = @"placeholder_koerperruestung-16x16"; // Placeholder for hand slots
+            break;  
+        case DSASlotTypeHip:
+            placeholderImageName = @"placeholder_huefte-16x16"; // Placeholder for hand slots
+            break;            
+        case DSASlotTypeSash:
+            placeholderImageName = @"placeholder_schaerpe-16x16"; // Placeholder for hand slots
+            break;   
+        case DSASlotTypeShirt:
+            placeholderImageName = @"placeholder_shirt-16x16"; // Placeholder for hand slots
+            break; 
+        case DSASlotTypeUnderwear:
+            placeholderImageName = @"placeholder_unterwaesche-16x16"; // Placeholder for hand slots
+            break;     
+        case DSASlotTypeTrousers:
+            placeholderImageName = @"placeholder_hose-16x16"; // Placeholder for hand slots
+            break;                                                                                                                                                               
+        default:
+            placeholderImageName = @"placeholder_default-16x16"; // Default placeholder
+            break;
+    }
+
+    // Load the placeholder image
+    NSString *imagePath = [[NSBundle mainBundle] pathForResource:placeholderImageName ofType:@"webp"];
+    return imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
+}
+
 
 @end
