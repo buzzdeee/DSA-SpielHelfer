@@ -61,7 +61,7 @@ typedef NS_ENUM(NSUInteger, DSASlotType) {
     DSASlotTypeLiquid,                          // something to hold liquids
     DSASlotTypeSword,                           // a shaft to hold swords
     DSASlotTypeDagger,                          // a shaft to hold daggers 
-    DSASlotTypeAxe                              // a special thing to hold axes
+    DSASlotTypeAxe,                             // a special thing to hold axes
     DSASlotTypeMoney                            // to hold money
     // Add other specific types as needed
 };

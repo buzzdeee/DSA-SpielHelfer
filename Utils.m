@@ -283,7 +283,7 @@ static NSMutableDictionary *masseDict;
         @"Flüssigkeit" : @(DSASlotTypeLiquid),
         @"Schwert" : @(DSASlotTypeSword),
         @"Dolch" : @(DSASlotTypeDagger),
-        @"Axt" : @(DSASlotTypeAxe)
+        @"Axt" : @(DSASlotTypeAxe),
         @"Geld" : @(DSASlotTypeMoney)
     };
 

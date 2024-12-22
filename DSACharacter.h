@@ -30,6 +30,9 @@
 #import "DSAInventory.h"
 #import "DSABodyParts.h"
 #import "DSAObjectContainer.h"
+#import "DSAObjectWeapon.h"
+#import "DSAObjectArmor.h"
+#import "DSAObjectShield.h"
 #import "DSAAventurianDate.h"
 
 @interface DSACharacter : NSObject <NSCoding>
@@ -94,13 +97,11 @@
 + (DSACharacter *)characterWithModelID:(NSString *)modelID;
 
 - (NSString *) siblingsString;
-/*
-- (BOOL) canUseWeapon: (DSAObjectWeapon *) weapon;
-- (BOOL) canUseArmor: (DSAObjectArmor *) armor;
-- (BOOL) canCarryObject: (DSAObject *) object;
-- (void) wearCloth: (DSAObjectCloth *) cloth onBodyPart: (NSString *) bodyPart;
-- (void) carryObject: (DSAObject *) object;
-*/
+
+// used to decide, if a body inventory slot can hold a given item, based on character constraints
+- (BOOL) canUseItem: (DSAObject *) item;
+
+
 @end
 
 #endif // _DSACHARACTER_H_

@@ -255,18 +255,22 @@
                toObject:viewModel
             withKeyPath:@"formattedMoney"
                 options:nil];
+  [self addObserverForObject: viewModel keyPath: @"formattedMoney"];
   [self.fieldLifePoints bind:NSValueBinding
                     toObject:viewModel
                  withKeyPath:@"formattedLifePoints"
-                     options:nil];    
+                     options:nil];
+  [self addObserverForObject: viewModel keyPath: @"formattedLifePoints"];    
   [self.fieldAstralEnergy bind:NSValueBinding
                       toObject:viewModel
                    withKeyPath:@"formattedAstralEnergy"
-                       options:nil];  
+                       options:nil];
+  [self addObserverForObject: viewModel keyPath: @"formattedAstralEnergy"]; 
   [self.fieldKarmaPoints bind:NSValueBinding
                      toObject:viewModel
                   withKeyPath:@"formattedKarmaPoints"
-                      options:nil];                                              
+                      options:nil];
+  [self addObserverForObject: viewModel keyPath: @"formattedKarmaPoints"];                                              
   [self.imageViewPortrait setImage: [document.model portrait]];
   [self.imageViewPortrait setImageScaling: NSImageScaleProportionallyUpOrDown];                                                                                                          
   for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
@@ -293,7 +297,7 @@
     }
   NSLog(@"BEFORE displaying the LOAD");
   [self.fieldLoad setStringValue: [NSString stringWithFormat: @"%.2f", [document.model load]]];
-  [self.fieldLoad setStringValue: [NSString stringWithFormat: @"%.0f", [document.model encumbrance]]];
+  [self.fieldEncumbrance setStringValue: [NSString stringWithFormat: @"%.0f", [document.model encumbrance]]];
   NSLog(@"AFTER displaying the LOAD");  
   
   [self.fieldAttackBaseValue bind:NSValueBinding toObject:document.model withKeyPath:@"attackBaseValue" options:nil];    
@@ -356,7 +360,7 @@
       }
     image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
     self.imageViewBodyShape.image = image;
-    //[self.imageViewBodyShape setDrawsBackground:NO];
+
     // Update general inventory slots
     [self updateInventorySlotsWithInventory:document.model.inventory
                           inventoryIdentifier:@"inventory"
@@ -367,7 +371,6 @@
     NSInteger bodySlotCounter = 0; // Start a global body slot counter
     for (NSString *propertyName in document.model.bodyParts.inventoryPropertyNames) {
         DSAInventory *inventory = [document.model.bodyParts valueForKey:propertyName];
-        NSLog(@"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX DSACharacterWindowController populateInventory for propertyName: %@ inventory: %@", propertyName, inventory);
         bodySlotCounter = [self updateInventorySlotsWithInventory:inventory
                                               inventoryIdentifier:@"body"
                                              startingSlotCounter:bodySlotCounter];

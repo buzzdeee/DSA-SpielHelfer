@@ -583,4 +583,10 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
     }
     return nil; // Return nil if the portraitName or imagePath is invalid
 }
+
+- (BOOL) canUseItem: (DSAObject *) item
+{
+  return YES;
+}
+
 @end

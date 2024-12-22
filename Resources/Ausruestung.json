@@ -4461,12 +4461,16 @@
         "Gewicht": 20,
         "Preis": 0.05,
         "Icon": [ "Obst_1", "Obst_2" ],
+        "Verpackungseinheit": 4,
+        "MehrereProSlot": true,
         "direkt konsumierbar": true
       },
       "Naschwerk": {
         "Gewicht": 10,
         "Preis": 1,
         "Icon": [ "Naschwerk" ],
+        "Verpackungseinheit": 10,
+        "MehrereProSlot": true,
         "direkt konsumierbar": true
       },
       "Tee": {
