@@ -280,10 +280,11 @@ static NSMutableDictionary *masseDict;
         @"Korb" : @(DSASlotTypeBasket),
         @"Köcher" : @(DSASlotTypeQuiver),
         @"Bolzentasche" : @(DSASlotTypeBoltbag),
-        @"Flasche" : @(DSASlotTypeBottle),
+        @"Flüssigkeit" : @(DSASlotTypeLiquid),
         @"Schwert" : @(DSASlotTypeSword),
         @"Dolch" : @(DSASlotTypeDagger),
         @"Axt" : @(DSASlotTypeAxe)
+        @"Geld" : @(DSASlotTypeMoney)
     };
 
     // Look up the corresponding slot type

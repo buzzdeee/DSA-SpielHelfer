@@ -11,6 +11,7 @@
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "2/1",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+          "Material": "Eisen",
           "Icon": [ "Jagdmesser" ]
         },
         "Jagdmesser, firnelfisch": {
@@ -22,6 +23,7 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "2/1",
           "Regionen": [ "FI" ],
+          "Material": "Eisen",
           "Icon": [ "Jagdmesser-firnelfisch" ]
         },
         "Dolch": {
@@ -33,6 +35,7 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "2/1",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+          "Material": "Eisen",
           "Reichweite": 25,
           "Trefferpunkte Fernwaffe": [ "1W6" ],
           "TP Entfernung": {
@@ -55,6 +58,7 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "3/3",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+          "Material": "Eisen",
           "Icon": [ "Schwerer_Dolch_1", "Schwerer_Dolch_2" ]       
         },
         "Langdolch": {
@@ -66,6 +70,7 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "3/4",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ],
+          "Material": "Eisen",
           "Icon": [ "Langdolch" ]  
         },
         "Basilikenzunge": {
@@ -76,7 +81,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "2/1",
-          "Regionen": [ "LF", "SÜ", "ZY" ]           
+          "Regionen": [ "LF", "SÜ", "ZY" ],
+          "Material": "Eisen"
         },
         "Basiliskenzunge, meisterlich": {
           "Gewicht": 25,
@@ -86,7 +92,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "2/1",
-          "Regionen": [ "LF", "ZY" ]          
+          "Regionen": [ "LF", "ZY" ],
+          "Material": "Eisen"
         },
         "Drachenzahn": {
           "Gewicht": 40,
@@ -96,7 +103,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 0,
           "Waffenvergleichswert": "4/3",
-          "Regionen": [ "ZW" ]           
+          "Regionen": [ "ZW" ],
+          "Material": "Eisen"
         },
         "Eberfänger": {
           "Gewicht": 40,
@@ -106,7 +114,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "4/2",
-          "Regionen": [ "BO", "NO", "TO", "WE" ]          
+          "Regionen": [ "BO", "NO", "TO", "WE" ],
+          "Material": "Eisen"
         },
         "Waqqif": {
           "Gewicht": 35,
@@ -116,7 +125,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "4/2",
-          "Regionen": [ "KH" ]          
+          "Regionen": [ "KH" ], 
+          "Material": "Eisen"
         },
         "Linkhand": {
           "Gewicht": 30,
@@ -126,7 +136,8 @@
           "TrefferpunkteKK": -17,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "2/5",
-          "Regionen": [ "GA", "HA", "LF", "PU" ]           
+          "Regionen": [ "GA", "HA", "LF", "PU" ], 
+          "Material": "Eisen"
         },
         "Hakendolch": {
           "Gewicht": 60,
@@ -136,7 +147,8 @@
           "TrefferpunkteKK": -17,
           "Bruchfaktor": 0,
           "Waffenvergleichswert": "1/3",
-          "Regionen": [ "LF", "MA", "MH" ]           
+          "Regionen": [ "LF", "MA", "MH" ], 
+          "Material": "Eisen"
         },
         "Menglibar": {
           "Gewicht": 20,
@@ -146,7 +158,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 7,
           "Waffenvergleichswert": "2/0",
-          "Regionen": [ "MH", "SÜ", "ZY" ]          
+          "Regionen": [ "MH", "SÜ", "ZY" ], 
+          "Material": "Eisen"
         },
         "Ogerfänger": {
           "Gewicht": 35,
@@ -156,7 +169,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "3/2",
-          "Regionen": [ "HA" ]          
+          "Regionen": [ "HA" ],
+          "Material": "Eisen"
         },
         "Vulkanglasdolch": {
           "Gewicht": 30,
@@ -166,7 +180,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 6,
           "Waffenvergleichswert": "2/0",
-          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+          "Material": "Glas"
         }
       },
       "Äxte und Beile": {
@@ -178,7 +193,8 @@
           "TrefferpunkteKK": -13,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "8/4",
-          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]           
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+          "Material": "Eisen"
         },
         "Orknase": {
           "Gewicht": 110,
@@ -188,7 +204,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "9/4",
-          "Regionen": [ "TH" ]          
+          "Regionen": [ "TH" ], 
+          "Material": "Eisen"
         },
         "Skraja": {
           "Gewicht": 90,
@@ -198,7 +215,8 @@
           "TrefferpunkteKK": -13,
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "7/6",
-          "Regionen": [ "TH" ]           
+          "Regionen": [ "TH" ], 
+          "Material": "Eisen"
         },
         "Zwergenskraja": {
           "Gewicht": 80,
@@ -208,7 +226,8 @@
           "TrefferpunkteKK": -13,
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/6",
-          "Regionen": [ "ZW" ]           
+          "Regionen": [ "ZW" ],         
+          "Material": "Eisen"
         },
         "Lindwurmschläger": {
           "Gewicht": 95,
@@ -218,7 +237,8 @@
           "TrefferpunkteKK": -13,
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/5",
-          "Regionen": [ "ZW" ]           
+          "Regionen": [ "ZW" ], 
+          "Material": "Eisen"
         },
         "Felsspalter": {
           "Gewicht": 150,
@@ -228,7 +248,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "9/2",
-          "Regionen": [ "ZW" ]           
+          "Regionen": [ "ZW" ], 
+          "Material": "Eisen"
         },
         "Barbarenstreitaxt": {
           "Gewicht": 250,
@@ -238,7 +259,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "10/2",
-          "Regionen": [ "NO", "TO" ]          
+          "Regionen": [ "NO", "TO" ], 
+          "Material": "Eisen"
         },
         "Molokdeschnaja": {
           "Gewicht": 100,
@@ -248,7 +270,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "7/5",
-          "Regionen": [ "NO" ]          
+          "Regionen": [ "NO" ], 
+          "Material": "Eisen"
         },
         "Byakka": {
           "Gewicht": 130,
@@ -258,7 +281,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "9/4",
-          "Regionen": [ "OR" ]           
+          "Regionen": [ "OR" ],
+          "Material": "Eisen"
         },
         "Echsische Axt": {
           "Gewicht": 90,
@@ -268,7 +292,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "8/6",
-          "Regionen": [ "WA" ]          
+          "Regionen": [ "WA" ], 
+          "Material": "Eisen"
         }
       },
       "Scharfe Hiebwaffen": {
@@ -280,7 +305,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "6/3",
-          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+          "Material": "Eisen"
         },
         "Entermesser": {
           "Gewicht": 70,
@@ -290,7 +316,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/5",
-          "Regionen": [ "HA", "LF", "MH", "SÜ", "TH", "ZY" ]           
+          "Regionen": [ "HA", "LF", "MH", "SÜ", "TH", "ZY" ], 
+          "Material": "Eisen"
         },
         "Robbentöter": {
           "Gewicht": 70,
@@ -300,7 +327,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/6",
-          "Regionen": [ "FI" ]           
+          "Regionen": [ "FI" ], 
+          "Material": "Eisen"
         },
         "Säbel": {
           "Gewicht": 60,
@@ -310,7 +338,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/7",
-          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+          "Material": "Eisen"
         },
         "Arbach": {
           "Gewicht": 100,
@@ -320,7 +349,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/7",
-          "Regionen": [ "OR" ]           
+          "Regionen": [ "OR" ],
+          "Material": "Eisen"
         },
         "Kharkush-Arbach": {
           "Gewicht": 90,
@@ -330,7 +360,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 0,
           "Waffenvergleichswert": "7/7",
-          "Regionen": [ "OR" ]           
+          "Regionen": [ "OR" ], 
+          "Material": "Eisen"
         },
         "Khunchomer": {
           "Gewicht": 90,
@@ -340,7 +371,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/5",
-          "Regionen": [ "KH", "MH" ]          
+          "Regionen": [ "KH", "MH" ], 
+          "Material": "Eisen"
         },
         "Doppelkhunchomer": {
           "Gewicht": 150,
@@ -350,7 +382,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "10/3",
-          "Regionen": [ "KH", "MH" ]           
+          "Regionen": [ "KH", "MH" ], 
+          "Material": "Eisen"
         },
         "Sklaventod": {
           "Gewicht": 80,
@@ -360,7 +393,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "7/6",
-          "Regionen": [ "SÜ" ]          
+          "Regionen": [ "SÜ" ], 
+          "Material": "Eisen"
         },
         "Großer Sklaventod": {
           "Gewicht": 160,
@@ -370,7 +404,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "9/4",
-          "Regionen": [ "SÜ" ]          
+          "Regionen": [ "SÜ" ],
+          "Material": "Eisen"
         },
         "Schnitter": {
           "Gewicht": 70,
@@ -380,7 +415,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "7/6",
-          "Regionen": [ "MA", "MH" ]           
+          "Regionen": [ "MA", "MH" ],
+          "Material": "Eisen"
         },
         "Schnitter, alanfanisch": {
           "Gewicht": 80,
@@ -390,7 +426,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "7/6",
-          "Regionen": [ "SÜ" ]          
+          "Regionen": [ "SÜ" ], 
+          "Material": "Eisen"
         }
       },
       "Speere und Stäbe": {
@@ -402,7 +439,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "6/6",
-          "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+          "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+          "Material": "Holz"
         },
         "Holzspeer": {
           "Gewicht": 60,
@@ -413,6 +451,7 @@
           "Bruchfaktor": 6,
           "Waffenvergleichswert": "4/3",
           "Regionen": [ "BO", "EL", "GA", "HA", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+          "Material": "Holz",
           "Reichweite": 40,
           "Trefferpunkte Fernwaffe": [ "1W6", 2 ],
           "TP Entfernung": {
@@ -434,6 +473,7 @@
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "5/4",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+          "Material": "Eisen",
           "Reichweite": 40,
           "Trefferpunkte Fernwaffe": [ "1W6", 3 ],
           "TP Entfernung": {
@@ -454,7 +494,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "5/4",
-          "Regionen": [ "BO", "TO", "WE" ]          
+          "Regionen": [ "BO", "TO", "WE" ], 
+          "Material": "Eisen"
         },
         "Jagdspieß, elfisch": {
           "Gewicht": 80,
@@ -464,7 +505,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "5/4",
-          "Regionen": [ "EL" ]           
+          "Regionen": [ "EL" ],           
+          "Material": "Eisen"
         },
         "Stoßspeer": {
           "Gewicht": 150,
@@ -474,7 +516,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "5/3",
-          "Regionen": [ "BO", "EL", "FI", "NO", "WE" ]          
+          "Regionen": [ "BO", "EL", "FI", "NO", "WE" ], 
+          "Material": "Eisen"
         },
         "Dschadra": {
           "Gewicht": 80,
@@ -484,7 +527,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "4/3",
-          "Regionen": [ "KH", "MH" ]          
+          "Regionen": [ "KH", "MH" ], 
+          "Material": "Eisen"
         },
         "Dreizack": {
           "Gewicht": 90,
@@ -494,7 +538,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "4/4",
-          "Regionen": [ "HA", "LF", "TH", "ZY" ]           
+          "Regionen": [ "HA", "LF", "TH", "ZY" ], 
+          "Material": "Eisen"
         },
         "Zweililien": {
           "Gewicht": 80,
@@ -504,7 +549,8 @@
           "TrefferpunkteKK": -18,
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "7/7",
-          "Regionen": [ "HA", "LF", "ZW" ]           
+          "Regionen": [ "HA", "LF", "ZW" ],           
+          "Material": "Eisen"
         },
         "Magierstab": {
           "Gewicht": 80,
@@ -514,7 +560,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": -1,
           "Waffenvergleichswert": "6/6",
-          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+          "Material": "Holz"
         },
         "Efferdbart": {
           "Gewicht": 90,
@@ -525,6 +572,7 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "5/6",
           "Regionen": [ "HA", "LF", "SÜ", "ZY" ],
+          "Material": "Eisen",
           "Reichweite": 25,
           "Trefferpunkte Fernwaffe": [ "1W6", 3 ],
           "TP Entfernung": {
@@ -547,7 +595,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "5/5",
-          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TO", "WE", "ZW", "ZY" ]          
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TO", "WE", "ZW", "ZY" ], 
+          "Material": "Eisen"
         },
         "Kusliker Säbel": {
           "Gewicht": 70,
@@ -557,7 +606,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/6",
-          "Regionen": [ "LF", "ZY" ]          
+          "Regionen": [ "LF", "ZY" ], 
+          "Material": "Eisen"
         },
         "Schwert": {
           "Gewicht": 80,
@@ -567,7 +617,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/7",
-          "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TO", "WE", "ZY" ]           
+          "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TO", "WE", "ZY" ],
+          "Material": "Eisen"
         },
         "Breitschwert": {
           "Gewicht": 80,
@@ -577,7 +628,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/6",
-          "Regionen": [ "SÜ", "TH", "ZY" ]          
+          "Regionen": [ "SÜ", "TH", "ZY" ],          
+          "Material": "Eisen"
         },
         "Barbarenschwert": {
           "Gewicht": 100,
@@ -587,7 +639,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "8/6",
-          "Regionen": [ "NO", "TO" ]          
+          "Regionen": [ "NO", "TO" ],
+          "Material": "Eisen"
         },
         "Amazonensäbel": {
           "Gewicht": 90,
@@ -598,7 +651,8 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/5",
           "Regionen": [ "GA", "MH", "TO" ],
-          "Icon": [ "Amazonensaebel" ]         
+          "Icon": [ "Amazonensaebel" ], 
+          "Material": "Eisen"
         },
         "Turnierschwert": {
           "Gewicht": 60,
@@ -608,7 +662,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "7/7",
-          "Regionen": [ "GA", "PU", "WE" ]           
+          "Regionen": [ "GA", "PU", "WE" ],           
+          "Material": "Eisen"
         },
         "Nachtwind": {
           "Gewicht": 70,
@@ -618,7 +673,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 0,
           "Waffenvergleichswert": "7/7",
-          "Regionen": [ "MA", "MH" ]           
+          "Regionen": [ "MA", "MH" ],           
+          "Material": "Eisen"
         },
         "Bastardschwert": {
           "Gewicht": 120,
@@ -628,7 +684,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "8/6",
-          "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TH", "TO", "WE" ]           
+          "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TH", "TO", "WE" ],           
+          "Material": "Eisen"
         },
         "Rondrakamm": {
           "Gewicht": 150,
@@ -638,7 +695,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "9/6",
-          "Regionen": [ "GA", "LF", "MH", "ZW" ]           
+          "Regionen": [ "GA", "LF", "MH", "ZW" ],           
+          "Material": "Eisen"
         },
         "Rondrakamm, aus Arivor": {
           "Gewicht": 140,
@@ -648,7 +706,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "9/6",
-          "Regionen": [ "LF" ]           
+          "Regionen": [ "LF" ],           
+          "Material": "Eisen"
         },
         "Zweihänder": {
           "Gewicht": 160,
@@ -658,7 +717,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "9/5",
-          "Regionen": [ "BO", "GA", "TO", "WE" ]           
+          "Regionen": [ "BO", "GA", "TO", "WE" ],           
+          "Material": "Eisen"
         },
         "Boronssichel": {
           "Gewicht": 160,
@@ -668,7 +728,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "8/3",
-          "Regionen": [ "MH", "PU" ]          
+          "Regionen": [ "MH", "PU" ],          
+          "Material": "Eisen"
         },
         "Andergaster": {
           "Gewicht": 220,
@@ -678,7 +739,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/3",
-          "Regionen": [ "HA", "WE" ]          
+          "Regionen": [ "HA", "WE" ],          
+          "Material": "Eisen"
         },
         "Tuzakmesser": {
           "Gewicht": 130,
@@ -688,7 +750,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/7",
-          "Regionen": [ "GA", "MA", "MH" ]           
+          "Regionen": [ "GA", "MA", "MH" ],           
+          "Material": "Eisen"
         }
       },
       "Infanteriewaffen": {
@@ -700,7 +763,8 @@
           "TrefferpunkteKK": -18,
           "Bruchfaktor": 6,
           "Waffenvergleichswert": "4/0",
-          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]           
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+          "Material": "Eisen"
         },
         "Drachentöter": {
           "Gewicht": 400,
@@ -710,7 +774,8 @@
           "TrefferpunkteKK": -21,
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "3/0",
-          "Regionen": [ "ZW" ]          
+          "Regionen": [ "ZW" ],          
+          "Material": "Eisen"
         },
         "Hellebarde": {
           "Gewicht": 150,
@@ -720,7 +785,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "5/2",
-          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]           
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
+          "Material": "Eisen"
         },
         "Prunkhellebarde": {
           "Gewicht": 140,
@@ -730,7 +796,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "5/2",
-          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]          
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
+          "Material": "Eisen"
         },
         "Hakenspieß": {
           "Gewicht": 120,
@@ -740,7 +807,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "3/1",
-          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]           
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
+          "Material": "Eisen"
         },
         "Glefe": {
           "Gewicht": 120,
@@ -750,7 +818,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "4/2",
-          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]          
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
+          "Material": "Eisen"
         },
         "Partisane": {
           "Gewicht": 150,
@@ -760,7 +829,8 @@
           "TrefferpunkteKK": -17,
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "5/3",
-          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]          
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
+          "Material": "Eisen"
         },
         "Wurmspieß": {
           "Gewicht": 120,
@@ -770,7 +840,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "5/2",
-          "Regionen": [ "ZW" ]          
+          "Regionen": [ "ZW" ], 
+          "Material": "Eisen"
         },
         "Pailos": {
           "Gewicht": 160,
@@ -780,7 +851,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "5/2",
-          "Regionen": [ "ZY" ]          
+          "Regionen": [ "ZY" ], 
+          "Material": "Eisen"
         },
         "Neethaner Langaxt": {
           "Gewicht": 160,
@@ -790,7 +862,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "6/1",
-          "Regionen": [ "LF" ]          
+          "Regionen": [ "LF" ],          
+          "Material": "Eisen"
         },
         "Sturmsense": {
           "Gewicht": 120,
@@ -800,7 +873,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "4/2",
-          "Regionen": [ "BO", "GA", "TO", "WE" ]           
+          "Regionen": [ "BO", "GA", "TO", "WE" ], 
+          "Material": "Eisen"
         },
         "Kriegsflegel": {
           "Gewicht": 120,
@@ -810,7 +884,8 @@
           "TrefferpunkteKK": -13,
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "5/1",
-          "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]           
+          "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
+          "Material": "Holz"
         }
       },
       "Stumpfe Hiebwaffen": {
@@ -822,7 +897,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 6,
           "Waffenvergleichswert": "5/3",
-          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+          "Material": "Holz"
         },
         "Stuhlbein": {
           "Gewicht": 50,
@@ -832,7 +908,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 7,
           "Waffenvergleichswert": "4/3",
-          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]      
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],      
+          "Material": "Holz"
         },         
         "Keule": {
           "Gewicht": 100,
@@ -842,7 +919,8 @@
           "TrefferpunkteKK": -13,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "7/3",
-          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+          "Material": "Holz"
         },
         "Streitkolben": {
           "Gewicht": 120,
@@ -852,7 +930,8 @@
           "TrefferpunkteKK": -13,
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/5",
-          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]           
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+          "Material": "Holz"
         },
         "Brabakbengel": {
           "Gewicht": 120,
@@ -862,7 +941,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/5",
-          "Regionen": [ "SÜ", "ZY" ]          
+          "Regionen": [ "SÜ", "ZY" ], 
+          "Material": "Holz"
         },
         "Kriegshammer": {
           "Gewicht": 180,
@@ -872,7 +952,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "9/3",
-          "Regionen": [ "BO", "GA", "HA", "LF", "NA", "NO", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]           
+          "Regionen": [ "BO", "GA", "HA", "LF", "NA", "NO", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ],
+          "Material": "Eisen"
         },
         "Zwergenschlägel": {
           "Gewicht": 120,
@@ -882,7 +963,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "9/3",
-          "Regionen": [ "ZW" ]          
+          "Regionen": [ "ZW" ], 
+          "Material": "Eisen"
         },
         "Gruufhai": {
           "Gewicht": 180,
@@ -892,7 +974,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "10/3",
-          "Regionen": [ "OR" ]          
+          "Regionen": [ "OR" ],
+          "Material": "Eisen"
         },
         "Rabenschnabel": {
           "Gewicht": 90,
@@ -902,7 +985,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "8/3",
-          "Regionen": [ "KH", "MH", "PU", "SÜ" ]           
+          "Regionen": [ "KH", "MH", "PU", "SÜ" ], 
+          "Material": "Eisen"
         },
         "Sonnenszepter": {
           "Gewicht": 90,
@@ -912,7 +996,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/5",
-          "Regionen": [ "GA" ]           
+          "Regionen": [ "GA" ], 
+          "Material": "Eisen"
         },
         "Schmiedehammer": {
           "Gewicht": 150,
@@ -922,7 +1007,8 @@
           "TrefferpunkteKK": -13,
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/4",
-          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]           
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
+          "Material": "Eisen"
         }
       },
       "Kettenwaffen": {
@@ -934,7 +1020,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/2",
-          "Regionen": [ "BO", "GA", "HA", "TH", "TO", "WE" ]           
+          "Regionen": [ "BO", "GA", "HA", "TH", "TO", "WE" ],           
+          "Material": "Eisen"
         },
         "Ogerschelle": {
           "Gewicht": 240,
@@ -944,7 +1031,8 @@
           "TrefferpunkteKK": -17,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "8/1",
-          "Regionen": [ "BO", "GA", "HA", "TH", "TO", "WE" ]          
+          "Regionen": [ "BO", "GA", "HA", "TH", "TO", "WE" ], 
+          "Material": "Eisen"
         },
         "Ochsenherde": {
           "Gewicht": 300,
@@ -954,7 +1042,8 @@
           "TrefferpunkteKK": -17,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "9/0",
-          "Regionen": [ "BO", "GA", "HA", "TH", "TO", "WE" ]          
+          "Regionen": [ "BO", "GA", "HA", "TH", "TO", "WE" ], 
+          "Material": "Eisen"
         },
         "Kettenstab": {
           "Gewicht": 100,
@@ -964,7 +1053,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "6/3",
-          "Regionen": [ "MA", "MH", "SÜ", "WA" ]           
+          "Regionen": [ "MA", "MH", "SÜ", "WA" ], 
+          "Material": "Eisen"
         }
       },
       "Stichwaffen": {
@@ -976,7 +1066,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "7/5",
-          "Regionen": [ "LF" ]          
+          "Regionen": [ "LF" ], 
+          "Material": "Eisen"
         },
         "Rapier": {
           "Gewicht": 45,
@@ -986,7 +1077,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "7/6",
-          "Regionen": [ "GA", "HA", "LF", "PU", "SÜ" ]           
+          "Regionen": [ "GA", "HA", "LF", "PU", "SÜ" ], 
+          "Material": "Eisen"
         },
         "Degen": {
           "Gewicht": 40,
@@ -996,7 +1088,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "6/6",
-          "Regionen": [ "GA", "HA", "LF", "PU", "SÜ" ]           
+          "Regionen": [ "GA", "HA", "LF", "PU", "SÜ" ], 
+          "Material": "Eisen"
         },
         "Wolfsmesser": {
           "Gewicht": 50,
@@ -1006,7 +1099,8 @@
           "TrefferpunkteKK": -15,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/6",
-          "Regionen": [ "EL" ]          
+          "Regionen": [ "EL" ], 
+          "Material": "Eisen"
         },
         "Magierflorett": {
           "Gewicht": 25,
@@ -1016,7 +1110,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "5/5",
-          "Regionen": [ "GA", "HA", "LF", "MH", "PU" ]          
+          "Regionen": [ "GA", "HA", "LF", "MH", "PU" ],
+          "Material": "Eisen"
         },
         "Stockdegen": {
           "Gewicht": 35,
@@ -1026,7 +1121,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "6/4",
-          "Regionen": [ "GA", "HA", "LF", "PU" ]          
+          "Regionen": [ "GA", "HA", "LF", "PU" ],          
+          "Material": "Eisen"
         }
       },
       "Sonstige Handwaffen": {
@@ -1038,7 +1134,8 @@
           "TrefferpunkteKK": -17,
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "1/1",
-          "Regionen": [ "GA", "HA", "LF" ]          
+          "Regionen": [ "GA", "HA", "LF" ], 
+          "Material": "Eisen"
         },
         "Schlagring": {
           "Gewicht": 20,
@@ -1048,7 +1145,8 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "1/0",
-          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+          "Material": "Eisen"
         },
         "Orchidee": {
           "Gewicht": 35,
@@ -1058,7 +1156,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "1/0",
-          "Regionen": [ "MO", "SÜ", "WA" ]          
+          "Regionen": [ "MO", "SÜ", "WA" ], 
+          "Material": "Eisen"
         },
         "Peitsche": {
           "Gewicht": 60,
@@ -1068,7 +1167,8 @@
           "TrefferpunkteKK": -19,
           "Bruchfaktor": 0,
           "Waffenvergleichswert": "8/0",
-          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]          
+          "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+          "Material": "Leder"
         },
         "Neunschwänzige": {
           "Gewicht": 80,
@@ -1078,7 +1178,8 @@
           "TrefferpunkteKK": -18,
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "7/0",
-          "Regionen": [ "MH", "SÜ", "ZY" ]          
+          "Regionen": [ "MH", "SÜ", "ZY" ], 
+          "Material": "Leder"
         },
         "Turnierlanze": {
           "Gewicht": 120,
@@ -1088,7 +1189,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 6,
           "Waffenvergleichswert": "1/0",
-          "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TO", "WE" ]           
+          "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TO", "WE" ], 
+          "Material": "Holz"
         },
         "Kriegslanze": {
           "Gewicht": 150,
@@ -1098,7 +1200,8 @@
           "TrefferpunkteKK": -16,
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "1/0",
-          "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TO", "WE" ]          
+          "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TO", "WE" ], 
+          "Material": "Holz"
         }
       }
   },
@@ -1117,7 +1220,8 @@
           "sehr weit": 0,
           "extrem weit": 0
         },
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Material": "Stein"
       },    
       "Wurfmesser": {
         "Gewicht": 10,
@@ -1133,7 +1237,8 @@
           "sehr weit": 0,
           "extrem weit": 0
         },
-        "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]        
+        "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+        "Material": "Eisen"
       },
       "Wurfdolch": {
         "Gewicht": 20,
@@ -1149,7 +1254,8 @@
           "sehr weit": 0,
           "extrem weit": 0
         },
-        "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]        
+        "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Material": "Eisen"
       },
       "Borndorn": {
         "Gewicht": 30,
@@ -1165,7 +1271,8 @@
           "sehr weit": 0,
           "extrem weit": 0
         },
-        "Regionen": [ "BO" ]        
+        "Regionen": [ "BO" ], 
+        "Material": "Eisen"
       },
       "Wurfscheibe": {
         "Gewicht": 10,
@@ -1181,7 +1288,8 @@
           "sehr weit": 0,
           "extrem weit": 0
         },
-        "Regionen": [ "MA", "MH", "SÜ" ]         
+        "Regionen": [ "MA", "MH", "SÜ" ], 
+        "Material": "Holz"
       },
       "Wurfscheibe, Stahl": {
         "Gewicht": 10,
@@ -1197,7 +1305,8 @@
           "sehr weit": 0,
           "extrem weit": 0
         },
-        "Regionen": [ "MA" ]         
+        "Regionen": [ "MA" ], 
+        "Material": "Eisen"
       },
       "Wurfspeer": {
         "Gewicht": 80,
@@ -1213,7 +1322,8 @@
           "sehr weit": 0,
           "extrem weit": 0
         },
-        "Regionen": [ "KH", "LF", "MH", "PU" ]        
+        "Regionen": [ "KH", "LF", "MH", "PU" ],
+        "Material": "Holz"
       },
       "Wurfbeil": {
         "Gewicht": 60,
@@ -1224,6 +1334,7 @@
         "Bruchfaktor": 4,
         "Waffenvergleichswert": "6/2",
         "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Material": "Eisen",
         "Reichweite": 25,
         "Trefferpunkte Fernwaffe": [ "1W6", 3 ],
         "TP Entfernung": {
@@ -1245,6 +1356,7 @@
         "Bruchfaktor": 4,
         "Waffenvergleichswert": "5/1",
         "Regionen": [ "TH" ],
+        "Material": "Eisen",
         "Reichweite": 25,
         "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
         "TP Entfernung": {
@@ -1266,6 +1378,7 @@
         "Bruchfaktor": 4,
         "Waffenvergleichswert": "6/2",
         "Regionen": [ "FI", "NO" ],
+        "Material": "Holz",
         "Reichweite": 25,
         "Trefferpunkte Fernwaffe": [ "1W6", 2 ],
         "TP Entfernung": {
@@ -1282,6 +1395,7 @@
         "Gewicht": 80,
         "Preis": 25,
         "Regionen": [ "HA", "SÜ" ],
+        "Material": "Leinen",
         "Reichweite": 5,
         "Trefferpunkte Fernwaffe": [ 0 ],
         "TP Entfernung": {
@@ -1298,6 +1412,7 @@
         "Gewicht": 200,
         "Preis": 40,
         "Regionen": [ "SÜ" ],
+        "Material": "Leinen",
         "Reichweite": 5,
         "Trefferpunkte Fernwaffe": [ 0 ],
         "TP Entfernung": {
@@ -1314,6 +1429,7 @@
         "Gewicht": 20,
         "Preis": 10,
         "Regionen": [ "TO", "ZW" ],
+        "Material": "Eisen",
         "Reichweite": 25,
         "Trefferpunkte Fernwaffe": [ "1W6", -2 ],
         "TP Entfernung": {
@@ -1330,6 +1446,7 @@
         "Gewicht": 10,
         "Preis": 15,
         "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Material": "Holz",
         "Reichweite": 40,
         "Trefferpunkte Fernwaffe": [ "1W6", 2 ],
         "TP Entfernung": {
@@ -1341,10 +1458,6 @@
           "sehr weit": 0,
           "extrem weit": 0
         }        
-      },
-      "Schleuderblei": {
-        "Gewicht": 2,
-        "Preis": 0.5
       }
     },
     "Schußwaffen": {
@@ -1353,6 +1466,7 @@
         "Gewicht": 20,
         "Preis": 45,
         "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Material": "Holz",
         "Reichweite": 60,
         "Trefferpunkte Fernwaffe": [ "1W6", 3 ],
         "TP Entfernung": {
@@ -1370,6 +1484,7 @@
         "Gewicht": 35,
         "Preis": 80,
         "Regionen": [ "KH", "MA", "MH", "PU" ],
+        "Material": "Holz",
         "Reichweite": 80,
         "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
         "TP Entfernung": {
@@ -1386,6 +1501,7 @@
         "Gewicht": 40,
         "Preis": 120,
         "Regionen": [ "OR" ],
+        "Material": "Holz",
         "Reichweite": 100,
         "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
         "TP Entfernung": {
@@ -1402,6 +1518,7 @@
         "Gewicht": 30,
         "Preis": 60,
         "Regionen": [ "BO", "EL", "GA", "HA", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Material": "Holz",
         "Reichweite": 200,
         "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
         "TP Entfernung": {
@@ -1419,6 +1536,7 @@
         "Gewicht": 25,
         "Preis": 150,
         "Regionen": [ "EL" ],
+        "Material": "Holz",
         "Reichweite": 200,
         "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
         "TP Entfernung": {
@@ -1435,6 +1553,7 @@
         "Gewicht": 45,
         "Preis": 100,
         "Regionen": [ "HA", "SÜ", "WE" ],
+        "Material": "Holz",
         "Reichweite": 150,
         "Trefferpunkte Fernwaffe": [ "1W6", 6 ],
         "TP Entfernung": {
@@ -1452,6 +1571,7 @@
         "Gewicht": 150,
         "Preis": 180,
         "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "PU", "SÜ", "TO", "WE", "ZW", "ZY" ],
+        "Material": "Holz",
         "Reichweite": 60,
         "Trefferpunkte Fernwaffe": [ "2W6", 2 ],
         "TP Entfernung": {
@@ -1468,6 +1588,7 @@
         "Gewicht": 200,
         "Preis": 250,
         "Regionen": [ "HA", "LF", "ZW" ],
+        "Material": "Holz",
         "Reichweite": 200,
         "Trefferpunkte Fernwaffe": [ "2W6", 6 ],
         "TP Entfernung": {
@@ -1484,6 +1605,7 @@
         "Gewicht": 200,
         "Preis": 300,
         "Regionen": [ "ZW" ],
+        "Material": "Holz",
         "Reichweite": 40,
         "Trefferpunkte Fernwaffe": [ "1W6", 3 ],
         "TP Entfernung": {
@@ -1501,6 +1623,7 @@
         "Gewicht": 480,
         "Preis": 600,
         "Regionen": [ "LF", "ZW" ],
+        "Material": "Holz",
         "Reichweite": 250,
         "Trefferpunkte Fernwaffe": [ "3W6", 8 ],
         "TP Entfernung": {
@@ -1517,6 +1640,7 @@
         "Gewicht": 200,
         "Preis": 400,
         "Regionen": [ "LF", "ZW" ],
+        "Material": "Holz",
         "Reichweite": 100,
         "Trefferpunkte Fernwaffe": [ "2W6", 6 ],
         "TP Entfernung": {
@@ -1533,6 +1657,7 @@
         "Gewicht": 150,
         "Preis": 350,
         "Regionen": [ "LF" ],
+        "Material": "Holz",
         "Reichweite": 60,
         "Trefferpunkte Fernwaffe": [ "2W6", 2 ],
         "TP Entfernung": {
@@ -1549,6 +1674,7 @@
         "Gewicht": 60,
         "Preis": 250,
         "Regionen": [ "LF" ],
+        "Material": "Holz",
         "Reichweite": 25,
         "Trefferpunkte Fernwaffe": [ "1W6", 5 ],
         "TP Entfernung": {
@@ -1566,6 +1692,7 @@
         "Gewicht": 120,
         "Preis": 160,
         "Regionen": [ "ZW" ],
+        "Material": "Holz",
         "Reichweite": 100,
         "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
         "TP Entfernung": {
@@ -1584,6 +1711,7 @@
         "Gewicht": 15,
         "Preis": 40,
         "Regionen": [ "MO", "WA" ],
+        "Material": "Holz",
         "Reichweite": 25,
         "Trefferpunkte Fernwaffe": [ "1W6" ],
         "TP Entfernung": {
@@ -1603,6 +1731,7 @@
         "Pfeil, kurze Bögen": {
         "Gewicht": 2,
         "Preis": 0.25,
+        "Material": "Holz",
         "Icon": [ "Kurzbogenpfeil" ],
         "ErlaubteInventorySlots": [ "Köcher" ],
         "MehrereProSlot": true
@@ -1610,6 +1739,7 @@
       "Pfeil, lange Bögen": {
         "Gewicht": 3,
         "Preis": 0.4,
+        "Material": "Holz",
         "Icon": [ "Langbogenpfeil" ],
         "ErlaubteInventorySlots": [ "Köcher" ],
         "MehrereProSlot": true
@@ -1617,6 +1747,7 @@
       "Pfeil, Kriegsbogen": {
         "Gewicht": 4,
         "Preis": 0.6,
+        "Material": "Holz",
         "ErlaubteInventorySlots": [ "Köcher" ],
         "MehrereProSlot": true
       }
@@ -1625,12 +1756,14 @@
       "Bolzen, leichte Armbrust": {
         "Gewicht": 4,
         "Preis": 1.5,
+        "Material": "Holz",
         "ErlaubteInventorySlots": [ "Bolzentasche" ],
         "MehrereProSlot": true
       },
       "Bolzen, schwere Armbrust": {
         "Gewicht": 4,
         "Preis": 2,
+        "Material": "Holz",
         "ErlaubteInventorySlots": [ "Bolzentasche" ],
         "MehrereProSlot": true
       }
@@ -1638,13 +1771,20 @@
     "Kugeln": {
       "Bleikugel, Balläster": {
         "Gewicht": 5,
-        "Preis": 0.6
+        "Preis": 0.6,
+        "Material": "Eisen"
+      },
+      "Schleuderblei": {
+        "Gewicht": 2,
+        "Preis": 0.5,
+        "Material": "Eisen"
       }
     },
     "Blasrohrpfeile": {
       "Blasrohrpfeil": {
         "Gewicht": 1,
-        "Preis": 0.8
+        "Preis": 0.8,
+        "Material": "Holz"
       }
     }
   },
@@ -1655,203 +1795,232 @@
         "Preis": 20,
         "Rüstschutz": 1,
         "Behinderung": 1,
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Material": "Leinen"
       }, 
       "Winterkleidung": {
         "Gewicht": 200,
         "Preis": 30,
         "Rüstschutz": 2,
         "Behinderung": 2,
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "LF", "MH", "NA", "NO", "OR", "PU", "TH", "TO", "WA", "WE", "ZW", "ZY" ]
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "LF", "MH", "NA", "NO", "OR", "PU", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Material": "Leinen"
       },   
       "Fellkleidung": {
         "Gewicht": 220,
         "Preis": 10,
         "Rüstschutz": 2,
         "Behinderung": 2,
-        "Regionen": [ "BO", "NO", "OR", "TH" ]
+        "Regionen": [ "BO", "NO", "OR", "TH" ],
+        "Material": "Leder"
       },
       "Fellumhang": {
         "Gewicht": 120,
         "Preis": 10,
         "Rüstschutz": 1,
         "Behinderung": 0,
-        "Regionen": [ "BO", "EL", "FI", "NO", "OR", "TH", "WE" ]
+        "Regionen": [ "BO", "EL", "FI", "NO", "OR", "TH", "WE" ],
+        "Material": "Leder"
       }, 
       "Pelzkleidung": {
         "Gewicht": 200,
         "Preis": 100,
         "Rüstschutz": 2,
         "Behinderung": 1,
-        "Regionen": [ "BO", "GA", "LF", "PU", "TO" ]
+        "Regionen": [ "BO", "GA", "LF", "PU", "TO" ],
+        "Material": "Leder"
       },
       "Lederkleidung": {
         "Gewicht": 150,
         "Preis": 100,
         "Rüstschutz": 1,
         "Behinderung": 1,
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Material": "Leder"
       },                             
       "Wattierter Waffenrock (Gambeson)": {
         "Gewicht": 120,
         "Preis": 40,
         "Rüstschutz": 2,
         "Behinderung": 2,
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]        
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
+        "Material": "Leinen"
       },
       "Tuchrüstung": {
         "Gewicht": 100,
         "Preis": 35,
         "Rüstschutz": 2,
         "Behinderung": 2,
-        "Regionen": [ "LF", "MA", "MH", "SÜ", "ZY" ]        
+        "Regionen": [ "LF", "MA", "MH", "SÜ", "ZY" ], 
+        "Material": "Leinen"
       },
       "Lindwurmhaut": {
         "Gewicht": 190,
         "Preis": 60,
         "Rüstschutz": 3,
         "Behinderung": 3,
-        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]        
+        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ],
+        "Material": "Leder"
       },
       "Lederharnisch (Kurbul)": {
         "Gewicht": 180,
         "Preis": 80,
         "Rüstschutz": 3,
         "Behinderung": 3,
-        "Regionen": [ "BO", "GA", "HA", "LF", "NO", "PU", "TO", "WE" ]        
+        "Regionen": [ "BO", "GA", "HA", "LF", "NO", "PU", "TO", "WE" ], 
+        "Material": "Leder"
       },
       "Iryanrüstung": {
         "Gewicht": 150,
         "Preis": 130,
         "Rüstschutz": 3,
         "Behinderung": 2,
-        "Regionen": [ "SÜ", "WA" ]        
+        "Regionen": [ "SÜ", "WA" ], 
+        "Material": "Leder"
       },
       "Krötenhaut": {
         "Gewicht": 150,
         "Preis": 60,
         "Rüstschutz": 3,
         "Behinderung": 2,
-        "Regionen": [ "NO", "TH" ]        
+        "Regionen": [ "NO", "TH" ], 
+        "Material": "Leder"
       },
       "Brabakmantel": {
         "Gewicht": 250,
         "Preis": 120,
         "Rüstschutz": 3,
         "Behinderung": 4,
-        "Regionen": [ "SÜ" ]         
+        "Regionen": [ "SÜ" ], 
+        "Material": "Eisen"
       },
       "Schuppenpanzer": {
         "Gewicht": 480,
         "Preis": 900,
         "Rüstschutz": 5,
         "Behinderung": 5,
-        "Regionen": [ "BO", "HA", "TH", "TO", "WE", "ZW" ]        
+        "Regionen": [ "BO", "HA", "TH", "TO", "WE", "ZW" ], 
+        "Material": "Eisen"
       },
       "Kusliker Lamellar": {
         "Gewicht": 300,
         "Preis": 300,
         "Rüstschutz": 4,
         "Behinderung": 3,
-        "Regionen": [ "LF", "SÜ", "ZY" ]
+        "Regionen": [ "LF", "SÜ", "ZY" ],
+        "Material": "Eisen"
       },
       "Kettenhemd, kurz": {
         "Gewicht": 200,
         "Preis": 120,
         "Rüstschutz": 2,
         "Behinderung": 2,
-        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "PU", "TO", "WE", "ZW", "ZY" ]
+        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "PU", "TO", "WE", "ZW", "ZY" ],
+        "Material": "Eisen"
       },
       "Kettenhemd, lang": {
         "Gewicht": 250,
         "Preis": 180,
         "Rüstschutz": 3,
         "Behinderung": 3,
-        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "PU", "TO", "WE", "ZW", "ZY" ]        
+        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "PU", "TO", "WE", "ZW", "ZY" ], 
+        "Material": "Eisen"
       },
       "Kettenhemd, knielang": {
         "Gewicht": 320,
         "Preis": 200,
         "Rüstschutz": 4,
         "Behinderung": 4,
-        "Regionen": [ "BO", "GA", "HA", "LF", "MH", "PU", "TO", "WE", "ZW", "ZY" ]        
+        "Regionen": [ "BO", "GA", "HA", "LF", "MH", "PU", "TO", "WE", "ZW", "ZY" ], 
+        "Material": "Eisen"
       },
       "Kettenmantel": {
         "Gewicht": 450,
         "Preis": 850,
         "Rüstschutz": 5,
         "Behinderung": 5,
-        "Regionen": [ "BO", "GA", "HA", "TO", "WE", "ZW" ]        
+        "Regionen": [ "BO", "GA", "HA", "TO", "WE", "ZW" ], 
+        "Material": "Eisen"
       },
       "Spiegelpanzer": {
         "Gewicht": 380,
         "Preis": 1100,
         "Rüstschutz": 5,
         "Behinderung": 4,
-        "Regionen": [ "KH", "MH" ]        
+        "Regionen": [ "KH", "MH" ], 
+        "Material": "Eisen"
       },
       "Ringelpanzer": {
         "Gewicht": 280,
         "Preis": 300,
         "Rüstschutz": 4,
         "Behinderung": 3,
-        "Regionen": [ "LF" ]        
+        "Regionen": [ "LF" ], 
+        "Material": "Eisen"
       },      
       "Fünflagenharnisch": {
         "Gewicht": 300,
         "Preis": 220,
         "Rüstschutz": 4,
         "Behinderung": 4,
-        "Regionen": [ "BO", "LF", "MA" ]        
+        "Regionen": [ "BO", "LF", "MA" ], 
+        "Material": "Eisen"
       },
       "Eisenmantel": {
         "Gewicht": 250,
         "Preis": 250,
         "Rüstschutz": 3,
         "Behinderung": 2,
-        "Regionen": [ "BO", "LF", "MA" ]        
+        "Regionen": [ "BO", "LF", "MA" ], 
+        "Material": "Eisen"
       },
       "Hartholzharnisch": {
         "Gewicht": 280,
         "Preis": 800,
         "Rüstschutz": 4,
         "Behinderung": 2,
-        "Regionen": [ "MA" ]        
+        "Regionen": [ "MA" ], 
+        "Material": "Holz"
       },
       "Mammutonpanzer": {
         "Gewicht": 250,
         "Preis": 200,
         "Rüstschutz": 5,
         "Behinderung": 3,
-        "Regionen": [ "EL" ]        
+        "Regionen": [ "EL" ], 
+        "Material": "Leder"
       },
       "Streifenschurz": {
         "Gewicht": 140,
         "Preis": 40,
         "Rüstschutz": 1,
         "Behinderung": 0,
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]         
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+        "Material": "Leder"
       },
       "Brustschalen": {
         "Gewicht": 25,
         "Preis": 20,
         "Rüstschutz": 0,
         "Behinderung": 0,
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]        
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Material": "Eisen"
       },
       "Plattenharnisch": {
         "Gewicht": 320,
         "Preis": 280,
         "Rüstschutz": 4,
         "Behinderung": 3,
-        "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TO", "WE" ]        
+        "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TO", "WE" ], 
+        "Material": "Eisen"
       },
       "Küraß": {
         "Gewicht": 160,
         "Preis": 150,
         "Rüstschutz": 3,
         "Behinderung": 2,
-        "Regionen": [ "BO", "GA", "HA", "LF", "MH", "PU", "SÜ", "TO", "WE", "ZY" ]        
+        "Regionen": [ "BO", "GA", "HA", "LF", "MH", "PU", "SÜ", "TO", "WE", "ZY" ], 
+        "Material": "Eisen"
       },
       "Ritterrüstung": {
         "Gewicht": 1200,
@@ -1859,6 +2028,7 @@
         "Rüstschutz": 11,
         "Behinderung": 10,
         "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TO", "WE" ],
+        "Material": "Eisen",
 	     "belegteKörperSlots": [ "Körperrüstung", "Kopfbedeckung", "Armrüstung", "Beinrüstung", "Handschuhe", "Schuh" ]
       },
       "Amazonenrüstung": {
@@ -1867,6 +2037,7 @@
         "Rüstschutz": 3,
         "Behinderung": 2,
         "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Material": "Eisen",
 	     "belegteKörperSlots": [ "Körperrüstung", "Kopfbedeckung", "Armrüstung", "Beinrüstung", "Armrüstung", "Beinrüstung" ],
         "Icon": [ "Amazonenruestung" ]         
       }
@@ -1877,25 +2048,29 @@
         "Preis": 40,
         "Rüstschutz": 1,
         "Behinderung": 1,
-        "Regionen": [ "BO", "GA", "HA", "LF", "NO", "PU", "TO", "WE" ]        
+        "Regionen": [ "BO", "GA", "HA", "LF", "NO", "PU", "TO", "WE" ],
+        "Material": "Leder"
       },
       "Kettenzeug": {
         "Gewicht": 150,
         "Preis": 120,
         "Rüstschutz": 1,
         "Behinderung": 1,
-        "Regionen": [ "BO", "GA", "HA", "TO", "WE", "ZW" ]        
+        "Regionen": [ "BO", "GA", "HA", "TO", "WE", "ZW" ], 
+        "Material": "Eisen"
       },
       "Plattenzeug": {
         "Gewicht": 150,
         "Preis": 150,
         "Rüstschutz": 2,
         "Behinderung": 2,
-        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]        
+        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
+        "Material": "Eisen"
       },
       "Unterkleidung": {
         "Gewicht": 100,
-        "Preis": 15
+        "Preis": 15,
+        "Material": "Leinen"
       }
     },
     "Helme": {
@@ -1904,35 +2079,41 @@
         "Preis": 20,
         "Rüstschutz": 1,
         "Behinderung": 1,
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]        
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+        "Material": "Leder"
       },
       "Kettenhaube": {
         "Gewicht": 150,
         "Preis": 80,
         "Rüstschutz": 1,
         "Behinderung": 1,
-        "Regionen": [ "BO", "GA", "HA", "TO", "WE", "ZW" ]        
+        "Regionen": [ "BO", "GA", "HA", "TO", "WE", "ZW" ], 
+        "Material": "Eisen"
       },
       "Tellerhelm": {
         "Gewicht": 60,
         "Preis": 30,
         "Rüstschutz": 1,
         "Behinderung": 1,
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]        
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+        "Material": "Eisen"
       },
       "Baburiner Hut": {
         "Gewicht": 120,
         "Preis": 60,
         "Rüstschutz": 2,
         "Behinderung": 2,
-        "Regionen": [ "KH", "MH" ]        
+        "Regionen": [ "KH", "MH" ], 
+        "Material": "Eisen"
+      },
       },
       "Verstärkter Lederhelm": {
         "Gewicht": 120,
         "Preis": 50,
         "Rüstschutz": 2,
         "Behinderung": 1,
-        "Regionen": [ "HA", "TH", "WE" ]        
+        "Regionen": [ "HA", "TH", "WE" ], 
+        "Material": "Eisen"
       },
       "Sturmhaube": {
         "Gewicht": 150,
@@ -1940,41 +2121,47 @@
         "Rüstschutz": 2,
         "Behinderung": 1,
         "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]        
+        "Material": "Eisen"
       },
       "Morion": {
         "Gewicht": 180,
         "Preis": 80,
         "Rüstschutz": 2,
         "Behinderung": 1,
-        "Regionen": [ "GA", "HA", "LF", "PU", "SÜ" ]        
+        "Regionen": [ "GA", "HA", "LF", "PU", "SÜ" ], 
+        "Material": "Eisen"
       },
       "Drachenhelm": {
         "Gewicht": 180,
         "Preis": 120,
         "Rüstschutz": 2,
         "Behinderung": 2,
-        "Regionen": [ "TH" ]        
+        "Regionen": [ "TH" ], 
+        "Material": "Eisen"
       },
       "Alter Bronzehelm": {
         "Gewicht": 200,
         "Preis": 120,
         "Rüstschutz": 3,
         "Behinderung": 3,
-        "Regionen": [ "PU", "MH" ]        
+        "Regionen": [ "PU", "MH" ], 
+        "Material": "Bronze"
       },      
       "Topfhelm": {
         "Gewicht": 180,
         "Preis": 80,
         "Rüstschutz": 3,
         "Behinderung": 3,
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "TH", "TO", "WA", "WE", "ZW", "ZY" ]        
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+        "Material": "Eisen"
       },
       "Stechhelm": {
         "Gewicht": 160,
         "Preis": 90,
         "Rüstschutz": 3,
         "Behinderung": 3,
-        "Regionen": [ "BO", "GA", "HA", "LF", "TO", "WE" ]        
+        "Regionen": [ "BO", "GA", "HA", "LF", "TO", "WE" ], 
+        "Material": "Eisen"
       }
     },
     "Schilde": {
@@ -1984,7 +2171,8 @@
         "Waffenvergleichswert Schild": "-1/1",
         "Bruchfaktor": 3,
         "Behinderung": 1,
-        "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]
+        "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ],
+        "Material": "Holz"
       },
       "Verstärkter Holzschild": {
         "Gewicht": 160,
@@ -1992,7 +2180,8 @@
         "Waffenvergleichswert Schild": "-1/1",
         "Bruchfaktor": 0,
         "Behinderung": 1,
-        "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]        
+        "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
+        "Material": "Holz"
       },
       "Lederschild": {
         "Gewicht": 80,
@@ -2000,7 +2189,8 @@
         "Waffenvergleichswert Schild": "-1/2",
         "Bruchfaktor": 5,
         "Behinderung": 2,
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "TH", "TO", "WA", "WE", "ZW", "ZY" ]        
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+        "Material": "Leder"
       },
       "Thorwalerschild": {
         "Gewicht": 160,
@@ -2008,7 +2198,8 @@
         "Waffenvergleichswert Schild": "-2/2",
         "Bruchfaktor": 3,
         "Behinderung": 2,
-        "Regionen": [ "HA", "TH" ]        
+        "Regionen": [ "HA", "TH" ], 
+        "Material": "Holz"
       },
       "Großer Lederschild": {
         "Gewicht": 120,
@@ -2016,7 +2207,8 @@
         "Waffenvergleichswert Schild": "-2/3",
         "Bruchfaktor": 6,
         "Behinderung": 3,
-        "Regionen": [ "KH", "LF", "MH", "PU" ]        
+        "Regionen": [ "KH", "LF", "MH", "PU" ], 
+        "Material": "Leder"
       },
       "Großschild": {
         "Gewicht": 200,
@@ -2024,7 +2216,8 @@
         "Waffenvergleichswert Schild": "-3/3",
         "Bruchfaktor": 2,
         "Behinderung": 3,
-        "Regionen": [ "BO", "GA", "HA", "TO", "WE" ]         
+        "Regionen": [ "BO", "GA", "HA", "TO", "WE" ], 
+        "Material": "Eisen"
       },
       "Buckler": {
         "Gewicht": 100,
@@ -2032,7 +2225,8 @@
         "Waffenvergleichswert Schild": "-1/1",
         "Bruchfaktor": -2,
         "Behinderung": 1,
-        "Regionen": [ "GA", "LF" ]         
+        "Regionen": [ "GA", "LF" ],
+        "Material": "Eisen"
       },
       "Vollmetall-Buckler": {
         "Gewicht": 160,
@@ -2040,7 +2234,8 @@
         "Waffenvergleichswert Schild": "-1/1",
         "Bruchfaktor": -2,
         "Behinderung": 2,
-        "Regionen": [ "GA", "LF", "PU", "SÜ" ]         
+        "Regionen": [ "GA", "LF", "PU", "SÜ" ], 
+        "Material": "Eisen"
       },
       "Panzerarm": {
         "Gewicht": 220,
@@ -2052,7 +2247,8 @@
         "Waffenvergleichswert": "1/3",
         "Waffenvergleichswert Schild": "0/1",
         "Behinderung": 2,        
-        "Regionen": [ "BO", "GA", "HA", "TO", "WE" ]        
+        "Regionen": [ "BO", "GA", "HA", "TO", "WE" ], 
+        "Material": "Eisen"
       },
       "Bock": {
         "Gewicht": 120,
@@ -2064,7 +2260,8 @@
         "Waffenvergleichswert": "2/5",
         "Waffenvergleichswert Schild": "-1/1",
         "Behinderung": 1,
-        "Regionen": [ "BO", "HA", "TO", "WE" ]        
+        "Regionen": [ "BO", "HA", "TO", "WE" ], 
+        "Material": "Eisen"
       }
     }
   },
@@ -2085,11 +2282,13 @@
     },
     "Schultergurt": {
       "Gewicht": 20,
-      "Preis": 10
+      "Preis": 10,
+      "Material": "Leder",
     },
     "Beingurt": {
       "Gewicht": 15,
-      "Preis": 5
+      "Preis": 5,
+      "Material": "Leder",
     },
     "Waffenhalter": {
       "Schwertscheide": {
@@ -2124,7 +2323,7 @@
       "Bolzentasche, 10 Bolzen, Stoff": {
         "Gewicht": 20,
         "Preis": 2,
-        "Material": "Stoff",
+        "Material": "Leinen",
         "Slottypen": [ "Bolzentasche" ],
         "Slots": 1,
         "MaximumPerSlot": 10
@@ -2170,15 +2369,18 @@
     "Leuchtmittel": {
       "Kerze, 1 Spann": {
         "Gewicht": 2,
-        "Preis": 0.1
+        "Preis": 0.1,
+        "Material": "Wachs"
       },
       "Kerze, 2 Spann": {
         "Gewicht": 4,
-        "Preis": 0.2
+        "Preis": 0.2,
+        "Material": "Wachs"
       },
       "Duftkerze, 1 Spann": {
         "Gewicht": 2,
-        "Preis": 0.3
+        "Preis": 0.3,
+        "Material": "Wachs"
       },
       "Pechfackel": {
         "Gewicht": 50,
@@ -2188,19 +2390,23 @@
         "TrefferpunkteKK": -15,
         "Bruchfaktor": 7,
         "Waffenvergleichswert": "4/3",
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]      
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+        "Material": "Holz"
       },    
       "Öllampe": {
         "Gewicht": 15,
-        "Preis": 3
+        "Preis": 3,
+        "Material": "Eisen"
       },
       "Kerzenlaterne": {
         "Gewicht": 20,
-        "Preis": 5
+        "Preis": 5,
+        "Material": "Eisen"
       },
       "Sturmlaterne, Öl": {
         "Gewicht": 30,
-        "Preis": 12
+        "Preis": 12,
+        "Material": "Eisen"
       }
     },
     "Zubehör": {
@@ -2230,31 +2436,43 @@
     "Beutel": {
       "Tuchbeutel, 5 Stein": {
         "Gewicht": 15,
-        "Preis": 0.4
+        "Preis": 0.4,
+	"Slots": 5,
+        "Slottypen": [ "Allgemein" ]
       },
       "Geldbeutelchen": {
         "Gewicht": 1,
         "Preis": 0.1
+	"Slots": 10,
+        "Slottypen": [ "Geld" ]
       }
     },
     "Rucksäcke": {
       "Lederranzen, 8 Stein": {
         "Gewicht": 30,
-        "Preis": 2
+        "Preis": 2,
+	"Slots": 8,
+        "Slottypen": [ "Allgemein" ]
       },
       "Lederrucksack, 15 Stein": {
         "Gewicht": 40,
-        "Preis": 4
+        "Preis": 4,
+	"Slots": 10,
+        "Slottypen": [ "Allgemein" ]
       }
     },
     "Gürteltaschen": {
       "Gürteltaschen": {
         "Gewicht": 5,
-        "Preis": 0.5
+        "Preis": 0.5,
+	"Slots": 5,
+        "Slottypen": [ "Allgemein" ]
       },
       "Gürteltaschen, verstärkt": {
         "Gewicht": 15,
-        "Preis": 4
+        "Preis": 4,
+	"Slots": 5,
+        "Slottypen": [ "Allgemein" ]
       }
     },
     "Pergamenthülle": {
@@ -2265,78 +2483,108 @@
       "Sack, 10 Stein": {
         "Gewicht": 15,
         "Preis": 0.8,
-	"Icon": [ "Sack_klein_1", "Sack_klein_2" ]
+	"Icon": [ "Sack_klein_1", "Sack_klein_2" ],
+	"Slots": 5,
+        "Slottypen": [ "Allgemein" ]
       },
       "Sack, 50 Stein": {
         "Gewicht": 40,
         "Preis": 2.5,
-	"Icon": [ "Sack_gross_1", "Sack_gross_2" ]
+	"Slots": 10,
+	"Icon": [ "Sack_gross_1", "Sack_gross_2" ],
+        "Slottypen": [ "Allgemein" ]
       }
     },
     "Körbe": {
       "Korb, 20 Stein": {
         "Gewicht": 80,
         "Preis": 4,
-        "Icon": [ "Korb_1", "Korb_2" ]
+        "Icon": [ "Korb_1", "Korb_2" ],
+	"Slots": 5,
+        "Slottypen": [ "Allgemein" ]
       },
       "Kiepe, 20 Stein": {
         "Gewicht": 120,
         "Preis": 7,
-        "Icon": [ "Kiepe_1", "Kiepe_2" ]
+        "Icon": [ "Kiepe_1", "Kiepe_2" ],
+	"Slots": 5,
+        "Slottypen": [ "Allgemein" ]
       }
     },
     "Kisten": {
       "Transportkiste": {
         "Gewicht": 80,
-        "Preis": 4
+        "Preis": 4,
+	"Slots": 5,
+        "Slottypen": [ "Allgemein" ]
       },
       "Truhe für Packpferd": {
         "Gewicht": 100,
-        "Preis": 5
+        "Preis": 5,
+	"Slots": 5,
+        "Slottypen": [ "Allgemein" ]
       }
-    },
-    "Packsattel": {
-      "Gewicht": 200,
-      "Preis": 20
     },
     "Tragnetz": {
       "Gewicht": 40,
-      "Preis": 1
+      "Preis": 1,
+      "Slots": 5,
+      "Slottypen": [ "Allgemein" ]
     },
     "Eimer": {
       "Eimer, Holz": {
         "Gewicht": 60,
-        "Preis": 3
+        "Preis": 3,
+        "Slots": 1,
+        "MaximumPerSlot": 10,
+        "Slottypen": [ "Allgemein" ]
       },
       "Eimer, Leder": {
         "Gewicht": 40,
-        "Preis": 2
+        "Preis": 2,
+        "MaximumPerSlot": 10,
+        "Slottypen": [ "Allgemein" ]
       }
     },
     "Flaschen": {
       "Glasflasche, 3 Flux": {
         "Gewicht": 4,
-        "Preis": 5
+        "Preis": 5,
+        "Slots": 1,
+        "MaximumPerSlot": 3,
+        "Slottypen": [ "Flüssigkeit" ]
       },
       "Glasflasche, 1 Schank": {
         "Gewicht": 10,
         "Preis": 12,
+        "Slots": 1,
+        "MaximumPerSlot": 25,
+        "Slottypen": [ "Flüssigkeit" ],
         "Icon": [ "Flasche_Glas_gross" ]
       },
       "Irdene Flasche, 1 Schank": {
         "Gewicht": 20,
-        "Preis": 2
+        "Preis": 2,
+        "Slots": 1,
+        "MaximumPerSlot": 25,
+        "Slottypen": [ "Flüssigkeit" ]
       },
       "Bronzeflasche, 1 Schank": {
         "Gewicht": 50,
         "Preis": 8,
+        "Slots": 1,
+        "MaximumPerSlot": 25,
+        "Slottypen": [ "Flüssigkeit" ]
         "Icon": [ "Flasche_Bronze" ]
       }
     },
     "Fässer": {
       "Wasserfaß, 20 Maß": {
         "Gewicht": 120,
-        "Preis": 18
+        "Preis": 18,
+        "Slots": 1,
+        "MaximumPerSlot": 2000,
+        "Slottypen": [ "Flüssigkeit" ]
       }
     }
   },
@@ -2501,7 +2749,8 @@
       "TrefferpunkteKK": -16,
       "Bruchfaktor": 4,
       "Waffenvergleichswert": "1/0",
-      "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]
+      "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+      "Material": "Eisen" 
     },
     "Hämmer": {
       "Hammer": {
@@ -2516,7 +2765,8 @@
         "TrefferpunkteKK": -14,
         "Bruchfaktor": 5,
         "Waffenvergleichswert": "8/1",
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]      
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],   
+        "Material": "Eisen" 
       }
     },
     "50 Nägel, sortiert": {
@@ -2572,7 +2822,8 @@
         "TrefferpunkteKK": -15,
         "Bruchfaktor": 5,
         "Waffenvergleichswert": "8/1",
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]       
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+        "Material": "Eisen" 
       },
       "Eispickel": {
         "Gewicht": 120,
@@ -2588,7 +2839,8 @@
         "TrefferpunkteKK": -14,
         "Bruchfaktor": 5,
         "Waffenvergleichswert": "6/2",
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]      
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+        "Material": "Eisen" 
       },
       "Fleischerbeil": {
         "Gewicht": 60,
@@ -2598,7 +2850,8 @@
         "TrefferpunkteKK": -16,
         "Bruchfaktor": 2,
         "Waffenvergleichswert": "2/1",
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]      
+        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+        "Material": "Eisen" 
       },
       "Holzfälleraxt": {
         "Gewicht": 160,
@@ -2608,7 +2861,8 @@
         "TrefferpunkteKK": -13,
         "Bruchfaktor": 5,
         "Waffenvergleichswert": "9/1",
-        "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]      
+        "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+        "Material": "Eisen" 
       }
     },
     "Meißel, 5, sortiert": {
@@ -2659,7 +2913,8 @@
       "TrefferpunkteKK": -17,
       "Bruchfaktor": 5,
       "Waffenvergleichswert": "3/1",
-      "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ]       
+      "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
+      "Material": "Eisen" 
     },
     "Sense": {
       "Gewicht": 100,
@@ -2669,7 +2924,8 @@
       "TrefferpunkteKK": -17,
       "Bruchfaktor": 6,
       "Waffenvergleichswert": "3/1",
-      "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]      
+      "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
+      "Material": "Eisen" 
     },
     "Dreschflegel": {
       "Gewicht": 100,
@@ -2679,7 +2935,8 @@
       "TrefferpunkteKK": -14,
       "Bruchfaktor": 6,
       "Waffenvergleichswert": "4/2",
-      "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]      
+      "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ],
+      "Material": "Holz" 
     },
     "Reisigbesen": {
       "Gewicht": 50,
@@ -3091,31 +3348,42 @@
     "Pfeifen": {
       "Pfeife, Ton": {
         "Gewicht": 5,
-        "Preis": 1
+        "Preis": 1,
+        "benutzen mit": "Pfeifenkraut, Knaster"
       },
       "Pfeife, Holz": {
         "Gewicht": 5,
-        "Preis": 5
+        "Preis": 5,
+        "benutzen mit": "Pfeifenkraut, Knaster"
       },
       "Pfeife, Meerschaum": {
         "Gewicht": 4,
-        "Preis": 10
+        "Preis": 10,
+        "benutzen mit": "Pfeifenkraut, Knaster",
+        "Icon": [ "Meerschaumpfeife_1", "Meerschaumpfeife_2" ]
       },
       "Wasserpfeife": {
         "Gewicht": 40,
-        "Preis": 20
+        "Preis": 20,
+        "benutzen mit": "Pfeifenkraut, Knaster",
+        "Icon": [ "Wasserpfeife_1", "Wasserpfeife_2" ]
       }
     },
     "Tabakdose, Silber": {
       "Gewicht": 2,
-      "Preis": 3
+      "Preis": 3,
+      "Slottypen": [ "Tabak" ],
+      "Slots": 1,
+      "MaximumPerSlot": 50,
+      "Icon": [ "Tabakdose_Silber_1", "Tabakdose_Silber_2" ]
     }
   },
   "Musikinstrumente": {
     "Flöten": {
       "Holzflöte": {
         "Gewicht": 8,
-        "Preis": 2
+        "Preis": 2,
+        "Icon": [ "Holzfloete_1", "Holzfloete_2" ]
     
       },
       "Beinflöte": {
@@ -3296,154 +3564,182 @@
       "Ring, Silber": {
         "Gewicht": 0.5,
         "Preis": 3,
-        "Icon": [ "Ring_Silber_1", "Ring_Silber_2" ]
+        "Icon": [ "Ring_Silber_1", "Ring_Silber_2" ],
+        "Material": "Silber"
       },
       "Ring, Gold": {
         "Gewicht": 0.6,
         "Preis": 9,
-        "Icon": [ "Ring_Gold_1", "Ring_Gold_2" ]
+        "Icon": [ "Ring_Gold_1", "Ring_Gold_2" ],
+        "Material": "Gold"
       },
       "Ring, Messing": {
         "Gewicht": 0.55,
         "Preis": 1,
-        "Icon": [ "Ring_Messing_1", "Ring_Messing_2" ]
+        "Icon": [ "Ring_Messing_1", "Ring_Messing_2" ],
+        "Material": "Messing"
       },  
       "Ring, Bronze": {
         "Gewicht": 0.55,
         "Preis": 1,
-        "Icon": [ "Ring_Bronze_1", "Ring_Bronze_2" ]
+        "Icon": [ "Ring_Bronze_1", "Ring_Bronze_2" ],
+        "Material": "Bronze"
       }
     },
     "Ohrringe": {
       "Ohrring, Silber": {
         "Gewicht": 0.2,
         "Preis": 3,
-        "Icon": [ "Ohrringe_Silber_1", "Ohrringe_Silber_2" ]
+        "Icon": [ "Ohrringe_Silber_1", "Ohrringe_Silber_2" ],
+        "Material": "Silber"
       },
       "Ohrring, Gold": {
         "Gewicht": 0.5,
         "Preis": 27,
-        "Icon": [ "Ohrringe_Gold_1", "Ohrringe_Gold_2" ]
+        "Icon": [ "Ohrringe_Gold_1", "Ohrringe_Gold_2" ],
+        "Material": "Gold"
       },
       "Ohrring, Messing": {
         "Gewicht": 0.25,
         "Preis": 1,
-        "Icon": [ "Ohrringe_Messing_1", "Ohrringe_Messing_2" ]
+        "Icon": [ "Ohrringe_Messing_1", "Ohrringe_Messing_2" ],
+        "Material": "Messing"
       },
       "Ohrring, Bronze": {
         "Gewicht": 0.25,
         "Preis": 1,
-        "Icon": [ "Ohrringe_Bronze_1", "Ohrringe_Bronze_2" ]
+        "Icon": [ "Ohrringe_Bronze_1", "Ohrringe_Bronze_2" ],
+        "Material": "Bronze"
       }
     },       
     "Armreifen": {
       "Armreif, Silber": {
         "Gewicht": 10,
         "Preis": 60,
-        "Icon": [ "Armreif_Silber_1", "Armreif_Silber_2" ]
+        "Icon": [ "Armreif_Silber_1", "Armreif_Silber_2" ],
+        "Material": "Silber"
       },
       "Armreif, Gold": {
         "Gewicht": 12,
         "Preis": 180,
-        "Icon": [ "Armreif_Gold_1", "Armreif_Gold_2" ]
+        "Icon": [ "Armreif_Gold_1", "Armreif_Gold_2" ],
+        "Material": "Gold"
       },
       "Armreif, Messing": {
         "Gewicht": 11,
         "Preis": 20,
-        "Icon": [ "Armreif_Messing_1", "Armreif_Messing_2" ]
+        "Icon": [ "Armreif_Messing_1", "Armreif_Messing_2" ],
+        "Material": "Messing"
       },   
       "Armreif, Bronze": {
         "Gewicht": 11,
         "Preis": 20,
-        "Icon": [ "Armreif_Silber_1", "Armreif_Silber_2" ]
+        "Icon": [ "Armreif_Silber_1", "Armreif_Silber_2" ],
+        "Material": "Bronze"
       }
     },         
     "Stirnreifen": {
       "Stirnreif, Silber": {
         "Gewicht": 8,
         "Preis": 20,
-        "Icon": [ "Stirnreif_Silber_1", "Stirnreif_Silber_2" ]
+        "Icon": [ "Stirnreif_Silber_1", "Stirnreif_Silber_2" ],
+        "Material": "Silber"
       },
       "Stirnreif, Gold": {
         "Gewicht": 10,
         "Preis": 60,
-        "Icon": [ "Stirnreif_Gold_1", "Stirnreif_Gold_2" ]
+        "Icon": [ "Stirnreif_Gold_1", "Stirnreif_Gold_2" ],
+        "Material": "Gold"
       },  
       "Stirnreif, Messing": {
         "Gewicht": 9,
         "Preis": 7,
-        "Icon": [ "Stirnreif_Messing_1", "Stirnreif_Messing_2" ]
+        "Icon": [ "Stirnreif_Messing_1", "Stirnreif_Messing_2" ],
+        "Material": "Messing"
       },   
       "Stirnreif, Bronze": {
         "Gewicht": 9,
         "Preis": 7,
-        "Icon": [ "Stirnreif_Bronze_1" ]
+        "Icon": [ "Stirnreif_Bronze_1" ],
+        "Material": "Bronze"
       }
     },             
     "Spangen": {
       "Spange, Fiebel, Silber": {
         "Gewicht": 1,
         "Preis": 6,
-        "Icon": [ "Spange_Silber_1", "Spange_Silber_2" ]
+        "Icon": [ "Spange_Silber_1", "Spange_Silber_2" ],
+        "Material": "Silber"
       },
       "Spange, Fiebel, Gold": {
         "Gewicht": 1.2,
         "Preis": 18,
-        "Icon": [ "Spange_Gold_1", "Spange_Gold_2" ]
+        "Icon": [ "Spange_Gold_1", "Spange_Gold_2" ],
+        "Material": "Gold"
       },   
       "Spange, Fiebel, Messing": {
         "Gewicht": 1.1,
         "Preis": 2,
-        "Icon": [ "Spange_Messing_1" ]
+        "Icon": [ "Spange_Messing_1" ],
+        "Material": "Messing"
       },   
       "Spange, Fiebel, Bronze": {
         "Gewicht": 1.1,
         "Preis": 2,
-        "Icon": [ "Spange_Bronze_1", "Spange_Bronze_2" ]
+        "Icon": [ "Spange_Bronze_1", "Spange_Bronze_2" ],
+        "Material": "Bronze"
       }
     },            
     "Halsketten": {
       "Halskette, Silber": {
         "Gewicht": 0.5,
         "Preis": 5,
-        "Icon": [ "Halskette_Silber" ]
+        "Icon": [ "Halskette_Silber" ],
+        "Material": "Silber"
       },
       "Halskette, Gold": {
         "Gewicht": 0.6,
         "Preis": 15,
-        "Icon": [ "Halskette_Gold_1", "Halskette_Gold_2" ]
+        "Icon": [ "Halskette_Gold_1", "Halskette_Gold_2" ],
+        "Material": "Gold"
       },
       "Halskette, Messing": {
         "Gewicht": 0.6,
         "Preis": 2,
-        "Icon": [ "Halskette_Messing_1", "Halskette_Messing_2" ]
+        "Icon": [ "Halskette_Messing_1", "Halskette_Messing_2" ],
+        "Material": "Messing"
       },   
       "Halskette, Bronze": {
         "Gewicht": 0.6,
         "Preis": 2,
-        "Icon": [ "Halskette_Bronze_1", "Halskette_Bronze_2" ]
+        "Icon": [ "Halskette_Bronze_1", "Halskette_Bronze_2" ],
+        "Material": "Bronze"
       }
     },         
     "Amulette": {
       "Amulett, Silber": {
         "Gewicht": 2,
         "Preis": 4,
-        "Icon": [ "Amulett_Silber_1", "Amulett_Silber_2", "Amulett_Silber_3", "Amulett_Silber_4" ]
+        "Icon": [ "Amulett_Silber_1", "Amulett_Silber_2", "Amulett_Silber_3", "Amulett_Silber_4" ],
+        "Material": "Silber"
       },
       "Amulett, Gold": {
         "Gewicht": 2.4,
         "Preis": 12,
-        "Icon": [ "Amulett_Gold_1", "Amulett_Gold_2" ]
+        "Icon": [ "Amulett_Gold_1", "Amulett_Gold_2" ],
+        "Material": "Gold"
       },
       "Amulett, Messing": {
         "Gewicht": 2.1,
         "Preis": 1.2,
-        "Icon": [ "Amulett_Messing_1", "Amulett_Messing_2" ]
+        "Icon": [ "Amulett_Messing_1", "Amulett_Messing_2" ],
+        "Material": "Messing"
       },
       "Amulett, Bronze": {
         "Gewicht": 2.1,
         "Preis": 1.2,
-        "Icon": [ "Amulett_Bronze_1", "Amulett_Bronze_2" ]
+        "Icon": [ "Amulett_Bronze_1", "Amulett_Bronze_2" ],
+        "Material": "Bronze"
       }
     }
   },
@@ -4060,17 +4356,20 @@
       "Proviant, Tagesration": {
         "Gewicht": 40,
         "Preis": 3,
-        "Icon": [ "Proviantpaket" ]
+        "Icon": [ "Proviantpaket" ],
+        "direkt konsumierbar": true
       },
       "Brot": {
         "Gewicht": 40,
         "Preis": 0.15,
-        "Icon": [ "Brot" ]
+        "Icon": [ "Brot" ],
+        "direkt konsumierbar": true
       },
       "Kuchen": {
         "Gewicht": 20,
         "Preis": 0.2,
-        "Icon": [ "Kuchen_1", "Kuchen_2" ]
+        "Icon": [ "Kuchen_1", "Kuchen_2" ],
+        "direkt konsumierbar": true
       },
       "Fleisch": {
         "Gewicht": 20,
@@ -4155,17 +4454,20 @@
       "Nüsse": {
         "Gewicht": 10,
         "Preis": 0.2,
-        "Icon": [ "Nuesse" ]
+        "Icon": [ "Nuesse" ],
+        "direkt konsumierbar": true
       },
       "Obst": {
         "Gewicht": 20,
         "Preis": 0.05,
-        "Icon": [ "Obst_1", "Obst_2" ]
+        "Icon": [ "Obst_1", "Obst_2" ],
+        "direkt konsumierbar": true
       },
       "Naschwerk": {
         "Gewicht": 10,
         "Preis": 1,
-        "Icon": [ "Naschwerk" ]
+        "Icon": [ "Naschwerk" ],
+        "direkt konsumierbar": true
       },
       "Tee": {
         "Gewicht": 20,
@@ -4183,32 +4485,44 @@
         "Bier": {
           "Gewicht": 40,
           "Preis": 0.1,
-	  "Icon": [ "Bier" ]
+	  "Icon": [ "Bier" ],
+          "direkt konsumierbar": true,
+          "Wirkung": 1
         },
         "Einfacher Landwein": {
           "Gewicht": 40,
           "Preis": 0.3,
-	  "Icon": [ "Landwein" ]
+	  "Icon": [ "Landwein" ],
+          "direkt konsumierbar": true,
+          "Wirkung": 2
         },
         "Guter Rotwein": {
           "Gewicht": 40,
           "Preis": 8,
-	  "Icon": [ "Rotwein" ]
+	  "Icon": [ "Rotwein" ],
+          "direkt konsumierbar": true,
+          "Wirkung": 2
         },
         "Einfacher Schnaps": {
           "Gewicht": 40,
           "Preis": 0.8,
-	  "Icon": [ "Schnaps" ]
+	  "Icon": [ "Schnaps" ],
+          "direkt konsumierbar": true,
+          "Wirkung": 4
         },
         "Guter Branntwein": {
           "Gewicht": 40,
           "Preis": 10,
-	  "Icon": [ "Branntwein" ]
+	  "Icon": [ "Branntwein" ],
+          "direkt konsumierbar": true,
+          "Wirkung": 4
         },
         "Likör": {
           "Gewicht": 20,
           "Preis": 1,
-	  "Icon": [ "Likoer" ]
+	  "Icon": [ "Likoer" ],
+          "direkt konsumierbar": true,
+          "Wirkung": 4
         }
       }
     },
@@ -4216,12 +4530,17 @@
       "Pfeifenkraut, Knaster": {
         "Gewicht": 2,
         "Preis": 0.1,
-	"Icon": [ "Tabak" ]
+	"Icon": [ "Tabak" ],
+        "ErlaubteInventorySlots": [ "Tabak" ],
+        "Verpackungseinheit": 50,
+        "MehrereProSlot": true
       },
-      "Zigarren, 10 Stück": {
+      "Zigarren": {
         "Gewicht": 8,
         "Preis": 10,
-        "Icon": [ "Zigarren" ]
+        "Icon": [ "Zigarren" ],
+        "Verpackungseinheit": 10,
+        "MehrereProSlot": true
       }
     }
   }

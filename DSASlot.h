@@ -58,10 +58,11 @@ typedef NS_ENUM(NSUInteger, DSASlotType) {
     DSASlotTypeBasket,                          // an ordinary basket, holds anything that can go into a basket
     DSASlotTypeQuiver,                          // a quiver for arrows
     DSASlotTypeBoltbag,                         // a quiver/bag for bolts
-    DSASlotTypeBottle,                          // a bottle to hold liquids
+    DSASlotTypeLiquid,                          // something to hold liquids
     DSASlotTypeSword,                           // a shaft to hold swords
     DSASlotTypeDagger,                          // a shaft to hold daggers 
     DSASlotTypeAxe                              // a special thing to hold axes
+    DSASlotTypeMoney                            // to hold money
     // Add other specific types as needed
 };
 
