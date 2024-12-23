@@ -38,9 +38,9 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     NSLog(@"DSAItemInspectionController: awakeFromNib called");
-    NSLog(@"itemImageView: %@", self.itemImageView); // Should not be nil
-    NSLog(@"itemName: %@", self.itemName);           // Should not be nil
-    NSLog(@"itemInfoTextView: %@", self.itemInfoTextView); // Should not be nil
+//    NSLog(@"itemImageView: %@", self.itemImageView); // Should not be nil
+//    NSLog(@"itemName: %@", self.itemName);           // Should not be nil
+//    NSLog(@"itemInfoTextView: %@", self.itemInfoTextView); // Should not be nil
 }
 
 - (void)windowDidLoad {
@@ -50,9 +50,7 @@
 
     // If there's an item to inspect, update the UI now
     if (self.itemToInspect) {
-        NSLog(@"DSAItemInspectionController: windowDidLoad have item to inspect!");
         [self updateUIForItem:self.itemToInspect];
-        NSLog(@"DSAItemInspectionController: windowDidLoad after updateUIForItem!");
         //self.itemToInspect = nil;  // Clear the stored item
     }
 }

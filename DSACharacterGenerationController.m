@@ -751,7 +751,8 @@
   // apply Göttergeschenke and Origins modificators
   [self apply: @"Goettergeschenke" toArchetype: newCharacter];
   [self apply: @"Herkunft" toArchetype: newCharacter];
-  [self apply: @"Kriegerakademie" toArchetype: newCharacter];  
+  [self apply: @"Kriegerakademie" toArchetype: newCharacter];
+  [self apply: @"Magierakademie" toArchetype: newCharacter];
   [self apply: @"Schamanenmodifikatoren" toArchetype: newCharacter];
   [self addEquipmentToCharacter: newCharacter];
   NSLog(@"DSACharacterGenerationController: assigned equipment to newCharacter");
@@ -921,7 +922,47 @@
         {
           spell.isTraditionSpell = YES;  // comes from a different list of spells, the SharisadDances.json
         }
-    }         
+    }
+  else if ([archetype isKindOfClass: [DSACharacterHeroHumanMage class]])
+    {
+      NSLog(@"Applying spellModificatorsToArchetype: %@", archetype.archetype);
+      NSArray *haussprueche = [[_mageAcademiesDict objectForKey: archetype.mageAcademy] objectForKey: @"Haussprüche"];
+      NSDictionary *academySpellModificators = [[_mageAcademiesDict objectForKey: archetype.mageAcademy] objectForKey: @"Zaubersprüche"];
+      NSString *spezialgebiet = [[_mageAcademiesDict objectForKey: archetype.mageAcademy] objectForKey: @"Spezialgebiet"];
+      for (DSASpell *spell in [archetype.spells allValues])
+        {
+          NSString *spellName = [spell name];
+          NSString *spellCategory = [spell category];
+          if ([spellCategory isEqualToString: spezialgebiet])
+            {
+              spell.maxUpPerLevel = @2;
+              spell.maxTriesPerLevelUp = @6;
+            }
+          
+          if ([[academySpellModificators allKeys] containsObject: spellCategory])
+            {
+              NSLog(@"Found spell category: %@", spellCategory);
+              if ([[academySpellModificators objectForKey: spellCategory] objectForKey: spellName])
+                {
+                  NSLog(@"modifying spell.level for spell: %@", spellName);
+                  spell.level = [NSNumber numberWithInteger: [spell.level integerValue] + [[[academySpellModificators objectForKey: spellCategory] objectForKey: spellName] integerValue]];
+                }
+              for (NSDictionary *dict in haussprueche)
+                {
+                  if ([dict objectForKey: spellName])
+                    {
+                      NSLog(@"HAUSSPRUCH: modifying spell.level for spell: %@", spellName);
+                      spell.level = [NSNumber numberWithInteger: [spell.level integerValue] + [[dict objectForKey: spellName] integerValue]];
+                      spell.maxUpPerLevel = @3;
+                      spell.maxTriesPerLevelUp = @9;
+                      spell.isTraditionSpell = YES;
+                      break;
+                    }
+                  
+                }
+            }
+        }      
+    }
   else
     {
       NSLog(@"DSACharacterGenerationController: applySpellmodificatorsToArchetype: don't know about Archetype: %@", archetype.archetype);
@@ -940,7 +981,7 @@
       selectedIndex = [elements indexOfObject: ownElement];
       oppositeIndex = (selectedIndex + count / 2) % count;      
       NSString *oppositeElement = [elements objectAtIndex: oppositeIndex];
-      NSLog(@"applying spell modificators for own element: %@ opposite element: %@", ownElement, oppositeElement);
+//      NSLog(@"applying spell modificators for own element: %@ opposite element: %@", ownElement, oppositeElement);
       for (DSASpell *spell in [archetype.spells allValues])
         {
           if ([spell element]) NSLog(@"testing spell: %@ with element: %@", [spell name], [spell element]);
@@ -948,33 +989,33 @@
             {
               if ([[spell element] isEqualToString: ownElement])
                 {
-                  NSLog(@"own element spell before: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);
+//                  NSLog(@"own element spell before: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);
                   spell.level = [NSNumber numberWithInteger: [spell.level integerValue] + 2];
                   if ([spell.maxUpPerLevel integerValue] < 3)
                     {
                       spell.maxUpPerLevel = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] + 1];
                       spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];
                     }
-                  NSLog(@"own element spell after: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                  
+//                  NSLog(@"own element spell after: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                  
                 }
               else if ([[spell element] isEqualToString: oppositeElement])
                 {
-                  NSLog(@"opposite element spell before: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
+//                  NSLog(@"opposite element spell before: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
                   spell.level = [NSNumber numberWithInteger: [spell.level integerValue] -3 ];
                   spell.maxUpPerLevel = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] - 1];
                   spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];
-                  NSLog(@"opposite element spell after: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
+//                  NSLog(@"opposite element spell after: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
                 }
               else
                 {
-                  NSLog(@"other element spell before: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
+//                  NSLog(@"other element spell before: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
                   if ([spell.maxUpPerLevel integerValue] >= 3)
                     {
                       spell.maxUpPerLevel = @2;
                       spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];                    
                       
                     }
-                  NSLog(@"other element spell after: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
+//                  NSLog(@"other element spell after: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
                     
                 }
             }
@@ -999,18 +1040,45 @@
     }
   else if ([@"Herkunft" isEqualTo: modificator])
     {
-      talents = [[_originsDict objectForKey: archetype.origin] objectForKey: @"Talente"]; 
+      if ([archetype.archetype isEqualToString: _(@"Magier")])
+        {
+           NSLog(@"not applying Herkunft to archetype %@, die Magierakademie prägt mehr als die Herkunft.", archetype.archetype);
+        }
+      else
+        {
+          talents = [[_originsDict objectForKey: archetype.origin] objectForKey: @"Talente"];
+        }
     }
   else if ([@"Kriegerakademie" isEqualTo: modificator])
     {
-      talents = [[_warriorAcademiesDict objectForKey: archetype.mageAcademy] objectForKey: @"Talente"];
+      talents = [[_warriorAcademiesDict objectForKey: archetype.mageAcademy] objectForKey: @"Talente"];  // mageAcademy is misused here for the Kriegerakademie...
       archetype.firstLevelUpTalentTriesPenalty = [[_warriorAcademiesDict objectForKey: archetype.mageAcademy] objectForKey: @"Initiale Steigerungsversuche"];
     }
-  else if ([@"Schamanenmodifikatoren" isEqualTo: modificator] && [archetype.archetype isEqualTo: _(@"Schamane")])
+  else if ([@"Magierakademie" isEqualTo: modificator])
     {
-      NSLog(@"applying Schamanenmodifikatoren origin: %@", archetype.origin);
-      talents = [[_shamanOriginsDict objectForKey: archetype.origin] objectForKey: @"Talente"];
-      NSLog(@"Talents: %@", talents);
+      if ([archetype.archetype isEqualToString: _(@"Magier")])
+        {
+          NSLog(@"applying Magierakademie modificators: %@", archetype.archetype);
+          talents = [[_mageAcademiesDict objectForKey: archetype.mageAcademy] objectForKey: @"Talente"];
+          NSLog(@"Talents: %@", talents);
+        }
+      else
+        {
+          NSLog(@"not applying Magierakademie modificator to archetype: %@", archetype.archetype);
+        }      
+    }
+  else if ([@"Schamanenmodifikatoren" isEqualTo: modificator])
+    {
+      if ([archetype.archetype isEqualToString: _(@"Schamane")])
+        {
+          NSLog(@"applying Schamanenmodifikatoren origin: %@", archetype.origin);
+          talents = [[_shamanOriginsDict objectForKey: archetype.origin] objectForKey: @"Talente"];
+          NSLog(@"Talents: %@", talents);
+        }
+      else
+        {
+          NSLog(@"not applying Schamanenmodifikatoren to archetype: %@", archetype.archetype);
+        }
     }
   else
     {
@@ -3112,16 +3180,16 @@ NSLog(@"generateFamilyBackground %@", retVal);
 - (void) addEquipmentToCharacter: (DSACharacterHero *) character
 {
 
-  NSLog(@"SOCIAL STATUS: %@", [character socialStatus]);
-  NSLog(@"SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS %@", [[[_archetypesDict objectForKey: [character archetype]] objectForKey: @"Herkunft"] objectForKey: [character socialStatus]]);
+//  NSLog(@"SOCIAL STATUS: %@", [character socialStatus]);
+//  NSLog(@"SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS %@", [[[_archetypesDict objectForKey: [character archetype]] objectForKey: @"Herkunft"] objectForKey: [character socialStatus]]);
   NSArray *equipmentDict = [NSArray arrayWithArray: [[[[_archetypesDict objectForKey: [character archetype]] objectForKey: @"Herkunft"] objectForKey: [character socialStatus]] objectForKey: @"Equipment"]];
-  NSLog(@"The EQUIPMENT DICT: %@", equipmentDict);
+//  NSLog(@"The EQUIPMENT DICT: %@", equipmentDict);
   for (NSDictionary *equipment in equipmentDict)
     {
-    NSLog(@"THE EQUIPMENT: %@", equipment);
+//    NSLog(@"THE EQUIPMENT: %@", equipment);
       [character.inventory addObject: [[DSAObject alloc] initWithName: [[equipment allKeys] objectAtIndex: 0]] quantity: [[[equipment allValues] objectAtIndex: 0] integerValue]];
     } 
-  NSLog(@"THE INVENTORY: %@", character.inventory);
+//  NSLog(@"THE INVENTORY: %@", character.inventory);
 }
 
 - (void) makeCharacterAMagicalDabbler
@@ -3429,7 +3497,7 @@ NSLog(@"popupCategorySelected called!");
       [self.popupMageAcademies addItemWithTitle: _(@"Akademie wählen")];      
       [self.popupMageAcademies addItemsWithTitles: [_mageAcademiesDict allKeys]];
       [self.popupMageAcademies setTarget:self];
-      [self.popupMageAcademies setAction:@selector(popupMageAcademiesSelected:)];      
+      [self.popupMageAcademies setAction:@selector(popupMageAcademySelected:)];      
       [self.fieldMageSchool setStringValue: _(@"Magierakademie")];
     }
   else if ( [[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Geode")] )
@@ -3438,7 +3506,7 @@ NSLog(@"popupCategorySelected called!");
       [self.popupMageAcademies removeAllItems];
       [self.popupMageAcademies addItemsWithTitles: [charConstraints objectForKey: @"Schule"]];
       [self.popupMageAcademies setTarget:self];
-      [self.popupMageAcademies setAction:@selector(popupMageAcademiesSelected:)]; 
+      [self.popupMageAcademies setAction:@selector(popupMageAcademySelected:)]; 
       [self.fieldMageSchool setStringValue: _(@"Geodische Schule")];           
     }
   else if ( [[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Krieger")] )
@@ -3448,7 +3516,7 @@ NSLog(@"popupCategorySelected called!");
       [self.popupMageAcademies addItemWithTitle: _(@"Akademie wählen")];      
       [self.popupMageAcademies addItemsWithTitles: [[_warriorAcademiesDict allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
       [self.popupMageAcademies setTarget:self];
-      [self.popupMageAcademies setAction:@selector(popupMageAcademiesSelected:)]; 
+      [self.popupMageAcademies setAction:@selector(popupMageAcademySelected:)]; 
       [self.fieldMageSchool setStringValue: _(@"Kriegerakademie")];           
     }
   else if ([[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Schamane")] )
@@ -3457,7 +3525,7 @@ NSLog(@"popupCategorySelected called!");
       [self.popupMageAcademies removeAllItems];
       [self.popupMageAcademies addItemsWithTitles: @[_(@"Nein"), _(@"Ja")]];      
       [self.popupMageAcademies setTarget:self];
-      [self.popupMageAcademies setAction:@selector(popupMageAcademiesSelected:)];      
+      [self.popupMageAcademies setAction:@selector(popupMageAcademySelected:)];      
       [self.fieldMageSchool setStringValue: _(@"Magiebegabt")];
     }    
   else if ([[charConstraints allKeys] containsObject: @"Magiedilettant"])
@@ -3475,7 +3543,7 @@ NSLog(@"popupCategorySelected called!");
       [self.popupMageAcademies setEnabled: NO];   
       [self.popupMageAcademies setTitle: _(@"Akademie")]; 
       [self.popupMageAcademies setTarget:self];
-      [self.popupMageAcademies setAction:@selector(popupMageAcademiesSelected:)];       
+      [self.popupMageAcademies setAction:@selector(popupMageAcademySelected:)];       
       [self.fieldMageSchool setStringValue: _(@"Magierakademie")];
     }
     
@@ -3565,7 +3633,7 @@ NSLog(@"popupCategorySelected called!");
       [self.popupMageAcademies addItemWithTitle: _(@"Akademie wählen")];      
       [self.popupMageAcademies addItemsWithTitles: [self getMageAcademiesOfExpertise: [[self.popupElements selectedItem] title]]];
       [self.popupMageAcademies setTarget:self];
-      [self.popupMageAcademies setAction:@selector(popupMageAcademiesSelected:)];      
+      [self.popupMageAcademies setAction:@selector(popupMageAcademySelected:)];      
       [self.fieldMageSchool setStringValue: _(@"Magierakademie")];
     }
 }
@@ -3658,6 +3726,28 @@ NSLog(@"popupCategorySelected called!");
 
 - (IBAction) popupMageAcademySelected: (id)sender
 {
+  NSLog(@"DSACharacterGenerationController: popupMageAcademySelected called");
+  if ([[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Magier")])
+    {
+      NSLog(@"have to check mage academies for professions...");
+      NSDictionary *academy = [_mageAcademiesDict objectForKey: [[self.popupMageAcademies selectedItem] title]];
+      if ([academy objectForKey: @"Berufe"])
+        {
+          NSLog(@"found Berufe: %@", [[[academy objectForKey: @"Berufe"] objectForKey: @"Startwerte"] allKeys]);
+          [self.popupProfessions removeAllItems];
+          [self.popupProfessions addItemWithTitle: _(@"Beruf wählen")];  
+          [self.popupProfessions addItemsWithTitles: [[[academy objectForKey: @"Berufe"] objectForKey: @"Startwerte"] allKeys]];
+          if ([self.popupProfessions numberOfItems] == 1)
+            {
+              [self.popupProfessions setEnabled: NO];        
+            }
+          else
+            {
+              [self.popupProfessions setEnabled: YES];        
+            }          
+          
+        }
+    }
 }
 
 - (IBAction) popupSexSelected: (id)sender
@@ -3750,20 +3840,15 @@ NSLog(@"popupCategorySelected called!");
   self.birthday = birthday;
   self.wealth = wealthDict;
   
-  if (self.portraitsArray.count > 0)
-    {
-      // Get the first image from the array
-      NSImage *firstImage = [self.portraitsArray objectAtIndex:0];
-    
-      // Set it to the image view
-      //[self.imageViewPortrait setImage:firstImage];
+/*  if (self.portraitsArray.count > 0)
+    { */
       [self assignPortraitToCharacter];
-      [self.imageViewPortrait setImageScaling:NSImageScaleProportionallyUpOrDown];
-    }
+      //[ self.imageViewPortrait setImageScaling:NSImageScaleProportionallyUpOrDown];
+/*    }
   else
     {
       NSLog(@"The portraitsArray is empty.");
-    }
+    } */
 }
 
 

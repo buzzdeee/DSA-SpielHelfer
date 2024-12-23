@@ -33,7 +33,7 @@
              inSubSubCategory: (NSString *) subSubCategory
                    withWeight: (float) weight
                     withPrice: (float) price
-               withProtection: (NSInteger) protection
+               withProtection: (float) protection  // armor
                   withPenalty: (float) penalty
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
@@ -49,7 +49,7 @@
       self.subSubCategory = subSubCategory;
       self.weight = weight;
       self.price = price;
-      self.protection = protection;
+      self.protection = protection;  // armor
       self.penalty = penalty;
       self.validSlotTypes = validSlotTypes;
       self.occupiedBodySlots = occupiedBodySlots;      
@@ -58,18 +58,4 @@
   return self;
 }                  
 
-- (instancetype)initWithCoder:(NSCoder *)coder {
-    self = [super initWithCoder: coder];
-    if (self)
-      {
-        self.protection = [coder decodeIntegerForKey:@"protection"];
-      }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder
-{
-  [super encodeWithCoder: coder];
-  [coder encodeInteger:self.protection forKey:@"protection"];
-}
 @end

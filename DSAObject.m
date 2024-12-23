@@ -254,7 +254,8 @@
       self.subSubCategory = [coder decodeObjectForKey:@"subSubCategory"];
       self.weight = [[coder decodeObjectForKey:@"weight"] floatValue];
       self.price = [[coder decodeObjectForKey:@"price"] floatValue];
-      self.penalty = [[coder decodeObjectForKey:@"penalty"] floatValue];      
+      self.penalty = [[coder decodeObjectForKey:@"penalty"] floatValue];
+      self.protection = [[coder decodeObjectForKey:@"protection"] floatValue];     
       self.regions = [coder decodeObjectForKey:@"regions"];
       self.isMagic = [coder decodeBoolForKey:@"isMagic"];
       self.isPoisoned = [coder decodeBoolForKey:@"isPoisoned"];
@@ -275,7 +276,8 @@
   [coder encodeObject:self.subSubCategory forKey:@"subSubCategory"];
   [coder encodeObject:@(self.weight) forKey:@"weight"];
   [coder encodeObject:@(self.price) forKey:@"price"];
-  [coder encodeObject:@(self.penalty) forKey:@"penalty"];    
+  [coder encodeObject:@(self.penalty) forKey:@"penalty"];
+  [coder encodeObject:@(self.protection) forKey:@"protection"];    // armor value
   [coder encodeObject:self.regions forKey:@"regions"];
   [coder encodeBool:self.isMagic forKey:@"isMagic"];
   [coder encodeBool:self.isPoisoned forKey:@"isPoisoned"];

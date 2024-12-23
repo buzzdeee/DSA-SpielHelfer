@@ -1124,6 +1124,13 @@
       }
     },
     "Haussprüche": [ { "Geister beschwören": 3, "Skelettarius Kryptaduft": 3, "Nekropathia modernd Leich": 3, "Geister austreiben": 1, "Furor Blut und Sulphurdampf": 1, "Heptagon und Krötenei": 1, "Ecliptifactus Dunkle Macht": 1, "Unitatio Geistesbund": 1 } ],
+    "Equipment": {
+      "Magierflorett": {
+        "Anzahl": 1,
+        "magisch": true,
+        "Kosten permanente ASP": "1"
+      }
+    },
     "Notiz": "Alle Beschwörungen von Wesen aus 'Thargunithots' Domäne sind um 3 Punkte erleichtert, alle entspr. Beherrschungen um 1 Punkt. Adepten beginnen Ihre Laufbahn mit einem geweihten magischen Schwert. Sie müssen hierfür nur 1 permanente ASP aufwenden, jedoch keine gesonderte Probe ablegen."
   }
 }

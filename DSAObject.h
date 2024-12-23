@@ -37,6 +37,7 @@
 @property (nonatomic, assign) float weight;
 @property (nonatomic, assign) float price;
 @property (nonatomic, assign) float penalty;
+@property (nonatomic, assign) float protection;
 @property (nonatomic, strong) NSArray *regions;
 
 @property (nonatomic) BOOL isMagic;

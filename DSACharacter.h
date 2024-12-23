@@ -90,6 +90,7 @@
 @property (readonly, assign) float encumbrance;         // Behinderung durch Sachen/Rüstung etc.
 @property (readonly, copy) NSNumber *endurance;           // Ausdauer
 @property (readonly, assign) float load;                // Last der mitgeschleppten Gegenstände
+@property (readonly, assign) float armor;
 @property (readonly, copy) NSNumber *magicResistance;
 @property (readonly, copy) NSNumber *parryBaseValue;
 @property (readonly, copy) NSNumber *rangedCombatBaseValue;

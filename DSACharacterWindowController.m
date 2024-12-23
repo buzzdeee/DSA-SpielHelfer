@@ -150,15 +150,18 @@
 
 - (void)addObserverForObject:(id)object keyPath:(NSString *)keyPath {
     // Add observer
-    NSLog(@"DSACharacterWindowController: addObserverForObject keyPath: %@", keyPath);
+//    NSLog(@"DSACharacterWindowController: addObserverForObject keyPath: %@", keyPath);
     [object addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:NULL];
-    
+//    NSLog(@"DSACharacterWindowController: addEDObserverForObject keyPath: %@", keyPath);
     // Track the object and keyPath
     NSMutableSet<NSString *> *keyPaths = self.observedKeyPaths[object];
+//    NSLog(@"DSACharacterWindowController: got keyPaths: %@", keyPaths);
     if (!keyPaths) {
         keyPaths = [NSMutableSet set];
+//        NSLog(@"got these key paths now in if clause: %@", keyPaths);
         self.observedKeyPaths[(id<NSCopying>)object] = keyPaths;
     }
+//    NSLog(@"keyPaths %@", keyPaths);
     [keyPaths addObject:keyPath];
 }
 
@@ -256,6 +259,7 @@
             withKeyPath:@"formattedMoney"
                 options:nil];
   [self addObserverForObject: viewModel keyPath: @"formattedMoney"];
+  NSLog(@"XXXXX after adding observer for formattedMoney");
   [self.fieldLifePoints bind:NSValueBinding
                     toObject:viewModel
                  withKeyPath:@"formattedLifePoints"
@@ -272,7 +276,8 @@
                       options:nil];
   [self addObserverForObject: viewModel keyPath: @"formattedKarmaPoints"];                                              
   [self.imageViewPortrait setImage: [document.model portrait]];
-  [self.imageViewPortrait setImageScaling: NSImageScaleProportionallyUpOrDown];                                                                                                          
+  [self.imageViewPortrait setImageScaling: NSImageScaleProportionallyUpOrDown];   
+  NSLog(@"populateBasicsTab: before positive traits");                                                                                                       
   for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
     {
       NSString *fieldKey = [NSString stringWithFormat:@"field%@", field]; // Constructs "fieldAG", "fieldHA", etc.
@@ -298,6 +303,7 @@
   NSLog(@"BEFORE displaying the LOAD");
   [self.fieldLoad setStringValue: [NSString stringWithFormat: @"%.2f", [document.model load]]];
   [self.fieldEncumbrance setStringValue: [NSString stringWithFormat: @"%.0f", [document.model encumbrance]]];
+  [self.fieldArmor setStringValue: [NSString stringWithFormat: @"%.0f", [document.model armor]]];
   NSLog(@"AFTER displaying the LOAD");  
   
   [self.fieldAttackBaseValue bind:NSValueBinding toObject:document.model withKeyPath:@"attackBaseValue" options:nil];    
@@ -381,6 +387,7 @@
 - (void) handleInventoryUpdate {
   [self populateInventory];
   [self updateLoadDisplay];
+  [self updateArmorDisplay];
   [self updateEncumbranceDisplay];
   [self.document updateChangeCount: NSChangeDone];  
 }
@@ -465,7 +472,19 @@
     // Update the UI field with the total weight
     self.fieldEncumbrance.stringValue = [NSString stringWithFormat:@"%.0f", totalEncumbrance];
     
-    NSLog(@"Updated load display: %.2f", totalEncumbrance);
+    NSLog(@"Updated encumbrance display: %.0f", totalEncumbrance);
+}
+- (void)updateArmorDisplay {
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    if (!document.model) return;
+
+    // Calculate the total weight from the character model
+    float totalArmor = [document.model armor];
+
+    // Update the UI field with the total weight
+    self.fieldArmor.stringValue = [NSString stringWithFormat:@"%.0f", totalArmor];
+    
+    NSLog(@"Updated armor display: %.0f", totalArmor);
 }
 
 - (void)populateFightingTalentsTab

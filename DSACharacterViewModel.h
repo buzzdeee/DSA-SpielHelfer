@@ -28,7 +28,7 @@
 #import <Foundation/Foundation.h>
 @class DSACharacterHero;
 
-@interface DSACharacterViewModel : NSObject
+@interface DSACharacterViewModel : NSObject <NSCopying>
 
 @property (nonatomic, strong) DSACharacterHero *model;
 

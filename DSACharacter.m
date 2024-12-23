@@ -465,10 +465,10 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
 
 - (float)weightOfInventory:(DSAInventory *)inventory countedItems:(NSMutableSet<DSAObject *> *)countedItems {
     float totalWeight = 0.0;
-    NSLog(@"weightOfInventory before for loop: %@", inventory);
+//    NSLog(@"weightOfInventory before for loop: %@", inventory);
     for (DSASlot *slot in inventory.slots) {
         DSAObject *item = slot.object;
-        NSLog(@"weightOfInventory %@", item.name);
+//        NSLog(@"weightOfInventory %@", item.name);
         if (!item) continue; // Skip empty slots
         
         if ([countedItems containsObject:item]) {
@@ -479,7 +479,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
         if ([item isKindOfClass:[DSAObjectContainer class]]) {
             // For containers, include the weight of the container and its contents
             DSAObjectContainer *container = (DSAObjectContainer *)item;
-            NSLog(@"found a container: %@", container);
+//            NSLog(@"found a container: %@", container);
             totalWeight += (item.weight + [self weightOfContainer:container countedItems:countedItems]);
         } else {
             // Add the item's weight, multiplied by quantity for single-slot items
@@ -497,11 +497,11 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
 
 - (float)weightOfContainer:(DSAObjectContainer *)container countedItems:(NSMutableSet<DSAObject *> *)countedItems {
     float totalWeight = 0.0;
-    NSLog(@"weightOfContainer %@ before for loop", container);
+//    NSLog(@"weightOfContainer %@ before for loop", container);
 
     // If the container has no slots, its weight is just the container itself
     if ([container.slots count] == 0) {
-        NSLog(@"weightOfContainer returning totalWeight: %f", totalWeight);
+//        NSLog(@"weightOfContainer returning totalWeight: %f", totalWeight);
         return totalWeight;
     }
 
@@ -512,7 +512,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
             continue; // Skip empty slots
         }
 
-        NSLog(@"weightOfContainer inspecting item: %@", containedItem.name);
+//        NSLog(@"weightOfContainer inspecting item: %@", containedItem.name);
 
         if ([countedItems containsObject:containedItem]) {
             continue; // Skip already-counted items to avoid infinite recursion or double-counting
@@ -532,7 +532,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
         }
     }
 
-    NSLog(@"weightOfContainer returning totalWeight: %f", totalWeight);
+//    NSLog(@"weightOfContainer returning totalWeight: %f", totalWeight);
     return totalWeight;
 }
 
@@ -571,6 +571,42 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
     }
 
     return totalEncumbrance;
+}
+
+- (float)armor {
+    float totalArmor = 0.0;
+    NSMutableSet<DSAObject *> *countedItems = [NSMutableSet set];
+
+    // Iterate over body parts inventories
+    for (NSString *propertyName in self.bodyParts.inventoryPropertyNames) {
+        DSAInventory *inventory = [self.bodyParts valueForKey:propertyName];
+
+        // Iterate through all slots in the body part inventory
+        for (DSASlot *slot in inventory.slots) {
+            DSAObject *item = slot.object;
+
+            // Skip empty slots
+            if (!item) {
+                continue;
+            }
+
+            // Skip already-counted multi-slot items
+            if ([countedItems containsObject:item]) {
+                continue;
+            }
+
+            // Add the penalty value to the total if it exists
+            if (item.protection > 0) {
+                totalArmor += item.protection;
+            }
+
+            // Mark multi-slot items as counted
+            if (item.occupiedBodySlots.count > 0) {
+                [countedItems addObject:item];
+            }
+        }
+    }
+    return roundf(totalArmor);
 }
 
 - (NSImage *)portrait {

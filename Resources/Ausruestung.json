@@ -2106,7 +2106,6 @@
         "Regionen": [ "KH", "MH" ], 
         "Material": "Eisen"
       },
-      },
       "Verstärkter Lederhelm": {
         "Gewicht": 120,
         "Preis": 50,
@@ -2120,7 +2119,7 @@
         "Preis": 70,
         "Rüstschutz": 2,
         "Behinderung": 1,
-        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ]        
+        "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ],      
         "Material": "Eisen"
       },
       "Morion": {
@@ -2283,12 +2282,12 @@
     "Schultergurt": {
       "Gewicht": 20,
       "Preis": 10,
-      "Material": "Leder",
+      "Material": "Leder"
     },
     "Beingurt": {
       "Gewicht": 15,
       "Preis": 5,
-      "Material": "Leder",
+      "Material": "Leder"
     },
     "Waffenhalter": {
       "Schwertscheide": {
@@ -2442,7 +2441,7 @@
       },
       "Geldbeutelchen": {
         "Gewicht": 1,
-        "Preis": 0.1
+        "Preis": 0.1,
 	"Slots": 10,
         "Slottypen": [ "Geld" ]
       }
@@ -2574,7 +2573,7 @@
         "Preis": 8,
         "Slots": 1,
         "MaximumPerSlot": 25,
-        "Slottypen": [ "Flüssigkeit" ]
+        "Slottypen": [ "Flüssigkeit" ],
         "Icon": [ "Flasche_Bronze" ]
       }
     },
@@ -3276,85 +3275,103 @@
       },
       "Holzfigürchen": {
         "Gewicht": 1,
-        "Preis": 0.3
+        "Preis": 0.3,
+        "Icon": [ "Holzfiguerchen_1", "Holzfiguerchen_2" ]
       },
       "Zinnsoldat": {
         "Gewicht": 1,
-        "Preis": 1
+        "Preis": 1,
+        "Icon": [ "Zinnsoldat_1", "Zinnsoldat_2" ]
       },
       "Steckenpferd": {
         "Gewicht": 40,
-        "Preis": 2
+        "Preis": 2,
+        "Icon": [ "Steckenpferd_1", "Steckenpferd_2" ]
       },
       "Holzschwert": {
         "Gewicht": 20,
-        "Preis": 1.2
+        "Preis": 1.2,
+        "Icon": [ "Holzschwert_1", "Holzschwert_2" ]
       },
       "Würfel, Bein, 3 Stück": {
         "Gewicht": 1,
-        "Preis": 2
+        "Preis": 2,
+        "Icon": [ "Wuerfel_1", "Wuerfel_2" ]
       },
       "Kaleidoskop": {
         "Gewicht": 20,
-        "Preis": 8
+        "Preis": 8,
+        "Icon": [ "Kaleidoskop_1", "Kaleidoskop_2" ]
       }
     },
     "Gauklerbedarf": {
       "3 Jonglierbälle": {
         "Gewicht": 20,
-        "Preis": 1.5
+        "Preis": 1.5,
+        "Icon": [ "Jonglierbaelle_1", "Jonglierbaelle_2" ]
       },
       "3 Jonglierkeulen": {
         "Gewicht": 45,
-        "Preis": 4
+        "Preis": 4,
+        "Icon": [ "Jonglierkeulen_1", "Jonglierkeulen_2" ]
       }
     },
     "Spieluhr": {
       "Gewicht": 8,
-      "Preis": 80
+      "Preis": 80,
+      "Icon": [ "Spieluhr_1", "Spieluhr_2" ]
     },
     "Bilder": {
       "Portrait, Öl auf Leinwand": {
         "Gewicht": 60,
-        "Preis": 70
+        "Preis": 70,
+        "Icon": [ "Oelgemaelde_Leinwand_1", "Oelgemaelde_Leinwand_2" ]
       },
       "Gemälde, Öl auf Holz": {
         "Gewicht": 120,
-        "Preis": 100
+        "Preis": 100,
+        "Icon": [ "Oelgemaelde_Holz_1", "Oelgemaelde_Holz_2" ]
       }
     },
     "Statuetten": {
       "Statuette, Zinn": {
         "Gewicht": 10,
-        "Preis": 1
+        "Preis": 1,
+        "Icon": [ "Statuette_Zinn_1", "Statuette_Zinn_2" ]
       },
       "Statuette, Silber": {
         "Gewicht": 15,
         "Preis": 30
+        
       },
       "Statuette, Gold": {
         "Gewicht": 10,
-        "Preis": 150
+        "Preis": 150,
+        "Icon": [ "Statuette_Gold_1", "Statuette_Gold_2" ]
       },
       "Statuette, Jade": {
         "Gewicht": 10,
-        "Preis": 50
+        "Preis": 50,
+        "Icon": [ "Statuette_Jade_1", "Statuette_Jade_2" ]
       },
       "Statuette, Obsidian": {
         "Gewicht": 10,
-        "Preis": 12
+        "Preis": 12,
+        "Icon": [ "Statuette_Obsidian_1", "Statuette_Obsidian_2" ]
       }
     },
     "Pfeifen": {
       "Pfeife, Ton": {
         "Gewicht": 5,
         "Preis": 1,
-        "benutzen mit": "Pfeifenkraut, Knaster"
+        "benutzen mit": "Pfeifenkraut, Knaster",
+        "Icon": [ "Tonpfeife_1", "Tonpfeife_2" ]
       },
       "Pfeife, Holz": {
         "Gewicht": 5,
         "Preis": 5,
-        "benutzen mit": "Pfeifenkraut, Knaster"
+        "benutzen mit": "Pfeifenkraut, Knaster",
+        "Icon": [ "Holzpfeife_1", "Holzpfeife_2" ]
       },
       "Pfeife, Meerschaum": {
         "Gewicht": 4,
