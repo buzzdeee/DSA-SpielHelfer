@@ -73,6 +73,18 @@
           "Material": "Eisen",
           "Icon": [ "Langdolch" ]  
         },
+        "Magierschwert": {
+          "Gewicht": 30,
+          "Preis": 90,
+          "Länge": 40,
+          "Trefferpunkte": [ "1W6", 2 ],
+          "TrefferpunkteKK": -16,
+          "Bruchfaktor": 3,
+          "Waffenvergleichswert": "3/4",
+          "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ],
+          "Material": "Silber",
+          "Icon": [ "Magierschwert_1", "Magierschwert_2" ]  
+        },        
         "Basilikenzunge": {
           "Gewicht": 25,
           "Preis": 35,
@@ -555,13 +567,14 @@
         "Magierstab": {
           "Gewicht": 80,
           "Preis": -1,
-          "Länge": 30,
+          "Länge": 150,
           "Trefferpunkte": [ "1W6", 2 ],
           "TrefferpunkteKK": -15,
           "Bruchfaktor": -1,
           "Waffenvergleichswert": "6/6",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
-          "Material": "Holz"
+          "Material": "Holz",
+          "Icon": [ "Magierstab_1", "Magierstab_2", "Magierstab_3", "Magierstab_4" ]
         },
         "Efferdbart": {
           "Gewicht": 90,
@@ -1111,7 +1124,8 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "5/5",
           "Regionen": [ "GA", "HA", "LF", "MH", "PU" ],
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "Icon": [ "Magierflorett_1", "Magierflorett_2" ]
         },
         "Stockdegen": {
           "Gewicht": 35,
@@ -3234,32 +3248,39 @@
     },
     "Quadrant": {
       "Gewicht": 30,
-      "Preis": 70
+      "Preis": 70,
+      "Icon": [ "Quadrant_1", "Quadrant_2" ]
     },
     "Hylailer Dreikreuz": {
       "Gewicht": 30,
-      "Preis": 20
+      "Preis": 20,
+      "Icon": [ "Hylailer_Dreikreuz_1", "Hylailer_Dreikreuz_2" ]
     },
     "Astrolabium": {
       "Gewicht": 120,
-      "Preis": 250
+      "Preis": 250,
+      "Icon": [ "Astrolabium_1", "Astrolabium_2" ]
     },
     "Orbitarium": {
       "Gewicht": 400,
-      "Preis": 5000
+      "Preis": 5000,
+      "Icon": [ "Orbitarium_1", "Orbitarium_2" ]
     },
     "Rechenmaschinen": {
       "Abakus": {
         "Gewicht": 20,
-        "Preis": 10
+        "Preis": 10,
+        "Icon": [ "Abakus_1", "Abakus_2" ]
       },
       "Addiermaschine": {
         "Gewicht": 120,
-        "Preis": 2000
+        "Preis": 2000,
+        "Icon": [ "Addiermaschine_1", "Addiermaschine_2" ]
       },
       "Zinsspindel": {
         "Gewicht": 160,
-        "Preis": 6000
+        "Preis": 6000,
+        "Icon": [ "Zinsspindel_1", "Zinsspindel_2" ]
       }
     }
   },
@@ -3267,11 +3288,13 @@
     "Spielzeug": {
       "Stoffpuppe": {
         "Gewicht": 10,
-        "Preis": 0.5
+        "Preis": 0.5,
+        "Icon": [ "Stoffpuppe_1", "Stoffpuppe_2" ]
       },
       "Wachspuppe": {
         "Gewicht": 40,
-        "Preis": 5
+        "Preis": 5,
+        "Icon": [ "Wachspuppe_1", "Wachspuppe_2" ]
       },
       "Holzfigürchen": {
         "Gewicht": 1,
@@ -4030,7 +4053,8 @@
       "Pluderhose, Bausch": {
         "Gewicht": 25,
         "Preis": 6,
-        "Maßgeschneidert": 60
+        "Maßgeschneidert": 60,
+        "Icon": [ "Pluderhose_Bausch_1", "Pluderhose_Bausch_2" ]
       },
       "Pluderhose, Seide": {
         "Gewicht": 20,

@@ -408,6 +408,16 @@
       }
     }
   },
+  "Pferdezüchter": {
+    "Probe": [ "IN", "KL", "FF" ],
+    "Bonus": {
+      "Alle":
+      {
+        "wieviel": "TaW",
+        "wenn": [ "Pferde" ]
+      }
+    }
+  },    
   "Plättner": {
     "Probe": [ "KL", "FF", "KK" ]
   },
@@ -417,6 +427,31 @@
   "Richtschütze": {
     "Probe": [ "KL", "FF", "KK" ]
   },
+  "Rinderhirte": {
+    "Probe": [ "IN", "GE", "KK" ],
+    "Bonus": {
+      "Alle":
+      {
+        "wieviel": "TaW",
+        "wenn": [ "Rinder" ]
+      }
+    }
+  },
+  "Schäfer": {
+    "Probe": [ "IN", "FF", "GE" ],
+    "Bonus": {
+      "Wildnisleben": {
+        "wieviel": "TaW/2"
+      },
+      "Pflanzenkunde": {
+        "wieviel": "TaW/2"
+      },
+      "Alle": {
+        "wieviel": "TaW",
+        "wenn": "Schafe"
+      }
+    }
+  },   
   "Schiffsbauer": {
     "Probe": [ "KL", "KL", "FF" ],
     "Bedingung": {
@@ -625,6 +660,7 @@
       "Kavalier": 2,
       "Wandergeselle": 2
     }
+  },
   "Schlosser": {
     "Typen": [ "Angroschpriester", "Geode", "Kämpfer", "Kavalier", "Wandergeselle" ],
     "Probe": [ "KL", "FF", "FF" ],
@@ -641,6 +677,7 @@
       "Kavalier": 2,
       "Wandergeselle": 2
     }
+  },
   "Uhrmacher": {
     "Typen": [ "Angroschpriester", "Geode", "Kämpfer", "Kavalier", "Wandergeselle" ],
     "Probe": [ "KL", "FF", "FF" ],
