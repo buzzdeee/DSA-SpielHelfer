@@ -44,7 +44,9 @@
         withShieldAttackPower: (NSInteger) shieldAttackPower
          withShieldParryValue: (NSInteger) shieldParryValue
       validInventorySlotTypes: (NSArray *) validSlotTypes  
-            occupiedBodySlots: (NSArray *) occupiedBodySlots                
+            occupiedBodySlots: (NSArray *) occupiedBodySlots       
+                    withSpell: (NSString *) spell
+                withOwnerUUID: (NSString *) ownerUUID                     
                   withRegions: (NSArray *) regions;
 
 @end

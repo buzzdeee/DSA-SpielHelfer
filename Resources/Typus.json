@@ -25,7 +25,8 @@
           "Reisende Magier": [ 9, 10, 11 ],
           "Einfache Geweihte": [ 12, 13 ] 
         },
-        "Equipment": [ {"Magierstab": 1} ]
+        "Equipment": [ {"Magierstab": 1} 
+        ]
       },
       "reich": {
         "1W20": [ 15, 16, 17, 18, 19 ],

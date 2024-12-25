@@ -23,6 +23,7 @@
 */
 
 #import "DSAItemInspectionController.h"
+#import "DSACharacter.h"
 #import "DSAObject.h"
 #import "DSAObjectWeaponHandWeapon.h"
 #import "DSAObjectWeaponHandAndLongRangeWeapon.h"
@@ -95,10 +96,21 @@
     [details appendFormat:_(@"Gewicht: %.2f\n"), item.weight];
     [details appendFormat:_(@"Preis: %.2f\n"), item.price];
     [details appendFormat:_(@"Handelsregionen: %@\n"), item.regions ? [item.regions componentsJoinedByString:@", "] : _(@"alle")];
-    [details appendFormat:_(@"ist Magisch: %@\n"), item.isMagic ? _(@"Ja") : _(@"Nein")];
+    [details appendFormat:_(@"ist Magisch: %@\n"), item.spell ? _(@"Ja") : _(@"Nein")];
+    if (item.spell)
+      {
+        [details appendFormat:_(@"Spruch: %@\n"), item.spell];
+      }
+
     [details appendFormat:_(@"ist Vergiftet: %@\n"), item.isPoisoned ? _(@"Ja") : _(@"Nein")];
     [details appendFormat:_(@"ist Konsumierbar: %@\n"), item.isConsumable ? _(@"Ja") : _(@"Nein")];
-
+    [details appendFormat:_(@"ist persönlicher Gegenstand: %@\n"), item.ownerUUID ? _(@"Ja") : _(@"Nein")];
+    if (item.ownerUUID)
+      {
+        DSACharacter *owner = [DSACharacter characterWithModelID: item.ownerUUID];
+        [details appendFormat:_(@"Besitzer: %@\n"), owner.name];
+      }
+    
     // Handle subclasses for additional details
     if ([item isKindOfClass:[DSAObjectContainer class]]) {
         DSAObjectContainer *container = (DSAObjectContainer *)item;
@@ -108,31 +120,29 @@
         [details appendFormat:_(@"Länge: %f\n"), weapon.length];
         [details appendFormat:_(@"Trefferpunkte: %@\n"), weapon.hitPoints ? [weapon.hitPoints componentsJoinedByString:@" + "] : @"-"];
         [details appendFormat:_(@"TrefferpunkteKK: %ld\n"), (unsigned long) weapon.hitPointsKK];
-        [details appendFormat:_(@"Bruchfaktor: %ld\n"), (unsigned long) weapon.breakFactor];
+        [details appendFormat:_(@"Bruchfaktor: %@\n"), weapon.breakFactor == -1 ? _(@"unzerstörbar") : [NSNumber numberWithInteger: weapon.breakFactor]];
         [details appendFormat:_(@"Waffenvergleichswert: %ld/%ld\n"), (unsigned long) weapon.attackPower, (unsigned long) weapon.parryValue];
         [details appendFormat:_(@"Trefferpunkte Distanz: %@\n"), weapon.hitPointsLongRange ? [weapon.hitPointsLongRange componentsJoinedByString:@" + "] : @"-"];
         [details appendFormat:_(@"Reichweite: %ld\n"), (unsigned long) weapon.maxDistance];
         [details appendFormat:_(@"Entfernungsmalus: %@\n"), [Utils formatTPEntfernung: weapon.distancePenalty]];        
-        [details appendFormat:_(@"ist persönliche Waffe: %@\n"), weapon.isPersonalWeapon ? _(@"Ja") : _(@"Nein")];         
     } else if ([item isKindOfClass:[DSAObjectWeaponHandWeapon class]]) {
         DSAObjectWeaponHandWeapon *weapon = (DSAObjectWeaponHandWeapon *)item;
         [details appendFormat:_(@"Länge: %f\n"), weapon.length];
         [details appendFormat:_(@"Trefferpunkte: %@\n"), weapon.hitPoints ? [weapon.hitPoints componentsJoinedByString:@" + "] : @"-"];
         [details appendFormat:_(@"TrefferpunkteKK: %ld\n"), (unsigned long) weapon.hitPointsKK];
-        [details appendFormat:_(@"Bruchfaktor: %ld\n"), (unsigned long) weapon.breakFactor];
+        [details appendFormat:_(@"Bruchfaktor: %@\n"), weapon.breakFactor == -1 ? _(@"unzerstörbar") : [NSNumber numberWithInteger: weapon.breakFactor]];
         [details appendFormat:_(@"Waffenvergleichswert: %ld/%ld\n"), (unsigned long) weapon.attackPower, (unsigned long) weapon.parryValue];
-        [details appendFormat:_(@"ist persönliche Waffe: %@\n"), weapon.isPersonalWeapon ? _(@"Ja") : _(@"Nein")];
     } else if ([item isKindOfClass:[DSAObjectShieldAndParry class]]) {
         DSAObjectShieldAndParry *weapon = (DSAObjectShieldAndParry *)item;
         [details appendFormat:_(@"Trefferpunkte: %@\n"), weapon.hitPoints ? [weapon.hitPoints componentsJoinedByString:@" + "] : @"-"];
         [details appendFormat:_(@"TrefferpunkteKK: %ld\n"), (unsigned long) weapon.hitPointsKK];
-        [details appendFormat:_(@"Bruchfaktor: %ld\n"), (unsigned long) weapon.breakFactor];
+        [details appendFormat:_(@"Bruchfaktor: %@\n"), weapon.breakFactor == -1 ? _(@"unzerstörbar") : [NSNumber numberWithInteger: weapon.breakFactor]];
         [details appendFormat:_(@"Behinderung: %.0f\n"), weapon.penalty];
         [details appendFormat:_(@"Waffenvergleichswert: %ld/%ld\n"), (unsigned long) weapon.attackPower, (unsigned long) weapon.parryValue];
         [details appendFormat:_(@"Waffenvergleichswert Schild: %ld/%ld\n"), (unsigned long) weapon.shieldAttackPower, (unsigned long) weapon.shieldParryValue];
     } else if ([item isKindOfClass:[DSAObjectShield class]]) {
         DSAObjectShield *weapon = (DSAObjectShield *)item;
-        [details appendFormat:_(@"Bruchfaktor: %ld\n"), (unsigned long) weapon.breakFactor];
+        [details appendFormat:_(@"Bruchfaktor: %@\n"), weapon.breakFactor == -1 ? _(@"unzerstörbar") : [NSNumber numberWithInteger: weapon.breakFactor]];
         [details appendFormat:_(@"Behinderung: %.0f\n"), weapon.penalty];
         [details appendFormat:_(@"Waffenvergleichswert Schild: %ld/%ld\n"), (unsigned long) weapon.shieldAttackPower, (unsigned long) weapon.shieldParryValue];
     } else if ([item isKindOfClass:[DSAObjectWeaponLongRange class]]) {
@@ -140,7 +150,6 @@
         [details appendFormat:_(@"Trefferpunkte: %@\n"), weapon.hitPointsLongRange ? [weapon.hitPointsLongRange componentsJoinedByString:@" + "] : @"-"];
         [details appendFormat:_(@"Reichweite: %ld\n"), (unsigned long) weapon.maxDistance];
         [details appendFormat:_(@"Entfernungsmalus: %@\n"), [Utils formatTPEntfernung: weapon.distancePenalty]];
-        [details appendFormat:_(@"ist persönliche Waffe: %@\n"), weapon.isPersonalWeapon ? _(@"Ja") : _(@"Nein")];        
     } else if ([item isKindOfClass:[DSAObjectArmor class]]) {
         DSAObjectArmor *armor = (DSAObjectArmor *)item;
         [details appendFormat:_(@"Rüstschutz: %ld\n"), (unsigned long)armor.protection];
@@ -151,7 +160,7 @@
     NSLog(@"DSAItemInspectionController updateUIForItem: at the end");
 }
 
--(IBAction) closeWindow: (id)sender
+-(IBAction) closeItemInspectorWindow: (id)sender
 {
   NSLog(@"DSAItemInspectionController: closeWindow");
   // Notify the owning class (e.g., DSAActionIcon) that the controller can be released

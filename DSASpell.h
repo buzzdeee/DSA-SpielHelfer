@@ -58,7 +58,7 @@
                withOrigin: (NSString *) newOrigin
                  withTest: (NSArray *) newTest
    withMaxTriesPerLevelUp: (NSNumber *) newMaxTriesPerLevelUp
-        withMaxUpPerLevel: (NSNumber *) newMaxUpPerLevel
+        withMaxUpPerLevel: (NSNumber *) newMaxUpPerLevel        
           withLevelUpCost: (NSNumber *) levelUpCost;
         
         

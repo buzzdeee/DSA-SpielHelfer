@@ -42,7 +42,9 @@
               withAttackPower: (NSInteger) attackPower
                withParryValue: (NSInteger) parryValue
       validInventorySlotTypes: (NSArray *) validSlotTypes  
-            occupiedBodySlots: (NSArray *) occupiedBodySlots                
+            occupiedBodySlots: (NSArray *) occupiedBodySlots       
+                    withSpell: (NSString *) spell
+                withOwnerUUID: (NSString *) ownerUUID                     
                   withRegions: (NSArray *) regions
 {
   self = [super init];
@@ -65,7 +67,9 @@
       self.shieldAttackPower = shieldAttackPower;
       self.shieldParryValue = shieldParryValue;
       self.validSlotTypes = validSlotTypes;
-      self.occupiedBodySlots = occupiedBodySlots;      
+      self.occupiedBodySlots = occupiedBodySlots;     
+      self.spell = spell;
+      self.ownerUUID = ownerUUID; 
       self.regions = regions;
     }  
   return self;

@@ -30,8 +30,6 @@
     if (self)
       {
         self.hitPoints = [coder decodeObjectForKey:@"hitPoints"];
-        self.regions = [coder decodeObjectForKey:@"regions"];
-        self.isPersonalWeapon = [coder decodeBoolForKey:@"isPersonalWeapon"];
       }
     return self;
 }
@@ -40,7 +38,6 @@
 {
   [super encodeWithCoder: coder];
   [coder encodeObject:self.hitPoints forKey:@"hitPoints"];
-  [coder encodeBool:self.isPersonalWeapon forKey:@"isPersonalWeapon"];    
 }
 
 @end

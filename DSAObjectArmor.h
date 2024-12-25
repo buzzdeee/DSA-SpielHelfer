@@ -39,7 +39,9 @@
                withProtection: (float) protection  // armor
                   withPenalty: (float) penalty
       validInventorySlotTypes: (NSArray *) validSlotTypes  
-            occupiedBodySlots: (NSArray *) occupiedBodySlots                
+            occupiedBodySlots: (NSArray *) occupiedBodySlots   
+                    withSpell: (NSString *) spell
+                withOwnerUUID: (NSString *) ownerUUID                         
                   withRegions: (NSArray *) regions;
 @end
 

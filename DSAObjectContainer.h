@@ -1,4 +1,5 @@
 /*
+
    Project: DSA-SpielHelfer
 
    Copyright (C) 2024 Free Software Foundation
@@ -43,6 +44,8 @@
               maxItemsPerSlot: (NSInteger) maxItemsPerSlot
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
+                    withSpell: (NSString *) spell
+                withOwnerUUID: (NSString *) ownerUUID            
                   withRegions: (NSArray *) regions;
 
 @end

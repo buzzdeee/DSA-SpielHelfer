@@ -38,6 +38,8 @@
               maxItemsPerSlot: (NSInteger) maxItemsPerSlot
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
+                    withSpell: (NSString *) spell
+                withOwnerUUID: (NSString *) ownerUUID            
                   withRegions: (NSArray *) regions
 {
   self = [super init];
@@ -50,6 +52,8 @@
       self.subSubCategory = subSubCategory;
       self.weight = weight;
       self.price = price;
+      self.spell = spell;
+      self.ownerUUID = ownerUUID;
       self.regions = regions;
       self.validSlotTypes = validSlotTypes;
       self.occupiedBodySlots = occupiedBodySlots;

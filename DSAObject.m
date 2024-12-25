@@ -38,10 +38,27 @@
 
 @implementation DSAObject
 
-- (instancetype) initWithName: (NSString *) name
+- (instancetype) initWithName: (NSString *) name forOwner: (NSString *) ownerUUID
 {
   self = [super init];
   NSDictionary *objectInfo = [Utils getDSAObjectInfoByName: name];
+  
+  return [self initWithObjectInfo: objectInfo forOwner: ownerUUID];
+  
+}
+
+- (instancetype) initWithObjectInfo: (NSDictionary *) objectInfo forOwner: (NSString *) ownerUUID
+{
+  self = [super init];
+  
+  NSString *name = [objectInfo objectForKey: @"Name"];
+  // first ensure that we ownly set the owner on items that are definite personal items
+  // other items may set ownerUUID in a second step
+  if (![[objectInfo objectForKey: @"persönliches Objekt"] isEqualTo: @YES])
+    {
+      ownerUUID = nil;
+    }
+  
   NSLog(@"THE OBJECT INFO: %@", objectInfo);
   if ([[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] && 
       ! [[objectInfo objectForKey: @"isDistantWeapon"] isEqualTo: @YES] && 
@@ -64,6 +81,8 @@
                                    withParryValue: [[objectInfo objectForKey: @"parryValue"] integerValue]
                           validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                                 occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
+                                        withSpell: [objectInfo objectForKey: @"Spruch"]
+                                    withOwnerUUID: ownerUUID
                                       withRegions: [objectInfo objectForKey: @"Regionen"]];      
     }
   else if (! [[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] && 
@@ -84,6 +103,8 @@
                            withHitPointsLongRange: [objectInfo objectForKey: @"Trefferpunkte Fernwaffe"]  // Array of NSNumbers 
                           validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                                 occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
+                                        withSpell: [objectInfo objectForKey: @"Spruch"]
+                                    withOwnerUUID: ownerUUID                               
                                       withRegions: [objectInfo objectForKey: @"Regionen"]];      
     }
   else if ([[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] && 
@@ -110,6 +131,8 @@
                            withHitPointsLongRange: [objectInfo objectForKey: @"Trefferpunkte Fernwaffe"]  // Array of NSNumbers                                   
                           validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                                 occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
+                                        withSpell: [objectInfo objectForKey: @"Spruch"]
+                                    withOwnerUUID: ownerUUID                        
                                       withRegions: [objectInfo objectForKey: @"Regionen"]];           
     }
   else if ([[objectInfo objectForKey: @"isShield"] isEqualTo: @YES] && 
@@ -134,6 +157,8 @@
                                    withParryValue: [[objectInfo objectForKey: @"parryValue"] integerValue]                                                        
                           validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                                 occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
+                                        withSpell: [objectInfo objectForKey: @"Spruch"]
+                                    withOwnerUUID: ownerUUID                            
                                       withRegions: [objectInfo objectForKey: @"Regionen"]];                
     }
   else if ([[objectInfo objectForKey: @"isShield"] isEqualTo: @YES] && 
@@ -153,6 +178,8 @@
                              withShieldParryValue: [[objectInfo objectForKey: @"shieldParryValue"] integerValue]
                           validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                                 occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
+                                        withSpell: [objectInfo objectForKey: @"Spruch"]
+                                    withOwnerUUID: ownerUUID                          
                                       withRegions: [objectInfo objectForKey: @"Regionen"]];                                                   
     }             
   else if ([[objectInfo objectForKey: @"isArmor"] isEqualTo: @YES])
@@ -169,6 +196,8 @@
                                       withPenalty: [[objectInfo objectForKey: @"Behinderung"] integerValue]
                           validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                                 occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
+                                        withSpell: [objectInfo objectForKey: @"Spruch"]
+                                    withOwnerUUID: ownerUUID                            
                                       withRegions: [objectInfo objectForKey: @"Regionen"]];
     }
     
@@ -186,6 +215,8 @@
                                       maxItemsPerSlot: [objectInfo objectForKey: @"MaximumPerSlot" ] ? [[objectInfo objectForKey: @"MaximumPerSlot" ] integerValue] : 1
                               validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                                     occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
+                                            withSpell: [objectInfo objectForKey: @"Spruch"]
+                                        withOwnerUUID: ownerUUID                               
                                           withRegions: [objectInfo objectForKey: @"Regionen"]];                                          
                                             
     }
@@ -202,6 +233,8 @@
                      validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                            occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]                     
                                 canShareSlot: [[objectInfo objectForKey: @"canShareSlot"] boolValue]
+                                   withSpell: [objectInfo objectForKey: @"Spruch"]
+                               withOwnerUUID: ownerUUID                      
                                  withRegions: [objectInfo objectForKey: @"Regionen"]];     
     }
   
@@ -218,6 +251,8 @@
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
                  canShareSlot: (BOOL) canShareSlot
+                    withSpell: (NSString *) spell
+                withOwnerUUID: (NSString *) ownerUUID
                   withRegions: (NSArray *) regions
 {
   self = [super init];
@@ -231,12 +266,13 @@
       self.weight = weight;
       self.price = price;
       self.penalty = 0.0;
-      self.isMagic = NO;
       self.isPoisoned = NO;
       self.isConsumable = NO;
       self.canShareSlot = canShareSlot;
       self.validSlotTypes = validSlotTypes;
       self.occupiedBodySlots = occupiedBodySlots;
+      self.spell = spell;
+      self.ownerUUID = ownerUUID;
       self.regions = regions;
     }  
   return self;
@@ -255,9 +291,10 @@
       self.weight = [[coder decodeObjectForKey:@"weight"] floatValue];
       self.price = [[coder decodeObjectForKey:@"price"] floatValue];
       self.penalty = [[coder decodeObjectForKey:@"penalty"] floatValue];
-      self.protection = [[coder decodeObjectForKey:@"protection"] floatValue];     
+      self.protection = [[coder decodeObjectForKey:@"protection"] floatValue];
+      self.spell = [coder decodeObjectForKey:@"spell"];
+      self.ownerUUID = [coder decodeObjectForKey:@"ownerUUID"];  
       self.regions = [coder decodeObjectForKey:@"regions"];
-      self.isMagic = [coder decodeBoolForKey:@"isMagic"];
       self.isPoisoned = [coder decodeBoolForKey:@"isPoisoned"];
       self.isConsumable = [coder decodeBoolForKey:@"isConsumable"];
       self.canShareSlot = [coder decodeBoolForKey:@"canShareSlot"];
@@ -278,8 +315,9 @@
   [coder encodeObject:@(self.price) forKey:@"price"];
   [coder encodeObject:@(self.penalty) forKey:@"penalty"];
   [coder encodeObject:@(self.protection) forKey:@"protection"];    // armor value
+  [coder encodeObject:self.spell forKey:@"spell"];
+  [coder encodeObject:self.ownerUUID forKey:@"ownerUUID"];
   [coder encodeObject:self.regions forKey:@"regions"];
-  [coder encodeBool:self.isMagic forKey:@"isMagic"];
   [coder encodeBool:self.isPoisoned forKey:@"isPoisoned"];
   [coder encodeBool:self.isConsumable forKey:@"isConsumable"];
   [coder encodeBool:self.canShareSlot forKey:@"canShareSlot"];
@@ -413,7 +451,10 @@
     {
       return NO; // Slot-sharing not allowed
     }
-  if (self.isMagic != otherObject.isMagic || self.isPoisoned != otherObject.isPoisoned)
+  // XXX TODO below tests may be bogus, and not sufficient
+  if (self.spell != otherObject.spell || 
+      ![self.ownerUUID isEqualToString: otherObject.ownerUUID] ||
+      self.isPoisoned != otherObject.isPoisoned)
     {
       return NO; // Mismatched properties
     }

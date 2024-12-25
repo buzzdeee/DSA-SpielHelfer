@@ -43,7 +43,7 @@
 @property (weak) IBOutlet NSButton *buttonClose;
 
 
--(IBAction)closeWindow: (id)sender;
+-(IBAction) closeItemInspectorWindow: (id)sender;
 
 // Public method to load and display the item
 - (void)inspectItem:(DSAObject *)item;

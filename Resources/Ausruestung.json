@@ -574,6 +574,8 @@
           "Waffenvergleichswert": "6/6",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
           "Material": "Holz",
+          "persönliches Objekt": true,
+          "Spruch": "1. Stabzauber",
           "Icon": [ "Magierstab_1", "Magierstab_2", "Magierstab_3", "Magierstab_4" ]
         },
         "Efferdbart": {
@@ -3182,69 +3184,85 @@
     },
     "Gravurwerkzeug": {
       "Gewicht": 15,
-      "Preis": 20
+      "Preis": 20,
+      "Icon": [ "Gravurwerkzeug_1", "Gravurwerkzeug_2" ]
     },
     "Stundenglas": {
       "Gewicht": 10,
-      "Preis": 30
+      "Preis": 30,
+      "Icon": [ "Stundenglas_1", "Stundenglas_2" ]
     },
     "Stundenkerze": {
       "Gewicht": 5,
-      "Preis": 8
+      "Preis": 8,
+      "Icon": [ "Stundenkerze_1", "Stundenkerze_2" ]
     },
     "Prisma": {
       "Gewicht": 2,
-      "Preis": 100
+      "Preis": 100,
+      "Icon": [ "Prisma_1", "Prisma_2" ]
     },
     "Brennglas": {
       "Gewicht": 4,
-      "Preis": 50
+      "Preis": 50,
+      "Icon": [ "Brennglas_1", "Brennglas_2" ]
     },
     "Lupe": {
       "Gewicht": 5,
-      "Preis": 80
+      "Preis": 80,
+      "Icon": [ "Lupe_1", "Lupe_2" ]
     },
     "Fernrohr": {
       "Gewicht": 50,
-      "Preis": 800
+      "Preis": 800,
+      "Icon": [ "Fernrohr_1", "Fernrohr_2" ]
     },
     "Himmelsfernrohr": {
       "Gewicht": 160,
-      "Preis": 3000
+      "Preis": 3000,
+      "Icon": [ "Himmelsfernrohr_1", "Himmelsfernrohr_2" ]
     },
     "Handspiegel, Messing": {
       "Gewicht": 20,
-      "Preis": 12
+      "Preis": 12,
+      "Icon": [ "Handspiegel_Messing" ]
     },
     "Handspiegel, Glas": {
       "Gewicht": 15,
-      "Preis": 80
+      "Preis": 80,
+      "Icon": [ "Handspiegel_Glas" ]
     },
     "Brillen": {
       "Brille": {
         "Gewicht": 3,
-        "Preis": 400
+        "Preis": 400,
+        "Icon": [ "Brille_1", "Brille_2" ]
       },
       "Kristallbrille, dunkel": {
         "Gewicht": 3,
-        "Preis": 600
+        "Preis": 600,
+        "Icon": [ "Kristallbrille_dunkel_1", "Kristallbrille_dunkel_2" ]
       }
     },
     "Schiffskompaß": {
       "Gewicht": 200,
-      "Preis": 180
+      "Preis": 180,
+      "Icon": [ "Schiffskompass_1", "Schiffskompass_2" ]
     },
     "Südweiser": {
       "Gewicht": 40,
-      "Preis": 80
+      "Preis": 80,
+      "Icon": [ "Suedweiser_1", "Suedweiser_2" ]
     },
     "Sonnenuhr": {
       "Gewicht": 40,
-      "Preis": 10
+      "Preis": 10,
+      "Icon": [ "Sonnenuhr_1", "Sonnenuhr_2" ]
     },
     "Sonnenuhr mit Kompaß": {
       "Gewicht": 80,
-      "Preis": 120
+      "Preis": 120,
+      "Icon": [ "Sonnenuhr_Kompass_1", "Sonnenuhr_Kompass_2" ]
     },
     "Quadrant": {
       "Gewicht": 30,

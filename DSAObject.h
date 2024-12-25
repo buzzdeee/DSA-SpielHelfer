@@ -26,6 +26,7 @@
 #define _DSAOBJECT_H_
 
 #import <Foundation/Foundation.h>
+#import "DSASpell.h"
 
 
 @interface DSAObject : NSObject <NSCoding, NSCopying>
@@ -38,9 +39,10 @@
 @property (nonatomic, assign) float price;
 @property (nonatomic, assign) float penalty;
 @property (nonatomic, assign) float protection;
+@property (nonatomic, strong) NSString *spell;
+@property (nonatomic, strong) NSString *ownerUUID;
 @property (nonatomic, strong) NSArray *regions;
 
-@property (nonatomic) BOOL isMagic;
 @property (nonatomic) BOOL isPoisoned;
 @property (nonatomic) BOOL isConsumable;
 @property (nonatomic) BOOL canShareSlot;
@@ -48,7 +50,10 @@
 @property (nonatomic, strong) NSArray<NSNumber *> *validSlotTypes; // List of DSASlotTypes this object can be placed in
 
 
-- (instancetype) initWithName: (NSString *) name;
+- (instancetype) initWithName: (NSString *) name forOwner: (NSString *)ownerUUID;
+
+- (instancetype) initWithObjectInfo: (NSDictionary *) objectInfo forOwner: (NSString *) ownerUUID;
+
 - (instancetype) initWithName: (NSString *) name
                      withIcon: (NSString *) icon
                    inCategory: (NSString *) category
@@ -59,6 +64,8 @@
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
                  canShareSlot: (BOOL) canShareSlot
+                    withSpell: (NSString *) spell
+                withOwnerUUID: (NSString *) ownerUUID
                   withRegions: (NSArray *) regions;
                   
 - (BOOL)isCompatibleWithObject:(DSAObject *)otherObject;                    

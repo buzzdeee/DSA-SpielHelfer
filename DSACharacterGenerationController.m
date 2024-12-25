@@ -323,11 +323,6 @@
  
   [self.fieldName setEnabled: NO];
   [self.fieldTitle setEnabled: NO];  
-  
-  DSAObject *bula = [[DSAObject alloc] initWithName: @"Lederrucksack, 15 Stein"];
-  NSLog(@"XXXXXXXXXXXXXXXXXXXXXXX %@", bula);
-  DSAObject *blubb = [[DSAObject alloc] initWithName: @"Straßenkleidung"];
-  NSLog(@"YYYYYYYYYYYYYYY %@", blubb);
 }
 
 - (void)createCharacter:(id)sender
@@ -1065,7 +1060,31 @@
       else
         {
           NSLog(@"not applying Magierakademie modificator to archetype: %@", archetype.archetype);
-        }      
+        }
+      NSDictionary *equipment = [[_mageAcademiesDict objectForKey: archetype.mageAcademy] objectForKey: @"Equipment"];
+      if (equipment)
+        {
+          for (NSString *itemName in [equipment allKeys])
+            {
+              NSDictionary *itemInfo = [equipment objectForKey: itemName];
+              DSAObject *item = [[DSAObject alloc]initWithName: itemName forOwner: archetype.modelID];
+              if ([itemInfo objectForKey: @"Spruch"])
+                {
+                  [item setSpell: [itemInfo objectForKey: @"Spruch"]];
+                }
+              if ([[itemInfo objectForKey: @"persönliches Objekt"] isEqualTo: @YES])
+                {
+                  [item setOwnerUUID: archetype.modelID];
+                }
+              [archetype.inventory addObject: item quantity: [[itemInfo objectForKey: @"Anzahl"] integerValue]];
+              if ([itemInfo objectForKey: @"Kosten permanente ASP"])
+                {
+                  [archetype setAstralEnergy: [NSNumber numberWithInteger: [[archetype astralEnergy] integerValue] - [[itemInfo objectForKey: @"Kosten permanente ASP"] integerValue]]];
+                  [archetype setCurrentAstralEnergy: [NSNumber numberWithInteger:  [[archetype currentAstralEnergy] integerValue] - [[itemInfo objectForKey: @"Kosten permanente ASP"] integerValue]]];
+                }
+              
+            }
+        }
     }
   else if ([@"Schamanenmodifikatoren" isEqualTo: modificator])
     {
@@ -3187,7 +3206,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   for (NSDictionary *equipment in equipmentDict)
     {
 //    NSLog(@"THE EQUIPMENT: %@", equipment);
-      [character.inventory addObject: [[DSAObject alloc] initWithName: [[equipment allKeys] objectAtIndex: 0]] quantity: [[[equipment allValues] objectAtIndex: 0] integerValue]];
+      [character.inventory addObject: [[DSAObject alloc] initWithName: [[equipment allKeys] objectAtIndex: 0] forOwner: character.modelID] quantity: [[[equipment allValues] objectAtIndex: 0] integerValue]];
     } 
 //  NSLog(@"THE INVENTORY: %@", character.inventory);
 }
