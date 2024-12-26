@@ -46,6 +46,7 @@
 @property (readonly) NSMutableDictionary *witchCursesDict;
 @property (readonly) NSMutableDictionary *druidRitualsDict;
 @property (readonly) NSMutableDictionary *geodeRitualsDict;
+@property (readonly) NSMutableDictionary *mageRitualsDict;
 @property (readonly) NSMutableDictionary *mischievousPranksDict;
 @property (readonly) NSMutableDictionary *elvenSongsDict;
 @property (readonly) NSMutableDictionary *shamanOriginsDict;

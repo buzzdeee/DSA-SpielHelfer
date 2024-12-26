@@ -1,0 +1,102 @@
+{
+  "Stabzauber": {
+    "1. Stabzauber": {
+      "Order": 1,
+      "Probe": [ "KL", "CH", "FF", "+1" ],
+      "Typen": [ "Magier" ],
+      "ASP Kosten": 21,
+      "davon permanente ASP Kosten": 1
+    },
+    "2. Stabzauber": {
+      "Order": 2,
+      "Probe": [ "KL", "KL", "FF", "+2" ],
+      "Typen": [ "Magier" ],
+      "ASP Kosten": 23
+    },
+    "3. Stabzauber": {
+      "Order": 3,
+      "Probe": [ "KL", "CH", "FF", "+3" ],
+      "Typen": [ "Magier" ],
+      "ASP Kosten": 19
+    },
+    "4. Stabzauber": {
+      "Order": 4,
+      "Probe": [ "KL", "IN", "CH", "+4" ],
+      "Typen": [ "Magier" ],
+      "ASP Kosten": 27
+    },
+    "5. Stabzauber": {
+      "Order": 5,
+      "Probe": [ "MU", "KL", "KL", "+5" ],
+      "Typen": [ "Magier" ],
+      "ASP Kosten": 28
+    },
+    "6. Stabzauber": {
+      "Order": 6,
+      "Probe": [ "MU", "IN", "CH", "+6" ],
+      "Typen": [ "Magier" ],
+      "ASP Kosten": 24
+    },
+    "7. Stabzauber": {
+      "Order": 7,
+      "Probe": [ "MU", "KL", "CH", "+7" ],
+      "Typen": [ "Magier" ],
+      "ASP Kosten": 19,
+      "davon permanente ASP Kosten": 2
+    }
+  },
+  "Kugelzauber": {
+    "1. Kugelzauber": {
+      "Order": 1,
+      "Probe": [ "KL", "CH", "FF", "+1" ],
+      "Typen": [ "Magier" ],
+      "ASP Kosten": 13,
+      "davon permanente ASP Kosten": 1
+    },
+    "2. Kugelzauber": {
+      "Order": 2,
+      "Probe": [ "KL", "KL", "FF", "+2" ],
+      "Typen": [ "Magier" ],
+      "ASP Kosten": 11
+    },
+    "3. Kugelzauber": {
+      "Order": 3,
+      "Probe": [ "KL", "CH", "CH", "+3" ],
+      "Typen": [ "Magier" ],
+      "ASP Kosten": 21
+    },
+    "4. Kugelzauber": {
+      "Order": 4,
+      "Probe": [ "KL", "IN", "CH", "+4" ],
+      "Typen": [ "Magier" ],
+      "ASP Kosten": 19
+    },
+    "5. Kugelzauber": {
+      "Order": 5,
+      "Probe": [ "MU", "KL", "CH", "+5" ],
+      "Typen": [ "Magier" ],
+      "ASP Kosten": 13,
+      "davon permanente ASP Kosten": 2
+    }
+  },
+  "Schwertzauber": {
+    "Schwertzauber": {
+      "Order": 1,
+      "Probe": [ "MU", "MU", "KL", "+7" ],
+      "Typen": [ "Magier" ],
+      "ASP Kosten": 49,
+      "davon permanente ASP Kosten": 3
+    }
+  }
+  "Schalenzauber": {
+    "Schalenzauber": {
+      "Order": 1,
+      "Probe": [ "MU", "IN", "CH", "+5" ],
+      "Typen": [ "Magier" ],
+      "ASP Kosten": 49,
+      "LP Kosten": "3W6",
+      "davon permanente ASP Kosten": 3,
+      "davon permanente LP Kosten": 2
+    }
+  }
+}

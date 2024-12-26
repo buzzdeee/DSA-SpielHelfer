@@ -85,6 +85,7 @@
 #import "DSASpellDruidRitual.h"
 #import "DSASpellMischievousPrank.h"
 #import "DSASpellGeodeRitual.h"
+#import "DSASpellMageRitual.h"
 #import "DSASpellShamanRitual.h"
 #import "DSASpellElvenSong.h"
 #import "DSALiturgy.h"
@@ -193,7 +194,13 @@
         JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
                    options: NSJSONReadingMutableContainers
                      error: &e];
-                     
+
+      filePath = [[NSBundle mainBundle] pathForResource:@"Magierrituale" ofType:@"json"];                         
+      _mageRitualsDict = [NSJSONSerialization 
+        JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];                     
+                                          
       filePath = [[NSBundle mainBundle] pathForResource:@"Schelmenstreiche" ofType:@"json"];                         
       _mischievousPranksDict = [NSJSONSerialization 
         JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
@@ -720,6 +727,10 @@
     {
       [self addGeodeRitualsToCharacter: newCharacter];
     }
+  else if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanMage class]])
+    {
+      [self addMageRitualsToCharacter: newCharacter];
+    }    
   else if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanShaman class]])
     {
       [self addShamanRitualsToCharacter: newCharacter];
@@ -3122,6 +3133,30 @@ NSLog(@"generateFamilyBackground %@", retVal);
                                                                     isLearned: NO];                                                          
               [specialTalents setObject: r forKey: ritual];
             }
+        }
+    }
+  [character setSpecials: specialTalents];  
+}
+
+- (void) addMageRitualsToCharacter: (DSACharacterHero *) character
+{
+  NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];    
+  for (NSString *category in [_mageRitualsDict allKeys])
+    {
+      if ([category isEqualToString: @"META"])
+        {
+          continue;
+        }
+      for (NSString *ritual in [_mageRitualsDict objectForKey: category])
+        {
+            DSASpellMageRitual *r = [[DSASpellMageRitual alloc] initSpell: ritual
+                                                               ofCategory: category
+                                                                 withTest: [[[_mageRitualsDict objectForKey: category] objectForKey: ritual] objectForKey: @"Probe" ]
+                                                              withASPCost: [[[_mageRitualsDict objectForKey: category] objectForKey: ritual] objectForKey: @"ASP Kosten" ] ? [[[[_mageRitualsDict objectForKey: category] objectForKey: ritual] objectForKey: @"ASP Kosten" ] integerValue]: 0
+                                                     withPermanentASPCost: [[[_mageRitualsDict objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente ASP Kosten" ] ? [[[[_mageRitualsDict objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente ASP Kosten" ] integerValue]: 0
+                                                               withLPCost: [[[_mageRitualsDict objectForKey: category] objectForKey: ritual] objectForKey: @"LP Kosten" ] ? [[[_mageRitualsDict objectForKey: category] objectForKey: ritual] objectForKey: @"LP Kosten" ]: @"0"
+                                                      withPermanentLPCost: [[[_mageRitualsDict objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente LP Kosten" ] ? [[[[_mageRitualsDict objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente LP Kosten" ] integerValue]: 0];                                                     
+            [specialTalents setObject: r forKey: ritual];
         }
     }
   [character setSpecials: specialTalents];  

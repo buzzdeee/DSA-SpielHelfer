@@ -117,7 +117,8 @@
 	"DSAObjectShield.m",
 	"DSAObjectShieldAndParry.m",
 	"DSAAventurianDate.m",
-	"DSAAventurianCalendar.m"
+	"DSAAventurianCalendar.m",
+	"DSASpellMageRitual.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -234,7 +235,8 @@
 	"DSAObjectShield.h",
 	"DSAObjectShieldAndParry.h",
 	"DSAAventurianDate.h",
-	"DSAAventurianCalendar.h"
+	"DSAAventurianCalendar.h",
+	"DSASpellMageRitual.h"
     );
     IMAGES = (
 	"Character_1.png",
@@ -3107,7 +3109,8 @@
 	"Schamanenrituale.json",
 	"Geweihtenliturgien.json",
 	"Ausruestung.json",
-	"Masse.json"
+	"Masse.json",
+	"Magierrituale.json"
     );
     "OTHER_SOURCES" = (
 	"DSA-SpielHelfer_main.m"

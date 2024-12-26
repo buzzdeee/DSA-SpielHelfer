@@ -2876,7 +2876,8 @@ Resources/Schamanenherkunft.json \
 Resources/Schamanenrituale.json \
 Resources/Geweihtenliturgien.json \
 Resources/Ausruestung.json \
-Resources/Masse.json 
+Resources/Masse.json \
+Resources/Magierrituale.json 
 
 
 #
@@ -3000,7 +3001,8 @@ DSAObjectWeaponHandAndLongRangeWeapon.h \
 DSAObjectShield.h \
 DSAObjectShieldAndParry.h \
 DSAAventurianDate.h \
-DSAAventurianCalendar.h
+DSAAventurianCalendar.h \
+DSASpellMageRitual.h
 
 #
 # Objective-C Class files
@@ -3110,7 +3112,8 @@ DSAObjectWeaponHandAndLongRangeWeapon.m \
 DSAObjectShield.m \
 DSAObjectShieldAndParry.m \
 DSAAventurianDate.m \
-DSAAventurianCalendar.m
+DSAAventurianCalendar.m \
+DSASpellMageRitual.m
 
 #
 # Other sources
