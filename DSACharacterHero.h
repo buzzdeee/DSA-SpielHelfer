@@ -31,10 +31,6 @@
 @class DSATalent;
 
 @interface DSACharacterHero : DSACharacter
-
-@property (nonatomic, copy) NSMutableDictionary *talents;
-@property (nonatomic, copy) NSMutableDictionary *spells;
-@property (nonatomic, copy) NSMutableDictionary *specials;
 @property (nonatomic, copy) NSMutableDictionary *professions;
 @property (nonatomic, copy) NSMutableDictionary *levelUpTalents;       // used to track talent level up attempts when reching a new level
 @property (nonatomic, copy) NSMutableDictionary *levelUpSpells;        // used to track spell level up attempts when reching a new level

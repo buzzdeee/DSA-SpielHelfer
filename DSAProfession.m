@@ -28,7 +28,7 @@
 
 - (instancetype)initProfession: (NSString *) name
                     ofCategory: (NSString *) category
-                       onLevel: (NSNumber *) level
+                       onLevel: (NSInteger) level
                       withTest: (NSArray *) test
         withMaxTriesPerLevelUp: (NSNumber *) maxTriesPerLevelUp
              withMaxUpPerLevel: (NSNumber *) maxUpPerLevel

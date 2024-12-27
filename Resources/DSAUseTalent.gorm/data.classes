@@ -1,0 +1,37 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSACharacterWindowController = {
+	Actions = (
+	    "closePanel:",
+	    "levelUpBaseValues:",
+	    "addAdventurePoints:",
+	    "manageMoney:",
+	    "useTalent:",
+	    "castSpell:",
+	    "regenerateCharacter:",
+	    "updateTalentPenalty:"
+	);
+	Outlets = (
+	    fieldTalentFeedback,
+	    fieldTalentPenalty,
+	    popupTalentCategorySelector,
+	    popupTalentSelector,
+	    useTalentPanel,
+	    buttonTalentDoIt
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "addAdventurePoints:",
+	    "castSpell:",
+	    "closePanel:",
+	    "levelUpBaseValues:",
+	    "manageMoney:",
+	    "updateTalentPenalty:",
+	    "regenerateCharacter:",
+	    "useTalent:"
+	);
+	Super = NSObject;
+    };
+}

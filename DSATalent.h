@@ -26,10 +26,11 @@
 #define _DSATALENT_H_
 
 #import <Foundation/Foundation.h>
+@class DSACharacter;
 
 @interface DSATalent : NSObject <NSCoding, NSCopying>
 
-@property (nonatomic, strong) NSNumber *level;
+@property (nonatomic, assign) NSInteger level;
 @property (nonatomic, strong) NSNumber *maxUpPerLevel;
 @property (nonatomic, strong) NSNumber *maxTriesPerLevelUp;
 @property (nonatomic, strong) NSNumber *levelUpCost;

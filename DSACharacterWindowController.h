@@ -178,6 +178,15 @@
 // For adding adventure points
 @property (nonatomic, strong) IBOutlet NSPanel *adventurePointsPanel;
 @property (weak) IBOutlet NSTextField *fieldAdditionalAdventurePoints;
+
+// For using talents window
+@property (nonatomic, strong) IBOutlet NSPanel *useTalentPanel;
+@property (weak) IBOutlet NSTextField *fieldTalentFeedback;
+@property (weak) IBOutlet NSPopUpButton *popupTalentCategorySelector;
+@property (weak) IBOutlet NSPopUpButton *popupTalentSelector;
+@property (weak) IBOutlet NSTextField *fieldTalentPenalty;
+@property (weak) IBOutlet NSPopUpButton *buttonTalentDoIt;
+
 // to track spells and spell names NSText field relationships to be able to change color
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSTextField *> *spellItemFieldMap;
 @property (nonatomic, strong) NSMutableSet *observedObjects;
@@ -192,7 +201,9 @@
 -(void)levelUpBaseValues:(id)sender;
 -(void)addAdventurePoints: (id)sender;
 -(void)manageMoney: (id)sender;
--(void)useTalent: (id)sender;
+-(void)showUseTalentPanel: (id)sender;
+-(void)showCastSpellPanel: (id)sender;
+-(void)showRegenerateCharacterPanel: (id)sender;
 
 
 @end

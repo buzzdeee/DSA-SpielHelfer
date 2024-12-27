@@ -176,9 +176,9 @@ static NSObject *syncObject = nil; // A synchronization object
     }
 }
 
--(IBAction)useTalent: (id)sender
+-(IBAction)showUseTalentPanel: (id)sender
 {
-  NSLog(@"DSADocumentController useTalent called!");
+  NSLog(@"DSADocumentController showUseTalentPanel called!");
   NSDocument *activeDocument = [self currentDocument];
   for (NSWindowController *windowController in [activeDocument windowControllers])
     {
@@ -187,7 +187,45 @@ static NSObject *syncObject = nil; // A synchronization object
         {    
           // Cast the window controller to your custom class and call the method
           DSACharacterWindowController *characterWindowController = (DSACharacterWindowController *)windowController;
-          [characterWindowController useTalent:nil];
+          [characterWindowController showUseTalentPanel:nil];
+            
+          // If you only expect one relevant window controller, you can break after finding it
+          break;
+        }
+    }
+}
+
+-(IBAction)showCastSpellPanel: (id)sender
+{
+  NSLog(@"DSADocumentController showCastSpellPanel called!");
+  NSDocument *activeDocument = [self currentDocument];
+  for (NSWindowController *windowController in [activeDocument windowControllers])
+    {
+      // Check if the window controller is of the specific subclass you're looking for
+      if ([windowController isKindOfClass:[DSACharacterWindowController class]])
+        {    
+          // Cast the window controller to your custom class and call the method
+          DSACharacterWindowController *characterWindowController = (DSACharacterWindowController *)windowController;
+          [characterWindowController showCastSpellPanel:nil];
+            
+          // If you only expect one relevant window controller, you can break after finding it
+          break;
+        }
+    }
+}
+
+-(IBAction)showRegenerateCharacterPanel: (id)sender
+{
+  NSLog(@"DSADocumentController regenerateCharacter called!");
+  NSDocument *activeDocument = [self currentDocument];
+  for (NSWindowController *windowController in [activeDocument windowControllers])
+    {
+      // Check if the window controller is of the specific subclass you're looking for
+      if ([windowController isKindOfClass:[DSACharacterWindowController class]])
+        {    
+          // Cast the window controller to your custom class and call the method
+          DSACharacterWindowController *characterWindowController = (DSACharacterWindowController *)windowController;
+          [characterWindowController showRegenerateCharacterPanel:nil];
             
           // If you only expect one relevant window controller, you can break after finding it
           break;
@@ -196,14 +234,14 @@ static NSObject *syncObject = nil; // A synchronization object
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-//  NSLog(@"DSADocumentController validateMenuItem %@", [menuItem title]);
-  
+NSLog(@"DSADocumentController validateMenuItem %@ %lu", [menuItem title], (unsigned long)[menuItem tag]);
+// TAGS: 22: levelUp, 23: Geldbörse managen, 24: Talent anwenden, 25: Abenteuerpunkte hinzufügen, 26: Zaubern, 27: regenerieren
+
+      NSWindow *keyWindow = [NSApp keyWindow];
+      NSResponder *firstResponder = [keyWindow firstResponder];
 
       if ([menuItem tag] == 22)
         { // Tag for the "Level Up" menu item
-          // Find the current window controller
-          NSWindow *keyWindow = [NSApp keyWindow];
-          NSResponder *firstResponder = [keyWindow firstResponder];
           if ([firstResponder isKindOfClass:[NSWindow class]])
             {
               if ([[(NSWindow *)firstResponder windowController] isKindOfClass:[DSACharacterWindowController class]])
@@ -215,11 +253,47 @@ static NSObject *syncObject = nil; // A synchronization object
             }
           return NO;
         }
-      else if ([menuItem tag] == 23 || [menuItem tag] == 24 || [menuItem tag] == 25 )
+      else if ([menuItem tag] == 24)
+        {  // Tag for "use Talent" menu item
+          if ([firstResponder isKindOfClass:[NSWindow class]])
+            {
+              if ([[(NSWindow *)firstResponder windowController] isKindOfClass:[DSACharacterWindowController class]])
+                {
+                   DSACharacterWindowController *windowController = [(NSWindow *)firstResponder windowController];
+                   DSACharacterDocument *document = (DSACharacterDocument *) windowController.document;
+                   return [(DSACharacterHero *)document.model canUseTalent];                 
+                }
+            }
+          return NO;        
+        }        
+      else if ([menuItem tag] == 26)
+        {  // Tag for "cast Spell" menu item
+          if ([firstResponder isKindOfClass:[NSWindow class]])
+            {
+              if ([[(NSWindow *)firstResponder windowController] isKindOfClass:[DSACharacterWindowController class]])
+                {
+                   DSACharacterWindowController *windowController = [(NSWindow *)firstResponder windowController];
+                   DSACharacterDocument *document = (DSACharacterDocument *) windowController.document;
+                   return [(DSACharacterHero *)document.model canCastSpell];                 
+                }
+            }
+          return NO;        
+        }
+      else if ([menuItem tag] == 27)
+        {  // Tag for "Regenerieren" menu item
+          if ([firstResponder isKindOfClass:[NSWindow class]])
+            {
+              if ([[(NSWindow *)firstResponder windowController] isKindOfClass:[DSACharacterWindowController class]])
+                {
+                   DSACharacterWindowController *windowController = [(NSWindow *)firstResponder windowController];
+                   DSACharacterDocument *document = (DSACharacterDocument *) windowController.document;
+                   return [(DSACharacterHero *)document.model canRegenerate];                 
+                }
+            }
+          return NO;        
+        }        
+      else if ([menuItem tag] == 23 || [menuItem tag] == 25 )
         {
-          // Find the current window controller
-          NSWindow *keyWindow = [NSApp keyWindow];
-          NSResponder *firstResponder = [keyWindow firstResponder];
           if ([firstResponder isKindOfClass:[NSWindow class]])
             {
               if ([[(NSWindow *)firstResponder windowController] isKindOfClass:[DSACharacterWindowController class]])

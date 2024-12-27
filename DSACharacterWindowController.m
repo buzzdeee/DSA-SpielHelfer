@@ -745,6 +745,7 @@
    NSLog(@"DSACharacterWindowController: populateSpecialTalentsTab before block enumeration");
    [model.specials enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
      {
+        NSLog(@"enumerating specials, found object: %@", obj);
         [specials addObject: obj];
         [categories addObject: [obj category]];
      }];
@@ -1044,7 +1045,7 @@
               [itemFieldValue setBordered:NO];
               [itemFieldValue setBezeled:NO];
               [itemFieldValue setBackgroundColor:[NSColor lightGrayColor]];
-              [itemFieldValue setStringValue:[item.level stringValue]];
+              [itemFieldValue setStringValue: [NSString stringWithFormat: @"%ld", (signed long) item.level]];
               [itemFieldValue bind:NSValueBinding  
                           toObject:item
                        withKeyPath:@"level" 
@@ -1053,7 +1054,7 @@
               NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
               [paragraphStyle setAlignment:NSTextAlignmentRight];
               NSDictionary *attributes = @{NSParagraphStyleAttributeName: paragraphStyle};
-              [itemFieldValue setAttributedStringValue:[[NSAttributedString alloc] initWithString:[item.level stringValue] attributes:attributes]];
+              [itemFieldValue setAttributedStringValue:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat: @"%ld", (signed long) item.level] attributes:attributes]];
               [innerView addSubview:itemFieldValue];
             }
         }
@@ -1091,6 +1092,7 @@
   //DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   //DSACharacterHero *model = (DSACharacterHero *)document.model;    
   // Get the action (selector) associated with the menu item
+  NSLog(@"DSACharacterWindowController validateMenuItem: %@ %lu", [menuItem title], (unsigned long)[menuItem tag]);
   SEL menuItemAction = [menuItem action];
     
   if (menuItemAction)
@@ -2001,9 +2003,154 @@
   NSLog(@"DSACharacterWindowController manageMoney called!");
 }
 
--(IBAction)useTalent: (id)sender
+-(void)showUseTalentPanel: (id)sender
 {
-  NSLog(@"DSACharacterWindowController useTalent called!");
+  NSLog(@"DSACharacterWindowController showUseTalentPanel called!");
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;      
+  NSLog(@"the model: %@", model);
+  if (!self.useTalentPanel)
+    {
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSAUseTalent" owner:self];
+    }
+  NSMutableSet *talentCategories = [NSMutableSet set];    
+    // Enumerate talents to find all categories
+  NSLog(@"the talents: %@", model.talents);  
+  [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop) {
+      [talentCategories addObject: [obj category]];
+  }];
+  NSLog(@"talentCategories %@", talentCategories);
+  NSArray *sortedTalentCategories = [[talentCategories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+  [self.popupTalentCategorySelector setEnabled: YES];
+  [self.popupTalentCategorySelector removeAllItems];
+  [self.popupTalentCategorySelector addItemsWithTitles: sortedTalentCategories];
+  [self.popupTalentCategorySelector setTarget:self];
+  [self.popupTalentCategorySelector setAction:@selector(populateUseTalentsBottomPopupWithTalents:)];
+  
+  [self.popupTalentSelector setHidden: NO];
+  [self.popupTalentSelector setEnabled: YES];
+  [self.popupTalentSelector setAutoenablesItems: NO];
+    
+  // Populate the bottom popup
+  [self populateUseTalentsBottomPopupWithTalents: nil];  
+  
+  [self.fieldTalentPenalty setBackgroundColor: [NSColor whiteColor]];
+  [self.fieldTalentPenalty setStringValue: @"0"];
+  [self.fieldTalentFeedback setHidden: YES];
+  [self.useTalentPanel makeKeyAndOrderFront:nil];  
+  
+  [self.buttonTalentDoIt setTitle: _(@"Talentprobe")];
+  [self.buttonTalentDoIt setTarget:self];
+  [self.buttonTalentDoIt setAction:@selector(useTalent:)];  
+  
+  NSLog(@"DSACharacterWindowController finished showUseTalentPanel");
+}
+
+- (void)populateUseTalentsBottomPopupWithTalents:(id)sender
+{
+
+    NSLog(@"populateUseTalentsBottomPopupWithTalents called");
+    
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    DSACharacterHero *model = (DSACharacterHero *)document.model;  
+    NSString *talentCategory = [[self.popupTalentCategorySelector selectedItem] title];
+    
+    // Store the previously selected item
+    NSString *selectedItemTitle = [[self.popupTalentSelector selectedItem] title];
+    
+    // Remove all current items
+    [self.popupTalentSelector removeAllItems];
+    
+    // Create arrays to hold sorted talents and spells
+    NSMutableArray *sortedTalents = [NSMutableArray array];
+    
+    // Collect talents in the given category
+    [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop) {
+        if ([[obj category] isEqualTo: talentCategory]) {
+            [sortedTalents addObject: obj];
+        }
+    }];
+    
+    // Sort talents and spells alphabetically by their name
+    NSArray *sortedTalentNames = [sortedTalents sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]];
+    
+    // Add sorted talents to the popup
+    for (DSAOtherTalent *talent in sortedTalentNames) {
+        [self. popupTalentSelector addItemWithTitle:[talent name]];
+        [[self.popupTalentSelector itemWithTitle:[talent name]] setEnabled:YES];
+    }
+
+    // Try to re-select the previously selected item
+    [self.popupTalentSelector selectItemWithTitle:selectedItemTitle];
+    
+    // If the selected item is disabled, select the first enabled item
+    if (![[self.popupTalentSelector selectedItem] isEnabled]) {
+        for (NSInteger i = 0; i < [self.popupTalentSelector numberOfItems]; i++) {
+            if ([[self.popupTalentSelector itemAtIndex:i] isEnabled]) {
+                [self.popupTalentSelector selectItemAtIndex:i];
+                break;
+            }
+        }
+    }
+    
+    // Update the popup button's display
+    [self.popupTalentSelector setNeedsDisplay:YES];    
+}
+
+-(void)updateTalentPenalty: (id)sender
+{
+  NSLog(@"update talent penalty: sender tag: %lu", (unsigned long)[sender tag]);
+  NSInteger delta = 0;
+  if ([sender tag] == 0)
+    {
+      delta = -1;
+    }
+  else
+    {
+      delta = 1;
+    }
+  [self.fieldTalentPenalty setStringValue: [NSString stringWithFormat: @"%ld", (signed long) [self.fieldTalentPenalty integerValue] + delta]];
+  
+}
+
+-(void)useTalent: (id)sender
+{
+  NSLog(@"use talent called!");
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;  
+
+  BOOL result = NO;  
+  
+  result = [model useTalent: [[self.popupTalentSelector selectedItem] title] withPenalty: [self.fieldTalentPenalty integerValue]];
+  if (result == YES)
+    {
+      [self.fieldTalentFeedback setStringValue: @"geschafft!"];
+    }
+  else
+    {
+      [self.fieldTalentFeedback setStringValue: @"leider nicht geschafft!"];    
+    }
+  [self.fieldTalentFeedback setHidden: NO];
+  [self.buttonTalentDoIt setTitle: _(@"Schließen")];
+  [self.buttonTalentDoIt setTarget:self];
+  [self.buttonTalentDoIt setAction:@selector(closeUseTalentsPanel:)];  
+  
+}
+
+-(void) closeUseTalentsPanel: (id) sender
+{
+  [self. useTalentPanel close];
+}
+
+-(void)showCastSpellPanel: (id)sender
+{
+  NSLog(@"DSACharacterWindowController showCastSpellPanel called!");
+}
+
+-(void)showRegenerateCharacterPanel: (id)sender
+{
+  NSLog(@"DSACharacterWindowController showRegenerateCharacterPanel called!");
 }
 
 -(void)addAdventurePoints: (id)sender

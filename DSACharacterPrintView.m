@@ -1027,7 +1027,7 @@
           };
           [title drawInRect:titleRect withAttributes:titleAttributes];
 
-          NSString *propertyString = [[talent level] stringValue];
+          NSString *propertyString = [NSString stringWithFormat: @"%ld", (signed long)talent.level];
           NSDictionary *propertyAttributes = @{
             NSFontAttributeName: [NSFont systemFontOfSize:cellFontSize],
             NSForegroundColorAttributeName: [NSColor blackColor]
@@ -1080,7 +1080,7 @@
           };
           [title drawInRect:titleRect withAttributes:titleAttributes];
 
-          NSString *propertyString = [[profession level] stringValue];
+          NSString *propertyString = [NSString stringWithFormat: @"%ld", profession.level];
           NSDictionary *propertyAttributes = @{
             NSFontAttributeName: [NSFont systemFontOfSize:cellFontSize],
             NSForegroundColorAttributeName: [NSColor blackColor]

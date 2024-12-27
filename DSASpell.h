@@ -26,6 +26,7 @@
 #define _DSASPELL_H_
 
 #import <Foundation/Foundation.h>
+@class DSACharacter;
 
 @interface DSASpell : NSObject <NSCoding, NSCopying>
 
@@ -52,7 +53,7 @@
 @property (nonatomic) BOOL isTraditionSpell;
 @property (nonatomic, readonly) BOOL isActiveSpell;
 
-- (instancetype)initSpell: (NSString *) newName 
+- (instancetype)initSpell: (NSString *) newName
                ofCategory: (NSString *) newCategory 
                   onLevel: (NSNumber *) newLevel
                withOrigin: (NSString *) newOrigin

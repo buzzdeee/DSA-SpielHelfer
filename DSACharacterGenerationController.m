@@ -537,7 +537,7 @@
       NSDictionary *professionDict = [NSDictionary dictionaryWithDictionary: [_professionsDict objectForKey: selectedProfession]];
       DSAProfession *profession = [[DSAProfession alloc] initProfession: selectedProfession
                                                              ofCategory: [professionDict objectForKey: @"Freizeittalent"] ? _(@"Freizeittalent") : _(@"Beruf")
-                                                                onLevel: @3
+                                                                onLevel: 3
                                                                withTest: [professionDict objectForKey: @"Probe"]
                                                  withMaxTriesPerLevelUp: @6
                                                       withMaxUpPerLevel: @2
@@ -632,14 +632,16 @@
             {
               for (NSString *t in [[talents objectForKey: category] objectForKey: subCategory])
                 {
+                   NSLog(@"dealing with talent in if clause for loop: %@", t);
                    NSDictionary *tDict = [[[talents objectForKey: category] objectForKey: subCategory] objectForKey: t];
                    DSAFightingTalent *talent = [[DSAFightingTalent alloc] initTalent: t
                                                                        inSubCategory: subCategory
                                                                           ofCategory: category
-                                                                             onLevel: [NSNumber numberWithInteger: [[tDict objectForKey: @"Startwert"] integerValue]]
+                                                                             onLevel: [[tDict objectForKey: @"Startwert"] integerValue]
                                                               withMaxTriesPerLevelUp: [NSNumber numberWithInteger: [[tDict objectForKey: @"Versuche"] integerValue]]
                                                                    withMaxUpPerLevel: [NSNumber numberWithInteger: [[tDict objectForKey: @"Steigern"] integerValue]]
                                                                      withLevelUpCost: @1];
+                  NSLog(@"DSACharacterGenerationController: initialized talent: %@", talent);                                                                     
                   [newTalents setObject: talent forKey: t];
                 }
             }
@@ -648,20 +650,23 @@
         {
           for (NSString *t in [talents objectForKey: category])
             {
+              NSLog(@"dealing with talent in else clause for loop: %@", t);
               NSDictionary *tDict = [[talents objectForKey: category] objectForKey: t];                             
               DSAOtherTalent *talent = [[DSAOtherTalent alloc] initTalent: t
                                                                ofCategory: category
-                                                                  onLevel: [NSNumber numberWithInteger: [[tDict objectForKey: @"Startwert"] integerValue]]
+                                                                  onLevel: [[tDict objectForKey: @"Startwert"] integerValue]
                                                                  withTest: [tDict objectForKey: @"Probe"]
                                                    withMaxTriesPerLevelUp: [NSNumber numberWithInteger: [[tDict objectForKey: @"Versuche"] integerValue]]
                                                         withMaxUpPerLevel: [NSNumber numberWithInteger: [[tDict objectForKey: @"Steigern"] integerValue]]
-                                                          withLevelUpCost: @1]; 
+                                                          withLevelUpCost: @1];
+              NSLog(@"DSACharacterGenerationController: initialized talent: %@", talent);
               [newTalents setObject: talent forKey: t];
             }
         }        
     }
+  NSLog(@"THE NEW TALENTS: newTalents %@", newTalents);
   newCharacter.talents = newTalents;
-  NSLog(@"DSACharacterGenerationController: assigned talents to newCharacter");  
+  NSLog(@"DSACharacterGenerationController: assigned talents to newCharacter: %@", newCharacter.talents);  
   if ([newCharacter conformsToProtocol:@protocol(DSACharacterMagic)])
     {
       NSDictionary *spells = [[NSDictionary alloc] init];
@@ -3106,7 +3111,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
           if ([[[[_shamanRitualsDict objectForKey: category] objectForKey: ritual] objectForKey: @"Typen"] containsObject: [[self.popupOrigins selectedItem] title]])
             {
               DSASpellShamanRitual *r = [[DSASpellShamanRitual alloc] initSpell: ritual
-                                                                     withTest: [[[_shamanRitualsDict objectForKey: category] objectForKey: ritual] objectForKey: @"Probe" ]];
+                                                                       withTest: [[[_shamanRitualsDict objectForKey: category] objectForKey: ritual] objectForKey: @"Probe" ]];
               [specialTalents setObject: r forKey: ritual];
             }
         }
@@ -3382,7 +3387,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         {
           DSASpecialTalent *talent = [[DSASpecialTalent alloc] initTalent: specialTalent
                                                                ofCategory: _(@"Spezialtalent")
-                                                                  onLevel: @0
+                                                                  onLevel: 0
                                                                  withTest: nil
                                                    withMaxTriesPerLevelUp: @0
                                                         withMaxUpPerLevel: @0

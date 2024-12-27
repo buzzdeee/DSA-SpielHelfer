@@ -29,9 +29,9 @@
 @synthesize subCategory;
 
 - (instancetype)initTalent: (NSString *) name
-             inSubCategory: (NSString *) subCategory
+             inSubCategory: (NSString *) newSubCategory
                 ofCategory: (NSString *) category
-                   onLevel: (NSNumber *) level
+                   onLevel: (NSInteger) level
     withMaxTriesPerLevelUp: (NSNumber *) maxTriesPerLevelUp
          withMaxUpPerLevel: (NSNumber *) maxUpPerLevel
            withLevelUpCost: (NSNumber *) levelUpCost;
@@ -41,12 +41,13 @@
     {
       self.name = name;
       self.category = category;
-      self.subCategory = subCategory;      
+      self.subCategory = newSubCategory;      
       self.level = level;
       self.maxTriesPerLevelUp = maxTriesPerLevelUp;
       self.maxUpPerLevel = maxUpPerLevel;
       self.levelUpCost = levelUpCost;
     }
+  //NSLog(@"DSAFightingTalent: initTalent ... self: %@", self);
   return self;
 }
 

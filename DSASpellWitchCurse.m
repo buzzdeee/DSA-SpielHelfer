@@ -27,7 +27,7 @@
 
 @implementation DSASpellWitchCurse
 
-- (instancetype)initSpell: (NSString *) name 
+- (instancetype)initSpell: (NSString *) name
                  withTest: (NSArray *) test
                 isLearned: (BOOL) learned
 {

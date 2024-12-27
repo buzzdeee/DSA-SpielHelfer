@@ -31,6 +31,9 @@
 #import "DSACharacterHeroHumanHuntsman.h"
 #import "DSACharacterHeroHumanWarrior.h"
 #import "DSACharacterHeroHumanPhysician.h"
+#import "Utils.h"
+#import "DSAOtherTalent.h"
+#import "DSAPositiveTrait.h"
 
 
 @implementation DSACharacter
@@ -113,6 +116,9 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
         _bodyParts = [[DSABodyParts alloc] init];
         NSLog(@"DSACharacter: allocating DSAAventurianDate in init");
         _birthday = [[DSAAventurianDate alloc] init];
+        _talents = [[NSMutableDictionary alloc] init];
+        _spells = [[NSMutableDictionary alloc] init];
+        _specials = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -302,6 +308,9 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
   [coder encodeObject:self.negativeTraits forKey:@"negativeTraits"];
   [coder encodeObject:self.inventory forKey:@"inventory"];
   [coder encodeObject:self.bodyParts forKey:@"bodyParts"];
+  [coder encodeObject:self.talents forKey:@"talents"];
+  [coder encodeObject:self.spells forKey:@"spells"];
+  [coder encodeObject:self.specials forKey:@"specials"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder
@@ -367,6 +376,9 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
       self.negativeTraits = [coder decodeObjectOfClass:[NSString class] forKey:@"negativeTraits"];
       self.inventory = [coder decodeObjectOfClass:[NSString class] forKey:@"inventory"];
       self.bodyParts = [coder decodeObjectOfClass:[NSString class] forKey:@"bodyParts"];
+      self.talents = [coder decodeObjectForKey:@"talents"];
+      self.spells = [coder decodeObjectForKey:@"spells"];
+      self.specials = [coder decodeObjectForKey:@"specials"];                 
     }
   return self;
 }
@@ -623,6 +635,68 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
 - (BOOL) canUseItem: (DSAObject *) item
 {
   return YES;
+}
+
+- (BOOL) canCastSpell
+{
+  NSLog(@"DSACharacter canCastSpell called, TO BE ENHANCED!!!");
+  if (self.spells || self.specials)
+    {
+      return YES;
+    }
+  else
+    {
+      return NO;
+    }
+}
+
+- (BOOL) canUseTalent
+{
+  NSLog(@"DSACharacter canUseTalent called, TO BE ENHANCED!!!");
+  return YES;
+}
+
+- (BOOL) canRegenerate
+{
+  NSLog(@"DSACharacter canRegenerate called, TO BE ENHANCED!!!");
+  if ([self.currentAstralEnergy integerValue] < [self.astralEnergy integerValue] || 
+      [self.currentLifePoints integerValue] < [self.lifePoints integerValue])
+    {
+      return YES;
+    }
+  else
+    {
+      return NO;
+    }
+}
+
+- (BOOL) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty
+{
+  NSLog(@"DSACharacter useTalent called");
+  for (DSAOtherTalent *talent in [self.talents allValues])
+    {
+      if ([talent.name isEqualToString: talentName])
+        {
+          NSInteger level = talent.level + penalty;
+          for (NSString *trait in talent.test)
+            {
+              NSInteger traitLevel = [[[self.positiveTraits objectForKey: trait] level] integerValue];
+              NSInteger result = [[Utils rollDice: @"1W20"] integerValue];
+              NSLog(@"trait: %@ traitLevel: %ld result %ld", trait, (signed long) traitLevel, (signed long) result);
+              if (result > traitLevel)
+                {
+                  level = level - (result - traitLevel);
+                  if (level < 0)
+                    {
+                      return NO;
+                    }
+                }
+            }
+          
+          return YES;
+        }
+    }
+  return NO;
 }
 
 @end

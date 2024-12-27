@@ -25,7 +25,7 @@
 #import "DSALiturgy.h"
 
 @implementation DSALiturgy
-- (instancetype)initLiturgy: (NSString *) name 
+- (instancetype)initLiturgy: (NSString *) name
                  ofCategory: (NSString *) category 
 {
   self = [super init];

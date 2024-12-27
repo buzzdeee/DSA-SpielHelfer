@@ -3168,11 +3168,13 @@
     },
     "Holzlineal": {
       "Gewicht": 3,
-      "Preis": 0.8
+      "Preis": 0.8,
+      "Icon": [ "Holzlineal" ]
     },
     "Messinglineal": {
       "Gewicht": 8,
-      "Preis": 3
+      "Preis": 3,
+      "Icon": [ "Messinglineal" ]
     },
     "Fadenzirkel": {
       "Gewicht": 2,

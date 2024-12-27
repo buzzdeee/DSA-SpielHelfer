@@ -30,7 +30,7 @@
 @interface DSASpellWitchCurse : DSASpell
 @property (nonatomic) BOOL isLearned;
 
-- (instancetype)initSpell: (NSString *) name 
+- (instancetype)initSpell: (NSString *) name
                  withTest: (NSArray *) test
                 isLearned: (BOOL) learned;
 

@@ -3052,7 +3052,19 @@
 	"Suedweiser_2-32x32.webp",
 	"Suedweiser_2-512x512.webp",
 	"Suedweiser_2-64x64.webp",
-	"Suedweiser_2.webp"
+	"Suedweiser_2.webp",
+	"Holzlineal-128x128.webp",
+	"Holzlineal-256x256.webp",
+	"Holzlineal-32x32.webp",
+	"Holzlineal-512x512.webp",
+	"Holzlineal-64x64.webp",
+	"Holzlineal.webp",
+	"Messinglineal-128x128.webp",
+	"Messinglineal-256x256.webp",
+	"Messinglineal-32x32.webp",
+	"Messinglineal-512x512.webp",
+	"Messinglineal-64x64.webp",
+	"Messinglineal.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;
@@ -3065,7 +3077,8 @@
 	"DSACharacterGenerationMagicalDabbler.gorm",
 	"DSAMapViewer.gorm",
 	"DSAEquipmentListViewer.gorm",
-	"DSAItemInspection.gorm"
+	"DSAItemInspection.gorm",
+	"DSAUseTalent.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (

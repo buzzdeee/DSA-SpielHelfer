@@ -34,6 +34,9 @@
 #import "DSAObjectArmor.h"
 #import "DSAObjectShield.h"
 #import "DSAAventurianDate.h"
+#import "DSATalent.h"
+
+@class DSAPositiveTrait;
 
 @interface DSACharacter : NSObject <NSCoding>
 
@@ -66,7 +69,7 @@
 @property (nonatomic, copy) NSArray *childhoodEvents;
 @property (nonatomic, copy) NSArray *youthEvents;
 @property (nonatomic, copy) NSMutableDictionary *money;
-@property (nonatomic, copy) NSMutableDictionary *positiveTraits;
+@property (nonatomic, copy) NSMutableDictionary<NSString *, DSAPositiveTrait *> *positiveTraits;
 @property (nonatomic, copy) NSMutableDictionary *negativeTraits;
 @property (nonatomic, copy) NSNumber *lifePoints;
 @property (nonatomic, copy) NSNumber *currentLifePoints;
@@ -82,7 +85,9 @@
 @property (nonatomic, copy) NSString *portraitName;
 @property (nonatomic, strong) DSAInventory *inventory;
 @property (nonatomic, strong) DSABodyParts *bodyParts;
-
+@property (nonatomic, copy) NSMutableDictionary *talents;
+@property (nonatomic, copy) NSMutableDictionary *spells;
+@property (nonatomic, copy) NSMutableDictionary *specials;
 
 @property (readonly, copy) NSNumber *attackBaseValue;
 @property (readonly, copy) NSNumber *carryingCapacity;
@@ -101,7 +106,14 @@
 
 // used to decide, if a body inventory slot can hold a given item, based on character constraints
 - (BOOL) canUseItem: (DSAObject *) item;
+// to decide if currently a spell can be casted
+- (BOOL) canCastSpell;
+// to decide, if currently a talent can be used
+- (BOOL) canUseTalent;
+// to decide, if the character can regenerate AE or LP
+- (BOOL) canRegenerate;
 
+- (BOOL) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty;
 
 @end
 

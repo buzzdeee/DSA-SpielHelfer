@@ -34,7 +34,7 @@
 - (instancetype)initTalent: (NSString *) name
              inSubCategory: (NSString *) subCategory
                 ofCategory: (NSString *) category
-                   onLevel: (NSNumber *) level
+                   onLevel: (NSInteger) level
     withMaxTriesPerLevelUp: (NSNumber *) maxTriesPerLevelUp
          withMaxUpPerLevel: (NSNumber *) maxUpPerLevel
            withLevelUpCost: (NSNumber *) levelUpCost;

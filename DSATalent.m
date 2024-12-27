@@ -80,11 +80,11 @@
     self = [super init];
     if (self)
       {
-        self.level = [coder decodeObjectForKey:@"level"];
+        self.name = [coder decodeObjectForKey:@"name"];
+        self.level = [coder decodeIntegerForKey:@"level"];
         self.maxTriesPerLevelUp = [coder decodeObjectForKey:@"maxTriesPerLevelUp"];
         self.maxUpPerLevel = [coder decodeObjectForKey:@"maxUpPerLevel"];
         self.levelUpCost = [coder decodeObjectForKey:@"levelUpCost"];        
-        self.name = [coder decodeObjectForKey:@"name"];
         self.talentDescription = [coder decodeObjectForKey:@"talentDescription"];
         self.category = [coder decodeObjectForKey:@"category"];
         self.isPersonalTalent = [coder decodeBoolForKey:@"isPersonalTalent"];
@@ -94,11 +94,11 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-  [coder encodeObject:self.level forKey:@"level"];
+  [coder encodeObject:self.name forKey:@"name"];
+  [coder encodeInteger:self.level forKey:@"level"];
   [coder encodeObject:self.maxTriesPerLevelUp forKey:@"maxTriesPerLevelUp"];
   [coder encodeObject:self.maxUpPerLevel forKey:@"maxUpPerLevel"];
   [coder encodeObject:self.levelUpCost forKey:@"levelUpCost"];  
-  [coder encodeObject:self.name forKey:@"name"];
   [coder encodeObject:self.talentDescription forKey:@"talentDescription"];
   [coder encodeObject:self.category forKey:@"category"];
   [coder encodeBool:self.isPersonalTalent forKey:@"isPersonalTalent"];    
@@ -185,7 +185,7 @@
 {
   NSNumber *result = [[NSNumber alloc] init];
   
-  if ([self.level integerValue] < 10  && ! self.isPersonalTalent)
+  if (self.level < 10  && ! self.isPersonalTalent)
     {
       result = [Utils rollDice:@"2W6"];
     }
@@ -193,9 +193,9 @@
     {
       result = [Utils rollDice:@"3W6"];
     }
-  if ([result integerValue] > [self.level integerValue])
+  if ([result integerValue] > self.level)
     {
-      self.level = [NSNumber numberWithInteger: [self.level integerValue] + 1];
+      self.level += 1;
       return YES;
     }
   else

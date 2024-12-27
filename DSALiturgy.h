@@ -26,12 +26,13 @@
 #define _DSALITURGY_H_
 
 #import <Foundation/Foundation.h>
+#import "DSACharacter.h"
 
 @interface DSALiturgy : NSObject <NSCoding, NSCopying>
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *category;
 
-- (instancetype)initLiturgy: (NSString *) name 
+- (instancetype)initLiturgy: (NSString *) name
                  ofCategory: (NSString *) category;
 
 @end

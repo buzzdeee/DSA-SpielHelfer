@@ -9,7 +9,9 @@
 	    "addAdventurePoints:",
 	    "useTalent:",
 	    "openMap:",
-	    "showEquipmentList:"
+	    "showEquipmentList:",
+	    "regenerateCharacter:",
+	    "castSpell:"
 	);
 	Outlets = (
 	);
@@ -23,8 +25,36 @@
 	);
 	Super = NSObject;
     };
+    DSACharacter = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSObject;
+    };
     DSACharacterGenerationController = {
 	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSWindowController;
+    };
+    DSACharacterHero = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = DSACharacter;
+    };
+    DSACharacterWindowController = {
+	Actions = (
+	    "closePanel:",
+	    "levelUpBaseValues:",
+	    "addAdventurePoints:",
+	    "manageMoney:",
+	    "useTalent:",
+	    "castSpell:",
+	    "regenerateCharacter:"
 	);
 	Outlets = (
 	);
@@ -34,8 +64,11 @@
 	Actions = (
 	    "levelUpBaseValues:",
 	    "addAdventurePoints:",
-	    "manageMoney:",
-	    "useTalent:"
+	    "showManageMoneyPanel:",
+	    "showUseTalentPanel:",
+	    "showCastSpellPanel:",
+	    "regenerateCharacter:",
+	    "showRegenerateCharacterPanel:"
 	);
 	Outlets = (
 	);
@@ -44,15 +77,19 @@
     FirstResponder = {
 	Actions = (
 	    "addAdventurePoints:",
+	    "showCastSpellPanel:",
+	    "closePanel:",
 	    "levelUp:",
 	    "levelUpBaseValues:",
-	    "manageMoney:",
-	    "showEquipmentList:",
+	    "showManageMoneyPanel:",
+	    "showRegenerateCharacterPanel:",
 	    "newCharacterGeneration:",
 	    "openMap:",
 	    "orderFrontFontPanel:",
+	    "regenerateCharacter:",
+	    "showEquipmentList:",
 	    "showPrefPanel:",
-	    "useTalent:"
+	    "showUseTalentPanel:"
 	);
 	Super = NSObject;
     };

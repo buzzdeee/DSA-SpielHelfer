@@ -32,7 +32,7 @@
 @synthesize level;
 @synthesize isTraditionSpell;
 
-- (instancetype)initSpell: (NSString *) name 
+- (instancetype)initSpell: (NSString *) name
                ofCategory: (NSString *) category 
                   onLevel: (NSNumber *) level
                withOrigin: (NSArray *) origin
@@ -63,9 +63,9 @@
   self = [super init];
   if (self)
     {
+      self.name = [coder decodeObjectForKey:@"name"];
       self.level = [coder decodeObjectForKey:@"level"];
       self.origin = [coder decodeObjectForKey:@"origin"];
-      self.name = [coder decodeObjectForKey:@"name"];
       self.longName = [coder decodeObjectForKey:@"longName"];
       self.category = [coder decodeObjectForKey:@"category"];
       self.element = [coder decodeObjectForKey:@"element"];
@@ -90,9 +90,9 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
+  [coder encodeObject:self.name forKey:@"name"];
   [coder encodeObject:self.level forKey:@"level"];
   [coder encodeObject:self.origin forKey:@"origin"];
-  [coder encodeObject:self.name forKey:@"name"];
   [coder encodeObject:self.longName forKey:@"longName"];
   [coder encodeObject:self.category forKey:@"category"];
   [coder encodeObject:self.element forKey:@"element"];

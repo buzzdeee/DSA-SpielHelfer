@@ -39,6 +39,7 @@ Resources/DSACharacterGenerationMagicalDabbler.gorm \
 Resources/DSAMapViewer.gorm \
 Resources/DSAEquipmentListViewer.gorm \
 Resources/DSAItemInspection.gorm \
+Resources/DSAUseTalent.gorm \
 Resources/Character_1.png \
 Resources/Character_10.png \
 Resources/Character_100.png \
@@ -2853,6 +2854,18 @@ Resources/Suedweiser_2-32x32.webp \
 Resources/Suedweiser_2-512x512.webp \
 Resources/Suedweiser_2-64x64.webp \
 Resources/Suedweiser_2.webp \
+Resources/Holzlineal-128x128.webp \
+Resources/Holzlineal-256x256.webp \
+Resources/Holzlineal-32x32.webp \
+Resources/Holzlineal-512x512.webp \
+Resources/Holzlineal-64x64.webp \
+Resources/Holzlineal.webp \
+Resources/Messinglineal-128x128.webp \
+Resources/Messinglineal-256x256.webp \
+Resources/Messinglineal-32x32.webp \
+Resources/Messinglineal-512x512.webp \
+Resources/Messinglineal-64x64.webp \
+Resources/Messinglineal.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \

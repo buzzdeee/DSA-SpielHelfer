@@ -74,7 +74,7 @@
   NSLog(@"DSACharacterHero: prepareLevelUp: Number of talents: %lu", (unsigned long)[self.talents count]); 
   for (id key in self.talents)
     {
-      id value = _talents[key];
+      id value = self.talents[key];
       // Check if the value conforms to NSCopying
       if ([value conformsToProtocol:@protocol(NSCopying)])
         {
@@ -91,7 +91,7 @@
       NSLog(@"DSACharacterHero: prepareLevelUp: IM A MAGICAL DABBLER");
       for (id key in self.spells)
         {
-          id value = _spells[key];
+          id value = self.spells[key];
           NSLog(@"DSACharacterHero: prepareLevelUp: spell: %@", value);
           // Check if the value conforms to NSCopying
           if ([value conformsToProtocol:@protocol(NSCopying)])
@@ -120,7 +120,7 @@
       NSLog(@"Number of spells: %lu", (unsigned long)[self.spells count]); 
       for (id key in self.spells)
         {
-          id value = _spells[key];
+          id value = self.spells[key];
           // Check if the value conforms to NSCopying
           if ([value conformsToProtocol:@protocol(NSCopying)])
             {
@@ -282,7 +282,7 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
 
 - (BOOL) canLevelUpTalent: (DSATalent *) talent
 {
-  if ([talent.level integerValue] == 18)
+  if (talent.level == 18)
     {
       // we're already at the general maximum
       return NO;
@@ -332,10 +332,7 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
 - (void)encodeWithCoder:(NSCoder *)coder
 {
   [super encodeWithCoder: coder];
-  
-  [coder encodeObject:self.talents forKey:@"talents"];
-  [coder encodeObject:self.spells forKey:@"spells"];
-  [coder encodeObject:self.specials forKey:@"specials"];    
+      
   [coder encodeObject:self.professions forKey:@"professions"];  
   [coder encodeObject:self.levelUpTalents forKey:@"levelUpTalents"];
   [coder encodeObject:self.levelUpSpells forKey:@"levelUpSpells"];  
@@ -354,28 +351,7 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
 {
   self = [super initWithCoder: coder];
   if (self)
-    {
-      self.name = [coder decodeObjectOfClass:[NSString class] forKey:@"name"];
-      self.title = [coder decodeObjectOfClass:[NSString class] forKey:@"title"];
-      self.archetype = [coder decodeObjectOfClass:[NSString class] forKey:@"archetype"];
-      self.level = [coder decodeObjectOfClass:[NSString class] forKey:@"level"];
-      self.adventurePoints = [coder decodeObjectOfClass:[NSString class] forKey:@"adventurePoints"];
-      self.origin = [coder decodeObjectOfClass:[NSString class] forKey:@"origin"];
-      self.mageAcademy = [coder decodeObjectOfClass:[NSString class] forKey:@"mageAcademy"];
-      self.sex = [coder decodeObjectOfClass:[NSString class] forKey:@"sex"];
-      self.hairColor = [coder decodeObjectOfClass:[NSString class] forKey:@"hairColor"];
-      self.eyeColor = [coder decodeObjectOfClass:[NSString class] forKey:@"eyeColor"];
-      self.birthday = [coder decodeObjectOfClass:[NSString class] forKey:@"birthday"];
-      self.god = [coder decodeObjectOfClass:[NSString class] forKey:@"god"];
-      self.stars = [coder decodeObjectOfClass:[NSString class] forKey:@"stars"];
-      self.socialStatus = [coder decodeObjectOfClass:[NSString class] forKey:@"socialStatus"];
-      self.parents = [coder decodeObjectOfClass:[NSString class] forKey:@"parents"];
-      self.money = [coder decodeObjectOfClass:[NSString class] forKey:@"money"];
-      self.positiveTraits = [coder decodeObjectOfClass:[NSString class] forKey:@"positiveTraits"];
-      self.negativeTraits = [coder decodeObjectOfClass:[NSString class] forKey:@"negativeTraits"];
-      self.talents = [coder decodeObjectOfClass:[NSString class] forKey:@"talents"];
-      self.spells = [coder decodeObjectOfClass:[NSString class] forKey:@"spells"];
-      self.specials = [coder decodeObjectOfClass:[NSString class] forKey:@"specials"];           
+    {           
       self.professions = [coder decodeObjectOfClass:[NSString class] forKey:@"professions"];      
       self.levelUpTalents = [coder decodeObjectOfClass:[NSString class] forKey:@"levelUpTalents"];
       self.levelUpSpells = [coder decodeObjectOfClass:[NSString class] forKey:@"levelUpSpells"];      
