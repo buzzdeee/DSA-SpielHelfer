@@ -277,7 +277,6 @@
 
 - (void) drawSpellsAtY: (CGFloat)y
 {
-  CGFloat margin = 10.0; // Example margin
   CGFloat cellHeight = 12; // Height for less space between rows
   CGFloat cellFontSize = 10;
   CGFloat tableWidth = self.bounds.size.width; // Total width of the table area
@@ -395,7 +394,7 @@
                };
                [title drawInRect:titleRect withAttributes:titleAttributes];
 
-               NSString *propertyString = [[spell level] stringValue];
+               NSString *propertyString = [NSString stringWithFormat: @"%lu", (unsigned long)[spell level]];
                NSDictionary *propertyAttributes = @{
                  NSFontAttributeName: [NSFont systemFontOfSize:cellFontSize],
                  NSForegroundColorAttributeName: fontColor
@@ -511,7 +510,7 @@
                };
                [title drawInRect:titleRect withAttributes:titleAttributes];
 
-               NSString *propertyString = [[spell level] stringValue];
+               NSString *propertyString = [NSString stringWithFormat: @"%lu", (unsigned long)[spell level]];
                NSDictionary *propertyAttributes = @{
                  NSFontAttributeName: [NSFont systemFontOfSize:cellFontSize],
                  NSForegroundColorAttributeName: [NSColor blackColor]
@@ -586,51 +585,6 @@
         }
     }
     
-}
-
-- (void) YYYXXXdrawBiography:(CGFloat)y {
-    CGFloat cellHeight = 12;         // Adjusted height for rows
-    CGFloat cellFontSize = 10;       // Font size for content text
-    CGFloat tableWidth = self.bounds.size.width;
-    CGFloat minY = y;
-    CGFloat maxY = [self paperHeightForPage] * self.currentPage;
-    CGFloat lineSpacing = 4.0;       // Additional line spacing for readability
-    
-    NSFont *font = [NSFont systemFontOfSize:cellFontSize];
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.lineSpacing = lineSpacing;
-
-    // Create attributes for regular text
-    NSDictionary *attributes = @{
-        NSFontAttributeName: font,
-        NSParagraphStyleAttributeName: paragraphStyle,
-        NSForegroundColorAttributeName: [NSColor blackColor]
-    };
-
-    // Draw each section header and bullet points
-    NSArray *sections = @[
-        @{ @"title": _(@"Geburt"), @"content": [self birthContent] },
-        @{ @"title": _(@"Kindheit"), @"content": [self childhoodContent] },
-        @{ @"title": _(@"Jugend"), @"content": [self youthContent] }
-    ];
-
-    for (NSDictionary *section in sections) {
-        NSString *title = section[@"title"];
-        NSString *content = section[@"content"];
-
-        // Draw section header
-        NSRect headerRect = NSMakeRect(0, y, tableWidth, cellHeight);
-        [self drawCategoryHeaderInRect:headerRect withTitle:title];
-        y += 2* (cellHeight + lineSpacing);
-
-        // Draw section content
-        if (y + cellHeight < maxY) {
-            NSAttributedString *attrContent = [[NSAttributedString alloc] initWithString:content attributes:attributes];
-            NSRect textRect = NSMakeRect(0, y, tableWidth, attrContent.size.height);
-            [attrContent drawInRect:textRect];
-            y += attrContent.size.height + lineSpacing;
-        }
-    }
 }
 
 - (void) drawBiography:(CGFloat)y {
@@ -778,7 +732,6 @@
     CGFloat cellHeight = 12;         // Adjusted height for headers
     CGFloat cellFontSize = 10;       // Font size for content text
     CGFloat tableWidth = self.bounds.size.width;
-    CGFloat minY = y;
     CGFloat maxY = [self paperHeightForPage] * self.currentPage;
     CGFloat lineSpacing = 4.0;       // Additional line spacing for readability
 
@@ -830,7 +783,6 @@
     CGFloat cellHeight = 12;         // Adjusted height for headers
     CGFloat cellFontSize = 10;       // Font size for content text
     CGFloat tableWidth = self.bounds.size.width;
-    CGFloat minY = y;
     CGFloat maxY = [self paperHeightForPage] * self.currentPage;
     CGFloat lineSpacing = 4.0;       // Additional line spacing for readability
 
@@ -909,11 +861,7 @@
 {
   // CGFloat margin = 10.0; // Example margin
   CGFloat cellHeight = 12; // Height for less space between rows
-  CGFloat cellFontSize = 10;
   CGFloat tableWidth = self.bounds.size.width; // Total width of the table area
-
-  CGFloat minY = y;
-  CGFloat maxY = [self paperHeightForPage] * self.currentPage;
   
   NSRect headerRect = NSMakeRect(0, y, tableWidth, cellHeight);                   
   [self drawCategoryHeaderInRect: headerRect withTitle: _(@"Geburt")];
@@ -1125,13 +1073,13 @@
     
     NSArray *titles = @[@"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK"];
     NSArray *properties = @[
-        [[(DSATrait *)[self.model.positiveTraits objectForKey: @"MU"] level] stringValue] ?: @"", // Using nil-coalescing to handle nil values
-        [[(DSATrait *)[self.model.positiveTraits objectForKey: @"KL"] level] stringValue] ?: @"",
-        [[(DSATrait *)[self.model.positiveTraits objectForKey: @"IN"] level] stringValue] ?: @"",
-        [[(DSATrait *)[self.model.positiveTraits objectForKey: @"CH"] level] stringValue] ?: @"",
-        [[(DSATrait *)[self.model.positiveTraits objectForKey: @"FF"] level] stringValue] ?: @"",
-        [[(DSATrait *)[self.model.positiveTraits objectForKey: @"GE"] level] stringValue] ?: @"",
-        [[(DSATrait *)[self.model.positiveTraits objectForKey: @"KK"] level] stringValue] ?: @""
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.positiveTraits objectForKey: @"MU"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.positiveTraits objectForKey: @"KL"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.positiveTraits objectForKey: @"IN"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.positiveTraits objectForKey: @"CH"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.positiveTraits objectForKey: @"FF"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.positiveTraits objectForKey: @"GE"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.positiveTraits objectForKey: @"KK"] level]]
     ];
     [[NSColor blackColor] setFill];
     NSInteger titlesCount = [titles count];
@@ -1180,12 +1128,6 @@ for (NSInteger column = 0; column < [titles count] * 2; column++) {
     if (!portrait) return; // Ensure there's an image to draw
 
     CGFloat imageWidth = 300.0; // Set the width for the image area
-
-    // Calculate the available space for the image area
-    CGFloat availableWidth = self.bounds.size.width; 
-
-    // Calculate the rectangle to draw the image in, with proportional scaling
-    NSRect imageRect = NSMakeRect(self.bounds.size.width - imageWidth, y, imageWidth, height);
     
     // Ensure proportional scaling
     NSSize imageSize = [portrait size];
@@ -1276,41 +1218,41 @@ for (NSInteger column = 0; column < [titles count] * 2; column++) {
     // Example data for the odd columns (static)
     NSArray *titles = @[@"Mut", @"Klugheit", @"Intuition", @"Charisma", @"Fingerfertigkeit", @"Gewandheit", @"Körperkraft", @"Tragkraft", @"Last"];
     NSArray *properties = @[
-        [[(DSATrait *)[self.model.positiveTraits objectForKey: @"MU"] level] stringValue] ?: @"", // Using nil-coalescing to handle nil values
-        [[(DSATrait *)[self.model.positiveTraits objectForKey: @"KL"] level] stringValue] ?: @"",
-        [[(DSATrait *)[self.model.positiveTraits objectForKey: @"IN"] level] stringValue] ?: @"",
-        [[(DSATrait *)[self.model.positiveTraits objectForKey: @"CH"] level] stringValue] ?: @"",
-        [[(DSATrait *)[self.model.positiveTraits objectForKey: @"FF"] level] stringValue] ?: @"",
-        [[(DSATrait *)[self.model.positiveTraits objectForKey: @"GE"] level] stringValue] ?: @"",
-        [[(DSATrait *)[self.model.positiveTraits objectForKey: @"KK"] level] stringValue] ?: @"",
-        [self.model.carryingCapacity stringValue] ?: @"",
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.positiveTraits objectForKey: @"MU"] level]], // Using nil-coalescing to handle nil values
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.positiveTraits objectForKey: @"KL"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.positiveTraits objectForKey: @"IN"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.positiveTraits objectForKey: @"CH"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.positiveTraits objectForKey: @"FF"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.positiveTraits objectForKey: @"GE"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.positiveTraits objectForKey: @"KK"] level]],
+        [NSNumber numberWithInteger: self.model.carryingCapacity] ?: @(0),
         self.model.encumbrance ? [NSString stringWithFormat: @"%.0f", self.model.encumbrance] : @""
     ];
 
     NSArray *secondTitles = @[@"Aberglaube", @"Höhenangst", @"Raumangst", @"Totenangst", @"Neugier", @"Goldgier", @"Jähzorn", @"Attacke", @"Parade"];
     NSArray *secondProperties = @[
-        [[(DSATrait *)[self.model.negativeTraits objectForKey: @"AG"] level] stringValue] ?: @"",
-        [[(DSATrait *)[self.model.negativeTraits objectForKey: @"HA"] level] stringValue] ?: @"",
-        [[(DSATrait *)[self.model.negativeTraits objectForKey: @"RA"] level] stringValue] ?: @"",
-        [[(DSATrait *)[self.model.negativeTraits objectForKey: @"TA"] level] stringValue] ?: @"",
-        [[(DSATrait *)[self.model.negativeTraits objectForKey: @"NG"] level] stringValue] ?: @"",
-        [[(DSATrait *)[self.model.negativeTraits objectForKey: @"GG"] level] stringValue] ?: @"",
-        [[(DSATrait *)[self.model.negativeTraits objectForKey: @"JZ"] level] stringValue] ?: @"",
-        [self.model.attackBaseValue  stringValue] ?: @"",
-        [self.model.parryBaseValue  stringValue] ?: @""
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.negativeTraits objectForKey: @"AG"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.negativeTraits objectForKey: @"HA"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.negativeTraits objectForKey: @"RA"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.negativeTraits objectForKey: @"TA"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.negativeTraits objectForKey: @"NG"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.negativeTraits objectForKey: @"GG"] level]],
+        [NSNumber numberWithInteger: [(DSATrait *)[self.model.negativeTraits objectForKey: @"JZ"] level]],
+        [NSNumber numberWithInteger: self.model.attackBaseValue] ?: @(0),
+        [NSNumber numberWithInteger: self.model.parryBaseValue] ?: @(0)
     ];
 
     NSArray *thirdTitles = @[@"Stufe", @"Abenteuerpunkte", @"Lebensenergie", @"Astralenergie", @"Karmaenergie", @"Magieresistenz", @"Ausdauer", @"Fernkampf", @"Ausweichen"];
     NSArray *thirdProperties = @[
-        [self.model.level  stringValue] ?: @"",
-        [self.model.adventurePoints  stringValue] ?: @"",        
-        [self.model.lifePoints  stringValue] ?: @"",
-        [self.model.astralEnergy  stringValue] ?: @"",
-        [self.model.karmaPoints  stringValue] ?: @"",
-        [self.model.magicResistance  stringValue] ?: @"",
-        [self.model.endurance  stringValue] ?: @"",
-        [self.model.rangedCombatBaseValue  stringValue] ?: @"",
-        [self.model.dodge  stringValue] ?: @""
+        [NSNumber numberWithInteger: self.model.level],
+        [NSNumber numberWithInteger: self.model.adventurePoints],        
+        [NSNumber numberWithInteger: self.model.lifePoints],
+        [NSNumber numberWithInteger: self.model.astralEnergy],
+        [NSNumber numberWithInteger: self.model.karmaPoints],
+        [NSNumber numberWithInteger: self.model.magicResistance],
+        [NSNumber numberWithInteger: self.model.endurance],
+        [NSNumber numberWithInteger: self.model.rangedCombatBaseValue],
+        [NSNumber numberWithInteger: self.model.dodge]
     ];
 
     // Loop through all sets (assuming they all have the same count)

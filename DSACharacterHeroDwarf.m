@@ -31,16 +31,16 @@
   self = [super init];
   if (self)
     {
-      self.lifePoints = @40;
-      self.astralEnergy = @0;
-      self.currentLifePoints = @40;
-      self.currentAstralEnergy = @0;
-      self.maxLevelUpTalentsTries = @25;        // most have this as their starting value
-      self.maxLevelUpSpellsTries = @0;
-      self.maxLevelUpTalentsTriesTmp = @0;
-      self.maxLevelUpSpellsTriesTmp = @0;      
-      self.maxLevelUpVariableTries = @0;
-      self.mrBonus = @2;                       // Die Helden des Schwarzen Auges, Regelbuch II S. 40           
+      self.lifePoints = 40;
+      self.astralEnergy = 0;
+      self.currentLifePoints = 40;
+      self.currentAstralEnergy = 0;
+      self.maxLevelUpTalentsTries = 25;        // most have this as their starting value
+      self.maxLevelUpSpellsTries = 0;
+      self.maxLevelUpTalentsTriesTmp = 0;
+      self.maxLevelUpSpellsTriesTmp = 0;      
+      self.maxLevelUpVariableTries = 0;
+      self.mrBonus = 2;                       // Die Helden des Schwarzen Auges, Regelbuch II S. 40           
     }
   return self;
 }

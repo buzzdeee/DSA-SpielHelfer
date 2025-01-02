@@ -1,0 +1,40 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSAAdventureWindowController = {
+	Actions = (
+	);
+	Outlets = (
+	    imagePartyMember0,
+	    imagePartyMember1,
+	    imagePartyMember2,
+	    imagePartyMember3,
+	    imagePartyMember4,
+	    imagePartyMember5,
+	    imagePartyNPC0,
+	    imagePartyNPC1,
+	    imagePartyNPC2,
+	    imageMain,
+	    imageLogo,
+	    imageCalendar,
+	    imageActionIcon0,
+	    imageActionIcon1,
+	    imageActionIcon2,
+	    imageActionIcon3,
+	    imageActionIcon4,
+	    imageActionIcon5,
+	    imageActionIcon6,
+	    imageActionIcon7,
+	    imageActionIcon8,
+	    imageActionIcon9,
+	    imageActionIcon10,
+	    imageActionIcon11,
+	    imageActionIcon12,
+	    imageActionIcon13,
+	    imageActionIcon14,
+	    imageHorizontalRuler0,
+	    imageHorizontalRuler1,
+	    imageVerticalRuler0
+	);
+	Super = NSWindowController;
+    };
+}

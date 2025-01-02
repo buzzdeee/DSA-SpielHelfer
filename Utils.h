@@ -36,7 +36,7 @@
 
 + (NSDictionary *) parseDice: (NSString *) diceDefinition;
 + (NSDictionary *) parseConstraint: (NSString *) constraintDefinition;
-+ (NSNumber *) rollDice: (NSString *) diceDefinition;
++ (NSInteger) rollDice: (NSString *) diceDefinition;
 
 + (NSDictionary *) getDSAObjectsDict;
 + (NSDictionary *) getDSAObjectInfoByName: (NSString *) name;

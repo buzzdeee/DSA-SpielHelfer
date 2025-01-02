@@ -27,10 +27,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DSATrait : NSObject <NSCoding>
+@interface DSATrait : NSObject <NSCoding, NSCopying>
 
-@property (nonatomic, strong) NSNumber *level;
+@property (nonatomic, assign) NSInteger level;
 @property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *category;
 
 @end
 

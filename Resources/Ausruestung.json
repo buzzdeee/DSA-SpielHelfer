@@ -2918,7 +2918,8 @@
     },
     "Spinnrad": {
       "Gewicht": 400,
-      "Preis": 50
+      "Preis": 50,
+      "Icon": [ "Spinnrad_1", "Spinnrad_2" ]
     },
     "Sichel": {
       "Gewicht": 30,
@@ -2929,7 +2930,8 @@
       "Bruchfaktor": 5,
       "Waffenvergleichswert": "3/1",
       "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
-      "Material": "Eisen" 
+      "Material": "Eisen",
+      "Icon": [ "Sichel_1", "Sichel_2" ]
     },
     "Sense": {
       "Gewicht": 100,
@@ -2940,7 +2942,8 @@
       "Bruchfaktor": 6,
       "Waffenvergleichswert": "3/1",
       "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
-      "Material": "Eisen" 
+      "Material": "Eisen",
+      "Icon": [ "Sense_1", "Sense_2" ]
     },
     "Dreschflegel": {
       "Gewicht": 100,
@@ -2955,11 +2958,13 @@
     },
     "Reisigbesen": {
       "Gewicht": 50,
-      "Preis": 0.4
+      "Preis": 0.4,
+      "Icon": [ "Reisigbesen_1", "Reisigbesen_2" ]
     },
     "Besen": {
       "Gewicht": 40,
-      "Preis": 1
+      "Preis": 1,
+      "Icon": [ "Besen_1", "Besen_2" ]
     },
     "Staubwedel": {
       "Gewicht": 20,
@@ -2972,199 +2977,245 @@
     },
     "Wurfhaken, 10 Schritt Seil": {
       "Gewicht": 30,
-      "Preis": 10
+      "Preis": 10,
+      "Icon": [ "Wurfhaken_1", "Wurfhaken_2" ]
     },
     "Angelhaken und Schnur": {
       "Gewicht": 1,
-      "Preis": 0.2
+      "Preis": 0.2,
+      "Icon": [ "Angelhaken_1", "Angelhaken_2" ]
     },
     "Leim": {
       "Gewicht": 40,
-      "Preis": 8
+      "Preis": 8,
+      "Icon": [ "Leim_1", "Leim_2" ]
     },
     "Flaschenzug, 1 Quader": {
       "Gewicht": 240,
-      "Preis": 1200
+      "Preis": 1200,
+      "Icon": [ "Flaschenzug_1", "Flaschenzug_2" ]
     },
     "Senkblei": {
       "Gewicht": 8,
-      "Preis": 1
+      "Preis": 1,
+      "Icon": [ "Senkblei_1", "Senkblei_2" ]
     }
   },
   "Seile, Netze, Ketten": {
     "Seile": {
       "Hanfseil, 10 Schritt": {
         "Gewicht": 45,
-        "Preis": 4
+        "Preis": 4,
+        "Icon": [ "Hanfseil_1", "Hanfseil_2" ]
       },
       "Hanfseil, 10 Schritt, verstärkt": {
         "Gewicht": 55,
-        "Preis": 7
+        "Preis": 7,
+        "Icon": [ "Hanfseil_verstaerkt_1", "Hanfseil_verstaerkt_2" ]
       },
       "Kletterseil, 10 Schritt": {
         "Gewicht": 35,
-        "Preis": 10
+        "Preis": 10,
+        "Icon": [ "Kletterseil_1", "Kletterseil_2" ]
       },
       "Seidenseil": {
         "Gewicht": 25,
-        "Preis": 120
+        "Preis": 120,
+        "Icon": [ "Seidenseil_1", "Seidenseil_2" ]
       },
       "Fesselseil, 1 Schritt": {
         "Gewicht": 10,
-        "Preis": 1
+        "Preis": 1,
+        "Icon": [ "Fesselseil_1", "Fesselseil_2" ]
       },
       "Lederseil, 1 Schritt": {
         "Gewicht": 12,
-        "Preis": 3
+        "Preis": 3,
+        "Icon": [ "Lederseil_1", "Lederseil_2" ]
       },
       "Lasso, Leder": {
         "Gewicht": 70,
-        "Preis": 10
+        "Preis": 10,
+        "Icon": [ "Lasso_1", "Lasso_2" ]
       },
       "Tau, 20 Schritt": {
         "Gewicht": 400,
-        "Preis": 10
+        "Preis": 10,
+        "Icon": [ "Tau_1", "Tau_2" ]
       },
       "Schnur, 20 Schritt": {
         "Gewicht": 10,
-        "Preis": 1
+        "Preis": 1,
+        "Icon": [ "Schnur_1", "Schnur_2" ]
       }      
     },    
     "Netze": {
       "Fischernetz": {
         "Gewicht": 35,
-        "Preis": 10
+        "Preis": 10,
+        "Icon": [ "Fischernetz_1", "Fischernetz_2" ]
       },
       "Fischernetz, groß": {
         "Gewicht": 80,
-        "Preis": 80
+        "Preis": 80,
+        "Icon": [ "Fischernetz_gross_1", "Fischernetz_gross_2" ]
       }
     },
     "Ketten": {
       "Dünne Kette, 5 Schritt": {
         "Gewicht": 100,
-        "Preis": 20
+        "Preis": 20,
+        "Icon": [ "Duenne_Kette_1", "Duenne_Kette_2" ]
       },
       "Schwere Kette, 5 Schritt": {
         "Gewicht": 400,
-        "Preis": 50
+        "Preis": 50,
+        "Icon": [ "Schwere_Kette_1", "Schwere_Kette_2" ]
       }
     },
     "Strickleiter, 5 Schritt": {
       "Gewicht": 70,
-      "Preis": 12
+      "Preis": 12,
+      "Icon": [ "Strickleiter_1", "Strickleiter_2" ]
     }
   },
   "Sonstiger Reisebedarf": {
     "Zelte": {
       "Zelt, 2 Personen": {
         "Gewicht": 600,
-        "Preis": 20
+        "Preis": 20,
+        "Icon": [ "Zelt_klein_1", "Zelt_klein_2" ]
       },
       "Zelt, 4 Personen": {
         "Gewicht": 900,
-        "Preis": 30
+        "Preis": 30,
+        "Icon": [ "Zelt_gross_1", "Zelt_gross_2" ]
       }
     },
     "Zeltzubehör": {
       "Zeltboden": {
         "Gewicht": 80,
-        "Preis": 3
+        "Preis": 3,
+        "Icon": [ "Zeltboden_1", "Zeltboden_2" ]
       },
       "Zeltstangen, 2 Stück": {
         "Gewicht": 80,
-        "Preis": 3
+        "Preis": 3,
+        "Icon": [ "Zeltstangen_1", "Zeltstangen_2" ]
       }
     },
     "Schlafen": {
       "Wolldecke": {
         "Gewicht": 60,
-        "Preis": 2
+        "Preis": 2,
+        "Icon": [ "Wolldecke_1", "Wolldecke_2" ]
       },
       "Schlafsack": {
         "Gewicht": 80,
-        "Preis": 10
+        "Preis": 10,
+        "Icon": [ "Schlafsack_1", "Schlafsack_2" ]
       },
       "Hängematte": {
         "Gewicht": 80,
-        "Preis": 13
+        "Preis": 13,
+        "Icon": [ "Haengematte_1", "Haengematte_2" ]
       }          
     },
     "Wanderstab": {
       "Gewicht": 50,
-      "Preis": 0.5
+      "Preis": 0.5,
+      "Icon": [ "Wanderstab_1", "Wanderstab_2" ]
     },
     "Wimpel": {
       "Gewicht": 8,
-      "Preis": 4
+      "Preis": 4,
+      "Icon": [ "Wimpel_1", "Wimpel_2" ]
     },
     "Banner": {
       "Gewicht": 60,
-      "Preis": 18
+      "Preis": 18,
+      "Icon": [ "Banner_1", "Banner_2" ]
     },
     "Wintersachen": {
       "Schneeschuhe": {
         "Gewicht": 60,
-        "Preis": 12
+        "Preis": 12,
+        "Icon": [ "Schneeschuhe_1", "Schneeschuhe_2" ]
       },
       "Skier": {
         "Gewicht": 60,
-        "Preis": 18
+        "Preis": 18,
+        "Icon": [ "Skier_1", "Skier_2" ]
       }
     }
   },
   "Schreibwaren, Feinmechanik, Optik": {
     "10 Gänsekiele, Griffel": {
       "Gewicht": 1,
-      "Preis": 4
+      "Preis": 4,
+      "Icon": [ "Gaensekiele_1", "Gaensekiele_2" ]
     },
     "Federmesser": {
       "Gewicht": 5,
-      "Preis": 4
+      "Preis": 4,
+      "Icon": [ "Federmesser_1", "Federmesser_2" ]
     },
     "Pinsel, 3, sortiert": {
       "Gewicht": 6,
-      "Preis": 8
+      "Preis": 8,
+      "Icon": [ "Pinsel_sortiert_1", "Pinsel_sortiert_2" ]
     },
     "5 Kohlestifte": {
       "Gewicht": 2,
-      "Preis": 0.05
+      "Preis": 0.05,
+      "Icon": [ "Kohlestifte_1", "Kohlestifte_2" ]
     },
     "Tinte": {
       "Gewicht": 4,
-      "Preis": 2
+      "Preis": 2,
+      "Icon": [ "Tinte_1", "Tinte_2" ]
     },
     "Tusche": {
       "Gewicht": 4,
-      "Preis": 3
+      "Preis": 3,
+      "Icon": [ "Tusche_1", "Tusche_2" ]
     },
     "Tusche, farbig": {
       "Gewicht": 4,
-      "Preis": 8
+      "Preis": 8,
+      "Icon": [ "Tusche_farbig_1", "Tusche_farbig_2" ]
+      
     },
     "10 Blatt Pergament": {
       "Gewicht": 1,
-      "Preis": 12
+      "Preis": 12,
+      "Icon": [ "Pergament_1", "Pergament_2" ]
+      
     },
     "Schriftrolle, 2 Schritt": {
       "Gewicht": 30,
-      "Preis": 40
+      "Preis": 40,
+      "Icon": [ "Schriftrolle_1", "Schriftrolle_2" ]
     },
     "Tagebuch, Papier": {
       "Gewicht": 20,
-      "Preis": 35
+      "Preis": 35,
+      "Icon": [ "Tagebuch_1", "Tagebuch_2" ]
     },
     "Papier, 10 Bögen": {
       "Gewicht": 3,
-      "Preis": 3
+      "Preis": 3,
+      "Icon": [ "Papierboegen" ]
     },
     "Schreibkreide": {
       "Gewicht": 1,
-      "Preis": 0.4
+      "Preis": 0.4,
+      "Icon": [ "Schreibkreide_1", "Schreibkreide_2" ]
     },
     "Schiefertafel": {
       "Gewicht": 20,
-      "Preis": 2
+      "Preis": 2,
+      "Icon": [ "Schiefertafel_1", "Schiefertafel_2" ]
     },
     "Holzlineal": {
       "Gewicht": 3,
@@ -3178,11 +3229,13 @@
     },
     "Fadenzirkel": {
       "Gewicht": 2,
-      "Preis": 2
+      "Preis": 2,
+      "Icon": [ "Fadenzirkel_1", "Fadenzirkel_2" ]
     },
     "Zirkel": {
       "Gewicht": 4,
-      "Preis": 15
+      "Preis": 15,
+      "Icon": [ "Zirkel" ]
     },
     "Gravurwerkzeug": {
       "Gewicht": 15,
@@ -3384,8 +3437,8 @@
       },
       "Statuette, Silber": {
         "Gewicht": 15,
-        "Preis": 30
-        
+        "Preis": 30,
+        "Icon": [ "Statuette_Silber_1", "Statuette_Silber_2" ]
       },
       "Statuette, Gold": {
         "Gewicht": 10,
@@ -3720,7 +3773,7 @@
       "Stirnreif, Bronze": {
         "Gewicht": 9,
         "Preis": 7,
-        "Icon": [ "Stirnreif_Bronze_1" ],
+        "Icon": [ "Stirnreif_Bronze", "Stirnreif_Bronze_1", "Stirnreif_Bronze_2" ],
         "Material": "Bronze"
       }
     },             

@@ -30,7 +30,7 @@
 
 @interface DSASpell : NSObject <NSCoding, NSCopying>
 
-@property (nonatomic, strong) NSNumber *level;
+@property (nonatomic, assign) NSInteger level;
 @property (nonatomic, strong) NSArray *origin;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *longName;
@@ -42,25 +42,21 @@
 @property (nonatomic, strong) NSString *spellingDuration;
 @property (nonatomic, strong) NSString *spellRange;
 @property (nonatomic, strong) NSString *cost;
-@property (nonatomic, strong) NSNumber *isHealSpell;
-@property (nonatomic, strong) NSNumber *isDamageSpell;
-@property (nonatomic, strong) NSNumber *isAffectingCreatures;
-@property (nonatomic, strong) NSNumber *isAffectingObjects;
-@property (nonatomic, strong) NSNumber *levelUpCost;
-@property (nonatomic, strong) NSNumber *maxUpPerLevel;
-@property (nonatomic, strong) NSNumber *maxTriesPerLevelUp;
+@property (nonatomic, assign) NSInteger levelUpCost;
+@property (nonatomic, assign) NSInteger maxUpPerLevel;
+@property (nonatomic, assign) NSInteger maxTriesPerLevelUp;
 @property (nonatomic) BOOL everLeveledUp;
 @property (nonatomic) BOOL isTraditionSpell;
 @property (nonatomic, readonly) BOOL isActiveSpell;
 
 - (instancetype)initSpell: (NSString *) newName
                ofCategory: (NSString *) newCategory 
-                  onLevel: (NSNumber *) newLevel
+                  onLevel: (NSInteger) newLevel
                withOrigin: (NSString *) newOrigin
                  withTest: (NSArray *) newTest
-   withMaxTriesPerLevelUp: (NSNumber *) newMaxTriesPerLevelUp
-        withMaxUpPerLevel: (NSNumber *) newMaxUpPerLevel        
-          withLevelUpCost: (NSNumber *) levelUpCost;
+   withMaxTriesPerLevelUp: (NSInteger) newMaxTriesPerLevelUp
+        withMaxUpPerLevel: (NSInteger) newMaxUpPerLevel        
+          withLevelUpCost: (NSInteger) levelUpCost;
         
         
 - (BOOL) levelUp;

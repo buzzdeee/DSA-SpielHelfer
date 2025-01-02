@@ -53,7 +53,19 @@
         [_model addObserver:self forKeyPath:@"money.S" options:NSKeyValueObservingOptionNew context:NULL];
         [_model addObserver:self forKeyPath:@"money.H" options:NSKeyValueObservingOptionNew context:NULL];
         [_model addObserver:self forKeyPath:@"money.K" options:NSKeyValueObservingOptionNew context:NULL];
-                                                        
+        
+        for (NSString *trait in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
+          {
+            [_model addObserver:self forKeyPath:[NSString stringWithFormat: @"positiveTraits.%@.level", trait] options:NSKeyValueObservingOptionNew context:NULL];
+            [_model addObserver:self forKeyPath:[NSString stringWithFormat: @"currentPositiveTraits.%@.level", trait] options:NSKeyValueObservingOptionNew context:NULL];
+          }
+
+        for (NSString *trait in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
+          {
+            [_model addObserver:self forKeyPath:[NSString stringWithFormat: @"negativeTraits.%@.level", trait] options:NSKeyValueObservingOptionNew context:NULL];
+            [_model addObserver:self forKeyPath:[NSString stringWithFormat: @"currentNegativeTraits.%@.level", trait] options:NSKeyValueObservingOptionNew context:NULL];
+          }
+                                                 
         // Synchronize the ViewModel's properties with the model's properties
         
         self.money = _model.money;
@@ -70,45 +82,80 @@
         self.karmaPoints = _model.karmaPoints;
         self.currentKarmaPoints = _model.currentKarmaPoints;        
         [self updateFormattedKarmaPoints];
-                
+        
+        self.positiveTraits = _model.positiveTraits;
+        self.currentPositiveTraits = _model.currentPositiveTraits;
+        [self updateFormattedPositiveTraits];
+        
+        self.negativeTraits = _model.negativeTraits;
+        self.currentNegativeTraits = _model.currentNegativeTraits;
+        [self updateFormattedNegativeTraits];        
                 
     }
 }
+
+- (void)updateFormattedPositiveTraits
+{
+  NSMutableDictionary *formattedPositiveTraits = [[NSMutableDictionary alloc] init];
+  for (NSString *trait in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
+    {
+      NSLog(@"DSACharacterViewModel: updateFormattedPositiveTraits: %@ %@", trait, [self.currentPositiveTraits objectForKey: trait]);
+      NSString *formattedString = [NSString stringWithFormat: @"%ld/%ld",
+                                  (signed long)[[self.currentPositiveTraits objectForKey: trait] level],
+                                  (signed long)[[self.positiveTraits objectForKey: trait] level]];
+      [formattedPositiveTraits setObject: formattedString forKey: trait];
+    }
+  self.formattedPositiveTraits = formattedPositiveTraits;
+}
+
+- (void)updateFormattedNegativeTraits
+{
+  NSMutableDictionary *formattedNegativeTraits = [[NSMutableDictionary alloc] init];
+  for (NSString *trait in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
+    {
+      NSString *formattedString = [NSString stringWithFormat: @"%ld/%ld",
+                                  (signed long)[[self.currentNegativeTraits objectForKey: trait] level],
+                                  (signed long)[[self.negativeTraits objectForKey: trait] level]];
+      [formattedNegativeTraits setObject: formattedString forKey: trait];
+    }
+  self.formattedNegativeTraits = formattedNegativeTraits;
+}
+
 
 - (void)updateFormattedMoney
 {
   NSLog(@"updateFormattedMoney %@", self.money);
   NSString *formattedString = [NSString stringWithFormat:@"%@D %@S %@H %@K",
-                               self.money[@"D"] ?: @"0",
-                               self.money[@"S"] ?: @"0",
-                               self.money[@"H"] ?: @"0",
-                               self.money[@"K"] ?: @"0"];
+                               self.money[@"D"] ?: @0,
+                               self.money[@"S"] ?: @0,
+                               self.money[@"H"] ?: @0,
+                               self.money[@"K"] ?: @0];
   NSLog(@"updateFormattedMoney %@", self.money);                               
   self.formattedMoney = formattedString;
 }
 
 - (void)updateFormattedLifePoints {
-    NSString *formattedString = [NSString stringWithFormat:@"%@/%@",
-                                 self.currentLifePoints ?: @0,
-                                 self.lifePoints ?: @0];
+    NSString *formattedString = [NSString stringWithFormat:@"%ld/%ld",
+                                 (signed long)self.currentLifePoints ?: 0,
+                                 (signed long)self.lifePoints ?: 0];
     NSLog(@"updateFormattedLifePoints: %@", formattedString);                               
     self.formattedLifePoints = formattedString;
 }
 
 - (void) updateFormattedAstralEnergy
 {
-  NSString *formattedString = [NSString stringWithFormat:@"%@/%@",
-                               self.currentAstralEnergy ?: @0,
-                               self.astralEnergy ?: @0];
+  NSString *formattedString = [NSString stringWithFormat:@"%ld/%ld",
+                               (signed long)self.currentAstralEnergy ?: 0,
+                               (signed long)self.astralEnergy ?: 0];
   NSLog(@"updateFormattedAstralEnergy: %@", formattedString);                                
   self.formattedAstralEnergy = formattedString;                               
 }
 
 - (void) updateFormattedKarmaPoints
 {
-  NSString *formattedString = [NSString stringWithFormat:@"%@/%@",
-                               self.currentKarmaPoints ?: @0,
-                               self.karmaPoints ?: @0];
+  NSString *formattedString = [NSString stringWithFormat:@"%ld/%ld",
+                               (signed long)self.currentKarmaPoints ?: 0,
+                               (signed long)self.karmaPoints ?: 0];
   NSLog(@"updateFormattedKarmaPoints: %@", formattedString);                               
   self.formattedKarmaPoints = formattedString;                               
 }
@@ -159,7 +206,27 @@
       // Update ViewModel's currentLifePoints when model's currentLifePoints changes
       self.currentKarmaPoints = _model.currentKarmaPoints;
       [self updateFormattedKarmaPoints];
-    }           
+    }
+  else if ([keyPath hasPrefix:@"positiveTraits."])
+    {
+      self.positiveTraits = _model.positiveTraits;
+      [self updateFormattedPositiveTraits];
+    }    
+  else if ([keyPath hasPrefix:@"negativeTraits."])
+    {
+      self.negativeTraits = _model.negativeTraits;
+      [self updateFormattedNegativeTraits];
+    }
+  else if ([keyPath hasPrefix:@"currentPositiveTraits."])
+    {
+      self.currentPositiveTraits = _model.currentPositiveTraits;
+      [self updateFormattedPositiveTraits];
+    }    
+  else if ([keyPath hasPrefix:@"currentNegativeTraits."])
+    {
+      self.currentNegativeTraits = _model.currentNegativeTraits;
+      [self updateFormattedNegativeTraits];
+    }    
 }
 
 - (void)dealloc

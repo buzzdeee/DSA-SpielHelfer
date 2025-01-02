@@ -28,7 +28,7 @@
 @implementation DSANegativeTrait
 
 - (instancetype)initTrait: (NSString *) name
-                   onLevel: (NSNumber *)level
+                   onLevel: (NSInteger)level
 {
   self = [super init];
   if (self)
@@ -40,32 +40,15 @@
   return self;
 }                   
 
-- (instancetype)initWithCoder:(NSCoder *)coder
-{
-  self = [super initWithCoder:coder];
-  if (self)
-    {
-      self.category = [coder decodeObjectForKey:@"category"];
-    }
-  return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder
-{
-  [super encodeWithCoder: coder];
-  [coder encodeObject:self.category forKey:@"category"];
-}
-
 - (BOOL) levelDown
 {
-  NSNumber *result;
+  NSInteger result;
   for (int i=0; i<3;i++)
     {
       result = [Utils rollDice: @"1W20"];
-      if ([result integerValue] <= [self.level integerValue])
+      if (result <= self.level)
         {
-          NSInteger oldLevel = [self.level integerValue];
-          self.level = [NSNumber numberWithInteger: oldLevel - 1];
+          self.level -= 1;
           return YES;
         }
     }

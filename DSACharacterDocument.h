@@ -34,10 +34,6 @@
 @property (nonatomic, strong) DSACharacter *model;
 @property (nonatomic) BOOL windowControllersCreated;
 
-// use this extra method, to prevent double loading of loaded characters...
-// I fear this is a silly workaround the real issue...
-//- (void)makeWindowControllersForNewDocument;
-
 @end
 
 #endif // _DSACHARACTERDOCUMENT_H_

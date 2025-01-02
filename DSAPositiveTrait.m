@@ -28,7 +28,7 @@
 @implementation DSAPositiveTrait
 
 - (instancetype)initTrait: (NSString *) name
-                   onLevel: (NSNumber *)level
+                   onLevel: (NSInteger)level
 {
   self = [super init];
   if (self)
@@ -40,33 +40,19 @@
   return self;
 }                   
 
-- (instancetype)initWithCoder:(NSCoder *)coder
-{
-  self = [super initWithCoder:coder];
-  if (self)
-    {
-      self.category = [coder decodeObjectForKey:@"category"];
-    }
-  return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder
-{
-  [super encodeWithCoder: coder];
-  [coder encodeObject:self.category forKey:@"category"];
-
-}
 
 - (BOOL) levelUp
 {
-  NSNumber *result;
+  NSInteger result;
+  NSLog(@"DSAPositiveTrait levelUp %@", self);
   for (int i=0; i<3;i++)
     {
+      NSLog(@"DSAPositiveTrait levelUp try: %ld",(signed long) i);
       result = [Utils rollDice: @"1W20"];
-      if ([result integerValue] >= [self.level integerValue])
+      if (result >= self.level)
         {
-          NSInteger oldLevel = [self.level integerValue];
-          self.level = [NSNumber numberWithInteger: oldLevel + 1];
+          self.level += 1;
+          NSLog(@"DSAPositiveTrait now: %ld", (signed long) self.level);
           return YES;
         }
     }

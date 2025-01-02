@@ -37,19 +37,19 @@
   self = [super init];
   if (self)
     {
-      self.level = @0;
-      self.adventurePoints = @0;
+      self.level = 0;
+      self.adventurePoints = 0;
       self.specials = nil;    
       self.isLevelingUp = NO;  // even though we likely will level up soon, it shall be triggered by the user
       self.levelUpTalents = nil;
       self.levelUpSpells = nil;      
       self.levelUpProfessions = nil;
-      self.firstLevelUpTalentTriesPenalty = @0; // this is also taken into account in the DSACharacterWindowController...
-      self.maxLevelUpTalentsTries = @30;        // most have this as their starting value
-      self.maxLevelUpSpellsTries = @0;
-      self.maxLevelUpTalentsTriesTmp = @0;      // this value is set in the DSACharacterWindowController, as there are characters out there, that might have variable tries
-      self.maxLevelUpSpellsTriesTmp = @0;       // this value is set in the DSACharacterWindowController, as there are characters out there, that might have variable tries
-      self.maxLevelUpVariableTries = @0;        // thats the value the DSACharacterWindowController checks if there ar variable tries
+      self.firstLevelUpTalentTriesPenalty = 0; // this is also taken into account in the DSACharacterWindowController...
+      self.maxLevelUpTalentsTries = 30;        // most have this as their starting value
+      self.maxLevelUpSpellsTries = 0;
+      self.maxLevelUpTalentsTriesTmp = 0;      // this value is set in the DSACharacterWindowController, as there are characters out there, that might have variable tries
+      self.maxLevelUpSpellsTriesTmp = 0;       // this value is set in the DSACharacterWindowController, as there are characters out there, that might have variable tries
+      self.maxLevelUpVariableTries = 0;        // thats the value the DSACharacterWindowController checks if there ar variable tries
     }
   return self;
 }
@@ -194,10 +194,10 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
   self.levelUpTalents = nil;
   self.levelUpSpells = nil;  
   self.levelUpProfessions = nil;
-  self.maxLevelUpTalentsTriesTmp = @0;
-  self.maxLevelUpSpellsTriesTmp = @0;
-  self.tempDeltaLpAe = @0;
-  self.level = [NSNumber numberWithInteger: [self.level integerValue] + 1];
+  self.maxLevelUpTalentsTriesTmp = 0;
+  self.maxLevelUpSpellsTriesTmp = 0;
+  self.tempDeltaLpAe = 0;
+  self.level += 1;
 }
 
 // for the most characters done here
@@ -206,40 +206,50 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
 
 - (NSDictionary *) levelUpBaseEnergies
 {
-  NSNumber *result;
+  NSInteger result;
   NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
   result = [Utils rollDice: @"1W6"];
-  NSNumber *tmp = self.lifePoints;
-  self.lifePoints = [NSNumber numberWithInteger: [result integerValue] + [tmp integerValue]];
-  self.currentLifePoints = [NSNumber numberWithInteger: [result integerValue] + [tmp integerValue]];
+  NSInteger tmp = self.lifePoints;
+  self.lifePoints = result + tmp;
+  self.currentLifePoints = result + tmp;
   
-  [resultDict setObject: result forKey: @"deltaLifePoints"];
+  [resultDict setObject: @(result) forKey: @"deltaLifePoints"];
   if ([self conformsToProtocol:@protocol(DSACharacterMagic)])
     {
       result = [Utils rollDice: @"1W6"];
-      NSNumber *tmp = self.astralEnergy;
-      self.astralEnergy = [NSNumber numberWithInteger: [result integerValue] + [tmp integerValue]];
-      self.currentAstralEnergy = [NSNumber numberWithInteger: [result integerValue] + [tmp integerValue]];
-      [resultDict setObject: result forKey: @"deltaAstralEnergy"];
+      NSInteger tmp = self.astralEnergy;
+      self.astralEnergy = result + tmp;
+      self.currentAstralEnergy = result + tmp;
+      [resultDict setObject: @(result) forKey: @"deltaAstralEnergy"];
     }
 
   if ([self isBlessedOne])
     {        
       NSLog(@"leveling up Karma not yet implemented!!!");
-      [resultDict setObject: result forKey: @"deltaKarmaPoints"];
+      [resultDict setObject: @(result) forKey: @"deltaKarmaPoints"];
     }
   return resultDict;
 }
 
 - (BOOL) levelUpPositiveTrait: (NSString *) trait
 {
+  NSLog(@"DSACharacterHero: BEFORE levelUpPositiveTrait %@", [self.positiveTraits objectForKey: trait]);
   BOOL result = [(DSAPositiveTrait *)[self.positiveTraits objectForKey: trait] levelUp];
+  NSLog(@"DSACharacterHero: AFTER levelUpPositiveTrait %@", [self.positiveTraits objectForKey: trait]);
+  if (result == YES)  // also bump current positive trait
+    {
+      [[self.currentPositiveTraits objectForKey: trait] setLevel: [[self.currentPositiveTraits objectForKey: trait] level] + 1];
+    }
   return result;
 }
 
 - (BOOL) levelDownNegativeTrait: (NSString *) trait
 {
   BOOL result = [(DSANegativeTrait *)[self.negativeTraits objectForKey: trait] levelDown];
+  if (result == YES)  // also lower current positive trait
+    {
+      [[self.currentNegativeTraits objectForKey: trait] setLevel: [[self.currentNegativeTraits objectForKey: trait] level] - 1];
+    }  
   return result;
 }
 
@@ -254,27 +264,27 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
   targetTalent = talent;
   tmpTalent = [self.levelUpTalents objectForKey: talent.name];
 
-  if ([tmpTalent.maxUpPerLevel integerValue] == 0)
+  if (tmpTalent.maxUpPerLevel == 0)
     {
       NSLog(@"DSACharacterHero: levelUpTalent: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");
       return NO;
     }    
   
-  self.maxLevelUpTalentsTriesTmp = [NSNumber numberWithInteger: [self.maxLevelUpTalentsTriesTmp integerValue] - [[talent levelUpCost] integerValue]];
+  self.maxLevelUpTalentsTriesTmp = self.maxLevelUpTalentsTriesTmp - [talent levelUpCost];
 
   result = [targetTalent levelUp];
   if (result)
     {
-      tmpTalent.maxUpPerLevel = [NSNumber numberWithInteger: [tmpTalent.maxUpPerLevel integerValue] - 1];
-      tmpTalent.maxTriesPerLevelUp = [NSNumber numberWithInteger: [tmpTalent.maxUpPerLevel integerValue] * 3];
+      tmpTalent.maxUpPerLevel = tmpTalent.maxUpPerLevel - 1;
+      tmpTalent.maxTriesPerLevelUp = tmpTalent.maxUpPerLevel * 3;
       tmpTalent.level = targetTalent.level;
     }
   else
     {
-      tmpTalent.maxTriesPerLevelUp = [NSNumber numberWithInteger: [tmpTalent.maxTriesPerLevelUp integerValue] - 1];
-      if ([tmpTalent.maxTriesPerLevelUp integerValue] % 3 == 0)
+      tmpTalent.maxTriesPerLevelUp = tmpTalent.maxTriesPerLevelUp - 1;
+      if ((tmpTalent.maxTriesPerLevelUp % 3) == 0)
         {
-          tmpTalent.maxUpPerLevel = [NSNumber numberWithInteger: [tmpTalent.maxUpPerLevel integerValue] - 1];
+          tmpTalent.maxUpPerLevel = tmpTalent.maxUpPerLevel- 1;
         }
     }
   return result;
@@ -287,13 +297,13 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
       // we're already at the general maximum
       return NO;
     }
-    if ([self.maxLevelUpTalentsTriesTmp integerValue] < [[talent levelUpCost] integerValue])  // spells cost
+    if (self.maxLevelUpTalentsTriesTmp < [talent levelUpCost])  // spells cost
       {
         return NO;
       }
  
   // below test shouldn't really be necessary, because of just last test above, just return YES!!!
-  if ([[[self.levelUpTalents objectForKey: [talent name]] maxUpPerLevel] integerValue] <= 0) // actually should never be < 0
+  if ([[self.levelUpTalents objectForKey: [talent name]] maxUpPerLevel] <= 0) // actually should never be < 0
     {
       return NO;
     }
@@ -304,7 +314,7 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
 }
 
 - (BOOL) canLevelUp {
-    int currentLevel = [self.level integerValue];
+    int currentLevel = self.level;
     int nextLevel = currentLevel + 1;
 
     // Special case for level 0 to level 1
@@ -316,7 +326,7 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
     // Calculate cumulative adventure points required to reach the current level
     int requiredPoints = [self adventurePointsForNextLevel:nextLevel] - [self adventurePointsForNextLevel:currentLevel];
         
-    return [self.adventurePoints integerValue] >= requiredPoints;
+    return self.adventurePoints >= requiredPoints;
 }
 
 - (int)adventurePointsForNextLevel:(int)level {
@@ -337,13 +347,13 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
   [coder encodeObject:self.levelUpTalents forKey:@"levelUpTalents"];
   [coder encodeObject:self.levelUpSpells forKey:@"levelUpSpells"];  
   [coder encodeObject:self.levelUpProfessions forKey:@"levelUpProfessions"];
-  [coder encodeObject:self.firstLevelUpTalentTriesPenalty forKey:@"firstLevelUpTalentTriesPenalty"];  
-  [coder encodeObject:self.maxLevelUpTalentsTries forKey:@"maxLevelUpTalentsTries"];
-  [coder encodeObject:self.maxLevelUpSpellsTries forKey:@"maxLevelUpSpellsTries"];
-  [coder encodeObject:self.maxLevelUpTalentsTriesTmp forKey:@"maxLevelUpTalentsTriesTmp"];
-  [coder encodeObject:self.maxLevelUpSpellsTriesTmp forKey:@"maxLevelUpSpellsTriesTmp"];  
-  [coder encodeObject:self.maxLevelUpVariableTries forKey:@"maxLevelUpVariableTries"];
-  [coder encodeObject:self.tempDeltaLpAe forKey:@"tempDeltaLpAe"];
+  [coder encodeInteger:self.firstLevelUpTalentTriesPenalty forKey:@"firstLevelUpTalentTriesPenalty"];  
+  [coder encodeInteger:self.maxLevelUpTalentsTries forKey:@"maxLevelUpTalentsTries"];
+  [coder encodeInteger:self.maxLevelUpSpellsTries forKey:@"maxLevelUpSpellsTries"];
+  [coder encodeInteger:self.maxLevelUpTalentsTriesTmp forKey:@"maxLevelUpTalentsTriesTmp"];
+  [coder encodeInteger:self.maxLevelUpSpellsTriesTmp forKey:@"maxLevelUpSpellsTriesTmp"];  
+  [coder encodeInteger:self.maxLevelUpVariableTries forKey:@"maxLevelUpVariableTries"];
+  [coder encodeInteger:self.tempDeltaLpAe forKey:@"tempDeltaLpAe"];
   [coder encodeBool:self.isLevelingUp forKey:@"isLevelingUp"];
 }
 
@@ -352,17 +362,17 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
   self = [super initWithCoder: coder];
   if (self)
     {           
-      self.professions = [coder decodeObjectOfClass:[NSString class] forKey:@"professions"];      
-      self.levelUpTalents = [coder decodeObjectOfClass:[NSString class] forKey:@"levelUpTalents"];
-      self.levelUpSpells = [coder decodeObjectOfClass:[NSString class] forKey:@"levelUpSpells"];      
-      self.levelUpProfessions = [coder decodeObjectOfClass:[NSString class] forKey:@"levelUpProfessions"];
-      self.firstLevelUpTalentTriesPenalty = [coder decodeObjectOfClass:[NSString class] forKey:@"firstLevelUpTalentTriesPenalty"];            
-      self.maxLevelUpTalentsTries = [coder decodeObjectOfClass:[NSString class] forKey:@"maxLevelUpTalentsTries"];
-      self.maxLevelUpSpellsTries = [coder decodeObjectOfClass:[NSString class] forKey:@"maxLevelUpSpellsTries"];
-      self.maxLevelUpTalentsTriesTmp = [coder decodeObjectOfClass:[NSString class] forKey:@"maxLevelUpTalentsTriesTmp"];
-      self.maxLevelUpSpellsTriesTmp = [coder decodeObjectOfClass:[NSString class] forKey:@"maxLevelUpSpellsTriesTmp"];      
-      self.maxLevelUpVariableTries = [coder decodeObjectOfClass:[NSString class] forKey:@"maxLevelUpVariableTries"];
-      self.tempDeltaLpAe = [coder decodeObjectOfClass:[NSString class] forKey:@"tempDeltaLpAe"];
+      self.professions = [coder decodeObjectForKey:@"professions"];      
+      self.levelUpTalents = [coder decodeObjectForKey:@"levelUpTalents"];
+      self.levelUpSpells = [coder decodeObjectForKey:@"levelUpSpells"];      
+      self.levelUpProfessions = [coder decodeObjectForKey:@"levelUpProfessions"];
+      self.firstLevelUpTalentTriesPenalty = [coder decodeIntegerForKey:@"firstLevelUpTalentTriesPenalty"];            
+      self.maxLevelUpTalentsTries = [coder decodeIntegerForKey:@"maxLevelUpTalentsTries"];
+      self.maxLevelUpSpellsTries = [coder decodeIntegerForKey:@"maxLevelUpSpellsTries"];
+      self.maxLevelUpTalentsTriesTmp = [coder decodeIntegerForKey:@"maxLevelUpTalentsTriesTmp"];
+      self.maxLevelUpSpellsTriesTmp = [coder decodeIntegerForKey:@"maxLevelUpSpellsTriesTmp"];      
+      self.maxLevelUpVariableTries = [coder decodeIntegerForKey:@"maxLevelUpVariableTries"];
+      self.tempDeltaLpAe = [coder decodeIntegerForKey:@"tempDeltaLpAe"];
       self.isLevelingUp = [coder decodeBoolForKey:@"isLevelingUp"];     
     }
   return self;
@@ -371,68 +381,68 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
 
 
 /* Calculate Endurance, as described in: Abenteuer Basis Spiel, Regelbuch II, S. 9 */
-- (NSNumber *) endurance {
+- (NSInteger) endurance {
   NSInteger retVal;
 
-  retVal = [[self lifePoints] integerValue] + [[self.positiveTraits valueForKeyPath: @"KK.level"] integerValue];  
-  return [NSNumber numberWithInteger: retVal];
+  retVal = self.lifePoints + [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue];  
+  return retVal;
 }
 
 /* calculate CarryingCapacity, as described in: Abenteuer Basis Spiel, Regelbuch II, S. 9 */
-- (NSNumber *) carryingCapacity {
+- (NSInteger) carryingCapacity {
   NSInteger retVal;
   
-  retVal = [[self.positiveTraits valueForKeyPath: @"KK.level"] integerValue] * 50;  
-  return [NSNumber numberWithInteger: retVal];
+  retVal = [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue] * 50;  
+  return retVal;
 }
 
-- (NSNumber *) attackBaseValue {
+- (NSInteger) attackBaseValue {
   NSInteger retVal;
   
-  retVal = round(([[self.positiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
-                  [[self.positiveTraits valueForKeyPath: @"GE.level"] integerValue] + 
-                  [[self.positiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 5);
-  return [NSNumber numberWithInteger: retVal];
-}
-
-
-- (NSNumber *) parryBaseValue {
-  NSInteger retVal;
-  
-  retVal = round(([[self.positiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
-                  [[self.positiveTraits valueForKeyPath: @"GE.level"] integerValue] + 
-                  [[self.positiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 5);
-  return [NSNumber numberWithInteger: retVal];
+  retVal = round(([[self.currentPositiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
+                  [[self.currentPositiveTraits valueForKeyPath: @"GE.level"] integerValue] + 
+                  [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 5);
+  return retVal;
 }
 
 
-- (NSNumber *) rangedCombatBaseValue {
+- (NSInteger) parryBaseValue {
   NSInteger retVal;
   
-  retVal = floor(([[self.positiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
-                 [[self.positiveTraits valueForKeyPath: @"FF.level"] integerValue] + 
-                 [[self.positiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 4);
-  return [NSNumber numberWithInteger: retVal];
+  retVal = round(([[self.currentPositiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
+                  [[self.currentPositiveTraits valueForKeyPath: @"GE.level"] integerValue] + 
+                  [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 5);
+  return retVal;
 }
 
-- (NSNumber *) dodge {
+
+- (NSInteger) rangedCombatBaseValue {
   NSInteger retVal;
   
-  retVal = floor(([[self.positiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
-                 [[self.positiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
-                 [[self.positiveTraits valueForKeyPath: @"GE.level"] integerValue]) / 4) - 
+  retVal = floor(([[self.currentPositiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
+                 [[self.currentPositiveTraits valueForKeyPath: @"FF.level"] integerValue] + 
+                 [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 4);
+  return retVal;
+}
+
+- (NSInteger) dodge {
+  NSInteger retVal;
+  
+  retVal = floor(([[self.currentPositiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
+                 [[self.currentPositiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
+                 [[self.currentPositiveTraits valueForKeyPath: @"GE.level"] integerValue]) / 4) - 
                  roundf(self.encumbrance);
-  return [NSNumber numberWithInteger: retVal];
+  return retVal;
 }
 
-- (NSNumber *) magicResistance {
+- (NSInteger) magicResistance {
   NSInteger retVal;
   
-  retVal = floor(([[self.positiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
-                 [[self.positiveTraits valueForKeyPath: @"KL.level"] integerValue] +
-                 [self.level integerValue]) / 3) - 2 * [[self.negativeTraits valueForKeyPath: @"AG.level"] integerValue] +
-                 [self.mrBonus integerValue];
-  return [NSNumber numberWithInteger: retVal];
+  retVal = floor(([[self.currentPositiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
+                 [[self.currentPositiveTraits valueForKeyPath: @"KL.level"] integerValue] +
+                 self.level) / 3) - 2 * [[self.currentNegativeTraits valueForKeyPath: @"AG.level"] integerValue] +
+                 self.mrBonus;
+  return retVal;
 }
 
 + (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
@@ -441,41 +451,41 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
     
   if ([key isEqualToString:@"endurance"])
     {
-      keyPaths = [NSSet setWithObjects:@"lifePoints", @"positiveTraits.KK.level", nil];
+      keyPaths = [NSSet setWithObjects:@"lifePoints", @"currentPositiveTraits.KK.level", nil];
     }
   else if ([key isEqualToString:@"carryingCapacity"])
     {
-      keyPaths = [NSSet setWithObject:@"positiveTraits.KK.level"];
+      keyPaths = [NSSet setWithObject:@"currentPositiveTraits.KK.level"];
     }
   else if ([key isEqualToString:@"attackBaseValue"])
     {
-        keyPaths = [NSSet setWithObjects:@"positiveTraits.MU.level", 
-                                         @"positiveTraits.GE.level", 
-                                         @"positiveTraits.KK.level", nil];        
+        keyPaths = [NSSet setWithObjects:@"currentPositiveTraits.MU.level", 
+                                         @"currentPositiveTraits.GE.level", 
+                                         @"currentPositiveTraits.KK.level", nil];        
     }
   else if ([key isEqualToString:@"parryBaseValue"])
     {
-        keyPaths = [NSSet setWithObjects:@"positiveTraits.IN.level", 
-                                         @"positiveTraits.GE.level", 
-                                         @"positiveTraits.KK.level", nil];        
+        keyPaths = [NSSet setWithObjects:@"currentPositiveTraits.IN.level", 
+                                         @"currentPositiveTraits.GE.level", 
+                                         @"currentPositiveTraits.KK.level", nil];        
     }
   else if ([key isEqualToString:@"rangedCombatBaseValue"])
     {
-        keyPaths = [NSSet setWithObjects:@"positiveTraits.IN.level", 
-                                         @"positiveTraits.FF.level", 
-                                         @"positiveTraits.KK.level", nil];        
+        keyPaths = [NSSet setWithObjects:@"currentPositiveTraits.IN.level", 
+                                         @"currentPositiveTraits.FF.level", 
+                                         @"currentPositiveTraits.KK.level", nil];        
     }
   else if ([key isEqualToString:@"dodge"])
     {
-        keyPaths = [NSSet setWithObjects:@"positiveTraits.MU.level", 
-                                         @"positiveTraits.IN.level", 
-                                         @"positiveTraits.GE.level", nil];        
+        keyPaths = [NSSet setWithObjects:@"currentPositiveTraits.MU.level", 
+                                         @"currentPositiveTraits.IN.level", 
+                                         @"currentPositiveTraits.GE.level", nil];        
     }
   else if ([key isEqualToString:@"magicResistance"])
     {
-        keyPaths = [NSSet setWithObjects:@"positiveTraits.MU.level", 
-                                         @"positiveTraits.KL.level",
-                                         @"negativeTraits.AG.level",
+        keyPaths = [NSSet setWithObjects:@"currentPositiveTraits.MU.level", 
+                                         @"currentPositiveTraits.KL.level",
+                                         @"currentNegativeTraits.AG.level",
                                          @"mrBonus",
                                          @"level", nil];        
     }                 

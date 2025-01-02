@@ -41,10 +41,10 @@
 
 // mrBonus is dynamic, as described in "Die Helden des Schwarzen Auges",
 // Regelbuch II, S. 59
-- (NSNumber *) mrBonus
+- (NSInteger) mrBonus
 {
   NSInteger bonus;
-  if ([self.level integerValue] < 5)
+  if (self.level < 5)
     {
       bonus = -1;
     }
@@ -52,7 +52,7 @@
     {
       bonus = 0;
     }
-  return [NSNumber numberWithInteger: bonus];
+  return bonus;
 }
 
 @end

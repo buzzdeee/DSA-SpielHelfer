@@ -32,8 +32,8 @@
   if (self)
     {
       // see Mit Mantel, Schwert und Zauberstab S. 12
-      self.lifePoints = [NSNumber numberWithInteger: 35];
-      self.currentLifePoints = [NSNumber numberWithInteger: 35];  
+      self.lifePoints = 35;
+      self.currentLifePoints = 35;  
     }
   return self;
 }

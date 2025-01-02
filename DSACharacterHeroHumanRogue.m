@@ -31,7 +31,7 @@
   if (self)
     {
       // as described in "Mit Mantel, Schwert und Zauberstab" S. 55
-      self.mrBonus = [NSNumber numberWithInteger: 2];
+      self.mrBonus = 2;
     }
   return self;
 }

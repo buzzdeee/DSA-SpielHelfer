@@ -34,19 +34,19 @@
 
 - (instancetype)initSpell: (NSString *) name
                ofCategory: (NSString *) category 
-                  onLevel: (NSNumber *) level
+                  onLevel: (NSInteger) newLevel
                withOrigin: (NSArray *) origin
                  withTest: (NSArray *) test
-   withMaxTriesPerLevelUp: (NSNumber *) maxTriesPerLevelUp
-        withMaxUpPerLevel: (NSNumber *) maxUpPerLevel
-          withLevelUpCost: (NSNumber *) levelUpCost
+   withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+        withMaxUpPerLevel: (NSInteger) maxUpPerLevel
+          withLevelUpCost: (NSInteger) levelUpCost
 {
   self = [super init];
   if (self)
     {
       self.name = name;
       self.category = category;
-      self.level = level;
+      self.level = newLevel;
       self.origin = origin;
       self.test = test;
       self.maxTriesPerLevelUp = maxTriesPerLevelUp;
@@ -64,7 +64,7 @@
   if (self)
     {
       self.name = [coder decodeObjectForKey:@"name"];
-      self.level = [coder decodeObjectForKey:@"level"];
+      self.level = [coder decodeIntegerForKey:@"level"];
       self.origin = [coder decodeObjectForKey:@"origin"];
       self.longName = [coder decodeObjectForKey:@"longName"];
       self.category = [coder decodeObjectForKey:@"category"];
@@ -75,13 +75,9 @@
       self.spellingDuration = [coder decodeObjectForKey:@"spellingDuration"];
       self.spellRange = [coder decodeObjectForKey:@"spellRange"];        
       self.cost = [coder decodeObjectForKey:@"cost"];
-      self.isHealSpell = [coder decodeObjectForKey:@"isHealSpell"];
-      self.isDamageSpell = [coder decodeObjectForKey:@"isDamageSpell"];
-      self.isAffectingCreatures = [coder decodeObjectForKey:@"isAffectingCreatures"];
-      self.isAffectingObjects = [coder decodeObjectForKey:@"isAffectingObjects"];
-      self.maxUpPerLevel = [coder decodeObjectForKey:@"maxUpPerLevel"];
-      self.maxTriesPerLevelUp = [coder decodeObjectForKey:@"maxTriesPerLevelUp"];
-      self.levelUpCost = [coder decodeObjectForKey:@"levelUpCost"];      
+      self.maxUpPerLevel = [coder decodeIntegerForKey:@"maxUpPerLevel"];
+      self.maxTriesPerLevelUp = [coder decodeIntegerForKey:@"maxTriesPerLevelUp"];
+      self.levelUpCost = [coder decodeIntegerForKey:@"levelUpCost"];      
       self.everLeveledUp = [coder decodeBoolForKey:@"everLeveledUp"];
       self.isTraditionSpell = [coder decodeBoolForKey:@"isTraditionSpell"];
     }
@@ -91,7 +87,7 @@
 - (void)encodeWithCoder:(NSCoder *)coder
 {
   [coder encodeObject:self.name forKey:@"name"];
-  [coder encodeObject:self.level forKey:@"level"];
+  [coder encodeInteger:self.level forKey:@"level"];
   [coder encodeObject:self.origin forKey:@"origin"];
   [coder encodeObject:self.longName forKey:@"longName"];
   [coder encodeObject:self.category forKey:@"category"];
@@ -102,12 +98,9 @@
   [coder encodeObject:self.spellingDuration forKey:@"spellingDuration"];
   [coder encodeObject:self.spellRange forKey:@"spellRange"];
   [coder encodeObject:self.cost forKey:@"cost"];
-  [coder encodeObject:self.isHealSpell forKey:@"isHealSpell"];
-  [coder encodeObject:self.isDamageSpell forKey:@"isDamageSpell"];
-  [coder encodeObject:self.isAffectingCreatures forKey:@"isAffectingCreatures"];
-  [coder encodeObject:self.maxUpPerLevel forKey:@"maxUpPerLevel"];
-  [coder encodeObject:self.maxTriesPerLevelUp forKey:@"maxTriesPerLevelUp"]; 
-  [coder encodeObject:self.levelUpCost forKey:@"levelUpCost"];  
+  [coder encodeInteger:self.maxUpPerLevel forKey:@"maxUpPerLevel"];
+  [coder encodeInteger:self.maxTriesPerLevelUp forKey:@"maxTriesPerLevelUp"]; 
+  [coder encodeInteger:self.levelUpCost forKey:@"levelUpCost"];  
   [coder encodeBool:self.everLeveledUp forKey:@"everLeveledUp"];   
   [coder encodeBool:self.isTraditionSpell forKey:@"isTraditionSpell"];
 }
@@ -228,9 +221,9 @@
 
 - (BOOL) levelUp;
 {
-  NSNumber *result = [[NSNumber alloc] init];
+  NSInteger result = 0;
   
-  if ([self.level integerValue] < 10)
+  if (self.level < 10)
     {
       result = [Utils rollDice:@"2W6"];
     }
@@ -238,9 +231,9 @@
     {
       result = [Utils rollDice:@"3W6"];
     }
-  if ([result integerValue] > [self.level integerValue])
+  if (result > self.level)
     {
-      self.level = [NSNumber numberWithInteger: [self.level integerValue] + 1];
+      self.level += 1;
       self.everLeveledUp = YES;
       return YES;
     }
@@ -258,7 +251,7 @@
     {
       return YES;
     }
-  if (self.everLeveledUp && [self.level integerValue] > -6)
+  if (self.everLeveledUp && self.level > -6)
     {
       return YES;
     }

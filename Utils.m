@@ -430,7 +430,7 @@ static NSMutableDictionary *masseDict;
   return constraint;
 }
 
-+ (NSNumber *) rollDice: (NSString *) diceDefinition
++ (NSInteger) rollDice: (NSString *) diceDefinition
 {
   NSDictionary *dice = [NSDictionary dictionaryWithDictionary: [Utils parseDice: diceDefinition]];
   int result = 0;
@@ -438,7 +438,7 @@ static NSMutableDictionary *masseDict;
     {
       result += arc4random_uniform([[dice objectForKey: @"points"] intValue]) + 1;
     }
-  return [NSNumber numberWithInt: result];
+  return result;
 }
 
 @end

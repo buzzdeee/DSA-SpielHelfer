@@ -32,7 +32,7 @@
   if (self)
     {
       // see Mit Mantel, Schwert und Zauberstab S. 45
-      self.mrBonus = @-1;
+      self.mrBonus = -1;
     }
   return self;
 }

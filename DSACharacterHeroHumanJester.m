@@ -35,14 +35,14 @@
   // see "Die Magie des Schwarzen Auges" S. 47
   if (self)
     {
-      self.astralEnergy = @25;
-      self.currentAstralEnergy = @25;
-      self.maxLevelUpTalentsTries = @30;        
-      self.maxLevelUpSpellsTries = @20;
-      self.maxLevelUpTalentsTriesTmp = @30;
-      self.maxLevelUpSpellsTriesTmp = @20;      
-      self.maxLevelUpVariableTries = @0;
-      self.mrBonus = @3;                               
+      self.astralEnergy = 25;
+      self.currentAstralEnergy = 25;
+      self.maxLevelUpTalentsTries = 30;        
+      self.maxLevelUpSpellsTries = 20;
+      self.maxLevelUpTalentsTriesTmp = 30;
+      self.maxLevelUpSpellsTriesTmp = 20;      
+      self.maxLevelUpVariableTries = 0;
+      self.mrBonus = 3;                               
     }
   return self;
 }
@@ -51,11 +51,11 @@
 {
   // see "Die Magie des Schwarzen Auges" S. 47
   NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
-  NSNumber *result = [NSNumber numberWithInteger: [[Utils rollDice: @"1W6"] integerValue] + 2];
+  NSInteger result = [Utils rollDice: @"1W6"] + 2;
  
   self.tempDeltaLpAe = result;
   // we have to ask the user how to distribute these
-  [resultDict setObject: result forKey: @"deltaLpAe"];
+  [resultDict setObject: @(result) forKey: @"deltaLpAe"];
 
   return resultDict;
 }
@@ -85,26 +85,26 @@
   targetSpell = spell;
   tmpSpell = [self.levelUpSpells objectForKey: spell.name];
 
-  if ([tmpSpell.maxUpPerLevel integerValue] == 0)
+  if (tmpSpell.maxUpPerLevel == 0)
     {
       NSLog(@"DSACharacterHeroJester: levelUpSpell: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");
       return NO;
     }    
        
-  self.maxLevelUpSpellsTriesTmp = [NSNumber numberWithInteger: [self.maxLevelUpSpellsTriesTmp integerValue] - 1];
+  self.maxLevelUpSpellsTriesTmp -= 1;
   result = [targetSpell levelUp];
   if (result)
     {
-      tmpSpell.maxUpPerLevel = [NSNumber numberWithInteger: [tmpSpell.maxUpPerLevel integerValue] - 1];
-      tmpSpell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [tmpSpell.maxUpPerLevel integerValue] * 3];
+      tmpSpell.maxUpPerLevel -= 1;
+      tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
       tmpSpell.level = targetSpell.level;
     }
   else
     {
-      tmpSpell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [tmpSpell.maxTriesPerLevelUp integerValue] - 1];
-      if ([tmpSpell.maxTriesPerLevelUp integerValue] % 3 == 0)
+      tmpSpell.maxTriesPerLevelUp -= 1;
+      if ((tmpSpell.maxTriesPerLevelUp % 3) == 0)
         {
-          tmpSpell.maxUpPerLevel = [NSNumber numberWithInteger: [tmpSpell.maxUpPerLevel integerValue] - 1];
+          tmpSpell.maxUpPerLevel -= 1;
         }
     }
   return result;
@@ -112,12 +112,12 @@
 
 - (BOOL) canLevelUpSpell: (DSASpell *)spell
 {
-  if ([spell.level integerValue] == 18)
+  if (spell.level == 18)
     {
       // we're already at the general maximum
       return NO;
     }
-  if ([[[self.levelUpSpells objectForKey: [spell name]] maxUpPerLevel] integerValue] <= 0)
+  if ([[self.levelUpSpells objectForKey: [spell name]] maxUpPerLevel] <= 0)
     {
       return NO;
     }

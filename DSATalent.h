@@ -31,9 +31,9 @@
 @interface DSATalent : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, assign) NSInteger level;
-@property (nonatomic, strong) NSNumber *maxUpPerLevel;
-@property (nonatomic, strong) NSNumber *maxTriesPerLevelUp;
-@property (nonatomic, strong) NSNumber *levelUpCost;
+@property (nonatomic, assign) NSInteger maxUpPerLevel;
+@property (nonatomic, assign) NSInteger maxTriesPerLevelUp;
+@property (nonatomic, assign) NSInteger levelUpCost;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *talentDescription;
 @property (nonatomic, strong) NSString *category;

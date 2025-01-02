@@ -30,8 +30,8 @@
                     ofCategory: (NSString *) category
                        onLevel: (NSInteger) level
                       withTest: (NSArray *) test
-        withMaxTriesPerLevelUp: (NSNumber *) maxTriesPerLevelUp
-             withMaxUpPerLevel: (NSNumber *) maxUpPerLevel
+        withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+             withMaxUpPerLevel: (NSInteger) maxUpPerLevel
              influencesTalents: (NSMutableDictionary *)talents
 {
   self = [super init];

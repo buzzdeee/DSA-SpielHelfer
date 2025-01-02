@@ -30,9 +30,9 @@
                 ofCategory: (NSString *) category 
                    onLevel: (NSInteger) level
                   withTest: (NSArray *) test
-    withMaxTriesPerLevelUp: (NSNumber *) maxTriesPerLevelUp
-         withMaxUpPerLevel: (NSNumber *) maxUpPerLevel 
-           withLevelUpCost: (NSNumber *) levelUpCost;                          
+    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+         withMaxUpPerLevel: (NSInteger) maxUpPerLevel 
+           withLevelUpCost: (NSInteger) levelUpCost;                          
 {
   self = [super init];
   if (self)

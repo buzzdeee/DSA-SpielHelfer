@@ -34,14 +34,14 @@
       // Most of the human have 30 lifePoints at the start
       // as seen in the character descriptions in "Mit Mantel Schwert und Zauberstab", 
       // and "Die Helden des Schwarzen Auges", Regelbuch II
-      self.lifePoints = @30;
-      self.astralEnergy = @0;
-      self.karmaPoints = @24;           // for Blessed ones of Gods, Halfgods only will have 12 Karma Points, See Kirchen, Kulte, Ordenskrieger S. 10
-      self.currentLifePoints = @30;
-      self.currentAstralEnergy = @0;
-      self.currentKarmaPoints = @24;
+      self.lifePoints = 30;
+      self.astralEnergy = 0;
+      self.karmaPoints = 24;           // for Blessed ones of Gods, Halfgods only will have 12 Karma Points, See Kirchen, Kulte, Ordenskrieger S. 10
+      self.currentLifePoints = 30;
+      self.currentAstralEnergy = 0;
+      self.currentKarmaPoints = 24;
       self.isBlessedOne = YES;
-      self.mrBonus = @0;
+      self.mrBonus = 0;
     }
   return self;
 }
@@ -49,21 +49,21 @@
 - (NSDictionary *) levelUpBaseEnergies
 {
   NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
-  NSInteger result = [[Utils rollDice: @"1W6"] integerValue];
+  NSInteger result = [Utils rollDice: @"1W6"];
   
-  NSInteger tmp = [self.lifePoints integerValue];
-  self.lifePoints = [NSNumber numberWithInteger: result + tmp];
-  self.currentLifePoints = [NSNumber numberWithInteger: result + tmp];
+  NSInteger tmp = self.lifePoints;
+  self.lifePoints = result + tmp;
+  self.currentLifePoints = result + tmp;
  
-  [resultDict setObject: [NSNumber numberWithInteger: result] forKey: @"deltaLifePoints"];
+  [resultDict setObject: @(result) forKey: @"deltaLifePoints"];
        
   // See: Kirchen, Kulte, Ordenskrieger, S. 17 (Visionsqueste, 1x/Stufe), Blessed ones for half-gods, have different calculation
-  result = [[Utils rollDice: @"1W3"] integerValue] + 4;
-  tmp = [self.karmaPoints integerValue];
-  self.karmaPoints = [NSNumber numberWithInteger: result + tmp];
-  self.currentKarmaPoints = [NSNumber numberWithInteger: result + tmp];
+  result = [Utils rollDice: @"1W3"] + 4;
+  tmp = self.karmaPoints;
+  self.karmaPoints = result + tmp;
+  self.currentKarmaPoints = result + tmp;
     
-  [resultDict setObject: [NSNumber numberWithInteger: result] forKey: @"deltaKarmaPoints"];
+  [resultDict setObject: @(result) forKey: @"deltaKarmaPoints"];
 
   return resultDict;
 }

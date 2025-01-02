@@ -34,6 +34,7 @@
 #import "Utils.h"
 #import "DSAOtherTalent.h"
 #import "DSAPositiveTrait.h"
+#import "DSATalentResult.h"
 
 
 @implementation DSACharacter
@@ -271,18 +272,18 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
   [coder encodeObject:self.name forKey:@"name"];
   [coder encodeObject:self.title forKey:@"title"];
   [coder encodeObject:self.archetype forKey:@"archetype"];
-  [coder encodeObject:self.level forKey:@"level"];
-  [coder encodeObject:self.lifePoints forKey:@"lifePoints"];
-  [coder encodeObject:self.astralEnergy forKey:@"astralEnergy"];
-  [coder encodeObject:self.karmaPoints forKey:@"karmaPoints"];
-  [coder encodeObject:self.currentLifePoints forKey:@"currentLifePoints"];
-  [coder encodeObject:self.currentAstralEnergy forKey:@"currentAstralEnergy"];
-  [coder encodeObject:self.currentKarmaPoints forKey:@"currentKarmaPoints"];
+  [coder encodeInteger:self.level forKey:@"level"];
+  [coder encodeInteger:self.lifePoints forKey:@"lifePoints"];
+  [coder encodeInteger:self.astralEnergy forKey:@"astralEnergy"];
+  [coder encodeInteger:self.karmaPoints forKey:@"karmaPoints"];
+  [coder encodeInteger:self.currentLifePoints forKey:@"currentLifePoints"];
+  [coder encodeInteger:self.currentAstralEnergy forKey:@"currentAstralEnergy"];
+  [coder encodeInteger:self.currentKarmaPoints forKey:@"currentKarmaPoints"];
   [coder encodeBool:self.isMagic forKey:@"isMagic"];
   [coder encodeBool:self.isMagicalDabbler forKey:@"isMagicalDabbler"]; 
   [coder encodeBool:self.isBlessedOne forKey:@"isBlessedOne"];    
-  [coder encodeObject:self.mrBonus forKey:@"mrBonus"];
-  [coder encodeObject:self.adventurePoints forKey:@"adventurePoints"];
+  [coder encodeInteger:self.mrBonus forKey:@"mrBonus"];
+  [coder encodeInteger:self.adventurePoints forKey:@"adventurePoints"];
   [coder encodeObject:self.origin forKey:@"origin"];
   [coder encodeObject:self.mageAcademy forKey:@"mageAcademy"];
   [coder encodeObject:self.element forKey:@"element"];
@@ -306,6 +307,8 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
   [coder encodeObject:self.money forKey:@"money"];
   [coder encodeObject:self.positiveTraits forKey:@"positiveTraits"];
   [coder encodeObject:self.negativeTraits forKey:@"negativeTraits"];
+  [coder encodeObject:self.currentPositiveTraits forKey:@"currentPositiveTraits"];
+  [coder encodeObject:self.currentNegativeTraits forKey:@"currentNegativeTraits"];  
   [coder encodeObject:self.inventory forKey:@"inventory"];
   [coder encodeObject:self.bodyParts forKey:@"bodyParts"];
   [coder encodeObject:self.talents forKey:@"talents"];
@@ -335,47 +338,49 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
       } else {
           NSLog(@"Warning: modelID %@ already exists!", _modelID);
       }      
-      self.portraitName = [coder decodeObjectOfClass:[NSString class] forKey:@"portraitName"];
-      self.name = [coder decodeObjectOfClass:[NSString class] forKey:@"name"];
-      self.title = [coder decodeObjectOfClass:[NSString class] forKey:@"title"];
-      self.archetype = [coder decodeObjectOfClass:[NSString class] forKey:@"archetype"];
-      self.level = [coder decodeObjectOfClass:[NSString class] forKey:@"level"];
-      self.lifePoints = [coder decodeObjectOfClass:[NSString class] forKey:@"lifePoints"];
-      self.astralEnergy = [coder decodeObjectOfClass:[NSString class] forKey:@"astralEnergy"];
-      self.karmaPoints = [coder decodeObjectOfClass:[NSString class] forKey:@"karmaPoints"];
-      self.currentLifePoints = [coder decodeObjectOfClass:[NSString class] forKey:@"currentLifePoints"];
-      self.currentAstralEnergy = [coder decodeObjectOfClass:[NSString class] forKey:@"currentAstralEnergy"];
-      self.currentKarmaPoints = [coder decodeObjectOfClass:[NSString class] forKey:@"currentKarmaPoints"];   
-      self.mrBonus = [coder decodeObjectOfClass:[NSString class] forKey:@"mrBonus"];         
+      self.portraitName = [coder decodeObjectForKey:@"portraitName"];
+      self.name = [coder decodeObjectForKey:@"name"];
+      self.title = [coder decodeObjectForKey:@"title"];
+      self.archetype = [coder decodeObjectForKey:@"archetype"];
+      self.level = [coder decodeIntegerForKey:@"level"];
+      self.lifePoints = [coder decodeIntegerForKey:@"lifePoints"];
+      self.astralEnergy = [coder decodeIntegerForKey:@"astralEnergy"];
+      self.karmaPoints = [coder decodeIntegerForKey:@"karmaPoints"];
+      self.currentLifePoints = [coder decodeIntegerForKey:@"currentLifePoints"];
+      self.currentAstralEnergy = [coder decodeIntegerForKey:@"currentAstralEnergy"];
+      self.currentKarmaPoints = [coder decodeIntegerForKey:@"currentKarmaPoints"];   
+      self.mrBonus = [coder decodeIntegerForKey:@"mrBonus"];         
       self.isMagic = [coder decodeBoolForKey:@"isMagic"];
       self.isMagicalDabbler = [coder decodeBoolForKey:@"isMagicalDabbler"];      
       self.isBlessedOne = [coder decodeBoolForKey:@"isBlessedOne"];      
-      self.adventurePoints = [coder decodeObjectOfClass:[NSString class] forKey:@"adventurePoints"];
-      self.origin = [coder decodeObjectOfClass:[NSString class] forKey:@"origin"];
-      self.mageAcademy = [coder decodeObjectOfClass:[NSString class] forKey:@"mageAcademy"];
-      self.element = [coder decodeObjectOfClass:[NSString class] forKey:@"element"];
-      self.sex = [coder decodeObjectOfClass:[NSString class] forKey:@"sex"];
-      self.hairColor = [coder decodeObjectOfClass:[NSString class] forKey:@"hairColor"];
-      self.eyeColor = [coder decodeObjectOfClass:[NSString class] forKey:@"eyeColor"];
+      self.adventurePoints = [coder decodeIntegerForKey:@"adventurePoints"];
+      self.origin = [coder decodeObjectForKey:@"origin"];
+      self.mageAcademy = [coder decodeObjectForKey:@"mageAcademy"];
+      self.element = [coder decodeObjectForKey:@"element"];
+      self.sex = [coder decodeObjectForKey:@"sex"];
+      self.hairColor = [coder decodeObjectForKey:@"hairColor"];
+      self.eyeColor = [coder decodeObjectForKey:@"eyeColor"];
       self.height = [[coder decodeObjectForKey:@"height"] floatValue];
       self.weight = [[coder decodeObjectForKey:@"weight"] floatValue];
-      self.birthday = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"birthday"];
-      self.god = [coder decodeObjectOfClass:[NSString class] forKey:@"god"];
-      self.stars = [coder decodeObjectOfClass:[NSString class] forKey:@"stars"];
-      self.religion = [coder decodeObjectOfClass:[NSString class] forKey:@"religion"];      
-      self.socialStatus = [coder decodeObjectOfClass:[NSString class] forKey:@"socialStatus"];
-      self.parents = [coder decodeObjectOfClass:[NSString class] forKey:@"parents"];
-      self.siblings = [coder decodeObjectOfClass:[NSString class] forKey:@"siblings"];
-      self.birthPlace = [coder decodeObjectOfClass:[NSString class] forKey:@"birthPlace"];
-      self.birthEvent = [coder decodeObjectOfClass:[NSString class] forKey:@"birthEvent"];
-      self.legitimation = [coder decodeObjectOfClass:[NSString class] forKey:@"legitimation"];
-      self.childhoodEvents = [coder decodeObjectOfClass:[NSString class] forKey:@"childhoodEvents"];
-      self.youthEvents = [coder decodeObjectOfClass:[NSString class] forKey:@"youthEvents"];
-      self.money = [coder decodeObjectOfClass:[NSString class] forKey:@"money"];
-      self.positiveTraits = [coder decodeObjectOfClass:[NSString class] forKey:@"positiveTraits"];
-      self.negativeTraits = [coder decodeObjectOfClass:[NSString class] forKey:@"negativeTraits"];
-      self.inventory = [coder decodeObjectOfClass:[NSString class] forKey:@"inventory"];
-      self.bodyParts = [coder decodeObjectOfClass:[NSString class] forKey:@"bodyParts"];
+      self.birthday = [coder decodeObjectForKey:@"birthday"];
+      self.god = [coder decodeObjectForKey:@"god"];
+      self.stars = [coder decodeObjectForKey:@"stars"];
+      self.religion = [coder decodeObjectForKey:@"religion"];      
+      self.socialStatus = [coder decodeObjectForKey:@"socialStatus"];
+      self.parents = [coder decodeObjectForKey:@"parents"];
+      self.siblings = [coder decodeObjectForKey:@"siblings"];
+      self.birthPlace = [coder decodeObjectForKey:@"birthPlace"];
+      self.birthEvent = [coder decodeObjectForKey:@"birthEvent"];
+      self.legitimation = [coder decodeObjectForKey:@"legitimation"];
+      self.childhoodEvents = [coder decodeObjectForKey:@"childhoodEvents"];
+      self.youthEvents = [coder decodeObjectForKey:@"youthEvents"];
+      self.money = [coder decodeObjectForKey:@"money"];
+      self.positiveTraits = [coder decodeObjectForKey:@"positiveTraits"];
+      self.negativeTraits = [coder decodeObjectForKey:@"negativeTraits"];
+      self.currentPositiveTraits = [coder decodeObjectForKey:@"currentPositiveTraits"];
+      self.currentNegativeTraits = [coder decodeObjectForKey:@"currentNegativeTraits"];      
+      self.inventory = [coder decodeObjectForKey:@"inventory"];
+      self.bodyParts = [coder decodeObjectForKey:@"bodyParts"];
       self.talents = [coder decodeObjectForKey:@"talents"];
       self.spells = [coder decodeObjectForKey:@"spells"];
       self.specials = [coder decodeObjectForKey:@"specials"];                 
@@ -659,8 +664,8 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
 - (BOOL) canRegenerate
 {
   NSLog(@"DSACharacter canRegenerate called, TO BE ENHANCED!!!");
-  if ([self.currentAstralEnergy integerValue] < [self.astralEnergy integerValue] || 
-      [self.currentLifePoints integerValue] < [self.lifePoints integerValue])
+  if (self.currentAstralEnergy < self.astralEnergy || 
+      self.currentLifePoints < self.lifePoints)
     {
       return YES;
     }
@@ -670,33 +675,118 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
     }
 }
 
-- (BOOL) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty
+- (DSATalentResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty
 {
   NSLog(@"DSACharacter useTalent called");
+  DSATalentResult *talentResult = [[DSATalentResult alloc] init];
   for (DSAOtherTalent *talent in [self.talents allValues])
     {
       if ([talent.name isEqualToString: talentName])
         {
-          NSInteger level = talent.level + penalty;
+          NSInteger level = talent.level - penalty;
+          NSInteger initialLevel = level;
+          NSMutableArray *resultsArr = [[NSMutableArray alloc] init];
+          NSInteger oneCounter = 0;
+          NSInteger twentyCounter = 0;
+          BOOL earlyFailure = NO;
+          NSInteger counter = 0;
           for (NSString *trait in talent.test)
             {
-              NSInteger traitLevel = [[[self.positiveTraits objectForKey: trait] level] integerValue];
-              NSInteger result = [[Utils rollDice: @"1W20"] integerValue];
-              NSLog(@"trait: %@ traitLevel: %ld result %ld", trait, (signed long) traitLevel, (signed long) result);
-              if (result > traitLevel)
+              NSInteger traitLevel = [[self.positiveTraits objectForKey: trait] level];
+              NSInteger result = [Utils rollDice: @"1W20"];
+              [resultsArr addObject: @{ @"trait": trait, @"result": @(result) }];
+              
+              if (result == 1)
                 {
-                  level = level - (result - traitLevel);
-                  if (level < 0)
+                  oneCounter += 1;
+                }
+              else if (result == 20)
+                {
+                  twentyCounter += 1;
+                }
+              if (initialLevel >= 0)
+                {
+                  NSLog(@"%@ initial Level > 0 current Level: %ld", trait, (signed long) level);
+                  if (result <= traitLevel)  // potential failure, but we may have enough talent
                     {
-                      return NO;
+                      NSLog(@"result was <= traitLevel");
+
+                    }
+                  else
+                    {
+                      NSLog(@"result was > traitLevel");
+                      level = level - (result - traitLevel);
+                      if (level < 0)
+                        {
+                          earlyFailure = YES;
+                        }                      
                     }
                 }
-            }
+              else  // initialLevel < 0
+                {
+                  NSLog(@"%@ initial Level < 0 current Level: %ld", trait, (signed long) level);
+                  if (result <= traitLevel)
+                    {
+                      NSLog(@"result was <= traitLevel");
+                      level = level + (traitLevel - result);
+                      if (level < 0 && counter == 2)
+                        {
+                          NSLog(@"setting early failure becaue counter == 2");
+                          earlyFailure = YES;
+                        }
+                    }
+                  else
+                    {
+                      NSLog(@"result was > traitLevel");
+                      earlyFailure = YES;
+                    }
+                }
+              counter += 1;
           
-          return YES;
+            }
+          if (oneCounter >= 2)
+            {
+              if (oneCounter == 2)
+                {
+                   talentResult.result = DSATalentResultAutoSuccess;
+                   talentResult.remainingTalentPoints = level;
+                }
+              else
+                {
+                   talentResult.result = DSATalentResultEpicSuccess;
+                   talentResult.remainingTalentPoints = level;
+                }
+            }
+          else if (twentyCounter >= 2)
+            {
+              if (twentyCounter == 2)
+                {
+                   talentResult.result = DSATalentResultAutoFailure;
+                   talentResult.remainingTalentPoints = level;
+                }
+              else
+                {
+                   talentResult.result = DSATalentResultEpicFailure;
+                   talentResult.remainingTalentPoints = level;
+                }              
+            }
+          else
+            {
+              if (earlyFailure == YES)
+                {
+                   talentResult.result = DSATalentResultFailure;
+                   talentResult.remainingTalentPoints = level;                                    
+                }
+              else
+                {
+                   talentResult.result = DSATalentResultSuccess;
+                   talentResult.remainingTalentPoints = level;                
+                }
+            }
+          talentResult.diceResults = resultsArr;
         }
     }
-  return NO;
+  
+  return talentResult;
 }
-
 @end

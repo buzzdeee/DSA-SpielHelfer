@@ -539,8 +539,8 @@
                                                              ofCategory: [professionDict objectForKey: @"Freizeittalent"] ? _(@"Freizeittalent") : _(@"Beruf")
                                                                 onLevel: 3
                                                                withTest: [professionDict objectForKey: @"Probe"]
-                                                 withMaxTriesPerLevelUp: @6
-                                                      withMaxUpPerLevel: @2
+                                                 withMaxTriesPerLevelUp: 6
+                                                      withMaxUpPerLevel: 2
                                                       influencesTalents: [professionDict objectForKey: @"Bonus"]];     
 
       NSMutableDictionary *professionsDictionary = [[NSMutableDictionary alloc] init];
@@ -603,23 +603,42 @@
     {
       [positiveTraits setObject: 
         [[DSAPositiveTrait alloc] initTrait: field 
-                                    onLevel: [NSNumber numberWithInt: 
-                                        [[self valueForKey: [NSString stringWithFormat: @"field%@", field]] integerValue]]]
+                                    onLevel: [[self valueForKey: [NSString stringWithFormat: @"field%@", field]] integerValue]]
                          forKey: field];  
     }
   newCharacter.positiveTraits = positiveTraits;
+  // deep copy of the traits
+  NSMutableDictionary *deepCopyPositiveTraits = [NSMutableDictionary dictionary];
+  for (id key in positiveTraits) {
+    id value = positiveTraits[key];
+    if ([value conformsToProtocol:@protocol(NSCopying)]) {
+        deepCopyPositiveTraits[key] = [value copy];
+    } else {
+        deepCopyPositiveTraits[key] = value; // or handle non-copyable objects appropriately
+    }
+  }
+  newCharacter.currentPositiveTraits = [deepCopyPositiveTraits mutableCopy];
   // handle negative Traits    
   NSMutableDictionary *negativeTraits = [[NSMutableDictionary alloc] init];
   for (NSString *field in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
     {
       [negativeTraits setObject: 
         [[DSANegativeTrait alloc] initTrait: field 
-                                    onLevel: [NSNumber numberWithInt: 
-                                        [[self valueForKey: [NSString stringWithFormat: @"field%@", field]] integerValue]]]
+                                    onLevel: [[self valueForKey: [NSString stringWithFormat: @"field%@", field]] integerValue]]
                          forKey: field];  
     }
   newCharacter.negativeTraits = negativeTraits;
-  NSLog(@"DSACharacterGenerationController: assigned traits to newCharacter");  
+  NSMutableDictionary *deepCopyNegativeTraits = [NSMutableDictionary dictionary];
+  for (id key in negativeTraits) {
+    id value = negativeTraits[key];
+    if ([value conformsToProtocol:@protocol(NSCopying)]) {
+        deepCopyNegativeTraits[key] = [value copy];
+    } else {
+        deepCopyNegativeTraits[key] = value; // or handle non-copyable objects appropriately
+    }
+  }
+  newCharacter.currentNegativeTraits = [deepCopyNegativeTraits mutableCopy];
+  NSLog(@"DSACharacterGenerationController: assigned traits to newCharacter"); 
   // handle talents
   NSDictionary *talents = [[NSDictionary alloc] init];
   talents = [self getTalentsForArchetype: selectedArchetype];
@@ -638,9 +657,9 @@
                                                                        inSubCategory: subCategory
                                                                           ofCategory: category
                                                                              onLevel: [[tDict objectForKey: @"Startwert"] integerValue]
-                                                              withMaxTriesPerLevelUp: [NSNumber numberWithInteger: [[tDict objectForKey: @"Versuche"] integerValue]]
-                                                                   withMaxUpPerLevel: [NSNumber numberWithInteger: [[tDict objectForKey: @"Steigern"] integerValue]]
-                                                                     withLevelUpCost: @1];
+                                                              withMaxTriesPerLevelUp: [[tDict objectForKey: @"Versuche"] integerValue]
+                                                                   withMaxUpPerLevel: [[tDict objectForKey: @"Steigern"] integerValue]
+                                                                     withLevelUpCost: 1];
                   NSLog(@"DSACharacterGenerationController: initialized talent: %@", talent);                                                                     
                   [newTalents setObject: talent forKey: t];
                 }
@@ -656,9 +675,9 @@
                                                                ofCategory: category
                                                                   onLevel: [[tDict objectForKey: @"Startwert"] integerValue]
                                                                  withTest: [tDict objectForKey: @"Probe"]
-                                                   withMaxTriesPerLevelUp: [NSNumber numberWithInteger: [[tDict objectForKey: @"Versuche"] integerValue]]
-                                                        withMaxUpPerLevel: [NSNumber numberWithInteger: [[tDict objectForKey: @"Steigern"] integerValue]]
-                                                          withLevelUpCost: @1];
+                                                   withMaxTriesPerLevelUp: [[tDict objectForKey: @"Versuche"] integerValue]
+                                                        withMaxUpPerLevel: [[tDict objectForKey: @"Steigern"] integerValue]
+                                                          withLevelUpCost: 1];
               NSLog(@"DSACharacterGenerationController: initialized talent: %@", talent);
               [newTalents setObject: talent forKey: t];
             }
@@ -686,12 +705,12 @@
               NSDictionary *sDict = [[spells objectForKey: category] objectForKey: s];                             
               DSASpell *spell = [[DSASpell alloc] initSpell: s
                                                  ofCategory: category
-                                                    onLevel: [NSNumber numberWithInteger: [[sDict objectForKey: @"Startwert"] integerValue]]
+                                                    onLevel: [[sDict objectForKey: @"Startwert"] integerValue]
                                                  withOrigin: [sDict objectForKey: @"Ursprung"]
                                                    withTest: [sDict objectForKey: @"Probe"]
-                                     withMaxTriesPerLevelUp: [NSNumber numberWithInteger: [[sDict objectForKey: @"Versuche"] integerValue]]
-                                          withMaxUpPerLevel: [NSNumber numberWithInteger: [[sDict objectForKey: @"Steigern"] integerValue]]
-                                            withLevelUpCost: @1];
+                                     withMaxTriesPerLevelUp: [[sDict objectForKey: @"Versuche"] integerValue]
+                                          withMaxUpPerLevel: [[sDict objectForKey: @"Steigern"] integerValue]
+                                            withLevelUpCost: 1];
               [spell setElement: [sDict objectForKey: @"Element"]];
               [newSpells setObject: spell forKey: s];
             }
@@ -700,15 +719,15 @@
       [self applySpellmodificatorsToArchetype: newCharacter];
       if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanSharisad class]])
         {
-          newCharacter.maxLevelUpSpellsTries = [NSNumber numberWithInteger: [newCharacter.spells count] * 3];  // depending on number of spells, see: Die Magie des Schwarzen Auges S. 48
+          newCharacter.maxLevelUpSpellsTries = [newCharacter.spells count] * 3;  // depending on number of spells, see: Die Magie des Schwarzen Auges S. 48
         }
       else if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanShaman class]])
         {
           if ([_(@"Ja") isEqualToString: [[self.popupMageAcademies selectedItem] title]])
             {
-              newCharacter.maxLevelUpSpellsTries = @20;  // See "Compendium Salamandris" S. 77
-              newCharacter.astralEnergy = @25;
-              newCharacter.currentAstralEnergy = @25;
+              newCharacter.maxLevelUpSpellsTries = 20;  // See "Compendium Salamandris" S. 77
+              newCharacter.astralEnergy = 25;
+              newCharacter.currentAstralEnergy = 25;
             }
         }        
     }
@@ -813,8 +832,8 @@
           NSSet *otherElfOrigins = [NSSet setWithArray: originIdentifiers];
           if ([spellOrigin intersectsSet: otherElfOrigins])
             {
-              spell.maxUpPerLevel = @2;
-              spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];            
+              spell.maxUpPerLevel = 2;
+              spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;            
             }
         }
     }
@@ -838,14 +857,14 @@
           if ([spell.origin containsObject: ownSchool])
             { // own school 3 attampts per try
               spell.isTraditionSpell = YES;
-              spell.maxUpPerLevel = @3;
-              spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];              
+              spell.maxUpPerLevel = 3;
+              spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;              
             }
           else if ([spell.origin containsObject: otherSchool])
             {
               // other school 2 attempts per try
-              spell.maxUpPerLevel = @2;
-              spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];              
+              spell.maxUpPerLevel = 2;
+              spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;              
             }
         }      
     }
@@ -858,8 +877,8 @@
           if ([spell.origin containsObject: @"D"])
             {
               spell.isTraditionSpell = YES;
-              spell.maxUpPerLevel = @3;
-              spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];
+              spell.maxUpPerLevel = 3;
+              spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;
             }
         }
     }
@@ -873,15 +892,15 @@
           if ([spell.origin containsObject: @"D"])
             {
               spell.isTraditionSpell = YES;
-              spell.maxUpPerLevel = @3;
-              spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];
+              spell.maxUpPerLevel = 3;
+              spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;
             }
           else
             {
               spell.isTraditionSpell = NO;
-              spell.level = @-20;
-              spell.maxUpPerLevel = @0;
-              spell.maxTriesPerLevelUp = @0;
+              spell.level = -20;
+              spell.maxUpPerLevel = 0;
+              spell.maxTriesPerLevelUp = 0;
             }
         }      
     }
@@ -894,8 +913,8 @@
           if ([spell.origin containsObject: @"H"])
             {
               spell.isTraditionSpell = YES;
-              spell.maxUpPerLevel = @3;
-              spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];
+              spell.maxUpPerLevel = 3;
+              spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;
             }
         }
     }    
@@ -908,8 +927,8 @@
           if ([spell.origin containsObject: @"S"])
             {
               spell.isTraditionSpell = YES;
-              spell.maxUpPerLevel = @3;
-              spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];
+              spell.maxUpPerLevel = 3;
+              spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;
             }
         }
     }
@@ -946,8 +965,8 @@
           NSString *spellCategory = [spell category];
           if ([spellCategory isEqualToString: spezialgebiet])
             {
-              spell.maxUpPerLevel = @2;
-              spell.maxTriesPerLevelUp = @6;
+              spell.maxUpPerLevel = 2;
+              spell.maxTriesPerLevelUp = 6;
             }
           
           if ([[academySpellModificators allKeys] containsObject: spellCategory])
@@ -956,16 +975,16 @@
               if ([[academySpellModificators objectForKey: spellCategory] objectForKey: spellName])
                 {
                   NSLog(@"modifying spell.level for spell: %@", spellName);
-                  spell.level = [NSNumber numberWithInteger: [spell.level integerValue] + [[[academySpellModificators objectForKey: spellCategory] objectForKey: spellName] integerValue]];
+                  spell.level = spell.level + [[[academySpellModificators objectForKey: spellCategory] objectForKey: spellName] integerValue];
                 }
               for (NSDictionary *dict in haussprueche)
                 {
                   if ([dict objectForKey: spellName])
                     {
                       NSLog(@"HAUSSPRUCH: modifying spell.level for spell: %@", spellName);
-                      spell.level = [NSNumber numberWithInteger: [spell.level integerValue] + [[dict objectForKey: spellName] integerValue]];
-                      spell.maxUpPerLevel = @3;
-                      spell.maxTriesPerLevelUp = @9;
+                      spell.level = spell.level + [[dict objectForKey: spellName] integerValue];
+                      spell.maxUpPerLevel = 3;
+                      spell.maxTriesPerLevelUp = 9;
                       spell.isTraditionSpell = YES;
                       break;
                     }
@@ -1001,29 +1020,29 @@
               if ([[spell element] isEqualToString: ownElement])
                 {
 //                  NSLog(@"own element spell before: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);
-                  spell.level = [NSNumber numberWithInteger: [spell.level integerValue] + 2];
-                  if ([spell.maxUpPerLevel integerValue] < 3)
+                  spell.level = spell.level + 2;
+                  if (spell.maxUpPerLevel < 3)
                     {
-                      spell.maxUpPerLevel = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] + 1];
-                      spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];
+                      spell.maxUpPerLevel += 1;
+                      spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;
                     }
 //                  NSLog(@"own element spell after: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                  
                 }
               else if ([[spell element] isEqualToString: oppositeElement])
                 {
 //                  NSLog(@"opposite element spell before: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
-                  spell.level = [NSNumber numberWithInteger: [spell.level integerValue] -3 ];
-                  spell.maxUpPerLevel = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] - 1];
-                  spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];
+                  spell.level = spell.level - 3;
+                  spell.maxUpPerLevel = spell.maxUpPerLevel - 1;
+                  spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;
 //                  NSLog(@"opposite element spell after: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
                 }
               else
                 {
 //                  NSLog(@"other element spell before: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
-                  if ([spell.maxUpPerLevel integerValue] >= 3)
+                  if (spell.maxUpPerLevel >= 3)
                     {
-                      spell.maxUpPerLevel = @2;
-                      spell.maxTriesPerLevelUp = [NSNumber numberWithInteger: [spell.maxUpPerLevel integerValue] * 3];                    
+                      spell.maxUpPerLevel = 2;
+                      spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;                    
                       
                     }
 //                  NSLog(@"other element spell after: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
@@ -1063,7 +1082,7 @@
   else if ([@"Kriegerakademie" isEqualTo: modificator])
     {
       talents = [[_warriorAcademiesDict objectForKey: archetype.mageAcademy] objectForKey: @"Talente"];  // mageAcademy is misused here for the Kriegerakademie...
-      archetype.firstLevelUpTalentTriesPenalty = [[_warriorAcademiesDict objectForKey: archetype.mageAcademy] objectForKey: @"Initiale Steigerungsversuche"];
+      archetype.firstLevelUpTalentTriesPenalty = [[[_warriorAcademiesDict objectForKey: archetype.mageAcademy] objectForKey: @"Initiale Steigerungsversuche"] integerValue];
     }
   else if ([@"Magierakademie" isEqualTo: modificator])
     {
@@ -1095,8 +1114,8 @@
               [archetype.inventory addObject: item quantity: [[itemInfo objectForKey: @"Anzahl"] integerValue]];
               if ([itemInfo objectForKey: @"Kosten permanente ASP"])
                 {
-                  [archetype setAstralEnergy: [NSNumber numberWithInteger: [[archetype astralEnergy] integerValue] - [[itemInfo objectForKey: @"Kosten permanente ASP"] integerValue]]];
-                  [archetype setCurrentAstralEnergy: [NSNumber numberWithInteger:  [[archetype currentAstralEnergy] integerValue] - [[itemInfo objectForKey: @"Kosten permanente ASP"] integerValue]]];
+                  [archetype setAstralEnergy: archetype.astralEnergy - [[itemInfo objectForKey: @"Kosten permanente ASP"] integerValue]];
+                  [archetype setCurrentAstralEnergy: archetype.currentAstralEnergy - [[itemInfo objectForKey: @"Kosten permanente ASP"] integerValue]];
                 }
               
             }
@@ -1526,7 +1545,7 @@
   for ( cnt = 1; cnt < 9; cnt++ )
     {
       NSInteger result;
-      result = [[Utils rollDice: @"1W6"] intValue] + 7;
+      result = [Utils rollDice: @"1W6"] + 7;
       if (result < lowest)
         {
           lowest = result;
@@ -1549,7 +1568,7 @@
   for ( cnt = 1; cnt < 8; cnt++ )
     {
       NSInteger result;
-      result = [[Utils rollDice: @"1W6"] intValue] + 1;
+      result = [Utils rollDice: @"1W6"] + 1;
       [traits addObject: [NSNumber numberWithInt: result]];
     }
   
@@ -1579,7 +1598,7 @@
   NSArray *herkuenfteArr = [NSArray arrayWithArray: [herkuenfteDict allKeys]];
   NSMutableDictionary *retVal = [[NSMutableDictionary alloc] init];
   
-  NSNumber *diceResult = [Utils rollDice: dice];
+  NSInteger diceResult = [Utils rollDice: dice];
   
   for (NSString *socialStatus in herkuenfteArr)
     {
@@ -1588,12 +1607,12 @@
           continue;
         }
       
-      if ([[[herkuenfteDict objectForKey: socialStatus] objectForKey: dice] containsObject: diceResult])
+      if ([[[herkuenfteDict objectForKey: socialStatus] objectForKey: dice] containsObject: @(diceResult)])
         {
           [retVal setObject: socialStatus forKey:@"Stand"];
           for (NSString *parents in [[[herkuenfteDict objectForKey: socialStatus] objectForKey: @"Eltern"] allKeys])
             {
-              if ([[[[herkuenfteDict objectForKey: socialStatus] objectForKey: @"Eltern"] objectForKey: parents] containsObject: diceResult])
+              if ([[[[herkuenfteDict objectForKey: socialStatus] objectForKey: @"Eltern"] objectForKey: parents] containsObject: @(diceResult)])
                 {
                   [retVal setObject: parents forKey: @"Eltern"];
                   break;
@@ -1616,23 +1635,23 @@ NSLog(@"generateFamilyBackground %@", retVal);
                                                                                  @"D": [NSNumber numberWithInt: 0]}];
    if ([socialStatus isEqualTo: @"unfrei"])
      {
-       [money setObject: [Utils rollDice: @"1W6"] forKey: @"S"];
+       [money setObject: @([Utils rollDice: @"1W6"]) forKey: @"S"];
      }
    else if ([socialStatus isEqualTo: @"arm"])
      {
-       [money setObject: [Utils rollDice: @"1W6"] forKey: @"D"];
+       [money setObject: @([Utils rollDice: @"1W6"]) forKey: @"D"];
      }
    else if ([socialStatus isEqualTo: @"mittelständisch"])
      {
-       [money setObject: [Utils rollDice: @"3W6"] forKey: @"D"];
+       [money setObject: @([Utils rollDice: @"3W6"]) forKey: @"D"];
      }
    else if ([socialStatus isEqualTo: @"reich"])
      {
-       [money setObject: [NSNumber numberWithInt: [[Utils rollDice: @"2W20"] integerValue] + 20] forKey: @"D"];
+       [money setObject: [NSNumber numberWithInteger: [Utils rollDice: @"2W20"] + 20] forKey: @"D"];
      }
    else if ([socialStatus isEqualTo: @"adelig"] || [socialStatus isEqualTo: @"unbekannt"]) // "unbekannt" can be quite rich, or poor 
      {
-       [money setObject: [Utils rollDice: @"3W20"] forKey: @"D"];
+       [money setObject: @([Utils rollDice: @"3W20"]) forKey: @"D"];
      }
    else
      {
@@ -1655,13 +1674,13 @@ NSLog(@"generateFamilyBackground %@", retVal);
     {
       hairConstraint = [NSDictionary dictionaryWithDictionary: [[_archetypesDict objectForKey: archetype] objectForKey: @"Haarfarbe"]];    
     }
-  NSNumber *diceResult = [Utils rollDice: @"1W20"];
+  NSInteger diceResult = [Utils rollDice: @"1W20"];
   
   NSArray *colors = [NSArray arrayWithArray: [hairConstraint allKeys]];
   
   for (NSString *color in colors)
     {
-      if ([[hairConstraint objectForKey: color] containsObject: diceResult])
+      if ([[hairConstraint objectForKey: color] containsObject: @(diceResult)])
         {
           return color;
         }
@@ -1673,7 +1692,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
    use the formula as defined in "Mit Mantel, Schwert und Zauberstab" */
 - (NSString *) generateEyeColorForArchetype: (NSString *) archetype withHairColor: (NSString *) hairColor
 {
-  NSNumber *diceResult = [Utils rollDice: @"1W20"];
+  NSInteger diceResult = [Utils rollDice: @"1W20"];
   
   if ([[_archetypesDict objectForKey: archetype] objectForKey: @"Augenfarbe"] == nil)
     {
@@ -1687,7 +1706,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
                 {
                   for (NSString *ec in [[entry objectForKey: @"Augenfarben"] allKeys])
                     {
-                      if ([[[entry objectForKey: @"Augenfarben"] objectForKey: ec] containsObject: diceResult])
+                      if ([[[entry objectForKey: @"Augenfarben"] objectForKey: ec] containsObject: @(diceResult)])
                         {
                           return ec;
                         }
@@ -1703,7 +1722,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
       
       for (NSString *color in [eyeColors allKeys])
         {
-          if ([[eyeColors objectForKey: color] containsObject: diceResult])
+          if ([[eyeColors objectForKey: color] containsObject: @(diceResult)])
             {
               // we found the color
               return color;
@@ -1713,57 +1732,18 @@ NSLog(@"generateFamilyBackground %@", retVal);
   return @"nix";
 }
 
-/* generates the birthday, as described in  "Die Helden des Schwarzen Auges",
-   Regelbuch II, S. 9. */
-
-/*   
-- (NSDictionary *) generateBirthday
-{
-  NSString *monthName = [[NSString alloc] init];
-  NSNumber *day = [[NSNumber alloc] init];
-  NSNumber *year = [[NSNumber alloc] init];
-  NSNumber *diceResult = [Utils rollDice: @"1W20"];
-  NSMutableDictionary *retVal = [[NSMutableDictionary alloc] init];
-  NSArray *months = [[_birthdaysDict objectForKey: @"Monat"] allKeys];
-
-  for (NSString *month in months)
-    {
-      if ([[[_birthdaysDict objectForKey: @"Monat"] objectForKey: month] containsObject: diceResult])
-        {
-          monthName = [NSString stringWithFormat: @"%@", month];
-        }
-    }
-
-  diceResult = [Utils rollDice: @"1W20"];
-  NSArray *fifthOfMonth = [[_birthdaysDict objectForKey: @"Monatsfuenftel"] allKeys];
-  for (NSString *fifth in fifthOfMonth)  
-    {
-      if ([[[_birthdaysDict objectForKey: @"Monatsfuenftel"] objectForKey: fifth] containsObject: diceResult])
-        {
-          day = [NSNumber numberWithInt: [fifth intValue] + [[Utils rollDice: @"1W6"] intValue] - 1];
-        }
-    }
-  year = [NSNumber numberWithInt: 0];
-  [retVal setObject: monthName forKey: @"month"];
-  [retVal setObject: day forKey: @"day"];
-  [retVal setObject: year forKey: @"year"];
-  [retVal setObject: [NSString stringWithFormat: @"%@. %@ im Jahr %@ Hal", day, monthName, year] forKey: @"date"];
-  return retVal;
-}
-*/
-
 - (DSAAventurianDate *) generateBirthday
 {
   NSLog(@"generateBirthday called");
   NSString *monthName = [[NSString alloc] init];
   NSUInteger day;
   NSInteger year;
-  NSNumber *diceResult = [Utils rollDice: @"1W20"];
+  NSInteger diceResult = [Utils rollDice: @"1W20"];
   NSArray *months = [[_birthdaysDict objectForKey: @"Monat"] allKeys];
 
   for (NSString *month in months)
     {
-      if ([[[_birthdaysDict objectForKey: @"Monat"] objectForKey: month] containsObject: diceResult])
+      if ([[[_birthdaysDict objectForKey: @"Monat"] objectForKey: month] containsObject: @(diceResult)])
         {
           monthName = [NSString stringWithFormat: @"%@", month];
         }
@@ -1773,9 +1753,9 @@ NSLog(@"generateFamilyBackground %@", retVal);
   NSArray *fifthOfMonth = [[_birthdaysDict objectForKey: @"Monatsfuenftel"] allKeys];
   for (NSString *fifth in fifthOfMonth)  
     {
-      if ([[[_birthdaysDict objectForKey: @"Monatsfuenftel"] objectForKey: fifth] containsObject: diceResult])
+      if ([[[_birthdaysDict objectForKey: @"Monatsfuenftel"] objectForKey: fifth] containsObject: @(diceResult)])
         {
-          day = [fifth intValue] + [[Utils rollDice: @"1W6"] intValue] - 1;
+          day = [fifth intValue] + [Utils rollDice: @"1W6"] - 1;
         }
     }
   NSLog(@"generateBirthday before year with this month %lu for monthName: %@", (unsigned long) [DSAAventurianCalendar monthForString: monthName], monthName);
@@ -1788,13 +1768,13 @@ NSLog(@"generateFamilyBackground %@", retVal);
   return [[DSAAventurianDate alloc] initWithYear: year
                                            month: [DSAAventurianCalendar monthForString: monthName]
                                              day: day
-                                            hour: 5];         // for now, everyone is born at 5 am in the morning
+                                            hour: [Utils rollDice: @"1W24"] - 1];         // for now, everyone is born at 5 am in the morning
 }
 
 // loosely following "Vom Leben in Aventurien", S. 34
 - (NSArray *) generateSiblings
 {
-  NSInteger diceResult = [[Utils rollDice: @"1W10"] integerValue];
+  NSInteger diceResult = [Utils rollDice: @"1W10"];
   NSMutableArray *resultArr = [[NSMutableArray alloc] init];
   if (diceResult == 1)
     {
@@ -1805,7 +1785,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
       for (NSInteger cnt = 1;cnt <= diceResult;cnt++)
         {
           NSMutableDictionary *sibling = [[NSMutableDictionary alloc] init];
-          NSInteger result = [[Utils rollDice: @"1W2"] integerValue];
+          NSInteger result = [Utils rollDice: @"1W2"];
           if (result == 1)
             {
               [sibling setObject: _(@"älter") forKey: @"age"];
@@ -1814,7 +1794,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
             {
               [sibling setObject: _(@"jünger") forKey: @"age"];
             }
-          result = [[Utils rollDice: @"1W2"] integerValue];
+          result = [Utils rollDice: @"1W2"];
           if (result == 1)
             {
               [sibling setObject: _(@"weiblich") forKey: @"sex"];
@@ -1835,7 +1815,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
   NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
 
-  NSInteger diceResult = [[Utils rollDice: @"1W20"] integerValue];
+  NSInteger diceResult = [Utils rollDice: @"1W20"];
   NSInteger typusOffset = 0;
   if ([selectedArchetype isEqualToString: _(@"Jäger")])
     {
@@ -1854,7 +1834,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   NSString *resultStr;
   if (testValue >= -16 && testValue <= 2)
     {
-      diceResult = [[Utils rollDice: @"1W20"] integerValue];
+      diceResult = [Utils rollDice: @"1W20"];
 
       if (diceResult == 1)
         {
@@ -1867,7 +1847,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
     }
   else if (testValue == 3)
     {
-      diceResult = [[Utils rollDice: @"1W3"] integerValue];
+      diceResult = [Utils rollDice: @"1W3"];
       if (diceResult == 1)
         {
           resultStr = _(@"in einer Ruine in einem verlassenem Dorf");
@@ -1883,7 +1863,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
     }
   else if (testValue >= 4 && testValue <= 12)
     {
-      diceResult = [[Utils rollDice: @"1W3"] integerValue];
+      diceResult = [Utils rollDice: @"1W3"];
       if (diceResult == 1)
         {
           resultStr = _(@"in einem Dorf");
@@ -1923,7 +1903,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
 // loosely following "Vom Leven in Aventurien" S. 35
 - (NSString *) generateBirthEventForCharacter: (DSACharacter *) character
 {
-  NSInteger diceResult = [[Utils rollDice: @"1W20"] integerValue];
+  NSInteger diceResult = [Utils rollDice: @"1W20"];
   
   if (diceResult == 1)
     {
@@ -1966,7 +1946,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
     }
   else if (diceResult == 9)
     {
-      diceResult = [[Utils rollDice: @"1W3"] integerValue];
+      diceResult = [Utils rollDice: @"1W3"];
       NSString *result;
       if (diceResult == 1)
         {
@@ -2023,7 +2003,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
   NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
 
-  NSInteger diceResult = [[Utils rollDice: @"1W20"] integerValue];
+  NSInteger diceResult = [Utils rollDice: @"1W20"];
   NSInteger typusOffset = -1;
   if ([selectedArchetype isEqualToString: _(@"Moha")] || [selectedOrigin isEqualTo: _(@"Moha")])
     {
@@ -2037,7 +2017,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   NSInteger testValue = diceResult + typusOffset;
   if (testValue >= 0 && testValue <= 2)
     {
-      diceResult = [[Utils rollDice: @"1W3"] integerValue];
+      diceResult = [Utils rollDice: @"1W3"];
       if (diceResult == 1)
         {
           return [NSString stringWithFormat: _(@"%@ wird in einem Dorf ausgesetzt und wächst als Findelkind bei Pflegeeltern auf."), [character name]];
@@ -2076,7 +2056,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
 - (NSArray *) generateChildhoodEventsForCharacter: (DSACharacter *) character
 {
   NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
-  NSInteger eventCount = [[Utils rollDice: @"1W3"] integerValue];
+  NSInteger eventCount = [Utils rollDice: @"1W3"];
   NSMutableArray *resultArr = [[NSMutableArray alloc] init];
   
   NSMutableArray *tracker = [[NSMutableArray alloc] init];
@@ -2085,7 +2065,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   
   while (cnt < eventCount)
     {
-      NSInteger eventResult = [[Utils rollDice: @"1W20"] integerValue];
+      NSInteger eventResult = [Utils rollDice: @"1W20"];
       NSString *resultStr;
       if ([tracker containsObject: [NSNumber numberWithInteger: eventResult]])
         {
@@ -2101,7 +2081,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 2)
         {
-          eventResult = [[Utils rollDice: @"1W7"] integerValue];
+          eventResult = [Utils rollDice: @"1W7"];
           NSString *who;
           if (eventResult == 1)
             {
@@ -2131,10 +2111,10 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 3)
         {
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           if (eventResult == 1 | eventResult == 2)
             {
-              eventResult = [[Utils rollDice: @"2W6"] integerValue];
+              eventResult = [Utils rollDice: @"2W6"];
               resultStr = [NSString stringWithFormat: _(@"%@ findet einen Beutel mit %lu Goldstücken."), [character name], (unsigned long) eventResult];
             }
           else if (eventResult == 3)
@@ -2156,15 +2136,15 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 4)
         {
-          eventResult = [[Utils rollDice: @"1W3"] integerValue];
+          eventResult = [Utils rollDice: @"1W3"];
           // more flesh to be added here, see book
           resultStr = _(@"Die Eltern werden vom Fürsten für eine besondere Tat belohnt.");
 
         }
       else if (eventResult == 5)
         {
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
-          NSInteger socialStatus = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
+          NSInteger socialStatus = [Utils rollDice: @"1W6"];
           NSString *timeFrame;
           NSString *status;
           if (eventResult == 1 || eventResult == 2)
@@ -2195,8 +2175,8 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 6)
         {
-          NSInteger who = [[Utils rollDice: @"1W2"] integerValue];
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          NSInteger who = [Utils rollDice: @"1W2"];
+          eventResult = [Utils rollDice: @"1W6"];
           NSString *whoStr;
           if (who == 1)
             {
@@ -2225,7 +2205,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 7)
         {
-          eventResult = [[Utils rollDice: @"1W2"] integerValue];
+          eventResult = [Utils rollDice: @"1W2"];
           NSString *whereTo;
           if (eventResult == 1)
             {
@@ -2247,7 +2227,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 10)
         {
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           NSInteger typusOffset = 0;
           if ([selectedArchetype isEqualToString: _(@"Streuner")])
             {
@@ -2267,7 +2247,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 11)
         {
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           NSInteger typusOffset = 0;
           if ([selectedArchetype isEqualToString: _(@"Streuner")])
             {
@@ -2289,7 +2269,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
             }                        
           else
             {
-              NSInteger days = [[Utils rollDice: @"1W6"] integerValue] + 3;
+              NSInteger days = [Utils rollDice: @"1W6"] + 3;
               whatStr = [NSString stringWithFormat: _(@"und kehrt nach %lu Tagen wieder zurück"), (unsigned long) days];
             }
           resultStr = [NSString stringWithFormat: _(@"%@ läuft von zu Hause fort, %@"), [character name], whatStr];
@@ -2300,7 +2280,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 13)
         {
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           NSString *article;
           NSString *whatStr;
           if ([[character sex] isEqualToString: _(@"männlich")])
@@ -2327,7 +2307,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 14)
         {
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           NSString *whoStr;         
           if (eventResult == 1)
             {
@@ -2370,7 +2350,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 15)
         {
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           NSString *whatStr;
           NSString *article;
           if ([[character sex] isEqualToString: _(@"männlich")])
@@ -2397,7 +2377,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 17)
         {
-          eventResult = [[Utils rollDice: @"1W2"] integerValue];
+          eventResult = [Utils rollDice: @"1W2"];
           NSString *event;
           if (eventResult == 1)
             {
@@ -2407,7 +2387,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
             {
               event = _(@"Aufstand");
             }
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           NSString *whatStr;
           if (eventResult == 1 || eventResult == 2)
             {
@@ -2459,7 +2439,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 18)
         {
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           NSString *reason;
           if (eventResult == 1)
             {
@@ -2471,7 +2451,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
             }
           else if (eventResult == 3)
             {
-              eventResult = [[Utils rollDice: @"1W3"] integerValue];
+              eventResult = [Utils rollDice: @"1W3"];
               NSString *whoStr;
               if (eventResult == 1)
                 {
@@ -2499,7 +2479,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
             {
               reason = _(@"bei einem Selbstmord");
             }
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];  
+          eventResult = [Utils rollDice: @"1W6"];  
           NSString *whoStr;         
           if (eventResult == 1)
             {
@@ -2542,7 +2522,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 19)
         {
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           NSString *sickness;
           if (eventResult >= 1 && eventResult <= 3)
             {
@@ -2595,7 +2575,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 20)
         {
-           eventResult = [[Utils rollDice: @"1W3"] integerValue];
+           eventResult = [Utils rollDice: @"1W3"];
            NSString *whoStr;
            NSString *reason;
            if (eventResult == 1)
@@ -2611,9 +2591,9 @@ NSLog(@"generateFamilyBackground %@", retVal);
                whoStr = _(@"von Räubern");
              }
            reason = [NSString stringWithFormat: _(@"bei einem Überfall %@"), whoStr];
-           eventResult = [[Utils rollDice: @"1W6"] integerValue];
+           eventResult = [Utils rollDice: @"1W3"];
            NSString *whatStr;
-           if (eventResult == 1 || eventResult == 2)
+           if (eventResult == 1)
              {
                whatStr = [NSString stringWithFormat: _(@"%@ schlägt sich von nun an allein durch"), [character name]];
              }
@@ -2633,7 +2613,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
 - (NSArray *) generateYouthEventsForCharacter: (DSACharacter *) character
 {
   NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
-  NSInteger eventCount = [[Utils rollDice: @"1W3"] integerValue];
+  NSInteger eventCount = [Utils rollDice: @"1W3"];
   NSMutableArray *resultArr = [[NSMutableArray alloc] init];
   
   NSMutableArray *tracker = [[NSMutableArray alloc] init];
@@ -2673,8 +2653,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   
   while (cnt < eventCount)
     {
-      NSLog(@"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX CHILDHOOD EVENT %lu of %lu", (unsigned long)cnt, (unsigned long)eventCount);
-      NSInteger eventResult = [[Utils rollDice: @"1W20"] integerValue];
+      NSInteger eventResult = [Utils rollDice: @"1W20"];
       NSString *resultStr;
       NSString *whatStr;
       NSInteger testValue = 0;
@@ -2688,7 +2667,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       if (eventResult >= 1 && eventResult <= 4)
         {
-          eventResult = [[Utils rollDice: @"1W13"] integerValue];
+          eventResult = [Utils rollDice: @"1W13"];
           NSString *godStr;
           if (eventResult == 1)
             {
@@ -2738,7 +2717,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
             {
               godStr = _(@"der Rahja");
             }
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           if (eventResult == 1 || eventResult == 2)
             {
               whatStr = [NSString stringWithFormat: _(@"Nach dieser Zeit entscheidet %@ sich, Geweihter zu werden."), pronoun];
@@ -2755,7 +2734,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 5)
         {
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           NSInteger typusOffset = +3;
           NSString *akademieStr;
           if ([@[_(@"Krieger"), _(@"Magier")] containsObject: selectedArchetype])
@@ -2773,7 +2752,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
             }
           else
             {
-              eventResult = [[Utils rollDice: @"1W2"] integerValue];
+              eventResult = [Utils rollDice: @"1W2"];
               if (eventResult == 1)
                 {
                   akademieStr = _(@"Magierakademie");
@@ -2800,7 +2779,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult >= 7 && eventResult <= 11)
         {
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           NSString *whatStr;
           if (eventResult == 1 || eventResult == 2)
             {
@@ -2826,7 +2805,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 13)
         {
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           NSString *whatStr;
           if (eventResult == 1)
             {
@@ -2834,7 +2813,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
             }
           else if (eventResult == 2)
             {
-              eventResult = [[Utils rollDice: @"1W2"] integerValue];
+              eventResult = [Utils rollDice: @"1W2"];
               NSString *whoStr;
               if (eventResult == 1)
                 {
@@ -2856,7 +2835,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
             }
           else if (eventResult == 5)
             {
-              eventResult = [[Utils rollDice: @"1W2"] integerValue];
+              eventResult = [Utils rollDice: @"1W2"];
               NSString *whoStr;
               if (eventResult == 1)
                 {
@@ -2880,7 +2859,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
             {
               continue;
             }
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           NSInteger typusOffset = 0;
           if ([selectedArchetype isEqualToString: _(@"Streuner")])
             {
@@ -2889,7 +2868,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
           testValue = eventResult + typusOffset;
           if (testValue >= 0 && testValue <= 5)
             {
-              eventResult = [[Utils rollDice: @"1W3"] integerValue];
+              eventResult = [Utils rollDice: @"1W3"];
               if (eventResult == 1)
                 {
                   whatStr =[NSString stringWithFormat: _(@"%@ bricht diese aber nach einem Jahr ab."), pronounUpper];
@@ -2907,7 +2886,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 15)
         {
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           NSInteger typusOffset = 0;
           if ([selectedArchetype isEqualToString: _(@"Streuner")])
             {
@@ -2931,7 +2910,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         } 
       else if (eventResult == 16)
         {
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           NSString *whoStr;
           if ([[character sex] isEqualToString: _(@"männlich")])
             {
@@ -2968,7 +2947,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 17 || eventResult == 18)
         {
-          eventResult = [[Utils rollDice: @"1W6"] integerValue];
+          eventResult = [Utils rollDice: @"1W6"];
           NSString *whoStr;
           if ([[character sex] isEqualToString: _(@"männlich")])
             {
@@ -3001,7 +2980,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       else if (eventResult == 20)      
         {
-           eventResult = [[Utils rollDice: @"1W3"] integerValue];
+           eventResult = [Utils rollDice: @"1W3"];
            NSString *whoStr;
            NSString *reason;
            if (eventResult == 1)
@@ -3017,7 +2996,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
                whoStr = _(@"von Räubern");
              }
            reason = [NSString stringWithFormat: _(@"bei einem Überfall %@"), whoStr];
-           eventResult = [[Utils rollDice: @"1W6"] integerValue];
+           eventResult = [Utils rollDice: @"1W6"];
            NSString *whatStr;
            if (eventResult == 1 || eventResult == 2)
              {
@@ -3053,7 +3032,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   unsigned int count = [heightArr count];
   for (unsigned int i = 1;i<count; i++)
     {
-      height += [[Utils rollDice: [heightArr objectAtIndex: i]] floatValue];
+      height += [Utils rollDice: [heightArr objectAtIndex: i]];
     }
   return height;
 }
@@ -3217,12 +3196,12 @@ NSLog(@"generateFamilyBackground %@", retVal);
             {
               DSASpellDruidRitual *spell = [[DSASpellDruidRitual alloc] initSpell: spellName
                                                                        ofCategory: category
-                                                                          onLevel: @0
+                                                                          onLevel: 0
                                                                        withOrigin: nil
                                                                          withTest: [[[_druidRitualsDict objectForKey: category] objectForKey: spellName] objectForKey: @"Probe"]
-                                                           withMaxTriesPerLevelUp: @0
-                                                                withMaxUpPerLevel: @0
-                                                                  withLevelUpCost: @0];
+                                                           withMaxTriesPerLevelUp: 0
+                                                                withMaxUpPerLevel: 0
+                                                                  withLevelUpCost: 0];
               [specialTalents setObject: spell forKey: spellName];
                NSLog(@"YES");              
             }
@@ -3238,9 +3217,6 @@ NSLog(@"generateFamilyBackground %@", retVal);
 
 - (void) addEquipmentToCharacter: (DSACharacterHero *) character
 {
-
-//  NSLog(@"SOCIAL STATUS: %@", [character socialStatus]);
-//  NSLog(@"SSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS %@", [[[_archetypesDict objectForKey: [character archetype]] objectForKey: @"Herkunft"] objectForKey: [character socialStatus]]);
   NSArray *equipmentDict = [NSArray arrayWithArray: [[[[_archetypesDict objectForKey: [character archetype]] objectForKey: @"Herkunft"] objectForKey: [character socialStatus]] objectForKey: @"Equipment"]];
 //  NSLog(@"The EQUIPMENT DICT: %@", equipmentDict);
   for (NSDictionary *equipment in equipmentDict)
@@ -3256,10 +3232,10 @@ NSLog(@"generateFamilyBackground %@", retVal);
 
   NSLog(@"makeCharacterAMagicalDabbler called");
   [self.generatedCharacter setIsMagicalDabbler: YES];
-  NSInteger diceResult = [[Utils rollDice: @"1W20"] integerValue];
+  NSInteger diceResult = [Utils rollDice: @"1W20"];
   self.magicalDabblerDiceResult = diceResult;
   
-  NSNumber *ae = [NSNumber numberWithInteger: [[Utils rollDice: @"1W6"] integerValue] + 3];
+  NSInteger ae = [Utils rollDice: @"1W6"] + 3;
   [self.generatedCharacter setAstralEnergy: ae];
   [self.generatedCharacter setCurrentAstralEnergy: ae];  
   
@@ -3275,39 +3251,39 @@ NSLog(@"generateFamilyBackground %@", retVal);
     
   if (diceResult == 1)
     {
-      headline = [NSString stringWithFormat: _(@"%@ besitzt %@ AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen. Weiterhin kann er 3 Zauber aus der unten stehenden Liste wählen."),
-                                             [self.generatedCharacter name], ae];
+      headline = [NSString stringWithFormat: _(@"%@ besitzt %ld AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen. Weiterhin kann er 3 Zauber aus der unten stehenden Liste wählen."),
+                                             [self.generatedCharacter name], (signed long)ae];
       secondLine = _(@"3 Zaubersprüche auswählen");
       self.magicalDabblerMaxSwitchesToBeSelected = 3;
       [self.buttonMagicalDabblerFinish setEnabled: NO];
     }
   else if (diceResult >= 2 && diceResult <= 6)
     {
-      headline = [NSString stringWithFormat: _(@"%@ besitzt %@ AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen. Weiterhin kann er 2 Zauber aus der unten stehenden Liste wählen."),
-                                             [self.generatedCharacter name], ae];
+      headline = [NSString stringWithFormat: _(@"%@ besitzt %ld AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen. Weiterhin kann er 2 Zauber aus der unten stehenden Liste wählen."),
+                                             [self.generatedCharacter name], (signed long)ae];
       secondLine = _(@"2 Zaubersprüche auswählen");                                                   
       self.magicalDabblerMaxSwitchesToBeSelected = 2; 
       [self.buttonMagicalDabblerFinish setEnabled: NO];     
     }
   else if (diceResult >= 7 && diceResult <= 15)    
     {
-      headline = [NSString stringWithFormat: _(@"%@ besitzt %@ AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen. Weiterhin kann er 1 Zauber aus der unten stehenden Liste wählen."),
-                                             [self.generatedCharacter name], ae];
+      headline = [NSString stringWithFormat: _(@"%@ besitzt %ld AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen. Weiterhin kann er 1 Zauber aus der unten stehenden Liste wählen."),
+                                             [self.generatedCharacter name], (signed long)ae];
       secondLine = _(@"1 Zauberspruch auswählen");                                                   
       self.magicalDabblerMaxSwitchesToBeSelected = 1; 
       [self.buttonMagicalDabblerFinish setEnabled: NO];     
     }
   else if (diceResult >= 16 && diceResult <= 19)
     {
-      headline = [NSString stringWithFormat: _(@"%@ besitzt %@ AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen."),
-                                             [self.generatedCharacter name], ae];
+      headline = [NSString stringWithFormat: _(@"%@ besitzt %ld AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen."),
+                                             [self.generatedCharacter name], (signed long)ae];
       secondLine = @"";  
       [self.buttonMagicalDabblerFinish setEnabled: YES];    
     }
   else if (diceResult == 20)
     {
-      headline = [NSString stringWithFormat: _(@"%@ besitzt %@ AE und kann seine AE für einen 'Schutzgeist' oder das 'Magische Meisterhandwerk' einsetzen."),
-                                             [self.generatedCharacter name], ae];
+      headline = [NSString stringWithFormat: _(@"%@ besitzt %ld AE und kann seine AE für einen 'Schutzgeist' oder das 'Magische Meisterhandwerk' einsetzen."),
+                                             [self.generatedCharacter name], (signed long)ae];
       secondLine = _(@"Auswählen");     
       self.magicalDabblerMaxSwitchesToBeSelected = 1; 
       [self.buttonMagicalDabblerFinish setEnabled: NO];     
@@ -3389,9 +3365,9 @@ NSLog(@"generateFamilyBackground %@", retVal);
                                                                ofCategory: _(@"Spezialtalent")
                                                                   onLevel: 0
                                                                  withTest: nil
-                                                   withMaxTriesPerLevelUp: @0
-                                                        withMaxUpPerLevel: @0
-                                                          withLevelUpCost: @0];
+                                                   withMaxTriesPerLevelUp: 0
+                                                        withMaxUpPerLevel: 0
+                                                          withLevelUpCost: 0];
           if ([specialTalent isEqualToString: _(@"Magisches Meisterhandwerk")])                                             
             {
               [talent setTest: @[ @"IN"] ];
@@ -3419,12 +3395,12 @@ NSLog(@"generateFamilyBackground %@", retVal);
                             NSDictionary *sDict = [[spells objectForKey: category] objectForKey: s];
                             DSASpell *spell = [[DSASpell alloc] initSpell: s
                                                                ofCategory: category
-                                                                  onLevel: @0               // See Compendium Salamandris S. 29
+                                                                  onLevel: 0               // See Compendium Salamandris S. 29
                                                                withOrigin: [sDict objectForKey: @"Ursprung"]
                                                                  withTest: [sDict objectForKey: @"Probe"]
-                                                   withMaxTriesPerLevelUp: @3
-                                                        withMaxUpPerLevel: @1
-                                                          withLevelUpCost: @2]; 
+                                                   withMaxTriesPerLevelUp: 3
+                                                        withMaxUpPerLevel: 1
+                                                          withLevelUpCost: 2]; 
                             [newSpells setObject: spell forKey: s];
                           }
                       }

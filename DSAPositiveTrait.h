@@ -27,12 +27,10 @@
 
 #import "DSATrait.h"
 
-@interface DSAPositiveTrait : DSATrait <NSCoding>
-
-@property (nonatomic, strong) NSString *category;
+@interface DSAPositiveTrait : DSATrait
 
 - (instancetype)initTrait: (NSString *) name
-                  onLevel: (NSNumber *)level;
+                  onLevel: (NSInteger)level;
 
 - (BOOL) levelUp;
                   

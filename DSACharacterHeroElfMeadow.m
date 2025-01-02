@@ -31,7 +31,7 @@
   self = [super init];
   if (self)
     { 
-      self.mrBonus = @3;          
+      self.mrBonus = 3;          
     }
   return self;
 }

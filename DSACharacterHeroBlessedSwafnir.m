@@ -31,9 +31,9 @@
   self = [super init];
   if (self)
     {
-      self.karmaPoints = @10;           // see "Die Götter des schwarzen Auges" S. 90
-      self.currentKarmaPoints = @10;    
-      self.mrBonus = @0;
+      self.karmaPoints = 10;           // see "Die Götter des schwarzen Auges" S. 90
+      self.currentKarmaPoints = 10;    
+      self.mrBonus = 0;
     }
   return self;
 }
@@ -41,21 +41,21 @@
 - (NSDictionary *) levelUpBaseEnergies
 {
   NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
-  NSInteger result = [[Utils rollDice: @"1W6"] integerValue];
+  NSInteger result = [Utils rollDice: @"1W6"];
   
-  NSInteger tmp = [self.lifePoints integerValue];
-  self.lifePoints = [NSNumber numberWithInteger: result + tmp];
-  self.currentLifePoints = [NSNumber numberWithInteger: result + tmp];
+  NSInteger tmp = self.lifePoints;
+  self.lifePoints = result + tmp;
+  self.currentLifePoints = result + tmp;
  
-  [resultDict setObject: [NSNumber numberWithInteger: result] forKey: @"deltaLifePoints"];
+  [resultDict setObject: @(result) forKey: @"deltaLifePoints"];
        
   // See: Kirchen, Kulte, Ordenskrieger Swafnir is different than other Blessed Ones
-  result = [[Utils rollDice: @"1W6"] integerValue] - 1;
-  tmp = [self.karmaPoints integerValue];
-  self.karmaPoints = [NSNumber numberWithInteger: result + tmp];
-  self.currentKarmaPoints = [NSNumber numberWithInteger: result + tmp];
+  result = [Utils rollDice: @"1W6"] - 1;
+  tmp = self.karmaPoints;
+  self.karmaPoints = result + tmp;
+  self.currentKarmaPoints = result + tmp;
     
-  [resultDict setObject: [NSNumber numberWithInteger: result] forKey: @"deltaKarmaPoints"];
+  [resultDict setObject: @(result) forKey: @"deltaKarmaPoints"];
 
   return resultDict;
 }

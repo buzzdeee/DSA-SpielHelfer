@@ -40,6 +40,7 @@
 #import "DSACharacterViewModel.h"
 #import "DSARightAlignedStringTransformer.h"
 #import "DSAInventorySlotView.h"
+#import "DSATalentResult.h"
 
 @implementation DSACharacterWindowController
 
@@ -259,7 +260,6 @@
             withKeyPath:@"formattedMoney"
                 options:nil];
   [self addObserverForObject: viewModel keyPath: @"formattedMoney"];
-  NSLog(@"XXXXX after adding observer for formattedMoney");
   [self.fieldLifePoints bind:NSValueBinding
                     toObject:viewModel
                  withKeyPath:@"formattedLifePoints"
@@ -282,12 +282,12 @@
     {
       NSString *fieldKey = [NSString stringWithFormat:@"field%@", field]; // Constructs "fieldAG", "fieldHA", etc.
       NSTextField *fieldControl = [self valueForKey:fieldKey]; // Dynamically retrieves self.fieldAG, self.fieldHA, etc.
-
+      
       [fieldControl bind:NSValueBinding
-                toObject:document.model
-             withKeyPath:[NSString stringWithFormat:@"positiveTraits.%@.level", field]
-                 options:nil];
-      [self addObserverForObject: document.model keyPath: [NSString stringWithFormat:@"positiveTraits.%@.level", field]];         
+                toObject:viewModel
+             withKeyPath: [NSString stringWithFormat:@"formattedPositiveTraits.%@", field]
+                 options: nil];
+      [self addObserverForObject: viewModel keyPath: [NSString stringWithFormat:@"formattedPositiveTraits.%@", field]];
     }
   for (NSString *field in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
     {
@@ -295,10 +295,10 @@
       NSTextField *fieldControl = [self valueForKey:fieldKey]; // Dynamically retrieves self.fieldAG, self.fieldHA, etc.
 
       [fieldControl bind:NSValueBinding
-                toObject:document.model
-             withKeyPath:[NSString stringWithFormat:@"negativeTraits.%@.level", field]
-                 options:nil];
-      [self addObserverForObject: document.model keyPath: [NSString stringWithFormat:@"negativeTraits.%@.level", field]];                                         
+                toObject:viewModel
+             withKeyPath: [NSString stringWithFormat:@"formattedNegativeTraits.%@", field]
+                 options: nil];
+      [self addObserverForObject: viewModel keyPath: [NSString stringWithFormat:@"formattedNegativeTraits.%@", field]];                                         
     }
   NSLog(@"BEFORE displaying the LOAD");
   [self.fieldLoad setStringValue: [NSString stringWithFormat: @"%.2f", [document.model load]]];
@@ -995,7 +995,7 @@
           [itemField setBackgroundColor:[NSColor lightGrayColor]];
           if ([item isMemberOfClass: [DSAFightingTalent class]])
             {
-              [itemField setStringValue:[NSString stringWithFormat:@"%@ (%@)", item.name, item.maxUpPerLevel]];
+              [itemField setStringValue:[NSString stringWithFormat:@"%@ (%ld)", item.name, (signed long)item.maxUpPerLevel]];
               [itemField setTextColor: fontColor];                           
             }
           else if ([item isMemberOfClass: [DSASpecialTalent class]])
@@ -1017,7 +1017,7 @@
             }
           else
             {
-              [itemField setStringValue:[NSString stringWithFormat:@"%@ (%@) (%@)", item.name, [item.test componentsJoinedByString:@"/"], item.maxUpPerLevel]];
+              [itemField setStringValue:[NSString stringWithFormat:@"%@ (%@) (%ld)", item.name, [item.test componentsJoinedByString:@"/"], (signed long)item.maxUpPerLevel]];
               [itemField setTextColor: fontColor];
               if ([item isKindOfClass:[DSASpell class]])
                 {
@@ -1194,7 +1194,7 @@
   
   // At initial character creation, we jump over raising base value
   // at all other levels, we do so...
-  if ([model.level integerValue] == 0)
+  if (model.level == 0)
     {
       NSLog(@"going to call showLevelUpPositiveTraits!");
       [self showLevelUpPositiveTraits:nil];
@@ -1270,24 +1270,24 @@
       if ([[(NSDictionary *)sender allKeys] containsObject: @"deltaLifePoints"] && [[(NSDictionary *)sender objectForKey: @"deltaLifePoints"] integerValue] > 0)
         {
           [self.fieldLevelUpMainText setStringValue: 
-                       [NSString stringWithFormat: _(@"%@ hat %@ Lebenspunkte erhalten und kann weitere %@ Punkte auf Lebenspunkte und Astralenergie verteilen. Wieviele davon sollen auf Lebenspunkte verwendet werden?"),
+                       [NSString stringWithFormat: _(@"%@ hat %@ Lebenspunkte erhalten und kann weitere %ld Punkte auf Lebenspunkte und Astralenergie verteilen. Wieviele davon sollen auf Lebenspunkte verwendet werden?"),
                        model.name, [(NSDictionary *)sender objectForKey: @"deltaLifePoints"], model.tempDeltaLpAe ]];        
         }
       else
         {
           [self.fieldLevelUpMainText setStringValue: 
-                           [NSString stringWithFormat: _(@"%@ kann %@ Punkte auf Lebenspunkte und Astralenergie verteilen. Wieviele davon sollen auf Lebenspunkte verwendet werden?"),
+                           [NSString stringWithFormat: _(@"%@ kann %ld Punkte auf Lebenspunkte und Astralenergie verteilen. Wieviele davon sollen auf Lebenspunkte verwendet werden?"),
                            model.name, model.tempDeltaLpAe ]];        
         }
     }
   else
     {
       [self.fieldLevelUpMainText setStringValue: 
-                       [NSString stringWithFormat: _(@"%@ kann %@ Punkte auf Lebenspunkte und Astralenergie verteilen. Wieviele davon sollen auf Lebenspunkte verwendet werden?"),
+                       [NSString stringWithFormat: _(@"%@ kann %ld Punkte auf Lebenspunkte und Astralenergie verteilen. Wieviele davon sollen auf Lebenspunkte verwendet werden?"),
                        model.name, model.tempDeltaLpAe ]];
      }
   [self.popupLevelUpTop removeAllItems];                       
-  for (NSInteger i = 0; i <= [model.tempDeltaLpAe integerValue]; i++)
+  for (NSInteger i = 0; i <= model.tempDeltaLpAe; i++)
     {
       [self.popupLevelUpTop addItemWithTitle: [NSString stringWithFormat: @"%li", i]];
     }
@@ -1307,11 +1307,11 @@
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   DSACharacterHero *model = (DSACharacterHero *)document.model;
   
-  model.lifePoints = [NSNumber numberWithInteger: [model.lifePoints integerValue] + [self.popupLevelUpTop integerValue]];
-  model.currentLifePoints = [NSNumber numberWithInteger: [model.currentLifePoints integerValue] + [self.popupLevelUpTop integerValue]];
-  model.astralEnergy = [NSNumber numberWithInteger: [model.astralEnergy integerValue] + [model.tempDeltaLpAe integerValue] - [self.popupLevelUpTop integerValue]];
-  model.currentAstralEnergy = [NSNumber numberWithInteger: [model.currentAstralEnergy integerValue] + [model.tempDeltaLpAe integerValue] - [self.popupLevelUpTop integerValue]];
-  model.tempDeltaLpAe = @0;
+  model.lifePoints = model.lifePoints + [self.popupLevelUpTop integerValue];
+  model.currentLifePoints = model.currentLifePoints + [self.popupLevelUpTop integerValue];
+  model.astralEnergy = model.astralEnergy + model.tempDeltaLpAe - [self.popupLevelUpTop integerValue];
+  model.currentAstralEnergy = model.currentAstralEnergy + model.tempDeltaLpAe - [self.popupLevelUpTop integerValue];
+  model.tempDeltaLpAe = 0;
   
   [self showLevelUpPositiveTraits: nil];
   
@@ -1505,23 +1505,23 @@
 {
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   DSACharacterHero *model = (DSACharacterHero *)document.model;
-  if ([model.maxLevelUpVariableTries integerValue] == 0)
+  if (model.maxLevelUpVariableTries == 0)
     {
     
       NSLog(@"DSACharacterWindowController showQuestionRegardingVariableTries maxLevelUpVariableTries WAS 0");
     
       // nothing to ask, just copy over the values
       // but there might be archetypes out there, that may have a penalty on first level up talent tries, i.e. warrior
-      if ([model.firstLevelUpTalentTriesPenalty integerValue] != 0)
+      if (model.firstLevelUpTalentTriesPenalty != 0)
         {
-          model.maxLevelUpTalentsTriesTmp = [NSNumber numberWithInteger: [model.maxLevelUpTalentsTries integerValue] + [model.firstLevelUpTalentTriesPenalty integerValue]];
-          model.firstLevelUpTalentTriesPenalty = @0;
+          model.maxLevelUpTalentsTriesTmp = model.maxLevelUpTalentsTries + model.firstLevelUpTalentTriesPenalty;
+          model.firstLevelUpTalentTriesPenalty = 0;
         }
       else
         {
-          model. maxLevelUpTalentsTriesTmp = [model. maxLevelUpTalentsTries copy];
+          model.maxLevelUpTalentsTriesTmp = model.maxLevelUpTalentsTries;
         }
-      model.maxLevelUpSpellsTriesTmp = [model.maxLevelUpSpellsTries copy];
+      model.maxLevelUpSpellsTriesTmp = model.maxLevelUpSpellsTries;
       [self showLevelUpTalents: nil];
       return;
     }
@@ -1533,10 +1533,10 @@
       [self.fieldLevelUpHeadline.cell setLineBreakMode:NSLineBreakByWordWrapping];
       [self.fieldLevelUpHeadline.cell setUsesSingleLineMode:NO];
       [self.fieldLevelUpMainText setStringValue: 
-                       [NSString stringWithFormat: @"%@ kann %@ Steigerungsversuche auf Talent oder Zaubersteigerungen verteilen. Wieviele davon sollen auf Talente verwendet werden?",
+                       [NSString stringWithFormat: @"%@ kann %ld Steigerungsversuche auf Talent oder Zaubersteigerungen verteilen. Wieviele davon sollen auf Talente verwendet werden?",
                        model.name, model.maxLevelUpVariableTries ]];
       [self.popupLevelUpTop removeAllItems];                       
-      for (NSInteger i = 0; i <= [model.maxLevelUpVariableTries integerValue]; i++)
+      for (NSInteger i = 0; i <= model.maxLevelUpVariableTries; i++)
         {
           [self.popupLevelUpTop addItemWithTitle: [NSString stringWithFormat: @"%li", i]];
         }
@@ -1556,13 +1556,8 @@
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   DSACharacterHero *model = (DSACharacterHero *)document.model;
   
-  model.maxLevelUpTalentsTriesTmp = [NSNumber numberWithInteger: 
-                                        [model.maxLevelUpTalentsTries integerValue] + 
-                                        [[[self.popupLevelUpTop selectedItem] title] integerValue]];
-  model.maxLevelUpSpellsTriesTmp = [NSNumber numberWithInteger:  
-                                        [model.maxLevelUpSpellsTries integerValue] +
-                                        [model.maxLevelUpVariableTries integerValue] -
-                                        [[[self.popupLevelUpTop selectedItem] title] integerValue]];
+  model.maxLevelUpTalentsTriesTmp = model.maxLevelUpTalentsTries + [[[self.popupLevelUpTop selectedItem] title] integerValue];
+  model.maxLevelUpSpellsTriesTmp = model.maxLevelUpSpellsTries + model.maxLevelUpVariableTries -[[[self.popupLevelUpTop selectedItem] title] integerValue];
   [self showLevelUpTalents: nil];
 }
 
@@ -1630,7 +1625,7 @@
     // Other UI configurations
     [self.fieldLevelUpFeedback setHidden: YES];
     [self.fieldLevelUpTrialsCounter setHidden: NO];
-    [self.fieldLevelUpTrialsCounter setStringValue: [NSString stringWithFormat: @"Verbleibende Versuche: %@", model.maxLevelUpTalentsTriesTmp]];
+    [self.fieldLevelUpTrialsCounter setStringValue: [NSString stringWithFormat: @"Verbleibende Versuche: %ld", (signed long)model.maxLevelUpTalentsTriesTmp]];
 
     [self.buttonLevelUpDoIt setTarget:self];
     [self.buttonLevelUpDoIt setAction:@selector(levelUpTalent:)];
@@ -1736,9 +1731,9 @@
       [self.fieldLevelUpFeedback setStringValue: _(@"Leider nicht geschafft.")];
       [self.fieldLevelUpFeedback setHidden: NO];    
     }
-  [self.fieldLevelUpTrialsCounter setStringValue: [NSString stringWithFormat: @"Verbleibende Versuche: %@", model.maxLevelUpTalentsTriesTmp]];
+  [self.fieldLevelUpTrialsCounter setStringValue: [NSString stringWithFormat: @"Verbleibende Versuche: %ld", (signed long)model.maxLevelUpTalentsTriesTmp]];
   [self populateLevelUpBottomPopupWithTalents: nil];
-  if ([model.maxLevelUpTalentsTriesTmp integerValue] == 0)
+  if (model.maxLevelUpTalentsTriesTmp == 0)
     {
       [self.popupLevelUpTop setEnabled: NO];
       [self.popupLevelUpBottom setEnabled: NO];
@@ -1821,7 +1816,7 @@
     // Other UI configurations
     [self.fieldLevelUpFeedback setHidden:YES];
     [self.fieldLevelUpTrialsCounter setHidden:NO];
-    [self.fieldLevelUpTrialsCounter setStringValue:[NSString stringWithFormat:@"Verbleibende Versuche: %@", model.maxLevelUpSpellsTriesTmp]];
+    [self.fieldLevelUpTrialsCounter setStringValue:[NSString stringWithFormat:@"Verbleibende Versuche: %ld", (signed long)model.maxLevelUpSpellsTriesTmp]];
 
     [self.buttonLevelUpDoIt setTarget:self];
     [self.buttonLevelUpDoIt setAction:@selector(levelUpSpell:)];
@@ -1977,9 +1972,9 @@
       [self.fieldLevelUpFeedback setStringValue: _(@"Leider nicht geschafft.")];
       [self.fieldLevelUpFeedback setHidden: NO];    
     }
-  [self.fieldLevelUpTrialsCounter setStringValue: [NSString stringWithFormat: @"Verbleibende Versuche: %@", model.maxLevelUpSpellsTriesTmp]];
+  [self.fieldLevelUpTrialsCounter setStringValue: [NSString stringWithFormat: @"Verbleibende Versuche: %ld", (signed long)model.maxLevelUpSpellsTriesTmp]];
   [self populateLevelUpBottomPopupWithSpells: nil];
-  if ([model.maxLevelUpSpellsTriesTmp integerValue] == 0)
+  if (model.maxLevelUpSpellsTriesTmp == 0)
     {
       [self.popupLevelUpTop setEnabled: NO];
       [self.popupLevelUpBottom setEnabled: NO];
@@ -2018,7 +2013,10 @@
     // Enumerate talents to find all categories
   NSLog(@"the talents: %@", model.talents);  
   [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop) {
-      [talentCategories addObject: [obj category]];
+      if (![[obj category] isEqualToString: (@"Kampftechniken")])
+        {
+          [talentCategories addObject: [obj category]];
+        }
   }];
   NSLog(@"talentCategories %@", talentCategories);
   NSArray *sortedTalentCategories = [[talentCategories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
@@ -2120,21 +2118,25 @@
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   DSACharacterHero *model = (DSACharacterHero *)document.model;  
 
-  BOOL result = NO;  
+  DSATalentResult *result;
   
   result = [model useTalent: [[self.popupTalentSelector selectedItem] title] withPenalty: [self.fieldTalentPenalty integerValue]];
-  if (result == YES)
+  
+  NSMutableString *diceResultString = [[NSMutableString alloc] init];
+  for (NSDictionary *res in result.diceResults)
     {
-      [self.fieldTalentFeedback setStringValue: @"geschafft!"];
+      [diceResultString appendFormat: @"%@: %@ ", [res objectForKey: @"trait"], [res objectForKey: @"result"]];
     }
-  else
-    {
-      [self.fieldTalentFeedback setStringValue: @"leider nicht geschafft!"];    
-    }
+  
+  NSMutableString *resultString = [NSMutableString stringWithFormat: @"%@, ( ", [DSATalentResult resultNameForResultValue: result.result]];
+  [resultString appendString: diceResultString];
+  [resultString appendFormat: @") verbliebene Talentpunkte: %ld", (signed long) result.remainingTalentPoints];
+  
+  [self.fieldTalentFeedback setStringValue: resultString];
   [self.fieldTalentFeedback setHidden: NO];
   [self.buttonTalentDoIt setTitle: _(@"Schließen")];
   [self.buttonTalentDoIt setTarget:self];
-  [self.buttonTalentDoIt setAction:@selector(closeUseTalentsPanel:)];  
+  [self.buttonTalentDoIt setAction:@selector(closeUseTalentsPanel:)];
   
 }
 
@@ -2186,7 +2188,7 @@
     {
       NSLog(@"Input is a positive integer.");
       // You can proceed with the value, as it is a valid positive integer
-      model.adventurePoints = [NSNumber numberWithInteger: [model.adventurePoints integerValue] + [inputString integerValue]];
+      model.adventurePoints = model.adventurePoints + [inputString integerValue];
       [document updateChangeCount: NSChangeDone];
       [self.adventurePointsPanel close];
     }

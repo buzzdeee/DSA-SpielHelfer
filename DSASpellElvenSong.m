@@ -30,12 +30,12 @@
 {
   self = [super initSpell: name
                ofCategory: _(@"Elfenlied")
-                  onLevel: @0
+                  onLevel: 0
                withOrigin: nil
                  withTest: test
-   withMaxTriesPerLevelUp: @0
-        withMaxUpPerLevel: @0
-          withLevelUpCost: @0];
+   withMaxTriesPerLevelUp: 0
+        withMaxUpPerLevel: 0
+          withLevelUpCost: 0];
   if (self)
     {
       self.canUseSpell = YES;

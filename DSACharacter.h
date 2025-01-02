@@ -37,6 +37,8 @@
 #import "DSATalent.h"
 
 @class DSAPositiveTrait;
+@class DSANegativeTrait;
+@class DSATalentResult;
 
 @interface DSACharacter : NSObject <NSCoding>
 
@@ -46,8 +48,8 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *archetype;
-@property (nonatomic, copy) NSNumber *level; 
-@property (nonatomic, copy) NSNumber *adventurePoints;
+@property (nonatomic, assign) NSInteger level; 
+@property (nonatomic, assign) NSInteger adventurePoints;
 @property (nonatomic, copy) NSString *origin;
 @property (nonatomic, copy) NSString *mageAcademy;
 @property (nonatomic, copy) NSString *element;
@@ -70,17 +72,19 @@
 @property (nonatomic, copy) NSArray *youthEvents;
 @property (nonatomic, copy) NSMutableDictionary *money;
 @property (nonatomic, copy) NSMutableDictionary<NSString *, DSAPositiveTrait *> *positiveTraits;
-@property (nonatomic, copy) NSMutableDictionary *negativeTraits;
-@property (nonatomic, copy) NSNumber *lifePoints;
-@property (nonatomic, copy) NSNumber *currentLifePoints;
+@property (nonatomic, copy) NSMutableDictionary<NSString *, DSANegativeTrait *> *negativeTraits;
+@property (nonatomic, copy) NSMutableDictionary<NSString *, DSAPositiveTrait *> *currentPositiveTraits;
+@property (nonatomic, copy) NSMutableDictionary<NSString *, DSANegativeTrait *> *currentNegativeTraits;
+@property (nonatomic, assign) NSInteger lifePoints;
+@property (nonatomic, assign) NSInteger currentLifePoints;
 @property (nonatomic) BOOL isMagic;
 @property (nonatomic) BOOL isMagicalDabbler;
 @property (nonatomic) BOOL isBlessedOne;
-@property (nonatomic, copy) NSNumber *astralEnergy;
-@property (nonatomic, copy) NSNumber *currentAstralEnergy;
-@property (nonatomic, copy) NSNumber *karmaPoints;
-@property (nonatomic, copy) NSNumber *currentKarmaPoints;
-@property (nonatomic, copy) NSNumber *mrBonus;
+@property (nonatomic, assign) NSInteger astralEnergy;
+@property (nonatomic, assign) NSInteger currentAstralEnergy;
+@property (nonatomic, assign) NSInteger karmaPoints;
+@property (nonatomic, assign) NSInteger currentKarmaPoints;
+@property (nonatomic, assign) NSInteger mrBonus;
 @property (nonatomic, strong, readonly) NSImage *portrait;
 @property (nonatomic, copy) NSString *portraitName;
 @property (nonatomic, strong) DSAInventory *inventory;
@@ -89,16 +93,16 @@
 @property (nonatomic, copy) NSMutableDictionary *spells;
 @property (nonatomic, copy) NSMutableDictionary *specials;
 
-@property (readonly, copy) NSNumber *attackBaseValue;
-@property (readonly, copy) NSNumber *carryingCapacity;
-@property (readonly, copy) NSNumber *dodge;
+@property (readonly, assign) NSInteger attackBaseValue;
+@property (readonly, assign) NSInteger carryingCapacity;
+@property (readonly, assign) NSInteger dodge;
 @property (readonly, assign) float encumbrance;         // Behinderung durch Sachen/Rüstung etc.
-@property (readonly, copy) NSNumber *endurance;           // Ausdauer
+@property (readonly, assign) NSInteger endurance;           // Ausdauer
 @property (readonly, assign) float load;                // Last der mitgeschleppten Gegenstände
 @property (readonly, assign) float armor;
-@property (readonly, copy) NSNumber *magicResistance;
-@property (readonly, copy) NSNumber *parryBaseValue;
-@property (readonly, copy) NSNumber *rangedCombatBaseValue;
+@property (readonly, assign) NSInteger magicResistance;
+@property (readonly, assign) NSInteger parryBaseValue;
+@property (readonly, assign) NSInteger rangedCombatBaseValue;
 
 + (DSACharacter *)characterWithModelID:(NSString *)modelID;
 
@@ -113,7 +117,7 @@
 // to decide, if the character can regenerate AE or LP
 - (BOOL) canRegenerate;
 
-- (BOOL) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty;
+- (DSATalentResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty;
 
 @end
 

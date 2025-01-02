@@ -33,18 +33,25 @@
 @property (nonatomic, strong) DSACharacterHero *model;
 
 @property (nonatomic, strong) NSDictionary *money;
+@property (nonatomic, strong) NSDictionary *positiveTraits;
+@property (nonatomic, strong) NSDictionary *currentPositiveTraits;
+@property (nonatomic, strong) NSDictionary *negativeTraits;
+@property (nonatomic, strong) NSDictionary *currentNegativeTraits;
 
-@property (nonatomic, strong) NSNumber *lifePoints;
-@property (nonatomic, strong) NSNumber *currentLifePoints;
-@property (nonatomic, strong) NSNumber *astralEnergy;
-@property (nonatomic, strong) NSNumber *currentAstralEnergy;
-@property (nonatomic, strong) NSNumber *karmaPoints;
-@property (nonatomic, strong) NSNumber *currentKarmaPoints;
+@property (nonatomic, assign) NSInteger lifePoints;
+@property (nonatomic, assign) NSInteger currentLifePoints;
+@property (nonatomic, assign) NSInteger astralEnergy;
+@property (nonatomic, assign) NSInteger currentAstralEnergy;
+@property (nonatomic, assign) NSInteger karmaPoints;
+@property (nonatomic, assign) NSInteger currentKarmaPoints;
 
 @property (nonatomic, copy) NSString *formattedMoney;
 @property (nonatomic, copy) NSString *formattedLifePoints;
 @property (nonatomic, copy) NSString *formattedAstralEnergy;
 @property (nonatomic, copy) NSString *formattedKarmaPoints;
+
+@property (nonatomic, strong) NSDictionary<NSString *, NSString *> *formattedPositiveTraits;
+@property (nonatomic, strong) NSDictionary<NSString *, NSString *> *formattedNegativeTraits;
 
 @end
 

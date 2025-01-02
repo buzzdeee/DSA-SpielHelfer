@@ -31,13 +31,13 @@
   self = [super init];
   if (self)
     {
-      self.lifePoints = [NSNumber numberWithInteger: 30];
-      self.astralEnergy = [NSNumber numberWithInteger: 20];
-      self.currentLifePoints = [NSNumber numberWithInteger: 30];
-      self.currentAstralEnergy = [NSNumber numberWithInteger: 20];
-      self.maxLevelUpTalentsTries = @30;        // most have this as their starting value
-      self.maxLevelUpSpellsTries = @20; 
-      self.mrBonus = @1;          
+      self.lifePoints = 30;
+      self.astralEnergy = 20;
+      self.currentLifePoints = 30;
+      self.currentAstralEnergy = 20;
+      self.maxLevelUpTalentsTries = 30;        // most have this as their starting value
+      self.maxLevelUpSpellsTries = 20; 
+      self.mrBonus = 1;          
     }
   return self;
 }

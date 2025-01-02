@@ -35,13 +35,14 @@ TODO:
  * Schamane (erz dinger...)
 
 WIP:
- * Magierakademien und Magier
+ * Magierakademien
  * Icons für Gegenstände
  * Gegenstände als Objekte
- * convert all weight and to float
  * Grundausstattung aller Archetypen
  
 DONE:
+ * Talentprobe
+ * Magier
  * Aventurischer Kalender
  * Behinderung und Last Berechnung
  * Inventory

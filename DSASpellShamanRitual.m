@@ -30,12 +30,12 @@
 {
   self = [super initSpell: name
                ofCategory: _(@"Schamanenrituale")
-                  onLevel: @0
+                  onLevel: 0
                withOrigin: nil
                  withTest: test
-   withMaxTriesPerLevelUp: @6
-        withMaxUpPerLevel: @3
-          withLevelUpCost: @0];
+   withMaxTriesPerLevelUp: 6
+        withMaxUpPerLevel: 3
+          withLevelUpCost: 0];
   if (self)
     {
       

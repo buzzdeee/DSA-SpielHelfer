@@ -30,7 +30,7 @@
   self = [super init];
   if (self)
     {
-      self.mrBonus = @2; // see "Die Götter des schwarzen Auges" S. 57
+      self.mrBonus = 2; // see "Die Götter des schwarzen Auges" S. 57
     }
   return self;
 }

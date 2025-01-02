@@ -31,9 +31,9 @@
   self = [super init];
   if (self)
     {
-      self.lifePoints = [NSNumber numberWithInteger: 30];
-      self.currentLifePoints = [NSNumber numberWithInteger: 30];
-      self.mrBonus = @3;          
+      self.lifePoints = 30;
+      self.currentLifePoints = 30;
+      self.mrBonus = 3;          
     }
   return self;
 }
