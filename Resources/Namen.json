@@ -1,0 +1,293 @@
+{
+  "Al' Anfa, südliche Stadtstaaten": {
+    "maleFirstNames": [
+  "Adario", "Agusto", "Alondro", "Alriego", "Alveron", "Amato", "Amir", "Amirato", "Apreno", "Armado", "Assanto",
+  "Boromeo", "Cascador", "Calmano", "Coragon", "Corvo", "Damiano", "Deredan", "Desiderio", "Diago", "Diamantes",
+  "Dirial", "Domingo", "Dorio", "Efferdito", "Egiliano", "Ellio", "Emano", "Emilio", "Enrisco", "Fiorenzo",
+  "Firunando", "Flaminio", "Gaiomo", "Ghonzo", "Ghorio", "Gordo", "Hesindiego", "Iago", "Imaculo", "Imperioso",
+  "Ingarin", "Irato", "Irschan", "Jesidoro", "Kalman", "Kamillio", "Khalid", "Lirobal", "Losian", "Lucan",
+  "Lucio", "Luiz", "Mandolo", "Marbido", "Marboso", "Marlo", "Marno", "Massino", "Micirio", "Moralo", "Morisys",
+  "Nestario", "Nostromo", "Nuncio", "Orelio", "Panfilo", "Pedresco", "Praiopio", "Quintilian", "Rahiano",
+  "Rahjadan", "Ramin", "Ramon", "Rayo", "Romero", "Rondrigan", "Rondrigo", "Salpico", "Sandro", "Simodo",
+  "Superbo", "Tarquinio", "Thiago", "Tirato", "Trienco", "Tito", "Ulan", "Unnio", "Vareno", "Vessario",
+  "Vitario", "Vito", "Vittorio", "Wilciano", "Xenofero", "Yorge", "Yuan", "Zurbaran"
+],
+    "femaleFirstNames": [
+  "Adaque", "Alara", "Amira", "Avessandra", "Balatravis", "Baniatella", "Blanca", "Boronaya",
+  "Calmora", "Carimina", "Cessandra", "Cessaria", "Consuela", "Cortessa", "Corvinida",
+  "Desiderya", "Desmonda", "Diantha", "Dolorita", "Dominga", "Doriana", "Duridanya", "Elodia",
+  "Emerencia", "Emilia", "Esmeralda", "Estrella", "Fiara", "Fiona", "Fiorella", "Folsina",
+  "Galindia", "Gerlita", "Gilia", "Heliantha", "Hevane", "Imelde", "Imperia", "Inares",
+  "Iunivera", "Ivarena", "Jesabela", "Jessande", "Joseda", "Karianna", "Katalinya", "Korrasson",
+  "Leona", "Levita", "Luisina", "Marchesca", "Maryarita", "Mercara", "Merida", "Morisca",
+  "Neva", "Nicolasina", "Olea", "Orelia", "Phelicitas", "Phelippa", "Phranya", "Praiociose",
+  "Querinia", "Rahjades", "Ramira", "Rayades", "Rimiona", "Rosinia",
+  "Sabela", "Salina", "Santilia", "Saranya", "Simiona", "Tomassina", "Ugolines", "Ulembina",
+  "Ursania", "Vadoria", "Valerfa", "Varinella", "Velvenya", "Vida", "Violanda", "Xantilia",
+  "Ximena", "Yvonya", "Zalines", "Zephirina", "Zeradia"
+], 
+  "lastNames": [
+  "Acostez", "Albahir", "Almanzar", "Alvarez",
+  "Anthos", "Arragenos", "Barrera", "Belafloros", "Beratas", "Boronez", "Botero", "Brabaker", "Casarez", "Charazzar", "Comitez",
+  "Cornio", "Delazar", "Dominguez", "Erabenas", "Fontanez", "Fontanoya", "Fiovarez", "Golgarez", "Gorodez", "Gorralas", "Gredo",
+  "Gutmund", "Hammerfaust", "Immenstatt", "Inezano", "Jacobella", "Kalando", "Klippstein", "Koriguez", "Lanistos", "Lupinez",
+  "Madarez", "Malagro", "Marquez", "Meridiana", "Monterey", "Montez", "Morales", "Nirrano", "Oldenport", "Olibantin", "Phelipez",
+  "Piriones", "Queseda", "Quintone", "Ramirez", "Rivitox", "Rondriguez", "Salmorantes", "Sandoz", "Santana", "Schönredner",
+  "Sylvaron", "Tannspitz", "Tiamartin", "Treufreund", "Uludaz", "Zaldahan"
+],
+  "noblePrefix": ["von ", "von und zu ", "zum ", "da ", "di ", "da ", "ya "],
+    "regionSpecifics": {
+     "nobleNamesAreLastNames": true,
+     "lastNamesAreAllFirstNames": false,
+     "hasGenderSpecificLastName": false,
+     "hasEpithet": false,
+     "hasGenderSpecificEpithe": false,
+     "hasNoLastName": false,
+     "hasNoble": true,
+     "hasNoblePrefix": true,
+     "hasNobleFirstNames": false,
+     "hasMultiFirstNames": false,
+     "hasClanNames": false 
+   }
+  },
+  "Bornland": {
+    "maleFirstNames": [
+  "Albin", "Anshag", "Arvid", "Baerjan", "Baerow", "Berschin", "Birjew", "Bornjeff", "Bosjew", "Boutsen", "Daanje",
+  "Dabbert", "Damian", "Danow", "Duchjo", "Dulgjew", "Dunjew", "Dunjoscha", "Elkjow", "Elko", "Elkwin", "Ertzel", "Firnjan",
+  "Firunjew", "Fredo", "Galjan", "Goljew", "Grimjan", "Hane", "Helmjew", "Hurdo", "Iber", "Ilmin", "Irjan", "Ischtan",
+  "Jaakon", "Jarlow", "Jasper", "Joost", "Joschin", "Jucho", "Koljka", "Larjan", "Leomar", "Linjan", "Littjew", "Ljasew",
+  "Ljubow", "Maris", "Matajew", "Meljow", "Mew", "Miljan", "Mjesko", "Nasjan", "Neerjan", "Neesdan", "Olko", "Orschin",
+  "Oswin", "Panek", "Pedder", "Peraenjow", "Pettar", "Pitjow", "Pjerow", "Rowin", "Rudjew", "Semkin", "Stane", "Suschin",
+  "Tannjew", "Thezmar", "Tirulf", "Torjin", "Travin", "Ugo", "Ulmjan", "Ulmjew", "Uriel", "Urnislaw", "Vigo", "Vito",
+  "Wassjew", "Wolpje", "Wulfen", "Wulfjew", "Xebbert"
+],
+  "femaleFirstNames": [
+  "Alinja", "Alwinje", "Baernja", "Bernischa", "Danja", "Dorlin", "Duna", "Dunjascha", "Eljascha", "Elkwine", "Elmjescha",
+  "Firunja", "Frinja", "Gari", "Geertja", "Grimje", "Gritten", "Gudwinja", "Helvja", "Hesinja", "Ifirnja", "Ilmjescha",
+  "Irinja", "Isidra", "Jadvige", "Janne", "Jassia", "Jedwinja", "Jella", "Karinja", "Kundra", "Leudara", "Libussa", "Luta",
+  "Lysminja", "Maline", "Marissja", "Marja", "Moschane", "Nadjescha", "Nadschenka", "Nessa", "Nuschinja", "Olja", "Paale",
+  "Peraenja", "Peranka", "Rabescha", "Rassia", "Rihinja", "Rowena", "Rowinja", "Rudwischa", "Selwine", "Sewjescha", "Sulja",
+  "Tesbinja", "Thesia", "Thila", "Tineke", "Tjeika", "Travjescha", "Turiken", "Ulmjescha", "Urjelke", "Vanjescha", "Verisja",
+  "Vestissja", "Warja", "Winja", "Wolpjane", "Wulfjascha", "Xinja", "Yadwinja", "Yasinde", "Zidonje"
+],
+  "lastNames": [
+  "Alatzer", "Alwinnen", "Arauken", "Baerensen", "Baerow", "Bornski", "Brinnske", "Dappersjen", "Dobelsteen", "Donsemkin",
+  "Drulgosch", "Ebersen", "Eelkinnen", "Elkensen", "Elmsjen", "Firnske", "Firunkis", "Gartimpski", "Gerbensen", "Gerberow",
+  "Grumpen", "Hinske", "Hollerow", "Ilmensen", "Ilumkis", "Jannerloff", "Jannske", "Juchski", "Karenkis", "Karjensen",
+  "Kruschin", "Kunzke", "Laikis", "Larinow", "Luminoff", "Meskinske", "Miljes", "Muselken", "Nagragski", "Notjes", "Ouvensen",
+  "Parenkis", "Peddersen", "Peddersjepen", "Perschoff", "Puschinske", "Puspersen", "Rodensen", "Ruderow", "Salderken",
+  "Schorkin", "Sewerski", "Surjeloff", "Siveling", "Sjepensen", "Stipkow", "Stoerrebrandt", "Timpski", "Tuljow", "Turjeleff",
+  "Ulmensen", "Ulmski", "Walroder", "Walsareff", "Walsjakow", "Wolpjes", "Wulfski"
+],
+  "nobleNames": [
+  "Aringen", "Blütenfeld", "Brinbaum", "Dotzen", "Elkauen", "Erbarmen", "Eschenfurt", "Gradnochsjepengurken", "Hinzk",
+  "Ilmenstein", "Kirschhausen", "Krempelow", "Larsach", "Notmark", "Plötzingen", "Quelldunkel", "Salderkeim", "Schossko",
+  "Sjepengurken", "Treie", "Wosna"
+],
+  "noblePrefix": [ "von " ],
+      "regionSpecifics": {
+     "nobleNamesAreLastNames": false,
+     "lastNamesAreAllFirstNames": false,
+     "hasGenderSpecificLastName": false,
+     "hasEpithet": false,
+     "hasGenderSpecificEpithe": false,
+     "hasNoLastName": false,
+     "hasNoble": true,
+     "hasNoblePrefix": true,
+     "hasNobleFirstNames": false,
+     "hasMultiFirstNames": false,
+     "hasClanNames": false 
+   }
+  },
+  "Nivese": {
+    "maleFirstNames": [
+  "Aatto", "Abjo", "Adjok", "Altanan", "Arjuk", "Bannuk", "Beranen", "Berko", "Binjok", "Danjuk", "Enban", "Eikaljok", 
+  "Eiko", "Erik(i)", "Enan", "Enko", "Enuk", "Erm Sen", "Finjhon", "Garnuk", "Genko", "Gurjinen", "Hanko", "Hautan(an)", 
+  "Heimnauk", "Hietanen", "Honuk", "Horganan", "Iivarr", "Jan", "Jas", "Jorisnen", "Jurtan(an)", "Kaikankuk", "Karukujko", 
+  "Kautno", "Keinjo", "Kernovan", "Kiamu", "Kilhi(j)o", "Kinajo", "Kintan(an)", "Kylanäk", "Lanan", "Lattu", "Lieto", 
+  "Loschim", "Madä(nan)", "Maenan", "Miko", "Neajo", "Nejhan", "Numjo", "Poukai", "Raiko", "Rasjuk", "Rik(i)", "Sein(j)o", 
+  "Tojok", "Uljok", "Valen", "Valjok", "Zeino"
+], 
+  "femaleFirstNames": [
+  "Aikku", "Ariksela", "Amuri", "Au(k)aiju", "Baituri", "Beri", "Bjanju", "Dakauju", "Dana", "Duri", "Eikajau", "Eskola", 
+  "Falkja", "Guaäna", "Hallri", "Hauka", "Helja", "Hikia", "Janaha", "Jokela", "Jonuri", "Ek Rajani", "Kataba", "Kajenju", 
+  "Kelva", "Kisa", "Kuopi", "Lauka", "Leenja", "Lieskau", "Loaja", "Mido", "Mu-rula", "Märja", "Nahji", "Najaljevena", 
+  "Neli", "Niuka", "Nivalaukij", "Ojakalla", "Ol(p)i", "Pel-tuj", "Pori", "Rauma", "Roika", "Sakari", "Taimi", "Terhi", 
+  "Tulja", "Tiensu", "Talsa", "Ulu", "Usi", "Vailara", "Viela", "Viek(i)", "Vijatsa", "Zurti"
+],
+  "lastNames": [
+  "Hokke", "Kaiku", "Kaiyakuu-Lie", "Kettu-Lie", "Kyljänäk", "Lieska-Jaärna", "Lieska-Kangerluk", "Lieska-Leddu", 
+  "Lieska-Lie", "Lieska-Madukju", "Majava-Lie", "Navalaukij", "Rika-Lie", "Takku", "Toivoa", "Uusipuaki", "Villikauka"
+], 
+  "regionSpecifics": {
+     "nobleNamesAreLastNames": false,
+     "lastNamesAreAllFirstNames": false,
+     "hasGenderSpecificLastName": false,
+     "hasEpithet": false,
+     "hasGenderSpecificEpithe": false,
+     "hasNoLastName": false,
+     "hasNoble": false,
+     "hasNoblePrefix": false,
+     "hasNobleFirstNames": false,
+     "hasMultiFirstNames": false,
+     "hasClanNames": false 
+   }
+  },
+  "Norbarde": {
+    "maleFirstNames": [
+  "Adrej", "Ahani", "Aikul", "Aleks", "Alriksej", "Amrun", "Arej", "Arljev", "Akhtaw", "Banjev", "Barin", "Barins", "Beril", 
+  "Bjuro", "Bogul", "Boril", "Bradrik", "Burgev", "Dagri", "Danilew", "Darbin", "Darjew", "Daswadan", "Dergej", "Dirgis", 
+  "Dorko", "Dorkow", "Dorkoi", "Ebran", "Ebranj", "Ebrani", "Elkman", "Erdoj", "Erejev", "Etril", "Fadril", "Fagris", "Fargej", "Fenew", "Fjedril", 
+  "Fijnko", "Fogutil", "Fradrik", "Fredoj", "Ganew", "Ganri", "Glawnaj", "Gojelno", "Gossudar", "Gossudjar", "Guri", "Hamakil", 
+  "Ibron", "Irgoj", "Janko", "Jaslaw", "Jenko", "Juchow", "Kargemil", "Kaspaj", "Kaspron", "Kergaj", "Kolaj", "Lanjek", 
+  "Lari", "Laromir", "Leguslaw", "Lexej", "Lorsij", "Malmodir", "Matajev", "Meramdin", "Mija", "Mikail", "Mischajl", 
+  "Mjesko", "Mokosch", "Okil", "Okjadir", "Olboj", "Patrel", "Patril", "Perun", "Pjatril", "Radul", "Raswejd", "Respo", 
+  "Rogoff", "Rurtin", "Sajud", "Samjon", "Sergej", "Sildrojan", "Sildroyan", "Swantew", "Swiat", "Tassil", "Tatjan", "Teskisch", 
+  "Thyandur", "Tuljew", "Upraw", "Uriel", "Watleno", "Wlad", "Zanisch"
+], 
+  "femaleFirstNames": [
+  "Abra", "Agnitha", "Aikulja", "Akilja", "Arga", "Banja", "Barina", "Berilja", "Besga", "Bilkis", "Birgat", "Bisminka", 
+  "Bite", "Bitescha", "Bogja", "Chren", "Chrenja", "Dagris", "Dalkeshja", "Darja", "Dascha", "Datescha", "Derja", "Dirgisa", "Durscha", 
+  "Eborja", "Eika", "Elkja", "Etris", "Fargisa", "Fana", "Fanja", "Felja", "Fetanka", "Finja", "Frankja", "Ganris", "Gerja", 
+  "Girtinka", "Gulja", "Haka", "Hanija", "Hashandra", "Hedja", "Helna", "Hetinka", "Hirja", "Huldja", "Hurta", "Hurtja", "Ibra", 
+  "Imja", "Imjaschala", "Ischa", "Ismenka", "Jalinka", "Jalna", "Jaminka", "Janka", "Jascha", "Jaunava", "Jelena", "Julenka", 
+  "Junmikse", "Kajena", "Kariena", "Katjenka", "Kerja", "Kittanka", "Kolja", "Koscha", "Kurja", "Lenija", "Lexaja", 
+  "Liminka", "Lorsija", "Mascha", "Mersch", "Merschja", "Minka", "Mishala", "Mokoscha", "Miruna", "Munja", "Obanija", "Olgad", "Olgadja", 
+  "Olja", "Orinka", "Otja", "Pawla", "Pidescha", "Politka", "Pontika", "Radinka", "Raaf", "Raeescha", "Reska", "Rika", 
+  "Rischinka", "Ruscha", "Sanja", "Slanka", "Soescha", "Talja", "Tatja", "Terlaja", "Thesi", "Thesija", "Titanka", "Tuminka", 
+  "Umerike", "Upra", "Vesanak", "Wlada", "Yilbakis", "Zernika"
+],
+  "lastNames": [
+  "Abrinken", "Aljeff", "Arlin", "Arrastin", "Atranzig", "Bagoltin", "Bartineff", "Barvedis", "Bilenizig", "Boljacheff", 
+  "Burtinen", "Butanjeff", "Chadajeff", "Chopruitin", "Daginen", "Dagonneff", "Dallenthin", "Daprussek", "Dirminen", 
+  "Dogejeff", "Dubej", "Dukadajeff", "Elin", "Emanjeff", "Erignen", "Etajeff", "Eugoltin", "Fagjeff", "Fantinen", 
+  "Ferjeff", "Filajeff", "Firmin", "Fgol", "Fogujeff", "Frantischeff", "Fruginem", "Gamajeff", "Garkinen", "Gerjeff", 
+  "Gertaining", "Gorening", "Hardering", "Helajeff", "Hormimen", "Hurlamecheff", "Ibrajeff", "Ijmgren", "Irgajeff", 
+  "Itolojeff", "Janeff", "Janja", "Janfortel", "Jeninen", "Jikajeff", "Jonkjeff", "Jurgavist", "Jatanef", "Kerenling", 
+  "Korzajng", "Kowalejeff", "Lenejeff", "Linara", "Loranin", "Lugoltin", "Mandragjeff", "Marginen", "Mogoljheff", 
+  "Nujol", "Nurkajeff", "Olschfeff", "Otaninen", "Porgaijeff", "Rajeff", "Reschgin", "Sewerin", "Sievening", "Surjeff", 
+  "Tsirkevist", "Tureljeff", "Ugradin", "Walsajew", "Wodjajeff"
+], 
+  "regionSpecifics": {
+     "nobleNamesAreLastNames": false,
+     "lastNamesAreAllFirstNames": false,
+     "hasGenderSpecificLastName": false,
+     "hasEpithet": false,
+     "hasGenderSpecificEpithe": false,
+     "hasNoLastName": false,
+     "hasNoble": false,
+     "hasNoblePrefix": false,
+     "hasNobleFirstNames": false,
+     "hasMultiFirstNames": false,
+     "hasClanNames": false 
+   }
+  },
+  "Novadi": {
+    "maleFirstNames": [
+  "Abdul", "Abu", "Achmad", "Ahmed", "Achmed", "Achtev", "Adil", "Ahmedin", "Akim", "Akram", "Alam", "Alev", "Ali", 
+  "Alrik", "Amaryd", "Amir", "Amjad", "Arif", "Arkos", "Asad", "Asim", "Assaf", "Aytan", "Azhar", "Azim", 
+  "Baba", "Babur", "Bachar", "Bahir", "Basir", "Basman", "Benayman", "Bey", "Chadim", "Chaled", "Chamza", 
+  "Charef", "Charim", "Chassan", "Cherek", "Chetin", "Dajin", "Dawud", "Deniz", "Dilhab", "Djamil", "Djuned", 
+  "Dschadir", "Dscherid", "Dunachan", "Erkhaban", "Eslam", "Fahd", "Faiz", "Faizal", "Farand", "Farid", "Farsid", 
+  "Faruk", "Farag", "Fatin", "Feruz", "Feyach", "Fitah", "Gaftar", "Ghulam", "Gulshev", "Habo", "Habled", 
+  "Hadi", "Haim", "Haimuad", "Harah", "Haar", "Hajar", "Hakim", "Hamed", "Hamar", "Hamed", "Hamid", "Hamil", 
+  "Hasrah", "Hasdrah", "Harun", "Hasam", "Haschim", "Hassan", "Hial", "Hisseyin", "Ijad", "Ismach", "Isneth", "Issam", 
+  "Jabir", "Jachman", "Jalif", "Jamal", "Jasfer", "Jedin", "Jedrech", "Jibrak", "Jikhbar", "Kadir", "Khadir", "Kamil", 
+  "Karkib", "Karim", "Karmal", "Kashban", "Kasim", "Kazan", "Kemal", "Khalda", "Khalid", "Khalim", "Kharel", 
+  "Khatar", "Khudur", "Lashkar", "Laskar", "Madhi", "Mufid", "Mahmoud", "Maukr", "Marwan", "Marad", "Meah", 
+  "Meazid", "Mehadi", "Mehdi", "Murad", "Mussad", "Mustafa", "Nadim", "Nadrash", "Najara", "Nabreb", "Nasim", 
+  "Nasir", "Nasreddin", "Nazir", "Nebahath", "Neriman", "Nezaher", "Omar", "Omjaid", "Pakhizal", "Perhiman", 
+  "Rachman", "Rafid", "Rafik", "Rahim", "Rashar", "Rashid", "Rashim", "Rashman", "Rashtul", "Rastafan", 
+  "Rasl", "Rasul", "Rhul", "Rahul", "Rechan", "Rezzan", "Rhayad", "Rhukeyef", "Rohal", "Ruban", "Ruchan", "Sadir", 
+  "Sahil", "Said", "Saif", "Saiman", "Sali", "Sanhedi", "Sede", "Sef", "Selim", "Selo", "Seyashan", "Shabob", 
+  "Shafir", "Shah", "Shanhan", "Shakir", "Shanatif", "Sheik", "Sheikh", "Sheranbil", "Sulmahadin", "Sulman", 
+  "Surkan", "Tahir", "Tarek", "Thamir", "Tulachmin", "Tulef", "Tuleyman", "Ukhraban", "Umar", "Umran", 
+  "Wahid", "Yadail", "Yakuban", "Yali", "Yassir", "Yelmis", "Yerdawan", "Yusuf", "Zachaban", "Zachan", 
+  "Zahir", "Zekih", "Zelihman", "Zulah", "Zulhamid"
+], 
+  "femaleFirstNames": [
+  "Abla", "Abrizah", "Afra", "Aicha", "Aischa", "Aishulibeth", "Alhina", "Alima", "Amina", "Amira", "Amirah", "Arika", 
+  "Ashaybith", "Asifa", "Asra", "Ayda", "Aydina", "Ayla", "Ayrina", "Ayshal", "Azina", "Aziza", "Bedia", "Bediya", 
+  "Belima", "Belizeth", "Beychaliban", "Birshen", "Byalabeth", "Chadijah", "Chalibah", "Chandra", "Chaneefa", 
+  "Chanisa", "Chanya", "Dassarath", "Delilah", "Demeya", "Dilibeth", "Dimah", "Dimiona", "Djamila", 
+  "Djamilla", "Dunja", "Emira", "Emiramis", "Erzibeth", "Eshila", "Esmalda", "Ezra", "Fadime", "Fahimja", "Faiza", 
+  "Farah", "Fatime", "Fayrishe", "Ferushan", "Hadiya", "Hakima", "Halima", "Hanan", "Harani", "Hennah", 
+  "Heyeshan", "Hidaybeth", "Isha", "Ishara", "Izmaban", "Jamila", "Jamilha", "Jaouna", "Jehmina", "Josmabith", 
+  "Jushibi", "Karhima", "Kemillja", "Kerime", "Khadifa", "Khadija", "Khalila", "Laana", "Laila", "Lamia", 
+  "Layan", "Layla", "Leila", "Manjula", "Maram", "Marwa", "Meriban", "Milhibeth", "Mirhiban", "Mirshan", 
+  "Mogtah", "Nada", "Nadia", "Nadiya", "Nahda", "Nahema", "Naima", "Nasira", "Nassiban", "Nayla", "Nazmeya", 
+  "Nedime", "Neraida", "Nesliha", "Niobara", "Nishat", "Nurhan", "Onchabeth", "Oyan", "Oymira", "Palmeya", 
+  "Peribeth", "Perishan", "Perizel", "Rabia", "Rabiya", "Rajiha", "Ranchel", "Raniya", "Rasha", "Reem", "Renahban", 
+  "Reshemin", "Riftah", "Sabia", "Sabiya", "Sadia", "Sahar", "Sajida", "Salma", "Sarjaban", "Sefira", "Selima", 
+  "Selime", "Semirhija", "Shabra", "Shahane", "Shanhazadra", "Shanja", "Sharisad", "Shenny", "Sherizeth", 
+  "Sheydan", "Shila", "Shuhelja", "Shulam", "Sulibeth", "Tulameth", "Tulmyrja", "Yalisa", "Yamira", 
+  "Yashima", "Yasine", "Yasmin", "Yeshinna", "Yessamin", "Yezemin", "Yilbalis", "Ymrai", "Yosmabith", 
+  "Yullabeth", "Zahia", "Zahina", "Zahira", "Zahrabeth", "Zamira", "Zechiban", "Zuleika", "Zuleikha", "Zulhamin"
+],
+  "lastNames": [
+  "abu'l Aram", "abu'l Ketab", "al'Ahjan", "al'Ahmad", "al'Alam", "al'Amar", "al'Ankhra", "al'Azila", "al'Azizel", 
+  "al'Chadid", "al'Djinn", "al'Fessir", "al'Haimamud", "al'Hakim", "al'Jamila", "al'Kebir", "al'Kira", "al'Raschtul", 
+  "al'Rashid", "al'Rik", "al'Saher", "al'Sarjaban", "al'Shabra", "al'Sharisad", "al'Shaya", "al'Yalla", "al'Yeshinna", 
+  "al'Zahra", "bint el'Buchare", "bint el'ifriit", "bint el'Zul", "bint el'Leila", "bint el'sulef", "el'Fenneq", 
+  "el'Schaddai", "el'Zitagi", "umm'el Kachelaq"
+], 
+  "regionSpecifics": {
+     "nobleNamesAreLastNames": false,
+     "lastNamesAreAllFirstNames": false,
+     "hasGenderSpecificLastName": false,
+     "hasEpithet": true,
+     "hasGenderSpecificEpithe": false,
+     "hasNoLastName": false,
+     "hasNoble": false,
+     "hasNoblePrefix": false,
+     "hasNobleFirstNames": false,
+     "hasMultiFirstNames": false,
+     "hasClanNames": false 
+   }
+  },   
+  "Thorwal": {
+    "maleFirstNames": [
+  "Agdan", "Aki", "Ansgar", "Ansir", "Arngrim", "Arvid", "Asgrimm", "Askir", "Asleif", "Atli", "Atmaskott", 
+  "Beorn", "Beowulf", "Bjarni", "Bjeri", "Bjorn","Bjorne", "Brand", "Brynar", "Dongrimm", "Egil", "Eindrin", "Firik", 
+  "Eldgrimm", "Faenwulf", "Firunjar", "Fjolnir", "Fjonn", "Frenjar", "Frodi", "Garald", "Garulf", "Geir", "Gerskir", 
+  "Gunni", "Gunn", "Hakon", "Halfdan", "Hallar", "Hardger", "Hardred", "Hasgar", "Helgi", "Helgir", "Herleif", "Herm", "Herolf", "Hjerolf", 
+  "Hjall", "Halmar", "Haldar", "Hjelm", "Hjore", "Ingald", "Ingirid", "Ingibjorg", "Iskir", "Islif", "Isleif", "Joran", "Jora", 
+  "Jurge", "Kari", "Karven", "Ketil", "Kjaskar", "Laskar", "Laske", "Lif", "Leif", "Liskolf", "Maednir", "Noerre", "Norri", 
+  "Olav", "Olgard", "Olgi", "Olvir", "Orgen", "Orm", "Orozar", "Ragnar", "Raskir", "Rekki", "Rodi", "Réngvald", 
+  "Rorlif", "Rorleif", "Runolf", "Sigridur", "Sigrud", "Solvi", "Starkad", "Steinar", "Stirbjérn", "Sven"
+],
+    "femaleFirstNames": [ "Akja", "Alfhild", "Aelfhild", "Algrid", "Alvida", "Andra", "Anga", "Anhild", "Arva", "Asgerd", "Asgerda", "Asgrima", "Askra", 
+  "Benomhild", "Bera", "Bjarnilda", "Blodgrima", "Branda", "Briderga", "Bryda", "Eilim", "Eilif", "Eindara", 
+  "Eirnid", "Eldgrima", "Estrid", "Eyvin", "Firunja", "Fjaellgard", "Frenja", "Freya", "Freiya", "Fridger", "Fridgera", "Garhelt", 
+  "Garhilda", "Grima", "Gunbritt", "Gunda", "Gundrid", "Hallbera", "Hardsgera", "Helma", "Hilda", "Hjalda", 
+  "Hjaldis", "Hjalfrida", "Hjalka", "Hjalla", "Hjalma", "Hjelgira", "Hjora", "Hjordis", "Hrafnhild", "Idun", 
+  "Ifiriane", "Ifimslinda", "Ikja", "Ingira", "Isliva", "Isliv", "Jadra", "Janda", "Jandra", "Jora", "Jurga", "Karva", "Katla", 
+  "Kjaska", "Korja", "Lialin", "Liflind", "Lingard", "Livka", "Marada", "Nellgard", "Norhild", "Odda", "Olburga", 
+  "Olgerda", "Olverja", "Ragna", "Ragnnid", "Ragnild", "Raska", "Rötlinee", "Rötlinede", "Rorlif", "Rorlifa", "Salda", "Shaya", 
+  "Sigrid", "Sigrida", "Sigrun", "Solva", "Solveig", "Svala", "Svenja", "Svenna", "Swafgard", "Swafnild", "Swangard", 
+  "Swanja", "Thora", "Thordis", "Thorfinna", "Thorhalla", "Thula", "Tjalva", "Torgrid", "Torlind", "Wulfgard", "Wulfgarda", 
+  "Wulfhild", "Wulfhilda", "Wulflind", "Wulflinda", "Yasma"
+],
+  "clanNames": [
+  "Donnerkeil", "Eiswinger", "Eldgrimm", "Fjordzwinger", "Geraldsson", "Gischtreiter", "Haitaucher", "Hammerfaust", 
+  "Hjorn", "Kleipunz", "Lassirer Drachen", "Nordlicht", "Orkschläger", "Seewölfe", "Sturmkindler", "Sturmreiter", 
+  "Sturmsegler", "Thorfinn", "Walsinger", "Wellenbrecher", "Windlästerer", "Windzwinger", "Wogenreiter"
+],
+  "lastNamesMaleSuffix": [ "son" ],
+  "lastNamesFemaleSuffix": ["dottir"],
+  "regionSpecifics": {
+     "nobleNamesAreLastNames": false,
+     "lastNamesAreAllFirstNames": true,
+     "hasGenderSpecificLastName": true,
+     "hasEpithet": false,
+     "hasGenderSpecificEpithe": false,
+     "hasNoLastName": false,
+     "hasNoble": false,
+     "hasNoblePrefix": false,
+     "hasNobleFirstNames": false,
+     "hasMultiFirstNames": false,
+     "hasClanNames": true 
+   }
+
+  }
+}

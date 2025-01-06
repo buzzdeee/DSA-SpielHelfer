@@ -65,6 +65,7 @@
 - (BOOL) levelUp;  // in this case means learn the spell (:
 {
   NSLog(@"DSASpellMischievousPrank levelUp NOT YET implemented");
+  return YES;
 }
 
 - (BOOL) isActiveSpell

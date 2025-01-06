@@ -464,8 +464,8 @@
       }
     }
   },
-  "Thorwaler": {
-    "Typen": [ "Druide", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Scharlatan" ],
+  "Thorwal": {
+    "Typen": [ "Druide", "Gaukler", "Medicus", "Krieger", "Seefahrer", "Söldner", "Streuner", "Magier", "Scharlatan", "Thorwaler", "Skalde" ],
     "Basiswerte": { },
     "Talente": {
       "Kampftechniken": {

@@ -32,27 +32,6 @@
 
 @interface DSACharacterGenerationController : NSWindowController
 
-@property (readonly) NSMutableDictionary *talentsDict;
-@property (readonly) NSMutableDictionary *spellsDict;
-@property (readonly) NSMutableDictionary *archetypesDict;
-@property (readonly) NSMutableDictionary *professionsDict;
-@property (readonly) NSMutableDictionary *originsDict;
-@property (readonly) NSMutableDictionary *mageAcademiesDict;
-@property (readonly) NSMutableDictionary *warriorAcademiesDict;
-@property (readonly) NSMutableDictionary *eyeColorsDict;
-@property (readonly) NSMutableDictionary *birthdaysDict;
-@property (readonly) NSMutableDictionary *godsDict;
-@property (readonly) NSMutableDictionary *magicalDabblerSpellsDict;
-@property (readonly) NSMutableDictionary *witchCursesDict;
-@property (readonly) NSMutableDictionary *druidRitualsDict;
-@property (readonly) NSMutableDictionary *geodeRitualsDict;
-@property (readonly) NSMutableDictionary *mageRitualsDict;
-@property (readonly) NSMutableDictionary *mischievousPranksDict;
-@property (readonly) NSMutableDictionary *elvenSongsDict;
-@property (readonly) NSMutableDictionary *shamanOriginsDict;
-@property (readonly) NSMutableDictionary *shamanRitualsDict;
-@property (readonly) NSMutableDictionary *sharisadDancesDict;
-@property (readonly) NSMutableDictionary *blessedLiturgiesDict;
 @property (readonly) NSMutableArray *portraitsArray;
 @property (nonatomic, assign) NSInteger currentPortraitIndex; // To track the current image index
 
@@ -76,6 +55,7 @@
 @property (weak) IBOutlet NSPopUpButton *popupReligions;
 @property (weak) IBOutlet NSPopUpButton *popupSex;
 @property (weak) IBOutlet NSButton *buttonGenerate;
+@property (weak) IBOutlet NSButton *buttonGenerateName;
 @property (weak) IBOutlet NSButton *buttonFinish;
 @property (weak) IBOutlet NSTextField *fieldMageSchool;
 @property (weak) IBOutlet NSTextField *fieldElement;

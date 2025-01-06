@@ -2795,17 +2795,20 @@
       },
       "Bügelsäge": {
         "Gewicht": 60,
-        "Preis": 20
+        "Preis": 20,
+        "Icon": [ "Buegelsaege_1", "Buegelsaege_2" ]
       }
     },
     "Zangen": {
       "Zange": {
         "Gewicht": 20,
-        "Preis": 12
+        "Preis": 12,
+        "Icon": [ "Zange_1", "Zange_2" ]
       },
       "Schmiedezange": {
         "Gewicht": 90,
-        "Preis": 14
+        "Preis": 14,
+        "Icon": [ "Schmiedezange_1", "Schmiedezange_2" ]
       }
     },
     "Brecheisen": {
@@ -2814,7 +2817,8 @@
     },
     "Schüreisen": {
       "Gewicht": 40,
-      "Preis": 8
+      "Preis": 8,
+      "Icon": [ "Schuereisen_1", "Schuereisen_2" ]
     },
     "Schaufeln": {
       "Spaten": {
@@ -2838,11 +2842,13 @@
         "Bruchfaktor": 5,
         "Waffenvergleichswert": "8/1",
         "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
-        "Material": "Eisen" 
+        "Material": "Eisen",
+        "Icon": [ "Spitzhacke_1" ]
       },
       "Eispickel": {
         "Gewicht": 120,
-        "Preis": 15
+        "Preis": 15,
+        "Icon": [ "Eispickel_1" ]
       }
     },
     "Äxte und Beile": {
@@ -2855,7 +2861,8 @@
         "Bruchfaktor": 5,
         "Waffenvergleichswert": "6/2",
         "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
-        "Material": "Eisen" 
+        "Material": "Eisen" ,
+        "Icon": [ "Beil_1", "Beil_2" ]
       },
       "Fleischerbeil": {
         "Gewicht": 60,
@@ -2866,7 +2873,8 @@
         "Bruchfaktor": 2,
         "Waffenvergleichswert": "2/1",
         "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
-        "Material": "Eisen" 
+        "Material": "Eisen",
+        "Icon": [ "Fleischerbeil_1", "Fleischerbeil_2" ]
       },
       "Holzfälleraxt": {
         "Gewicht": 160,
@@ -2877,44 +2885,56 @@
         "Bruchfaktor": 5,
         "Waffenvergleichswert": "9/1",
         "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
-        "Material": "Eisen" 
+        "Material": "Eisen",
+        "Icon": [ "Holzfaelleraxt_1", "Holzfaelleraxt_2" ]
       }
     },
     "Meißel, 5, sortiert": {
       "Gewicht": 40,
-      "Preis": 12
+      "Preis": 12,
+      "Icon": [ "Meissel_1", "Meissel_2" ]
     },
     "Keile": {
       "Gewicht": 80,
-      "Preis": 4
+      "Preis": 4,
+      "Icon": [ "Keile_1" ]
     },
-    "Holzfeile": {
-      "Gewicht": 15,
-      "Preis": 8
-    },
-    "Metallfeile": {
-      "Gewicht": 15,
-      "Preis": 25
+    "Feilen": {
+      "Holzfeile": {
+        "Gewicht": 15,
+        "Preis": 8,
+        "Icon": [ "Holzfeile_1", "Holzfeile_2" ]
+      },
+      "Metallfeile": {
+        "Gewicht": 15,
+        "Preis": 25,
+        "Icon": [ "Metallfeile_1", "Metallfeile_2" ]
+      }
     },
     "Hobel": {
       "Gewicht": 50,
-      "Preis": 12
+      "Preis": 12,
+      "Icon": [ "Hobel_1", "Hobel_2" ]
     },
     "Schere": {
       "Gewicht": 15,
-      "Preis": 30
+      "Preis": 30,
+      "Icon": [ "Schere_1", "Schere_2" ]
     },
     "Ahle": {
       "Gewicht": 1,
-      "Preis": 10
+      "Preis": 10,
+      "Icon": [ "Ahle_1", "Ahle_2" ]
     },
     "Nadel und Garn, sortiert": {
       "Gewicht": 2,
-      "Preis": 8
+      "Preis": 8,
+      "Icon": [ "Nadel_Garn_1", "Nadel_Garn_2" ]
     },
     "Kleiner Webrahmen": {
       "Gewicht": 200,
-      "Preis": 20
+      "Preis": 20,
+      "Icon": [ "Webrahmen_1", "Webrahmen_2" ]
     },
     "Spinnrad": {
       "Gewicht": 400,
@@ -2968,7 +2988,8 @@
     },
     "Staubwedel": {
       "Gewicht": 20,
-      "Preis": 1
+      "Preis": 1,
+      "Icon": [ "Staubwedel_1", "Staubwedel_2" ]
     },
     "Dietriche, sortiert": {
       "Gewicht": 15,

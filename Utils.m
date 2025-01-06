@@ -24,12 +24,35 @@
 
 #import "Utils.h"
 #import "DSASlot.h"
+#import "NSMutableDictionary+Extras.h"
 
 @implementation Utils
 
 static Utils *sharedInstance = nil;
 static NSMutableDictionary *objectsDict;
 static NSMutableDictionary *masseDict;
+static NSMutableDictionary *talentsDict;
+static NSMutableDictionary *spellsDict;
+static NSMutableDictionary *archetypesDict;
+static NSMutableDictionary *professionsDict;
+static NSMutableDictionary *originsDict;
+static NSMutableDictionary *mageAcademiesDict;
+static NSMutableDictionary *warriorAcademiesDict;
+static NSMutableDictionary *eyeColorsDict;
+static NSMutableDictionary *birthdaysDict;
+static NSMutableDictionary *godsDict;
+static NSMutableDictionary *magicalDabblerSpellsDict;
+static NSMutableDictionary *witchCursesDict;
+static NSMutableDictionary *druidRitualsDict;
+static NSMutableDictionary *geodeRitualsDict;
+static NSMutableDictionary *mageRitualsDict;
+static NSMutableDictionary *mischievousPranksDict;
+static NSMutableDictionary *elvenSongsDict;
+static NSMutableDictionary *shamanOriginsDict;
+static NSMutableDictionary *shamanRitualsDict;
+static NSMutableDictionary *sharisadDancesDict;
+static NSMutableDictionary *blessedLiturgiesDict;
+static NSMutableDictionary *namesDict;
 
 + (instancetype)sharedInstance
 {
@@ -63,10 +86,204 @@ static NSMutableDictionary *masseDict;
             {
                NSLog(@"Error loading JSON: %@", e.localizedDescription);
             }
-          else
+          filePath = [[NSBundle mainBundle] pathForResource:@"Talente" ofType:@"json"];
+          talentsDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
+          if (e)
             {
-              [Utils enrichEquipmentData: objectsDict withParentKeys:@[]];
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }        
+          filePath = [[NSBundle mainBundle] pathForResource:@"Zauberfertigkeiten" ofType:@"json"];
+          spellsDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];        
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }        
+          filePath = [[NSBundle mainBundle] pathForResource:@"Typus" ofType:@"json"];  
+          archetypesDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e]; 
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }             
+          filePath = [[NSBundle mainBundle] pathForResource:@"Berufe" ofType:@"json"];        
+          professionsDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }        
+          filePath = [[NSBundle mainBundle] pathForResource:@"Herkunft" ofType:@"json"];         
+          originsDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }        
+          filePath = [[NSBundle mainBundle] pathForResource:@"Magierakademien" ofType:@"json"];                 
+          mageAcademiesDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
             }
+          filePath = [[NSBundle mainBundle] pathForResource:@"Kriegerakademien" ofType:@"json"];                 
+          warriorAcademiesDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];                     
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }                           
+          filePath = [[NSBundle mainBundle] pathForResource:@"Augenfarben" ofType:@"json"];                       
+          eyeColorsDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }      
+          filePath = [[NSBundle mainBundle] pathForResource:@"Geburtstag" ofType:@"json"];                       
+          birthdaysDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];      
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }        
+          filePath = [[NSBundle mainBundle] pathForResource:@"Goetter" ofType:@"json"];                         
+          godsDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];      
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }
+          filePath = [[NSBundle mainBundle] pathForResource:@"Magiedilettantenzauber" ofType:@"json"];                         
+          magicalDabblerSpellsDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];                     
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }
+          filePath = [[NSBundle mainBundle] pathForResource:@"Hexenflueche" ofType:@"json"];                         
+          witchCursesDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }
+          filePath = [[NSBundle mainBundle] pathForResource:@"Druidenrituale" ofType:@"json"];                         
+          druidRitualsDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];                     
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }
+          filePath = [[NSBundle mainBundle] pathForResource:@"Geodenrituale" ofType:@"json"];                         
+          geodeRitualsDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }
+          filePath = [[NSBundle mainBundle] pathForResource:@"Magierrituale" ofType:@"json"];                         
+          mageRitualsDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];                     
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }                           
+          filePath = [[NSBundle mainBundle] pathForResource:@"Schelmenstreiche" ofType:@"json"];                         
+          mischievousPranksDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }
+          filePath = [[NSBundle mainBundle] pathForResource:@"Elfenlieder" ofType:@"json"];                         
+          elvenSongsDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }
+          filePath = [[NSBundle mainBundle] pathForResource:@"SharisadTaenze" ofType:@"json"];                         
+          sharisadDancesDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];   
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }
+          filePath = [[NSBundle mainBundle] pathForResource:@"Schamanenherkunft" ofType:@"json"];                         
+          shamanOriginsDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }
+          filePath = [[NSBundle mainBundle] pathForResource:@"Schamanenrituale" ofType:@"json"];                         
+          shamanRitualsDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }
+          filePath = [[NSBundle mainBundle] pathForResource:@"Geweihtenliturgien" ofType:@"json"];                         
+          blessedLiturgiesDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }                      
+          filePath = [[NSBundle mainBundle] pathForResource:@"Namen" ofType:@"json"];                         
+          namesDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];   
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }                                                 
         }
     }
   return sharedInstance;
@@ -82,9 +299,345 @@ static NSMutableDictionary *masseDict;
   return self;
 }
 
+// names spells dict related methods
++ (NSDictionary *) getNamesDict
+{
+  return namesDict;
+}
+
++ (NSDictionary *) getNamesForRegion: (NSString *) region
+{
+    NSDictionary *regionData = [namesDict objectForKey: region];
+    if (!regionData)
+      {
+        @throw [NSException exceptionWithName:@"RegionNotFoundException" reason:[NSString stringWithFormat:@"Region %@ not found in data", region] userInfo:nil];
+      }
+    return regionData;
+}
+// end of names dict related methods
+
+// magical dabbler spells dict related methods
++ (NSDictionary *) getMagicalDabblerSpellsDict
+{
+  return magicalDabblerSpellsDict;
+}
+// end of magical dabbler spells dict related methods
+
+// witch curses dict related methods
++ (NSDictionary *) getWitchCursesDict
+{
+  return witchCursesDict;
+}
+// end of witch curses dict related methods
+
+// mischievous Pranks dict related methods
++ (NSDictionary *) getMischievousPranksDict
+{
+  return mischievousPranksDict;
+}
+// end of mischievous Pranks dict related methods
+
+// mage rituals dict related methods
++ (NSDictionary *) getMageRitualsDict
+{
+  return mageRitualsDict;
+}
+// end of mage rituals dict related methods
+
+// geode rituals dict related methods
++ (NSDictionary *) getGeodeRitualsDict
+{
+  return geodeRitualsDict;
+}
+// end of geode rituals dict related methods
+
+// shaman rituals dict related methods
++ (NSDictionary *) getShamanRitualsDict
+{
+  return shamanRitualsDict;
+}
+// end of shaman rituals dict related methods
+
+// druid rituals dict related methods
++ (NSDictionary *) getDruidRitualsDict
+{
+  return druidRitualsDict;
+}
+// end of druid rituals dict related methods
+
+// elven songs dict related methods
++ (NSDictionary *) getElvenSongsDict
+{
+  return elvenSongsDict;
+}
+// end of elven songs dict related methods
+
+// birthdays dict related methods
++ (NSDictionary *) getBirthdaysDict
+{
+  return birthdaysDict;
+}
+// end of birthdays dict related methods
+
+// eye colors dict related methods
++ (NSDictionary *) getEyeColorsDict
+{
+  return eyeColorsDict;
+}
+// end of eye colors dict related methods
+
+// spells dict related methods
++ (NSDictionary *) getSpellsDict
+{
+  return spellsDict;
+}
+// end of spells dict related methods
+
+// sharisad dances dict related methods
++ (NSDictionary *) getSharisadDancesDict
+{
+  return sharisadDancesDict;
+}
+// end of sharisad dances dict related methods
+
+// shaman origins dict related methods
++ (NSDictionary *) getShamanOriginsDict
+{
+  return shamanOriginsDict;
+}
+// end of shaman origins dict related methods
+
+// talents dict related methods
++ (NSDictionary *) getTalentsDict
+{
+  return talentsDict;
+}
+// returns a dictionary of talents for the requested archetype
++ (NSDictionary *) getTalentsForCharacter: (DSACharacter *)character
+{
+  NSString *archetype = character.archetype;
+  NSMutableDictionary *talents = [[NSMutableDictionary alloc] init];
+  NSString *typus;
+  if ([archetype isEqualToString: _(@"Schamane")])  // We're special here, use the origins of Moha or Nivese, then apply offsets :(
+    {
+      typus = character.origin;
+    }
+  else
+    {
+      typus = archetype;
+    }
+  
+  NSArray *categories = [NSArray arrayWithArray: [talentsDict allKeys]];
+  for (NSString *category in categories)
+    {
+      if ([@"Kampftechniken" isEqualTo: category])
+        {
+          NSString *steigern = [NSString stringWithFormat: @"%@", [[talentsDict objectForKey: category] objectForKey: @"Steigern"]];
+          NSString *versuche = [NSString stringWithFormat: @"%li", [steigern integerValue] * 3];
+         
+          for (NSString *key in [talentsDict objectForKey: category])
+            {
+              NSString *weapontype;
+              NSString *startwert;
+              if ([@"Steigern" isEqualTo: key])
+                {
+                  continue;
+                }
+              else
+                {
+                  weapontype = [NSString stringWithFormat: @"%@", [[[talentsDict objectForKey: category] objectForKey: key] objectForKey: @"Waffentyp"]];
+                  startwert = [NSString stringWithFormat: @"%@", [[[[talentsDict objectForKey: category] objectForKey: key] objectForKey: @"Startwerte"] objectForKey: typus]];
+                }
+                [talents setValue: @{@"Startwert": startwert, @"Steigern": steigern, @"Versuche": versuche} 
+                  forKeyHierarchy: @[category, weapontype, key]];
+            } 
+        }
+      else
+        {
+          NSString *steigern = [NSString stringWithFormat: @"%@", [[talentsDict objectForKey: category] objectForKey: @"Steigern"]];
+          NSString *versuche = [NSString stringWithFormat: @"%li", [steigern integerValue] * 3]; 
+          for (NSString *key in [talentsDict objectForKey: category])
+            {
+              NSArray *probe;
+              NSString *startwert;
+              if ([@"Steigern" isEqualTo: key])
+                {
+                  continue;
+                }
+              else
+                {
+                  probe = [NSArray arrayWithArray: [[[talentsDict objectForKey: category] objectForKey: key] objectForKey: @"Probe"]];
+                  startwert = [NSString stringWithFormat: @"%@", [[[[talentsDict objectForKey: category] objectForKey: key] objectForKey: @"Startwerte"] objectForKey: typus]];
+                }
+                [talents setValue: @{@"Startwert": startwert, @"Probe": probe, @"Steigern": steigern, @"Versuche": versuche} forKeyHierarchy: @[category, key]];
+            }       
+        }
+    }
+  return talents;
+}
+// end of talents dict related methods
+
+// warriorAcademies dict related methods
++ (NSDictionary *) getWarriorAcademiesDict
+{
+  return warriorAcademiesDict;
+}
+// end of warriorAcademies dict related methods
+
+// archetypes dict related methods
++ (NSDictionary *) getArchetypesDict
+{
+  return archetypesDict;
+}
+// finds and returns all archetypes as an array
++ (NSArray *) getAllArchetypesCategories
+{
+  NSMutableOrderedSet *categories = [[NSMutableOrderedSet alloc] init];
+  
+  for (NSDictionary *archetypus in archetypesDict)
+    {
+      [categories addObjectsFromArray: [[archetypesDict objectForKey: archetypus] objectForKey: @"Typkategorie"]];
+    }
+  NSArray *sortedCategories = [[categories array] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+  return sortedCategories;
+}
+
+// finds all archetypes for a given category and returns them as an array
++ (NSArray *) getAllArchetypesForCategory: (NSString *) category
+{
+  NSMutableArray *archetypes = [[NSMutableArray alloc] init];
+  
+  for (NSString *type in [archetypesDict allKeys])
+    {
+      if ([[[archetypesDict objectForKey: type] objectForKey: @"Typkategorie"] containsObject: category])
+        {
+          [archetypes addObject: type];
+        }
+    }
+  NSArray *sortedArchetypes = [archetypes sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+  return sortedArchetypes;
+}
+// end of archetypes dict related methods
+
+// origins dict related methods
++ (NSDictionary *) getOriginsDict
+{
+  return originsDict;
+}
+
+// returns an array of possible regional origins
++ (NSArray *) getOriginsForArchetype: (NSString *) archetype
+{
+  NSMutableArray *origins = [[NSMutableArray alloc] init];
+  
+  if (archetype == nil)
+    {
+      [origins addObject: _(@"Mittelreich")];
+      return origins;
+    }
+      
+  for (NSString *origin in [originsDict allKeys])
+    {
+      if ([[originsDict objectForKey: origin] objectForKey: @"Typen"] != nil)
+        {
+          if ([[[originsDict objectForKey: origin] objectForKey: @"Typen"] containsObject: archetype])
+            {
+              [origins addObject: origin];
+            }
+        }
+    }
+  NSArray *sortedOrigins = [origins sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];  
+  return sortedOrigins;  
+}
+// end of origins dict related methods
+
+// gods dict related methods
++ (NSDictionary *) getGodsDict
+{
+  return godsDict;
+}
+// end of gods dict related methods
+
+// mage academies related methods
++ (NSDictionary *) getMageAcademiesDict
+{
+  return mageAcademiesDict;
+}
+
+// returns an Array of Strings with Areas of Expertise from all Mage academies
++ (NSArray *) getMageAcademiesAreasOfExpertise
+{
+  NSMutableArray *areasOfExpertise = [[NSMutableArray alloc] init];
+  for (NSDictionary *academy in mageAcademiesDict)
+    {
+      if (![areasOfExpertise containsObject: [[mageAcademiesDict objectForKey: academy] objectForKey: @"Spezialgebiet"]])
+        {
+          [areasOfExpertise addObject: [[mageAcademiesDict objectForKey: academy] objectForKey: @"Spezialgebiet"]];
+        }
+    }
+  NSArray *sortedAreasOfExpertise = [areasOfExpertise sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+  return sortedAreasOfExpertise;
+}
+
+// returns an Array of Strings with mage academies that match a given expertise
++ (NSArray *) getMageAcademiesOfExpertise: (NSString *) expertise
+{
+  NSMutableArray *academies = [[NSMutableArray alloc] init];
+  for (NSString *academy in mageAcademiesDict)
+    {
+      if ([[[mageAcademiesDict objectForKey: academy] objectForKey: @"Spezialgebiet"] isEqualToString: expertise])
+        {
+          [academies addObject: academy];
+        }
+    }
+  NSArray *sortedAcademies = [academies sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+  return sortedAcademies;
+}
+// end of mage academies related methods
+
+
+// professions related methods
++ (NSDictionary *) getProfessionsDict
+{
+  return professionsDict;
+}
+
+// returns all relevant professions for a given Archetype in an array
++ (NSArray *) getProfessionsForArchetype: (NSString *) archetype
+{
+  NSMutableArray *professions = [[NSMutableArray alloc] init];
+  
+  if (archetype == nil)
+    {
+      return professions;
+    }
+      
+  for (NSString *profession in [professionsDict allKeys])
+    {
+      if ([[professionsDict objectForKey: profession] objectForKey: @"Typen"] != nil)
+        {
+          if ([[[professionsDict objectForKey: profession] objectForKey: @"Typen"] containsObject: archetype])
+            {
+              [professions addObject: profession];
+            }
+        }
+    }
+  NSArray *sortedProfessions = [professions sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];  
+  return sortedProfessions;
+}
+// end of professions related methods
+
+
+// blessed liturgies related methods
++ (NSDictionary *) getBlessedLiturgiesDict
+{
+  return blessedLiturgiesDict;
+}
+// end of blessed liturgies related methods
+
+// DSAObject related methods
 + (NSDictionary *) getDSAObjectsDict
 {
-  //NSLog(@"Utils: getDSAObjectsDict %@", objectsDict);
   return objectsDict;
 }
 
@@ -249,7 +802,7 @@ static NSMutableDictionary *masseDict;
     }
 }
 
-// helper method to enrich object data
+// helper method to enrich object data, DSASlot related info on DSAObjects
 + (DSASlotType)slotTypeFromString:(NSString *)slotTypeString {
     NSDictionary<NSString *, NSNumber *> *slotTypeMapping = @{
         @"Allgemein" : @(DSASlotTypeGeneral),
@@ -315,26 +868,6 @@ static NSMutableDictionary *masseDict;
     return validSlotTypesEnum;
 }
 
-+ (NSString *)formatTPEntfernung:(NSDictionary *)tpEntfernung {
-    if (![tpEntfernung isKindOfClass:[NSDictionary class]]) {
-        return @"";
-    }    
-    // Extract the values in order of the keys
-    NSArray<NSString *> *orderedKeys = @[@"extrem nah", @"sehr nah", @"nah", @"mittel", @"weit", @"sehr weit", @"extrem weit"];
-    NSMutableArray<NSString *> *values = [NSMutableArray array];
-    
-    for (NSString *key in orderedKeys) {
-        NSNumber *value = tpEntfernung[key];
-        if (value) {
-            [values addObject:value.stringValue];
-        } else {
-            [values addObject:@"-"]; // Default for missing values
-        }
-    }
-    
-    // Join the values with "/"
-    return [NSString stringWithFormat: @"(%@)", [values componentsJoinedByString:@"/"]];
-}
 
 + (NSDictionary *)getDSAObjectInfoByName:(NSString *)name
 {
@@ -391,23 +924,9 @@ static NSMutableDictionary *masseDict;
   // Return nil if not found
   return nil;
 }
+// end of DSAObject related methods
 
-+ (NSDictionary *) parseDice: (NSString *) diceDefinition
-{
-  int count, points;
-  NSMutableDictionary *dice = [[NSMutableDictionary alloc] init];
-  NSScanner *scanner = [NSScanner scannerWithString: diceDefinition];
-  [scanner scanInt: &count];
-  [scanner scanCharactersFromSet: [NSCharacterSet characterSetWithCharactersInString:@"W"] intoString: NULL];
-  [scanner scanInt: &points];
-  
-  [dice setValue: [NSNumber numberWithInt: count] forKey: @"count"];
-  [dice setValue: [NSNumber numberWithInt: points] forKey: @"points"];
-
-//  NSLog(@"Utils : parseDice returning dice: %@", dice);  
-  return dice;
-}
-
+// parse character traits related constraints
 + (NSDictionary *) parseConstraint: (NSString *) constraintDefinition
 {
   int value;
@@ -429,6 +948,24 @@ static NSMutableDictionary *masseDict;
     
   return constraint;
 }
+// end of parse character traits related constraints
+
+// dice related methods
++ (NSDictionary *) parseDice: (NSString *) diceDefinition
+{
+  int count, points;
+  NSMutableDictionary *dice = [[NSMutableDictionary alloc] init];
+  NSScanner *scanner = [NSScanner scannerWithString: diceDefinition];
+  [scanner scanInt: &count];
+  [scanner scanCharactersFromSet: [NSCharacterSet characterSetWithCharactersInString:@"W"] intoString: NULL];
+  [scanner scanInt: &points];
+  
+  [dice setValue: [NSNumber numberWithInt: count] forKey: @"count"];
+  [dice setValue: [NSNumber numberWithInt: points] forKey: @"points"];
+
+//  NSLog(@"Utils : parseDice returning dice: %@", dice);  
+  return dice;
+}
 
 + (NSInteger) rollDice: (NSString *) diceDefinition
 {
@@ -440,5 +977,29 @@ static NSMutableDictionary *masseDict;
     }
   return result;
 }
+//end of dice related methods
+
+// methods to format various strings
++ (NSString *)formatTPEntfernung:(NSDictionary *)tpEntfernung {
+    if (![tpEntfernung isKindOfClass:[NSDictionary class]]) {
+        return @"";
+    }    
+    // Extract the values in order of the keys
+    NSArray<NSString *> *orderedKeys = @[@"extrem nah", @"sehr nah", @"nah", @"mittel", @"weit", @"sehr weit", @"extrem weit"];
+    NSMutableArray<NSString *> *values = [NSMutableArray array];
+    
+    for (NSString *key in orderedKeys) {
+        NSNumber *value = tpEntfernung[key];
+        if (value) {
+            [values addObject:value.stringValue];
+        } else {
+            [values addObject:@"-"]; // Default for missing values
+        }
+    }
+    
+    // Join the values with "/"
+    return [NSString stringWithFormat: @"(%@)", [values componentsJoinedByString:@"/"]];
+}
+// end of methods to format various strings
 
 @end

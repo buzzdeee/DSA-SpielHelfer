@@ -27,6 +27,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DSASlot.h"
+#import "DSACharacter.h"
 
 @interface Utils : NSObject
 
@@ -42,6 +43,58 @@
 + (NSDictionary *) getDSAObjectInfoByName: (NSString *) name;
 + (DSASlotType)slotTypeFromString:(NSString *)slotTypeString;
 + (NSString *)formatTPEntfernung:(NSDictionary *)tpEntfernung;
+
++ (NSDictionary *) getNamesDict;
++ (NSDictionary *) getNamesForRegion: (NSString *) region;
+
++ (NSDictionary *) getMagicalDabblerSpellsDict;
+
++ (NSDictionary *) getWitchCursesDict;
+
++ (NSDictionary *) getMischievousPranksDict;
+
++ (NSDictionary *) getMageRitualsDict;
+
++ (NSDictionary *) getGeodeRitualsDict;
+
++ (NSDictionary *) getShamanRitualsDict;
+
++ (NSDictionary *) getDruidRitualsDict;
+
++ (NSDictionary *) getElvenSongsDict;
+
++ (NSDictionary *) getBirthdaysDict;
+
++ (NSDictionary *) getEyeColorsDict;
+
++ (NSDictionary *) getSpellsDict;
+
++ (NSDictionary *) getSharisadDancesDict;
+
++ (NSDictionary *) getShamanOriginsDict;
+
++ (NSDictionary *) getTalentsDict;
++ (NSDictionary *) getTalentsForCharacter: (DSACharacter *)character;
+
++ (NSDictionary *) getWarriorAcademiesDict;
+
++ (NSDictionary *) getArchetypesDict;
++ (NSArray *) getAllArchetypesCategories;
++ (NSArray *) getAllArchetypesForCategory: (NSString *) category;
+
++ (NSDictionary *) getOriginsDict;
++ (NSArray *) getOriginsForArchetype: (NSString *) archetype;
+
++ (NSDictionary *) getGodsDict;
+
++ (NSDictionary *) getMageAcademiesDict;
++ (NSArray *) getMageAcademiesAreasOfExpertise;
++ (NSArray *) getMageAcademiesOfExpertise: (NSString *) expertise;
+
++ (NSDictionary *) getProfessionsDict;
++ (NSArray *) getProfessionsForArchetype: (NSString *) archetype;
+
++ (NSDictionary *) getBlessedLiturgiesDict;
 
 @end
 
