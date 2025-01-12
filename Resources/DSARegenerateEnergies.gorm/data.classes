@@ -1,0 +1,20 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSACharacterWindowController = {
+	Actions = (
+	    "regenerateEnergies:"
+	);
+	Outlets = (
+	    fieldRegenerationSleepHours,
+	    fieldRegenerationResult,
+	    regenerationPanel
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "regenerateEnergies:"
+	);
+	Super = NSObject;
+    };
+}

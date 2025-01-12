@@ -23,6 +23,7 @@
 */
 
 #import "DSANameGenerator.h"
+#import "Utils.h"
 
 @implementation DSANameGenerator
 
@@ -44,19 +45,30 @@
 
 - (NSString *)getFirstNameIsMale:(BOOL)isMale noble:(BOOL)noble {
     NSDictionary *regionSpecifics = self.nameData[@"regionSpecifics"];
+NSLog(@"our regionSpecifics: %@", regionSpecifics);
+    NSArray *maleFirstNames;
+    NSArray *femaleFirstNames;
+    
+    if ([regionSpecifics[@"hasGenderSpecificFirstName"] boolValue])
+      {
+        maleFirstNames = self.nameData[@"maleFirstNames"];
+        femaleFirstNames = self.nameData[@"femaleFirstNames"];
+//NSLog(@"got these names: MALE: %@ FEMALE: %@", maleFirstNames, femaleFirstNames);
+        if (noble && [regionSpecifics[@"hasNobleFirstNames"] boolValue]) {
+            maleFirstNames = self.nameData[@"nobleMaleFirstNames"];
+            femaleFirstNames = self.nameData[@"nobleFemaleFirstNames"];
+        }
 
-    NSArray *maleFirstNames = self.nameData[@"maleFirstNames"];
-    NSArray *femaleFirstNames = self.nameData[@"femaleFirstNames"];
+        if (!maleFirstNames || !femaleFirstNames) {
+            @throw [NSException exceptionWithName:@"InvalidDataException" reason:@"Missing name lists in region data" userInfo:nil];
+        }
 
-    if (noble && [regionSpecifics[@"hasNobleFirstNames"] boolValue]) {
-        maleFirstNames = self.nameData[@"nobleMaleFirstNames"];
-        femaleFirstNames = self.nameData[@"nobleFemaleFirstNames"];
-    }
-
-    if (!maleFirstNames || !femaleFirstNames) {
-        @throw [NSException exceptionWithName:@"InvalidDataException" reason:@"Missing name lists in region data" userInfo:nil];
-    }
-
+      }
+    else
+      {
+        maleFirstNames = self.nameData[@"firstNames"];
+        femaleFirstNames = self.nameData[@"firstNames"];        
+      }
     NSString *firstName;
     if ([regionSpecifics[@"hasMultiFirstNames"] boolValue]) {
         // Generate multi-part first name (example logic)
@@ -76,11 +88,26 @@
     return firstName;
 }
 
-- (NSString *)getEpithet {
+- (NSString *)getEpithetIsMale: (BOOL)isMale {
     NSDictionary *regionSpecifics = self.nameData[@"regionSpecifics"];
 
-    if ([regionSpecifics[@"hasEpithets"] boolValue]) {
-        NSArray *epithets = self.nameData[@"epithets"];
+    if ([regionSpecifics[@"hasEpithet"] boolValue]) {
+        NSMutableArray *epithets = [self.nameData[@"epithets"] mutableCopy];
+        if (!epithets)
+          {
+            epithets = [[NSMutableArray alloc] init];
+          }
+        if ([regionSpecifics[@"hasGenderSpecificEpithe"] boolValue]) {
+          if (isMale)
+            {
+              [epithets addObjectsFromArray: self.nameData[@"epithetsMale"]];
+            }
+          else
+            {
+              [epithets addObjectsFromArray: self.nameData[@"epithetsFemale"]];
+            }  
+        } 
+        NSLog(@"all the epithets: %@", epithets); 
         return [self getRandomElementFromArray:epithets];
     }
     return @"";
@@ -114,18 +141,38 @@
             lastNames = [self.nameData[@"maleFirstNames"] mutableCopy];
             [lastNames addObjectsFromArray: self.nameData[@"femaleFirstNames"]];
           }
+        else if ([regionSpecifics[@"lastNamesAreFemaleFirstNames"] boolValue])
+          {
+            lastNames = [self.nameData[@"femaleFirstNames"] mutableCopy];
+            NSLog(@"last names are female first names!!!: %@", lastNames);
+          }
+        else if ([regionSpecifics[@"lastNamesAreMaleFirstNames"] boolValue])
+          {
+            lastNames = [self.nameData[@"maleFirstNames"] mutableCopy];
+          }
+        else if ([regionSpecifics[@"lastNamesMatchesGenderFirstNames"] boolValue])
+          {
+            if (isMale)
+              {
+                lastNames = [self.nameData[@"maleFirstNames"] mutableCopy];
+              }
+            else
+              {
+                lastNames = [self.nameData[@"femaleFirstNames"] mutableCopy];
+              }
+          }              
         else if (isNoble)
           {
             NSLog(@"WE ARE NOBLE");
             if ([regionSpecifics[@"nobleNamesAreLastNames"] boolValue] == YES)
               {
                 NSLog(@"nobleNamesAreLastNames!!! YES");
-                lastNames = self.nameData[@"lastNames"];
+                lastNames = [self.nameData[@"lastNames"] mutableCopy];
               }
             else
               {
                 NSLog(@"nobleNamesAreLastNames!!! NO");
-                lastNames = self.nameData[@"nobleNames"];
+                lastNames = [self.nameData[@"nobleNames"] mutableCopy];
               }
           }
         else
@@ -148,13 +195,44 @@
                 [lastName appendString: [self.nameData[@"lastNamesFemaleSuffix"] objectAtIndex: randomIndex]];
               }
           }
-        NSLog(@"do we have noble prefix: %@ %@", regionSpecifics[@"hasNoblePrefix"], self.nameData[@"noblePrefix"]);
-        if (isNoble && [regionSpecifics[@"hasNoblePrefix"] boolValue])
+        if ([regionSpecifics[@"hasLastNamePrefix"] boolValue] || [regionSpecifics[@"hasNoblePrefix"] boolValue])
           {
-            NSLog(@"WE HAVE NOBLE PREFIX SPECIFIC LAST NAMES" );
-            NSUInteger randomIndex = arc4random_uniform((uint32_t)[self.nameData[@"noblePrefix"] count]);
-            lastName = [[NSString stringWithFormat: @"%@%@", [self.nameData[@"noblePrefix"] objectAtIndex: randomIndex], lastName] mutableCopy];
-          }        
+            if (isNoble && [regionSpecifics[@"hasNoblePrefix"] boolValue])
+              {
+                NSUInteger randomIndex = arc4random_uniform((uint32_t)[self.nameData[@"lastNamesPrefixNoble"] count]);
+                [lastName insertString: [self.nameData[@"lastNamesPrefixNoble"] objectAtIndex: randomIndex] atIndex: 0];                    }
+            else if ([regionSpecifics[@"hasLastNamePrefix"] boolValue])
+              {
+                NSUInteger randomIndex = arc4random_uniform((uint32_t)[self.nameData[@"lastNamesPrefix"] count]);
+                [lastName insertString: [self.nameData[@"lastNamesPrefix"] objectAtIndex: randomIndex] atIndex: 0];
+              }
+          }
+        if (isMale)
+          {
+            if ([self.nameData objectForKey: @"lastNamesMalePrefix"] != NULL)
+              {
+                NSUInteger randomIndex = arc4random_uniform((uint32_t)[self.nameData[@"lastNamesMalePrefix"] count]);
+                [lastName insertString: [self.nameData[@"lastNamesMalePrefix"] objectAtIndex: randomIndex] atIndex: 0];
+              }
+            if ([self.nameData objectForKey: @"lastNamesMaleSuffix"] != NULL)
+              {
+                NSUInteger randomIndex = arc4random_uniform((uint32_t)[self.nameData[@"lastNamesMaleSuffix"] count]);
+                [lastName appendString: [self.nameData[@"lastNamesMaleSuffix"] objectAtIndex: randomIndex]];
+              }
+          }
+        else
+          {
+            if ([self.nameData objectForKey: @"lastNamesFemalePrefix"] != NULL)
+              {
+                NSUInteger randomIndex = arc4random_uniform((uint32_t)[self.nameData[@"lastNamesFemalePrefix"] count]);
+                [lastName insertString: [self.nameData[@"lastNamesFemalePrefix"] objectAtIndex: randomIndex] atIndex: 0];
+              }
+            if ([self.nameData objectForKey: @"lastNamesFemaleSuffix"] != NULL)
+              {
+                NSUInteger randomIndex = arc4random_uniform((uint32_t)[self.nameData[@"lastNamesFemaleSuffix"] count]);
+                [lastName appendString: [self.nameData[@"lastNamesFemaleSuffix"] objectAtIndex: randomIndex]];
+              }
+          }
         return lastName;
     }
     return @"";
@@ -162,25 +240,48 @@
 
 + (NSString *)generateNameWithGender:(NSString *)gender isNoble:(BOOL)isNoble nameData:(NSDictionary *)nameData {
     DSANameGenerator *generator = [[DSANameGenerator alloc] initWithNameDictionary:nameData];
-
+    NSDictionary *regionSpecifics = nameData[@"regionSpecifics"];
+    
     BOOL isMale = [gender.lowercaseString isEqualToString: _(@"männlich")];
+    NSLog(@"DSANameGenerator: generateNameWithGender: %@", gender);
     NSString *firstName = [generator getFirstNameIsMale: isMale noble: isNoble];
+    NSLog(@"DSANameGenerator: generateNameWithGender: firstName %@", firstName);
+    
     NSString *lastName = [generator getLastNameIsMale: isMale noble: isNoble];
-    NSString *epithet = [generator getEpithet];
+    NSLog(@"DSANameGenerator: generateNameWithGender: lastName %@", lastName);
+    NSString *epithet = [generator getEpithetIsMale: isMale];
     NSString *clan = [generator getClanName];
 
     NSMutableArray *nameComponents = [NSMutableArray arrayWithObject:firstName];
-    if (lastName.length > 0) {
+    if ([regionSpecifics[@"hasEpithetBeforeLastName"] boolValue] == YES)
+      {
+        if (epithet.length > 0)
+          {
+            [nameComponents addObject:epithet];
+          }
+      }        
+    if (lastName.length > 0)
+      {
         [nameComponents addObject:lastName];
-    }
-    if (epithet.length > 0) {
-        [nameComponents addObject:epithet];
-    }
-    if (clan.length > 0) {
+      }
+    if ([regionSpecifics[@"hasEpithetBeforeLastName"] boolValue] == NO)
+      {
+        if (epithet.length > 0)
+          {
+            [nameComponents addObject:epithet];
+          }
+      }      
+    if (clan.length > 0)
+      {
         [nameComponents addObject:clan];
-    }
+      }
   
     return [nameComponents componentsJoinedByString:@" "];
+}
+
++ (NSArray *) getTypesOfNames
+{
+  return [[Utils getNamesDict] allKeys];
 }
 
 @end

@@ -532,7 +532,7 @@ static NSMutableDictionary *namesDict;
   
   if (archetype == nil)
     {
-      [origins addObject: _(@"Mittelreich")];
+      [origins addObject: _(@"Garethien")];
       return origins;
     }
       

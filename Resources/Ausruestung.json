@@ -2431,19 +2431,23 @@
       },
       "Duftöl": {
         "Gewicht": 10,
-        "Preis": 1
+        "Preis": 1,
+        "Icon": [ "Duftoel_1", "Duftoel_2" ]
       },
       "Feuerstein und Stahl": {
         "Gewicht": 5,
-        "Preis": 0.6
+        "Preis": 0.6,
+        "Icon": [ "Feuerstein_Stahl_1", "Feuerstein_Stahl_2" ]
       },
       "Zunderkästchen, gefüllt": {
         "Gewicht": 8,
-        "Preis": 2
+        "Preis": 2,
+        "Icon": [ "Zunderkaestchen_1", "Zunderkaestchen_2" ]
       },
       "Zunderdose, wasserdicht": {
         "Gewicht": 10,
-        "Preis": 7
+        "Preis": 7,
+        "Icon": [ "Zunderdose_wasserdicht_1", "Zunderdose_wasserdicht_2" ]
       }
     }
   },
@@ -2452,99 +2456,109 @@
       "Tuchbeutel, 5 Stein": {
         "Gewicht": 15,
         "Preis": 0.4,
-	"Slots": 5,
-        "Slottypen": [ "Allgemein" ]
+	     "Slots": 5,
+        "Slottypen": [ "Allgemein" ],
+        "Icon": [ "Tuchbeutel_1", "Tuchbeutel_2" ]
       },
       "Geldbeutelchen": {
         "Gewicht": 1,
         "Preis": 0.1,
-	"Slots": 10,
-        "Slottypen": [ "Geld" ]
+	     "Slots": 10,
+        "Slottypen": [ "Geld" ],
+        "Icon": [ "Geldbeutel_1", "Geldbeutel_2" ]
       }
     },
     "Rucksäcke": {
       "Lederranzen, 8 Stein": {
         "Gewicht": 30,
         "Preis": 2,
-	"Slots": 8,
-        "Slottypen": [ "Allgemein" ]
+	     "Slots": 8,
+        "Slottypen": [ "Allgemein" ],
+        "Icon": [ "Lederrucksack_klein_1", "Lederrucksack_klein_2" ]
       },
       "Lederrucksack, 15 Stein": {
         "Gewicht": 40,
         "Preis": 4,
-	"Slots": 10,
-        "Slottypen": [ "Allgemein" ]
+	     "Slots": 10,
+        "Slottypen": [ "Allgemein" ],
+        "Icon": [ "Lederrucksack_gross_1", "Lederrucksack_gross_2" ]
       }
     },
     "Gürteltaschen": {
-      "Gürteltaschen": {
+      "Gürteltasche": {
         "Gewicht": 5,
         "Preis": 0.5,
-	"Slots": 5,
-        "Slottypen": [ "Allgemein" ]
+	     "Slots": 5,
+        "Slottypen": [ "Allgemein" ],
+        "Icon": [ "Guerteltasche_1", "Guerteltasche_2" ]
       },
-      "Gürteltaschen, verstärkt": {
+      "Gürteltasche, verstärkt": {
         "Gewicht": 15,
         "Preis": 4,
-	"Slots": 5,
-        "Slottypen": [ "Allgemein" ]
+	     "Slots": 5,
+        "Slottypen": [ "Allgemein" ],
+        "Icon": [ "Guerteltasche_verstaerkt_1", "Guerteltasche_verstaerkt_2" ]
       }
     },
     "Pergamenthülle": {
       "Gewicht": 2,
-      "Preis": 2
+      "Preis": 2,
+      "Icon": [ "Pergamenthuelle_1", "Pergamenthuelle_2" ]
     },
     "Säcke": {
       "Sack, 10 Stein": {
         "Gewicht": 15,
         "Preis": 0.8,
-	"Icon": [ "Sack_klein_1", "Sack_klein_2" ],
-	"Slots": 5,
-        "Slottypen": [ "Allgemein" ]
+	     "Slots": 5,
+        "Slottypen": [ "Allgemein" ],
+	     "Icon": [ "Sack_klein_1", "Sack_klein_2" ]       
       },
       "Sack, 50 Stein": {
         "Gewicht": 40,
         "Preis": 2.5,
-	"Slots": 10,
-	"Icon": [ "Sack_gross_1", "Sack_gross_2" ],
-        "Slottypen": [ "Allgemein" ]
+	     "Slots": 10,
+        "Slottypen": [ "Allgemein" ],
+	     "Icon": [ "Sack_gross_1", "Sack_gross_2" ]
       }
     },
     "Körbe": {
       "Korb, 20 Stein": {
         "Gewicht": 80,
         "Preis": 4,
-        "Icon": [ "Korb_1", "Korb_2" ],
-	"Slots": 5,
-        "Slottypen": [ "Allgemein" ]
+	     "Slots": 5,
+        "Slottypen": [ "Allgemein" ],
+        "Icon": [ "Korb_1", "Korb_2" ]
       },
       "Kiepe, 20 Stein": {
         "Gewicht": 120,
         "Preis": 7,
-        "Icon": [ "Kiepe_1", "Kiepe_2" ],
-	"Slots": 5,
-        "Slottypen": [ "Allgemein" ]
+	     "Slots": 5,
+        "Slottypen": [ "Allgemein" ],
+        "Icon": [ "Kiepe_1", "Kiepe_2" ]
       }
     },
     "Kisten": {
       "Transportkiste": {
         "Gewicht": 80,
         "Preis": 4,
-	"Slots": 5,
-        "Slottypen": [ "Allgemein" ]
+	     "Slots": 5,
+        "Slottypen": [ "Allgemein" ],
+        "Icon": [ "Transportkiste_1", "Transportkiste_2" ]
       },
       "Truhe für Packpferd": {
         "Gewicht": 100,
         "Preis": 5,
-	"Slots": 5,
-        "Slottypen": [ "Allgemein" ]
+	     "Slots": 5,
+        "Slottypen": [ "Allgemein" ],
+        "Icon": [ "Truhe_Packpferd_1", "Truhe_Packpferd_2" ]
       }
     },
     "Tragnetz": {
       "Gewicht": 40,
       "Preis": 1,
       "Slots": 5,
-      "Slottypen": [ "Allgemein" ]
+      "Slottypen": [ "Allgemein" ],
+      "Icon": [ "Tragnetz_1", "Tragnetz_2" ]
     },
     "Eimer": {
       "Eimer, Holz": {
@@ -2552,13 +2566,15 @@
         "Preis": 3,
         "Slots": 1,
         "MaximumPerSlot": 10,
-        "Slottypen": [ "Allgemein" ]
+        "Slottypen": [ "Allgemein" ],
+        "Icon": [ "Eimer_Holz_1" ]
       },
       "Eimer, Leder": {
         "Gewicht": 40,
         "Preis": 2,
         "MaximumPerSlot": 10,
-        "Slottypen": [ "Allgemein" ]
+        "Slottypen": [ "Allgemein" ],
+        "Icon": [ "Eimer_Leder_1", "Eimer_Leder_2" ]
       }
     },
     "Flaschen": {
@@ -2567,7 +2583,8 @@
         "Preis": 5,
         "Slots": 1,
         "MaximumPerSlot": 3,
-        "Slottypen": [ "Flüssigkeit" ]
+        "Slottypen": [ "Flüssigkeit" ],
+        "Icon": [ "Flasche_klein_1", "Flasche_klein_2" ]
       },
       "Glasflasche, 1 Schank": {
         "Gewicht": 10,
@@ -2582,7 +2599,8 @@
         "Preis": 2,
         "Slots": 1,
         "MaximumPerSlot": 25,
-        "Slottypen": [ "Flüssigkeit" ]
+        "Slottypen": [ "Flüssigkeit" ],
+        "Icon": [ "Flasche_irden_1", "Flasche_irden_2" ]
       },
       "Bronzeflasche, 1 Schank": {
         "Gewicht": 50,
@@ -2599,7 +2617,8 @@
         "Preis": 18,
         "Slots": 1,
         "MaximumPerSlot": 2000,
-        "Slottypen": [ "Flüssigkeit" ]
+        "Slottypen": [ "Flüssigkeit" ],
+        "Icon": [ "Wasserfass_1", "Wasserfass_2" ]
       }
     }
   },
@@ -2607,151 +2626,185 @@
     "Trinkgefäße": {
       "Trinkbecher, Holz": {
         "Gewicht": 2,
-        "Preis": 0.2
+        "Preis": 0.2,
+        "Icon": [ "Trinkbecher_Holz_1", "Trinkbecher_Holz_2" ]
       },
       "Trinkbecher, Ton": {
         "Gewicht": 5,
-        "Preis": 0.5
+        "Preis": 0.5,
+        "Icon": [ "Trinkbecher_Ton_1", "Trinkbecher_Ton_2" ]
       },
       "Trinkbecher, Zinn": {
         "Gewicht": 5,
-        "Preis": 2
+        "Preis": 2,
+        "Icon": [ "Trinkbecher_Zinn_1", "Trinkbecher_Zinn_2" ]
       },
       "Trinkglas": {
         "Gewicht": 4,
-        "Preis": 6
+        "Preis": 6,
+        "Icon": [ "Trinkglas_1", "Trinkglas_2" ]
       },
       "Kristallpokal": {
         "Gewicht": 4,
-        "Preis": 40
+        "Preis": 40,
+        "Icon": [ "Kristallpokal_1", "Kristallpokal_2" ]
       },
       "Pokal, Silber": {
         "Gewicht": 10,
-        "Preis": 10
+        "Preis": 10,
+        "Icon": [ "Pokal_Silber_1", "Pokal_Silber_2" ]
       },
       "Pokal, Gold": {
         "Gewicht": 20,
-        "Preis": 25
+        "Preis": 25,
+        "Icon": [ "Pokal_Gold_1", "Pokal_Gold_2" ]
       },
       "Trinkhorn": {
         "Gewicht": 20,
-        "Preis": 10
+        "Preis": 10,
+        "Icon": [ "Trinkhorn_1" ]
       },
       "Tonkrug": {
         "Gewicht": 30,
-        "Preis": 2
+        "Preis": 2,
+        "Icon": [ "Tonkrug_1", "Tonkrug_2" ]
       },
       "Glaskaraffe": {
         "Gewicht": 20,
-        "Preis": 20
+        "Preis": 20,
+        "Icon": [ "Glaskaraffe_1", "Glaskaraffe_2" ]
       }
     },
     "Teller": {
       "Teller, Holz": {
         "Gewicht": 4,
-        "Preis": 0.4
+        "Preis": 0.4,
+        "Icon": [ "Teller_Holz_1", "Teller_Holz_2" ]
       },
       "Teller, irden": {
         "Gewicht": 6,
-        "Preis": 0.5
+        "Preis": 0.5,
+        "Icon": [ "Tiefer_Teller_1", "Tiefer_Teller_2" ]
       },
       "Teller, Zinn": {
         "Gewicht": 8,
-        "Preis": 3
+        "Preis": 3,
+        "Icon": [ "Teller_Zinn_1", "Teller_Zinn_2" ]
       },
       "Teller, Porzellan": {
         "Gewicht": 7,
-        "Preis": 15
+        "Preis": 15,
+        "Icon": [ "Porzellanteller_1", "Porzellanteller_2" ]
       },
       "Teller, Silber": {
         "Gewicht": 10,
-        "Preis": 12
+        "Preis": 12,
+        "Icon": [ "Silberteller_1", "Silberteller_2" ]
       }
     },
     "Pfannen": {
       "Eisenpfanne, 1 Spann": {
         "Gewicht": 40,
-        "Preis": 4
+        "Preis": 4,
+        "Icon": [ "Eisenpfanne_klein_1", "Eisenpfanne_klein_2" ]
       },
       "Eisenpfanne, 1,5 Spann": {
         "Gewicht": 80,
-        "Preis": 8
+        "Preis": 8,
+        "Icon": [ "Eisenpfanne_gross_1", "Eisenpfanne_gross_2" ]
       }
     },
     "Töpfe": {
       "Stieltopf, 6 Maß": {
         "Gewicht": 80,
-        "Preis": 8
+        "Preis": 8,
+        "Icon": [ "Stieltopf_1" ]
       },
       "Eisentopf, 12 Maß": {
         "Gewicht": 120,
-        "Preis": 10
+        "Preis": 10,
+        "Icon": [ "Eisentopf_1" ]
       },
       "Blechtopf, email, 6 Maß": {
         "Gewicht": 60,
-        "Preis": 12
+        "Preis": 12,
+        "Icon": [ "Blechtopf_1", "Blechtopf_2" ]
       },
       "Kessel, email, 6 Maß": {
         "Gewicht": 10,
-        "Preis": 15
+        "Preis": 15,
+        "Icon": [ "Kessel_1", "Kessel_2" ]
       },
-      "Kuperkessel, 25 Maß": {
+      "Kupferkessel, 25 Maß": {
         "Gewicht": 160,
-        "Preis": 20
+        "Preis": 20,
+        "Icon": [ "Kupferkessel_1", "Kupferkessel_2" ]
       }
     },
     "Eßwerkzeug": {
       "Holzlöffel": {
         "Gewicht": 3,
-        "Preis": 0.1
+        "Preis": 0.1,
+        "Icon": [ "Holzloeffel_1", "Holzloeffel_2" ]
       },
       "Eßbesteck, Zinn": {
         "Gewicht": 10,
-        "Preis": 5
+        "Preis": 5,
+        "Icon": [ "Essbesteck_Zinn_1", "Essbesteck_Zinn_2" ]
       },
       "Eßbesteck, Silber": {
         "Gewicht": 15,
-        "Preis": 20
+        "Preis": 20,
+        "Icon": [ "Essbesteck_Silber_1", "Essbesteck_Silber_2" ]
       },
       "Eßbesteck, Gold": {
         "Gewicht": 20,
-        "Preis": 250
+        "Preis": 250,
+        "Icon": [ "Essbesteck_Gold_1", "Essbesteck_Gold_2" ]
       },
-      "Kockgeschirr, sortiert, email": {
+      "Kochgeschirr, sortiert, email": {
         "Gewicht": 200,
-        "Preis": 120
+        "Preis": 120,
+        "Icon": [ "Kochgeschirr_1", "Kochgeschirr_2" ]
       }
     },
     "Sieb": {
       "Gewicht": 15,
-      "Preis": 5
+      "Preis": 5,
+      "Icon": [ "Sieb_1", "Sieb_2" ]
     },
     "Bratspieß": {
       "Gewicht": 20,
-      "Preis": 2
+      "Preis": 2,
+      "Icon": [ "Bratspiess_1", "Bratspiess_2" ]
     },
     "Schöpfkelle, Zinn": {
       "Gewicht": 10,
-      "Preis": 3
+      "Preis": 3,
+      "Icon": [ "Schoepfkelle_1", "Schoepfkelle_2" ]
     },
     "Samowar": {
       "Gewicht": 80,
-      "Preis": 150
+      "Preis": 150,
+      "Icon": [ "Samowar_1", "Samowar_2" ]
     },
     "Wasserbehälter": {
       "Wasserschlauch, 5 Schank": {
         "Gewicht": 5,
-        "Preis": 1
+        "Preis": 1,
+        "Icon": [ "Wasserschlauch_1", "Wasserschlauch_2" ]
       },
       "Feldflasche, 5 Schank": {
         "Gewicht": 12,
-        "Preis": 3
+        "Preis": 3,
+        "Icon": [ "Feldflasche_1", "Feldflasche_2" ]
       }
     },
     "Proviantbehälter": {
       "Brotbeutel": {
         "Gewicht": 8,
-        "Preis": 0.5
+        "Preis": 0.5,
+        "Icon": [ "Brotbeutel_1", "Brotbeutel_2" ]
       }
     }
   },
@@ -2765,12 +2818,14 @@
       "Bruchfaktor": 4,
       "Waffenvergleichswert": "1/0",
       "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
-      "Material": "Eisen" 
+      "Material": "Eisen",
+      "Icon": [ "Messer_1", "Messer_2" ]
     },
     "Hämmer": {
       "Hammer": {
         "Gewicht": 20,
-        "Preis": 6
+        "Preis": 6,
+        "Icon": [ "Hammer_1", "Hammer_2" ]
       },
       "Vorschlaghammer": {
         "Gewicht": 250,
@@ -2781,17 +2836,20 @@
         "Bruchfaktor": 5,
         "Waffenvergleichswert": "8/1",
         "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],   
-        "Material": "Eisen" 
+        "Material": "Eisen",
+        "Icon": [ "Vorschlaghammer_1", "Vorschlaghammer_2" ]
       }
     },
     "50 Nägel, sortiert": {
       "Gewicht": 30,
-      "Preis": 10
+      "Preis": 10,
+      "Icon": [ "Naegel_1", "Naegel_2" ]
     },
     "Sägen": {
       "Fuchsschwanz": {
         "Gewicht": 30,
-        "Preis": 15
+        "Preis": 15,
+        "Icon": [ "Fuchsschwanz_1", "Fuchsschwanz_2" ]
       },
       "Bügelsäge": {
         "Gewicht": 60,

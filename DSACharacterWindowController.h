@@ -187,6 +187,17 @@
 @property (weak) IBOutlet NSTextField *fieldTalentPenalty;
 @property (weak) IBOutlet NSPopUpButton *buttonTalentDoIt;
 
+// For setting temporary energies
+@property (nonatomic, strong) IBOutlet NSPanel *manageTempEnergiesPanel;
+@property (weak) IBOutlet NSTextField *fieldTempEnergiesAE;
+@property (weak) IBOutlet NSTextField *fieldTempEnergiesKE;
+@property (weak) IBOutlet NSTextField *fieldTempEnergiesLE;
+
+// for character regeneration
+@property (nonatomic, strong) IBOutlet NSPanel *regenerationPanel;
+@property (weak) IBOutlet NSTextField *fieldRegenerationSleepHours;
+@property (weak) IBOutlet NSTextField *fieldRegenerationResult;
+
 // to track spells and spell names NSText field relationships to be able to change color
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSTextField *> *spellItemFieldMap;
 @property (nonatomic, strong) NSMutableSet *observedObjects;
@@ -202,6 +213,7 @@
 -(void)addAdventurePoints: (id)sender;
 -(void)manageMoney: (id)sender;
 -(void)showUseTalentPanel: (id)sender;
+-(void)showEnergiesManagerPanel: (id)sender;
 -(void)showCastSpellPanel: (id)sender;
 -(void)showRegenerateCharacterPanel: (id)sender;
 

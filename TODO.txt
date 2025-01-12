@@ -33,6 +33,7 @@ TODO:
    * Extra Behinderung bei Rüstung 
  * Knappe
  * Schamane (erz dinger...)
+ * Erweitere Regeneration (Abhängig von Zustand etc.)
 
 WIP:
  * Magierakademien
@@ -41,6 +42,8 @@ WIP:
  * Grundausstattung aller Archetypen
  
 DONE:
+ * Basis Regeneration
+ * Namensgenerator
  * Talentprobe
  * Magier
  * Aventurischer Kalender

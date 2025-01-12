@@ -35,6 +35,7 @@
 #import "DSAOtherTalent.h"
 #import "DSAPositiveTrait.h"
 #import "DSATalentResult.h"
+#import "DSARegenerationResult.h"
 
 
 @implementation DSACharacter
@@ -655,16 +656,12 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
     }
 }
 
-- (BOOL) canUseTalent
-{
-  NSLog(@"DSACharacter canUseTalent called, TO BE ENHANCED!!!");
-  return YES;
-}
-
+// character regeneration related methods
 - (BOOL) canRegenerate
 {
   NSLog(@"DSACharacter canRegenerate called, TO BE ENHANCED!!!");
-  if (self.currentAstralEnergy < self.astralEnergy || 
+  if ((self.isMagic && self.currentAstralEnergy < self.astralEnergy) ||
+      (self.isBlessedOne && self.currentKarmaPoints < self.karmaPoints) ||
       self.currentLifePoints < self.lifePoints)
     {
       return YES;
@@ -673,6 +670,52 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
     {
       return NO;
     }
+}
+
+- (DSARegenerationResult *) regenerateBaseEnergies
+{
+  DSARegenerationResult *result = [[DSARegenerationResult alloc] init];
+  
+  NSInteger regenLE = 0;
+  NSInteger regenKE = 0;
+  NSInteger regenAE = 0;    
+  if (self.currentLifePoints < self.lifePoints)
+    {
+      regenLE = [Utils rollDice: @"1W6"];
+      NSInteger diff = self.lifePoints - self.currentLifePoints;
+      regenLE = regenLE >= diff ? diff : regenLE;
+      self.currentLifePoints += regenLE;
+      result.regenLE = regenLE;
+    }
+  if (self.isMagic && self.currentAstralEnergy < self.astralEnergy)
+    {
+      regenAE = [Utils rollDice: @"1W6"];
+      NSInteger diff = self.astralEnergy - self.currentAstralEnergy;
+      regenAE = regenAE >= diff ? diff : regenAE;
+      self.currentAstralEnergy += regenAE;
+      result.regenAE = regenAE; 
+    }
+  if (self.isBlessedOne && self.currentKarmaPoints < self.karmaPoints)
+    {
+      regenKE = [Utils rollDice: @"1W6"];
+      NSInteger diff = self.karmaPoints - self.currentKarmaPoints;
+      regenKE = regenKE >= diff ? diff : regenKE;
+      self.currentKarmaPoints += regenKE;
+      result.regenKE = regenKE;
+    }
+  
+  result.result = DSARegenerationResultSuccess;
+    
+  return result;
+}
+
+// end of character regeneration related methods
+
+// talent usage related methods
+- (BOOL) canUseTalent
+{
+  NSLog(@"DSACharacter canUseTalent called, TO BE ENHANCED!!!");
+  return YES;
 }
 
 - (DSATalentResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty
@@ -789,4 +832,6 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
   
   return talentResult;
 }
+// end of talent usage related methods
+
 @end

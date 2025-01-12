@@ -37,13 +37,14 @@
 // Utility methods
 - (NSString *)getRandomElementFromArray:(NSArray *)array;
 - (NSString *)getFirstNameIsMale:(BOOL)isMale noble:(BOOL)noble;
-- (NSString *)getEpithet;
+- (NSString *)getEpithetIsMale:(BOOL)isMale;
 - (NSString *)getClanName;
 - (NSString *)getLastNameIsMale: (BOOL)isMale noble: (BOOL) isNoble;
 
 // Class method to generate a full name
 + (NSString *)generateNameWithGender: (NSString *)gender isNoble:(BOOL)isNoble nameData:(NSDictionary *)nameData;
-
+// returns an Array of supported name types.
++ (NSArray *) getTypesOfNames;
 @end
 
 

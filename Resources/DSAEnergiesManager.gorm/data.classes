@@ -1,0 +1,21 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSACharacterWindowController = {
+	Actions = (
+	    "setTempEnergies:"
+	);
+	Outlets = (
+	    fieldTempEnergiesAE,
+	    fieldTempEnergiesLE,
+	    fieldTempEnergiesKE,
+	    manageTempEnergiesPanel
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "setTempEnergies:"
+	);
+	Super = NSObject;
+    };
+}

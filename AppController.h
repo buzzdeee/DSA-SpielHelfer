@@ -16,6 +16,7 @@
 @class DSACharacterGenerationController;
 @class DSAMapViewController;
 @class DSAEquipmentListViewController;
+@class DSANameGenerationController;
 
 @interface AppController : NSObject
 
@@ -24,6 +25,7 @@
 @property (strong) DSACharacterGenerationController *characterGenController;
 @property (nonatomic, strong) DSAMapViewController *mapViewController; // Retain the map view controller
 @property (nonatomic, strong) DSAEquipmentListViewController *equipmentListViewController; // Retain the equipment view controller
+@property (nonatomic, strong) DSANameGenerationController *nameGenerationController; // Retain the equipment view controller
 @property (nonatomic, weak) IBOutlet NSMenuItem *levelUpMenuItem;
 
 

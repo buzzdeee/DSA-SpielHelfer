@@ -1,0 +1,22 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSANameGenerationController = {
+	Actions = (
+	    "generate:"
+	);
+	Outlets = (
+	    buttonGenerate,
+	    fieldName,
+	    popupGenders,
+	    popupNobles,
+	    popupOrigins
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "generate:"
+	);
+	Super = NSObject;
+    };
+}

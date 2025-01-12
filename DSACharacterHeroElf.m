@@ -39,7 +39,8 @@
       self.maxLevelUpSpellsTries = 25;
       self.maxLevelUpTalentsTriesTmp = 0;
       self.maxLevelUpSpellsTriesTmp = 0;      
-      self.maxLevelUpVariableTries = 0;           
+      self.maxLevelUpVariableTries = 0;
+      self.isMagic = YES;         
     }
   return self;
 }

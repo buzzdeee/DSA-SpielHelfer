@@ -16,6 +16,7 @@
 #import "DSACharacterHero.h"
 #import "DSAMapViewController.h"
 #import "DSAEquipmentListViewController.h"
+#import "DSANameGenerationController.h"
 
 @implementation AppController
 
@@ -79,6 +80,16 @@
     
   // Show the window
   [self.equipmentListViewController showWindow:self];
+}
+
+- (IBAction)showNameGenerator:(id)sender
+{
+  NSLog(@"AppController showNameGenerator called!!!");
+  // Initialize and retain the DSANameGenerationController
+  self.nameGenerationController = [[DSANameGenerationController alloc] init];
+    
+  // Show the window
+  [self.nameGenerationController showWindow:self];
 }
 
 - (IBAction)newCharacterGeneration:(id)sender

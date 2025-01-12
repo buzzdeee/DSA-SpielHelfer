@@ -41,6 +41,7 @@
 #import "DSARightAlignedStringTransformer.h"
 #import "DSAInventorySlotView.h"
 #import "DSATalentResult.h"
+#import "DSARegenerationResult.h"
 
 @implementation DSACharacterWindowController
 
@@ -1998,12 +1999,139 @@
   NSLog(@"DSACharacterWindowController manageMoney called!");
 }
 
+// character regeneration related methods
+-(void)showRegenerateCharacterPanel: (id)sender
+{
+  NSLog(@"DSACharacterWindowController showRegenerateCharacterPanel called!");
+       
+  if (!self.regenerationPanel)
+    {
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSARegenerateEnergies" owner:self];
+    }
+  [self.fieldRegenerationSleepHours setStringValue: @"8"];
+  [self.fieldRegenerationResult setStringValue: @""];
+
+  [self.regenerationPanel makeKeyAndOrderFront:nil];      
+  
+}
+
+-(IBAction) regenerateEnergies: (id) sender
+{
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+  
+  DSARegenerationResult *result = [model regenerateBaseEnergies];
+  
+  NSMutableString *resultString = [[NSMutableString alloc] init];
+  resultString = [NSMutableString stringWithFormat: @"%@ hat ", model.name];
+  if (result.regenLE > 0)
+    {
+      [resultString appendString: [NSString stringWithFormat: @"%ld LE ", result.regenLE]];
+      [document updateChangeCount: NSChangeDone];
+    }
+  if (model.isMagic && result.regenAE > 0)
+    {
+      [resultString appendString: [NSString stringWithFormat: @"und %ld AE ", result.regenAE]];
+      [document updateChangeCount: NSChangeDone];
+    }
+  if (model.isBlessedOne && result.regenKE > 0)
+    {
+      [resultString appendString: [NSString stringWithFormat: @"und %ld KE ", result.regenKE]];
+      [document updateChangeCount: NSChangeDone];
+    }
+  [resultString appendString: @"regeneriert."];
+  
+  [self.fieldRegenerationResult setStringValue: resultString];
+}
+
+// end of character regeneration related methods
+
+// energies manager related methods
+-(void)showEnergiesManagerPanel: (id)sender
+{
+  NSLog(@"DSACharacterWindowController showEnergiesManagerPanel called!");
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;      
+  if (!self.manageTempEnergiesPanel)
+    {
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSAEnergiesManager" owner:self];
+    }
+  [self.fieldTempEnergiesAE setStringValue: [[NSNumber numberWithInteger: model.currentAstralEnergy] stringValue]];
+  [self.fieldTempEnergiesKE setStringValue: [[NSNumber numberWithInteger: model.currentKarmaPoints] stringValue]];
+  [self.fieldTempEnergiesLE setStringValue: [[NSNumber numberWithInteger: model.currentLifePoints] stringValue]];
+  if (!model.isMagic && !model.isMagicalDabbler)
+    {
+      [self.fieldTempEnergiesAE setEnabled: NO];
+    }
+  else
+    {
+      [self.fieldTempEnergiesAE setEnabled: YES];    
+    }  
+  if (!model.isBlessedOne)
+    {
+      [self.fieldTempEnergiesKE setEnabled: NO];
+    }
+  else
+    {
+      [self.fieldTempEnergiesKE setEnabled: YES];
+    }
+  [self.manageTempEnergiesPanel makeKeyAndOrderFront:nil];    
+    
+}
+
+-(IBAction) setTempEnergies: (id)sender
+{
+
+  NSLog(@"DSACharacterWindowController setEnergies called!");
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+
+  if (model.lifePoints >= [[self.fieldTempEnergiesLE stringValue] integerValue])
+    {
+    
+      NSLog(@"setting life points");
+      if ([[self.fieldTempEnergiesLE stringValue] integerValue] != model.currentLifePoints )
+        {
+           model.currentLifePoints = [[self.fieldTempEnergiesLE stringValue] integerValue];
+           [document updateChangeCount: NSChangeDone];
+        }
+    }  
+  else
+    {
+       NSLog(@"not setting life points");
+    }
+    
+  if (model.isMagic || model.isMagicalDabbler)
+    {
+      if (model.astralEnergy >= [[self.fieldTempEnergiesAE stringValue] integerValue])
+        {
+          if ([[self.fieldTempEnergiesAE stringValue] integerValue] != model.currentAstralEnergy )
+            {
+              model.currentAstralEnergy = [[self.fieldTempEnergiesAE stringValue] integerValue];
+              [document updateChangeCount: NSChangeDone];
+            }
+        }
+    }
+  if (model.isBlessedOne)
+    {
+      if (model.karmaPoints >= [[self.fieldTempEnergiesKE stringValue] integerValue])
+        {
+          if ([[self.fieldTempEnergiesKE stringValue] integerValue] != model.currentKarmaPoints )
+            {
+              model.currentKarmaPoints = [[self.fieldTempEnergiesKE stringValue] integerValue];
+            }
+        }
+    }    
+}
+
+// Use Talents related methods
 -(void)showUseTalentPanel: (id)sender
 {
   NSLog(@"DSACharacterWindowController showUseTalentPanel called!");
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   DSACharacterHero *model = (DSACharacterHero *)document.model;      
-  NSLog(@"the model: %@", model);
   if (!self.useTalentPanel)
     {
       // Load the panel from the separate .gorm file
@@ -2011,14 +2139,12 @@
     }
   NSMutableSet *talentCategories = [NSMutableSet set];    
     // Enumerate talents to find all categories
-  NSLog(@"the talents: %@", model.talents);  
   [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop) {
       if (![[obj category] isEqualToString: (@"Kampftechniken")])
         {
           [talentCategories addObject: [obj category]];
         }
   }];
-  NSLog(@"talentCategories %@", talentCategories);
   NSArray *sortedTalentCategories = [[talentCategories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
   [self.popupTalentCategorySelector setEnabled: YES];
   [self.popupTalentCategorySelector removeAllItems];
@@ -2144,15 +2270,11 @@
 {
   [self. useTalentPanel close];
 }
+// end of Use talents related methods
 
 -(void)showCastSpellPanel: (id)sender
 {
   NSLog(@"DSACharacterWindowController showCastSpellPanel called!");
-}
-
--(void)showRegenerateCharacterPanel: (id)sender
-{
-  NSLog(@"DSACharacterWindowController showRegenerateCharacterPanel called!");
 }
 
 -(void)addAdventurePoints: (id)sender

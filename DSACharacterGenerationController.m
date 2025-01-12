@@ -3569,10 +3569,28 @@ NSLog(@"popupCategorySelected called!");
 
 -(IBAction) buttonGenerateNameClicked: (id)sender
 {
+  NSArray *supportedNames = [DSANameGenerator getTypesOfNames];
+  NSLog(@"DSACharacterGenerationController: buttonGenerateNameClicked: supportedNames: %@", supportedNames);
+  NSString *origin;
+  if ([supportedNames containsObject: [[self.popupCategories selectedItem] title]])
+    {
+      origin = [[self.popupCategories selectedItem] title];
+    }
+  else if ([supportedNames containsObject: [[self.popupArchetypes selectedItem] title]])
+    {
+      origin = [[self.popupArchetypes selectedItem] title];
+    }
+  else
+    {
+      origin = [[self.popupOrigins selectedItem] title];
+    }
+
+
   [self.fieldName setStringValue: [DSANameGenerator generateNameWithGender: [[self.popupSex selectedItem] title] 
                                                                    isNoble: [[self.fieldSocialStatus stringValue] isEqualToString: @"adelig"] ||
                                                                             [[self.fieldSocialStatus stringValue] isEqualToString: @"niederer Adel"] || 
-                                                                            [[self.fieldSocialStatus stringValue] isEqualToString: @"Hochadel"] ? YES : NO                                                                                                 nameData: [Utils getNamesForRegion: [[self.popupOrigins selectedItem] title]]
+                                                                            [[self.fieldSocialStatus stringValue] isEqualToString: @"Hochadel"] ? YES : NO
+                                                                  nameData: [Utils getNamesForRegion: origin]
                                                                         ]]; 
   if ([[self.fieldName stringValue] length] > 0)
     {

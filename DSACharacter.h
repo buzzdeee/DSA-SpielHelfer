@@ -39,6 +39,7 @@
 @class DSAPositiveTrait;
 @class DSANegativeTrait;
 @class DSATalentResult;
+@class DSARegenerationResult;
 
 @interface DSACharacter : NSObject <NSCoding>
 
@@ -118,6 +119,7 @@
 - (BOOL) canRegenerate;
 
 - (DSATalentResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty;
+- (DSARegenerationResult *) regenerateBaseEnergies;
 
 @end
 
