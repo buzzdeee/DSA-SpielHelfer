@@ -2021,9 +2021,16 @@
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   DSACharacterHero *model = (DSACharacterHero *)document.model;
   
-  DSARegenerationResult *result = [model regenerateBaseEnergies];
+  DSARegenerationResult *result = [model regenerateBaseEnergiesForHours: [self.fieldRegenerationSleepHours integerValue]];
   
   NSMutableString *resultString = [[NSMutableString alloc] init];
+  
+  if (result.result != DSARegenerationResultSuccess)
+    {
+      [self.fieldRegenerationResult setStringValue: [DSARegenerationResult resultNameForResultValue: result.result]];
+      return;
+    }
+  
   resultString = [NSMutableString stringWithFormat: @"%@ hat ", model.name];
   if (result.regenLE > 0)
     {

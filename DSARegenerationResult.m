@@ -41,7 +41,7 @@
 
 +(NSString *) resultNameForResultValue: (DSARegenerationResultValue) value
 {
-  NSArray *resultStrings = @[ _(@"Ohne Ergebnis"), _(@"Erfolg"), _(@"Mißerfolg") ];
+  NSArray *resultStrings = @[ _(@"Ohne Ergebnis"), _(@"Erfolg"), _(@"Mißerfolg"), _(@"Regenerationszeit zu kurz") ];
   return resultStrings[value];
 }
 

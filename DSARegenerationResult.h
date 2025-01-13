@@ -32,6 +32,7 @@ typedef NS_ENUM(NSUInteger, DSARegenerationResultValue)
   DSARegenerationResultNone,             // no result yet
   DSARegenerationResultSuccess,          // normal success
   DSARegenerationResultFailure,          // normal failure
+  DSARegenerationResultTimeTooShort,   // time to regenerate was too short
 };
 
 @interface DSARegenerationResult : NSObject

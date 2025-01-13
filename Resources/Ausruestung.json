@@ -2311,21 +2311,24 @@
         "Preis": 15,
         "Material": "Eisen",
         "Slottypen": [ "Schwert" ],
-        "Slots": 1
+        "Slots": 1,
+        "Icon": [ "Schwertscheide_1", "Schwertscheide_2" ]
       },
       "Dolchscheide": {
         "Gewicht": 10,
         "Preis": 8,
         "Material": "Eisen",
         "Slottypen": [ "Dolch" ],
-        "Slots": 1
+        "Slots": 1,
+        "Icon": [ "Dolchscheide_1", "Dolchscheide_2" ]
       },
       "Axtgehänge": {
         "Gewicht": 40,
         "Preis": 6,
         "Material": "Leder",
         "Slottypen": [ "Axt" ],
-        "Slots": 1
+        "Slots": 1,
+        "Icon": [ "Axtgehaenge_1" ]
       },
       "Hüftköcher, 20 Pfeile, Leder": {
         "Gewicht": 35,
@@ -2333,7 +2336,8 @@
         "Material": "Leder",
         "Slottypen": [ "Köcher" ],
         "Slots": 1,
-        "MaximumPerSlot": 20
+        "MaximumPerSlot": 20,
+        "Icon": [ "Hueftkoecher_1", "Hueftkoecher_2" ]
       },
       "Bolzentasche, 10 Bolzen, Stoff": {
         "Gewicht": 20,
@@ -2341,8 +2345,18 @@
         "Material": "Leinen",
         "Slottypen": [ "Bolzentasche" ],
         "Slots": 1,
-        "MaximumPerSlot": 10
-      }    
+        "MaximumPerSlot": 10,
+        "Icon": [ "Bolzentasche_Stoff_1", "Bolzentasche_Stoff_2" ]
+      },
+      "Bolzentasche, 10 Bolzen, Leder": {
+        "Gewicht": 20,
+        "Preis": 18,
+        "Material": "Leder",
+        "Slottypen": [ "Bolzentasche" ],
+        "Slots": 1,
+        "MaximumPerSlot": 10,
+        "Icon": [ "Bolzentasche_Leder_1", "Bolzentasche_Leder_2" ]
+      }      
     },
     "Rückenköcher": {
       "Pfeilköcher, 20 Pfeile, Holz": {
@@ -2372,12 +2386,14 @@
         "Slottypen": [ "Bolzentasche" ],
         "Slots": 1,
         "MaximumPerSlot": 10,
-        "ErlaubteInventorySlots": [ "Rückenköcher" ]
+        "ErlaubteInventorySlots": [ "Rückenköcher" ],
+        "Icon": [ "Bolzenkoecher_1", "Bolzenkoecher_2" ]
       } 
     },
     "Waffenpflegeutensilien": {
       "Gewicht": 25,
-      "Preis": 8
+      "Preis": 8,
+      "Icon": [ "Waffenpflegeutensilien_1", "Waffenpflegeutensilien_2" ]
     }
   },
   "Beleuchtung": {
@@ -2385,17 +2401,20 @@
       "Kerze, 1 Spann": {
         "Gewicht": 2,
         "Preis": 0.1,
-        "Material": "Wachs"
+        "Material": "Wachs",
+        "Icon": [ "Kerze_klein_1", "Kerze_klein_2" ]
       },
       "Kerze, 2 Spann": {
         "Gewicht": 4,
         "Preis": 0.2,
-        "Material": "Wachs"
+        "Material": "Wachs",
+        "Icon": [ "Kerze_gross_1", "Kerze_gross_2" ]
       },
       "Duftkerze, 1 Spann": {
         "Gewicht": 2,
         "Preis": 0.3,
-        "Material": "Wachs"
+        "Material": "Wachs",
+        "Icon": [ "Duftkerze_1", "Duftkerze_2" ]
       },
       "Pechfackel": {
         "Gewicht": 50,
@@ -2406,28 +2425,33 @@
         "Bruchfaktor": 7,
         "Waffenvergleichswert": "4/3",
         "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
-        "Material": "Holz"
+        "Material": "Holz",
+        "Icon": [ "Pechfackel_1" ]
       },    
       "Öllampe": {
         "Gewicht": 15,
         "Preis": 3,
-        "Material": "Eisen"
+        "Material": "Eisen",
+        "Icon": [ "Oellampe_1", "Oellampe_2" ]
       },
       "Kerzenlaterne": {
         "Gewicht": 20,
         "Preis": 5,
-        "Material": "Eisen"
+        "Material": "Eisen",
+        "Icon": [ "Kerzenlaterne_1" ]
       },
       "Sturmlaterne, Öl": {
         "Gewicht": 30,
         "Preis": 12,
-        "Material": "Eisen"
+        "Material": "Eisen",
+        "Icon": [ "Sturmlaterne_1" ]
       }
     },
     "Zubehör": {
       "Lampenöl": {
         "Gewicht": 10,
-        "Preis": 0.5
+        "Preis": 0.5,
+        "Icon": [ "Lampenoel_1" ]
       },
       "Duftöl": {
         "Gewicht": 10,

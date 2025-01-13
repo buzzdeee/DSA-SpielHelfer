@@ -672,13 +672,22 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
     }
 }
 
-- (DSARegenerationResult *) regenerateBaseEnergies
+- (DSARegenerationResult *) regenerateBaseEnergiesForHours: (NSInteger) hours
 {
   DSARegenerationResult *result = [[DSARegenerationResult alloc] init];
   
   NSInteger regenLE = 0;
   NSInteger regenKE = 0;
-  NSInteger regenAE = 0;    
+  NSInteger regenAE = 0;
+  if (hours < 6)
+    {
+      result.regenLE = regenLE;
+      result.regenKE = regenKE;
+      result.regenAE = regenAE;            
+      result.result = DSARegenerationResultTimeTooShort;
+      return result;
+    }
+    
   if (self.currentLifePoints < self.lifePoints)
     {
       regenLE = [Utils rollDice: @"1W6"];

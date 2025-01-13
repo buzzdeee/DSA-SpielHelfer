@@ -119,7 +119,7 @@
 - (BOOL) canRegenerate;
 
 - (DSATalentResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty;
-- (DSARegenerationResult *) regenerateBaseEnergies;
+- (DSARegenerationResult *) regenerateBaseEnergiesForHours: (NSInteger) hours;
 
 @end
 
