@@ -2187,7 +2187,8 @@
         "Bruchfaktor": 3,
         "Behinderung": 1,
         "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ],
-        "Material": "Holz"
+        "Material": "Holz",
+        "Icon": [ "Holzschild_1", "Holzschild_2" ]
       },
       "Verstärkter Holzschild": {
         "Gewicht": 160,
@@ -2196,7 +2197,8 @@
         "Bruchfaktor": 0,
         "Behinderung": 1,
         "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
-        "Material": "Holz"
+        "Material": "Holz",
+        "Icon": [ "Holzschild_verstaerkt_1", "Holzschild_verstaerkt_2" ]
       },
       "Lederschild": {
         "Gewicht": 80,
@@ -2205,7 +2207,8 @@
         "Bruchfaktor": 5,
         "Behinderung": 2,
         "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
-        "Material": "Leder"
+        "Material": "Leder",
+        "Icon": [ "Lederschild_1", "Lederschild_2" ]
       },
       "Thorwalerschild": {
         "Gewicht": 160,
@@ -2223,7 +2226,8 @@
         "Bruchfaktor": 6,
         "Behinderung": 3,
         "Regionen": [ "KH", "LF", "MH", "PU" ], 
-        "Material": "Leder"
+        "Material": "Leder",
+        "Icon": [ "Lederschild_gross_1", "Lederschild_gross_2" ]
       },
       "Großschild": {
         "Gewicht": 200,
@@ -2232,7 +2236,8 @@
         "Bruchfaktor": 2,
         "Behinderung": 3,
         "Regionen": [ "BO", "GA", "HA", "TO", "WE" ], 
-        "Material": "Eisen"
+        "Material": "Eisen",
+        "Icon": [ "Grossschild_1", "Grossschild_2" ]
       },
       "Buckler": {
         "Gewicht": 100,
@@ -2292,18 +2297,21 @@
         "Gewicht": 80,
         "Preis": 40,
         "Material": "Leder",
-        "Slots": 1
+        "Slots": 1,
+        "Icon": [ "Schultergurt_1", "Schultergurt_2" ]
       }
     },
     "Schultergurt": {
       "Gewicht": 20,
       "Preis": 10,
-      "Material": "Leder"
+      "Material": "Leder",
+      "Icon": [ "Schwertguertel_verstaerkt_1" ]
     },
     "Beingurt": {
       "Gewicht": 15,
       "Preis": 5,
-      "Material": "Leder"
+      "Material": "Leder",
+      "Icon": [ "Beingurt_1", "Beingurt_2" ]
     },
     "Waffenhalter": {
       "Schwertscheide": {

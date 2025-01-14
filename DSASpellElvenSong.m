@@ -42,10 +42,9 @@
     }
   return self;
 }
-
 - (instancetype)initWithCoder:(NSCoder *)coder
 {
-  self = [super init];
+  self = [super initWithCoder: coder];
   if (self)
     {
       self.canUseSpell = [coder decodeBoolForKey:@"canUseSpell"];

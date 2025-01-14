@@ -187,6 +187,16 @@
 @property (weak) IBOutlet NSTextField *fieldTalentPenalty;
 @property (weak) IBOutlet NSPopUpButton *buttonTalentDoIt;
 
+// for using spell window
+@property (nonatomic, strong) IBOutlet NSPanel *castSpellPanel;
+@property (weak) IBOutlet NSTextField *fieldSpellFeedback;
+@property (weak) IBOutlet NSTextField *fieldSpellCreatorLevel;          // level of the mage who casted initial spell we want to do antimagic on...
+@property (weak) IBOutlet NSTextField *fieldSpellDistance;
+@property (weak) IBOutlet NSTextField *fieldSpellMagicResistance;
+@property (weak) IBOutlet NSPopUpButton *popupSpellCategorySelector;
+@property (weak) IBOutlet NSPopUpButton *popupSpellSelector;
+@property (weak) IBOutlet NSPopUpButton *buttonSpellDoIt;
+
 // For setting temporary energies
 @property (nonatomic, strong) IBOutlet NSPanel *manageTempEnergiesPanel;
 @property (weak) IBOutlet NSTextField *fieldTempEnergiesAE;

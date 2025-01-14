@@ -314,6 +314,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
   [coder encodeObject:self.bodyParts forKey:@"bodyParts"];
   [coder encodeObject:self.talents forKey:@"talents"];
   [coder encodeObject:self.spells forKey:@"spells"];
+  NSLog(@"ENCODING SPECIALS: %@ %@", [self.specials class], self.specials);
   [coder encodeObject:self.specials forKey:@"specials"];
 }
 
@@ -384,7 +385,9 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
       self.bodyParts = [coder decodeObjectForKey:@"bodyParts"];
       self.talents = [coder decodeObjectForKey:@"talents"];
       self.spells = [coder decodeObjectForKey:@"spells"];
-      self.specials = [coder decodeObjectForKey:@"specials"];                 
+      
+      self.specials = [coder decodeObjectForKey:@"specials"];   
+      NSLog(@"DECODED SPECIALS: %@", self.specials);              
     }
   return self;
 }

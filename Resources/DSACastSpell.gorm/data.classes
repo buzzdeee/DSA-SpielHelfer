@@ -1,0 +1,18 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSACharacterWindowController = {
+	Actions = (
+	);
+	Outlets = (
+	    castSpellPanel,
+	    fieldSpellDistance,
+	    fieldSpellFeedback,
+	    fieldSpellMagicResistance,
+	    fieldSpellPenalty,
+	    fieldSpellCreatorLevel,
+	    popupSpellCategorySelector,
+	    popupSpellSelector
+	);
+	Super = NSWindowController;
+    };
+}

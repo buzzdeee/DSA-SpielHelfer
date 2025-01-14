@@ -2275,14 +2275,108 @@
 
 -(void) closeUseTalentsPanel: (id) sender
 {
-  [self. useTalentPanel close];
+  [self.useTalentPanel close];
 }
 // end of Use talents related methods
 
+// casting spell related methods
 -(void)showCastSpellPanel: (id)sender
 {
   NSLog(@"DSACharacterWindowController showCastSpellPanel called!");
+
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;      
+  if (!self.castSpellPanel)
+    {
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSACastSpell" owner:self];
+    }
+  NSMutableSet *spellCategories = [NSMutableSet set];    
+    // Enumerate talents to find all categories
+  [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop) {
+          [spellCategories addObject: [obj category]];
+  }];
+  NSArray *sortedSpellCategories = [[spellCategories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+  [self.popupSpellCategorySelector setEnabled: YES];
+  [self.popupSpellCategorySelector removeAllItems];
+  [self.popupSpellCategorySelector addItemsWithTitles: sortedSpellCategories];
+  [self.popupSpellCategorySelector setTarget:self];
+  [self.popupSpellCategorySelector setAction:@selector(populateCastSpellBottomPopupWithSpells:)];
+  
+  [self.popupSpellSelector setHidden: NO];
+  [self.popupSpellSelector setEnabled: YES];
+  [self.popupSpellSelector setAutoenablesItems: NO];
+    
+  // Populate the bottom popup
+  [self populateCastSpellBottomPopupWithSpells: nil];   
+  
+  [self.fieldSpellCreatorLevel setStringValue: @"0"];
+  [self.fieldSpellMagicResistance setStringValue: @"0"];
+  [self.fieldSpellDistance setStringValue: @"0"];
+  [self.fieldSpellFeedback setHidden: YES];
+  [self.castSpellPanel makeKeyAndOrderFront:nil];  
+  
+  [self.buttonSpellDoIt setTitle: _(@"Zauberprobe")];
+  [self.buttonSpellDoIt setTarget:self];
+  [self.buttonSpellDoIt setAction:@selector(castSpell:)];  
+  
+  NSLog(@"DSACharacterWindowController finished showCastSpellPanel");
+ 
 }
+
+- (void) populateCastSpellBottomPopupWithSpells:(id)sender
+{
+
+    NSLog(@"populateCastSpellBottomPopupWithSpells called");
+    
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    DSACharacterHero *model = (DSACharacterHero *)document.model;  
+    NSString *spellCategory = [[self.popupSpellCategorySelector selectedItem] title];
+    
+    // Store the previously selected item
+    NSString *selectedItemTitle = [[self.popupSpellSelector selectedItem] title];
+    
+    // Remove all current items
+    [self.popupSpellSelector removeAllItems];
+    
+    // Create arrays to hold sorted talents and spells
+    NSMutableArray *sortedSpells = [NSMutableArray array];
+    
+    // Collect talents in the given category
+    [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop) {
+        if ([[obj category] isEqualTo: spellCategory]) {
+            [sortedSpells addObject: obj];
+        }
+    }];
+    
+    // Sort talents and spells alphabetically by their name
+    NSArray *sortedSpellNames = [sortedSpells sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]];
+    
+    // Add sorted talents to the popup
+    for (DSASpell *spell in sortedSpellNames) {
+        [self. popupSpellSelector addItemWithTitle:[spell name]];
+        [[self.popupSpellSelector itemWithTitle:[spell name]] setEnabled:YES];
+    }
+
+    // Try to re-select the previously selected item
+    [self.popupSpellSelector selectItemWithTitle:selectedItemTitle];
+    
+    // If the selected item is disabled, select the first enabled item
+    if (![[self.popupSpellSelector selectedItem] isEnabled]) {
+        for (NSInteger i = 0; i < [self.popupSpellSelector numberOfItems]; i++) {
+            if ([[self.popupSpellSelector itemAtIndex:i] isEnabled]) {
+                [self.popupSpellSelector selectItemAtIndex:i];
+                break;
+            }
+        }
+    }
+    
+    // Update the popup button's display
+    [self.popupSpellSelector setNeedsDisplay:YES];    
+}
+
+
+// end of casting spell related methods
 
 -(void)addAdventurePoints: (id)sender
 {

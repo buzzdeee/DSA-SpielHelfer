@@ -47,7 +47,7 @@
 
 - (instancetype)initWithCoder:(NSCoder *)coder
 {
-  self = [super init];
+  self = [super initWithCoder: coder];
   if (self)
     {
       self.isLearned = [coder decodeBoolForKey:@"isLearned"];
