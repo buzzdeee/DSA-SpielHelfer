@@ -27,6 +27,30 @@
 
 @implementation DSASpellResult
 
+-(instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      _result = DSASpellResultNone;
+      _diceResults = [[NSMutableArray alloc] init];
+      _remainingSpellPoints = 0;
+      _costAE = 0;
+    }
+  return self;
+}
+
++(NSString *) resultNameForResultValue: (DSASpellResultValue) value
+{
+  NSArray *resultStrings = @[ _(@"Ohne Ergebnis"), _(@"Erfolg"), _(@"Automatischer Erfolg"),
+                              _(@"Epischer Erfolg!"), _(@"Mißerfolg"), _(@"Automatischer Mißerfolg"),
+                              _(@"Epischer Mißerfolg!"), _(@"Zauber ist noch nicht implementiert!"),
+                              _(@"Nicht genug Astralenergie"), _(@"Zu weit entfernt!"),
+                              _(@"Ungültiges Ziel"), _(@"Spruch ist schon auf dem Ziel."),
+                              _(@"Ein anderer Zauber ist schon aktiv.") ];
+  return resultStrings[value];
+}
+
 - (NSString *)description
 {
   NSMutableString *descriptionString = [NSMutableString stringWithFormat:@"%@:\n", [self class]];

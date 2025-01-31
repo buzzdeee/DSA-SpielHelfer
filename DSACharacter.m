@@ -35,7 +35,9 @@
 #import "DSAOtherTalent.h"
 #import "DSAPositiveTrait.h"
 #import "DSATalentResult.h"
+#import "DSASpellMageRitual.h"
 #import "DSARegenerationResult.h"
+#import "DSAInventoryManager.h"
 
 
 @implementation DSACharacter
@@ -121,6 +123,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
         _talents = [[NSMutableDictionary alloc] init];
         _spells = [[NSMutableDictionary alloc] init];
         _specials = [[NSMutableDictionary alloc] init];
+        _appliedSpells = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -257,17 +260,6 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-/*  // Get the image's representations (NSImage can have multiple representations)
-  NSImageRep *imageRep = [[self.portrait representations] objectAtIndex:0];    
-  // Check if the representation is a bitmap image rep and convert it to PNG data
-  if ([imageRep isKindOfClass:[NSBitmapImageRep class]])
-    {
-      NSBitmapImageRep *bitmapRep = (NSBitmapImageRep *)imageRep;        
-      // Get PNG representation of the image
-      NSData *pngData = [bitmapRep representationUsingType:NSPNGFileType properties:@{}];        
-      // Encode the PNG data with a key
-      [coder encodeObject:pngData forKey:@"portraitData"];
-    } */
   [coder encodeObject:self.portraitName forKey:@"portraitName"];  
   [coder encodeObject:self.modelID forKey:@"modelID"];  
   [coder encodeObject:self.name forKey:@"name"];
@@ -314,8 +306,8 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
   [coder encodeObject:self.bodyParts forKey:@"bodyParts"];
   [coder encodeObject:self.talents forKey:@"talents"];
   [coder encodeObject:self.spells forKey:@"spells"];
-  NSLog(@"ENCODING SPECIALS: %@ %@", [self.specials class], self.specials);
   [coder encodeObject:self.specials forKey:@"specials"];
+  [coder encodeObject:self.appliedSpells forKey:@"appliedSpells"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder
@@ -323,13 +315,6 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     {
-/*      // Decode the PNG data
-      NSData *imageData = [coder decodeObjectForKey:@"portraitData"]; 
-      // Convert the PNG data back to an NSImage
-      if (imageData)
-        {
-          self.portrait = [[NSImage alloc] initWithData:imageData];
-        }     */
       _modelID = [coder decodeObjectOfClass:[NSString class] forKey:@"modelID"];
       if (!self.modelID)
         {
@@ -341,6 +326,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
           NSLog(@"Warning: modelID %@ already exists!", _modelID);
       }      
       self.portraitName = [coder decodeObjectForKey:@"portraitName"];
+      NSLog(@"after decoding portrait name");
       self.name = [coder decodeObjectForKey:@"name"];
       self.title = [coder decodeObjectForKey:@"title"];
       self.archetype = [coder decodeObjectForKey:@"archetype"];
@@ -385,9 +371,9 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
       self.bodyParts = [coder decodeObjectForKey:@"bodyParts"];
       self.talents = [coder decodeObjectForKey:@"talents"];
       self.spells = [coder decodeObjectForKey:@"spells"];
-      
-      self.specials = [coder decodeObjectForKey:@"specials"];   
-      NSLog(@"DECODED SPECIALS: %@", self.specials);              
+      self.specials = [coder decodeObjectForKey:@"specials"]; 
+      self.appliedSpells = [coder decodeObjectForKey:@"appliedSpells"];
+        
     }
   return self;
 }
@@ -646,19 +632,6 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
   return YES;
 }
 
-- (BOOL) canCastSpell
-{
-  NSLog(@"DSACharacter canCastSpell called, TO BE ENHANCED!!!");
-  if (self.spells || self.specials)
-    {
-      return YES;
-    }
-  else
-    {
-      return NO;
-    }
-}
-
 // character regeneration related methods
 - (BOOL) canRegenerate
 {
@@ -846,4 +819,250 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
 }
 // end of talent usage related methods
 
+// casting spells related methods
+- (BOOL) canCastSpells
+{
+  NSLog(@"DSACharacter canCastSpell called, TO BE ENHANCED!!!");
+  if (self.spells)
+    {
+      return YES;
+    }
+  else
+    {
+      return NO;
+    }
+}
+- (BOOL) canCastSpellWithName: (NSString *) name
+{
+  NSLog(@"DSACharacter canCastSpellWithName called, TO BE ENHANCED!!!");
+  if (self.spells)
+    {
+      return YES;
+    }
+  else
+    {
+      return NO;
+    }
+}
+
+- (DSASpellResult *) castSpell: (NSString *) spellName 
+                 ofAlternative: (NSString *) alternative
+                      onTarget: (DSACharacter *) targetCharacter 
+                    atDistance: (NSInteger) distance
+                   investedASP: (NSInteger) investedASP 
+          spellOriginCharacter: (DSACharacter *) originCharacter
+{
+  NSLog(@"DSACharacter castSpell called!!!");
+  DSASpellResult *spellResult;
+  for (DSASpell *spell in [self.spells allValues])
+    {
+      if ([spell.name isEqualToString: spellName])
+        {
+           spellResult = [spell castOnTarget: targetCharacter
+                               ofAlternative: (NSString *) alternative
+                                  atDistance: distance
+                                 investedASP: investedASP 
+                        spellOriginCharacter: originCharacter
+                       spellCastingCharacter: self];
+        }
+    }
+  return spellResult;
+}          
+// end of casting spells related methods
+
+// casting rituals related methods
+- (BOOL) canCastRituals
+{
+  NSLog(@"DSACharacter canCastRituals called, TO BE ENHANCED!!!");
+  if (self.specials)
+    {
+      return YES;
+    }
+  else
+    {
+      return NO;
+    }
+}
+
+- (BOOL) canCastRitualWithName: (NSString *) name
+{
+  
+  if (self.specials)
+    {
+      DSASpell *ritual = [self.specials objectForKey: name];
+      if (ritual)
+        {
+          if (ritual.aspCost > 0 && ritual.aspCost > self.currentAstralEnergy)
+            {
+              return NO;
+            }
+          if ([ritual isKindOfClass: [DSASpellMageRitual class]])
+            { 
+              DSAObject *target;          
+              if ([ritual.category isEqualToString: _(@"Stabzauber")])
+                {
+                  target = [[DSAInventoryManager sharedManager] findItemWithName: _(@"Magierstab") inModel: self];
+                }
+              else if ([ritual.category isEqualToString: _(@"Schwertzauber")])
+                {
+                  target = [[DSAInventoryManager sharedManager] findItemWithName: _(@"Magierschwert") inModel: self];
+                }
+              else if ([ritual.category isEqualToString: _(@"Kugelzauber")])
+                {
+                  target = [[DSAInventoryManager sharedManager] findItemWithName: _(@"Kristallkugel") inModel: self];
+                  NSLog(@"DSACharacter canCastRitualWithName: %@ found target!", name);
+                }
+              else if ([ritual.category isEqualToString: _(@"Schalenzauber")])
+                {
+                  target = [[DSAInventoryManager sharedManager] findItemWithName: _(@"Magierschale") inModel: self];
+                }
+              if (!target) // we don't have a relevant target object in our inventory                            
+                {
+                  return NO;
+                }
+              if ([target.appliedSpells objectForKey: name])  // the spell is already applied on the target
+                {
+                  return NO;
+                }               
+              NSString *pattern = @"^([0-9])";
+              NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                                                     options:0
+                                                                                       error:nil];
+              NSRange range = NSMakeRange(0, name.length);   
+              NSTextCheckingResult *match = [regex firstMatchInString:name options:0 range:range];
+              if (match)
+                {
+                  NSLog(@"IN MATCH");
+                  NSRange matchRange = [match rangeAtIndex:1];
+                  NSString *matchedNumber = [name substringWithRange:matchRange];
+                  if ([matchedNumber isEqualToString: @"1"])  // Some spells have to be given in order, whereas the first one 
+                    {                                        // makes the object a personal object
+                      return YES;
+                    }
+                  else
+                    {
+                      if (![self.modelID isEqualToString: target.ownerUUID])  // higher order spells should only be applied to spells where we're owner of
+                        {
+                          return NO;
+                        }
+                      NSInteger decrementedNumber = [matchedNumber integerValue] - 1;
+                      NSString *replacementString = [NSString stringWithFormat:@"%ld", (long)decrementedNumber];
+                      NSString *resultString = [regex stringByReplacingMatchesInString:name
+                                                                               options:0
+                                                                                 range:range
+                                                                          withTemplate:replacementString];
+                      if (![target.appliedSpells objectForKey: resultString])  // check if the previous ordered spell is already applied
+                        {
+                          return NO;
+                        }                                                                          
+                    }
+                  return YES;
+                }
+              else              
+                {
+                  return YES;
+                }
+            }
+          return YES;
+        }
+      else
+        {
+          return NO;
+        }
+    }
+  else
+    {
+      return NO;
+    }
+}
+
+- (DSASpellResult *) castRitual: (NSString *) ritualName
+                  ofAlternative: (NSString *) alternative
+                       onTarget: (id) target
+                     atDistance: (NSInteger) distance
+                    investedASP: (NSInteger) investedASP 
+           spellOriginCharacter: (DSACharacter *) originCharacter
+{
+  NSLog(@"DSACharacter castRitual called!!!");
+
+  DSASpell *spell = [self.specials objectForKey: ritualName];
+  DSASpellResult *spellResult = [spell castOnTarget: target
+                                      ofAlternative: alternative
+                                         atDistance: distance
+                                        investedASP: investedASP 
+                               spellOriginCharacter: originCharacter
+                              spellCastingCharacter: self];
+
+  return spellResult;
+}          
+// end of casting spells related methods
+
+
+/* moved to DSAInventoryManager class
+// Inventory related methods
+- (DSAObject *)findObjectWithName:(NSString *)name inInventory:(DSAInventory *)inventory {
+    for (DSASlot *slot in inventory.slots) {
+        // Check if the slot contains an object and if its name matches
+        DSAObject *object = slot.object;
+        if (object && [object.name isEqualToString:name]) {
+            return object; // Object found
+        }
+
+        // If the object is a container, recursively search inside it
+        if ([object isKindOfClass:[DSAObjectContainer class]]) {
+            DSAObjectContainer *container = (DSAObjectContainer *)object;
+            DSAObject *foundObject = [self findObjectWithName:name inContainer:container]; 
+            if (foundObject) {
+                return foundObject; // Object found within container
+            }
+        }
+    }
+    return nil; // Return nil if not found
+}
+
+- (DSAObject *)findObjectWithName:(NSString *)name inContainer:(DSAObjectContainer *)container {
+    for (DSASlot *slot in container.slots) {
+        // Check if the slot contains an object and if its name matches
+        DSAObject *object = slot.object;
+        if (object && [object.name isEqualToString:name]) {
+            return object; // Object found
+        }
+
+        // If the object is a container, recursively search inside it
+        if ([object isKindOfClass:[DSAObjectContainer class]]) {
+            DSAObjectContainer *container = (DSAObjectContainer *)object;
+            DSAObject *foundObject = [self findObjectWithName:name inContainer:container]; 
+            if (foundObject) {
+                return foundObject; // Object found within container
+            }
+        }
+    }
+    return nil; // Return nil if not found
+}
+
+- (DSAObject *)findObjectWithName:(NSString *)name inBodyParts:(DSABodyParts *)bodyParts {
+    // Iterate through body parts inventories
+    for (NSString *propertyName in bodyParts.inventoryPropertyNames) {
+        DSAInventory *inventory = [bodyParts valueForKey:propertyName];
+        DSAObject *foundObject = [self findObjectWithName:name inInventory:inventory];
+        if (foundObject) {
+            return foundObject; // Object found in body parts inventory
+        }
+    }
+    return nil; // Return nil if not found
+}
+
+- (DSAObject *)findObjectWithName:(NSString *)name {
+    // Search in general inventory
+    DSAObject *foundObject = [self findObjectWithName:name inInventory:self.inventory];
+    if (foundObject) {
+        return foundObject; // Object found in general inventory
+    }
+
+    // Search in body parts
+    return [self findObjectWithName:name inBodyParts:self.bodyParts];
+}
+// End of inventory related methods
+
+*/
 @end

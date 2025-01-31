@@ -24,7 +24,6 @@
 
 #import "DSACharacterHeroHumanMage.h"
 #import "DSASpell.h"
-#import "DSASpellResult.h"
 
 @implementation DSACharacterHeroHumanMage
 
@@ -42,23 +41,10 @@
       self.maxLevelUpTalentsTriesTmp = 15;
       self.maxLevelUpSpellsTriesTmp = 40;      
       self.maxLevelUpVariableTries = 10;
-      self.mrBonus = 3;           
+      self.mrBonus = 3;
+      self.isMagic = YES;      
     }
   return self;
-}
-
-- (DSASpellResult *) castSpell: (DSASpell *) spell
-{
-  return [[DSASpellResult alloc] init];
-}
-- (DSASpellResult *) castSpell: (DSASpell *) spell on: (id) target
-{
-  return [[DSASpellResult alloc] init];
-}
-
-- (DSASpellResult *) castSpell: (DSASpell *) spell withSource: (id) source onTarget: (id) target
-{
-  return [[DSASpellResult alloc] init];
 }
 
 - (BOOL) levelUpSpell: (DSASpell *)spell
@@ -117,16 +103,6 @@
 - (BOOL) levelUpSpecialsWithSpells
 {
   return NO;
-}
-
-- (DSASpellResult *) meditate
-{
-  return [[DSASpellResult alloc] init];
-}
-
-- (DSASpellResult *) enchantStaff: (id) staff
-{
-  return [[DSASpellResult alloc] init];
 }
 
 @end

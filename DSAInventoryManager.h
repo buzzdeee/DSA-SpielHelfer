@@ -36,10 +36,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (instancetype)sharedManager;
 
-- (DSAObject *)findItemInModel:(DSACharacter *)model
-           inventoryIdentifier:(NSString *)inventoryIdentifier
-                     slotIndex:(NSInteger)slotIndex;
+/// returns the item stored in a given inventory/slot
+- (DSAObject *)findItemInModel: (DSACharacter *) model
+           inventoryIdentifier: (NSString *) inventoryIdentifier
+                     slotIndex: (NSInteger) slotIndex;
 
+/// searches and finds an item by its name in all inventories of a given model           
+- (DSAObject *) findItemWithName: (NSString *) name 
+                         inModel: (DSACharacter *) model;                     
+                     
+/// replaces a new instantiated item in an inventory of a character
+/// @param oldItem the item to be replaced
+/// @param inModel the character that's intended to be in possession of oldItem
+/// @param newItem the item that's going to replace the oldItem, if newItem is nil, 
+/// the oldItem will be replaced with void, i.e. it gets deleted
+
+- (BOOL) replaceItem: (DSAObject *) oldItem
+             inModel: (DSACharacter *) model
+            withItem: (nullable DSAObject *) newItem;                     
+                     
 /// Transfers an item between two slots in the same or different inventories.
 /// @param sourceSlotIndex The source slot index.
 /// @param inInventory the source inventory identifier.

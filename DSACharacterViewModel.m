@@ -99,7 +99,7 @@
   NSMutableDictionary *formattedPositiveTraits = [[NSMutableDictionary alloc] init];
   for (NSString *trait in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
     {
-      NSLog(@"DSACharacterViewModel: updateFormattedPositiveTraits: %@ %@", trait, [self.currentPositiveTraits objectForKey: trait]);
+      // NSLog(@"DSACharacterViewModel: updateFormattedPositiveTraits: %@ %@", trait, [self.currentPositiveTraits objectForKey: trait]);
       NSString *formattedString = [NSString stringWithFormat: @"%ld/%ld",
                                   (signed long)[[self.currentPositiveTraits objectForKey: trait] level],
                                   (signed long)[[self.positiveTraits objectForKey: trait] level]];
@@ -124,13 +124,13 @@
 
 - (void)updateFormattedMoney
 {
-  NSLog(@"updateFormattedMoney %@", self.money);
+  // NSLog(@"updateFormattedMoney %@", self.money);
   NSString *formattedString = [NSString stringWithFormat:@"%@D %@S %@H %@K",
                                self.money[@"D"] ?: @0,
                                self.money[@"S"] ?: @0,
                                self.money[@"H"] ?: @0,
                                self.money[@"K"] ?: @0];
-  NSLog(@"updateFormattedMoney %@", self.money);                               
+  // NSLog(@"updateFormattedMoney %@", self.money);                               
   self.formattedMoney = formattedString;
 }
 
@@ -138,7 +138,7 @@
     NSString *formattedString = [NSString stringWithFormat:@"%ld/%ld",
                                  (signed long)self.currentLifePoints ?: 0,
                                  (signed long)self.lifePoints ?: 0];
-    NSLog(@"updateFormattedLifePoints: %@", formattedString);                               
+    // NSLog(@"updateFormattedLifePoints: %@", formattedString);                               
     self.formattedLifePoints = formattedString;
 }
 
@@ -147,7 +147,7 @@
   NSString *formattedString = [NSString stringWithFormat:@"%ld/%ld",
                                (signed long)self.currentAstralEnergy ?: 0,
                                (signed long)self.astralEnergy ?: 0];
-  NSLog(@"updateFormattedAstralEnergy: %@", formattedString);                                
+  // NSLog(@"updateFormattedAstralEnergy: %@", formattedString);                                
   self.formattedAstralEnergy = formattedString;                               
 }
 
@@ -156,7 +156,7 @@
   NSString *formattedString = [NSString stringWithFormat:@"%ld/%ld",
                                (signed long)self.currentKarmaPoints ?: 0,
                                (signed long)self.karmaPoints ?: 0];
-  NSLog(@"updateFormattedKarmaPoints: %@", formattedString);                               
+  // NSLog(@"updateFormattedKarmaPoints: %@", formattedString);                               
   self.formattedKarmaPoints = formattedString;                               
 }
 
@@ -165,7 +165,7 @@
                         change:(NSDictionary<NSKeyValueChangeKey,id> *)change 
                        context:(void *)context
 {
-  NSLog(@"DSACharacterViewModel observeValueForKeyPath: %@", keyPath);
+  // NSLog(@"DSACharacterViewModel observeValueForKeyPath: %@", keyPath);
   if ([keyPath hasPrefix:@"money."])
     {
       [self updateFormattedMoney];
@@ -242,6 +242,19 @@
   [_model removeObserver:self forKeyPath:@"currentAstralEnergy"];
   [_model removeObserver:self forKeyPath:@"karmaPoints"];
   [_model removeObserver:self forKeyPath:@"currentKarmaPoints"];
+  
+  for (NSString *trait in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
+    {
+      [_model removeObserver:self forKeyPath:[NSString stringWithFormat: @"positiveTraits.%@.level", trait]];
+      [_model removeObserver:self forKeyPath:[NSString stringWithFormat: @"currentPositiveTraits.%@.level", trait]];
+    }
+
+  for (NSString *trait in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
+    {
+      [_model removeObserver:self forKeyPath:[NSString stringWithFormat: @"negativeTraits.%@.level", trait]];
+      [_model removeObserver:self forKeyPath:[NSString stringWithFormat: @"currentNegativeTraits.%@.level", trait]];
+    }  
+  
 }
 
 // Ignores readonly variables with the assumption

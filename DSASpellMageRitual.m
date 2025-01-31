@@ -23,21 +23,98 @@
 */
 
 #import "DSASpellMageRitual.h"
+#import "DSASpellResult.h"
+#import "DSACharacter.h"
+#import "Utils.h"
+#import "DSAInventoryManager.h"
+
 
 @implementation DSASpellMageRitual
-- (instancetype)initSpell: (NSString *) name
-               ofCategory: (NSString *) category
-                 withTest: (NSArray *) test
-              withASPCost: (NSInteger) aspCost
-     withPermanentASPCost: (NSInteger) permanentASPCost
-               withLPCost: (NSString *) lpCost
-      withPermanentLPCost: (NSInteger) permanentLPCost
+static NSDictionary<NSString *, Class> *typeToClassMap = nil;
+
++ (void)initialize
+{
+  if (self == [DSASpellMageRitual class])
+    {
+      @synchronized(self)
+        {
+          if (!typeToClassMap)
+            {
+              typeToClassMap = @{
+                _(@"1. Stabzauber"): [DSASpellMageRitualStabzauberEins class],
+                _(@"2. Stabzauber"): [DSASpellMageRitualStabzauberZwei class],
+                _(@"3. Stabzauber"): [DSASpellMageRitualStabzauberDrei class],
+                _(@"4. Stabzauber"): [DSASpellMageRitualStabzauberVier class],
+                _(@"5. Stabzauber"): [DSASpellMageRitualStabzauberFuenf class],
+                _(@"6. Stabzauber"): [DSASpellMageRitualStabzauberSechs class],
+                _(@"7. Stabzauber"): [DSASpellMageRitualStabzauberSieben class],
+                _(@"Magische Fackel"): [DSASpellMageRitualStabzauberFackel class],
+                _(@"Magisches Seil"): [DSASpellMageRitualStabzauberSeil class],
+                _(@"Chamäleon"): [DSASpellMageRitualStabzauberChamaeleon class],
+                _(@"Speikobra"): [DSASpellMageRitualStabzauberSpeikobra class],
+                _(@"Stab herbeirufen"): [DSASpellMageRitualStabzauberHerbeirufen class],
+                _(@"Schwertzauber"): [DSASpellMageRitualSchwertzauber class],
+                _(@"Schalenzauber"): [DSASpellMageRitualSchalenzauber class],
+                _(@"1. Kugelzauber"): [DSASpellMageRitualKugelzauberEins class],
+                _(@"2. Kugelzauber"): [DSASpellMageRitualKugelzauberZwei class],
+                _(@"3. Kugelzauber"): [DSASpellMageRitualKugelzauberDrei class],
+                _(@"4. Kugelzauber"): [DSASpellMageRitualKugelzauberVier class],
+                _(@"5. Kugelzauber"): [DSASpellMageRitualKugelzauberFuenf class],
+                _(@"Brennglas"): [DSASpellMageRitualKugelzauberBrennglas class],
+                _(@"Schutzfeld"): [DSASpellMageRitualKugelzauberSchutzfeld class],
+                _(@"Auge des Zorns"): [DSASpellMageRitualKugelzauberWarnung class],
+                _(@"Kristallkugel herbeirufen"): [DSASpellMageRitualKugelzauberHerbeirufen class],
+              };
+            }
+        }
+    }
+}
+
++ (instancetype)ritualWithName: (NSString *) name
+                    ofCategory: (NSString *) category 
+                      withTest: (NSArray *) test
+              withAlternatives: (NSArray *) alternatives
+                   withPenalty: (NSInteger) penalty
+                   withASPCost: (NSInteger) aspCost
+          withPermanentASPCost: (NSInteger) permanentASPCost
+                    withLPCost: (NSInteger) lpCost
+           withPermanentLPCost: (NSInteger) permanentLPCost;
+{
+  Class subclass = [typeToClassMap objectForKey: name];
+  if (subclass)
+    {
+      NSLog(@"DSASpellMAgeRitual: ritualWithName: %@ going to call initRitual...", name);
+      return [[subclass alloc] initRitual: name
+                               ofCategory: category
+                                 withTest: test
+                         withAlternatives: alternatives       
+                              withPenalty: penalty
+                              withASPCost: aspCost
+                     withPermanentASPCost: permanentASPCost
+                               withLPCost: lpCost
+                      withPermanentLPCost: permanentLPCost];
+    }
+  // handle unknown type
+  NSLog(@"DSASpellMageRitual: ritualWithName: %@ not found returning NIL", name);
+  return nil;
+}
+
+- (instancetype)initRitual: (NSString *) name
+                ofCategory: (NSString *) category
+                  withTest: (NSArray *) test
+          withAlternatives: (NSArray *) alternatives                  
+               withPenalty: (NSInteger) penalty                  
+               withASPCost: (NSInteger) aspCost
+      withPermanentASPCost: (NSInteger) permanentASPCost
+                withLPCost: (NSInteger) lpCost
+       withPermanentLPCost: (NSInteger) permanentLPCost
 {
   self = [super initSpell: name
                ofCategory: category
                   onLevel: 0
                withOrigin: nil
                  withTest: test
+         withAlternatives: alternatives
    withMaxTriesPerLevelUp: 0
         withMaxUpPerLevel: 0
           withLevelUpCost: 0];
@@ -48,30 +125,11 @@
       self.lpCost = lpCost;
       self.permanentLPCost = permanentLPCost;
       
+      self.removalCostASP = aspCost;
+      self.spellDuration = -1;
+      self.spellingDuration = -1;      // can easily switch on and off     
     }
   return self;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)coder
-{
-  self = [super initWithCoder: coder];
-  if (self)
-    {
-      self.aspCost = [coder decodeIntegerForKey:@"aspCost"];
-      self.permanentASPCost = [coder decodeIntegerForKey:@"permanentASPCost"];
-      self.lpCost = [coder decodeObjectForKey:@"lpCost"];
-      self.permanentLPCost = [coder decodeIntegerForKey:@"permanentLPCost"];      
-    }
-  return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder
-{ 
-  [super encodeWithCoder: coder];
-  [coder encodeInteger:self.aspCost forKey:@"aspCost"];
-  [coder encodeInteger:self.permanentASPCost forKey:@"permanentASPCost"];
-  [coder encodeObject:self.lpCost forKey:@"lpCost"];
-  [coder encodeInteger:self.permanentLPCost forKey:@"permanentLPCost"];  
 }
 
 - (BOOL) levelUp;  // nothing to level up here
@@ -84,4 +142,1294 @@
 {
   return YES;
 }
+
+- (DSASpellResult *) castOnTarget: (id) target
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitual castOnTarget for spell: %@ called! %@", self.name, self);
+  DSASpellResult *result = [[DSASpellResult alloc] init];
+  result.resultDescription = [NSString stringWithFormat: _(@"%@ ist noch nicht implementiert."), self.name];
+  return result;
+}
 @end
+// End of 
+
+// Stabzauber
+@implementation DSASpellMageRitualStabzauberEins
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualStabzauberEins castOnTarget called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([[target appliedSpells] count] > 0)
+    for (NSString *spellName in [[target appliedSpells] allKeys])
+      {
+        if ([spellName isEqualToString: self.name])
+          {
+            spellResult.result = DSASpellResultNone;
+            spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Magierstab aktiv."), self.name];
+            return spellResult;
+          }
+      }
+  
+  if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
+      return spellResult;
+    }
+
+  spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
+  NSLog(@"DSAMageRitualStabzauberEins castOnTarget got spellResult: %@", spellResult);
+  if (spellResult.result == DSASpellResultSuccess || 
+      spellResult.result == DSASpellResultAutoSuccess ||
+      spellResult.result == DSASpellResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      castingCharacter.astralEnergy -= self.permanentASPCost;
+      [(DSAObjectWeaponHandWeapon *)target setBreakFactor: -1];
+      [target.appliedSpells setObject: [self copy] forKey: self.name];
+      target.ownerUUID = [castingCharacter.modelID copy];
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@ stellt einen geistigen Band zu seinem Magierstab her. Der Stab wird unzerstörbar.", castingCharacter.name];
+    }
+  else
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      spellResult.resultDescription = _(@"Leider fehlgeschlagen.");
+    }
+  
+  return spellResult;
+}
+@end
+// End of DSASpellStabzauberEins
+
+@implementation DSASpellMageRitualStabzauberZwei
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualStabzauberZwei called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
+  if ([[target appliedSpells] count] > 0)
+    for (NSString *spellName in [[target appliedSpells] allKeys])
+      {
+        if ([spellName isEqualToString: self.name])
+          {
+            spellResult.result = DSASpellResultNone;
+            spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Magierstab aktiv."), self.name];
+            return spellResult;
+          }
+      }
+  
+  if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
+      return spellResult;
+    }
+  
+  if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
+      return spellResult;
+    }
+
+  spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
+  
+  if (spellResult.result == DSASpellResultSuccess || 
+      spellResult.result == DSASpellResultAutoSuccess ||
+      spellResult.result == DSASpellResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      castingCharacter.astralEnergy -= self.permanentASPCost;
+      DSASpell *fackelRitual = [DSASpellMageRitual ritualWithName: @"Magische Fackel"
+                                                       ofCategory: _(@"Stabzauber")
+                                                         withTest: @[]
+                                                 withAlternatives: nil
+                                                      withPenalty: 0
+                                                      withASPCost: 0
+                                             withPermanentASPCost: 0
+                                                       withLPCost: 0
+                                              withPermanentLPCost: 0];
+      NSLog(@"THE FACKEL RITUAL: %@", fackelRitual);      
+      NSLog(@"CASTING CHARACTER SPECIALS: %@", castingCharacter.specials);
+      [castingCharacter.specials setObject: fackelRitual forKey: @"Magische Fackel"];  
+      NSLog(@"AFTER ADDING FACKEL RITUAL TO CASTING CHARACTER: %@", fackelRitual);
+      [target.appliedSpells setObject: [self copy] forKey: self.name];
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@ kann seinen Magierstab von nun an in eine Fackel und zurück verwandeln.", castingCharacter.name]; 
+    }
+  else
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      spellResult.resultDescription = _(@"Leider fehlgeschlagen.");
+    }
+  
+  return spellResult;
+}
+@end
+// End of Stabzauber Zwei
+
+@implementation DSASpellMageRitualStabzauberDrei
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualStabzauberDrei called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([[target appliedSpells] count] > 0)
+    for (NSString *spellName in [[target appliedSpells] allKeys])
+      {
+        if ([spellName isEqualToString: self.name])
+          {
+            spellResult.result = DSASpellResultNone;
+            spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Magierstab aktiv."), self.name];
+            return spellResult;
+          }
+      }
+  if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
+      return spellResult;
+    }
+  
+  spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
+  
+  if (spellResult.result == DSASpellResultSuccess || 
+      spellResult.result == DSASpellResultAutoSuccess ||
+      spellResult.result == DSASpellResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      castingCharacter.astralEnergy -= self.permanentASPCost;
+      DSASpell *ropeRitual = [DSASpellMageRitual ritualWithName: _(@"Magisches Seil")
+                                                       ofCategory: _(@"Stabzauber")
+                                                         withTest: @[]
+                                                 withAlternatives: nil        
+                                                      withPenalty: 0
+                                                      withASPCost: 0
+                                             withPermanentASPCost: 0
+                                                       withLPCost: 0
+                                              withPermanentLPCost: 0];
+      [castingCharacter.specials setObject: ropeRitual forKey: _(@"Magisches Seil")];  
+      [target.appliedSpells setObject: [self copy] forKey: self.name];
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@ kann seinen Magierstab von nun an in ein 10 Schritt langes Seil und zurück verwandeln.", castingCharacter.name];   
+    }
+  else
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      spellResult.resultDescription = _(@"Leider fehlgeschlagen.");
+    }
+  
+  return spellResult;
+}
+@end
+// End of Stabzauber Drei
+
+@implementation DSASpellMageRitualStabzauberVier
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualStabzauberVier called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([[target appliedSpells] count] > 0)
+    for (NSString *spellName in [[target appliedSpells] allKeys])
+      {
+        if ([spellName isEqualToString: self.name])
+          {
+            spellResult.result = DSASpellResultNone;
+            spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Magierstab aktiv."), self.name];
+            return spellResult;
+          }
+      }
+  if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
+      return spellResult;
+    }
+  
+  spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
+  
+  if (spellResult.result == DSASpellResultSuccess || 
+      spellResult.result == DSASpellResultAutoSuccess ||
+      spellResult.result == DSASpellResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      castingCharacter.astralEnergy -= self.permanentASPCost;
+      [target.appliedSpells setObject: [self copy] forKey: self.name];
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@ spart ab jetzt 2 ASP bei jedem Zaubervorgang.", castingCharacter.name];
+    }
+  else
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      spellResult.resultDescription = _(@"Leider fehlgeschlagen.");
+    }
+  
+  return spellResult;
+}
+
+@end
+// End of Stabzauber Vier
+
+@implementation DSASpellMageRitualStabzauberFuenf
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualStabzauberFuenf called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([[target appliedSpells] count] > 0)
+    for (NSString *spellName in [[target appliedSpells] allKeys])
+      {
+        if ([spellName isEqualToString: self.name])
+          {
+            spellResult.result = DSASpellResultNone;
+            spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Magierstab aktiv."), self.name];
+            return spellResult;
+          }
+      }
+  if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
+      return spellResult;
+    }
+    
+  spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
+  
+  if (spellResult.result == DSASpellResultSuccess || 
+      spellResult.result == DSASpellResultAutoSuccess ||
+      spellResult.result == DSASpellResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      castingCharacter.astralEnergy -= self.permanentASPCost;
+      [target.appliedSpells setObject: [self copy] forKey: self.name];
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@ kann seinen Magierstab ab sofort in ein Flammenschwert verwandeln.", castingCharacter.name];
+    }
+  else
+    {
+      NSInteger diceResult = [Utils rollDice: @"1W3"];
+      if (diceResult == 1)
+        {
+          DSAObject *sword = [[DSAObject alloc] initWithName: @"Schwert" forOwner: castingCharacter.modelID];
+          [[DSAInventoryManager sharedManager] replaceItem: target
+                                                   inModel: castingCharacter
+                                                  withItem: sword];
+          spellResult.resultDescription = [NSString stringWithFormat: @"Der Magierstab hat sich in ein gewöhnliches Schwert verwandelt."];
+        }
+      else if (diceResult == 2)
+        {
+          [target.states addObject: @(DSAObjectStateNoMoreStabzauber)];
+          spellResult.resultDescription = [NSString stringWithFormat: @"Der Magierstab weigert sich von nun an jeglichen weiteren Stabzauber anzunehmen."];
+        }
+      else if (diceResult == 3)
+        {
+          NSInteger diceResult = [Utils rollDice: @"1W20"] + 10;
+          castingCharacter.currentLifePoints -= diceResult;
+          spellResult.resultDescription = [NSString stringWithFormat: @"Der Magierstab verwandelt sich kurzzeitig in ein Flammenschwert, und fügt %@ %ld Schadenspunkte zu.", castingCharacter.name, (signed long) diceResult];
+        }
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+    }
+  
+  return spellResult;
+}
+@end
+// End of Stabzauber Fünf
+
+@implementation DSASpellMageRitualStabzauberSechs
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualStabzauberSechs called! %@ %@", self, [[[[Utils getMageRitualsDict] objectForKey: @"Stabzauber"] objectForKey: self.name] objectForKey: @"Alternativen" ]);
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([[target appliedSpells] count] > 0)
+    for (NSString *spellName in [[target appliedSpells] allKeys])
+      {
+        if ([spellName isEqualToString: self.name])
+          {
+            spellResult.result = DSASpellResultNone;
+            spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Magierstab aktiv."), self.name];
+            return spellResult;
+          }
+      }
+  if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
+      return spellResult;
+    }
+  
+  spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
+  
+  if (spellResult.result == DSASpellResultSuccess || 
+      spellResult.result == DSASpellResultAutoSuccess ||
+      spellResult.result == DSASpellResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      castingCharacter.astralEnergy -= self.permanentASPCost;
+      [[(DSAObject *)target appliedSpells] setObject: [self copy] forKey: self.name];
+      DSASpell *newRitual = [DSASpellMageRitual ritualWithName: alternative
+                                                    ofCategory: _(@"Stabzauber")
+                                                      withTest: @[]
+                                              withAlternatives: nil        
+                                                   withPenalty: 0
+                                                   withASPCost: 0
+                                          withPermanentASPCost: 0
+                                                    withLPCost: 0
+                                           withPermanentLPCost: 0];
+      [castingCharacter.specials setObject: newRitual forKey: alternative];  
+      [target.appliedSpells setObject: [self copy] forKey: self.name];
+      NSString *article;
+      if ([alternative isEqualToString: _(@"Chamäleon")])
+        {
+          article = _(@"ein");
+        }
+      else
+        {
+          article = _(@"eine");
+        }
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@ kann seinen Magierstab von nun an in %@ %@ verwandeln.", castingCharacter.name, article, alternative];      
+    }
+  else
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      spellResult.resultDescription = _(@"Leider fehlgeschlagen.");
+    }
+  
+  return spellResult;
+}
+@end
+// End of Stabzauber Sechs
+
+@implementation DSASpellMageRitualStabzauberSieben
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualStabzauberSieben called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([[target appliedSpells] count] > 0)
+    for (NSString *spellName in [[target appliedSpells] allKeys])
+      {
+        if ([spellName isEqualToString: self.name])
+          {
+            spellResult.result = DSASpellResultNone;
+            spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Magierstab aktiv."), self.name];
+            return spellResult;
+          }
+      }
+  if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
+      return spellResult;
+    }
+  
+  spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
+  
+  if (spellResult.result == DSASpellResultSuccess || 
+      spellResult.result == DSASpellResultAutoSuccess ||
+      spellResult.result == DSASpellResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      castingCharacter.astralEnergy -= self.permanentASPCost;
+      DSASpell *ropeRitual = [DSASpellMageRitual ritualWithName: _(@"Stab herbeirufen")
+                                                     ofCategory: _(@"Stabzauber")
+                                                       withTest: @[]
+                                               withAlternatives: nil        
+                                                    withPenalty: 0
+                                                    withASPCost: 0
+                                           withPermanentASPCost: 0
+                                                     withLPCost: 0
+                                            withPermanentLPCost: 0];
+      ropeRitual.maxDistance = 7000;  // 7 Meilen
+      [castingCharacter.specials setObject: ropeRitual forKey: _(@"Stab herbeirufen")];  
+      [target.appliedSpells setObject: [self copy] forKey: self.name];
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@ festigt den Band mit seinem Stab und kann ihn nun aus bis zu 7 Meilen Entfernung herbeirufen.", castingCharacter.name];   
+    }
+  else
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      spellResult.resultDescription = _(@"Leider fehlgeschlagen.");
+    }
+  
+  return spellResult;
+}
+@end
+// End of Stabzauber Sieben
+
+@implementation DSASpellMageRitualStabzauberFackel
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualStabzauberFackel castOnTarget called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([target.states containsObject: @(DSAObjectStateHasSpellActive)])
+    {
+      if (![target.states containsObject: @(DSAObjectStateStabzauberFackel)])
+        {
+          spellResult.result = DSASpellResultNone;
+          spellResult.resultDescription = [NSString stringWithFormat: _(@"Ein anderer Zauber ist schon auf dem Magierstab aktiv.")];
+          return spellResult;
+        }
+      
+      [target.states removeObject: @(DSAObjectStateStabzauberFackel)];
+      [target.states removeObject: @(DSAObjectStateHasSpellActive)];
+      spellResult.resultDescription = [NSString stringWithFormat: @"Das magische Licht der Fackel erlischt."];
+      return spellResult;
+    }
+  [target.states addObject: @(DSAObjectStateStabzauberFackel)];
+  [target.states addObject: @(DSAObjectStateHasSpellActive)];
+  castingCharacter.currentAstralEnergy -= self.aspCost;
+  spellResult.resultDescription = [NSString stringWithFormat: @"Der Magierstab taucht die Umgebung in magischem Licht."];
+  return spellResult;
+}
+@end
+// End of DSASpellStabzauberFackel
+
+@implementation DSASpellMageRitualStabzauberSeil
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualStabzauberSeil castOnTarget called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([target.states containsObject: @(DSAObjectStateHasSpellActive)])
+    {
+      if (![target.states containsObject: @(DSAObjectStateStabzauberSeil)])
+        {
+          spellResult.result = DSASpellResultNone;
+          spellResult.resultDescription = [NSString stringWithFormat: _(@"Ein anderer Zauber ist schon auf dem Magierstab aktiv.")];
+          return spellResult;
+        }
+      
+      [target.states removeObject: @(DSAObjectStateStabzauberSeil)];
+      [target.states removeObject: @(DSAObjectStateHasSpellActive)];
+      spellResult.resultDescription = [NSString stringWithFormat: @"Das magische Seil verwandelt sich zurück in den Magierstab."];
+      return spellResult;
+    }
+  [target.states addObject: @(DSAObjectStateStabzauberSeil)];
+  [target.states addObject: @(DSAObjectStateHasSpellActive)];
+  castingCharacter.currentAstralEnergy -= self.aspCost;
+  spellResult.resultDescription = [NSString stringWithFormat: @"Der Magierstab verwandelt sich in ein magisches Seil."];
+  return spellResult;
+}
+@end
+
+@implementation DSASpellMageRitualStabzauberChamaeleon
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualStabzauberChamaeleon castOnTarget called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([target.states containsObject: @(DSAObjectStateHasSpellActive)])
+    {
+      if (![target.states containsObject: @(DSAObjectStateStabzauberTierverwandlung)])
+        {
+          spellResult.result = DSASpellResultNone;
+          spellResult.resultDescription = [NSString stringWithFormat: _(@"Ein anderer Zauber ist schon auf dem Magierstab aktiv.")];
+          return spellResult;
+        }
+      
+      [target.states removeObject: @(DSAObjectStateStabzauberTierverwandlung)];
+      [target.states removeObject: @(DSAObjectStateHasSpellActive)];
+      spellResult.resultDescription = [NSString stringWithFormat: @"Das Chamäleon verwandelt sich zurück in den Magierstab."];
+      return spellResult;
+    }
+  [target.states addObject: @(DSAObjectStateStabzauberTierverwandlung)];
+  [target.states addObject: @(DSAObjectStateHasSpellActive)];
+  castingCharacter.currentAstralEnergy -= self.aspCost;
+  spellResult.resultDescription = [NSString stringWithFormat: @"Der Magierstab verwandelt sich in ein Chamäleon."];
+  return spellResult;
+}
+@end
+// End of DSASpellStabzauberChamäleon
+
+@implementation DSASpellMageRitualStabzauberSpeikobra
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualStabzauberSpeikobra castOnTarget called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([target.states containsObject: @(DSAObjectStateHasSpellActive)])
+    {
+      if (![target.states containsObject: @(DSAObjectStateStabzauberTierverwandlung)])
+        {
+          spellResult.result = DSASpellResultNone;
+          spellResult.resultDescription = [NSString stringWithFormat: _(@"Ein anderer Zauber ist schon auf dem Magierstab aktiv.")];
+          return spellResult;
+        }
+      
+      [target.states removeObject: @(DSAObjectStateStabzauberTierverwandlung)];
+      [target.states removeObject: @(DSAObjectStateHasSpellActive)];
+      spellResult.resultDescription = [NSString stringWithFormat: @"Die Speikobra verwandelt sich zurück in den Magierstab."];
+      return spellResult;
+    }
+  [target.states addObject: @(DSAObjectStateStabzauberTierverwandlung)];
+  [target.states addObject: @(DSAObjectStateHasSpellActive)];
+  castingCharacter.currentAstralEnergy -= self.aspCost;
+  spellResult.resultDescription = [NSString stringWithFormat: @"Der Magierstab verwandelt sich in eine Speikobra."];
+  return spellResult;
+}
+@end
+// End of DSASpellStabzauberSpeikobra
+
+@implementation DSASpellMageRitualStabzauberHerbeirufen
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  castingCharacter.currentAstralEnergy -= self.aspCost;
+  spellResult.resultDescription = [NSString stringWithFormat: @"%@ ruft den Stab zurück.", castingCharacter.name];
+  return spellResult;
+}
+@end
+// End of DSASpellStabzauberHerbeirufen
+
+// End of all Stabzaubersse
+
+// Schwertzauber
+@implementation DSASpellMageRitualSchwertzauber
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualSchwertzauber called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierschwert" inModel: castingCharacter];
+  if (![self verifyTarget: target andOrigin: originCharacter])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;      
+    }
+  
+  if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
+      return spellResult;
+    }
+
+  spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
+  
+  if (spellResult.result == DSASpellResultSuccess || 
+      spellResult.result == DSASpellResultAutoSuccess ||
+      spellResult.result == DSASpellResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      castingCharacter.astralEnergy -= self.permanentASPCost;     
+      [(DSAObjectWeaponHandWeapon *)target setBreakFactor: -1];
+      target.ownerUUID = [castingCharacter.modelID copy];
+      [target.appliedSpells setObject: [self copy] forKey: self.name];
+    }
+  else
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      spellResult.resultDescription = _(@"Leider fehlgeschlagen.");
+    }
+  
+  return spellResult;
+}
+@end
+// End of DSASpellMageRitualSchalenzauber
+
+// Schalenzauber
+@implementation DSASpellMageRitualSchalenzauber
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualSchalenzauber called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierschale" inModel: castingCharacter];
+  if (![self verifyTarget: target andOrigin: originCharacter])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;      
+    }
+  
+  if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
+      return spellResult;
+    }
+
+  spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
+  
+  if (spellResult.result == DSASpellResultSuccess || 
+      spellResult.result == DSASpellResultAutoSuccess ||
+      spellResult.result == DSASpellResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      castingCharacter.astralEnergy -= self.permanentASPCost;
+      castingCharacter.currentLifePoints -= self.lpCost;
+      castingCharacter.lifePoints -= self.permanentLPCost;      
+      [(DSAObjectWeaponHandWeapon *)target setBreakFactor: -1];
+      target.ownerUUID = [castingCharacter.modelID copy];
+      [target.appliedSpells setObject: [self copy] forKey: self.name];
+    }
+  else
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      spellResult.resultDescription = _(@"Leider fehlgeschlagen.");
+    }
+  
+  return spellResult;
+}
+@end
+// End of DSASpellMageRitualSchalenzauber
+
+// Kugelzauber
+@implementation DSASpellMageRitualKugelzauberEins
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualKugelzauberEins castOnTarget called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
+
+  if ([[target appliedSpells] count] > 0)
+    for (NSString *spellName in [[target appliedSpells] allKeys])
+      {
+        if ([spellName isEqualToString: self.name])
+          {
+            spellResult.result = DSASpellResultNone;
+            spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf der Kristallkugel aktiv."), self.name];
+            return spellResult;
+          }
+      }
+  
+  if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
+      return spellResult;
+    }
+
+  spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
+  NSLog(@"DSAMageRitualKugelzauberEins castOnTarget got spellResult: %@", spellResult);
+  if (spellResult.result == DSASpellResultSuccess || 
+      spellResult.result == DSASpellResultAutoSuccess ||
+      spellResult.result == DSASpellResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      castingCharacter.astralEnergy -= self.permanentASPCost;
+      [target setBreakFactor: -1];
+      [target.appliedSpells setObject: [self copy] forKey: self.name];
+      target.ownerUUID = [castingCharacter.modelID copy];
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@ stellt einen geistigen Band zu seiner Kristallkugel her. Die Kugel wird unzerstörbar.", castingCharacter.name];
+    }
+  else
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      spellResult.resultDescription = _(@"Leider fehlgeschlagen.");
+    }
+  
+  return spellResult;
+}
+@end
+// End of DSASpellKugelzauberEins
+
+@implementation DSASpellMageRitualKugelzauberZwei
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualKugelzauberZwei castOnTarget called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([[target appliedSpells] count] > 0)
+    for (NSString *spellName in [[target appliedSpells] allKeys])
+      {
+        if ([spellName isEqualToString: self.name])
+          {
+            spellResult.result = DSASpellResultNone;
+            spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf der Kristallkugel aktiv."), self.name];
+            return spellResult;
+          }
+      }
+  
+  if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
+      return spellResult;
+    }
+
+  spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
+  if (spellResult.result == DSASpellResultSuccess || 
+      spellResult.result == DSASpellResultAutoSuccess ||
+      spellResult.result == DSASpellResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      castingCharacter.astralEnergy -= self.permanentASPCost;
+      [target.appliedSpells setObject: [self copy] forKey: self.name];
+      DSASpell *lensRitual = [DSASpellMageRitual ritualWithName: _(@"Brennglas")
+                                                     ofCategory: _(@"Kugelzauber")
+                                                       withTest: @[]
+                                               withAlternatives: nil        
+                                                    withPenalty: 0
+                                                    withASPCost: 0
+                                           withPermanentASPCost: 0
+                                                     withLPCost: 0
+                                            withPermanentLPCost: 0];
+      [castingCharacter.specials setObject: lensRitual forKey: _(@"Brennglas")];       
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@ kann seine Kristallkugel von nun an in ein variables Brennglas verwandeln.", castingCharacter.name];
+    }
+  else
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      spellResult.resultDescription = _(@"Leider fehlgeschlagen.");
+    }
+  
+  return spellResult;
+}
+@end
+// End of DSASpellKugelzauberZwei
+
+@implementation DSASpellMageRitualKugelzauberDrei
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualKugelzauberDrei called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([[target appliedSpells] count] > 0)
+    for (NSString *spellName in [[target appliedSpells] allKeys])
+      {
+        if ([spellName isEqualToString: self.name])
+          {
+            spellResult.result = DSASpellResultNone;
+            spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf der Kristallkugel aktiv."), self.name];
+            return spellResult;
+          }
+      }
+  if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
+      return spellResult;
+    }
+    
+  spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
+  
+  if (spellResult.result == DSASpellResultSuccess || 
+      spellResult.result == DSASpellResultAutoSuccess ||
+      spellResult.result == DSASpellResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      castingCharacter.astralEnergy -= self.permanentASPCost;
+      [target.appliedSpells setObject: [self copy] forKey: self.name];
+      DSASpell *shieldRitual = [DSASpellMageRitual ritualWithName: _(@"Schutzfeld")
+                                                     ofCategory: _(@"Kugelzauber")
+                                                       withTest: @[]
+                                               withAlternatives: nil        
+                                                    withPenalty: 0
+                                                    withASPCost: 5
+                                           withPermanentASPCost: 0
+                                                     withLPCost: 0
+                                            withPermanentLPCost: 0];
+      [castingCharacter.specials setObject: shieldRitual forKey: _(@"Schutzfeld")];      
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@ kann ab sofort ein silbrig schimmerndes Schutzfeld von zwei Schritt Radius erschaffen, um Untote, Vampire und Werwölfe fernzuhalten.", castingCharacter.name];
+    }
+  else
+    {
+      NSInteger diceResult = [Utils rollDice: @"1W20"] + 10;
+      castingCharacter.currentLifePoints -= diceResult;    
+      NSInteger diceResult2 = [Utils rollDice: @"1W10"];
+      spellResult.resultDescription = [NSString stringWithFormat: @"Die Kristallkugel erhitzt sich so stark, das sie %@ %ld Schadenspunkte zufügt.", castingCharacter.name, (signed long) diceResult];
+      if (diceResult2 == 10)
+        {
+          spellResult.resultDescription = [NSString stringWithFormat: @"Die Kristallkugel erhitzt sich so stark, das sie %@ %ld Schadenspunkte zufügt, und dabei durch ihre eigenen magischen Gewalten zerbirst.", castingCharacter.name, (signed long) diceResult];
+          // not replacing it, just removing the destroyed chrystal ball
+          [[DSAInventoryManager sharedManager] replaceItem: target
+                                                   inModel: castingCharacter
+                                                  withItem: nil];
+        }
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+    }
+  
+  return spellResult;
+}
+@end
+// End of Kugelzauber Drei
+
+@implementation DSASpellMageRitualKugelzauberVier
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualKugelzauberVier called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([[target appliedSpells] count] > 0)
+    for (NSString *spellName in [[target appliedSpells] allKeys])
+      {
+        if ([spellName isEqualToString: self.name])
+          {
+            spellResult.result = DSASpellResultNone;
+            spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf der Kristallkugel aktiv."), self.name];
+            return spellResult;
+          }
+      }
+  if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
+      return spellResult;
+    }
+    
+  spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
+  
+  if (spellResult.result == DSASpellResultSuccess || 
+      spellResult.result == DSASpellResultAutoSuccess ||
+      spellResult.result == DSASpellResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      castingCharacter.astralEnergy -= self.permanentASPCost;
+      [target.appliedSpells setObject: [self copy] forKey: self.name];
+      DSASpell *lensRitual = [DSASpellMageRitual ritualWithName: _(@"Auge des Zorns")
+                                                     ofCategory: _(@"Kugelzauber")
+                                                       withTest: @[]
+                                               withAlternatives: nil        
+                                                    withPenalty: 0
+                                                    withASPCost: 3
+                                           withPermanentASPCost: 0
+                                                     withLPCost: 0
+                                            withPermanentLPCost: 0];
+      [castingCharacter.specials setObject: lensRitual forKey: _(@"Auge des Zorns")];      
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@ kann ab sofort die Kugel einsetzten, um starke Wellen von Haß oder Mordlust gegen ihn anzeigen zu lassen, wenn diese solche in der Nähe verspürt.", castingCharacter.name];
+    }
+  else
+    {   
+      spellResult.resultDescription = [NSString stringWithFormat: @"Leider fehlgeschlagen."];
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+    }
+  
+  return spellResult;
+}
+@end
+// End of Kugelzauber Vier
+
+@implementation DSASpellMageRitualKugelzauberFuenf
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellMageRitualKugelzauberFuenf called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([[target appliedSpells] count] > 0)
+    for (NSString *spellName in [[target appliedSpells] allKeys])
+      {
+        if ([spellName isEqualToString: self.name])
+          {
+            spellResult.result = DSASpellResultNone;
+            spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Magierstab aktiv."), self.name];
+            return spellResult;
+          }
+      }
+  if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
+      return spellResult;
+    }
+  
+  spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
+  
+  if (spellResult.result == DSASpellResultSuccess || 
+      spellResult.result == DSASpellResultAutoSuccess ||
+      spellResult.result == DSASpellResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      castingCharacter.astralEnergy -= self.permanentASPCost;
+      DSASpell *ropeRitual = [DSASpellMageRitual ritualWithName: _(@"Kristallkugel herbeirufen")
+                                                     ofCategory: _(@"Kugelzauber")
+                                                       withTest: @[]
+                                               withAlternatives: nil        
+                                                    withPenalty: 0
+                                                    withASPCost: 0
+                                           withPermanentASPCost: 0
+                                                     withLPCost: 0
+                                            withPermanentLPCost: 0];
+      ropeRitual.maxDistance = 7000;  // 7 Meilen
+      [castingCharacter.specials setObject: ropeRitual forKey: _(@"Kristallkugel herbeirufen")];  
+      [target.appliedSpells setObject: [self copy] forKey: self.name];
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@ festigt den Band mit seiner Kristallkugel und kann sie nun aus bis zu 7 Meilen Entfernung herbeirufen.", castingCharacter.name];   
+    }
+  else
+    {
+      castingCharacter.currentAstralEnergy -= self.aspCost;
+      spellResult.resultDescription = _(@"Leider fehlgeschlagen.");
+    }
+  
+  return spellResult;
+}
+@end
+// End of Kugelzauber Fünf
+
+
+@implementation DSASpellMageRitualKugelzauberBrennglas
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellKugelzauberBrennglas castOnTarget called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
+  NSLog(@"FOUND TARGET: %@", target);
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([target.states containsObject: @(DSAObjectStateHasSpellActive)])
+    {
+      if (![target.states containsObject: @(DSAObjectStateKugelzauberBrennglas)])
+        {
+          spellResult.result = DSASpellResultNone;
+          spellResult.resultDescription = [NSString stringWithFormat: _(@"Ein anderer Zauber ist schon auf der Kristallkugel aktiv.")];
+          return spellResult;
+        }
+      
+      [target.states removeObject: @(DSAObjectStateKugelzauberBrennglas)];
+      [target.states removeObject: @(DSAObjectStateHasSpellActive)];
+      spellResult.resultDescription = [NSString stringWithFormat: @"Das Brennglas verwandelt sich in die Kristallkugel zurück."];
+      return spellResult;
+    }
+  [target.states addObject: @(DSAObjectStateKugelzauberBrennglas)];
+  [target.states addObject: @(DSAObjectStateHasSpellActive)];
+  castingCharacter.currentAstralEnergy -= self.aspCost;
+  spellResult.resultDescription = [NSString stringWithFormat: @"Die Kristallkugel verwandelt sich in ein Brennglas mit variabler Brennweite."];
+  return spellResult;
+}
+@end
+// End of DSASpellKugelzauberBrennglas
+
+@implementation DSASpellMageRitualKugelzauberSchutzfeld
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellKugelzauberSchutzfeld castOnTarget called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([target.states containsObject: @(DSAObjectStateHasSpellActive)])
+    {
+      if (![target.states containsObject: @(DSAObjectStateKugelzauberSchutzfeld)])
+        {
+          spellResult.result = DSASpellResultNone;
+          spellResult.resultDescription = [NSString stringWithFormat: _(@"Ein anderer Zauber ist schon auf der Kristallkugel aktiv.")];
+          return spellResult;
+        }
+      
+      [target.states removeObject: @(DSAObjectStateKugelzauberSchutzfeld)];
+      [target.states removeObject: @(DSAObjectStateHasSpellActive)];
+      spellResult.resultDescription = [NSString stringWithFormat: @"Das Schutzfeld um %@ gegen Untote, Vampire und Werwölfe verschwindet wieder.", castingCharacter.name];
+      return spellResult;
+    }
+  [target.states addObject: @(DSAObjectStateKugelzauberSchutzfeld)];
+  [target.states addObject: @(DSAObjectStateHasSpellActive)];
+  castingCharacter.currentAstralEnergy -= self.aspCost;
+  spellResult.resultDescription = [NSString stringWithFormat: @"Ein silbrig schimmerndes Schutzfeld gegen Untote, Vampire und Werwölfe, von 2 Schritt Radius, baut sich um %@ auf.", castingCharacter.name];
+  return spellResult;
+}
+@end
+// End of DSASpellKugelzauberSchutzfeld
+
+@implementation DSASpellMageRitualKugelzauberWarnung
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellKugelzauberWarnung castOnTarget called!");
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  if ([target.states containsObject: @(DSAObjectStateHasSpellActive)])
+    {
+      if (![target.states containsObject: @(DSAObjectStateKugelzauberWarnung)])
+        {
+          spellResult.result = DSASpellResultNone;
+          spellResult.resultDescription = [NSString stringWithFormat: _(@"Ein anderer Zauber ist schon auf der Kristallkugel aktiv.")];
+          return spellResult;
+        }
+      
+      [target.states removeObject: @(DSAObjectStateKugelzauberWarnung)];
+      [target.states removeObject: @(DSAObjectStateHasSpellActive)];
+      spellResult.resultDescription = [NSString stringWithFormat: @"Die Kristallkugel wird grellrot aufleuchten, wenn diese in der näheren Umgebung starke Wellen von Haß oder Mordlust gegenüber %@ verspürt.", castingCharacter.name];
+      return spellResult;
+    }
+  [target.states addObject: @(DSAObjectStateKugelzauberWarnung)];
+  [target.states addObject: @(DSAObjectStateHasSpellActive)];
+  castingCharacter.currentAstralEnergy -= self.aspCost;
+  spellResult.resultDescription = [NSString stringWithFormat: @"Die Kristallkugel wird sich rot verfärben, wenn sie in der Umgebung starke Wellen von Haß oder Mordlust gegen %@ verspürt.", castingCharacter.name];
+  return spellResult;
+}
+@end
+// End of DSASpellKugelzauberWarnung
+
+@implementation DSASpellMageRitualKugelzauberHerbeirufen
+- (DSASpellResult *) castOnTarget: (id) target_ignored
+                    ofAlternative: (NSString *) alternative
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP 
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  
+  // we ignore any target we got
+  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }
+  castingCharacter.currentAstralEnergy -= self.aspCost;
+  spellResult.resultDescription = [NSString stringWithFormat: @"%@ ruft die Kristallkugel zurück.", castingCharacter.name];
+  return spellResult;
+}
+@end
+// End of DSASpellKugelzauberHerbeirufen

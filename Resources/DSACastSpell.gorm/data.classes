@@ -11,7 +11,10 @@
 	    fieldSpellPenalty,
 	    fieldSpellCreatorLevel,
 	    popupSpellCategorySelector,
-	    popupSpellSelector
+	    popupSpellSelector,
+	    buttonSpellDoIt,
+	    fieldSpellInvestedASP,
+	    fieldSpellFeedbackHeadline
 	);
 	Super = NSWindowController;
     };

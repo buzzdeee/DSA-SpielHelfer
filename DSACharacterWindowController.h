@@ -190,12 +190,23 @@
 // for using spell window
 @property (nonatomic, strong) IBOutlet NSPanel *castSpellPanel;
 @property (weak) IBOutlet NSTextField *fieldSpellFeedback;
+@property (weak) IBOutlet NSTextField *fieldSpellFeedbackHeadline;
 @property (weak) IBOutlet NSTextField *fieldSpellCreatorLevel;          // level of the mage who casted initial spell we want to do antimagic on...
 @property (weak) IBOutlet NSTextField *fieldSpellDistance;
+@property (weak) IBOutlet NSTextField *fieldSpellInvestedASP;
 @property (weak) IBOutlet NSTextField *fieldSpellMagicResistance;
 @property (weak) IBOutlet NSPopUpButton *popupSpellCategorySelector;
 @property (weak) IBOutlet NSPopUpButton *popupSpellSelector;
 @property (weak) IBOutlet NSPopUpButton *buttonSpellDoIt;
+
+// for the rituals window
+@property (nonatomic, strong) IBOutlet NSPanel *castRitualPanel;
+@property (weak) IBOutlet NSTextField *fieldRitualFeedback;
+@property (weak) IBOutlet NSTextField *fieldRitualFeedbackHeadline;
+@property (weak) IBOutlet NSPopUpButton *popupRitualCategorySelector;
+@property (weak) IBOutlet NSPopUpButton *popupRitualAlternativeSelector;
+@property (weak) IBOutlet NSPopUpButton *popupRitualSelector;
+@property (weak) IBOutlet NSPopUpButton *buttonRitualDoIt;
 
 // For setting temporary energies
 @property (nonatomic, strong) IBOutlet NSPanel *manageTempEnergiesPanel;
@@ -207,6 +218,9 @@
 @property (nonatomic, strong) IBOutlet NSPanel *regenerationPanel;
 @property (weak) IBOutlet NSTextField *fieldRegenerationSleepHours;
 @property (weak) IBOutlet NSTextField *fieldRegenerationResult;
+
+
+
 
 // to track spells and spell names NSText field relationships to be able to change color
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSTextField *> *spellItemFieldMap;
@@ -226,6 +240,7 @@
 -(void)showEnergiesManagerPanel: (id)sender;
 -(void)showCastSpellPanel: (id)sender;
 -(void)showRegenerateCharacterPanel: (id)sender;
+-(void)showRitualsPanel: (id)sender;
 
 
 @end

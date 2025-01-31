@@ -29,16 +29,13 @@
 #import "DSAObject.h"
 #import "DSAInventory.h"
 #import "DSABodyParts.h"
-#import "DSAObjectContainer.h"
-#import "DSAObjectWeapon.h"
-#import "DSAObjectArmor.h"
-#import "DSAObjectShield.h"
 #import "DSAAventurianDate.h"
 #import "DSATalent.h"
 
 @class DSAPositiveTrait;
 @class DSANegativeTrait;
 @class DSATalentResult;
+@class DSASpellResult;
 @class DSARegenerationResult;
 
 @interface DSACharacter : NSObject <NSCoding>
@@ -92,7 +89,8 @@
 @property (nonatomic, strong) DSABodyParts *bodyParts;
 @property (nonatomic, copy) NSMutableDictionary *talents;
 @property (nonatomic, copy) NSMutableDictionary *spells;
-@property (nonatomic, copy) NSMutableDictionary *specials;
+@property (nonatomic, strong) NSMutableDictionary *specials;
+@property (nonatomic, strong) NSMutableDictionary<NSString*, DSASpell *> *appliedSpells;  // spells casted onto a character, and having effect on it
 
 @property (readonly, assign) NSInteger attackBaseValue;
 @property (readonly, assign) NSInteger carryingCapacity;
@@ -112,14 +110,34 @@
 // used to decide, if a body inventory slot can hold a given item, based on character constraints
 - (BOOL) canUseItem: (DSAObject *) item;
 // to decide if currently a spell can be casted
-- (BOOL) canCastSpell;
+- (BOOL) canCastSpells;
+- (BOOL) canCastSpellWithName: (NSString *) name;
+// to decide if currently a ritual can be casted
+- (BOOL) canCastRituals;
+- (BOOL) canCastRitualWithName: (NSString *) name;
 // to decide, if currently a talent can be used
 - (BOOL) canUseTalent;
 // to decide, if the character can regenerate AE or LP
 - (BOOL) canRegenerate;
 
 - (DSATalentResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty;
+- (DSASpellResult *) castSpell: (NSString *) spellName
+                 ofAlternative: (NSString *) alternative 
+                      onTarget: (DSACharacter *) targetCharacter 
+                    atDistance: (NSInteger) distance
+                   investedASP: (NSInteger) investedASP 
+          spellOriginCharacter: (DSACharacter *) originCharacter;
+
+- (DSASpellResult *) castRitual: (NSString *) ritualName 
+                  ofAlternative: (NSString *) ritualName
+                       onTarget: (id) target
+                     atDistance: (NSInteger) distance
+                    investedASP: (NSInteger) investedASP 
+           spellOriginCharacter: (DSACharacter *) originCharacter;          
+          
 - (DSARegenerationResult *) regenerateBaseEnergiesForHours: (NSInteger) hours;
+
+// - (DSAObject *)findObjectWithName:(NSString *)name;
 
 @end
 

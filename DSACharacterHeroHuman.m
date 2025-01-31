@@ -24,7 +24,6 @@
 
 #import "DSACharacterHeroHuman.h"
 #import "Utils.h"
-#import "DSACharacterMagic.h"
 
 @implementation DSACharacterHeroHuman
 - (instancetype)init
@@ -95,7 +94,7 @@
       self.currentLifePoints = result + tmp;
   
       [resultDict setObject: [NSNumber numberWithInteger: result] forKey: @"deltaLifePoints"];
-      if ([self conformsToProtocol:@protocol(DSACharacterMagic)])
+      if ([self isMagic])
         {
           result = [Utils rollDice: @"1W6"];
           NSInteger tmp = self.astralEnergy;

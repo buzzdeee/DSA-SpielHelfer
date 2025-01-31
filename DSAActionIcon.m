@@ -201,6 +201,7 @@
 
 - (void)itemInspectionControllerDidClose:(DSAItemInspectionController *)controller {
     NSLog(@"Inspection window closed for controller: %@", controller);
-    self.inspectionController = nil; // Release the reference
+    [[self.inspectionController window] close];
+    // self.inspectionController = nil; // Release the reference, this is causing the whole DSACharacterWindow to disappear :(
 }
 @end

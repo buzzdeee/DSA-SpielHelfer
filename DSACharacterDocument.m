@@ -25,7 +25,6 @@
 #import "DSACharacterDocument.h"
 #import "DSACharacterWindowController.h"
 #import "DSACharacter.h"
-#import "DSACharacterMagic.h"
 #import "DSACharacterPrintView.h"
 
 @implementation DSACharacterDocument
@@ -171,7 +170,7 @@
 - (void)printDocument:(id)sender
 {
   NSInteger pages = 3;  // standard non-magical character
-  if ([self.model conformsToProtocol:@protocol(DSACharacterMagic)])  // add pages for spells
+  if ([self.model isMagic])  // add pages for spells
     {
       pages = 6;
     }

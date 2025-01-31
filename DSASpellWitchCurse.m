@@ -36,6 +36,7 @@
                   onLevel: 0
                withOrigin: nil
                  withTest: test
+         withAlternatives: nil
    withMaxTriesPerLevelUp: 0
         withMaxUpPerLevel: 0
           withLevelUpCost: 0];

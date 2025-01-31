@@ -71,7 +71,8 @@
 	    "showCastSpellPanel:",
 	    "regenerateCharacter:",
 	    "showRegenerateCharacterPanel:",
-	    "showEnergiesManagerPanel:"
+	    "showEnergiesManagerPanel:",
+	    "showRitualsPanel:"
 	);
 	Outlets = (
 	);
@@ -83,7 +84,7 @@
 	    "closePanel:",
 	    "levelUp:",
 	    "levelUpBaseValues:",
-	    "newAction:",
+	    "showRitualsPanel:",
 	    "newCharacterGeneration:",
 	    "openMap:",
 	    "orderFrontFontPanel:",

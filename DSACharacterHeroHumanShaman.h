@@ -28,9 +28,8 @@
 #import <Foundation/Foundation.h>
 
 #import "DSACharacterHeroHuman.h"
-#import "DSACharacterMagic.h"
 
-@interface DSACharacterHeroHumanShaman : DSACharacterHeroHuman <DSACharacterMagic>
+@interface DSACharacterHeroHumanShaman : DSACharacterHeroHuman
 
 
 @end

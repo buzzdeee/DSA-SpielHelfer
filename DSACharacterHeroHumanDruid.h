@@ -26,9 +26,8 @@
 #define _DSACHARACTERHEROHUMANDRUID_H_
 
 #import "DSACharacterHeroHuman.h"
-#import "DSACharacterMagic.h"
 
-@interface DSACharacterHeroHumanDruid : DSACharacterHeroHuman <DSACharacterMagic>
+@interface DSACharacterHeroHumanDruid : DSACharacterHeroHuman
 
 
 @end

@@ -1127,7 +1127,7 @@
     "Equipment": {
       "Magierschwert": {
         "Anzahl": 1,
-        "Spruch": "Schwertzauber",
+        "Sprüche": [ { "Schwertzauber": "Dunkle Halle der Geister" } ],
         "persönliches Objekt": true,
         "Kosten permanente ASP": 1 
       }

@@ -570,12 +570,12 @@
           "Länge": 150,
           "Trefferpunkte": [ "1W6", 2 ],
           "TrefferpunkteKK": -15,
-          "Bruchfaktor": -1,
+          "Bruchfaktor": 5,
           "Waffenvergleichswert": "6/6",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
           "Material": "Holz",
           "persönliches Objekt": true,
-          "Spruch": "1. Stabzauber",
+          "Sprüche": [ { "1. Stabzauber": "InitialerStab" } ],
           "Icon": [ "Magierstab_1", "Magierstab_2", "Magierstab_3", "Magierstab_4" ]
         },
         "Efferdbart": {
@@ -611,7 +611,8 @@
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "5/5",
           "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TO", "WE", "ZW", "ZY" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "Icon": [ "Kurzschwert_1" ]
         },
         "Kusliker Säbel": {
           "Gewicht": 70,
@@ -633,7 +634,8 @@
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/7",
           "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TO", "WE", "ZY" ],
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "Icon": [ "Schwert_1" ]
         },
         "Breitschwert": {
           "Gewicht": 80,
@@ -1237,7 +1239,8 @@
           "extrem weit": 0
         },
         "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
-        "Material": "Stein"
+        "Material": "Stein",
+        "Icon": [ "Stein_1", "Stein_2" ]
       },    
       "Wurfmesser": {
         "Gewicht": 10,
@@ -1254,7 +1257,8 @@
           "extrem weit": 0
         },
         "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
-        "Material": "Eisen"
+        "Material": "Eisen",
+        "Icon": [ "Wurfmesser_1", "Wurfmesser_2" ]
       },
       "Wurfdolch": {
         "Gewicht": 20,
@@ -1271,7 +1275,8 @@
           "extrem weit": 0
         },
         "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
-        "Material": "Eisen"
+        "Material": "Eisen",
+        "Icon": [ "Wurfdolch_1", "Wurfdolch_2" ]
       },
       "Borndorn": {
         "Gewicht": 30,
@@ -1305,7 +1310,8 @@
           "extrem weit": 0
         },
         "Regionen": [ "MA", "MH", "SÜ" ], 
-        "Material": "Holz"
+        "Material": "Holz",
+        "Icon": [ "Wurfscheibe_1" ]
       },
       "Wurfscheibe, Stahl": {
         "Gewicht": 10,
@@ -1322,7 +1328,8 @@
           "extrem weit": 0
         },
         "Regionen": [ "MA" ], 
-        "Material": "Eisen"
+        "Material": "Eisen",
+        "Icon": [ "Wurfscheibe_Stahl_1", "Wurfscheibe_Stahl_2" ]
       },
       "Wurfspeer": {
         "Gewicht": 80,
@@ -1339,7 +1346,8 @@
           "extrem weit": 0
         },
         "Regionen": [ "KH", "LF", "MH", "PU" ],
-        "Material": "Holz"
+        "Material": "Holz",
+        "Icon": [ "Wurfspeer_1" ]
       },
       "Wurfbeil": {
         "Gewicht": 60,
@@ -1361,7 +1369,8 @@
           "weit": 0,
           "sehr weit": 0,
           "extrem weit": 0
-        }             
+        },
+        "Icon": [ "Wurfbeil_1", "Wurfbeil_2" ]           
       },
       "Schneidzahn": {
         "Gewicht": 50,
@@ -1405,7 +1414,8 @@
           "weit": 0,
           "sehr weit": 0,
           "extrem weit": 0
-        }             
+        },
+        "Icon": [ "Wurfkeule_1", "Wurfkeule_2" ]        
       },      
       "Wurfnetz": {
         "Gewicht": 80,
@@ -1422,7 +1432,8 @@
           "weit": 0,
           "sehr weit": 0,
           "extrem weit": 0
-        }        
+        },
+        "Icon": [ "Wurfnetz_1" ]     
       },
       "Schweres Netz": {
         "Gewicht": 200,
@@ -1439,7 +1450,8 @@
           "weit": 0,
           "sehr weit": 0,
           "extrem weit": 0
-        }        
+        },
+        "Icon": [ "Schweres_Netz_1" ]     
       },
       "Fledermaus": {
         "Gewicht": 20,
@@ -2291,21 +2303,22 @@
         "Gewicht": 40,
         "Preis": 15,
         "Material": "Leder",
-        "Slots": 1
+        "Slots": 1,
+        "Icon": [ "Schwertguertel_1" ]
       },
       "Schwertgürtel, verstärkt": {
         "Gewicht": 80,
         "Preis": 40,
         "Material": "Leder",
         "Slots": 1,
-        "Icon": [ "Schultergurt_1", "Schultergurt_2" ]
+        "Icon": [ "Schwertguertel_verstaerkt_1" ]
       }
     },
     "Schultergurt": {
       "Gewicht": 20,
       "Preis": 10,
       "Material": "Leder",
-      "Icon": [ "Schwertguertel_verstaerkt_1" ]
+      "Icon": [ "Schultergurt_1", "Schultergurt_1" ]
     },
     "Beingurt": {
       "Gewicht": 15,
@@ -3372,6 +3385,16 @@
       "Gewicht": 4,
       "Preis": 50,
       "Icon": [ "Brennglas_1", "Brennglas_2" ]
+    },
+    "Magierschale": {
+      "Gewicht": 20,
+      "Preis": 50,
+      "Icon": [ "Magierschale_1", "Magierschale_2", "Magierschale_3", "Magierschale_4" ]
+    },    
+    "Kristallkugel": {
+      "Gewicht": 20,
+      "Preis": 300,
+      "Icon": [ "Kristallkugel_1", "Kristallkugel_2" ]
     },
     "Lupe": {
       "Gewicht": 5,

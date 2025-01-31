@@ -31,7 +31,8 @@
   },
   "Metamagie": {
     "Sumus Blut": {
-      "Probe": [ "MU", "MU", "IN", "+5" ],
+      "Probe": [ "MU", "MU", "IN" ],
+      "Probenzuschlag": 5,
       "Typen": [ "Druide", "Schamane" ],
       "Entfernungsaufschlag": "keiner",
       "Dauer": "1 Tag",
@@ -41,21 +42,24 @@
   "Dolchrituale": {
     "Die Kraft des Dolches": {
       "Order": 1,
-      "Probe": [ "KL", "IN", "KK", "+1" ],
+      "Probe": [ "KL", "IN", "KK" ],
+      "Probenzuschlag": 1,
       "Typen": [ "Druide" ],
       "ASP Kosten": 17,
       "davon permanente ASP Kosten": 1
     },
     "Der Weg des Dolches": {
       "Order": 2,
-      "Probe": [ "KL", "IN", "KK", "+3" ],
+      "Probe": [ "KL", "IN", "KK" ],
+      "Probenzuschlag": 3,
       "Typen": [ "Druide" ],
       "ASP Kosten": 19,
       "davon permanente ASP Kosten": 1
     },
     "Das Licht des Dolches": {
       "Order": 3,
-      "Probe": [ "KL", "IN", "KK", "+5" ],
+      "Probe": [ "KL", "IN", "KK" ],
+      "Probenzuschlag": 5,
       "Typen": [ "Druide" ],
       "ASP Kosten": 21,
       "davon permanente ASP Kosten": 1

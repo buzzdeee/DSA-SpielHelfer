@@ -28,15 +28,10 @@
 #import <Foundation/Foundation.h>
 
 #import "DSACharacterHeroHuman.h"
-#import "DSACharacterMagic.h"
-@class DSASpellResult;
 @class DSASpell;
 
-@interface DSACharacterHeroHumanSharisad : DSACharacterHeroHuman <DSACharacterMagic>
+@interface DSACharacterHeroHumanSharisad : DSACharacterHeroHuman
 
-- (DSASpellResult *) castSpell: (DSASpell *) spell;
-- (DSASpellResult *) castSpell: (DSASpell *) spell on: (id) target;
-- (DSASpellResult *) castSpell: (DSASpell *) spell withSource: (id) source onTarget: (id) target;
 - (BOOL) levelUpSpell: (DSASpell *)spell;
 - (BOOL) canLevelUpSpell: (DSASpell *)spell;
 

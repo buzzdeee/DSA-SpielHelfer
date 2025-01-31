@@ -24,7 +24,6 @@
 
 #import "DSACharacterPrintView.h"
 #import "DSACharacterHero.h"
-#import "DSACharacterMagic.h"
 #import "DSASpell.h"
 #import "DSATrait.h"
 #import "DSATalent.h"

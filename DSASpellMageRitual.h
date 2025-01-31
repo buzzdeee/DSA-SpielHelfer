@@ -29,20 +29,84 @@
 
 @interface DSASpellMageRitual : DSASpell
 
-@property (nonatomic, assign) NSInteger aspCost;
-@property (nonatomic, assign) NSInteger permanentASPCost;
-@property (nonatomic, strong) NSString *lpCost;
-@property (nonatomic, assign) NSInteger permanentLPCost;
 
-- (instancetype)initSpell: (NSString *) name
-               ofCategory: (NSString *) category
-                 withTest: (NSArray *) test
-              withASPCost: (NSInteger) aspCost
-     withPermanentASPCost: (NSInteger) permanentASPCost
-               withLPCost: (NSString *) lpCost
-      withPermanentLPCost: (NSInteger) permanentLPCost;
+
++ (instancetype)ritualWithName: (NSString *) name
+                    ofCategory: (NSString *) category 
+                      withTest: (NSArray *) test
+              withAlternatives: (NSArray *) alternatives
+                   withPenalty: (NSInteger) penalty
+                   withASPCost: (NSInteger) aspCost
+          withPermanentASPCost: (NSInteger) permanentASPCost
+                    withLPCost: (NSInteger) lpCost
+           withPermanentLPCost: (NSInteger) permanentLPCost;
+
+- (instancetype)initRitual: (NSString *) name
+                ofCategory: (NSString *) category
+                  withTest: (NSArray *) test
+          withAlternatives: (NSArray *) alternatives      
+               withPenalty: (NSInteger) penalty    
+               withASPCost: (NSInteger) aspCost
+      withPermanentASPCost: (NSInteger) permanentASPCost
+                withLPCost: (NSInteger) lpCost
+       withPermanentLPCost: (NSInteger) permanentLPCost;
 
 @end
 
+// Stabzauber
+@interface DSASpellMageRitualStabzauberEins : DSASpellMageRitual
+@end
+@interface DSASpellMageRitualStabzauberZwei : DSASpellMageRitual
+@end
+@interface DSASpellMageRitualStabzauberDrei : DSASpellMageRitual
+@end
+@interface DSASpellMageRitualStabzauberVier : DSASpellMageRitual
+@end
+@interface DSASpellMageRitualStabzauberFuenf : DSASpellMageRitual
+@end
+@interface DSASpellMageRitualStabzauberSechs : DSASpellMageRitual
+@end
+@interface DSASpellMageRitualStabzauberSieben : DSASpellMageRitual
+@end
+
+@interface DSASpellMageRitualStabzauberFackel : DSASpellMageRitual
+@end
+@interface DSASpellMageRitualStabzauberSeil : DSASpellMageRitual
+@end
+@interface DSASpellMageRitualStabzauberChamaeleon : DSASpellMageRitual
+@end
+@interface DSASpellMageRitualStabzauberSpeikobra : DSASpellMageRitualStabzauberChamaeleon
+@end
+@interface DSASpellMageRitualStabzauberHerbeirufen : DSASpellMageRitual
+@end
+
+// Schwertzauber
+@interface DSASpellMageRitualSchwertzauber : DSASpellMageRitual
+@end
+
+// Schalenzauber
+@interface DSASpellMageRitualSchalenzauber : DSASpellMageRitual
+@end
+
+// Kugelzauber
+@interface DSASpellMageRitualKugelzauberEins : DSASpellMageRitual
+@end
+@interface DSASpellMageRitualKugelzauberZwei : DSASpellMageRitual
+@end
+@interface DSASpellMageRitualKugelzauberDrei : DSASpellMageRitual
+@end
+@interface DSASpellMageRitualKugelzauberVier : DSASpellMageRitual
+@end
+@interface DSASpellMageRitualKugelzauberFuenf : DSASpellMageRitual
+@end
+
+@interface DSASpellMageRitualKugelzauberBrennglas : DSASpellMageRitual
+@end
+@interface DSASpellMageRitualKugelzauberSchutzfeld : DSASpellMageRitual
+@end
+@interface DSASpellMageRitualKugelzauberWarnung : DSASpellMageRitual
+@end
+@interface DSASpellMageRitualKugelzauberHerbeirufen : DSASpellMageRitual
+@end
 #endif // _DSASPELLMAGERITUAL_H_
 

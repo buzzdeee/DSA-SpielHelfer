@@ -26,20 +26,13 @@
 #define _DSACHARACTERHEROHUMANMAGE_H_
 
 #import "DSACharacterHeroHuman.h"
-#import "DSACharacterMagic.h"
 @class DSASpellResult;
 @class DSASpell;
 
-@interface DSACharacterHeroHumanMage : DSACharacterHeroHuman <DSACharacterMagic>
-
-- (DSASpellResult *) castSpell: (DSASpell *) spell;
-- (DSASpellResult *) castSpell: (DSASpell *) spell on: (id) target;
-- (DSASpellResult *) castSpell: (DSASpell *) spell withSource: (id) source onTarget: (id) target;
+@interface DSACharacterHeroHumanMage : DSACharacterHeroHuman
 - (BOOL) levelUpSpell: (DSASpell *)spell;
 - (BOOL) canLevelUpSpell: (DSASpell *)spell;
 
-- (DSASpellResult *) meditate;
-- (DSASpellResult *) enchantStaff: (id) staff;
 
 @end
 

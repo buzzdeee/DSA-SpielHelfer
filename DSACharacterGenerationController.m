@@ -509,7 +509,7 @@
         {
           for (NSString *t in [talents objectForKey: category])
             {
-              NSLog(@"dealing with talent in else clause for loop: %@", t);
+              //NSLog(@"dealing with talent in else clause for loop: %@", t);
               NSDictionary *tDict = [[talents objectForKey: category] objectForKey: t];                             
               DSAOtherTalent *talent = [[DSAOtherTalent alloc] initTalent: t
                                                                ofCategory: category
@@ -518,15 +518,15 @@
                                                    withMaxTriesPerLevelUp: [[tDict objectForKey: @"Versuche"] integerValue]
                                                         withMaxUpPerLevel: [[tDict objectForKey: @"Steigern"] integerValue]
                                                           withLevelUpCost: 1];
-              NSLog(@"DSACharacterGenerationController: initialized talent: %@", talent);
+              //NSLog(@"DSACharacterGenerationController: initialized talent: %@", talent);
               [newTalents setObject: talent forKey: t];
             }
         }        
     }
-  NSLog(@"THE NEW TALENTS: newTalents %@", newTalents);
+  //NSLog(@"THE NEW TALENTS: newTalents %@", newTalents);
   newCharacter.talents = newTalents;
-  NSLog(@"DSACharacterGenerationController: assigned talents to newCharacter: %@", newCharacter.talents);  
-  if ([newCharacter conformsToProtocol:@protocol(DSACharacterMagic)])
+  //NSLog(@"DSACharacterGenerationController: assigned talents to newCharacter: %@", newCharacter.talents);  
+  if ([newCharacter isMagic])
     {
       NSDictionary *spells = [[NSDictionary alloc] init];
       if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanShaman class]])
@@ -542,15 +542,28 @@
         {
           for (NSString *s in [spells objectForKey: category])
             {
-              NSDictionary *sDict = [[spells objectForKey: category] objectForKey: s];                             
-              DSASpell *spell = [[DSASpell alloc] initSpell: s
+              NSDictionary *sDict = [[spells objectForKey: category] objectForKey: s];
+              DSASpell *spell = [DSASpell spellWithName: s
                                                  ofCategory: category
                                                     onLevel: [[sDict objectForKey: @"Startwert"] integerValue]
                                                  withOrigin: [sDict objectForKey: @"Ursprung"]
                                                    withTest: [sDict objectForKey: @"Probe"]
+                                           withAlternatives: [sDict objectForKey: @"Alternativen"]       
                                      withMaxTriesPerLevelUp: [[sDict objectForKey: @"Versuche"] integerValue]
                                           withMaxUpPerLevel: [[sDict objectForKey: @"Steigern"] integerValue]
                                             withLevelUpCost: 1];
+              if (!spell) // as long as not every spell is implemented in it's own subclass, fall back to this simple default...
+                {
+                    spell = [[DSASpell alloc] initSpell: s
+                                                 ofCategory: category
+                                                    onLevel: [[sDict objectForKey: @"Startwert"] integerValue]
+                                                 withOrigin: [sDict objectForKey: @"Ursprung"]
+                                                   withTest: [sDict objectForKey: @"Probe"]
+                                           withAlternatives: [sDict objectForKey: @"Alternativen"]        
+                                     withMaxTriesPerLevelUp: [[sDict objectForKey: @"Versuche"] integerValue]
+                                          withMaxUpPerLevel: [[sDict objectForKey: @"Steigern"] integerValue]
+                                            withLevelUpCost: 1];
+                 }
               [spell setElement: [sDict objectForKey: @"Element"]];
               [newSpells setObject: spell forKey: s];
             }
@@ -946,11 +959,14 @@
           for (NSString *itemName in [equipment allKeys])
             {
               NSDictionary *itemInfo = [equipment objectForKey: itemName];
-              DSAObject *item = [[DSAObject alloc]initWithName: itemName forOwner: archetype.modelID];
-              if ([itemInfo objectForKey: @"Spruch"])
+              NSMutableDictionary *itemDict = [[Utils getDSAObjectInfoByName: itemName] mutableCopy];
+              if ([itemInfo objectForKey: @"Sprüche"])
                 {
-                  [item setSpell: [itemInfo objectForKey: @"Spruch"]];
+                  [itemDict setObject: [itemInfo objectForKey: @"Sprüche"] forKey: @"Sprüche"];
                 }
+              NSLog(@"THE ITEM DICT: %@", itemDict);
+              DSAObject *item = [[DSAObject alloc] initWithObjectInfo: itemDict forOwner: archetype.modelID];
+              NSLog(@"AFTER CREATING ITEM %@", item);
               if ([[itemInfo objectForKey: @"persönliches Objekt"] isEqualTo: @YES])
                 {
                   [item setOwnerUUID: archetype.modelID];
@@ -2811,13 +2827,27 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       for (NSString *ritual in [[Utils getMageRitualsDict] objectForKey: category])
         {
-            DSASpellMageRitual *r = [[DSASpellMageRitual alloc] initSpell: ritual
-                                                               ofCategory: category
-                                                                 withTest: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Probe" ]
-                                                              withASPCost: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"ASP Kosten" ] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"ASP Kosten" ] integerValue]: 0
-                                                     withPermanentASPCost: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente ASP Kosten" ] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente ASP Kosten" ] integerValue]: 0
-                                                               withLPCost: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"LP Kosten" ] ? [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"LP Kosten" ]: @"0"
-                                                      withPermanentLPCost: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente LP Kosten" ] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente LP Kosten" ] integerValue]: 0];                                                     
+            DSASpellMageRitual *r = [DSASpellMageRitual ritualWithName: ritual
+                                                            ofCategory: category
+                                                              withTest: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Probe" ]
+                                                      withAlternatives: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Alternativen" ]
+                                                           withPenalty: [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Probenaufschlag" ] integerValue]
+                                                           withASPCost: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"ASP Kosten" ] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"ASP Kosten" ] integerValue]: 0
+                                                  withPermanentASPCost: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente ASP Kosten" ] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente ASP Kosten" ] integerValue]: 0
+                                                            withLPCost: [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"LP Kosten" ] integerValue] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"LP Kosten" ] integerValue]: 0
+                                                   withPermanentLPCost: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente LP Kosten" ] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente LP Kosten" ] integerValue]: 0];
+            if (!r)
+              {
+                r = [[DSASpellMageRitual alloc] initRitual: ritual
+                                        ofCategory: category
+                                          withTest: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Probe" ]
+                                  withAlternatives: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Alternativen" ]       
+                                       withPenalty: [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Probenaufschlag" ] integerValue]
+                                       withASPCost: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"ASP Kosten" ] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"ASP Kosten" ] integerValue]: 0
+                              withPermanentASPCost: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente ASP Kosten" ] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente ASP Kosten" ] integerValue]: 0
+                                        withLPCost: [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"LP Kosten" ] integerValue] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"LP Kosten" ] integerValue]: 0
+                               withPermanentLPCost: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente LP Kosten" ] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente LP Kosten" ] integerValue]: 0];              
+              }
             [specialTalents setObject: r forKey: ritual];
         }
     }
@@ -2877,6 +2907,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
                                                                           onLevel: 0
                                                                        withOrigin: nil
                                                                          withTest: [[[[Utils getDruidRitualsDict] objectForKey: category] objectForKey: spellName] objectForKey: @"Probe"]
+                                                                 withAlternatives: [[[[Utils getDruidRitualsDict] objectForKey: category] objectForKey: spellName] objectForKey: @"Alternativen"]
                                                            withMaxTriesPerLevelUp: 0
                                                                 withMaxUpPerLevel: 0
                                                                   withLevelUpCost: 0];
@@ -3076,6 +3107,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
                                                                   onLevel: 0               // See Compendium Salamandris S. 29
                                                                withOrigin: [sDict objectForKey: @"Ursprung"]
                                                                  withTest: [sDict objectForKey: @"Probe"]
+                                                         withAlternatives: [sDict objectForKey: @"Alternativen"]
                                                    withMaxTriesPerLevelUp: 3
                                                         withMaxUpPerLevel: 1
                                                           withLevelUpCost: 2]; 
@@ -3608,7 +3640,7 @@ NSLog(@"popupCategorySelected called!");
 
   NSLog(@"DSACharacterGenerationController buttonFinishClicked: after createCharacter, going to test for Magical Dabbler");
   // A Magical Dabbler
-  if ([self.popupMageAcademies isEnabled] && ![self.generatedCharacter conformsToProtocol:@protocol(DSACharacterMagic)])
+  if ([self.popupMageAcademies isEnabled] && ![self.generatedCharacter isMagic])
     {
         NSLog(@"DSACharacterGenerationController buttonFinishClicked: first IF test survived");
       if ([[[self.popupMageAcademies selectedItem] title] isEqualToString: _(@"Ja")])

@@ -23,7 +23,6 @@
 */
 
 #import "DSACharacterHero.h"
-#import "DSACharacterMagic.h"
 #import "DSATalent.h"
 #import "DSASpell.h"
 #import "DSAPositiveTrait.h"
@@ -214,7 +213,7 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
   self.currentLifePoints = result + tmp;
   
   [resultDict setObject: @(result) forKey: @"deltaLifePoints"];
-  if ([self conformsToProtocol:@protocol(DSACharacterMagic)])
+  if ([self isMagic])
     {
       result = [Utils rollDice: @"1W6"];
       NSInteger tmp = self.astralEnergy;

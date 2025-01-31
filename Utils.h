@@ -54,6 +54,7 @@
 + (NSDictionary *) getMischievousPranksDict;
 
 + (NSDictionary *) getMageRitualsDict;
++ (NSDictionary *) getMageRitualWithName: (NSString *) ritualName;
 
 + (NSDictionary *) getGeodeRitualsDict;
 
@@ -68,10 +69,13 @@
 + (NSDictionary *) getEyeColorsDict;
 
 + (NSDictionary *) getSpellsDict;
++ (NSDictionary *) getSpellWithName: (NSString *) ritualName;
 
 + (NSDictionary *) getSharisadDancesDict;
 
 + (NSDictionary *) getShamanOriginsDict;
+
++ (NSString *) findSpellOrRitualWithName: (NSString *) name;
 
 + (NSDictionary *) getTalentsDict;
 + (NSDictionary *) getTalentsForCharacter: (DSACharacter *)character;

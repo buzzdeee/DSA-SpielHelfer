@@ -25,13 +25,6 @@
 #import "DSAItemInspectionController.h"
 #import "DSACharacter.h"
 #import "DSAObject.h"
-#import "DSAObjectWeaponHandWeapon.h"
-#import "DSAObjectWeaponHandAndLongRangeWeapon.h"
-#import "DSAObjectWeaponLongRange.h"
-#import "DSAObjectArmor.h"
-#import "DSAObjectShield.h"
-#import "DSAObjectShieldAndParry.h"
-#import "DSAObjectContainer.h"
 #import "Utils.h"
 
 @implementation DSAItemInspectionController
@@ -48,7 +41,6 @@
     NSLog(@"DSAItemInspectionController: windowDidLoad called");
     [super windowDidLoad];
     
-
     // If there's an item to inspect, update the UI now
     if (self.itemToInspect) {
         [self updateUIForItem:self.itemToInspect];
@@ -96,14 +88,17 @@
     [details appendFormat:_(@"Gewicht: %.2f\n"), item.weight];
     [details appendFormat:_(@"Preis: %.2f\n"), item.price];
     [details appendFormat:_(@"Handelsregionen: %@\n"), item.regions ? [item.regions componentsJoinedByString:@", "] : _(@"alle")];
-    [details appendFormat:_(@"ist Magisch: %@\n"), item.spell ? _(@"Ja") : _(@"Nein")];
-    if (item.spell)
+    [details appendFormat:_(@"ist Magisch: %@\n"), [item.appliedSpells count] > 0 ? _(@"Ja") : _(@"Nein")];
+    if ([item.appliedSpells count] > 0)
       {
-        [details appendFormat:_(@"Spruch: %@\n"), item.spell];
+        for (NSString *spell in item.appliedSpells)
+          {
+            [details appendFormat:_(@"Spruch: %@\n"), spell];
+          }
       }
 
-    [details appendFormat:_(@"ist Vergiftet: %@\n"), item.isPoisoned ? _(@"Ja") : _(@"Nein")];
-    [details appendFormat:_(@"ist Konsumierbar: %@\n"), item.isConsumable ? _(@"Ja") : _(@"Nein")];
+    [details appendFormat:_(@"ist Vergiftet: %@\n"), [item.states containsObject: @(DSAObjectStateIsPoisoned)] ? _(@"Ja") : _(@"Nein")];
+    [details appendFormat:_(@"ist Konsumierbar: %@\n"), [item.states containsObject: @(DSAObjectStateIsConsumable)] ? _(@"Ja") : _(@"Nein")];
     [details appendFormat:_(@"ist persönlicher Gegenstand: %@\n"), item.ownerUUID ? _(@"Ja") : _(@"Nein")];
     if (item.ownerUUID)
       {

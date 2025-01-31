@@ -59,21 +59,6 @@
   return resultDict;
 }
 
-// @protocol DSACharacterMagic below
-- (DSASpellResult *) castSpell: (DSASpell *) spell
-{
-  return [[DSASpellResult alloc] init];
-}
-- (DSASpellResult *) castSpell: (DSASpell *) spell on: (id) target
-{
-  return [[DSASpellResult alloc] init];
-}
-
-- (DSASpellResult *) castSpell: (DSASpell *) spell withSource: (id) source onTarget: (id) target
-{
-  return [[DSASpellResult alloc] init];
-}
-
 // basic leveling up of a spell is handled within the spell
 - (BOOL) levelUpSpell: (DSASpell *)spell
 {

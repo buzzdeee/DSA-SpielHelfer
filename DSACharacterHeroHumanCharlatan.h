@@ -26,9 +26,8 @@
 #define _DSACHARACTERHEROHUMANCHARLATAN_H_
 
 #import "DSACharacterHeroHuman.h"
-#import "DSACharacterMagic.h"
 
-@interface DSACharacterHeroHumanCharlatan : DSACharacterHeroHuman <DSACharacterMagic>
+@interface DSACharacterHeroHumanCharlatan : DSACharacterHeroHuman
 
 @end
 

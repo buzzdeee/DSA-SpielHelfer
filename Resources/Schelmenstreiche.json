@@ -5,18 +5,22 @@
   },
   "Papperlapapp": {
     "ASP Kosten": 17,
-    "Probe": [ "IN", "IN", "FF", "+5" ]
+    "Probe": [ "IN", "IN", "FF" ],
+    "Probenzuschlag": 5
   },
   "Murks und Patz": {
     "ASP Kosten": 12,
-    "Probe": [ "IN", "IN", "FF", "+3" ]
+    "Probe": [ "IN", "IN", "FF" ],
+    "Probenzuschlag": 3
   },
   "Holterdipolter": {
     "ASP Kosten": 10,
-    "Probe": [ "IN", "IN", "FF", "+4" ]
+    "Probe": [ "IN", "IN", "FF" ],
+    "Probenzuschlag": 4
   },
   "Purer Zufall": {
     "ASP Kosten": 30,
-    "Probe": [ "IN", "IN", "FF", "+7" ]
+    "Probe": [ "IN", "IN", "FF" ],
+    "Probenzuschlag": 7
   }
 }

@@ -29,7 +29,6 @@
 #import "DSACharacterHeroHumanMage.h"
 #import "DSACharacterHeroHumanWarrior.h"
 #import "DSACharacterHeroDwarfGeode.h"
-#import "DSACharacterMagic.h"
 #import "DSAFightingTalent.h"
 #import "DSAOtherTalent.h"
 #import "DSASpecialTalent.h"
@@ -41,6 +40,7 @@
 #import "DSARightAlignedStringTransformer.h"
 #import "DSAInventorySlotView.h"
 #import "DSATalentResult.h"
+#import "DSASpellResult.h"
 #import "DSARegenerationResult.h"
 
 @implementation DSACharacterWindowController
@@ -56,8 +56,6 @@
     }
   return self;
 }
-
-
 
 - (void)dealloc
 {
@@ -1028,7 +1026,7 @@
                 }
               else
                 {
-                  NSLog(@"item is kind of class: %@", [item class]);
+                  // NSLog(@"item is kind of class: %@", [item class]);
                 }              
             }
 
@@ -1093,7 +1091,7 @@
   //DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   //DSACharacterHero *model = (DSACharacterHero *)document.model;    
   // Get the action (selector) associated with the menu item
-  NSLog(@"DSACharacterWindowController validateMenuItem: %@ %lu", [menuItem title], (unsigned long)[menuItem tag]);
+  // NSLog(@"DSACharacterWindowController validateMenuItem: %@ %lu", [menuItem title], (unsigned long)[menuItem tag]);
   SEL menuItemAction = [menuItem action];
     
   if (menuItemAction)
@@ -1739,7 +1737,7 @@
       [self.popupLevelUpTop setEnabled: NO];
       [self.popupLevelUpBottom setEnabled: NO];
       [self.buttonLevelUpDoIt setTarget:self];
-      if ([model conformsToProtocol:@protocol(DSACharacterMagic)])
+      if ([model isMagic])
         {
           [self.buttonLevelUpDoIt setTitle: _(@"Weiter")]; 
           [self.buttonLevelUpDoIt setAction:@selector(showLevelUpSpells:)];  
@@ -1758,7 +1756,7 @@
     DSACharacterDocument *document = (DSACharacterDocument *)self.document;
     DSACharacterHero *model = (DSACharacterHero *)document.model;  
     
-    if (![model conformsToProtocol:@protocol(DSACharacterMagic)])
+    if (![model isMagic])
     {
         [self finishLevelUp:self];
         return;
@@ -2313,7 +2311,9 @@
   [self.fieldSpellCreatorLevel setStringValue: @"0"];
   [self.fieldSpellMagicResistance setStringValue: @"0"];
   [self.fieldSpellDistance setStringValue: @"0"];
+  [self.fieldSpellInvestedASP setStringValue: @"0"];
   [self.fieldSpellFeedback setHidden: YES];
+  [self.fieldSpellFeedbackHeadline setHidden: YES];
   [self.castSpellPanel makeKeyAndOrderFront:nil];  
   
   [self.buttonSpellDoIt setTitle: _(@"Zauberprobe")];
@@ -2322,6 +2322,31 @@
   
   NSLog(@"DSACharacterWindowController finished showCastSpellPanel");
  
+}
+
+- (void) castSpell: (id) sender
+{
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+  DSACharacter *targetCharacter = [[DSACharacter alloc] init];
+  DSACharacter *originCharacter = [[DSACharacter alloc] init];
+  DSASpellResult *spellResult;
+
+  targetCharacter.mrBonus = [self.fieldSpellMagicResistance integerValue];
+  originCharacter.level = [self.fieldSpellCreatorLevel integerValue];
+  
+  spellResult = [model castSpell: [[self.popupSpellSelector selectedItem] title]
+                   ofAlternative: nil
+                        onTarget: targetCharacter
+                      atDistance: [self.fieldSpellDistance integerValue]
+                     investedASP: [self.fieldSpellInvestedASP integerValue] 
+            spellOriginCharacter: originCharacter];
+
+  NSMutableString *resultString = [NSMutableString stringWithFormat: @"%@", [DSASpellResult resultNameForResultValue: spellResult.result]];                        
+  [self.fieldSpellFeedbackHeadline setStringValue: resultString];
+  [self.fieldSpellFeedbackHeadline setHidden: NO];
+  [self.fieldSpellFeedbackHeadline setStringValue: spellResult.resultDescription];
+  [self.fieldSpellFeedbackHeadline setHidden: NO];   
 }
 
 - (void) populateCastSpellBottomPopupWithSpells:(id)sender
@@ -2355,7 +2380,14 @@
     // Add sorted talents to the popup
     for (DSASpell *spell in sortedSpellNames) {
         [self. popupSpellSelector addItemWithTitle:[spell name]];
-        [[self.popupSpellSelector itemWithTitle:[spell name]] setEnabled:YES];
+        if ([spell isActiveSpell])
+          {
+            [[self.popupSpellSelector itemWithTitle:[spell name]] setEnabled:YES];
+          }
+        else
+          {
+            [[self.popupSpellSelector itemWithTitle:[spell name]] setEnabled:NO];
+          }
     }
 
     // Try to re-select the previously selected item
@@ -2428,6 +2460,216 @@
 
     [[sender window] close];
 }
+
+// casting Rituals related methods
+-(void)showRitualsPanel: (id)sender
+{
+  NSLog(@"DSACharacterWindowController showRitualsPanel called!");
+
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;      
+  if (!self.castRitualPanel)
+    {
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSACastRitual" owner:self];
+    }
+  NSMutableSet *ritualCategories = [NSMutableSet set];    
+    // Enumerate rituals to find all categories
+  [model.specials enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop) {
+          [ritualCategories addObject: [obj category]];
+  }];
+  NSArray *sortedRitualCategories = [[ritualCategories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+  [self.popupRitualCategorySelector setEnabled: YES];
+  [self.popupRitualCategorySelector removeAllItems];
+  [self.popupRitualCategorySelector addItemsWithTitles: sortedRitualCategories];
+  [self.popupRitualCategorySelector setTarget:self];
+  [self.popupRitualCategorySelector setAction:@selector(populateCastRitualBottomPopupWithRituals:)];
+  
+  [self.popupRitualAlternativeSelector setEnabled: NO];
+  [self.popupRitualAlternativeSelector removeAllItems];
+  [self.popupRitualCategorySelector setTarget:self];
+  [self.popupRitualCategorySelector setAction:@selector(populateCastRitualBottomPopupWithRituals:)];  
+  
+  [self.popupRitualSelector setHidden: NO];
+  [self.popupRitualSelector setEnabled: YES];
+  [self.popupRitualSelector setTarget:self];
+  [self.popupRitualSelector setAction:@selector(populateCastRitualAlternativeSelectorPopup:)];  
+  [self.popupRitualSelector setAutoenablesItems: NO];
+    
+  // Populate the bottom popup
+  [self populateCastRitualBottomPopupWithRituals: nil];   
+  
+  [self.fieldRitualFeedback setHidden: YES];
+  [self.fieldRitualFeedbackHeadline setHidden: YES];
+  [self.castRitualPanel makeKeyAndOrderFront:nil];  
+  
+  [self.buttonRitualDoIt setTitle: _(@"Anwenden")];
+  [self.buttonRitualDoIt setTarget:self];
+  [self.buttonRitualDoIt setAction:@selector(castRitual:)];  
+  
+  NSLog(@"DSACharacterWindowController finished showRitualsPanel");
+ 
+}
+
+- (void) populateCastRitualBottomPopupWithRituals:(id)sender
+{
+
+    NSLog(@"populateCastRitualBottomPopupWithRituals called");
+    
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    DSACharacterHero *model = (DSACharacterHero *)document.model;  
+    NSString *ritualCategory = [[self.popupRitualCategorySelector selectedItem] title];
+    
+    // Store the previously selected item
+    NSString *selectedItemTitle = [[self.popupRitualSelector selectedItem] title];
+    
+    // Remove all current items
+    [self.popupRitualSelector removeAllItems];
+    
+    // Create arrays to hold sorted talents and spells
+    NSMutableArray *sortedRituals = [NSMutableArray array];
+    
+    // Collect talents in the given category
+    [model.specials enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop) {
+        if ([[obj category] isEqualTo: ritualCategory]) {
+            [sortedRituals addObject: obj];
+        }
+    }];
+    
+    // Sort talents and spells alphabetically by their name
+    NSArray *sortedRitualNames = [sortedRituals sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]];
+    
+    // Add sorted talents to the popup
+    for (DSASpell *ritual in sortedRitualNames) {
+        [self.popupRitualSelector addItemWithTitle: ritual.name];
+        if ([model canCastRitualWithName: ritual.name])
+          {
+            [[self.popupRitualSelector itemWithTitle: ritual.name] setEnabled:YES];
+          }
+        else
+          {
+            [[self.popupRitualSelector itemWithTitle: ritual.name] setEnabled:NO];
+          }
+    }
+
+    // Try to re-select the previously selected item
+    [self.popupRitualSelector selectItemWithTitle:selectedItemTitle];
+    
+    // If the selected item is disabled, select the first enabled item
+    if (![[self.popupRitualSelector selectedItem] isEnabled]) {
+        for (NSInteger i = 0; i < [self.popupRitualSelector numberOfItems]; i++) {
+            if ([[self.popupRitualSelector itemAtIndex:i] isEnabled]) {
+                [self.popupRitualSelector selectItemAtIndex:i];
+                break;
+            }
+        }
+    }
+    [self populateCastRitualAlternativeSelectorPopup: nil];
+    // Update the popup button's display
+    [self.popupRitualSelector setNeedsDisplay:YES];    
+}
+
+- (void) populateCastRitualAlternativeSelectorPopup:(id)sender
+{
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    DSACharacterHero *model = (DSACharacterHero *)document.model;
+    
+    NSArray *alternatives = [[model.specials objectForKey: [[self.popupRitualSelector selectedItem] title]] alternatives];
+    if (alternatives && [alternatives count] > 0)
+      {
+        [self.popupRitualAlternativeSelector setEnabled: YES];
+        [self.popupRitualAlternativeSelector removeAllItems];      
+        [self.popupRitualAlternativeSelector addItemsWithTitles: alternatives];
+      }
+    else
+      {
+        [self.popupRitualAlternativeSelector setEnabled: NO];
+        [self.popupRitualAlternativeSelector removeAllItems];      
+      }
+      
+   [self.popupRitualSelector setNeedsDisplay:YES];   
+}
+
+- (void) castRitual: (id) sender
+{
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+
+  NSString *ritualName = [[self.popupRitualSelector selectedItem] title];
+  NSString *ritualAlternative;
+  if ([self.popupRitualAlternativeSelector isEnabled])
+    {
+       ritualAlternative = [[self.popupRitualAlternativeSelector selectedItem] title];
+    }
+  
+  DSASpellResult *spellResult = [model castRitual: ritualName
+                                    ofAlternative: ritualAlternative
+                                         onTarget: nil
+                                       atDistance: 0
+                                      investedASP: 0
+                             spellOriginCharacter: nil];
+  
+  NSMutableString *resultString = [NSMutableString stringWithFormat: @"%@", [DSASpellResult resultNameForResultValue: spellResult.result]];
+  [self.fieldRitualFeedbackHeadline setStringValue: resultString];
+  [self.fieldRitualFeedbackHeadline setHidden: NO];  
+  [self.fieldRitualFeedback setStringValue: spellResult.resultDescription];
+  [self.fieldRitualFeedback setHidden: NO];   
+}
+
+// End of cast Rituals related methods
+
+
+/*
+// casting spell related methods
+-(void)showCastSpellPanel: (id)sender
+{
+  NSLog(@"DSACharacterWindowController showCastSpellPanel called!");
+
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;      
+  if (!self.castSpellPanel)
+    {
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSACastSpell" owner:self];
+    }
+  NSMutableSet *spellCategories = [NSMutableSet set];    
+    // Enumerate talents to find all categories
+  [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop) {
+          [spellCategories addObject: [obj category]];
+  }];
+  NSArray *sortedSpellCategories = [[spellCategories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+  [self.popupSpellCategorySelector setEnabled: YES];
+  [self.popupSpellCategorySelector removeAllItems];
+  [self.popupSpellCategorySelector addItemsWithTitles: sortedSpellCategories];
+  [self.popupSpellCategorySelector setTarget:self];
+  [self.popupSpellCategorySelector setAction:@selector(populateCastSpellBottomPopupWithSpells:)];
+  
+  [self.popupSpellSelector setHidden: NO];
+  [self.popupSpellSelector setEnabled: YES];
+  [self.popupSpellSelector setAutoenablesItems: NO];
+    
+  // Populate the bottom popup
+  [self populateCastSpellBottomPopupWithSpells: nil];   
+  
+  [self.fieldSpellCreatorLevel setStringValue: @"0"];
+  [self.fieldSpellMagicResistance setStringValue: @"0"];
+  [self.fieldSpellDistance setStringValue: @"0"];
+  [self.fieldSpellInvestedASP setStringValue: @"0"];
+  [self.fieldSpellFeedback setHidden: YES];
+  [self.castSpellPanel makeKeyAndOrderFront:nil];  
+  
+  [self.buttonSpellDoIt setTitle: _(@"Zauberprobe")];
+  [self.buttonSpellDoIt setTarget:self];
+  [self.buttonSpellDoIt setAction:@selector(castSpell:)];  
+  
+  NSLog(@"DSACharacterWindowController finished showCastSpellPanel");
+ 
+}
+
+// All the subclasses for the spells right here
+
+*/
+
 
 
 @end

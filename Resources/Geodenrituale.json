@@ -13,7 +13,8 @@
     "Macht über den Regen": {
       "Typen": [ "Diener Sumus", "Herr der Erde" ],
       "Order": 2,
-      "Probe": ["KL", "IN", "KK", "+3" ],
+      "Probe": ["KL", "IN", "KK" ],
+      "Probenzuschlag": 3,
       "Weihe": {
         "Probe": ["MU", "IN", "CH" ],
         "ASP Kosten": "1W20",
@@ -23,7 +24,8 @@
     "Magnetismus": {
       "Typen": [ "Diener Sumus", "Herr der Erde" ],
       "Order": 3,
-      "Probe": ["KL", "IN", "KK", "+2" ],
+      "Probe": ["KL", "IN", "KK" ],
+      "Probenzuschlag": 2,
       "Weihe": {
         "Probe": ["MU", "IN", "CH" ],
         "ASP Kosten": "1W20",
@@ -33,7 +35,8 @@
     "Seelenfeuer": {
       "Typen": [ "Diener Sumus", "Herr der Erde" ],
       "Order": 4,
-      "Probe": ["IN", "CH", "KK", "+4" ],
+      "Probe": ["IN", "CH", "KK" ],
+      "Probenzuschlag": 4,
       "Weihe": {
         "Probe": ["MU", "IN", "CH" ],
         "ASP Kosten": "1W20",
@@ -43,7 +46,8 @@
     "Die Macht des Lebens": {
       "Typen": [ "Diener Sumus", "Herr der Erde" ],
       "Order": 5,
-      "Probe": ["MU", "IN", "CH", "+2" ],
+      "Probe": ["MU", "IN", "CH" ],
+      "Probenzuschlag": 2,
       "Weihe": {
         "Probe": ["MU", "IN", "CH" ],
         "ASP Kosten": "1W20",
@@ -53,7 +57,8 @@
     "Der Weg durch Sumus Leib": {
       "Typen": [ "Diener Sumus", "Herr der Erde" ],
       "Order": 5,
-      "Probe": ["MU", "IN", "KK", "+6" ],
+      "Probe": ["MU", "IN", "KK" ],
+      "Probenzuschlag": 6,
       "Weihe": {
         "Probe": ["MU", "IN", "CH" ],
         "ASP Kosten": "1W20",
@@ -80,21 +85,24 @@
       "Die Kraft des Dolches": {
         "Typen": [ "Diener Sumus", "Herr der Erde" ],
         "Order": 1,
-        "Probe": [ "KL", "IN", "KK", "+1" ],
+        "Probe": [ "KL", "IN", "KK" ],
+        "Probenzuschlag": 1,
         "ASP Kosten": 17,
         "davon permanente ASP Kosten": 1
       },
       "Der Weg des Dolches": {
         "Typen": [ "Diener Sumus", "Herr der Erde" ],
         "Order": 2,
-        "Probe": [ "KL", "IN", "KK", "+3" ],
+        "Probe": [ "KL", "IN", "KK" ],
+        "Probenzuschlag": 3,
         "ASP Kosten": 19,
         "davon permanente ASP Kosten": 1
       },
       "Das Licht des Dolches": {
         "Typen": [ "Diener Sumus", "Herr der Erde" ],
         "Order": 3,
-        "Probe": [ "KL", "IN", "KK", "+5" ],
+        "Probe": [ "KL", "IN", "KK" ],
+        "Probenzuschlag": 5,
         "ASP Kosten": 21,
         "davon permanente ASP Kosten": 1
       }

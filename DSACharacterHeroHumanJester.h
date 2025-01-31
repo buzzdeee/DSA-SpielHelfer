@@ -26,9 +26,8 @@
 #define _DSACHARACTERHEROHUMANJESTER_H_
 
 #import "DSACharacterHeroHuman.h"
-#import "DSACharacterMagic.h"
 
-@interface DSACharacterHeroHumanJester : DSACharacterHeroHuman <DSACharacterMagic>
+@interface DSACharacterHeroHumanJester : DSACharacterHeroHuman
 
 
 @end

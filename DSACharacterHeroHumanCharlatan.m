@@ -44,7 +44,8 @@
       self.maxLevelUpTalentsTriesTmp = 25;
       self.maxLevelUpSpellsTriesTmp = 20;      
       self.maxLevelUpVariableTries = 0;
-      self.mrBonus = 2;                               
+      self.mrBonus = 2;       
+      self.isMagic = YES;                        
     }
   return self;
 }
@@ -71,21 +72,6 @@
       self.tempDeltaLpAe = result - 2 ;
     }
   return resultDict;
-}
-
-// @protocol DSACharacterMagic below
-- (DSASpellResult *) castSpell: (DSASpell *) spell
-{
-  return [[DSASpellResult alloc] init];
-}
-- (DSASpellResult *) castSpell: (DSASpell *) spell on: (id) target
-{
-  return [[DSASpellResult alloc] init];
-}
-
-- (DSASpellResult *) castSpell: (DSASpell *) spell withSource: (id) source onTarget: (id) target
-{
-  return [[DSASpellResult alloc] init];
 }
 
 // basic leveling up of a spell is handled within the spell

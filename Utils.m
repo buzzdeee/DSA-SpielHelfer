@@ -342,6 +342,25 @@ static NSMutableDictionary *namesDict;
 {
   return mageRitualsDict;
 }
+
++ (NSDictionary *) getMageRitualWithName: (NSString *) ritualName
+{
+  for (NSString *category in [mageRitualsDict allKeys])
+    {
+       NSLog(@"Utils: getMageRitualWithName checking category: %@", category);
+       for (NSString *name in [[mageRitualsDict objectForKey: category] allKeys])
+         {
+           NSLog(@"Utils: getMageRitualWithName checking name: %@ against ritual name: %@", name, ritualName);
+           if ([name isEqualToString: ritualName])
+             {
+               NSMutableDictionary *ritual = [[mageRitualsDict objectForKey: category] objectForKey: name];
+               [ritual setObject: category forKey: @"category"];
+               return ritual;
+             }
+         }
+    }
+  return nil;
+}
 // end of mage rituals dict related methods
 
 // geode rituals dict related methods
@@ -391,6 +410,24 @@ static NSMutableDictionary *namesDict;
 {
   return spellsDict;
 }
++ (NSDictionary *) getSpellWithName: (NSString *) spellName
+{
+  for (NSString *category in [spellsDict allKeys])
+    {
+       NSLog(@"Utils: getSpellWithName checking category: %@", category);
+       for (NSString *name in [[spellsDict objectForKey: category] allKeys])
+         {
+           NSLog(@"Utils: getSpellWithName checking name: %@ against spell name: %@", name, spellName);
+           if ([name isEqualToString: spellName])
+             {
+               NSMutableDictionary *spell = [[spellsDict objectForKey: category] objectForKey: name];
+               [spell setObject: category forKey: @"category"];
+               return spell;
+             }
+         }
+    }
+  return nil;
+}
 // end of spells dict related methods
 
 // sharisad dances dict related methods
@@ -412,6 +449,20 @@ static NSMutableDictionary *namesDict;
 {
   return talentsDict;
 }
+
++ (NSString *) findSpellOrRitualWithName: (NSString *) name
+{
+  if ([Utils getSpellWithName: name])
+    {
+      return @"DSASpell";
+    }
+  if ([Utils getMageRitualWithName: name])
+    {
+      return @"DSASpellMageRitual";
+    }
+  return nil;
+}
+
 // returns a dictionary of talents for the requested archetype
 + (NSDictionary *) getTalentsForCharacter: (DSACharacter *)character
 {

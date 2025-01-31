@@ -39,24 +39,9 @@
       self.maxLevelUpSpellsTriesTmp = 0;      
       self.maxLevelUpVariableTries = 10;
       self.mrBonus = 3;                      // Die Magie des schwarzen Auges S. 49
+      self.isMagic = YES;
     }
   return self;
-}
-
-
-// @protocol DSACharacterMagic below
-- (DSASpellResult *) castSpell: (DSASpell *) spell
-{
-  return [[DSASpellResult alloc] init];
-}
-- (DSASpellResult *) castSpell: (DSASpell *) spell on: (id) target
-{
-  return [[DSASpellResult alloc] init];
-}
-
-- (DSASpellResult *) castSpell: (DSASpell *) spell withSource: (id) source onTarget: (id) target
-{
-  return [[DSASpellResult alloc] init];
 }
 
 // basic leveling up of a spell is handled within the spell

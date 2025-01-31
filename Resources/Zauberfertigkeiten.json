@@ -3,13 +3,6 @@
     "Beherrschungen brechen": {
       "Probe": [ "KL", "IN", "CH" ],
       "Ursprung": [ "D", "DS" ],
-      "Reichweite": "B",
-      "Zauberdauer": [ "1m+" ],
-      "Wirkungsdauer": "permanent",
-      "Kosten": {
-        "Formel": "ABS(Stufe des Beherrschers - Stufe des Beherrschungsbrechers) * 4",
-        "Minimum": 8
-      },
       "Startwerte": {
         "Magier": -2,
         "Scharlatan": -12,
@@ -27,13 +20,6 @@
     "Bewegungen stören": {
       "Probe": [ "KL", "IN", "FF" ],
       "Ursprung": [ "M" ],
-      "Reichweite": "49Schritt",
-      "Zauberdauer": [ "2s" ],
-      "Wirkungsdauer": "permanent",
-      "Kosten": {
-        "Formel": "ABS(Stufe des Bewegungsmagiers- Stufe des Störers) * 3",
-        "Minimum": 6
-      },
       "Startwerte": {
         "Magier": -4,
         "Scharlatan": -13,

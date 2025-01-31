@@ -26,15 +26,10 @@
 #define _DSACHARACTERHEROELF_H_
 
 #import "DSACharacterHero.h"
-#import "DSACharacterMagic.h"
 #import "DSASpell.h"
-#import "DSASpellResult.h"
 
-@interface DSACharacterHeroElf : DSACharacterHero <DSACharacterMagic>
+@interface DSACharacterHeroElf : DSACharacterHero
 
-- (DSASpellResult *) castSpell: (DSASpell *) spell;
-- (DSASpellResult *) castSpell: (DSASpell *) spell on: (id) target;
-- (DSASpellResult *) castSpell: (DSASpell *) spell withSource: (id) source onTarget: (id) target;
 - (BOOL) levelUpSpell: (DSASpell *)spell;
 - (BOOL) canLevelUpSpell: (DSASpell *)spell;
 

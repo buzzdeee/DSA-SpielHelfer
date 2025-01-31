@@ -26,14 +26,9 @@
 #define _DSACHARACTERHERODWARFGEODE_H_
 
 #import "DSACharacterHeroDwarf.h"
-#import "DSACharacterMagic.h"
 #import "DSASpell.h"
-#import "DSASpellResult.h"
 
-@interface DSACharacterHeroDwarfGeode : DSACharacterHeroDwarf <DSACharacterMagic>
-- (DSASpellResult *) castSpell: (DSASpell *) spell;
-- (DSASpellResult *) castSpell: (DSASpell *) spell on: (id) target;
-- (DSASpellResult *) castSpell: (DSASpell *) spell withSource: (id) source onTarget: (id) target;
+@interface DSACharacterHeroDwarfGeode : DSACharacterHeroDwarf
 - (BOOL) levelUpSpell: (DSASpell *)spell;
 - (BOOL) canLevelUpSpell: (DSASpell *)spell;
 

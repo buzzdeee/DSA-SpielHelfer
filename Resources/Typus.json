@@ -16,7 +16,7 @@
           "Stipendium": [ 2, 3 ],
           "Elf-Mensch Verbindung": [ 4 ]
         },
-        "Equipment": [ {"Magierstab": 1} ]
+        "Equipment": [ {"Magierstab": 1, "Kristallkugel": 1, "Magierschale": 1} ]
       },
       "mittelständisch": {
         "1W20": [ 5, 6, 7, 8, 9, 10, 11, 12, 13 ],
@@ -25,8 +25,7 @@
           "Reisende Magier": [ 9, 10, 11 ],
           "Einfache Geweihte": [ 12, 13 ] 
         },
-        "Equipment": [ {"Magierstab": 1} 
-        ]
+        "Equipment": [ {"Magierstab": 1}, {"Kristallkugel": 1}, {"Magierschale": 1} ]
       },
       "reich": {
         "1W20": [ 15, 16, 17, 18, 19 ],
@@ -35,14 +34,14 @@
           "Bekannte Magier": [ 16, 17 ],
           "Reiche Kaufleute": [ 18, 19 ] 
         },
-        "Equipment": [ {"Magierstab": 1} ]
+        "Equipment": [ {"Magierstab": 1}, {"Kristallkugel": 1}, {"Magierschale": 1} ]
       },
       "adelig": {
         "1W20": [ 20 ],
         "Eltern": {
           "Landadel": [ 20 ]
         },
-        "Equipment": [ {"Magierstab": 1} ]
+        "Equipment": [ {"Magierstab": 1}, {"Kristallkugel": 1}, {"Magierschale": 1} ]
       }
     },
     "Haarfarbe": {

@@ -27,10 +27,28 @@
 
 #import <Foundation/Foundation.h>
 
-@interface DSASpellResult : NSObject
+typedef NS_ENUM(NSUInteger, DSASpellResultValue)
 {
+  DSASpellResultNone,              // no result yet
+  DSASpellResultSuccess,           // normal success
+  DSASpellResultAutoSuccess,       // two times 1 as dice result
+  DSASpellResultEpicSuccess,       // three times 1 as dice result
+  DSASpellResultFailure,           // normal failure
+  DSASpellResultAutoFailure,       // two times 20 as dice result
+  DSASpellResultEpicFailure,       // three times 20 as dice result
+};
 
-}
+
+@interface DSASpellResult : NSObject
+
+@property (nonatomic, assign) DSASpellResultValue result;
+@property (nonatomic, strong) NSString *resultDescription;
+@property (nonatomic, strong) NSArray *diceResults;
+@property (nonatomic, assign) NSInteger remainingSpellPoints;
+@property (nonatomic, assign) NSInteger costAE;
+
++(NSString *) resultNameForResultValue: (DSASpellResultValue) value;
+
 
 @end
 

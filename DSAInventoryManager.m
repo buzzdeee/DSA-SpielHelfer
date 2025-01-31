@@ -35,11 +35,11 @@
 }
 
 - (BOOL)transferItemFromSlot:(NSInteger)sourceSlotIndex
-                  inInventory:(NSString *)sourceInventory // New parameter for source inventory
+                 inInventory:(NSString *)sourceInventory // New parameter for source inventory
                      inModel:(DSACharacter *)sourceModel
-                     toSlot:(NSInteger)targetSlotIndex
-                    inModel:(DSACharacter *)targetModel
-           inventoryIdentifier:(NSString *)targetInventoryIdentifier // New parameter for target inventory
+                      toSlot:(NSInteger)targetSlotIndex
+                     inModel:(DSACharacter *)targetModel
+         inventoryIdentifier:(NSString *)targetInventoryIdentifier // New parameter for target inventory
 {
     // Get the source and target slots directly from the parameters
     DSASlot *sourceSlot = [self findSlotInModel:sourceModel
@@ -449,216 +449,7 @@
     return YES;
 }
 
-/*
-- (BOOL)transferMultiSlotItem:(DSAObject *)item
-                    fromModel:(DSACharacter *)sourceModel
-                      toModel:(DSACharacter *)targetModel
-                  toSlotIndex:(NSInteger)targetSlotIndex
-    sourceInventoryIdentifier:(NSString *)sourceInventoryIdentifier
-              sourceSlotIndex:(NSInteger)sourceSlotIndex {
 
-    NSLog(@"DSAInventoryManager: TRANSFERRING MULTI-SLOT ITEM");
-
-    if (!item || !sourceModel || !targetModel) {
-        NSLog(@"Invalid parameters for transferring multi-slot item.");
-        return NO;
-    }
-
-    DSASlot *targetSlot = [[DSAInventoryManager sharedManager]
-                           findSlotInModel:targetModel
-                           withInventoryIdentifier:@"inventory"
-                           atIndex:targetSlotIndex];
-
-    // Handle the case where the target is DSASlotTypeGeneral
-    if (targetSlot && targetSlot.slotType == DSASlotTypeGeneral && targetSlot.object == nil) {
-        // Move the item to the general inventory slot
-        targetSlot.object = item;
-        targetSlot.quantity = 1; // Multi-slot items always have a quantity of 1
-        NSLog(@"DSAInventoryManager: Placed multi-slot item into general slot.");
-    } else {
-        // Otherwise, find and fill body slots for the multi-slot item
-        NSMutableArray<DSASlot *> *targetSlots = [NSMutableArray array];
-        NSCountedSet *slotTypeSet = [[NSCountedSet alloc] initWithArray:item.occupiedBodySlots];
-
-        for (NSNumber *slotType in slotTypeSet) {
-            NSInteger requiredCount = [slotTypeSet countForObject:slotType];
-            NSInteger foundCount = 0;
-
-            for (NSString *propertyName in targetModel.bodyParts.inventoryPropertyNames) {
-                DSAInventory *inventory = [targetModel.bodyParts valueForKey:propertyName];
-
-                for (DSASlot *slot in inventory.slots) {
-                    if (slot.slotType == [slotType integerValue] && slot.object == nil) {
-                        [targetSlots addObject:slot];
-                        foundCount++;
-
-                        if (foundCount == requiredCount) {
-                            break; // Stop once we find enough slots
-                        }
-                    }
-                }
-                if (foundCount == requiredCount) {
-                    break;
-                }
-            }
-
-            if (foundCount < requiredCount) {
-                NSLog(@"Not enough free slots of type %@ available in target model.", slotType);
-                return NO; // Fail if we can't find enough slots
-            }
-        }
-
-        // Assign the item to all required target slots
-        for (DSASlot *slot in targetSlots) {
-            slot.object = item;
-            slot.quantity = 1;
-        }
-    }
-
-    // Clean up the source slots
-    DSASlot *sourceSlot = [[DSAInventoryManager sharedManager]
-                           findSlotInModel:sourceModel
-                           withInventoryIdentifier:sourceInventoryIdentifier
-                           atIndex:sourceSlotIndex];
-
-    if (sourceSlot.slotType == DSASlotTypeGeneral) {
-        NSLog(@"DSAInventoryManager: Cleaning single general slot in source inventory.");
-        sourceSlot.object = nil;
-        sourceSlot.quantity = 0;
-    } else {
-        NSLog(@"DSAInventoryManager: Cleaning all occupied body slots for multi-slot item.");
-        NSCountedSet *slotTypeSet = [[NSCountedSet alloc] initWithArray:item.occupiedBodySlots];
-
-        for (NSNumber *slotType in slotTypeSet) {
-            NSInteger requiredCount = [slotTypeSet countForObject:slotType];
-            NSInteger clearedCount = 0;
-
-            for (NSString *propertyName in sourceModel.bodyParts.inventoryPropertyNames) {
-                DSAInventory *inventory = [sourceModel.bodyParts valueForKey:propertyName];
-
-                for (DSASlot *slot in inventory.slots) {
-                    if (slot.slotType == [slotType integerValue] && slot.object == item) {
-                        slot.object = nil;
-                        slot.quantity = 0;
-                        clearedCount++;
-
-                        if (clearedCount == requiredCount) {
-                            break; // Stop once we've cleared enough slots
-                        }
-                    }
-                }
-                if (clearedCount == requiredCount) {
-                    break;
-                }
-            }
-        }
-    }
-
-    [self postDSAInventoryChangedNotificationForSourceModel:sourceModel targetModel:targetModel];
-    return YES;
-}
-*/
-
-/*
-- (BOOL)transferMultiSlotItem:(DSAObject *)item
-                    fromModel:(DSACharacter *)sourceModel
-                      toModel:(DSACharacter *)targetModel
-                  toSlotIndex:(NSInteger)targetSlotIndex
-    sourceInventoryIdentifier:(NSString *)sourceInventoryIdentifier
-              sourceSlotIndex:(NSInteger)sourceSlotIndex {
-
-    NSLog(@"TRANSFERRING MULTI SLOT ITEM");
-    if (!item || !sourceModel || !targetModel) {
-        NSLog(@"Invalid parameters for transferring multi-slot item.");
-        return NO;
-    }
-
-    // Attempt to find all required target slots for the item
-    NSMutableArray<DSASlot *> *targetSlots = [NSMutableArray array];
-    NSCountedSet *slotTypeSet = [[NSCountedSet alloc] initWithArray:item.occupiedBodySlots];
-
-    for (NSNumber *slotType in slotTypeSet) {
-        NSInteger requiredCount = [slotTypeSet countForObject:slotType];
-        NSInteger foundCount = 0;
-
-        for (NSString *propertyName in targetModel.bodyParts.inventoryPropertyNames) {
-            DSAInventory *inventory = [targetModel.bodyParts valueForKey:propertyName];
-
-            for (DSASlot *slot in inventory.slots) {
-                if (slot.slotType == [slotType integerValue] && slot.object == nil) {
-                    [targetSlots addObject:slot];
-                    foundCount++;
-
-                    if (foundCount == requiredCount) {
-                        break; // Stop once we find enough slots
-                    }
-                }
-            }
-            if (foundCount == requiredCount) {
-                break;
-            }
-        }
-
-        if (foundCount < requiredCount) {
-            NSLog(@"Not enough free slots of type %@ available in target model.", slotType);
-            return NO; // Fail if we can't find enough slots
-        }
-    }
-
-    // Assign the item to all required target slots
-    for (DSASlot *slot in targetSlots) {
-        slot.object = item;
-        slot.quantity = 1; // multi-slot items are always of quantity 1
-    }
-
-    // Clean up the source slots
-    DSASlot *sourceSlot = [self findSlotInModel:sourceModel
-                         withInventoryIdentifier:sourceInventoryIdentifier
-                                         atIndex:sourceSlotIndex];
-
-    if (sourceSlot.slotType == DSASlotTypeGeneral) {
-        // Clean a single source slot if it's DSASlotTypeGeneral
-        NSLog(@"Cleaning single general inventory slot.");
-        sourceSlot.object = nil;
-        sourceSlot.quantity = 0;
-    } else if ([item.occupiedBodySlots count] == 0) {
-        // Clean a single slot if it's not a multi-slot item
-        NSLog(@"Cleaning single body slot for non-multi-slot item.");
-        sourceSlot.object = nil;
-        sourceSlot.quantity = 0;
-    } else {
-        // Clean all slots occupied by the multi-slot item
-        NSLog(@"Cleaning multi-slot item from body slots.");
-        for (NSNumber *slotType in slotTypeSet) {
-            NSInteger requiredCount = [slotTypeSet countForObject:slotType];
-            NSInteger clearedCount = 0;
-
-            for (NSString *propertyName in sourceModel.bodyParts.inventoryPropertyNames) {
-                DSAInventory *inventory = [sourceModel.bodyParts valueForKey:propertyName];
-
-                for (DSASlot *slot in inventory.slots) {
-                    if (slot.slotType == [slotType integerValue] && slot.object == item) {
-                        slot.object = nil;
-                        slot.quantity = 0;
-                        clearedCount++;
-
-                        if (clearedCount == requiredCount) {
-                            break; // Stop once we've cleared enough slots
-                        }
-                    }
-                }
-                if (clearedCount == requiredCount) {
-                    break;
-                }
-            }
-        }
-    }
-
-    // Post inventory change notifications
-    [self postDSAInventoryChangedNotificationForSourceModel:sourceModel targetModel:targetModel];
-    return YES;
-}
-*/
 - (DSAObject *)findItemInModel:(DSACharacter *)model
            inventoryIdentifier:(NSString *)inventoryIdentifier
                      slotIndex:(NSInteger)slotIndex {
@@ -677,6 +468,132 @@
         }
     }
     return nil;
+}
+
+- (BOOL) replaceItem: (DSAObject *) oldItem
+             inModel: (DSACharacter *) model
+            withItem: (DSAObject *) newItem
+{
+
+    DSAInventory *inventory = model.inventory;
+    
+    for (DSASlot *slot in inventory.slots) {
+        // Check if the slot contains an object and if its name matches
+        DSAObject *slotObject = slot.object;
+        if (slotObject && [slotObject isEqualTo:oldItem]) { // Object found
+            slot.object = nil;
+            slot.object = newItem;
+            if (newItem == nil)
+              {
+                slot.quantity = 0;
+              }
+            [self postDSAInventoryChangedNotificationForSourceModel:model targetModel: model];
+            return YES;
+        }
+
+        // If the object is a container, recursively search inside it
+        if ([slotObject isKindOfClass:[DSAObjectContainer class]]) {
+            DSAObjectContainer *container = (DSAObjectContainer *) slotObject;
+            DSASlot *foundSlot = [self findSlotHoldingItem:oldItem inContainer: container]; 
+            if (foundSlot) {
+              slot.object = nil;
+              slot.object = newItem;
+              [self postDSAInventoryChangedNotificationForSourceModel:model targetModel:model];
+              return YES;
+            }
+        }
+    }
+    return NO; // didn't find the old item
+}            
+
+- (DSASlot *) findSlotHoldingItem: (DSAObject *) item
+                      inContainer: (DSAObjectContainer *) container
+{
+    for (DSASlot *slot in container.slots) {
+        // Check if the slot contains an object and if it matches
+        DSAObject *object = slot.object;
+        if (object && [object isEqualTo:item]) {
+            return slot; // Object found
+        }
+
+        // If the object is a container, recursively search inside it
+        if ([object isKindOfClass:[DSAObjectContainer class]]) {
+            DSAObjectContainer *container = (DSAObjectContainer *)object;
+            DSASlot *foundSlot = [self findSlotHoldingItem: item inContainer: container]; 
+            if (foundSlot) {
+                return foundSlot; // Object found within container
+            }
+        }
+    }
+    return nil; // Return nil if not found  
+}
+
+- (DSAObject *)findObjectWithName: (NSString *) name inInventory: (DSAInventory *) inventory {
+    for (DSASlot *slot in inventory.slots) {
+        // Check if the slot contains an object and if its name matches
+        DSAObject *object = slot.object;
+        if (object && [object.name isEqualToString:name]) {
+            return object; // Object found
+        }
+
+        // If the object is a container, recursively search inside it
+        if ([object isKindOfClass:[DSAObjectContainer class]]) {
+            DSAObjectContainer *container = (DSAObjectContainer *)object;
+            DSAObject *foundObject = [self findObjectWithName:name inContainer:container]; 
+            if (foundObject) {
+                return foundObject; // Object found within container
+            }
+        }
+    }
+    return nil; // Return nil if not found
+}
+
+- (DSAObject *)findObjectWithName: (NSString *) name 
+                      inContainer: (DSAObjectContainer *) container
+{
+    for (DSASlot *slot in container.slots) {
+        // Check if the slot contains an object and if its name matches
+        DSAObject *object = slot.object;
+        if (object && [object.name isEqualToString:name]) {
+            return object; // Object found
+        }
+
+        // If the object is a container, recursively search inside it
+        if ([object isKindOfClass:[DSAObjectContainer class]]) {
+            DSAObjectContainer *container = (DSAObjectContainer *)object;
+            DSAObject *foundObject = [self findObjectWithName:name inContainer:container]; 
+            if (foundObject) {
+                return foundObject; // Object found within container
+            }
+        }
+    }
+    return nil; // Return nil if not found
+}
+
+- (DSAObject *) findObjectWithName:(NSString *)name inBodyParts:(DSABodyParts *)bodyParts
+{
+    // Iterate through body parts inventories
+    for (NSString *propertyName in bodyParts.inventoryPropertyNames) {
+        DSAInventory *inventory = [bodyParts valueForKey:propertyName];
+        DSAObject *foundObject = [self findObjectWithName: name inInventory: inventory];
+        if (foundObject) {
+            return foundObject; // Object found in body parts inventory
+        }
+    }
+    return nil; // Return nil if not found
+}
+
+- (DSAObject *) findItemWithName:(NSString *) name 
+                         inModel: (DSACharacter *) model
+{
+    // Search in general inventory
+    DSAObject *foundObject = [self findObjectWithName:name inInventory: model.inventory];
+    if (foundObject) {
+        return foundObject; // Object found in general inventory
+    }
+
+    // Search in body parts
+    return [self findObjectWithName:name inBodyParts: model.bodyParts];
 }
 
 - (DSASlot *)findFreeBodySlotOfType:(NSInteger)slotType inModel:(DSACharacter *)model {
