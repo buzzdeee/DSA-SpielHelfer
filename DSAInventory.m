@@ -23,6 +23,7 @@
 */
 
 #import "DSAInventory.h"
+#import "DSAInventoryManager.h"
 
 @implementation DSAInventory
 
@@ -192,10 +193,22 @@
 
 - (NSInteger)addObject:(DSAObject *)object quantity:(NSInteger)quantity {
     NSInteger totalAdded = 0;
-
+/*
     // Try to add to existing compatible slots first
     for (DSASlot *slot in self.slots) {
+        NSLog(@"DSAInventory: adding object: %@", object.name);
         if ([slot.object isCompatibleWithObject:object]) {
+            if ([slot.object isKindOfClass: [DSAObjectContainer class]])
+              {
+                DSASlot *slot = [[DSASlot alloc] init];
+                slot.maxItemsPerSlot = quantity;
+                slot.object = object;
+                [[DSAInventoryManager sharedManager] transferItemFromSlot: slot
+                                                                  inModel: nil
+                                                              toContainer: slot.object
+                                                                  inModel: nil];
+              }
+            NSLog(@"DSAInventory slot.object %@ is comatible with object: %@", slot.object.name, object.name);
             NSInteger added = [slot addObject:object quantity:quantity];
             totalAdded += added;
             quantity -= added;
@@ -204,10 +217,11 @@
             }
         }
     }
-
+*/
     // Add to empty slots if any items remain
     for (DSASlot *slot in self.slots) {
         if (slot.object == nil && [self isAllowedObject:object inSlot:slot]) {
+            NSLog(@"DSAInventory: adding to empty slot %@", object.name);
             NSInteger added = [slot addObject:object quantity:quantity];
             totalAdded += added;
             quantity -= added;
@@ -222,11 +236,13 @@
 
 
 - (BOOL)isAllowedObject:(DSAObject *)object inSlot:(DSASlot *)slot {
+    NSLog(@"DSAInventory: Testing object slot type: %@ vs. slot.slotType: %ld", object.validSlotTypes, slot.slotType);
     for (NSNumber *validSlotType in object.validSlotTypes) {
         if (validSlotType.integerValue == slot.slotType) {
             return YES; // Object is allowed in this slot
         }
     }
+    NSLog(@"DSAInventory %@ not allowed in slot!", object.name);
     return NO; // Object is not allowed in this slot
 }
 

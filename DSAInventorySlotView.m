@@ -27,7 +27,9 @@
 
 @implementation DSAInventorySlotView
 
+
 - (void)mouseDown:(NSEvent *)theEvent {
+NSLog(@"DSAInventorySlotView mouseDown called!!!!");
     if ([self initiatesDrag]) {
         NSLog(@"DSAInventorySlotView: mouseDown initiating Drag");
 
@@ -151,7 +153,9 @@
         
         if (draggedItem.validSlotTypes && draggedItem.validSlotTypes.count > 0) {
             // Single-slot item logic
+            NSLog(@"DSAInventorySlotView draggingEntered: checking single slot item logic ");
             if ([draggedItem.validSlotTypes containsObject:@(self.slot.slotType)]) {
+                NSLog(@"DSAInventorySlotView draggingEntered: draggedItem validSlotTypes: %@ self.slot.slotType: %@", draggedItem.validSlotTypes,  @(self.slot.slotType));
                 if ([[DSAInventoryManager sharedManager] isItem:draggedItem compatibleWithSlot:self.slot forModel:sourceModel]) {
                     [self highlightTargetView:YES];
                     NSLog(@"draggingEntered: Single-slot item drag is valid for this slot");
@@ -174,6 +178,11 @@
 }
 
 - (BOOL)canAcceptDraggedItem:(DSAObject *)draggedItem withQuantity:(NSInteger)draggedQuantity {
+    if (self.slot.object != nil &&
+        [self.slot.object.useWith containsObject: draggedItem.name])
+      {
+        return YES; // these items can be uses with each other
+      }
     // Check if the slot type is valid for the dragged item
     if (![draggedItem.validSlotTypes containsObject:@(self.slot.slotType)]) {
         return NO; // Slot type mismatch
@@ -281,6 +290,10 @@
         }
 
         // Single-slot item logic
+        NSPoint mousePosition = self.frame.origin;
+
+        NSPoint mousePos = [self convertPoint:mousePosition fromView:nil]; // Converted to view coordinates
+        
         if ([[DSAInventoryManager sharedManager] isItem:draggedItem compatibleWithSlot:self.slot]) {
             BOOL success = [[DSAInventoryManager sharedManager]
                             transferItemFromSlot:sourceSlotIndex
@@ -288,7 +301,9 @@
                                              inModel:sourceModel
                                               toSlot:self.slotIndex
                                              inModel:self.model
-                                 inventoryIdentifier:self.inventoryIdentifier];
+                                 inventoryIdentifier:self.inventoryIdentifier
+                                       mousePosition: mousePos
+                                              inView: self];
             if (success) {
                 NSLog(@"DSAInventorySlotView: Single-slot item transfer succeeded.");
                 [self highlightTargetView:NO];
@@ -460,7 +475,10 @@
             break;
         case DSASlotTypeNosering:
             placeholderImageName = @"placeholder_nose-16x16"; // Placeholder for head slots
-            break;            
+            break;  
+        case DSASlotTypeArmRing:
+            placeholderImageName = @"placeholder_handgelenk-16x16"; // Placeholder for head slots
+            break;                       
         case DSASlotTypeGlasses:
             placeholderImageName = @"placeholder_eyes-16x16"; // Placeholder for body slots
             break;
@@ -528,5 +546,51 @@
     return imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
 }
 
+
+
+-(void) moveWholeContainer: (NSMenuItem *) sender
+{
+
+    NSLog(@"DSAInventoryManager moveWholeContainer called!");
+    NSDictionary *info = sender.representedObject;
+    DSASlot *sourceSlot = info[@"sourceSlot"];
+    DSASlot *targetSlot = info[@"targetSlot"];
+    DSACharacter *sourceModel = info[@"sourceModel"];
+    DSACharacter *targetModel = info[@"targetModel"];
+    
+    targetSlot.object = sourceSlot.object;
+    targetSlot.quantity = sourceSlot.quantity;
+
+    // Clear source slot
+    sourceSlot.object = nil;
+    sourceSlot.quantity = 0;
+        
+    NSLog(@"After updating slots: Source Slot: %@, Quantity: %ld", sourceSlot.object, sourceSlot.quantity);
+    NSLog(@"After updating slots: Target Slot: %@, Quantity: %ld", targetSlot.object, targetSlot.quantity);
+        
+    [[[DSAInventoryManager alloc] init] postDSAInventoryChangedNotificationForSourceModel: sourceModel targetModel: targetModel];    
+}
+
+- (void) removeItemFromContainer: (NSMenuItem *) sender
+{
+    NSLog(@"DSAInventoryManager removeItemFromContainer called!");
+    NSDictionary *info = sender.representedObject;
+    DSASlot *sourceSlot = info[@"sourceSlot"];
+    DSASlot *targetSlot = info[@"targetSlot"];
+    DSACharacter *sourceModel = info[@"sourceModel"];
+    DSACharacter *targetModel = info[@"targetModel"];
+    
+    targetSlot.object = sourceSlot.object;
+    targetSlot.quantity = sourceSlot.quantity;
+
+    // Clear source slot
+    sourceSlot.object = nil;
+    sourceSlot.quantity = 0;
+        
+    NSLog(@"After updating slots: Source Slot: %@, Quantity: %ld", sourceSlot.object, sourceSlot.quantity);
+    NSLog(@"After updating slots: Target Slot: %@, Quantity: %ld", targetSlot.object, targetSlot.quantity);
+        
+    [[[DSAInventoryManager alloc] init] postDSAInventoryChangedNotificationForSourceModel: sourceModel targetModel: targetModel];
+}
 
 @end

@@ -193,7 +193,8 @@
           "Bruchfaktor": 6,
           "Waffenvergleichswert": "2/0",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
-          "Material": "Glas"
+          "Material": "Glas",
+          "Icon": [ "Vulkanglasdolch_1", "Vulkanglasdolch_2" ]
         }
       },
       "Äxte und Beile": {
@@ -574,8 +575,6 @@
           "Waffenvergleichswert": "6/6",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
           "Material": "Holz",
-          "persönliches Objekt": true,
-          "Sprüche": [ { "1. Stabzauber": "InitialerStab" } ],
           "Icon": [ "Magierstab_1", "Magierstab_2", "Magierstab_3", "Magierstab_4" ]
         },
         "Efferdbart": {
@@ -635,6 +634,7 @@
           "Waffenvergleichswert": "7/7",
           "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TO", "WE", "ZY" ],
           "Material": "Eisen",
+          "ErlaubtInSlots": [ "Schwert" ],
           "Icon": [ "Schwert_1" ]
         },
         "Breitschwert": {
@@ -948,7 +948,8 @@
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/5",
           "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
-          "Material": "Holz"
+          "Material": "Holz",
+          "Icon": [ "Streitkolben_1" ]
         },
         "Brabakbengel": {
           "Gewicht": 120,
@@ -1761,7 +1762,7 @@
         "Preis": 0.25,
         "Material": "Holz",
         "Icon": [ "Kurzbogenpfeil" ],
-        "ErlaubteInventorySlots": [ "Köcher" ],
+        "ErlaubtInSlots": [ "Köcher" ],
         "MehrereProSlot": true
       },
       "Pfeil, lange Bögen": {
@@ -1769,14 +1770,14 @@
         "Preis": 0.4,
         "Material": "Holz",
         "Icon": [ "Langbogenpfeil" ],
-        "ErlaubteInventorySlots": [ "Köcher" ],
+        "ErlaubtInSlots": [ "Köcher" ],
         "MehrereProSlot": true
       },
       "Pfeil, Kriegsbogen": {
         "Gewicht": 4,
         "Preis": 0.6,
         "Material": "Holz",
-        "ErlaubteInventorySlots": [ "Köcher" ],
+        "ErlaubtInSlots": [ "Köcher" ],
         "MehrereProSlot": true
       }
     },
@@ -1785,14 +1786,14 @@
         "Gewicht": 4,
         "Preis": 1.5,
         "Material": "Holz",
-        "ErlaubteInventorySlots": [ "Bolzentasche" ],
+        "ErlaubtInSlots": [ "Bolzentasche" ],
         "MehrereProSlot": true
       },
       "Bolzen, schwere Armbrust": {
         "Gewicht": 4,
         "Preis": 2,
         "Material": "Holz",
-        "ErlaubteInventorySlots": [ "Bolzentasche" ],
+        "ErlaubtInSlots": [ "Bolzentasche" ],
         "MehrereProSlot": true
       }
     },
@@ -2304,6 +2305,7 @@
         "Preis": 15,
         "Material": "Leder",
         "Slots": 1,
+        "HatSlots": [ "Schwertgürtel" ],
         "Icon": [ "Schwertguertel_1" ]
       },
       "Schwertgürtel, verstärkt": {
@@ -2311,6 +2313,7 @@
         "Preis": 40,
         "Material": "Leder",
         "Slots": 1,
+        "HatSlots": [ "Schwert" ],
         "Icon": [ "Schwertguertel_verstaerkt_1" ]
       }
     },
@@ -2318,12 +2321,14 @@
       "Gewicht": 20,
       "Preis": 10,
       "Material": "Leder",
+      "HatSlots": [ "Schwertgürtel" ],
       "Icon": [ "Schultergurt_1", "Schultergurt_1" ]
     },
     "Beingurt": {
       "Gewicht": 15,
       "Preis": 5,
       "Material": "Leder",
+      "HatSlots": [ "Waffenhalter" ],
       "Icon": [ "Beingurt_1", "Beingurt_2" ]
     },
     "Waffenhalter": {
@@ -2331,7 +2336,8 @@
         "Gewicht": 60,
         "Preis": 15,
         "Material": "Eisen",
-        "Slottypen": [ "Schwert" ],
+        "ErlaubtInSlots": [ "Schwertgürtel" ],
+        "HatSlots": [ "Schwert" ],
         "Slots": 1,
         "Icon": [ "Schwertscheide_1", "Schwertscheide_2" ]
       },
@@ -2339,7 +2345,7 @@
         "Gewicht": 10,
         "Preis": 8,
         "Material": "Eisen",
-        "Slottypen": [ "Dolch" ],
+        "HatSlots": [ "Dolch" ],
         "Slots": 1,
         "Icon": [ "Dolchscheide_1", "Dolchscheide_2" ]
       },
@@ -2347,7 +2353,7 @@
         "Gewicht": 40,
         "Preis": 6,
         "Material": "Leder",
-        "Slottypen": [ "Axt" ],
+        "HatSlots": [ "Axt" ],
         "Slots": 1,
         "Icon": [ "Axtgehaenge_1" ]
       },
@@ -2355,7 +2361,7 @@
         "Gewicht": 35,
         "Preis": 18,
         "Material": "Leder",
-        "Slottypen": [ "Köcher" ],
+        "HatSlots": [ "Köcher" ],
         "Slots": 1,
         "MaximumPerSlot": 20,
         "Icon": [ "Hueftkoecher_1", "Hueftkoecher_2" ]
@@ -2364,7 +2370,7 @@
         "Gewicht": 20,
         "Preis": 2,
         "Material": "Leinen",
-        "Slottypen": [ "Bolzentasche" ],
+        "HatSlots": [ "Bolzentasche" ],
         "Slots": 1,
         "MaximumPerSlot": 10,
         "Icon": [ "Bolzentasche_Stoff_1", "Bolzentasche_Stoff_2" ]
@@ -2373,7 +2379,7 @@
         "Gewicht": 20,
         "Preis": 18,
         "Material": "Leder",
-        "Slottypen": [ "Bolzentasche" ],
+        "HatSlots": [ "Bolzentasche" ],
         "Slots": 1,
         "MaximumPerSlot": 10,
         "Icon": [ "Bolzentasche_Leder_1", "Bolzentasche_Leder_2" ]
@@ -2384,30 +2390,30 @@
         "Gewicht": 60,
         "Preis": 6,
         "Material": "Holz",
-        "Slottypen": [ "Köcher" ],
+        "HatSlots": [ "Köcher" ],
         "Slots": 1,
         "MaximumPerSlot": 20,
-        "ErlaubteInventorySlots": [ "Rückenköcher" ],
+        "ErlaubtInSlots": [ "Rückenköcher" ],
         "Icon": [ "Pfeilkoecher_Holz" ]
       },
       "Pfeilköcher, 20 Pfeile, Leder": {
         "Gewicht": 30,
         "Preis": 15,
         "Material": "Leder",
-        "Slottypen": [ "Köcher" ],
+        "HatSlots": [ "Köcher" ],
         "Slots": 1,
         "MaximumPerSlot": 20,
-        "ErlaubteInventorySlots": [ "Rückenköcher" ],
+        "ErlaubtInSlots": [ "Rückenköcher" ],
 	     "Icon": [ "Pfeilkoecher_Leder" ]
       },
       "Bolzenköcher, 10 Bolzen, Holz": {
         "Gewicht": 45,
         "Preis": 15,
         "Material": "Holz",
-        "Slottypen": [ "Bolzentasche" ],
+        "HatSlots": [ "Bolzentasche" ],
         "Slots": 1,
         "MaximumPerSlot": 10,
-        "ErlaubteInventorySlots": [ "Rückenköcher" ],
+        "ErlaubtInSlots": [ "Rückenköcher" ],
         "Icon": [ "Bolzenkoecher_1", "Bolzenkoecher_2" ]
       } 
     },
@@ -2502,14 +2508,14 @@
         "Gewicht": 15,
         "Preis": 0.4,
 	     "Slots": 5,
-        "Slottypen": [ "Allgemein" ],
+        "HatSlots": [ "Allgemein" ],
         "Icon": [ "Tuchbeutel_1", "Tuchbeutel_2" ]
       },
       "Geldbeutelchen": {
         "Gewicht": 1,
         "Preis": 0.1,
 	     "Slots": 10,
-        "Slottypen": [ "Geld" ],
+        "HatSlots": [ "Geld" ],
         "Icon": [ "Geldbeutel_1", "Geldbeutel_2" ]
       }
     },
@@ -2517,15 +2523,19 @@
       "Lederranzen, 8 Stein": {
         "Gewicht": 30,
         "Preis": 2,
-	     "Slots": 8,
-        "Slottypen": [ "Allgemein" ],
+	     "Slots": 6,
+        "HatSlots": [ "Allgemein" ],
+        "MaximumPerSlot": 10,
+        "belegteKörperSlots": [ "Rucksack" ],
         "Icon": [ "Lederrucksack_klein_1", "Lederrucksack_klein_2" ]
       },
       "Lederrucksack, 15 Stein": {
         "Gewicht": 40,
         "Preis": 4,
 	     "Slots": 10,
-        "Slottypen": [ "Allgemein" ],
+        "HatSlots": [ "Allgemein" ],
+        "MaximumPerSlot": 10,
+        "belegteKörperSlots": [ "Rucksack" ],
         "Icon": [ "Lederrucksack_gross_1", "Lederrucksack_gross_2" ]
       }
     },
@@ -2534,14 +2544,18 @@
         "Gewicht": 5,
         "Preis": 0.5,
 	     "Slots": 5,
-        "Slottypen": [ "Allgemein" ],
+        "HatSlots": [ "Allgemein" ],
+        "MaximumPerSlot": 10,
+        "belegteKörperSlots": [ "Hüfte" ],
         "Icon": [ "Guerteltasche_1", "Guerteltasche_2" ]
       },
       "Gürteltasche, verstärkt": {
         "Gewicht": 15,
         "Preis": 4,
 	     "Slots": 5,
-        "Slottypen": [ "Allgemein" ],
+        "HatSlots": [ "Allgemein" ],
+        "MaximumPerSlot": 10,
+        "belegteKörperSlots": [ "Hüfte" ],
         "Icon": [ "Guerteltasche_verstaerkt_1", "Guerteltasche_verstaerkt_2" ]
       }
     },
@@ -2554,15 +2568,17 @@
       "Sack, 10 Stein": {
         "Gewicht": 15,
         "Preis": 0.8,
-	     "Slots": 5,
-        "Slottypen": [ "Allgemein" ],
+	     "Slots": 8,
+        "HatSlots": [ "Allgemein" ],
+        "MaximumPerSlot": 10,
 	     "Icon": [ "Sack_klein_1", "Sack_klein_2" ]       
       },
       "Sack, 50 Stein": {
         "Gewicht": 40,
         "Preis": 2.5,
-	     "Slots": 10,
-        "Slottypen": [ "Allgemein" ],
+	     "Slots": 40,
+        "HatSlots": [ "Allgemein" ],
+        "MaximumPerSlot": 10,
 	     "Icon": [ "Sack_gross_1", "Sack_gross_2" ]
       }
     },
@@ -2571,14 +2587,16 @@
         "Gewicht": 80,
         "Preis": 4,
 	     "Slots": 5,
-        "Slottypen": [ "Allgemein" ],
+        "HatSlots": [ "Allgemein" ],
+        "MaximumPerSlot": 10,
         "Icon": [ "Korb_1", "Korb_2" ]
       },
       "Kiepe, 20 Stein": {
         "Gewicht": 120,
         "Preis": 7,
 	     "Slots": 5,
-        "Slottypen": [ "Allgemein" ],
+        "HatSlots": [ "Allgemein" ],
+        "MaximumPerSlot": 10,
         "Icon": [ "Kiepe_1", "Kiepe_2" ]
       }
     },
@@ -2587,14 +2605,16 @@
         "Gewicht": 80,
         "Preis": 4,
 	     "Slots": 5,
-        "Slottypen": [ "Allgemein" ],
+        "HatSlots": [ "Allgemein" ],
+        "MaximumPerSlot": 10,
         "Icon": [ "Transportkiste_1", "Transportkiste_2" ]
       },
       "Truhe für Packpferd": {
         "Gewicht": 100,
         "Preis": 5,
 	     "Slots": 5,
-        "Slottypen": [ "Allgemein" ],
+        "HatSlots": [ "Allgemein" ],
+        "MaximumPerSlot": 10,
         "Icon": [ "Truhe_Packpferd_1", "Truhe_Packpferd_2" ]
       }
     },
@@ -2602,7 +2622,8 @@
       "Gewicht": 40,
       "Preis": 1,
       "Slots": 5,
-      "Slottypen": [ "Allgemein" ],
+      "HatSlots": [ "Allgemein" ],
+      "MaximumPerSlot": 10,
       "Icon": [ "Tragnetz_1", "Tragnetz_2" ]
     },
     "Eimer": {
@@ -2611,14 +2632,14 @@
         "Preis": 3,
         "Slots": 1,
         "MaximumPerSlot": 10,
-        "Slottypen": [ "Allgemein" ],
+        "HatSlots": [ "Allgemein" ],
         "Icon": [ "Eimer_Holz_1" ]
       },
       "Eimer, Leder": {
         "Gewicht": 40,
         "Preis": 2,
         "MaximumPerSlot": 10,
-        "Slottypen": [ "Allgemein" ],
+        "HatSlots": [ "Allgemein" ],
         "Icon": [ "Eimer_Leder_1", "Eimer_Leder_2" ]
       }
     },
@@ -2628,7 +2649,7 @@
         "Preis": 5,
         "Slots": 1,
         "MaximumPerSlot": 3,
-        "Slottypen": [ "Flüssigkeit" ],
+        "HatSlots": [ "Flüssigkeit" ],
         "Icon": [ "Flasche_klein_1", "Flasche_klein_2" ]
       },
       "Glasflasche, 1 Schank": {
@@ -2636,7 +2657,7 @@
         "Preis": 12,
         "Slots": 1,
         "MaximumPerSlot": 25,
-        "Slottypen": [ "Flüssigkeit" ],
+        "HatSlots": [ "Flüssigkeit" ],
         "Icon": [ "Flasche_Glas_gross" ]
       },
       "Irdene Flasche, 1 Schank": {
@@ -2644,7 +2665,7 @@
         "Preis": 2,
         "Slots": 1,
         "MaximumPerSlot": 25,
-        "Slottypen": [ "Flüssigkeit" ],
+        "HatSlots": [ "Flüssigkeit" ],
         "Icon": [ "Flasche_irden_1", "Flasche_irden_2" ]
       },
       "Bronzeflasche, 1 Schank": {
@@ -2652,7 +2673,7 @@
         "Preis": 8,
         "Slots": 1,
         "MaximumPerSlot": 25,
-        "Slottypen": [ "Flüssigkeit" ],
+        "HatSlots": [ "Flüssigkeit" ],
         "Icon": [ "Flasche_Bronze" ]
       }
     },
@@ -2662,7 +2683,7 @@
         "Preis": 18,
         "Slots": 1,
         "MaximumPerSlot": 2000,
-        "Slottypen": [ "Flüssigkeit" ],
+        "HatSlots": [ "Flüssigkeit" ],
         "Icon": [ "Wasserfass_1", "Wasserfass_2" ]
       }
     }
@@ -3425,11 +3446,13 @@
       "Brille": {
         "Gewicht": 3,
         "Preis": 400,
+        "belegteKörperSlots": [ "Brille" ],
         "Icon": [ "Brille_1", "Brille_2" ]
       },
       "Kristallbrille, dunkel": {
         "Gewicht": 3,
         "Preis": 600,
+        "belegteKörperSlots": [ "Brille" ],
         "Icon": [ "Kristallbrille_dunkel_1", "Kristallbrille_dunkel_2" ]
       }
     },
@@ -3594,32 +3617,36 @@
       "Pfeife, Ton": {
         "Gewicht": 5,
         "Preis": 1,
-        "benutzen mit": "Pfeifenkraut, Knaster",
+        "benutzen mit": [ "Pfeifenkraut, Knaster" ],
+        "benutzen Text": "%@ stopft seine Pfeife, und beginnt zu paffen.",
         "Icon": [ "Tonpfeife_1", "Tonpfeife_2" ]
       },
       "Pfeife, Holz": {
         "Gewicht": 5,
         "Preis": 5,
-        "benutzen mit": "Pfeifenkraut, Knaster",
+        "benutzen mit": [ "Pfeifenkraut, Knaster" ],
+        "benutzen Text": "%@ stopft seine Pfeife, und beginnt zu paffen.",
         "Icon": [ "Holzpfeife_1", "Holzpfeife_2" ]
       },
       "Pfeife, Meerschaum": {
         "Gewicht": 4,
         "Preis": 10,
-        "benutzen mit": "Pfeifenkraut, Knaster",
+        "benutzen mit": [ "Pfeifenkraut, Knaster" ],
+        "benutzen Text": "%@ stopft seine Pfeife, und beginnt zu paffen.",
         "Icon": [ "Meerschaumpfeife_1", "Meerschaumpfeife_2" ]
       },
       "Wasserpfeife": {
         "Gewicht": 40,
         "Preis": 20,
-        "benutzen mit": "Pfeifenkraut, Knaster",
+        "benutzen mit": [ "Pfeifenkraut, Knaster" ],
+        "benutzen Text": "%@ stopft seine Wasserpfeife, und beginnt zu paffen.",
         "Icon": [ "Wasserpfeife_1", "Wasserpfeife_2" ]
       }
     },
     "Tabakdose, Silber": {
       "Gewicht": 2,
       "Preis": 3,
-      "Slottypen": [ "Tabak" ],
+      "HatSlots": [ "Tabak" ],
       "Slots": 1,
       "MaximumPerSlot": 50,
       "Icon": [ "Tabakdose_Silber_1", "Tabakdose_Silber_2" ]
@@ -3812,24 +3839,28 @@
         "Gewicht": 0.5,
         "Preis": 3,
         "Icon": [ "Ring_Silber_1", "Ring_Silber_2" ],
+        "belegteKörperSlots": [ "Ring" ],
         "Material": "Silber"
       },
       "Ring, Gold": {
         "Gewicht": 0.6,
         "Preis": 9,
         "Icon": [ "Ring_Gold_1", "Ring_Gold_2" ],
+        "belegteKörperSlots": [ "Ring" ],
         "Material": "Gold"
       },
       "Ring, Messing": {
         "Gewicht": 0.55,
         "Preis": 1,
         "Icon": [ "Ring_Messing_1", "Ring_Messing_2" ],
+        "belegteKörperSlots": [ "Ring" ],
         "Material": "Messing"
       },  
       "Ring, Bronze": {
         "Gewicht": 0.55,
         "Preis": 1,
         "Icon": [ "Ring_Bronze_1", "Ring_Bronze_2" ],
+        "belegteKörperSlots": [ "Ring" ],
         "Material": "Bronze"
       }
     },
@@ -3838,27 +3869,61 @@
         "Gewicht": 0.2,
         "Preis": 3,
         "Icon": [ "Ohrringe_Silber_1", "Ohrringe_Silber_2" ],
+        "belegteKörperSlots": [ "Ohrring", "Ohrring" ],
         "Material": "Silber"
       },
       "Ohrring, Gold": {
         "Gewicht": 0.5,
         "Preis": 27,
         "Icon": [ "Ohrringe_Gold_1", "Ohrringe_Gold_2" ],
+        "belegteKörperSlots": [ "Ohrring", "Ohrring" ],
         "Material": "Gold"
       },
       "Ohrring, Messing": {
         "Gewicht": 0.25,
         "Preis": 1,
         "Icon": [ "Ohrringe_Messing_1", "Ohrringe_Messing_2" ],
+        "belegteKörperSlots": [ "Ohrring", "Ohrring" ],
         "Material": "Messing"
       },
       "Ohrring, Bronze": {
         "Gewicht": 0.25,
         "Preis": 1,
         "Icon": [ "Ohrringe_Bronze_1", "Ohrringe_Bronze_2" ],
+        "belegteKörperSlots": [ "Ohrring", "Ohrring" ],
         "Material": "Bronze"
       }
-    },       
+    },
+    "Nasenringe": {
+      "Nasenring, Silber": {
+        "Gewicht": 0.2,
+        "Preis": 3,
+        "Icon": [ "Nasenring_Silber_1" ],
+        "belegteKörperSlots": [ "Nasenring" ],
+        "Material": "Silber"
+      },
+      "Nasenring, Gold": {
+        "Gewicht": 0.5,
+        "Preis": 27,
+        "Icon": [ "Nasenring_Gold_1" ],
+        "belegteKörperSlots": [ "Nasenring" ],
+        "Material": "Gold"
+      },
+      "Nasenring, Messing": {
+        "Gewicht": 0.25,
+        "Preis": 1,
+        "Icon": [ "Nasenring_Messing_1" ],
+        "belegteKörperSlots": [ "Nasenring" ],
+        "Material": "Messing"
+      },
+      "Nasenring, Bronze": {
+        "Gewicht": 0.25,
+        "Preis": 1,
+        "Icon": [ "Nasenring_Bronze_1" ],
+        "belegteKörperSlots": [ "Nasenring" ],
+        "Material": "Bronze"
+      }
+    },         
     "Armreifen": {
       "Armreif, Silber": {
         "Gewicht": 10,
@@ -3889,24 +3954,28 @@
       "Stirnreif, Silber": {
         "Gewicht": 8,
         "Preis": 20,
+        "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Stirnreif_Silber_1", "Stirnreif_Silber_2" ],
         "Material": "Silber"
       },
       "Stirnreif, Gold": {
         "Gewicht": 10,
         "Preis": 60,
+        "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Stirnreif_Gold_1", "Stirnreif_Gold_2" ],
         "Material": "Gold"
       },  
       "Stirnreif, Messing": {
         "Gewicht": 9,
         "Preis": 7,
+        "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Stirnreif_Messing_1", "Stirnreif_Messing_2" ],
         "Material": "Messing"
       },   
       "Stirnreif, Bronze": {
         "Gewicht": 9,
         "Preis": 7,
+        "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Stirnreif_Bronze", "Stirnreif_Bronze_1", "Stirnreif_Bronze_2" ],
         "Material": "Bronze"
       }
@@ -3941,24 +4010,28 @@
       "Halskette, Silber": {
         "Gewicht": 0.5,
         "Preis": 5,
+        "belegteKörperSlots": [ "Halskette" ],
         "Icon": [ "Halskette_Silber" ],
         "Material": "Silber"
       },
       "Halskette, Gold": {
         "Gewicht": 0.6,
         "Preis": 15,
+        "belegteKörperSlots": [ "Halskette" ],
         "Icon": [ "Halskette_Gold_1", "Halskette_Gold_2" ],
         "Material": "Gold"
       },
       "Halskette, Messing": {
         "Gewicht": 0.6,
         "Preis": 2,
+        "belegteKörperSlots": [ "Halskette" ],
         "Icon": [ "Halskette_Messing_1", "Halskette_Messing_2" ],
         "Material": "Messing"
       },   
       "Halskette, Bronze": {
         "Gewicht": 0.6,
         "Preis": 2,
+        "belegteKörperSlots": [ "Halskette" ],
         "Icon": [ "Halskette_Bronze_1", "Halskette_Bronze_2" ],
         "Material": "Bronze"
       }
@@ -3967,24 +4040,28 @@
       "Amulett, Silber": {
         "Gewicht": 2,
         "Preis": 4,
+        "belegteKörperSlots": [ "Halskette" ],
         "Icon": [ "Amulett_Silber_1", "Amulett_Silber_2", "Amulett_Silber_3", "Amulett_Silber_4" ],
         "Material": "Silber"
       },
       "Amulett, Gold": {
         "Gewicht": 2.4,
         "Preis": 12,
+        "belegteKörperSlots": [ "Halskette" ],
         "Icon": [ "Amulett_Gold_1", "Amulett_Gold_2" ],
         "Material": "Gold"
       },
       "Amulett, Messing": {
         "Gewicht": 2.1,
         "Preis": 1.2,
+        "belegteKörperSlots": [ "Halskette" ],
         "Icon": [ "Amulett_Messing_1", "Amulett_Messing_2" ],
         "Material": "Messing"
       },
       "Amulett, Bronze": {
         "Gewicht": 2.1,
         "Preis": 1.2,
+        "belegteKörperSlots": [ "Halskette" ],
         "Icon": [ "Amulett_Bronze_1", "Amulett_Bronze_2" ],
         "Material": "Bronze"
       }
@@ -4063,12 +4140,14 @@
         "Gewicht": 4,
         "Preis": 0.3,
         "Maßgeschneidert": 3,
-	"Icon": [ "Wollstruempfe_1", "Wollstruempfe_2", "Wollstruempfe_3" ]
+        "belegteKörperSlots": [ "Socke", "Socke" ],
+	     "Icon": [ "Wollstruempfe_1", "Wollstruempfe_2", "Wollstruempfe_3" ]
       },
       "Strümpfe, Seide": {
         "Gewicht": 2,
         "Preis": 12,
         "Maßgeschneidert": 60,
+        "belegteKörperSlots": [ "Socke", "Socke" ],
         "Icon": [ "Seidenstruempfe" ]
       }
     },
@@ -4077,12 +4156,14 @@
         "Gewicht": 15,
         "Preis": 1,
         "Maßgeschneidert": 8,
+        "belegteKörperSlots": [ "Shirt" ],
         "Icon": [ "Nachthemd_Leinen" ]
       },
       "Nachthemd, Seide": {
         "Gewicht": 5,
         "Preis": 12,
         "Maßgeschneidert": 80,
+        "belegteKörperSlots": [ "Shirt" ],
         "Icon": [ "Nachthemd_Seide_1", "Nachthemd_Seide_2" ]
       }
     },
@@ -4091,24 +4172,28 @@
         "Gewicht": 8,
         "Preis": 0.1,
         "Maßgeschneidert": -1,
+        "belegteKörperSlots": [ "Unterwäsche" ],
         "Icon": [ "Lendentuch" ]
       },
       "Unterwäsche": {
         "Gewicht": 40,
         "Preis": 4,
         "Maßgeschneidert": 100,
+        "belegteKörperSlots": [ "Unterwäsche" ],
         "Icon": [ "Unterwaesche_1", "Unterwaesche_2", "Unterwaesche_3" ]
       },
       "Mieder": {
         "Gewicht": 25,
         "Preis": 2,
         "Maßgeschneidert": 20,
+        "belegteKörperSlots": [ "Unterwäsche" ],
         "Icon": [ "Mieder_1", "Mieder_2" ]
       },
       "Unterrock": {
         "Gewicht": 20,
         "Preis": 1,
         "Maßgeschneidert": 2,
+        "belegteKörperSlots": [ "Unterwäsche" ],
         "Icon": [ "Unterrock_1", "Unterrock_2" ]
       }
     },
@@ -4116,12 +4201,14 @@
       "Gewicht": 4,
       "Preis": 0.2,
       "Maßgeschneidert": 2,
+      "belegteKörperSlots": [ "Kopfbedeckung" ],
       "Icon": [ "Nachtmuetze_1", "Nachtmuetze_2" ]
     },
     "Hausmantel": {
       "Gewicht": 30,
       "Preis": 5,
       "Maßgeschneidert": 100,
+      "belegteKörperSlots": [ "Jacke" ],
       "Icon": [ "Hausmantel" ]
     },
     "Hemden": {
@@ -4129,24 +4216,28 @@
         "Gewicht": 10,
         "Preis": 0.8,
         "Maßgeschneidert": 8,
+        "belegteKörperSlots": [ "Shirt" ],
         "Icon": [ "Hemd_Leinen_1", "Hemd_Leinen_2" ]
       },
       "Hemd, Bluse, Wolle": {
         "Gewicht": 15,
         "Preis": 0.8,
         "Maßgeschneidert": 8,
+        "belegteKörperSlots": [ "Shirt" ],
         "Icon": [ "Hemd_Wolle_1", "Hemd_Wolle_2" ]
       },
       "Hemd, Bluse, Bausch": {
         "Gewicht": 8,
         "Preis": 2,
         "Maßgeschneidert": 20,
+        "belegteKörperSlots": [ "Shirt" ],
         "Icon": [ "Hemd_Bausch_1", "Hemd_Bausch_2" ]
       },
       "Hemd, Bluse, Seide": {
         "Gewicht": 5,
         "Preis": 12,
         "Maßgeschneidert": 80,
+        "belegteKörperSlots": [ "Shirt" ],
         "Icon": [ "Hemd_Seide_1", "Hemd_Seide_2" ]
       }
     },
@@ -4155,36 +4246,42 @@
         "Gewicht": 30,
         "Preis": 2,
         "Maßgeschneidert": 10,
+        "belegteKörperSlots": [ "Jacke" ],
         "Icon": [ "Jacke_Leinen_1", "Jacke_Leinen_2" ]
       },
       "Jacke, Wams, Wolle": {
         "Gewicht": 40,
         "Preis": 2,
         "Maßgeschneidert": 10,
+        "belegteKörperSlots": [ "Jacke" ],
         "Icon": [ "Jacke_Wolle_1", "Jacke_Wolle_2" ]
       },
       "Jacke, Wams, Leder": {
         "Gewicht": 60,
         "Preis": 4,
         "Maßgeschneidert": 30,
+        "belegteKörperSlots": [ "Jacke" ],
         "Icon": [ "Jacke_Leder_1", "Jacke_Leder_2" ]
       },
       "Jacke, Wams, Brokat": {
         "Gewicht": 120,
         "Preis": 40,
         "Maßgeschneidert": 180,
+        "belegteKörperSlots": [ "Jacke" ],
         "Icon": [ "Jacke_Brokat_1", "Jacke_Brokat_2" ]
       },
       "Teerjacke": {
         "Gewicht": 60,
         "Preis": 5,
         "Maßgeschneidert": -1,
+        "belegteKörperSlots": [ "Jacke" ],
         "Icon": [ "Teerjacke_1", "Teerjacke_2" ]
       },
       "Fellanorak": {
         "Gewicht": 80,
         "Preis": 8,
         "Maßgeschneidert": 120,
+        "belegteKörperSlots": [ "Jacke" ],
         "Icon": [ "Fellanorak_1", "Fellanorak_2" ]
       }      
     },
@@ -4193,30 +4290,35 @@
         "Gewicht": 25,
         "Preis": 3,
         "Maßgeschneidert": 10,
+        "belegteKörperSlots": [ "Weste" ],
         "Icon": [ "Weste_Wolle_1", "Weste_Wolle_2" ]
       },
       "Weste, Leder": {
         "Gewicht": 40,
         "Preis": 5,
         "Maßgeschneidert": 30,
+        "belegteKörperSlots": [ "Weste" ],
         "Icon": [ "Weste_Leder_1", "Weste_Leder_2" ]
       },
       "Weste, Pelz": {
         "Gewicht": 50,
         "Preis": 5,
         "Maßgeschneidert": 20,
+        "belegteKörperSlots": [ "Weste" ],
         "Icon": [ "Weste_Fell_1", "Weste_Fell_2" ]
       },
       "Weste, Seide": {
         "Gewicht": 10,
         "Preis": 9,
         "Maßgeschneidert": 100,
+        "belegteKörperSlots": [ "Weste" ],
         "Icon": [ "Weste_Seide_1", "Weste_Seide_2" ]
       },
       "Weste, Brokat": {
         "Gewicht": 30,
         "Preis": 30,
         "Maßgeschneidert": 150,
+        "belegteKörperSlots": [ "Weste" ],
         "Icon": [ "Weste_Brokat_1", "Weste_Brokat_2" ]
       }
     },
@@ -4225,48 +4327,56 @@
         "Gewicht": 25,
         "Preis": 1,
         "Maßgeschneidert": 10,
+        "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Hose_Leinen_1", "Hose_Leinen_2" ]
       },
       "Beinkleider, Wolle": {
         "Gewicht": 30,
         "Preis": 1,
         "Maßgeschneidert": 10,
+        "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
 	     "Icon": [ "Beinkleider_Wolle_1", "Beinkleider_Wolle_2" ]
       },
       "Beinkleider, Bausch": {
         "Gewicht": 15,
         "Preis": 3,
         "Maßgeschneidert": 30,
+        "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Hose_Bausch_1", "Hose_Bausch_2" ]
       },
       "Beinkleider, Leder": {
         "Gewicht": 50,
         "Preis": 3,
         "Maßgeschneidert": 40,
+        "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Hose_Leder_1", "Hose_Leder_2" ]
       },
       "Beinkleider, Seide": {
         "Gewicht": 10,
         "Preis": 6,
         "Maßgeschneidert": 120,
+        "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Hose_Seide_1", "Hose_Seide_2" ]
       },
       "Pluderhose, Leinen": {
         "Gewicht": 35,
         "Preis": 2,
         "Maßgeschneidert": 20,
+        "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Pluderhose_Leinen" ]
       },
       "Pluderhose, Bausch": {
         "Gewicht": 25,
         "Preis": 6,
         "Maßgeschneidert": 60,
+        "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Pluderhose_Bausch_1", "Pluderhose_Bausch_2" ]
       },
       "Pluderhose, Seide": {
         "Gewicht": 20,
         "Preis": 10,
         "Maßgeschneidert": 150,
+        "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Pluderhose_Seide_1", "Pluderhose_Seide_2" ]
       }
     },
@@ -4275,30 +4385,35 @@
         "Gewicht": 35,
         "Preis": 1,
         "Maßgeschneidert": 40,
+        "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Rock_Leinen_1", "Rock_Leinen_2" ]
       },
       "Rock, Wolle": {
         "Gewicht": 45,
         "Preis": 1,
         "Maßgeschneidert": 40,
+        "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Rock_Wolle_1", "Rock_Wolle_2" ]
       },
       "Rock, Bausch": {
         "Gewicht": 25,
         "Preis": 4,
         "Maßgeschneidert": 50,
+        "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Rock_Bausch_1", "Rock_Bausch_2" ]
       },
       "Rock, Leder": {
         "Gewicht": 50,
         "Preis": 5,
         "Maßgeschneidert": 60,
+        "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Rock_Leder_1", "Rock_Leder_2" ]
       },
       "Rock, Seide": {
         "Gewicht": 15,
         "Preis": 10,
         "Maßgeschneidert": 70,
+        "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Rock_Seide" ]
       }
     },
@@ -4307,37 +4422,43 @@
         "Gewicht": 40,
         "Preis": 1,
         "Maßgeschneidert": 60,
+        "belegteKörperSlots": [ "Shirt", "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Kleid_Leinen_1", "Kleid_Leinen_2" ]
       },
       "Kleid, Wolle": {
         "Gewicht": 50,
         "Preis": 1,
         "Maßgeschneidert": 60,
-	"Icon": [ "Kleid_Wolle" ]
+        "belegteKörperSlots": [ "Shirt", "Beinkleidung", "Beinkleidung" ],
+	     "Icon": [ "Kleid_Wolle" ]
       },
       "Kleid, Bausch": {
         "Gewicht": 30,
         "Preis": 4,
         "Maßgeschneidert": 80,
-	"Icon": [ "Kleid_Bausch_1", "Kleid_Bausch_2" ]
+        "belegteKörperSlots": [ "Shirt", "Beinkleidung", "Beinkleidung" ],
+	     "Icon": [ "Kleid_Bausch_1", "Kleid_Bausch_2" ]
       },
       "Kleid, Seide": {
         "Gewicht": 20,
         "Preis": 30,
         "Maßgeschneidert": 120,
-	"Icon": [ "Kleid_Seide" ]
+        "belegteKörperSlots": [ "Shirt", "Beinkleidung", "Beinkleidung" ],
+	     "Icon": [ "Kleid_Seide" ]
       },
       "Kleid, Leder": {
         "Gewicht": 70,
         "Preis": 5,
         "Maßgeschneidert": 80,
-	"Icon": [ "Kleid_Leder" ]
+        "belegteKörperSlots": [ "Shirt", "Beinkleidung", "Beinkleidung" ],
+	     "Icon": [ "Kleid_Leder" ]
       },
       "Ballkleid": {
         "Gewicht": 40,
         "Preis": 50,
         "Maßgeschneidert": 250,
-	"Icon": [ "Ballkleid" ]
+        "belegteKörperSlots": [ "Shirt", "Beinkleidung", "Beinkleidung" ],
+	     "Icon": [ "Ballkleid" ]
       }
     },
     "Mäntel": {
@@ -4345,19 +4466,22 @@
         "Gewicht": 60,
         "Preis": 3,
         "Maßgeschneidert": 30,
-	"Icon": [ "Wollmantel" ]
+        "belegteKörperSlots": [ "Jacke" ],
+	     "Icon": [ "Wollmantel" ]
       },
       "Pelzmantel": {
         "Gewicht": 120,
         "Preis": 30,
         "Maßgeschneidert": 120,
-	"Icon": [ "Pelzmantel" ]
+        "belegteKörperSlots": [ "Jacke" ],
+	     "Icon": [ "Pelzmantel" ]
       },
       "Reitmantel, Leder": {
         "Gewicht": 80,
         "Preis": 8,
         "Maßgeschneidert": 80,
-	"Icon": [ "Reitmantel_1", "Reitmantel_2" ]
+        "belegteKörperSlots": [ "Jacke" ],
+	     "Icon": [ "Reitmantel_1", "Reitmantel_2" ]
       }
     },
     "Umhänge": {
@@ -4365,31 +4489,36 @@
         "Gewicht": 60,
         "Preis": 4,
         "Maßgeschneidert": 40,
-	"Icon": [ "Kapuzenumhang_1", "Kapuzenumhang_2" ]
+        "belegteKörperSlots": [ "Jacke" ],
+	     "Icon": [ "Kapuzenumhang_1", "Kapuzenumhang_2" ]
       },
       "Kutte, grobe Wolle": {
         "Gewicht": 80,
         "Preis": 2,
         "Maßgeschneidert": 8,
-	"Icon": [ "Kutte" ]
+        "belegteKörperSlots": [ "Jacke" ],
+	     "Icon": [ "Kutte" ]
       },
       "Geweihtenornat": {
         "Gewicht": -1,
         "Preis": -1,
         "Maßgeschneidert": 40,
-	"Icon": [ "Geweihtenornat" ]
+        "belegteKörperSlots": [ "Jacke" ],
+	     "Icon": [ "Geweihtenornat" ]
       },
       "Cape": {
         "Gewicht": 50,
         "Preis": 2,
         "Maßgeschneidert": 8,
+        "belegteKörperSlots": [ "Jacke" ],
         "Icon": [ "Cape" ]
       },
       "Robe, Brokat": {
         "Gewicht": 200,
         "Preis": 80,
         "Maßgeschneidert": 300,
-	"Icon": [ "Robe_Brokat" ]
+        "belegteKörperSlots": [ "Jacke" ],
+	     "Icon": [ "Robe_Brokat" ]
       }
     },
     "Kopfbedeckungen": {
@@ -4397,48 +4526,56 @@
         "Gewicht": 3,
         "Preis": 0.2,
         "Maßgeschneidert": -1,
+        "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Wollmuetze_1", "Wollmuetze_2" ]
       },
       "Haube, Leinen": {
         "Gewicht": 3,
         "Preis": 0.5,
         "Maßgeschneidert": 5,
+        "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Haube_Leinen" ]
       },
       "Schleier, Wolltuch": {
         "Gewicht": 4,
         "Preis": 0.2,
         "Maßgeschneidert": 2,
+        "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Schleier_Wolle" ]
       },
       "Schleier, Seide": {
         "Gewicht": 1,
         "Preis": 8,
         "Maßgeschneidert": 50,
+        "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Schleier_Seide" ]
       },
       "Filzhut": {
         "Gewicht": 4,
         "Preis": 1,
         "Maßgeschneidert": 8,
+        "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Filzhut" ]
       },
       "Filzhut mit Federn": {
         "Gewicht": 10,
         "Preis": 3,
         "Maßgeschneidert": 20,
+        "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Filzhut_Feder" ]
       },
       "Fellmütze": {
         "Gewicht": 30,
         "Preis": 5,
         "Maßgeschneidert": 50,
+        "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Fellmuetze" ]
       },
       "Stirnband": {
         "Gewicht": 2,
         "Preis": 0.5,
         "Maßgeschneidert": 5,
+        "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Stirnband" ]
       }
     },
@@ -4446,42 +4583,49 @@
       "Gewicht": 2,
       "Preis": 2,
       "Maßgeschneidert": 10,
+      "belegteKörperSlots": [ "Halskette" ],
       "Icon": [ "Seidenschal" ]
     },
     "Maske, Tuch": {
       "Gewicht": 5,
       "Preis": 5,
       "Maßgeschneidert": 30,
+      "belegteKörperSlots": [ "Maske" ],
       "Icon": [ "Maske_Tuch" ]
     },
     "Maske, Leder": {
       "Gewicht": 10,
       "Preis": 10,
       "Maßgeschneidert": 50,
+      "belegteKörperSlots": [ "Maske" ],
       "Icon": [ "Ledermaske" ]
     },
     "Larve": {
       "Gewicht": 2,
       "Preis": 1,
       "Maßgeschneidert": 8,
+      "belegteKörperSlots": [ "Kopfbedeckung" ],
       "Icon": [ "Larve" ]
     },
     "Schärpe, Seide": {
       "Gewicht": 4,
       "Preis": 5,
       "Maßgeschneidert": 60,
+      "belegteKörperSlots": [ "Schärpe" ],
       "Icon": [ "Schaerpe_Seide" ]
     },
     "Ledergürtel": {
       "Gewicht": 6,
       "Preis": 1,
       "Maßgeschneidert": 6,
+      "belegteKörperSlots": [ "Hüfte" ],
       "Icon": [ "Lederguertel" ]
     },
     "Schultergurt, Bandelier": {
       "Gewicht": 20,
       "Preis": 6,
       "Maßgeschneidert": 10,
+      "belegteKörperSlots": [ "Schärpe" ],
       "Icon": [ "Bandelier_1", "Bandelier_2" ]
     },
     "Handschuhe": {
@@ -4489,30 +4633,35 @@
         "Gewicht": 6,
         "Preis": 3,
         "Maßgeschneidert": 20,
+        "belegteKörperSlots": [ "Handschuhe", "Handschuhe" ],
         "Icon": [ "Lederhandschuhe_1", "Lederhandschuhe_2" ]
       },
       "Stulpenhandschuhe": {
         "Gewicht": 30,
         "Preis": 6,
         "Maßgeschneidert": 30,
+        "belegteKörperSlots": [ "Handschuhe", "Handschuhe" ],
         "Icon": [ "Stulpenhandschuhe" ]
       },
       "Wollfäustlinge": {
         "Gewicht": 4,
         "Preis": 0.3,
         "Maßgeschneidert": -1,
+        "belegteKörperSlots": [ "Handschuhe", "Handschuhe" ],
         "Icon": [ "Wollfaeustlinge" ]
       },
       "Pelzfäustlinge": {
         "Gewicht": 10,
         "Preis": 4,
         "Maßgeschneidert": 10,
+        "belegteKörperSlots": [ "Handschuhe", "Handschuhe" ],
         "Icon": [ "Pelzfaeustlinge" ]
       },
       "Muff": {
         "Gewicht": 30,
         "Preis": 4,
         "Maßgeschneidert": 20,
+        "belegteKörperSlots": [ "Handschuhe", "Handschuhe" ],
         "Icon": [ "Muff" ]
       }
     },
@@ -4521,54 +4670,63 @@
         "Gewicht": 25,
         "Preis": 0.3,
         "Maßgeschneidert": -1,
-	"Icon": [ "Strohschuhe" ]
+        "belegteKörperSlots": [ "Schuh", "Schuh" ],
+	     "Icon": [ "Strohschuhe" ]
       },
       "Holzschuhe": {
         "Gewicht": 40,
         "Preis": 0.4,
         "Maßgeschneidert": 4,
-	"Icon": [ "Holzschuhe" ]
+        "belegteKörperSlots": [ "Schuh", "Schuh" ],
+	     "Icon": [ "Holzschuhe" ]
       },
       "Sandalen": {
         "Gewicht": 30,
         "Preis": 0.6,
         "Maßgeschneidert": 2,
-	"Icon": [ "Sandalen_1", "Sandalen_2" ]
+        "belegteKörperSlots": [ "Schuh", "Schuh" ],
+	     "Icon": [ "Sandalen_1", "Sandalen_2" ]
       },
       "Gamaschen, Leder": {
         "Gewicht": 40,
         "Preis": 1,
         "Maßgeschneidert": 10,
+        "belegteKörperSlots": [ "Schuh", "Schuh" ],
         "Icon": [ "Gamaschen" ]
       },
       "Lederschuhe": {
         "Gewicht": 40,
         "Preis": 2,
         "Maßgeschneidert": 10,
-	"Icon": [ "Lederschuhe_1", "Lederschuhe_2", "Lederschuhe_3" ]
+        "belegteKörperSlots": [ "Schuh", "Schuh" ],
+	     "Icon": [ "Lederschuhe_1", "Lederschuhe_2", "Lederschuhe_3" ]
       },
       "Spangenschuhe": {
         "Gewicht": 40,
         "Preis": 4,
         "Maßgeschneidert": 20,
+        "belegteKörperSlots": [ "Schuh", "Schuh" ],
         "Icon": [ "Spangenschuhe_1", "Spangenschuhe_2" ]
       },
       "Leichte Stiefel": {
         "Gewicht": 75,
         "Preis": 9,
         "Maßgeschneidert": 30,
+        "belegteKörperSlots": [ "Schuh", "Schuh" ],
         "Icon": [ "Leichte_Stiefel_1", "Leichte_Stiefel_2" ]
       },
       "Schwere Reitstiefel": {
         "Gewicht": 100,
         "Preis": 20,
         "Maßgeschneidert": 50,
+        "belegteKörperSlots": [ "Schuh", "Schuh" ],
         "Icon": [ "Reitstiefel" ]
       },
       "Stulpenstiefel": {
         "Gewicht": 100,
         "Preis": 30,
         "Maßgeschneidert": 60,
+        "belegteKörperSlots": [ "Schuh", "Schuh" ],
         "Icon": [ "Stulpenstiefel_1", "Stulpenstiefel_2" ]
       }
     },
@@ -4577,18 +4735,21 @@
         "Gewicht": 20,
         "Preis": 2,
         "Maßgeschneidert": 10,
+        "belegteKörperSlots": [ "Shirt" ],
         "Icon": [ "Tunika_Bausch" ]
       },
       "Tunika, Leinen": {
         "Gewicht": 30,
         "Preis": 1,
         "Maßgeschneidert": 6,
+        "belegteKörperSlots": [ "Shirt" ],
         "Icon": [ "Tunika_Leinen_1", "Tunika_Leinen_2" ]
       },
       "Tunika, Seide": {
         "Gewicht": 10,
         "Preis": 8,
         "Maßgeschneidert": 70,
+        "belegteKörperSlots": [ "Shirt" ],
         "Icon": [ "Tunika_Seide" ]
       }
     },
@@ -4596,6 +4757,7 @@
       "Gewicht": 50,
       "Preis": 2,
       "Maßgeschneidert": 20,
+      "belegteKörperSlots": [ "Jacke" ],
       "Icon": [ "Burnus_1", "Burnus_2" ]
     }
   },
@@ -4605,193 +4767,247 @@
         "Gewicht": 40,
         "Preis": 3,
         "Icon": [ "Proviantpaket" ],
-        "direkt konsumierbar": true
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 1.0        
       },
       "Brot": {
         "Gewicht": 40,
         "Preis": 0.15,
         "Icon": [ "Brot" ],
-        "direkt konsumierbar": true
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 0.1        
       },
       "Kuchen": {
         "Gewicht": 20,
         "Preis": 0.2,
         "Icon": [ "Kuchen_1", "Kuchen_2" ],
-        "direkt konsumierbar": true
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 0.1        
       },
       "Fleisch": {
         "Gewicht": 20,
         "Preis": 0.3,
-        "Icon": [ "Fleisch_1", "Fleisch_2" ]
+        "Icon": [ "Fleisch_1", "Fleisch_2" ],
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 0.1        
       },
       "Wurst": {
         "Gewicht": 20,
         "Preis": 0.2,
-        "Icon": [ "Wurst" ]
+        "Icon": [ "Wurst" ],
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 0.1        
       },
       "Fisch": {
         "Gewicht": 20,
         "Preis": 0.6,
-        "Icon": [ "Fisch_1", "Fisch_2" ]
+        "Icon": [ "Fisch_1", "Fisch_2" ],
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 0.1        
       },
       "Efferdfrüchte": {
         "Gewicht": 40,
         "Preis": 0.05,
-        "Icon": [ "Efferdfruechte" ]
+        "Icon": [ "Efferdfruechte" ],
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 0.1        
       },
       "Käse": {
         "Gewicht": 20,
         "Preis": 0.15,
-        "Icon": [ "Kaese" ]
+        "Icon": [ "Kaese" ],
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 0.1        
       },
       "Eier, 6 Stück": {
         "Gewicht": 20,
         "Preis": 0.09,
-        "Icon": [ "Eier" ]
+        "Icon": [ "Eier" ],
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 0.1        
       },
       "Butter": {
         "Gewicht": 20,
         "Preis": 0.1,
-        "Icon": [ "Butter" ]
+        "Icon": [ "Butter" ],
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 0.1      
       },
       "Hülsenfrüchte": {
         "Gewicht": 20,
         "Preis": 0.04,
-        "Icon": [ "Huelsenfruechte_1", "Huelsenfruechte_2" ]
+        "Icon": [ "Huelsenfruechte_1", "Huelsenfruechte_2" ],
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 0.2        
       },
       "Kohl": {
         "Gewicht": 20,
         "Preis": 0.03,
-        "Icon": [ "Kohl_1", "Kohl_2" ]
+        "Icon": [ "Kohl_1", "Kohl_2" ],
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 0.2
       },
       "Gemüse": {
         "Gewicht": 20,
         "Preis": 0.1,
-        "Icon": [ "Gemuese_1", "Gemuese_2" ]
+        "Icon": [ "Gemuese_1", "Gemuese_2" ],
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 0.2
       },
       "Salz": {
         "Gewicht": 20,
         "Preis": 1,
-        "Icon": [ "Salz" ]
+        "Icon": [ "Salz" ],
+        "DurstodHungerlinderung": 0.01
       },
       "Küchenkräuter": {
         "Gewicht": 10,
         "Preis": 1,
-        "Icon": [ "Kuechenkraeuter" ]
+        "Icon": [ "Kuechenkraeuter" ],
+        "DurstodHungerlinderung": 0.01
       },
       "Gewürze": {
         "Gewicht": 10,
         "Preis": 10,
-        "Icon": [ "Gewuerze" ]
+        "Icon": [ "Gewuerze" ],
+        "DurstodHungerlinderung": 0.01
       },
       "Öl": {
         "Gewicht": 20,
         "Preis": 2,
-        "Icon": [ "Oel" ]
+        "Icon": [ "Oel" ],
+        "DurstodHungerlinderung": 0.05
       },
       "Mehl": {
         "Gewicht": 20,
         "Preis": 0.04,
-        "Icon": [ "Mehl" ]
+        "Icon": [ "Mehl" ],
+        "DurstodHungerlinderung": 0.2
       },
       "Honig": {
         "Gewicht": 20,
         "Preis": 0.8,
-        "Icon": [ "Honig_1", "Honig_2" ]
+        "Icon": [ "Honig_1", "Honig_2" ],
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 0.1
       },
       "Nüsse": {
         "Gewicht": 10,
         "Preis": 0.2,
         "Icon": [ "Nuesse" ],
-        "direkt konsumierbar": true
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 0.1
       },
       "Obst": {
-        "Gewicht": 20,
-        "Preis": 0.05,
+        "Gewicht": 5,
+        "Preis": 0.01,
         "Icon": [ "Obst_1", "Obst_2" ],
-        "Verpackungseinheit": 4,
         "MehrereProSlot": true,
-        "direkt konsumierbar": true
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 0.2
       },
       "Naschwerk": {
-        "Gewicht": 10,
-        "Preis": 1,
+        "Gewicht": 1,
+        "Preis": 0.1,
         "Icon": [ "Naschwerk" ],
-        "Verpackungseinheit": 10,
         "MehrereProSlot": true,
-        "direkt konsumierbar": true
+        "direkt konsumierbar": true,
+        "DurstodHungerlinderung": 0.05
       },
       "Tee": {
         "Gewicht": 20,
         "Preis": 0.05,
-        "Icon": [ "Tee_1", "Tee_2" ]
+        "Icon": [ "Tee_1", "Tee_2" ],
+        "DurstodHungerlinderung": 0.05
       },
       "Kakao": {
         "Gewicht": 20,
         "Preis": 8,
-        "Icon": [ "Kakao_1", "Kakao_2" ]
+        "Icon": [ "Kakao_1", "Kakao_2" ],
+        "DurstodHungerlinderung": 0.05
+
       }
     },
     "Getränke": {
+      "Nicht Alkoholisch": {
+        "Wasser": {
+          "Gewicht": 40,
+          "Preis": -1,
+	       "Icon": [ "Wasser" ],
+          "direkt konsumierbar": true,
+          "DurstodHungerlinderung": 0.5
+        },
+        "Milch": {
+          "Gewicht": 40,
+          "Preis": 0.2,
+	       "Icon": [ "Milch" ],
+          "direkt konsumierbar": true,
+          "DurstodHungerlinderung": 0.5
+        }        
+      },
       "Alkoholisch": {
         "Bier": {
           "Gewicht": 40,
           "Preis": 0.1,
-	  "Icon": [ "Bier" ],
+	       "Icon": [ "Bier" ],
           "direkt konsumierbar": true,
+          "DurstodHungerlinderung": 0.5,
           "Wirkung": 1
         },
         "Einfacher Landwein": {
           "Gewicht": 40,
           "Preis": 0.3,
-	  "Icon": [ "Landwein" ],
+	       "Icon": [ "Landwein" ],
           "direkt konsumierbar": true,
+          "DurstodHungerlinderung": 0.1,          
           "Wirkung": 2
         },
         "Guter Rotwein": {
           "Gewicht": 40,
           "Preis": 8,
-	  "Icon": [ "Rotwein" ],
+	       "Icon": [ "Rotwein" ],
           "direkt konsumierbar": true,
+          "DurstodHungerlinderung": 0.1,                    
           "Wirkung": 2
         },
         "Einfacher Schnaps": {
           "Gewicht": 40,
           "Preis": 0.8,
-	  "Icon": [ "Schnaps" ],
+	       "Icon": [ "Schnaps" ],
           "direkt konsumierbar": true,
+          "DurstodHungerlinderung": 0.05,                    
           "Wirkung": 4
         },
         "Guter Branntwein": {
           "Gewicht": 40,
           "Preis": 10,
-	  "Icon": [ "Branntwein" ],
+	       "Icon": [ "Branntwein" ],
           "direkt konsumierbar": true,
+          "DurstodHungerlinderung": 0.05,                    
           "Wirkung": 4
         },
         "Likör": {
           "Gewicht": 20,
           "Preis": 1,
-	  "Icon": [ "Likoer" ],
+	       "Icon": [ "Likoer" ],
           "direkt konsumierbar": true,
+          "DurstodHungerlinderung": 0.05,                    
           "Wirkung": 4
         }
       }
     },
     "Tabakwaren": {
       "Pfeifenkraut, Knaster": {
-        "Gewicht": 2,
-        "Preis": 0.1,
-	"Icon": [ "Tabak" ],
-        "ErlaubteInventorySlots": [ "Tabak" ],
-        "Verpackungseinheit": 50,
+        "Gewicht": 0.04,
+        "Preis": 0.02,
+        "Icon": [ "Tabak" ],
+        "ErlaubtInSlots": [ "Tabak" ],
         "MehrereProSlot": true
       },
       "Zigarren": {
-        "Gewicht": 8,
-        "Preis": 10,
+        "Gewicht": 0.8,
+        "Preis": 1,
         "Icon": [ "Zigarren" ],
-        "Verpackungseinheit": 10,
         "MehrereProSlot": true
       }
     }

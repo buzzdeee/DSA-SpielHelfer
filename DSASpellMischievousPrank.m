@@ -32,11 +32,15 @@
                 isLearned: (BOOL) learned
 {
   self = [super initSpell: name
+                ofVariant: nil // variant
+        ofDurationVariant: nil
                ofCategory: _(@"Schelmenstreiche")
                   onLevel: 0
                withOrigin: nil
                  withTest: test
-         withAlternatives: nil        
+          withMaxDistance: -1       
+             withVariants: nil        
+     withDurationVariants: nil
    withMaxTriesPerLevelUp: 0
         withMaxUpPerLevel: 0
           withLevelUpCost: 0];

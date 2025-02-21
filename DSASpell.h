@@ -39,7 +39,10 @@
 @property (nonatomic, strong) NSString *element;
 @property (nonatomic, strong) NSString *technique;
 @property (nonatomic, strong) NSArray *test;
-@property (nonatomic, strong) NSArray <NSString *> *alternatives;   // alternative versions of a spell, i.e. permanent vs. time limited
+@property (nonatomic, strong) NSArray <NSString *> *variants;          // variant versions of a spell, i.e. depending on element, or others
+@property (nonatomic, strong) NSString *variant;                       // the selected variant
+@property (nonatomic, strong) NSArray <NSString *> *durationVariants;  // variant versions of a spell, some have standard duration, some additionally permanent
+@property (nonatomic, strong) NSString *durationVariant;               // the selected time variant
 
 // for spells, that have a fixed cost
 @property (nonatomic, assign) NSInteger aspCost;
@@ -65,22 +68,30 @@
 
 // creates subclass from class cluster
 + (instancetype)spellWithName: (NSString *) name
-                   ofCategory: (NSString *) category 
+                    ofVariant: (NSString *) variant
+            ofDurationVariant: (NSString *) durationVariant
+                   ofCategory: (NSString *) category
                       onLevel: (NSInteger) level
                    withOrigin: (NSArray *) origin
                      withTest: (NSArray *) test
-             withAlternatives: (NSArray *) alternatives        
+              withMaxDistance: (NSInteger) maxDistance
+                 withVariants: (NSArray *) variants   
+         withDurationVariants: (NSArray *) durationVariants
        withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
             withMaxUpPerLevel: (NSInteger) maxUpPerLevel
               withLevelUpCost: (NSInteger) levelUpCost;
 
 // just creates simple DSASpell
 - (instancetype)initSpell: (NSString *) newName
+                ofVariant: (NSString *) variant
+        ofDurationVariant: (NSString *) durationVariant
                ofCategory: (NSString *) newCategory 
                   onLevel: (NSInteger) newLevel
                withOrigin: (NSArray *) newOrigin
                  withTest: (NSArray *) newTest
-         withAlternatives: (NSArray *) alternatives        
+          withMaxDistance: (NSInteger) maxDistance        
+             withVariants: (NSArray *) variants        
+     withDurationVariants: (NSArray *) durationVariants
    withMaxTriesPerLevelUp: (NSInteger) newMaxTriesPerLevelUp
         withMaxUpPerLevel: (NSInteger) newMaxUpPerLevel        
           withLevelUpCost: (NSInteger) levelUpCost;
@@ -89,7 +100,8 @@
 - (BOOL) levelUp;
 
 - (DSASpellResult *) castOnTarget: (id) target                        // The target of the spell, a DSACharacter or DSAObject
-                    ofAlternative: (NSString *) alternative           // Spells might have slight variations
+                        ofVariant: (NSString *) variant               // Spells might have slight variations
+                ofDurationVariant: (NSString *) durationVariant       // might be of a "standard" time, or even permanent
                        atDistance: (NSInteger) distance               // the distance the target is away in Schritt
                       investedASP: (NSInteger) invested               // for some spells, the casting character can define how many ASP to invest
              spellOriginCharacter: (DSACharacter *) originCharacter   // character who spelled a cast on the target before
@@ -99,7 +111,7 @@
 - (BOOL) verifyDistance: (NSInteger) distance;  
 - (BOOL) verifyTarget: (id) target andOrigin: (DSACharacter *) origin;  
 - (DSASpellResult *) testTraitsWithSpellLevel: (NSInteger) level castingCharacter: (DSACharacter *) castingCharacter;
-- (BOOL) applyEffectOnTarget: (id) target;
+- (BOOL) applyEffectOnTarget: (id) target forOwner: (DSACharacter *) owner;
 @end
 
 // all the DSASpell subclasses

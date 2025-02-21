@@ -1127,10 +1127,12 @@
     "Equipment": {
       "Magierschwert": {
         "Anzahl": 1,
-        "Sprüche": [ { "Schwertzauber": "Dunkle Halle der Geister" } ],
-        "persönliches Objekt": true,
-        "Kosten permanente ASP": 1 
-      }
+        "Sprüche": {
+          "Schwertzauber": {
+            "Variante": "Dunkle Halle der Geister"
+          }
+       }
+     }
     },
     "Notiz": "Alle Beschwörungen von Wesen aus 'Thargunithots' Domäne sind um 3 Punkte erleichtert, alle entspr. Beherrschungen um 1 Punkt. Adepten beginnen Ihre Laufbahn mit einem geweihten magischen Schwert. Sie müssen hierfür nur 1 permanente ASP aufwenden, jedoch keine gesonderte Probe ablegen."
   }

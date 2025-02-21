@@ -40,12 +40,10 @@
        self.face = [[DSAInventory alloc] initWithSlotType: DSASlotTypeMask quantity: 1 maxItemsPerSlot: 1];    
        self.back = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeBackquiver), @(DSASlotTypeBackpack)] maxItemsPerSlot: 1];
        self.shoulder = [[DSAInventory alloc] initWithSlotType: DSASlotTypeSash quantity: 2 maxItemsPerSlot: 1];                
-       self.leftArm = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeArmArmor)] maxItemsPerSlot: 1];
-       self.rightArm = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeArmArmor)] maxItemsPerSlot: 1];
-       self.leftHand = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeGeneral), @(DSASlotTypeGloves)] maxItemsPerSlot: 1];
-       self.rightHand = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeGeneral), @(DSASlotTypeGloves)] maxItemsPerSlot: 1];
-       self.leftHandFingers = [[DSAInventory alloc] initWithSlotType: DSASlotTypeRing quantity: 1 maxItemsPerSlot: 1];
-       self.rightHandFingers = [[DSAInventory alloc] initWithSlotType: DSASlotTypeRing quantity: 1 maxItemsPerSlot: 1];
+       self.leftArm = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeArmArmor), @(DSASlotTypeArmRing)] maxItemsPerSlot: 1];
+       self.rightArm = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeArmArmor), @(DSASlotTypeArmRing)] maxItemsPerSlot: 1];
+       self.leftHand = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeGeneral), @(DSASlotTypeGloves), @(DSASlotTypeRing)] maxItemsPerSlot: 1];
+       self.rightHand = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeGeneral), @(DSASlotTypeGloves), @(DSASlotTypeRing)] maxItemsPerSlot: 1];
        self.hip = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeHip)] maxItemsPerSlot: 1];       
        self.upperBody = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeBodyArmor), @(DSASlotTypeVest), @(DSASlotTypeJacket), @(DSASlotTypeShirt), @(DSASlotTypeUnderwear)] maxItemsPerSlot: 1];
        self.lowerBody = [[DSAInventory alloc] initWithSlotTypes: @[@(DSASlotTypeUnderwear)] maxItemsPerSlot: 1];
@@ -75,8 +73,6 @@
       self.rightArm = [coder decodeObjectForKey:@"rightArm"];
       self.leftHand = [coder decodeObjectForKey:@"leftHand"];
       self.rightHand = [coder decodeObjectForKey:@"rightHand"];
-      self.leftHandFingers = [coder decodeObjectForKey:@"leftHandFingers"];
-      self.rightHandFingers = [coder decodeObjectForKey:@"rightHandFingers"];
       self.hip = [coder decodeObjectForKey:@"hip"];      
       self.upperBody = [coder decodeObjectForKey:@"upperBody"];
       self.lowerBody = [coder decodeObjectForKey:@"lowerBody"];
@@ -103,8 +99,6 @@
   [coder encodeObject:self.rightArm forKey:@"rightArm"];
   [coder encodeObject:self.leftHand forKey:@"leftHand"];
   [coder encodeObject:self.rightHand forKey:@"rightHand"];
-  [coder encodeObject:self.leftHandFingers forKey:@"leftHandFingers"];
-  [coder encodeObject:self.rightHandFingers forKey:@"rightHandFingers"];
   [coder encodeObject:self.hip forKey:@"hip"];
   [coder encodeObject:self.upperBody forKey:@"upperBody"];
   [coder encodeObject:self.lowerBody forKey:@"lowerBody"];
@@ -314,8 +308,6 @@
     if ([bodyPart isEqualToString:@"rightArm"]) return self.rightArm;
     if ([bodyPart isEqualToString:@"leftHand"]) return self.leftHand;
     if ([bodyPart isEqualToString:@"rightHand"]) return self.rightHand;
-    if ([bodyPart isEqualToString:@"leftHandFingers"]) return self.leftHandFingers;
-    if ([bodyPart isEqualToString:@"rightHandFingers"]) return self.rightHandFingers;
     if ([bodyPart isEqualToString:@"hip"]) return self.hip;
     if ([bodyPart isEqualToString:@"upperBody"]) return self.upperBody;
     if ([bodyPart isEqualToString:@"lowerBody"]) return self.lowerBody;
@@ -352,12 +344,10 @@
         @"face",
         @"back",
         @"shoulder",
-        @"leftArm",
-        @"rightArm",
         @"leftHand",
         @"rightHand",
-        @"leftHandFingers",
-        @"rightHandFingers",
+        @"leftArm",
+        @"rightArm",        
         @"hip",
         @"upperBody",
         @"lowerBody",

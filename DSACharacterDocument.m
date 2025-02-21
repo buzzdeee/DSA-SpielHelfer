@@ -74,6 +74,15 @@
     }
 }
 
+- (BOOL)isMainWindow:(NSWindow *)window {
+    for (NSWindowController *controller in self.windowControllers) {
+        if (controller.window == window) {
+            return YES; // This is the main document window
+        }
+    }
+    return NO; // This is an ancillary window
+}
+
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
 {
   // Ensure the model exists       

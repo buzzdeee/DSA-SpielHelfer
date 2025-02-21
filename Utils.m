@@ -382,6 +382,24 @@ static NSMutableDictionary *namesDict;
 {
   return druidRitualsDict;
 }
++ (NSDictionary *) getDruidRitualWithName: (NSString *) ritualName
+{
+  for (NSString *category in [druidRitualsDict allKeys])
+    {
+       NSLog(@"Utils: getDruidRitualWithName checking category: %@", category);
+       for (NSString *name in [[druidRitualsDict objectForKey: category] allKeys])
+         {
+           NSLog(@"Utils: getDruidRitualWithName checking name: %@ against ritual name: %@", name, ritualName);
+           if ([name isEqualToString: ritualName])
+             {
+               NSMutableDictionary *ritual = [[druidRitualsDict objectForKey: category] objectForKey: name];
+               [ritual setObject: category forKey: @"category"];
+               return ritual;
+             }
+         }
+    }
+  return nil;
+}
 // end of druid rituals dict related methods
 
 // elven songs dict related methods
@@ -450,16 +468,20 @@ static NSMutableDictionary *namesDict;
   return talentsDict;
 }
 
-+ (NSString *) findSpellOrRitualWithName: (NSString *) name
++ (NSString *) findSpellOrRitualTypeWithName: (NSString *) name
 {
   if ([Utils getSpellWithName: name])
     {
       return @"DSASpell";
     }
-  if ([Utils getMageRitualWithName: name])
+  else if ([Utils getMageRitualWithName: name])
     {
       return @"DSASpellMageRitual";
     }
+  else if ([Utils getDruidRitualWithName: name])
+    {
+      return @"DSASpellDruidRitual";
+    }  
   return nil;
 }
 
@@ -717,7 +739,7 @@ static NSMutableDictionary *namesDict;
                 }
             }
             
-            if (entry[@"Slottypen"] != nil)
+            if (entry[@"HatSlots"] != nil)
               {
                 entry[@"isContainer"] = @YES;
               }
@@ -794,7 +816,23 @@ static NSMutableDictionary *namesDict;
               }
             if ([entry[@"category"] isEqualToString: @"Nahrungs- und Genußmittel"])
               {
-                entry[@"isConsumable"] = @YES;
+                entry[@"isFood"] = @YES;
+                if ([entry[@"subCategory"] isEqualToString: @"Getränke"])
+                  {
+                    entry[@"isDrink"] = @YES;
+                    if ([entry[@"subSubCategory"] isEqualToString: @"Alkoholisch"])
+                      {
+                        entry[@"isAlcohol"] = @YES;
+                      }
+                    else
+                      {
+                        entry[@"isAlcohol"] = @NO;
+                      }
+                  }
+                else
+                  {
+                    entry[@"isDrink"] = @NO;
+                  }
               }
 
             if ([entry[@"MehrereProSlot"] isEqualTo: @YES])
@@ -803,7 +841,7 @@ static NSMutableDictionary *namesDict;
               }              
               
             // Add the slot types parsing logic here
-            NSArray *validSlotTypes = entry[@"ErlaubteInventorySlots"];
+            NSArray *validSlotTypes = entry[@"ErlaubtInSlots"];
             NSMutableArray<NSNumber *> *validSlotTypesEnum = [NSMutableArray array];
 
             // If validSlotTypes is missing or empty, default to DSASlotTypeGeneral
@@ -863,12 +901,14 @@ static NSMutableDictionary *namesDict;
         @"Schuh" : @(DSASlotTypeShoes),
         @"Halskette" : @(DSASlotTypeNecklace),
         @"Ohrring" : @(DSASlotTypeEarring),
+        @"Nasenring" : @(DSASlotTypeNosering),
         @"Brille" : @(DSASlotTypeGlasses),
         @"Maske" : @(DSASlotTypeMask),
         @"Rucksack" : @(DSASlotTypeBackpack),
         @"Rückenköcher" : @(DSASlotTypeBackquiver),
         @"Schärpe" : @(DSASlotTypeSash),
         @"Armrüstung" : @(DSASlotTypeArmArmor),
+        @"Armreif" : @(DSASlotTypeArmRing),
         @"Handschuhe" : @(DSASlotTypeGloves),
         @"Hüfte" : @(DSASlotTypeHip),
         @"Ring" : @(DSASlotTypeRing),
@@ -888,11 +928,13 @@ static NSMutableDictionary *namesDict;
         @"Schwert" : @(DSASlotTypeSword),
         @"Dolch" : @(DSASlotTypeDagger),
         @"Axt" : @(DSASlotTypeAxe),
-        @"Geld" : @(DSASlotTypeMoney)
+        @"Geld" : @(DSASlotTypeMoney),
+        @"Tabak" : @(DSASlotTypeTobacco)
     };
 
     // Look up the corresponding slot type
     NSNumber *slotTypeNumber = slotTypeMapping[slotTypeString];
+    NSLog(@"Utils: slotTypeFromString: for slot type: %@ returning: %@", slotTypeString, slotTypeNumber);
     return slotTypeNumber ? slotTypeNumber.unsignedIntegerValue : NSNotFound;
 }
 

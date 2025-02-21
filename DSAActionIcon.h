@@ -37,7 +37,10 @@
 
 
 - (void)showPopupForItem:(id)item;
-- (void)consumeItem:(id)item;
+- (void)consumeItem: (DSAObject *)item
+          fromModel: (DSACharacter *)sourceModel
+inventoryIdentifier: (NSString *)sourceInventory
+          slotIndex: (NSInteger)sourceSlotIndex;
 - (void)askToDiscardItem:(DSAObject *)item 
                fromModel:(DSACharacter *)sourceModel 
          inventoryIdentifier:(NSString *)sourceInventory 

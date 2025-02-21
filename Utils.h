@@ -29,6 +29,13 @@
 #import "DSASlot.h"
 #import "DSACharacter.h"
 
+typedef NS_ENUM(NSInteger, LogSeverity) {
+    LogSeverityInfo,
+    LogSeverityHappy,
+    LogSeverityWarning,
+    LogSeverityCritical
+};
+
 @interface Utils : NSObject
 
 + (instancetype)sharedInstance;
@@ -61,6 +68,7 @@
 + (NSDictionary *) getShamanRitualsDict;
 
 + (NSDictionary *) getDruidRitualsDict;
++ (NSDictionary *) getDruidRitualWithName: (NSString *) ritualName;
 
 + (NSDictionary *) getElvenSongsDict;
 
@@ -75,7 +83,7 @@
 
 + (NSDictionary *) getShamanOriginsDict;
 
-+ (NSString *) findSpellOrRitualWithName: (NSString *) name;
++ (NSString *) findSpellOrRitualTypeWithName: (NSString *) name;
 
 + (NSDictionary *) getTalentsDict;
 + (NSDictionary *) getTalentsForCharacter: (DSACharacter *)character;

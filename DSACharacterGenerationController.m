@@ -544,22 +544,30 @@
             {
               NSDictionary *sDict = [[spells objectForKey: category] objectForKey: s];
               DSASpell *spell = [DSASpell spellWithName: s
-                                                 ofCategory: category
-                                                    onLevel: [[sDict objectForKey: @"Startwert"] integerValue]
-                                                 withOrigin: [sDict objectForKey: @"Ursprung"]
-                                                   withTest: [sDict objectForKey: @"Probe"]
-                                           withAlternatives: [sDict objectForKey: @"Alternativen"]       
-                                     withMaxTriesPerLevelUp: [[sDict objectForKey: @"Versuche"] integerValue]
-                                          withMaxUpPerLevel: [[sDict objectForKey: @"Steigern"] integerValue]
-                                            withLevelUpCost: 1];
+                                              ofVariant: [sDict objectForKey: @"Variante"]
+                                      ofDurationVariant: [sDict objectForKey: @"Dauer Variante"]
+                                             ofCategory: category
+                                                onLevel: [[sDict objectForKey: @"Startwert"] integerValue]
+                                             withOrigin: [sDict objectForKey: @"Ursprung"]
+                                               withTest: [sDict objectForKey: @"Probe"]
+                                        withMaxDistance: [[sDict objectForKey: @"Maximale Entfernung" ] integerValue]       
+                                           withVariants: [sDict objectForKey: @"Varianten"]     
+                                   withDurationVariants: [sDict objectForKey: @"Dauer Varianten"]                                             
+                                 withMaxTriesPerLevelUp: [[sDict objectForKey: @"Versuche"] integerValue]
+                                      withMaxUpPerLevel: [[sDict objectForKey: @"Steigern"] integerValue]
+                                        withLevelUpCost: 1];
               if (!spell) // as long as not every spell is implemented in it's own subclass, fall back to this simple default...
                 {
                     spell = [[DSASpell alloc] initSpell: s
+                                                  ofVariant: [sDict objectForKey: @"Variante"]
+                                          ofDurationVariant: [sDict objectForKey: @"Dauer Variante"]           
                                                  ofCategory: category
                                                     onLevel: [[sDict objectForKey: @"Startwert"] integerValue]
                                                  withOrigin: [sDict objectForKey: @"Ursprung"]
                                                    withTest: [sDict objectForKey: @"Probe"]
-                                           withAlternatives: [sDict objectForKey: @"Alternativen"]        
+                                            withMaxDistance: [[sDict objectForKey: @"Maximale Entfernung" ] integerValue]       
+                                               withVariants: [sDict objectForKey: @"Varianten"]
+                                       withDurationVariants: [sDict objectForKey: @"Dauer Varianten"]                                                    
                                      withMaxTriesPerLevelUp: [[sDict objectForKey: @"Versuche"] integerValue]
                                           withMaxUpPerLevel: [[sDict objectForKey: @"Steigern"] integerValue]
                                             withLevelUpCost: 1];
@@ -966,18 +974,16 @@
                 }
               NSLog(@"THE ITEM DICT: %@", itemDict);
               DSAObject *item = [[DSAObject alloc] initWithObjectInfo: itemDict forOwner: archetype.modelID];
+              for (NSString *spellName in item.appliedSpells)
+                {
+                  [[item.appliedSpells objectForKey: spellName] applyEffectOnTarget: item forOwner: archetype];  
+                }
               NSLog(@"AFTER CREATING ITEM %@", item);
               if ([[itemInfo objectForKey: @"persönliches Objekt"] isEqualTo: @YES])
                 {
                   [item setOwnerUUID: archetype.modelID];
                 }
               [archetype.inventory addObject: item quantity: [[itemInfo objectForKey: @"Anzahl"] integerValue]];
-              if ([itemInfo objectForKey: @"Kosten permanente ASP"])
-                {
-                  [archetype setAstralEnergy: archetype.astralEnergy - [[itemInfo objectForKey: @"Kosten permanente ASP"] integerValue]];
-                  [archetype setCurrentAstralEnergy: archetype.currentAstralEnergy - [[itemInfo objectForKey: @"Kosten permanente ASP"] integerValue]];
-                }
-              
             }
         }
     }
@@ -2827,26 +2833,35 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
       for (NSString *ritual in [[Utils getMageRitualsDict] objectForKey: category])
         {
+            NSDictionary *ritualDict = [[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual];
             DSASpellMageRitual *r = [DSASpellMageRitual ritualWithName: ritual
+                                                             ofVariant: [ritualDict objectForKey: @"Variante" ]
+                                                     ofDurationVariant: [ritualDict objectForKey: @"Dauer Variante" ]
                                                             ofCategory: category
-                                                              withTest: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Probe" ]
-                                                      withAlternatives: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Alternativen" ]
-                                                           withPenalty: [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Probenaufschlag" ] integerValue]
-                                                           withASPCost: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"ASP Kosten" ] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"ASP Kosten" ] integerValue]: 0
-                                                  withPermanentASPCost: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente ASP Kosten" ] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente ASP Kosten" ] integerValue]: 0
-                                                            withLPCost: [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"LP Kosten" ] integerValue] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"LP Kosten" ] integerValue]: 0
-                                                   withPermanentLPCost: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente LP Kosten" ] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente LP Kosten" ] integerValue]: 0];
+                                                              withTest: [ritualDict objectForKey: @"Probe" ]
+                                                       withMaxDistance: [[ritualDict objectForKey: @"Maximale Entfernung" ] integerValue]
+                                                          withVariants: [ritualDict objectForKey: @"Varianten" ]
+                                                  withDurationVariants: [ritualDict objectForKey: @"Dauer Varianten" ]
+                                                           withPenalty: [[ritualDict objectForKey: @"Probenaufschlag" ] integerValue]
+                                                           withASPCost: [ritualDict objectForKey: @"ASP Kosten" ] ? [[ritualDict objectForKey: @"ASP Kosten" ] integerValue]: 0
+                                                  withPermanentASPCost: [ritualDict objectForKey: @"davon permanente ASP Kosten" ] ? [[ritualDict objectForKey: @"davon permanente ASP Kosten" ] integerValue]: 0
+                                                            withLPCost: [[ritualDict objectForKey: @"LP Kosten" ] integerValue] ? [[ritualDict objectForKey: @"LP Kosten" ] integerValue]: 0
+                                                   withPermanentLPCost: [ritualDict objectForKey: @"davon permanente LP Kosten" ] ? [[ritualDict objectForKey: @"davon permanente LP Kosten" ] integerValue]: 0];
             if (!r)
               {
                 r = [[DSASpellMageRitual alloc] initRitual: ritual
-                                        ofCategory: category
-                                          withTest: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Probe" ]
-                                  withAlternatives: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Alternativen" ]       
-                                       withPenalty: [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Probenaufschlag" ] integerValue]
-                                       withASPCost: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"ASP Kosten" ] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"ASP Kosten" ] integerValue]: 0
-                              withPermanentASPCost: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente ASP Kosten" ] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente ASP Kosten" ] integerValue]: 0
-                                        withLPCost: [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"LP Kosten" ] integerValue] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"LP Kosten" ] integerValue]: 0
-                               withPermanentLPCost: [[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente LP Kosten" ] ? [[[[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"davon permanente LP Kosten" ] integerValue]: 0];              
+                                                 ofVariant: [ritualDict objectForKey: @"Variante" ]
+                                         ofDurationVariant: [ritualDict objectForKey: @"Dauer Variante" ]
+                                                ofCategory: category
+                                                  withTest: [ritualDict objectForKey: @"Probe" ]
+                                           withMaxDistance: [[ritualDict objectForKey: @"Maximale Entfernung" ] integerValue]       
+                                              withVariants: [ritualDict objectForKey: @"Varianten" ]
+                                      withDurationVariants: [ritualDict objectForKey: @"Dauer Varianten" ]       
+                                               withPenalty: [[ritualDict objectForKey: @"Probenaufschlag" ] integerValue]
+                                               withASPCost: [ritualDict objectForKey: @"ASP Kosten" ] ? [[ritualDict objectForKey: @"ASP Kosten" ] integerValue]: 0
+                                      withPermanentASPCost: [ritualDict objectForKey: @"davon permanente ASP Kosten" ] ? [[ritualDict objectForKey: @"davon permanente ASP Kosten" ] integerValue]: 0
+                                                withLPCost: [[ritualDict objectForKey: @"LP Kosten" ] integerValue] ? [[ritualDict objectForKey: @"LP Kosten" ] integerValue]: 0
+                                       withPermanentLPCost: [ritualDict objectForKey: @"davon permanente LP Kosten" ] ? [[ritualDict objectForKey: @"davon permanente LP Kosten" ] integerValue]: 0];              
               }
             [specialTalents setObject: r forKey: ritual];
         }
@@ -2897,21 +2912,58 @@ NSLog(@"generateFamilyBackground %@", retVal);
         {
           continue;
         }
-      for (NSString *spellName in [[[Utils getDruidRitualsDict] objectForKey: category] allKeys])
+      for (NSString *ritualName in [[[Utils getDruidRitualsDict] objectForKey: category] allKeys])
         {
-          NSLog(@"Checking if Typen contains: %@ XXX %@", character.archetype, [[[[Utils getDruidRitualsDict] objectForKey: category] objectForKey: spellName] objectForKey: @"Typen"]);
-          if ([[[[[Utils getDruidRitualsDict] objectForKey: category] objectForKey: spellName] objectForKey: @"Typen"] containsObject: character.archetype])
+          NSLog(@"Checking if Typen contains: %@ XXX %@", character.archetype, [[[[Utils getDruidRitualsDict] objectForKey: category] objectForKey: ritualName] objectForKey: @"Typen"]);
+          NSDictionary *ritualDict = [[[Utils getDruidRitualsDict] objectForKey: category] objectForKey: ritualName];
+          if ([[ritualDict objectForKey: @"Typen"] containsObject: character.archetype])
             {
-              DSASpellDruidRitual *spell = [[DSASpellDruidRitual alloc] initSpell: spellName
+             /* DSASpellDruidRitual *spell = [[DSASpellDruidRitual alloc] initSpell: spellName
+                                                                        ofVariant: [ritualDict objectForKey: @"Variante"]
+                                                                ofDurationVariant: [ritualDict objectForKey: @"Dauer Variante"]
                                                                        ofCategory: category
                                                                           onLevel: 0
                                                                        withOrigin: nil
-                                                                         withTest: [[[[Utils getDruidRitualsDict] objectForKey: category] objectForKey: spellName] objectForKey: @"Probe"]
-                                                                 withAlternatives: [[[[Utils getDruidRitualsDict] objectForKey: category] objectForKey: spellName] objectForKey: @"Alternativen"]
+                                                                         withTest: [ritualDict objectForKey: @"Probe"]
+                                                                     withVariants: [ritualDict objectForKey: @"Varianten"]
+                                                             withDurationVariants: [ritualDict objectForKey: @"Dauer Varianten"]
                                                            withMaxTriesPerLevelUp: 0
                                                                 withMaxUpPerLevel: 0
                                                                   withLevelUpCost: 0];
-              [specialTalents setObject: spell forKey: spellName];
+               */                                                   
+            NSDictionary *ritialDict = [[[Utils getDruidRitualsDict] objectForKey: category] objectForKey: ritualName];
+            DSASpellDruidRitual *r = [DSASpellDruidRitual ritualWithName: ritualName
+                                                               ofVariant: [ritialDict objectForKey: @"Variante" ]
+                                                       ofDurationVariant: [ritialDict objectForKey: @"Dauer Variante" ]
+                                                              ofCategory: category
+                                                                withTest: [ritialDict objectForKey: @"Probe" ]
+                                                         withMaxDistance: [[ritialDict objectForKey: @"Maximale Entfernung" ] integerValue]         
+                                                            withVariants: [ritialDict objectForKey: @"Varianten" ]
+                                                    withDurationVariants: [ritialDict objectForKey: @"Dauer Varianten" ]
+                                                             withPenalty: [[ritialDict objectForKey: @"Probenaufschlag" ] integerValue]
+                                                             withASPCost: [ritialDict objectForKey: @"ASP Kosten" ] ? [[ritialDict objectForKey: @"ASP Kosten" ] integerValue]: 0
+                                                    withPermanentASPCost: [ritialDict objectForKey: @"davon permanente ASP Kosten" ] ? [[ritialDict objectForKey: @"davon permanente ASP Kosten" ] integerValue]: 0
+                                                              withLPCost: [[ritialDict objectForKey: @"LP Kosten" ] integerValue] ? [[ritialDict objectForKey: @"LP Kosten" ] integerValue]: 0
+                                                     withPermanentLPCost: [ritialDict objectForKey: @"davon permanente LP Kosten" ] ? [[ritialDict objectForKey: @"davon permanente LP Kosten" ] integerValue]: 0];
+            if (!r)  
+              {
+                r = [[DSASpellDruidRitual alloc] initRitual: ritualName
+                                                  ofVariant: [ritialDict objectForKey: @"Variante" ]
+                                          ofDurationVariant: [ritialDict objectForKey: @"Dauer Variante" ]
+                                                 ofCategory: category
+                                                   withTest: [ritialDict objectForKey: @"Probe" ]
+                                            withMaxDistance: [[ritialDict objectForKey: @"Maximale Entfernung" ] integerValue]
+                                               withVariants: [ritialDict objectForKey: @"Varianten" ]
+                                       withDurationVariants: [ritialDict objectForKey: @"Dauer Varianten" ]       
+                                                withPenalty: [[ritialDict objectForKey: @"Probenaufschlag" ] integerValue]
+                                                withASPCost: [ritialDict objectForKey: @"ASP Kosten" ] ? [[ritialDict objectForKey: @"ASP Kosten" ] integerValue]: 0
+                                       withPermanentASPCost: [ritialDict objectForKey: @"davon permanente ASP Kosten" ] ? [[ritialDict objectForKey: @"davon permanente ASP Kosten" ] integerValue]: 0
+                                                 withLPCost: [[ritialDict objectForKey: @"LP Kosten" ] integerValue] ? [[ritialDict objectForKey: @"LP Kosten" ] integerValue]: 0
+                                        withPermanentLPCost: [ritialDict objectForKey: @"davon permanente LP Kosten" ] ? [[ritialDict objectForKey: @"davon permanente LP Kosten" ] integerValue]: 0];              
+              }                                                                  
+                                                                  
+                                                                  
+              [specialTalents setObject: r forKey: ritualName];
                NSLog(@"YES");              
             }
           else
@@ -2926,14 +2978,38 @@ NSLog(@"generateFamilyBackground %@", retVal);
 
 - (void) addEquipmentToCharacter: (DSACharacterHero *) character
 {
-  NSArray *equipmentDict = [NSArray arrayWithArray: [[[[[Utils getArchetypesDict] objectForKey: [character archetype]] objectForKey: @"Herkunft"] objectForKey: [character socialStatus]] objectForKey: @"Equipment"]];
-//  NSLog(@"The EQUIPMENT DICT: %@", equipmentDict);
-  for (NSDictionary *equipment in equipmentDict)
+  NSDictionary *equipmentDict = [[[[[Utils getArchetypesDict] objectForKey: [character archetype]] objectForKey: @"Herkunft"] objectForKey: [character socialStatus]] objectForKey: @"Equipment"];
+  NSLog(@"The EQUIPMENT DICT: %@", equipmentDict);
+  for (NSString *equipment in equipmentDict)
     {
-//    NSLog(@"THE EQUIPMENT: %@", equipment);
-      [character.inventory addObject: [[DSAObject alloc] initWithName: [[equipment allKeys] objectAtIndex: 0] forOwner: character.modelID] quantity: [[[equipment allValues] objectAtIndex: 0] integerValue]];
+      NSDictionary *tEquipment = [equipmentDict objectForKey: equipment];
+      DSAObject *item;
+      NSLog(@"GOT THIS tEquipment HERE: %@", tEquipment);
+      
+      
+      if ([tEquipment objectForKey: @"Sprüche"])
+        {
+          NSMutableDictionary *eEquipment = [[Utils getDSAObjectInfoByName: equipment] mutableCopy];
+          NSLog(@"THE eEquipment: %@", eEquipment);
+          [eEquipment setObject: [tEquipment objectForKey: @"Sprüche"] forKey: @"Sprüche"];
+          NSLog(@"AGAIN THE eEquipment: %@", eEquipment);          
+          item = [[DSAObject alloc] initWithObjectInfo: eEquipment forOwner: character.modelID];
+          for (NSString *spellName in item.appliedSpells)
+            {
+              [[item.appliedSpells objectForKey: spellName] applyEffectOnTarget: item forOwner: character];
+              
+            }
+        }
+      else
+        {
+          item = [[DSAObject alloc] initWithName: equipment forOwner: character.modelID];
+        }
+      
+      NSLog(@"DSACharacterGenerationController: addEquipmentToCharacter %@", item.name);
+      [character.inventory addObject: item
+                            quantity: [[[equipmentDict objectForKey: equipment] objectForKey: @"Anzahl"] integerValue]];
     } 
-//  NSLog(@"THE INVENTORY: %@", character.inventory);
+  NSLog(@"THE INVENTORY: %@", character.inventory);
 }
 
 - (void) makeCharacterAMagicalDabbler
@@ -3103,11 +3179,15 @@ NSLog(@"generateFamilyBackground %@", retVal);
                           {
                             NSDictionary *sDict = [[spells objectForKey: category] objectForKey: s];
                             DSASpell *spell = [[DSASpell alloc] initSpell: s
+                                                                ofVariant: [sDict objectForKey: @"Variante"]
+                                                        ofDurationVariant: [sDict objectForKey: @"Dauer Variante"]
                                                                ofCategory: category
                                                                   onLevel: 0               // See Compendium Salamandris S. 29
                                                                withOrigin: [sDict objectForKey: @"Ursprung"]
                                                                  withTest: [sDict objectForKey: @"Probe"]
-                                                         withAlternatives: [sDict objectForKey: @"Alternativen"]
+                                                          withMaxDistance: [[sDict objectForKey: @"Maximale Entfernung"] integerValue]
+                                                             withVariants: [sDict objectForKey: @"Varianten"]
+                                                     withDurationVariants: [sDict objectForKey: @"Dauer Varianten"]        
                                                    withMaxTriesPerLevelUp: 3
                                                         withMaxUpPerLevel: 1
                                                           withLevelUpCost: 2]; 

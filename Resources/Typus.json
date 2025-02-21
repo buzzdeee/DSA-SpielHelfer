@@ -16,16 +16,178 @@
           "Stipendium": [ 2, 3 ],
           "Elf-Mensch Verbindung": [ 4 ]
         },
-        "Equipment": [ {"Magierstab": 1, "Kristallkugel": 1, "Magierschale": 1} ]
+        "Equipment": {
+          "Magierstab": {
+            "Anzahl": 1,
+            "Sprüche": {
+              "1. Stabzauber": {
+                "Variante": "InitialerStab"
+              }
+            }
+          },
+          "Kristallkugel": {
+            "Anzahl": 1
+          }, 
+          "Bier": {
+            "Anzahl": 3
+          }, 
+          "Obst": {
+            "Anzahl": 5
+          },
+          "Lederrucksack, 15 Stein": {
+            "Anzahl": 1
+          }, 
+          "Naschwerk": {
+            "Anzahl": 10
+          },          
+          "Tee": {
+            "Anzahl": 10
+          },                                     
+          "Magierschale": {
+            "Anzahl": 1
+          },
+          "Strümpfe, Wolle": {
+            "Anzahl": 1
+          },   
+          "Unterwäsche": {
+            "Anzahl": 1
+          },  
+          "Hemd, Bluse, Seide": {
+            "Anzahl": 1
+          },   
+          "Weste, Seide": {
+            "Anzahl": 1
+          },  
+          "Beinkleider, Seide": {
+            "Anzahl": 1
+          },    
+          "Robe, Brokat": {
+            "Anzahl": 1
+          },  
+          "Schärpe, Seide": {
+            "Anzahl": 1
+          },     
+          "Stulpenhandschuhe": {
+            "Anzahl": 1
+          },     
+          "Spangenschuhe": {
+            "Anzahl": 1
+          },                                                                     
+          "Ring, Silber": {
+            "Anzahl": 1
+          },
+          "Stirnreif, Silber": {
+            "Anzahl": 1
+          },       
+          "Halskette, Silber": {
+            "Anzahl": 1
+          },   
+          "Amulett, Silber": {
+            "Anzahl": 1
+          },   
+          "Tabakdose, Silber": {
+            "Anzahl": 1
+          },   
+          "Wasserpfeife": {
+            "Anzahl": 1
+          },
+          "Pfeifenkraut, Knaster": {
+            "Anzahl": 50
+          },                            
+          "Ohrring, Silber": {
+            "Anzahl": 1
+          }
+        }
       },
       "mittelständisch": {
-        "1W20": [ 5, 6, 7, 8, 9, 10, 11, 12, 13 ],
+        "1W20": [ 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ],
         "Eltern": {
           "Handwerker": [ 5, 6, 7, 8 ],
           "Reisende Magier": [ 9, 10, 11 ],
-          "Einfache Geweihte": [ 12, 13 ] 
+          "Einfache Geweihte": [ 12, 13, 14 ] 
         },
-        "Equipment": [ {"Magierstab": 1}, {"Kristallkugel": 1}, {"Magierschale": 1} ]
+        "Equipment": {
+          "Magierstab": {
+            "Anzahl": 1,
+            "Sprüche": {
+              "1. Stabzauber": {
+                "Variante": "InitialerStab"
+              }
+            }
+          },
+          "Kristallkugel": {
+            "Anzahl": 1
+          }, 
+          "Bier": {
+            "Anzahl": 3
+          }, 
+          "Obst": {
+            "Anzahl": 5
+          },
+          "Lederrucksack, 15 Stein": {
+            "Anzahl": 1
+          }, 
+          "Naschwerk": {
+            "Anzahl": 10
+          },          
+          "Tee": {
+            "Anzahl": 10
+          },           
+          "Magierschale": {
+            "Anzahl": 1
+          },
+          "Strümpfe, Wolle": {
+            "Anzahl": 1
+          },   
+          "Unterwäsche": {
+            "Anzahl": 1
+          },  
+          "Hemd, Bluse, Seide": {
+            "Anzahl": 1
+          },   
+          "Weste, Seide": {
+            "Anzahl": 1
+          },  
+          "Beinkleider, Seide": {
+            "Anzahl": 1
+          },    
+          "Robe, Brokat": {
+            "Anzahl": 1
+          },  
+          "Schärpe, Seide": {
+            "Anzahl": 1
+          },     
+          "Stulpenhandschuhe": {
+            "Anzahl": 1
+          },     
+          "Spangenschuhe": {
+            "Anzahl": 1
+          },                                                                     
+          "Ring, Silber": {
+            "Anzahl": 1
+          },
+          "Stirnreif, Silber": {
+            "Anzahl": 1
+          },       
+          "Halskette, Silber": {
+            "Anzahl": 1
+          },   
+          "Amulett, Silber": {
+            "Anzahl": 1
+          },    
+          "Tabakdose, Silber": {
+            "Anzahl": 1
+          },   
+          "Wasserpfeife": {
+            "Anzahl": 1
+          },
+          "Pfeifenkraut, Knaster": {
+            "Anzahl": 50
+          },                           
+          "Ohrring, Silber": {
+            "Anzahl": 1
+          }
+        }     
       },
       "reich": {
         "1W20": [ 15, 16, 17, 18, 19 ],
@@ -34,14 +196,176 @@
           "Bekannte Magier": [ 16, 17 ],
           "Reiche Kaufleute": [ 18, 19 ] 
         },
-        "Equipment": [ {"Magierstab": 1}, {"Kristallkugel": 1}, {"Magierschale": 1} ]
+        "Equipment": {
+          "Magierstab": {
+            "Anzahl": 1,
+            "Sprüche": {
+              "1. Stabzauber": {
+                "Variante": "InitialerStab"
+              }
+            }
+          }, 
+          "Kristallkugel": {
+            "Anzahl": 1
+          }, 
+          "Bier": {
+            "Anzahl": 3
+          }, 
+          "Obst": {
+            "Anzahl": 5
+          },
+          "Lederrucksack, 15 Stein": {
+            "Anzahl": 1
+          }, 
+          "Naschwerk": {
+            "Anzahl": 10
+          },          
+          "Tee": {
+            "Anzahl": 10
+          },         
+          "Magierschale": {
+            "Anzahl": 1
+          },
+          "Strümpfe, Wolle": {
+            "Anzahl": 1
+          },   
+          "Unterwäsche": {
+            "Anzahl": 1
+          },  
+          "Hemd, Bluse, Seide": {
+            "Anzahl": 1
+          },   
+          "Weste, Seide": {
+            "Anzahl": 1
+          },  
+          "Beinkleider, Seide": {
+            "Anzahl": 1
+          },    
+          "Robe, Brokat": {
+            "Anzahl": 1
+          },  
+          "Schärpe, Seide": {
+            "Anzahl": 1
+          },     
+          "Stulpenhandschuhe": {
+            "Anzahl": 1
+          },     
+          "Spangenschuhe": {
+            "Anzahl": 1
+          },                                                                     
+          "Ring, Silber": {
+            "Anzahl": 1
+          },
+          "Stirnreif, Silber": {
+            "Anzahl": 1
+          },       
+          "Halskette, Silber": {
+            "Anzahl": 1
+          },   
+          "Amulett, Silber": {
+            "Anzahl": 1
+          },    
+          "Tabakdose, Silber": {
+            "Anzahl": 1
+          },   
+          "Wasserpfeife": {
+            "Anzahl": 1
+          },
+          "Pfeifenkraut, Knaster": {
+            "Anzahl": 50
+          },                           
+          "Ohrring, Silber": {
+            "Anzahl": 1
+          }
+        }      
       },
       "adelig": {
         "1W20": [ 20 ],
         "Eltern": {
           "Landadel": [ 20 ]
         },
-        "Equipment": [ {"Magierstab": 1}, {"Kristallkugel": 1}, {"Magierschale": 1} ]
+        "Equipment": {
+          "Magierstab": {
+            "Anzahl": 1,
+            "Sprüche": {
+              "1. Stabzauber": {
+                "Variante": "InitialerStab"
+              }
+            }
+          }, 
+          "Kristallkugel": {
+            "Anzahl": 1
+          }, 
+          "Bier": {
+            "Anzahl": 3
+          }, 
+          "Obst": {
+            "Anzahl": 5
+          },
+          "Lederrucksack, 15 Stein": {
+            "Anzahl": 1
+          }, 
+          "Naschwerk": {
+            "Anzahl": 10
+          },          
+          "Tee": {
+            "Anzahl": 10
+          },           
+          "Magierschale": {
+            "Anzahl": 1
+          },
+          "Strümpfe, Wolle": {
+            "Anzahl": 1
+          },   
+          "Unterwäsche": {
+            "Anzahl": 1
+          },  
+          "Hemd, Bluse, Seide": {
+            "Anzahl": 1
+          },   
+          "Weste, Seide": {
+            "Anzahl": 1
+          },  
+          "Beinkleider, Seide": {
+            "Anzahl": 1
+          },    
+          "Robe, Brokat": {
+            "Anzahl": 1
+          },  
+          "Schärpe, Seide": {
+            "Anzahl": 1
+          },     
+          "Stulpenhandschuhe": {
+            "Anzahl": 1
+          },     
+          "Spangenschuhe": {
+            "Anzahl": 1
+          },                                                                     
+          "Ring, Silber": {
+            "Anzahl": 1
+          },
+          "Stirnreif, Silber": {
+            "Anzahl": 1
+          },       
+          "Halskette, Silber": {
+            "Anzahl": 1
+          },   
+          "Amulett, Silber": {
+            "Anzahl": 1
+          },    
+          "Tabakdose, Silber": {
+            "Anzahl": 1
+          },   
+          "Wasserpfeife": {
+            "Anzahl": 1
+          },
+          "Pfeifenkraut, Knaster": {
+            "Anzahl": 50
+          },                           
+          "Ohrring, Silber": {
+            "Anzahl": 1
+          }
+        }
       }
     },
     "Haarfarbe": {
@@ -205,6 +529,11 @@
         "1W20": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
         "Eltern": {
           "unbekannt": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ]
+        },
+        "Equipment": {
+          "Vulkanglasdolch": {
+            "Anzahl": 1
+          }
         }
       },  
       "arm": {
@@ -214,20 +543,35 @@
           "Bettler": [ 13, 14 ],
           "Leibeigene": [ 15 ],
           "Tagelöhner/Jäger/Hirten": [ 16 ]
-        }
+        },
+        "Equipment": {
+          "Vulkanglasdolch": {
+            "Anzahl": 1
+          }
+        }        
       },
       "mittelständisch": {
         "1W20": [ 17, 18, 19 ], 
         "Eltern": {
           "Druiden": [ 17, 18 ],
           "Bürger": [ 19 ]
-        }
+        },
+        "Equipment": {
+          "Vulkanglasdolch": {
+            "Anzahl": 1
+          }
+        }        
       },
       "reich": {
         "1W20": [ 20 ], 
         "Eltern": {
           "Kaufleute/Druiden": [ 20 ]
-        }
+        },
+        "Equipment": {
+          "Vulkanglasdolch": {
+            "Anzahl": 1
+          }
+        }        
       }
     },
     "Haarfarbe": {
@@ -1029,14 +1373,76 @@
         "Eltern": {
           "Ordensmitglied": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 ,18, 19 ]
         },
-        "Equipment": [ {"Amazonenrüstung": 1}, {"Amazonensäbel": 1}, {"Kurzbogen": 1}, {"Lederschild": 1}, {"Pfeilköcher, 20 Pfeile, Holz": 1}, {"Pfeil, kurze Bögen": 10}, {"Cape": 1}, {"Pfeil, kurze Bögen": 10}, {"Cape": 1}, {"Bolzen, leichte Armbrust": 10}, {"Wurfbeil": 1}, {"Buckler": 1}, {"Panzerarm": 1} ]
+        "Equipment": {
+          "Amazonenrüstung": {
+            "Anzahl": 1
+          }, 
+          "Amazonensäbel": {
+            "Anzahl": 1
+          }, 
+          "Kurzbogen": {
+            "Anzahl": 1
+          },
+          "Lederschild": {
+            "Anzahl": 1
+          }, 
+          "Pfeilköcher, 20 Pfeile, Holz": {
+            "Anzahl": 1
+          }, 
+          "Pfeil, kurze Bögen": {
+            "Anzahl": 10
+          }, 
+          "Cape": {
+            "Anzahl": 1
+          }, 
+          "Wurfbeil": {
+            "Anzahl": 1
+          }, 
+          "Buckler": {
+            "Anzahl": 1
+          }, 
+          "Panzerarm": {
+            "Anzahl": 1
+          }
+        }
       },
       "reich": {
         "1W20": [ 20 ],
         "Eltern": {
           "Burgherrin": [ 20 ]
         },
-        "Equipment": [ {"Amazonenrüstung": 1}, {"Amazonensäbel": 1}, {"Kurzbogen": 1}, {"Großer Lederschild": 1}, {"Hüftköcher, 20 Pfeile, Leder": 1}, {"Pfeil, kurze Bögen": 20}, {"Cape": 1}, {"Wurfbeil": 1}, {"Buckler": 1}, {"Panzerarm": 1} ]
+        "Equipment": {
+          "Amazonenrüstung": {
+            "Anzahl": 1
+          }, 
+          "Amazonensäbel": {
+            "Anzahl": 1
+          }, 
+          "Kurzbogen": {
+            "Anzahl": 1
+          },
+          "Lederschild": {
+            "Anzahl": 1
+          }, 
+          "Pfeilköcher, 20 Pfeile, Holz": {
+            "Anzahl": 1
+          }, 
+          "Pfeil, kurze Bögen": {
+            "Anzahl": 10
+          }, 
+          "Cape": {
+            "Anzahl": 1
+          }, 
+          "Wurfbeil": {
+            "Anzahl": 1
+          }, 
+          "Buckler": {
+            "Anzahl": 1
+          }, 
+          "Panzerarm": {
+            "Anzahl": 1
+          }
+        }
       }
     },
     "Haarfarbe": {
@@ -1067,28 +1473,83 @@
         "Eltern": {
           "unbekannt": [ 1, 2 ]
         },
-        "Equipment": [ {"3 Jonglierbälle": 1}, {"Beinkleider, Leinen": 1}, {"Hemd, Bluse, Leinen": 1}, {"Messer": 1} ]
+        "Equipment": {
+          "3 Jonglierbälle": {
+            "Anzahl": 1
+          }, 
+          "Beinkleider, Leinen": {
+            "Anzahl": 1
+          }, 
+          "Hemd, Bluse, Leinen": {
+            "Anzahl": 1
+          }, 
+          "Messer": {
+            "Anzahl": 1
+          }
+        }
       },
       "arm": {
         "1W20": [ 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ],
         "Eltern": {
           "Gaukler": [ 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14 ]
         },
-        "Equipment": [ {"3 Jonglierbälle": 1}, {"Beinkleider, Leinen": 1}, {"Hemd, Bluse, Leinen": 1}, {"Dolch": 1} ]
+        "Equipment": {
+          "3 Jonglierbälle": {
+            "Anzahl": 1
+          }, 
+          "Beinkleider, Leinen": {
+            "Anzahl": 1
+          }, 
+          "Hemd, Bluse, Leinen": {
+            "Anzahl": 1
+          }, 
+          "Dolch": {
+            "Anzahl": 1
+          }
+        }      
       },
       "mittelständisch": {
         "1W20": [ 15, 16, 17, 18, 19 ],
         "Eltern": {
           "Schausteller": [ 15, 16, 17, 18, 19 ]
         },
-        "Equipment": [ {"3 Jonglierkeulen": 1}, {"Beinkleider, Leinen": 1}, {"Hemd, Bluse, Leinen": 1}, {"Dolch": 1} ]
+        "Equipment": {
+          "3 Jonglierbälle": {
+            "Anzahl": 1
+          }, 
+          "Beinkleider, Leinen": {
+            "Anzahl": 1
+          }, 
+          "Hemd, Bluse, Leinen": {
+            "Anzahl": 1
+          }, 
+          "Dolch": {
+            "Anzahl": 1
+          }
+        }      
       },
       "reich": {
         "1W20": [ 20 ],
         "Eltern": {
           "Hofartist": [ 20 ]
         },
-        "Equipment": [ {"3 Jonglierkeulen": 1}, {"3 Jonglierbälle": 1}, {"Beinkleider, Leinen": 1}, {"Hemd, Bluse, Leinen": 1}, {"Rapier": 1} ]
+        "Equipment": {
+          "3 Jonglierbälle": {
+            "Anzahl": 1
+          }, 
+          "3 Jonglierkeulen": {
+            "Anzahl": 1
+          },        
+          "Beinkleider, Leinen": {
+            "Anzahl": 1
+          }, 
+          "Hemd, Bluse, Leinen": {
+            "Anzahl": 1
+          }, 
+          "Rapier": {
+            "Anzahl": 1
+          }
+        }
       }
     },
     "Haarfarbe": {
@@ -1118,7 +1579,17 @@
         "Eltern": {
           "Leibeigene": [ 1, 2 ]
         },
-        "Equipment": [ {"Beinkleider, Leinen": 1}, {"Hemd, Bluse, Leinen": 1}, {"Jagdmesser": 1} ]
+        "Equipment": {
+          "Beinkleider, Leinen": {
+            "Anzahl": 1
+          }, 
+          "Hemd, Bluse, Leinen": {
+            "Anzahl": 1
+          }, 
+          "Jagdmesser": {
+            "Anzahl": 1
+          }
+        }
       },
       "arm": {
         "1W20": [ 3, 4, 5, 6, 7, 8, 9, 10, 11, 12 ],
@@ -1126,7 +1597,23 @@
           "Bauern": [ 3, 4, 5, 6, 7 ],
           "Wilderer": [8, 9, 10, 11, 12 ]
         },
-        "Equipment": [ {"Beinkleider, Leder": 1}, {"Hemd, Bluse, Leinen": 1}, {"Jagdmesser": 1}, {"Kurzbogen": 1}, {"Pfeil, kurze Bögen": 10} ]
+        "Equipment": {
+          "Beinkleider, Leinen": {
+            "Anzahl": 1
+          }, 
+          "Hemd, Bluse, Leinen": {
+            "Anzahl": 1
+          }, 
+          "Jagdmesser": {
+            "Anzahl": 1
+          },  
+          "Kurzbogen": {
+            "Anzahl": 1
+          },                  
+          "Pfeil, kurze Bögen": {
+            "Anzahl": 10
+          }
+        }        
       },
       "mittelständisch": {
         "1W20": [ 13, 14, 15, 16, 17, 18, 19, 20 ],
@@ -1135,7 +1622,23 @@
           "Jäger": [ 15, 16, 17, 18 ],
           "Wildhüter": [ 19, 20 ]
         },
-        "Equipment": [ {"Beinkleider, Leder": 1}, {"Hemd, Bluse, Leinen": 1}, {"Jagdmesser": 1}, {"Jacke, Wams, Leder": 1}, {"Langbogen": 1}, {"Pfeil, lange Bögen": 10} ]
+        "Equipment": {
+          "Beinkleider, Leinen": {
+            "Anzahl": 1
+          }, 
+          "Hemd, Bluse, Leinen": {
+            "Anzahl": 1
+          }, 
+          "Jagdmesser": {
+            "Anzahl": 1
+          },  
+          "Langbogen": {
+            "Anzahl": 1
+          },                  
+          "Pfeil, lange Bögen": {
+            "Anzahl": 10
+          }
+        }         
       }
     },
     "Haarfarbe": {

@@ -36,6 +36,7 @@
 #import "DSAPositiveTrait.h"
 #import "DSATalentResult.h"
 #import "DSASpellMageRitual.h"
+#import "DSASpellDruidRitual.h"
 #import "DSARegenerationResult.h"
 #import "DSAInventoryManager.h"
 
@@ -118,14 +119,63 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
         _youthEvents = [[NSArray alloc] init];
         _inventory = [[DSAInventory alloc] init];
         _bodyParts = [[DSABodyParts alloc] init];
-        NSLog(@"DSACharacter: allocating DSAAventurianDate in init");
         _birthday = [[DSAAventurianDate alloc] init];
         _talents = [[NSMutableDictionary alloc] init];
         _spells = [[NSMutableDictionary alloc] init];
         _specials = [[NSMutableDictionary alloc] init];
         _appliedSpells = [[NSMutableDictionary alloc] init];
+        _statesDict = [NSMutableDictionary dictionaryWithDictionary: @{ @(DSACharacterStateWounded): @(DSASeverityLevelNone),
+                                                                        @(DSACharacterStateSick): @(DSASeverityLevelNone),
+                                                                        @(DSACharacterStatePoisoned): @(DSASeverityLevelNone),
+                                                                        @(DSACharacterStateDrunken): @(DSASeverityLevelNone),
+                                                                        @(DSACharacterStateDead): @(DSASeverityLevelNone),
+                                                                        @(DSACharacterStateUnconscious): @(DSASeverityLevelNone),
+                                                                        @(DSACharacterStateSpellbound): @(DSASeverityLevelNone),
+                                                                        @(DSACharacterStateHunger): @(DSASeverityLevelMild),
+                                                                        @(DSACharacterStateThirst): @(DSASeverityLevelMild),
+                                                                      }
+                      ];
     }
     return self;
+}
+
+- (void)setCurrentLifePoints: (NSInteger) lifePoints
+{
+  NSLog(@"setting lifePoints %ld", (signed long)lifePoints);
+  _currentLifePoints = lifePoints;
+  
+  [self willChangeValueForKey:@"statesDict"];
+  if (_currentLifePoints <= 0)
+    {
+      NSLog(@"DSACharacter setCurrentLifePoints: marking character as dead!");
+      NSDictionary *userInfo = @{ @"severity": @(LogSeverityCritical),
+                                  @"message": [NSString stringWithFormat: @"%@ ist ins reich Borons übergegangen.", self.name]
+                                };
+      [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                          object: self
+                                                        userInfo: userInfo];      
+      //[self.statesDict setValue: @(DSASeverityLevelMild) forKeyPath: @"statesDict.DSACharacterStateDead"];
+      [self.statesDict setObject: @(DSASeverityLevelMild) forKey: @(DSACharacterStateDead)];
+      [self.statesDict setObject: @(DSASeverityLevelNone) forKey: @(DSACharacterStateUnconscious)];
+    }
+  else if (_currentLifePoints < 5)
+    {
+      NSDictionary *userInfo = @{ @"severity": @(LogSeverityWarning),
+                                  @"message": [NSString stringWithFormat: @"%@ ist in Ohnmacht gefallen.", self.name]
+                                };
+      [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                          object: self
+                                                        userInfo: userInfo];    
+      [self.statesDict setObject: @(DSASeverityLevelNone) forKey: @(DSACharacterStateDead)];
+      [self.statesDict setObject: @(DSASeverityLevelMild) forKey: @(DSACharacterStateUnconscious)];
+    }
+  else
+    {
+      [self.statesDict setObject: @(DSASeverityLevelNone) forKey: @(DSACharacterStateDead)];
+      [self.statesDict setObject: @(DSASeverityLevelNone) forKey: @(DSACharacterStateUnconscious)];
+    }
+  [self didChangeValueForKey:@"statesDict"];  
+  return;
 }
 
 - (void)dealloc
@@ -308,7 +358,8 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
   [coder encodeObject:self.spells forKey:@"spells"];
   [coder encodeObject:self.specials forKey:@"specials"];
   [coder encodeObject:self.appliedSpells forKey:@"appliedSpells"];
-}
+  [coder encodeObject:self.statesDict forKey:@"statesDict"];
+ }
 
 - (instancetype)initWithCoder:(NSCoder *)coder
 {
@@ -373,7 +424,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
       self.spells = [coder decodeObjectForKey:@"spells"];
       self.specials = [coder decodeObjectForKey:@"specials"]; 
       self.appliedSpells = [coder decodeObjectForKey:@"appliedSpells"];
-        
+      self.statesDict = [coder decodeObjectForKey:@"statesDict"];
     }
   return self;
 }
@@ -627,14 +678,36 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
     return nil; // Return nil if the portraitName or imagePath is invalid
 }
 
+- (BOOL) isDeadOrUnconscious
+{
+  if ([[self.statesDict objectForKey: @(DSACharacterStateDead)] integerValue] > 0 ||
+      [[self.statesDict objectForKey: @(DSACharacterStateUnconscious)] integerValue] > 0)
+    {
+      return YES;
+    }
+  else
+    {
+      return NO;
+    }
+}
+
 - (BOOL) canUseItem: (DSAObject *) item
 {
+  if ([self isDeadOrUnconscious])
+    {
+      return NO;
+    }
   return YES;
 }
 
 // character regeneration related methods
 - (BOOL) canRegenerate
 {
+  if ([self isDeadOrUnconscious])  // even when Unconscious can't regenerate
+    {
+      return NO;
+    }
+
   NSLog(@"DSACharacter canRegenerate called, TO BE ENHANCED!!!");
   if ((self.isMagic && self.currentAstralEnergy < self.astralEnergy) ||
       (self.isBlessedOne && self.currentKarmaPoints < self.karmaPoints) ||
@@ -700,6 +773,10 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
 - (BOOL) canUseTalent
 {
   NSLog(@"DSACharacter canUseTalent called, TO BE ENHANCED!!!");
+  if ([self isDeadOrUnconscious])
+    {
+      return NO;
+    }  
   return YES;
 }
 
@@ -823,6 +900,10 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
 - (BOOL) canCastSpells
 {
   NSLog(@"DSACharacter canCastSpell called, TO BE ENHANCED!!!");
+  if ([self isDeadOrUnconscious])
+    {
+      return NO;
+    }  
   if (self.spells)
     {
       return YES;
@@ -835,6 +916,11 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
 - (BOOL) canCastSpellWithName: (NSString *) name
 {
   NSLog(@"DSACharacter canCastSpellWithName called, TO BE ENHANCED!!!");
+  if ([self isDeadOrUnconscious])
+    {
+      return NO;
+    } 
+     
   if (self.spells)
     {
       return YES;
@@ -846,7 +932,8 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
 }
 
 - (DSASpellResult *) castSpell: (NSString *) spellName 
-                 ofAlternative: (NSString *) alternative
+                     ofVariant: (NSString *) variant
+             ofDurationVariant: (NSString *) durationVariant
                       onTarget: (DSACharacter *) targetCharacter 
                     atDistance: (NSInteger) distance
                    investedASP: (NSInteger) investedASP 
@@ -859,7 +946,8 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
       if ([spell.name isEqualToString: spellName])
         {
            spellResult = [spell castOnTarget: targetCharacter
-                               ofAlternative: (NSString *) alternative
+                                   ofVariant: (NSString *) variant
+                           ofDurationVariant: (NSString *) durationVariant
                                   atDistance: distance
                                  investedASP: investedASP 
                         spellOriginCharacter: originCharacter
@@ -874,6 +962,11 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
 - (BOOL) canCastRituals
 {
   NSLog(@"DSACharacter canCastRituals called, TO BE ENHANCED!!!");
+  if ([self isDeadOrUnconscious])
+    {
+      return NO;
+    }
+      
   if (self.specials)
     {
       return YES;
@@ -886,14 +979,22 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
 
 - (BOOL) canCastRitualWithName: (NSString *) name
 {
-  
+  NSLog(@"DSACharacter canCastRitualWithName: %@", name);
+  if ([self isDeadOrUnconscious])
+    {
+      return NO;
+    }
+    
   if (self.specials)
     {
+      NSLog(@"DSACharacter canCastRitualWithName: self.specials: %@", self.specials);
       DSASpell *ritual = [self.specials objectForKey: name];
+      NSLog(@"DSACharacter canCastRitualWithName: the ritual: %@", ritual);
       if (ritual)
         {
           if (ritual.aspCost > 0 && ritual.aspCost > self.currentAstralEnergy)
             {
+              NSLog(@"DSACharacter canCastRitualWithName: %@ not enough AE", name);
               return NO;
             }
           if ([ritual isKindOfClass: [DSASpellMageRitual class]])
@@ -915,6 +1016,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
               else if ([ritual.category isEqualToString: _(@"Schalenzauber")])
                 {
                   target = [[DSAInventoryManager sharedManager] findItemWithName: _(@"Magierschale") inModel: self];
+                  NSLog(@"DSACharacter canCastRitualWithName: %@ found target %@!", name, target);
                 }
               if (!target) // we don't have a relevant target object in our inventory                            
                 {
@@ -936,12 +1038,16 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
                   NSRange matchRange = [match rangeAtIndex:1];
                   NSString *matchedNumber = [name substringWithRange:matchRange];
                   if ([matchedNumber isEqualToString: @"1"])  // Some spells have to be given in order, whereas the first one 
-                    {                                        // makes the object a personal object
+                    {                                         // makes the object a personal object
                       return YES;
                     }
                   else
                     {
                       if (![self.modelID isEqualToString: target.ownerUUID])  // higher order spells should only be applied to spells where we're owner of
+                        {
+                          return NO;
+                        }
+                      if ([target.name isEqualToString: _(@"Magierstab")] && [target.states containsObject: @(DSAObjectStateNoMoreStabzauber)])  // Stabzauber 5 can go wrong and prevent any further Stabzauber
                         {
                           return NO;
                         }
@@ -960,34 +1066,106 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
                 }
               else              
                 {
+                  NSLog(@"HERE IN ELSE of if (match), returning YES");
                   return YES;
                 }
             }
+          else if ([ritual isKindOfClass: [DSASpellDruidRitual class]])
+            { 
+              NSLog(@"DSACharacter canCastRitualWithName: %@ we have a DruidRitual", name);
+              DSAObject *target;          
+              if ([ritual.category isEqualToString: _(@"Dolchritual")])
+                {
+                  NSLog(@"DSACharacter canCastRitualWithName: %@ we have a Dolchritual", name);
+                  target = [[DSAInventoryManager sharedManager] findItemWithName: _(@"Vulkanglasdolch") inModel: self];
+                  if (!target) // we don't have a relevant target object in our inventory                            
+                    {
+                      NSLog(@"SELF CHARACTER: %@", self);
+                      NSLog(@"DSACharacter canCastRitualWithName: %@ didn't find a Vulkanglasdolch.", name);
+                      return NO;
+                    }
+                  if ([target.appliedSpells objectForKey: name])  // the spell is already applied on the target
+                    {
+                      NSLog(@"DSACharacter canCastRitualWithName: %@ is already applied on target!", name);
+                      return NO;
+                    }          
+                  NSString *pattern = @"^([0-9])";
+                  NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                                                         options:0
+                                                                                           error:nil];
+                  NSRange range = NSMakeRange(0, name.length);   
+                  NSTextCheckingResult *match = [regex firstMatchInString:name options:0 range:range];
+                  if (match)
+                    {
+                      NSLog(@"IN MATCH Druidenritual");
+                      NSRange matchRange = [match rangeAtIndex:1];
+                      NSString *matchedNumber = [name substringWithRange:matchRange];
+                      if ([matchedNumber isEqualToString: @"1"])  // Some spells have to be given in order, whereas the first one 
+                        {                                         // makes the object a personal object
+                          return YES;
+                        }
+                      else
+                        {
+                          if (![self.modelID isEqualToString: target.ownerUUID])  // higher order spells should only be applied to spells where we're owner of
+                            {
+                              return NO;
+                            }
+                          NSInteger decrementedNumber = [matchedNumber integerValue] - 1;
+                          NSString *replacementString = [NSString stringWithFormat:@"%ld", (long)decrementedNumber];
+                          NSString *resultString = [regex stringByReplacingMatchesInString:name
+                                                                                   options:0
+                                                                                     range:range
+                                                                              withTemplate:replacementString];
+                          if (![target.appliedSpells objectForKey: resultString])  // check if the previous ordered spell is already applied
+                            {
+                              return NO;
+                            }                                                                          
+                        }
+                      return YES;
+                  }
+                else              
+                  {
+                    NSLog(@"HERE IN ELSE of if (match), returning YES");
+                    return YES;
+                  }                             
+                }
+              else
+                {
+                  NSLog(@"DSACharacter canCastRitualWithName: %@ we DO NOT have a Dolchritual", name);                
+                }
+              
+
+            }    
           return YES;
         }
       else
         {
+          // we didn't find the ritual we were looking for
+          NSLog(@"DSACharacter: can't find ritual: %@", name);
           return NO;
         }
     }
   else
     {
+      NSLog(@"HERE IN ELSE of if (self.specials), returning NO");
       return NO;
     }
 }
 
 - (DSASpellResult *) castRitual: (NSString *) ritualName
-                  ofAlternative: (NSString *) alternative
+                      ofVariant: (NSString *) variant
+              ofDurationVariant: (NSString *) durationVariant
                        onTarget: (id) target
                      atDistance: (NSInteger) distance
                     investedASP: (NSInteger) investedASP 
            spellOriginCharacter: (DSACharacter *) originCharacter
 {
-  NSLog(@"DSACharacter castRitual called!!!");
+  NSLog(@"DSACharacter castRitual called for ritual name: %@", ritualName);
 
   DSASpell *spell = [self.specials objectForKey: ritualName];
   DSASpellResult *spellResult = [spell castOnTarget: target
-                                      ofAlternative: alternative
+                                          ofVariant: variant
+                                  ofDurationVariant: durationVariant
                                          atDistance: distance
                                         investedASP: investedASP 
                                spellOriginCharacter: originCharacter
@@ -997,72 +1175,339 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
 }          
 // end of casting spells related methods
 
-
-/* moved to DSAInventoryManager class
-// Inventory related methods
-- (DSAObject *)findObjectWithName:(NSString *)name inInventory:(DSAInventory *)inventory {
-    for (DSASlot *slot in inventory.slots) {
-        // Check if the slot contains an object and if its name matches
-        DSAObject *object = slot.object;
-        if (object && [object.name isEqualToString:name]) {
-            return object; // Object found
-        }
-
-        // If the object is a container, recursively search inside it
-        if ([object isKindOfClass:[DSAObjectContainer class]]) {
-            DSAObjectContainer *container = (DSAObjectContainer *)object;
-            DSAObject *foundObject = [self findObjectWithName:name inContainer:container]; 
-            if (foundObject) {
-                return foundObject; // Object found within container
+// Consume items, i.e. eat or drink
+- (BOOL) consumeItem: (DSAObject *) item
+{
+  BOOL retval = NO;
+  
+  if ([item isKindOfClass: [DSAObjectFood class]])
+    {
+      DSAObjectFood *food = (DSAObjectFood *) item;
+        
+      if ([food.subCategory isEqualToString: _(@"Getränke")])
+        {
+          if (food.isAlcohol)
+            {
+              DSATalentResult *tresult = [self useTalent: @"Zechen"
+                                             withPenalty: food.alcoholLevel];
+              if (tresult.result == DSATalentResultFailure ||
+                  tresult.result == DSATalentResultAutoFailure || 
+                  tresult.result == DSATalentResultEpicFailure)
+                {
+                  NSInteger newDrunkenState = [[self.statesDict objectForKey: @(DSACharacterStateDrunken)] integerValue] + 1;
+                  [self updateStatesDictState: @(DSACharacterStateDrunken)
+                                    withValue: @(newDrunkenState)];
+                }
             }
+          CGFloat newThirst = [[self.statesDict objectForKey: @(DSACharacterStateThirst)] floatValue] + food.nutritionValue;
+          NSLog(@"DSACharacter consumeItem: oldThirst %f newThirst %f", 
+                  [[self.statesDict objectForKey: @(DSACharacterStateThirst)] floatValue], 
+                  newThirst);
+          [self updateStatesDictState: @(DSACharacterStateThirst)
+                            withValue: @(newThirst)];
         }
+      else
+        {
+          CGFloat newHunger = [[self.statesDict objectForKey: @(DSACharacterStateHunger)] floatValue] + food.nutritionValue;
+          NSLog(@"DSACharacter consumeItem: oldHunger %f newHunger %f", 
+                  [[self.statesDict objectForKey: @(DSACharacterStateHunger)] floatValue], 
+                  newHunger);
+          
+          
+          [self updateStatesDictState: @(DSACharacterStateHunger)
+                            withValue: @(newHunger)];
+        }
+      retval = YES;
     }
-    return nil; // Return nil if not found
+  else
+    {
+      NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
+                                   @"message": [NSString stringWithFormat: @"%@ kann man doch garnicht konsumieren.", item.name]
+                                };
+      [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                          object: self
+                                                        userInfo: userInfo];
+    }
+  return retval;
 }
 
-- (DSAObject *)findObjectWithName:(NSString *)name inContainer:(DSAObjectContainer *)container {
-    for (DSASlot *slot in container.slots) {
-        // Check if the slot contains an object and if its name matches
-        DSAObject *object = slot.object;
-        if (object && [object.name isEqualToString:name]) {
-            return object; // Object found
-        }
 
-        // If the object is a container, recursively search inside it
-        if ([object isKindOfClass:[DSAObjectContainer class]]) {
-            DSAObjectContainer *container = (DSAObjectContainer *)object;
-            DSAObject *foundObject = [self findObjectWithName:name inContainer:container]; 
-            if (foundObject) {
-                return foundObject; // Object found within container
-            }
+- (void) updateStatesDictState: (NSNumber *) DSACharacterState
+                     withValue: (NSNumber *) value
+{
+  switch ([DSACharacterState integerValue])
+    {
+      case DSACharacterStateHunger: 
+        [self updateStateHungerWithValue: value];
+        break;
+      case DSACharacterStateThirst: 
+        [self updateStateThirstWithValue: value];
+        break;           
+      case DSACharacterStateDrunken: 
+        [self updateStateDrunkenWithValue: value];        
+        break;
+      case DSACharacterStateUnconscious: 
+        [self updateStateUnconsciousWithValue: value
+                                   withReason: nil];        
+        break;  
+      case DSACharacterStateDead: 
+        [self updateStateDeadWithValue: value
+                            withReason: nil];        
+        break;              
+      default:
+        NSLog(@"DSACharacter updateStatesDictState don't know how to handle state: %@", DSACharacterState);
+    }
+}                    
+
+- (void) updateStateHungerWithValue: (NSNumber*) value
+{
+  CGFloat newLevel = [value floatValue];
+  CGFloat currentLevel = [[self.statesDict objectForKey: @(DSACharacterStateHunger)] floatValue];
+  
+  if (newLevel > currentLevel)
+    {
+       NSString  *notificationMessage = [NSString stringWithFormat: @"Hmm lecker, das stillt den Hunger."];
+       NSInteger notificationSeverity = LogSeverityInfo;
+    
+       NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                    @"message": notificationMessage
+                                 };
+       [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                           object: self
+                                                         userInfo: userInfo];      
+    }
+  else if (newLevel < currentLevel)
+    {
+      if (newLevel == 0)
+        {
+           NSString  *notificationMessage = [NSString stringWithFormat: @"%@ wird vor Hunger ohnmächtig.", self.name];
+           NSInteger notificationSeverity = LogSeverityCritical;
+    
+           NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                        @"message": notificationMessage
+                                     };
+           [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                               object: self
+                                                             userInfo: userInfo];
+           [self.statesDict setObject: @(YES) forKey: @(DSACharacterStateUnconscious)];
+           userInfo = @{ @"state": @(DSACharacterStateUnconscious),
+                         @"value": @(YES)
+                       };
+           [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterStateChange"
+                                                               object: self
+                                                             userInfo: userInfo];                                                                        
+              
+        }
+      else if (newLevel < 0.1)
+        {
+           NSString  *notificationMessage = [NSString stringWithFormat: @"%@ ist sehr hungrig.", self.name];
+           NSInteger notificationSeverity = LogSeverityWarning;
+    
+           NSDictionary * userInfo = @{ @"severity": @(notificationSeverity),
+                                         @"message": notificationMessage
+                                      };
+           [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                               object: self
+                                                             userInfo: userInfo];        
         }
     }
-    return nil; // Return nil if not found
+  [self.statesDict setObject: value forKey: @(DSACharacterStateHunger)];
+  NSDictionary *userInfo = @{ @"state": @(DSACharacterStateHunger),
+                              @"value": value
+                            };
+  [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterStateChange"
+                                                      object: self
+                                                    userInfo: userInfo];  
 }
 
-- (DSAObject *)findObjectWithName:(NSString *)name inBodyParts:(DSABodyParts *)bodyParts {
-    // Iterate through body parts inventories
-    for (NSString *propertyName in bodyParts.inventoryPropertyNames) {
-        DSAInventory *inventory = [bodyParts valueForKey:propertyName];
-        DSAObject *foundObject = [self findObjectWithName:name inInventory:inventory];
-        if (foundObject) {
-            return foundObject; // Object found in body parts inventory
+- (void) updateStateThirstWithValue: (NSNumber*) value
+{
+  CGFloat newLevel = [value floatValue];
+  CGFloat currentLevel = [[self.statesDict objectForKey: @(DSACharacterStateThirst)] floatValue];
+  
+  if (newLevel > currentLevel)
+    {
+       NSString  *notificationMessage = [NSString stringWithFormat: @"Hmm lecker, das stillt den Durst."];
+       NSInteger notificationSeverity = LogSeverityInfo;
+    
+       NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                    @"message": notificationMessage
+                                 };
+       [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                           object: self
+                                                         userInfo: userInfo];      
+    }
+  else if (newLevel < currentLevel)
+    {
+      if (newLevel == 0)
+        {
+           NSString  *reason = [NSString stringWithFormat: @"%@ wird vor Durst ohnmächtig.", self.name];
+           [self updateStateUnconsciousWithValue: @(YES)
+                                      withReason: reason];
+              
+        }
+      else if (newLevel < 0.1)
+        {
+           NSString  *notificationMessage = [NSString stringWithFormat: @"%@ ist sehr durstig.", self.name];
+           NSInteger notificationSeverity = LogSeverityWarning;
+    
+           NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                        @"message": notificationMessage
+                                 };
+           [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                               object: self
+                                                             userInfo: userInfo];        
         }
     }
-    return nil; // Return nil if not found
+  [self.statesDict setObject: value forKey: @(DSACharacterStateThirst)];
+  NSDictionary *userInfo = @{ @"state": @(DSACharacterStateThirst),
+                              @"value": value
+                            };
+  [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterStateChange"
+                                                      object: self
+                                                    userInfo: userInfo];
 }
 
-- (DSAObject *)findObjectWithName:(NSString *)name {
-    // Search in general inventory
-    DSAObject *foundObject = [self findObjectWithName:name inInventory:self.inventory];
-    if (foundObject) {
-        return foundObject; // Object found in general inventory
+- (void) updateStateDrunkenWithValue: (NSNumber*) value
+{
+  
+  NSInteger newLevel = [value integerValue];
+  NSInteger currentLevel = [[self.statesDict objectForKey: @(DSACharacterStateDrunken)] integerValue];
+  NSLog(@"UPDATING DRUNKEN STATE: CURRENT %@ NEW %@", [self.statesDict objectForKey: @(DSACharacterStateDrunken)], value);
+  if (currentLevel < newLevel && newLevel <= DSASeverityLevelSevere)
+    {
+       [self.statesDict setObject: value forKey: @(DSACharacterStateDrunken)];
+       NSString  *notificationMessage = [NSString stringWithFormat: @"%@ hat wohl etwas über den Durst getrunken.", self.name];
+       NSInteger notificationSeverity = LogSeverityWarning;
+    
+       NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                    @"message": notificationMessage
+                                 };
+       [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                           object: self
+                                                         userInfo: userInfo]; 
     }
-
-    // Search in body parts
-    return [self findObjectWithName:name inBodyParts:self.bodyParts];
+  else if (newLevel> DSASeverityLevelNone && newLevel < currentLevel)
+    {
+      [self.statesDict setObject: value forKey: @(DSACharacterStateDrunken)];
+       NSString  *notificationMessage = [NSString stringWithFormat: @"%@ nüchtert langsam wieder aus.", self.name];
+       NSInteger notificationSeverity = LogSeverityInfo;
+    
+       NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                    @"message": notificationMessage
+                                 };
+       [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                           object: self
+                                                         userInfo: userInfo];      
+    }
+  else if (newLevel == DSASeverityLevelNone && newLevel < currentLevel)
+    {
+      [self.statesDict setObject: value forKey: @(DSACharacterStateDrunken)];
+      NSString  *notificationMessage = [NSString stringWithFormat: @"%@ ist wieder ausgenüchtert.", self.name];
+      NSInteger notificationSeverity = LogSeverityHappy;
+    
+      NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                   @"message": notificationMessage
+                                };                               
+      [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                          object: self
+                                                        userInfo: userInfo];      
+    }
 }
-// End of inventory related methods
 
-*/
+- (void) updateStateUnconsciousWithValue: (NSNumber*) value
+                              withReason: (NSString *) reason
+{
+  NSInteger notificationSeverity = LogSeverityInfo;
+  NSString *notificationMessage = nil;
+  NSLog (@"DSACharacter updateStateUnconsciousWithValue: %@ reason: %@", value, reason);
+  
+  BOOL currentState = [[self.statesDict objectForKey: @(DSACharacterStateUnconscious)] boolValue];
+  
+  if (currentState == [value boolValue])
+    {
+      return; // nothing changed...
+    }
+  
+  [self.statesDict setObject: value forKey: @(DSACharacterStateUnconscious)];
+  if (reason)
+    {
+      notificationSeverity = LogSeverityWarning;
+      notificationMessage = reason;
+
+    }
+  else if ([value boolValue] == NO)
+    {
+      notificationSeverity = LogSeverityHappy;
+      notificationMessage = [NSString stringWithFormat: @"%@'s Zustand der Bewußtlosigkeit ist beendet.", self.name];
+     
+    }
+  else if ([value boolValue] == YES)
+    {
+      notificationSeverity = LogSeverityWarning;
+      notificationMessage = [NSString stringWithFormat: @"%@ verliert das Bewußtsein.", self.name];
+       
+    }
+  NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                               @"message": notificationMessage
+                            };  
+  [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                      object: self
+                                                    userInfo: userInfo];
+                                                    
+  userInfo = @{ @"state": @(DSACharacterStateUnconscious),
+                @"value": value
+              };                                                     
+  [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterStateChange"
+                                                      object: self
+                                                    userInfo: userInfo];
+}
+
+- (void) updateStateDeadWithValue: (NSNumber*) value
+                       withReason: (NSString *) reason
+{
+  NSInteger notificationSeverity = LogSeverityInfo;
+  NSString *notificationMessage = nil;
+
+  BOOL currentState = [[self.statesDict objectForKey: @(DSACharacterStateDead)] boolValue];
+  
+  if (currentState == [value boolValue])
+    {
+      return; // nothing changed...
+    }  
+    
+  [self.statesDict setObject: value forKey: @(DSACharacterStateDead)];
+  if (reason)
+    {
+      notificationSeverity = LogSeverityWarning;
+      notificationMessage = reason;
+
+    }
+  else if ([value integerValue] == DSASeverityLevelNone)
+    {
+      notificationSeverity = LogSeverityHappy;
+      notificationMessage = [NSString stringWithFormat: @"%@ ist aus Borons Reich zurückgekehrt und weilt wieder unter den Lebenden.", self.name];
+     
+    }
+  else if ([value integerValue] > DSASeverityLevelNone)
+    {
+      notificationSeverity = LogSeverityCritical;
+      notificationMessage = [NSString stringWithFormat: @"%@'s Lebenslicht erlischt, sein Geist geht über ins Reich Borons.", self.name];
+       
+    }
+  NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                               @"message": notificationMessage
+                            };  
+  [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                      object: self
+                                                    userInfo: userInfo];
+                                                    
+  userInfo = @{ @"state": @(DSACharacterStateDead),
+                @"value": value
+              };                                                     
+  [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterStateChange"
+                                                      object: self
+                                                    userInfo: userInfo];
+}
+
 @end

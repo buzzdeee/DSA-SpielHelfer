@@ -25,6 +25,8 @@
 #import "DSAActionIcon.h"
 #import "DSACharacter.h"
 #import "DSAInventoryManager.h"
+#import "Utils.h"
+#import "DSATalentResult.h"
 
 @implementation DSAActionIcon
 
@@ -114,8 +116,8 @@
         
         // Retrieve the dragged item from the source model's inventory
         DSAObject *draggedItem = [[DSAInventoryManager sharedManager] findItemInModel:sourceModel
-                                                                   inventoryIdentifier:sourceInventory
-                                                                              slotIndex:sourceSlotIndex];
+                                                                  inventoryIdentifier:sourceInventory
+                                                                            slotIndex:sourceSlotIndex];
         
         if (!draggedItem) {
             NSLog(@"Dragged item not found in source model's inventory");
@@ -129,7 +131,10 @@
             return YES;
         } else if ([self.actionType isEqualToString:@"mouth"]) {
             // Action for the mouth: consume item
-            [self consumeItem:draggedItem];
+            [self consumeItem: draggedItem
+                    fromModel: sourceModel
+          inventoryIdentifier: sourceInventory
+                    slotIndex: sourceSlotIndex];
             return YES;
         } else if ([self.actionType isEqualToString:@"trash"]) {
             // Action for trash: ask to discard the item
@@ -157,16 +162,38 @@
 }
 
 // Consume the item (e.g., eating or using the item)
-- (void)consumeItem:(id)item {
+- (void)consumeItem: (DSAObject *)item
+          fromModel: (DSACharacter *)sourceModel
+inventoryIdentifier: (NSString *)sourceInventory
+          slotIndex: (NSInteger)sourceSlotIndex
+{
     // Implement logic to consume the item
-    NSLog(@"Consuming item: %@", item);
-    // You could call methods to update the character's stats or inventory here
+    NSLog(@"DSAActionItem: Consuming item: %@", item);
+    DSASlot *slot = [[DSAInventoryManager sharedManager] findSlotInModel: sourceModel
+                                                 withInventoryIdentifier: sourceInventory
+                                                                 atIndex: sourceSlotIndex];
+    if (slot == nil)  // slot not found, odd???
+      {
+        return;
+      }
+    BOOL result = [sourceModel consumeItem: item];
+    if (result == YES)
+      {
+        slot.quantity -= 1;
+        if (slot.quantity == 0)
+          {
+            slot.object = nil;
+          }
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAInventoryChangedNotification"
+                                                            object:sourceModel
+                                                          userInfo:@{@"sourceModel": sourceModel}];
+      }
 }
 
 - (void)askToDiscardItem:(DSAObject *)item 
                fromModel:(DSACharacter *)sourceModel 
-         inventoryIdentifier:(NSString *)sourceInventory 
-                slotIndex:(NSInteger)sourceSlotIndex {
+     inventoryIdentifier:(NSString *)sourceInventory 
+               slotIndex:(NSInteger)sourceSlotIndex {
     // Show a confirmation dialog to confirm the action
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setMessageText:_(@"Bist du sicher das du das wegwerfen willst?")];

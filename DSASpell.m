@@ -51,11 +51,15 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 }
 
 + (instancetype)spellWithName: (NSString *) name
+                    ofVariant: (NSString *) variant
+            ofDurationVariant: (NSString *) durationVariant
                    ofCategory: (NSString *) category 
                       onLevel: (NSInteger) level
                    withOrigin: (NSArray *) origin
                      withTest: (NSArray *) test
-             withAlternatives: (NSArray *) alternatives
+              withMaxDistance: (NSInteger) maxDistance          
+                 withVariants: (NSArray *) variants
+         withDurationVariants: (NSArray *) durationVariants
        withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
             withMaxUpPerLevel: (NSInteger) maxUpPerLevel
               withLevelUpCost: (NSInteger) levelUpCost
@@ -65,11 +69,15 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       NSLog(@"DSASpell: spellWithName: %@ going to call initSpell...", name);
       return [[subclass alloc] initSpell: name
+                               ofVariant: variant
+                       ofDurationVariant: durationVariant
                               ofCategory: category
                                  onLevel: level
                               withOrigin: origin
                                 withTest: test
-                        withAlternatives: (NSArray *) alternatives                                
+                         withMaxDistance: (NSInteger) maxDistance                                
+                            withVariants: variants
+                    withDurationVariants: durationVariants
                   withMaxTriesPerLevelUp: maxTriesPerLevelUp
                        withMaxUpPerLevel: maxUpPerLevel
                          withLevelUpCost: levelUpCost];
@@ -80,11 +88,15 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 }
 
 - (instancetype)initSpell: (NSString *) name
+                ofVariant: (NSString *) variant
+        ofDurationVariant: (NSString *) durationVariant
                ofCategory: (NSString *) category 
                   onLevel: (NSInteger) level
                withOrigin: (NSArray *) origin
                  withTest: (NSArray *) test
-         withAlternatives: (NSArray *) alternatives        
+          withMaxDistance: (NSInteger) maxDistance                 
+             withVariants: (NSArray *) variants
+     withDurationVariants: (NSArray *) durationVariants
    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
           withLevelUpCost: (NSInteger) levelUpCost
@@ -97,7 +109,10 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.level = level;
       self.origin = origin;
       self.test = test;
-      self.alternatives = alternatives;
+      self.variants = variants;
+      self.variant = variant;
+      self.durationVariants = durationVariants;
+      self.durationVariant = durationVariant;
       self.maxTriesPerLevelUp = maxTriesPerLevelUp;
       self.maxUpPerLevel = maxUpPerLevel;
       self.levelUpCost = levelUpCost;
@@ -106,7 +121,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.casterLevel = -1;
       self.everLeveledUp = NO;
       self.isTraditionSpell = NO;
-      self.maxDistance = 0;
+      self.maxDistance = maxDistance;
       self.canCastOnSelf = NO;
       self.allowedTargetTypes = @[];
       self.targetTypeRestrictions = @{}; 
@@ -131,7 +146,10 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.element = [coder decodeObjectForKey:@"element"];
       self.technique = [coder decodeObjectForKey:@"technique"];
       self.test = [coder decodeObjectForKey:@"test"];
-      self.alternatives = [coder decodeObjectForKey:@"alternatives"];
+      self.variants = [coder decodeObjectForKey:@"variants"];
+      self.variant = [coder decodeObjectForKey:@"variant"];
+      self.durationVariants = [coder decodeObjectForKey:@"durationVariants"];
+      self.durationVariant = [coder decodeObjectForKey:@"durationVariant"];      
       
       self.allowedTargetTypes = [coder decodeObjectForKey:@"allowedTargetTypes"];
       self.targetTypeRestrictions = [coder decodeObjectForKey:@"targetTypeRestrictions"];
@@ -166,8 +184,11 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   [coder encodeObject:self.element forKey:@"element"];
   [coder encodeObject:self.technique forKey:@"technique"];
   [coder encodeObject:self.test forKey:@"test"];
-  [coder encodeObject:self.alternatives forKey:@"alternatives"];
-  
+  [coder encodeObject:self.variants forKey:@"variants"];
+  [coder encodeObject:self.variant forKey:@"variant"];
+  [coder encodeObject:self.durationVariants forKey:@"durationVariants"];
+  [coder encodeObject:self.durationVariant forKey:@"durationVariant"];
+    
   [coder encodeObject:self.allowedTargetTypes forKey:@"allowedTargetTypes"];
   [coder encodeObject:self.targetTypeRestrictions forKey:@"targetTypeRestrictions"];
   
@@ -347,7 +368,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 // spelling related methods
 - (DSASpellResult *) castOnTarget: (id) target
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -359,7 +381,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   return result;
 }
 
-- (BOOL) applyEffectOnTarget: (id) target
+- (BOOL) applyEffectOnTarget: (id) target forOwner: (NSString *) ownerUUID
 {
   NSLog(@"DSASpell applyEffectOnTarget called, not implemented in SubClass!");
   return YES;
@@ -558,11 +580,14 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // Antimagie
 @implementation DSASpellBeherrschungenBrechen
 - (instancetype)initSpell: (NSString *) name
+                ofVariant: (NSString *) variant
+        ofDurationVariant: (NSString *) durationVariant
                ofCategory: (NSString *) category 
                   onLevel: (NSInteger) level
                withOrigin: (NSArray *) origin
                  withTest: (NSArray *) test
-         withAlternatives: (NSArray *) alternatives                 
+             withVariants: (NSArray *) variants
+     withDurationVariants: (NSArray *) durationVariants
    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
           withLevelUpCost: (NSInteger) levelUpCost
@@ -575,7 +600,10 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.level = level;
       self.origin = origin;
       self.test = test;
-      self.alternatives = alternatives;
+      self.variants = variants;
+      self.variant = variant;
+      self.durationVariants = durationVariants;
+      self.durationVariant = durationVariant;
       self.maxTriesPerLevelUp = maxTriesPerLevelUp;
       self.maxUpPerLevel = maxUpPerLevel;
       self.levelUpCost = levelUpCost;
@@ -591,7 +619,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 }
 
 - (DSASpellResult *) castOnTarget: (id) target
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -643,11 +672,14 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellBewegungenStoeren
 - (instancetype)initSpell: (NSString *) name
+                ofVariant: (NSString *) variant
+        ofDurationVariant: (NSString *) durationVariant
                ofCategory: (NSString *) category 
                   onLevel: (NSInteger) level
                withOrigin: (NSArray *) origin
                  withTest: (NSArray *) test
-         withAlternatives: (NSArray *) alternatives                 
+             withVariants: (NSArray *) variants
+     withDurationVariants: (NSArray *) durationVariants
    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
           withLevelUpCost: (NSInteger) levelUpCost
@@ -660,7 +692,10 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.level = level;
       self.origin = origin;
       self.test = test;
-      self.alternatives = alternatives;
+      self.variants = variants;
+      self.variant = variant;
+      self.durationVariants = durationVariants;
+      self.durationVariant = durationVariant;
       self.maxTriesPerLevelUp = maxTriesPerLevelUp;
       self.maxUpPerLevel = maxUpPerLevel;
       self.levelUpCost = levelUpCost;
@@ -677,7 +712,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 }
 
 - (DSASpellResult *) castOnTarget: (id) target
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant       
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -728,11 +764,14 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellDestructiboArcanitas
 - (instancetype)initSpell: (NSString *) name
+                ofVariant: (NSString *) variant
+        ofDurationVariant: (NSString *) durationVariant
                ofCategory: (NSString *) category 
                   onLevel: (NSInteger) level
                withOrigin: (NSArray *) origin
                  withTest: (NSArray *) test
-         withAlternatives: (NSArray *) alternatives                 
+             withVariants: (NSArray *) variants
+     withDurationVariants: (NSArray *) durationVariants
    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
           withLevelUpCost: (NSInteger) levelUpCost
@@ -745,7 +784,10 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.level = level;
       self.origin = origin;
       self.test = test;
-      self.alternatives = alternatives;
+      self.variants = variants;
+      self.variant = variant;
+      self.durationVariants = durationVariants;
+      self.durationVariant = durationVariant;
       self.maxTriesPerLevelUp = maxTriesPerLevelUp;
       self.maxUpPerLevel = maxUpPerLevel;
       self.levelUpCost = levelUpCost;  
@@ -762,7 +804,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 }
 
 - (DSASpellResult *) castOnTarget: (id) target
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter

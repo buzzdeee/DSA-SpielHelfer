@@ -82,6 +82,7 @@
 @property (weak) IBOutlet NSTextField *fieldTA;
 @property (weak) IBOutlet NSTextField *fieldTitle;
 @property (weak) IBOutlet NSTextField *fieldWeight;
+@property (weak) IBOutlet NSTextField *fieldLogs;
 @property (weak) IBOutlet NSTabView *tabViewMain;
 @property (weak) IBOutlet NSImageView *imageViewPortrait;
 @property (weak) IBOutlet NSImageView *imageViewBodyShape;
@@ -158,6 +159,9 @@
 @property (weak) IBOutlet DSAActionIcon *imageEye;
 @property (weak) IBOutlet DSAActionIcon *imageMouth;
 @property (weak) IBOutlet DSAActionIcon *imageTrash;
+@property (weak) IBOutlet NSProgressIndicator *progressBarHunger;
+@property (weak) IBOutlet NSProgressIndicator *progressBarThirst;
+
 
 // For the secondary .gorm file DSACharacterLevelUp
 @property (nonatomic, strong) IBOutlet NSPanel *congratsPanel;
@@ -178,6 +182,13 @@
 // For adding adventure points
 @property (nonatomic, strong) IBOutlet NSPanel *adventurePointsPanel;
 @property (weak) IBOutlet NSTextField *fieldAdditionalAdventurePoints;
+
+
+
+// For character dead window
+@property (nonatomic, strong) IBOutlet NSPanel *deadPanel;
+@property (weak) IBOutlet NSTextField *fieldCharacterDead;
+@property (weak) IBOutlet NSImageView *imageCharacterDead;
 
 // For using talents window
 @property (nonatomic, strong) IBOutlet NSPanel *useTalentPanel;
@@ -204,15 +215,29 @@
 @property (weak) IBOutlet NSTextField *fieldRitualFeedback;
 @property (weak) IBOutlet NSTextField *fieldRitualFeedbackHeadline;
 @property (weak) IBOutlet NSPopUpButton *popupRitualCategorySelector;
-@property (weak) IBOutlet NSPopUpButton *popupRitualAlternativeSelector;
+@property (weak) IBOutlet NSPopUpButton *popupRitualVariantSelector;
+@property (weak) IBOutlet NSPopUpButton *popupRitualDurationVariantSelector;
 @property (weak) IBOutlet NSPopUpButton *popupRitualSelector;
+@property (weak) IBOutlet NSTextField *fieldRitualCreatorLevel;          // level of the mage who casted initial spell we want to do antimagic on...
+@property (weak) IBOutlet NSTextField *fieldRitualDistance;
+@property (weak) IBOutlet NSTextField *fieldRitualInvestedASP;
+@property (weak) IBOutlet NSTextField *fieldRitualMagicResistance;
 @property (weak) IBOutlet NSPopUpButton *buttonRitualDoIt;
 
-// For setting temporary energies
+// For setting temporary energies, and states
 @property (nonatomic, strong) IBOutlet NSPanel *manageTempEnergiesPanel;
 @property (weak) IBOutlet NSTextField *fieldTempEnergiesAE;
 @property (weak) IBOutlet NSTextField *fieldTempEnergiesKE;
 @property (weak) IBOutlet NSTextField *fieldTempEnergiesLE;
+@property (weak) IBOutlet NSSlider    *sliderTempEnergiesHunger;
+@property (weak) IBOutlet NSSlider    *sliderTempEnergiesThirst;
+@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesWounded;
+@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesSick;
+@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesDrunk;
+@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesPoisoned;
+@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesDead;
+@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesUnconscious;
+@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesSpellbound;
 
 // for character regeneration
 @property (nonatomic, strong) IBOutlet NSPanel *regenerationPanel;

@@ -43,8 +43,6 @@
 @property (nonatomic, strong) DSAInventory *rightArm;
 @property (nonatomic, strong) DSAInventory *leftHand;
 @property (nonatomic, strong) DSAInventory *rightHand;
-@property (nonatomic, strong) DSAInventory *leftHandFingers;
-@property (nonatomic, strong) DSAInventory *rightHandFingers;
 @property (nonatomic, strong) DSAInventory *hip;
 @property (nonatomic, strong) DSAInventory *upperBody;
 @property (nonatomic, strong) DSAInventory *lowerBody;

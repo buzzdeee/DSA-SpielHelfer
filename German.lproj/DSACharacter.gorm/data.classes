@@ -135,7 +135,10 @@
 	    imageTrash,
 	    fieldLoad,
 	    imageViewBodyShape,
-	    fieldArmor
+	    fieldArmor,
+	    progressBarThirst,
+	    progressBarHunger,
+	    fieldLogs
 	);
 	Super = NSWindowController;
     };

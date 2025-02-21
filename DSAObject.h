@@ -60,6 +60,8 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
 @property (nonatomic, assign) NSInteger breakFactor;
 @property (nonatomic, strong) NSString *ownerUUID;
 @property (nonatomic, strong) NSArray *regions;
+@property (nonatomic, strong) NSArray *useWith;                       // object can be used with these other objects
+@property (nonatomic, strong) NSString *useWithText;                  // text displayed when used
 
 @property (nonatomic, strong) NSMutableSet<NSNumber *> *states;
 
@@ -83,6 +85,8 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
                  canShareSlot: (BOOL) canShareSlot
+                      useWith: (NSArray *) useWith
+                  useWithText: (NSString *) useWithText
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
                 withOwnerUUID: (NSString *) ownerUUID
                   withRegions: (NSArray *) regions;
@@ -274,6 +278,29 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
 @end
 // End of DSAObjectArmor
 
+@interface DSAObjectFood : DSAObject
+@property (nonatomic) BOOL isConsumable;
+@property (nonatomic) BOOL isAlcohol;
+@property (nonatomic, assign) NSInteger alcoholLevel;
+@property (nonatomic, assign) float nutritionValue;
+@property (nonatomic, strong) NSString *becomeWhenEmpty;                    // Item name, when it becomes empty, i.e. a bottle...
+- (instancetype) initWithName: (NSString *) name
+                     withIcon: (NSString *) icon
+                   inCategory: (NSString *) category
+                inSubCategory: (NSString *) subCategory
+             inSubSubCategory: (NSString *) subSubCategory
+                   withWeight: (float) weight
+                    withPrice: (float) price
+                 isConsumable: (BOOL) isConsumable
+              becomeWhenEmpty: (NSString *) newItemName
+                    isAlcohol: (BOOL) isAlcohol
+                 alcoholLevel: (NSInteger) alcoholLevel
+               nutritionValue: (float) nutritionValue
+      validInventorySlotTypes: (NSArray *) validSlotTypes
+                 canShareSlot: (BOOL) canShareSlot;
+@end
+// End of DSAObjectFood
+                    
 @interface DSAObjectCloth : DSAObject
 @end
 // End of DSAObjectCloth

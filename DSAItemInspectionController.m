@@ -110,6 +110,13 @@
     if ([item isKindOfClass:[DSAObjectContainer class]]) {
         DSAObjectContainer *container = (DSAObjectContainer *)item;
         [details appendFormat:_(@"Anzahl Slots: %ld\n"), [container.slots count]];
+        for (DSASlot *slot in container.slots)
+          {
+            if (slot.object != nil)
+              {
+                [details appendFormat:_(@"Inhalt: %ld x %@\n"), (signed long) slot.quantity, slot.object.name];
+              }
+          }
     } else if ([item isKindOfClass:[DSAObjectWeaponHandAndLongRangeWeapon class]]) {
         DSAObjectWeaponHandAndLongRangeWeapon *weapon = (DSAObjectWeaponHandAndLongRangeWeapon *)item;
         [details appendFormat:_(@"Länge: %f\n"), weapon.length];

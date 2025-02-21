@@ -23,6 +23,7 @@
 */
 
 #import "DSAInventoryManager.h"
+#import "Utils.h"
 
 @implementation DSAInventoryManager
 
@@ -34,20 +35,22 @@
     return sharedInstance;
 }
 
-- (BOOL)transferItemFromSlot:(NSInteger)sourceSlotIndex
-                 inInventory:(NSString *)sourceInventory // New parameter for source inventory
-                     inModel:(DSACharacter *)sourceModel
-                      toSlot:(NSInteger)targetSlotIndex
-                     inModel:(DSACharacter *)targetModel
-         inventoryIdentifier:(NSString *)targetInventoryIdentifier // New parameter for target inventory
+- (BOOL)transferItemFromSlot: (NSInteger) sourceSlotIndex
+                 inInventory: (NSString *) sourceInventory
+                     inModel: (DSACharacter *) sourceModel
+                      toSlot: (NSInteger) targetSlotIndex
+                     inModel: (DSACharacter *) targetModel
+         inventoryIdentifier: (NSString *) targetInventoryIdentifier
+               mousePosition: (NSPoint) mousePosition
+                      inView: (DSAInventorySlotView *) view
 {
     // Get the source and target slots directly from the parameters
     DSASlot *sourceSlot = [self findSlotInModel:sourceModel
-                             withInventoryIdentifier:sourceInventory // Pass source inventory
-                                          atIndex:sourceSlotIndex];
+                        withInventoryIdentifier:sourceInventory // Pass source inventory
+                                        atIndex:sourceSlotIndex];
     DSASlot *targetSlot = [self findSlotInModel:targetModel
-                             withInventoryIdentifier:targetInventoryIdentifier // Pass target inventory
-                                          atIndex:targetSlotIndex];
+                        withInventoryIdentifier:targetInventoryIdentifier // Pass target inventory
+                                        atIndex:targetSlotIndex];
     NSLog(@"TRANSFERRING SINGLE SLOT ITEM");
     // Validate the source and target slots
     if (!sourceSlot || !targetSlot) {
@@ -66,11 +69,96 @@
         NSLog(@"Incompatible item for target slot.");
         return NO;
     }
-
+    
+    // in case we drag a container around, onto a general slot, and the dragged container contains items
+    // ask if move everything, or unpack items
+    if (targetSlot.object == nil && 
+        targetSlot.slotType == DSASlotTypeGeneral && 
+        [sourceSlot.object isKindOfClass: [DSAObjectContainer class]])
+      {
+        NSLog(@"SOURCE IS a CONTAINER, TARGET is empty and of type GENERAL");
+        DSAObjectContainer *container = (DSAObjectContainer *) sourceSlot.object;
+        
+        for (DSASlot *slot in container.slots)
+          {
+            if (slot.object != nil)
+              {
+                 return [self handleUnpackOperationForItemFromSlot:sourceSlot
+                                                           inModel:sourceModel
+                                                            toSlot:targetSlot
+                                                           inModel:targetModel
+                                                     mousePosition:mousePosition
+                                                            inView:view];
+              }
+          }
+      }
+      
+    if (targetSlot.object != nil &&
+        [targetSlot.object isKindOfClass:[DSAObjectContainer class]])
+        {
+          return [self transferItemFromSlot: sourceSlot
+                                    inModel: sourceModel
+                                toContainer: (DSAObjectContainer *)targetSlot.object
+                                    inModel: targetModel];
+        }
+      
+    if (targetSlot.object != nil &&
+        [targetSlot.object.useWith containsObject: sourceSlot.object.name])
+      {
+        NSLog(@"GOING TO USE TWO OBJECTS WITH EACH OTHER");
+        sourceSlot.quantity -= 1;
+        if (sourceSlot.quantity == 0)
+          {
+            sourceSlot.object = nil;
+          }
+        //NSLog(targetSlot.object.useWithText, sourceModel.name);
+        NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
+                                    @"message": [NSString stringWithFormat: targetSlot.object.useWithText, sourceModel.name]
+                                  };
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                            object: sourceModel
+                                                          userInfo: userInfo];
+        [self postDSAInventoryChangedNotificationForSourceModel: sourceModel targetModel: targetModel];
+        return YES;       
+      }
+/*    
+    if ([targetSlot.object isKindOfClass: [DSAObjectContainer class]])
+      {
+        NSLog(@"TARGET SLOT OBJECT IS A DSAOBJECTCONTAINER!!!");
+        DSAObjectContainer *container = (DSAObjectContainer *)targetSlot.object;
+        for (DSASlot *slot in container.slots)
+          {
+            NSLog(@"CHECKING container slot: %@", slot);
+            if (slot.object == nil)
+              {
+                slot.object = sourceSlot.object;
+                slot.quantity = sourceSlot.quantity;
+                sourceSlot.object = nil;
+                sourceSlot.quantity = 0;
+                [self postDSAInventoryChangedNotificationForSourceModel: sourceModel targetModel: targetModel];
+                return YES;
+              }
+            else
+              {
+                if([self isItem: sourceSlot.object compatibleWithSlot:slot])
+                  {
+                    slot.object = sourceSlot.object;
+                    slot.quantity = sourceSlot.quantity;
+                    sourceSlot.object = nil;
+                    sourceSlot.quantity = 0;
+                    [self postDSAInventoryChangedNotificationForSourceModel: sourceModel targetModel: targetModel];
+                    return YES;                  
+                  }
+              }
+          }
+        return NO;
+      }
+*/    
+    
     // Check if we can transfer the item (check max item count, etc.)
     NSInteger remainingCapacity = targetSlot.maxItemsPerSlot - targetSlot.quantity;
     
-    if (sourceSlot.object.canShareSlot && remainingCapacity > 0) {
+    if (sourceSlot.object.canShareSlot && remainingCapacity >= 0) {
         // Handle shared slot logic
         NSInteger transferCount = MIN(remainingCapacity, sourceSlot.quantity);
 
@@ -107,9 +195,210 @@
     return NO;
 }
 
+- (BOOL) transferItemFromSlot: (DSASlot *) sourceSlot
+                      inModel: (DSACharacter *) sourceModel
+                  toContainer: (DSAObjectContainer *) targetContainer
+                      inModel: (DSACharacter *) targetModel
+{
+  BOOL transferred = NO;
+  for (DSASlot *slot in targetContainer.slots)  // recursively dive into containers ...
+    {
+      if ([self isItem:sourceSlot.object compatibleWithSlot:slot])
+        {
+          if (slot.object != nil && [slot.object isKindOfClass: [DSAObjectContainer class]])
+            {
+               transferred = [self transferItemFromSlot: sourceSlot
+                                                inModel: sourceModel
+                                            toContainer: (DSAObjectContainer *) slot.object
+                                                inModel: targetModel];
+               if (transferred == YES) // no need to postDSAInventoryChangedNotificationForSourceModel, the innermost did already...
+                 {
+                   return transferred;
+                 }
+            }
+          else
+            {
+              NSInteger remainingQuantity = slot.maxItemsPerSlot - slot.quantity;
+              NSInteger quantityToTransfer = sourceSlot.quantity <= remainingQuantity ? sourceSlot.quantity : remainingQuantity;
+              slot.quantity += quantityToTransfer;
+              slot.object = sourceSlot.object;
+              sourceSlot.quantity -= quantityToTransfer;
+              if (sourceSlot.quantity == 0)
+                {
+                  sourceSlot.object = nil;
+                }
+              [self postDSAInventoryChangedNotificationForSourceModel: sourceModel targetModel: targetModel];         
+              return YES;
+            }
+        }
+    }
+  return NO;
+}                      
+
+- (BOOL) handleUnpackOperationForItemFromSlot: (DSASlot *) sourceSlot
+                                      inModel: (DSACharacter *) sourceModel
+                                       toSlot: (DSASlot *) targetSlot
+                                      inModel: (DSACharacter *) targetModel
+                                mousePosition: (NSPoint) mousePosition
+                                       inView: (DSAInventorySlotView *) view
+{
+  NSLog(@"DSAInventoryManager: handleUnpackOperationForItemFromSlot CALLED!");
+  DSAObjectContainer *container = (DSAObjectContainer *)sourceSlot.object;
+  NSLog(@"handleUnpackOperationForItemFromSlot: view's window is first responder? %@", ([[view window] firstResponder] == view) ? @"YES" : @"NO");
+  [[view window] makeFirstResponder:view];
+  NSLog(@"handleUnpackOperationForItemFromSlot: view's window is first responder? %@", ([[view window] firstResponder] == view) ? @"YES" : @"NO");
+  
+  self.itemActionMenu = [[NSMenu alloc] initWithTitle: @""];
+  NSLog(@"setting delegate to VIEW: %@", view);
+  [self.itemActionMenu setDelegate:self];
+  
+  NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+  paragraphStyle.paragraphSpacingBefore = 0.0; // Small top padding
+  paragraphStyle.paragraphSpacing = 0.0;      // Small bottom padding
+
+  NSDictionary *attrs = @{ NSParagraphStyleAttributeName: paragraphStyle, 
+                                     NSFontAttributeName: [NSFont systemFontOfSize: [NSFont systemFontSize]]};  
+  //[self.itemActionMenu setAutoenablesItems: NO];
+  NSAttributedString *title = [[NSAttributedString alloc] initWithString: [NSString stringWithFormat: @"%@ mit Inhalt bewegen", container.name]
+                                                              attributes: attrs];
+  NSMenuItem *moveEverythingItem = [[NSMenuItem alloc] initWithTitle: @""
+                                                              action: @selector(moveWholeContainer:) 
+                                                       keyEquivalent: @""];
+  [moveEverythingItem setAttributedTitle: title];
+  moveEverythingItem.target = self;
+  moveEverythingItem.representedObject = @{ @"sourceSlot": sourceSlot,
+                                            @"sourceModel": sourceModel,
+                                            @"targetSlot": targetSlot,
+                                            @"targetModel": targetModel
+                                          };
+  [self.itemActionMenu addItem: moveEverythingItem];
+  for (DSASlot *slot in container.slots)
+    {
+      if (slot.object != nil)
+        {
+          NSAttributedString *itemTitle = [[NSAttributedString alloc] initWithString: [NSString stringWithFormat: @"%@ auspacken", slot.object.name]
+                                                                          attributes: attrs];
+          NSMenuItem *takeOutItem = [[NSMenuItem alloc] initWithTitle: @""
+                                                               action: @selector(removeItemFromContainer:)
+                                                        keyEquivalent: @""];
+          [takeOutItem setAttributedTitle: itemTitle];
+          takeOutItem.target = self;
+          takeOutItem.representedObject = @{ @"sourceSlot": slot,
+                                             @"sourceModel": sourceModel,
+                                             @"targetSlot": targetSlot,
+                                             @"targetModel": targetModel
+                                           };
+          [self.itemActionMenu addItem:takeOutItem];
+        }
+      
+    }
+  NSPoint locationInView = [NSEvent mouseLocation];
+  NSPoint locationOnScreen = [view.window.contentView convertPoint:locationInView toView:nil]; // Convert to window coordinates
+
+  [self.itemActionMenu popUpMenuPositioningItem: nil atLocation: locationOnScreen inView: nil];
+  return YES;
+}
+
+
+-(void) moveWholeContainer: (NSMenuItem *) sender
+{
+
+    NSLog(@"DSAInventoryManager moveWholeContainer called!");
+    NSDictionary *info = sender.representedObject;
+    DSASlot *sourceSlot = info[@"sourceSlot"];
+    DSASlot *targetSlot = info[@"targetSlot"];
+    DSACharacter *sourceModel = info[@"sourceModel"];
+    DSACharacter *targetModel = info[@"targetModel"];
+    
+    targetSlot.object = sourceSlot.object;
+    targetSlot.quantity = sourceSlot.quantity;
+
+    // Clear source slot
+    sourceSlot.object = nil;
+    sourceSlot.quantity = 0;
+        
+    NSLog(@"After updating slots: Source Slot: %@, Quantity: %ld", sourceSlot.object, sourceSlot.quantity);
+    NSLog(@"After updating slots: Target Slot: %@, Quantity: %ld", targetSlot.object, targetSlot.quantity);
+        
+    [self postDSAInventoryChangedNotificationForSourceModel: sourceModel targetModel: targetModel];   
+    [self.itemActionMenu close]; 
+}
+
+- (void) removeItemFromContainer: (NSMenuItem *) sender
+{
+    NSLog(@"DSAInventoryManager removeItemFromContainer called!");
+    NSDictionary *info = sender.representedObject;
+    DSASlot *sourceSlot = info[@"sourceSlot"];
+    DSASlot *targetSlot = info[@"targetSlot"];
+    DSACharacter *sourceModel = info[@"sourceModel"];
+    DSACharacter *targetModel = info[@"targetModel"];
+    
+    targetSlot.object = sourceSlot.object;
+    targetSlot.quantity = sourceSlot.quantity;
+
+    // Clear source slot
+    sourceSlot.object = nil;
+    sourceSlot.quantity = 0;
+        
+    NSLog(@"After updating slots: Source Slot: %@, Quantity: %ld", sourceSlot.object, sourceSlot.quantity);
+    NSLog(@"After updating slots: Target Slot: %@, Quantity: %ld", targetSlot.object, targetSlot.quantity);
+        
+    [self postDSAInventoryChangedNotificationForSourceModel: sourceModel targetModel: targetModel];
+    [self.itemActionMenu close];
+}
+
+// Implement all the NSMenuDelegate methods:
+- (void)menuWillOpen:(NSMenu *)menu {
+    // Called just before the menu opens.  You can do any setup here.
+    NSLog(@"Menu will open");
+}
+
+- (void)menuDidClose:(NSMenu *)menu {
+    // Called after the menu closes.  You can perform cleanup or other actions.
+    NSLog(@"Menu did close");
+}
+
+- (void)menu:(NSMenu *)menu willHighlightItem:(NSMenuItem *)item {
+    // Called when a menu item is highlighted.
+    if (item != nil) { // Check if an item is highlighted (could be nil if nothing is highlighted)
+        NSLog(@"Menu item highlighted: %@", item.title);
+
+/*        //You can now check, if the item is the one you are interested in, and call the respective method.
+        if ([item.title isEqualToString:@"Move everything"]) {
+            [self moveWholeContainer:item];
+        } else if ([item.title hasSuffix:@"auspacken"]) {
+            [self removeItemFromContainer:item];
+        } */
+    }
+}
+
+- (NSRect)confinementRectForMenu:(NSMenu *)menu onScreen:(NSScreen *)screen {
+    // screen is an NSScreen object
+
+    // Option 1: Confine to the screen's visible frame (excluding Dock, menu bar, etc.)
+    //NSRect screenRect = [screen visibleFrame];
+
+    // Option 2: Confine to the entire screen bounds.
+    NSRect screenRect = [screen frame];
+
+    // Option 3: Return NSZeroRect to allow the menu to appear at the mouse location
+    return NSZeroRect;
+
+    // Or define a specific rect
+    //NSRect confinementRect = NSMakeRect(100, 100, 200, 200);
+    //return confinementRect;
+
+    return screenRect;
+}
+// End of NSMenuDelegate
+
 
 - (void) postDSAInventoryChangedNotificationForSourceModel: (DSACharacter *) sourceModel targetModel: (DSACharacter *)targetModel
 {
+    if (sourceModel == nil && targetModel == nil)
+      {
+        return;
+      }
     if (sourceModel == targetModel) {
         NSLog(@"DSAInventoryManager postDSAInventoryChangedNotificationForSourceModel posting single notification");
         [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAInventoryChangedNotification"
@@ -164,10 +453,15 @@
         // Allow dropping into DSASlotTypeGeneral (general inventory) only if it's empty
         if (slot.slotType == DSASlotTypeGeneral) {
             if (slot.object == nil) {
-                NSLog(@"Multi-slot item can be dropped into empty general inventory slot.");
+                NSLog(@"DSAInventoryManager isItem: compatibleWithSlot: forModel: Multi-slot item can be dropped into empty general inventory slot.");
                 return YES;
             } else {
-                NSLog(@"Multi-slot item cannot be dropped into occupied general inventory slot.");
+                if ([slot.object isKindOfClass: [DSAObjectContainer class]])
+                  {
+                    NSLog(@"DSAInventoryManager isItem: compatibleWithSlot: forModel: Multi-slot might be dropped into DSAObjectContainer, or not ;).");
+                    return [self isItem: item compatibleWithSlot: slot];
+                  }
+                NSLog(@"DSAInventoryManager isItem: compatibleWithSlot: forModel: Multi-slot item can not be dropped into occupied general inventory slot.");
                 return NO;
             }
         }
@@ -191,69 +485,45 @@
         return YES;
     }
 
-    // Single-slot item logic
-    NSLog(@"Checking compatibility for single-slot item: %@", item.name);
-
-    // Check if the slot's type is valid for the item
-    if (![item.validSlotTypes containsObject:@(slot.slotType)]) {
-        NSLog(@"isItem: compatibleWithSlot: forModel: Item type is incompatible with slot type.");
-        return NO;
-    }
-
-    // If the slot is empty, it's compatible
-    if (slot.object == nil) {
-        return YES;
-    }
-
-    // If the item cannot share a slot and the slot is already occupied, it's incompatible
-    if (!item.canShareSlot) {
-        NSLog(@"Item cannot share slot and the slot is already occupied.");
-        return NO;
-    }
-
-    // If the slot is occupied, ensure the items are of the same type
-    if (![slot.object isCompatibleWithObject:item]) {
-        NSLog(@"Shared slot is already occupied by a different or incompatible item.");
-        return NO;
-    }
-
-    // If the item can share the slot, check for available capacity
-    NSInteger remainingCapacity = slot.maxItemsPerSlot - slot.quantity;
-    if (remainingCapacity <= 0) {
-        NSLog(@"No space left in the target slot for shared items.");
-        return NO;
-    }
-
-    // The item is compatible with the slot
-    return YES;
+    NSLog(@"DSAInventoryManager isItem: compatibleWithSlot: forModel: going to check for single-slot item...");
+    return [self isItem: item compatibleWithSlot: slot];
 }
 
 
 
 - (BOOL)isItem:(DSAObject *)item compatibleWithSlot:(DSASlot *)slot {
+    if (slot.object != nil &&
+        [slot.object.useWith containsObject: item.name])
+      {
+        NSLog(@"DSAInventoryManager isItem: compatibleWithSlot: Items can be used with each other");
+        return YES; // these items can be uses with each other
+      }
     // Check if the slot's type is valid for the item
     if (![item.validSlotTypes containsObject:@(slot.slotType)]) {
-        NSLog(@"isItem: compatibleWithSlot: Item type is incompatible with slot type.");
+        NSLog(@"DSAInventoryManager isItem: compatibleWithSlot: Item type is incompatible with slot type.");
         return NO;
     }
 
     // If the slot is empty, it's compatible
-    if (slot.object == nil) {
+    if (slot.object == nil) 
+      {
+        NSLog(@"DSAInventoryManager isItem: compatibleWithSlot: destination slot is empty.");
         return YES;
-    }
+      }
 
+    
     // If the item cannot share a slot and the slot is already occupied, it's incompatible
-    if (!item.canShareSlot) {
-        NSLog(@"Item cannot share slot and the slot is already occupied.");
+    if (!item.canShareSlot && ![slot.object isCompatibleWithObject:item]) {
+        NSLog(@"DSAInventoryManager isItem: compatibleWithSlot: Item cannot share slot and the slot is already occupied.");
         return NO;
     }
-
-    // If the slot is occupied, ensure the items are of the same type
+/*
+    // If the slot is occupied, ensure the items are compatible
     if (![slot.object isCompatibleWithObject:item]) {
         NSLog(@"Shared slot is already occupied by a different or incompatible item.");
         return NO;
     }
-
+*/
     // If the item can share the slot, check for available capacity
     NSInteger remainingCapacity = slot.maxItemsPerSlot - slot.quantity;
     if (remainingCapacity <= 0) {
@@ -383,6 +653,9 @@
     [self postDSAInventoryChangedNotificationForSourceModel:sourceModel targetModel:targetModel];
     return YES;
 }
+
+
+
 
 
 - (BOOL)cleanUpSourceSlotsForItem:(DSAObject *)item

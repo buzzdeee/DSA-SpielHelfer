@@ -313,6 +313,11 @@ NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
 }
 
 - (BOOL) canLevelUp {
+  if ([self isDeadOrUnconscious])
+    {
+      return NO;
+    }
+
     int currentLevel = self.level;
     int nextLevel = currentLevel + 1;
 

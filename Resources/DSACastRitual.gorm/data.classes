@@ -7,10 +7,15 @@
 	    castRitualPanel,
 	    fieldRitualFeedback,
 	    popupRitualCategorySelector,
-	    popupRitualAlternativeSelector,
+	    popupRitualVariantSelector,
 	    popupRitualSelector,
 	    buttonRitualDoIt,
-	    fieldRitualFeedbackHeadline
+	    fieldRitualFeedbackHeadline,
+	    popupRitualDurationVariantSelector,
+	    fieldRitualCreatorLevel,
+	    fieldRitualDistance,
+	    fieldRitualInvestedASP,
+	    fieldRitualMagicResistance
 	);
 	Super = NSWindowController;
     };

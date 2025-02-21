@@ -29,8 +29,62 @@
 
 @interface DSASpellDruidRitual : DSASpell
 
++ (instancetype)ritualWithName: (NSString *) name
+                     ofVariant: (NSString *) variant
+             ofDurationVariant: (NSString *) durationVariant
+                    ofCategory: (NSString *) category 
+                      withTest: (NSArray *) test
+               withMaxDistance: (NSInteger) maxDistance       
+                  withVariants: (NSArray *) variants
+          withDurationVariants: (NSArray *) durationVariants
+                   withPenalty: (NSInteger) penalty
+                   withASPCost: (NSInteger) aspCost
+          withPermanentASPCost: (NSInteger) permanentASPCost
+                    withLPCost: (NSInteger) lpCost
+           withPermanentLPCost: (NSInteger) permanentLPCost;
+
+- (instancetype)initRitual: (NSString *) name
+                 ofVariant: (NSString *) variant
+         ofDurationVariant: (NSString *) durationVariant
+                ofCategory: (NSString *) category
+                  withTest: (NSArray *) test
+           withMaxDistance: (NSInteger) maxDistance       
+              withVariants: (NSArray *) variants    
+      withDurationVariants: (NSArray *) durationVariants
+               withPenalty: (NSInteger) penalty    
+               withASPCost: (NSInteger) aspCost
+      withPermanentASPCost: (NSInteger) permanentASPCost
+                withLPCost: (NSInteger) lpCost
+       withPermanentLPCost: (NSInteger) permanentLPCost;
+       
+       
 
 @end
+
+// Stabzauber
+@interface DSASpellDruidRitualHerrschaftsritualMiniatur : DSASpellDruidRitual
+@end
+@interface DSASpellDruidRitualHerrschaftsritualAmulett : DSASpellDruidRitual
+@end
+@interface DSASpellDruidRitualHerrschaftsritualWurzel : DSASpellDruidRitual
+@end
+@interface DSASpellDruidRitualHerrschaftsritualKristall : DSASpellDruidRitual
+@end
+@interface DSASpellDruidRitualMetamagieSumusBlut : DSASpellDruidRitual
+@end
+@interface DSASpellDruidRitualDolchritualEins : DSASpellDruidRitual
+@end
+@interface DSASpellDruidRitualDolchritualZwei : DSASpellDruidRitual
+@end
+@interface DSASpellDruidRitualDolchritualDrei : DSASpellDruidRitual
+@end
+@interface DSASpellDruidRitualDolchritualKraft : DSASpellDruidRitual
+@end
+@interface DSASpellDruidRitualDolchritualWeg : DSASpellDruidRitual
+@end
+@interface DSASpellDruidRitualDolchritualLicht : DSASpellDruidRitual
+@end
+
 
 #endif // _DSASPELLDRUIDRITUAL_H_
 

@@ -1,31 +1,24 @@
 {
-  "Herrschaftsrituale": {
+  "Herrschaftsritual": {
     "Die Miniatur der Herrschaft": {
-      "Probe": [ "MU", "KL", "IN", "+MR" ],
+      "Probe": [ "MU", "KL", "IN" ],
       "Typen": [ "Druide", "Schamane" ],
-      "Entfernungsaufschlag": "1 Punkt je 10 Meilen",
-      "Dauer": "2W6 Tage, maximal bis nächsten Vollmond",
       "ASP Kosten": 13
     },
     "Das Amulett der Herrschaft": {
-      "Probe": [ "MU", "KL", "IN", "+MR" ],
+      "Probe": [ "MU", "KL", "IN" ],
       "Typen": [ "Druide", "Schamane" ],
-      "Entfernung": "Max 7 Meilen",
-      "Dauer": "3W6 Tage, maximal bis nächsten Vollmond",
+      "Maximale Entfernung": 7000,
       "ASP Kosten": 17
     },
     "Die Wurzel der Herrschaft": {
-      "Probe": [ "MU", "KL", "IN", "+2xMR" ],
+      "Probe": [ "MU", "KL", "IN" ],
       "Typen": [ "Druide", "Schamane" ],
-      "Entfernungsaufschlag": "1 Punkt je 10 Meilen",
-      "Dauer": "4W6 Tage",
       "ASP Kosten": 21
     },
     "Der Kristall der Herrschaft": {
-      "Probe": [ "MU", "KL", "IN", "+2xMR" ],
+      "Probe": [ "MU", "KL", "IN" ],
       "Typen": [ "Druide", "Schamane" ],
-      "Entfernungsaufschlag": "1 Punkt je 10 Meilen",
-      "Dauer": "5W6 Tage, maximal bis nächsten Vollmond",
       "ASP Kosten": 25
     }
   },
@@ -34,13 +27,11 @@
       "Probe": [ "MU", "MU", "IN" ],
       "Probenzuschlag": 5,
       "Typen": [ "Druide", "Schamane" ],
-      "Entfernungsaufschlag": "keiner",
-      "Dauer": "1 Tag",
       "ASP Kosten": 23
     }
   },
-  "Dolchrituale": {
-    "Die Kraft des Dolches": {
+  "Dolchritual": {
+    "1. Dolchritual": {
       "Order": 1,
       "Probe": [ "KL", "IN", "KK" ],
       "Probenzuschlag": 1,
@@ -48,7 +39,7 @@
       "ASP Kosten": 17,
       "davon permanente ASP Kosten": 1
     },
-    "Der Weg des Dolches": {
+    "2. Dolchritual": {
       "Order": 2,
       "Probe": [ "KL", "IN", "KK" ],
       "Probenzuschlag": 3,
@@ -56,7 +47,7 @@
       "ASP Kosten": 19,
       "davon permanente ASP Kosten": 1
     },
-    "Das Licht des Dolches": {
+    "3. Dolchritual": {
       "Order": 3,
       "Probe": [ "KL", "IN", "KK" ],
       "Probenzuschlag": 5,

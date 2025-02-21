@@ -25,26 +25,36 @@
 #ifndef _DSAINVENTORYMANAGER_H_
 #define _DSAINVENTORYMANAGER_H_
 
-#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
 #import "DSACharacter.h"
 #import "DSASlot.h"
 #import "DSAObject.h"
+#import "DSAInventorySlotView.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DSAInventoryManager : NSObject
+@interface DSAInventoryManager : NSObject <NSMenuDelegate>
+
+@property (strong) NSMenu *itemActionMenu; // the context menu
 
 + (instancetype)sharedManager;
 
+- (void) postDSAInventoryChangedNotificationForSourceModel: (DSACharacter *) sourceModel targetModel: (DSACharacter *)targetModel;
+
 /// returns the item stored in a given inventory/slot
-- (DSAObject *)findItemInModel: (DSACharacter *) model
-           inventoryIdentifier: (NSString *) inventoryIdentifier
-                     slotIndex: (NSInteger) slotIndex;
+- (DSAObject *) findItemInModel: (DSACharacter *) model
+            inventoryIdentifier: (NSString *) inventoryIdentifier
+                      slotIndex: (NSInteger) slotIndex;
 
 /// searches and finds an item by its name in all inventories of a given model           
 - (DSAObject *) findItemWithName: (NSString *) name 
                          inModel: (DSACharacter *) model;                     
-                     
+
+// Searches for the DSASlot given inventoryIdentifier, model and slotIndex.                                              
+- (DSASlot *) findSlotInModel:(DSACharacter *)model 
+      withInventoryIdentifier:(NSString *)inventoryIdentifier 
+                      atIndex:(NSInteger)slotIndex;
+                                               
 /// replaces a new instantiated item in an inventory of a character
 /// @param oldItem the item to be replaced
 /// @param inModel the character that's intended to be in possession of oldItem
@@ -68,8 +78,14 @@ NS_ASSUME_NONNULL_BEGIN
                      inModel:(DSACharacter *)sourceModel
                       toSlot:(NSInteger)targetSlotIndex
                      inModel:(DSACharacter *)targetModel
-         inventoryIdentifier:(NSString *)targetInventoryIdentifier;
-
+         inventoryIdentifier:(NSString *)targetInventoryIdentifier
+               mousePosition:(NSPoint) mousePosition
+                      inView: (DSAInventorySlotView *) view;
+                      
+- (BOOL) transferItemFromSlot: (DSASlot *) sourceSlot
+                      inModel: (DSACharacter *) sourceModel
+                  toContainer: (DSAObjectContainer *) targetContainer
+                      inModel: (DSACharacter *) targetModel;
               
 - (BOOL)transferMultiSlotItem:(DSAObject *)item
                     fromModel:(DSACharacter *)sourceModel

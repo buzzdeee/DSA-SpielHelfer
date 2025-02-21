@@ -50,8 +50,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 _(@"7. Stabzauber"): [DSASpellMageRitualStabzauberSieben class],
                 _(@"Magische Fackel"): [DSASpellMageRitualStabzauberFackel class],
                 _(@"Magisches Seil"): [DSASpellMageRitualStabzauberSeil class],
-                _(@"Chamäleon"): [DSASpellMageRitualStabzauberChamaeleon class],
-                _(@"Speikobra"): [DSASpellMageRitualStabzauberSpeikobra class],
+                _(@"Tierverwandlung"): [DSASpellMageRitualStabzauberTierverwandlung class],
                 _(@"Stab herbeirufen"): [DSASpellMageRitualStabzauberHerbeirufen class],
                 _(@"Schwertzauber"): [DSASpellMageRitualSchwertzauber class],
                 _(@"Schalenzauber"): [DSASpellMageRitualSchalenzauber class],
@@ -71,9 +70,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 }
 
 + (instancetype)ritualWithName: (NSString *) name
+                     ofVariant: (NSString *) variant
+             ofDurationVariant: (NSString *) durationVariant
                     ofCategory: (NSString *) category 
                       withTest: (NSArray *) test
-              withAlternatives: (NSArray *) alternatives
+               withMaxDistance: (NSInteger) maxDistance
+                  withVariants: (NSArray *) variants
+          withDurationVariants: (NSArray *) durationVariants
                    withPenalty: (NSInteger) penalty
                    withASPCost: (NSInteger) aspCost
           withPermanentASPCost: (NSInteger) permanentASPCost
@@ -85,9 +88,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       NSLog(@"DSASpellMAgeRitual: ritualWithName: %@ going to call initRitual...", name);
       return [[subclass alloc] initRitual: name
+                                ofVariant: variant
+                        ofDurationVariant: durationVariant
                                ofCategory: category
                                  withTest: test
-                         withAlternatives: alternatives       
+                          withMaxDistance: maxDistance       
+                             withVariants: variants    
+                     withDurationVariants: durationVariants
                               withPenalty: penalty
                               withASPCost: aspCost
                      withPermanentASPCost: permanentASPCost
@@ -100,9 +107,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 }
 
 - (instancetype)initRitual: (NSString *) name
+                 ofVariant: (NSString *) variant
+         ofDurationVariant: (NSString *) durationVariant
                 ofCategory: (NSString *) category
                   withTest: (NSArray *) test
-          withAlternatives: (NSArray *) alternatives                  
+           withMaxDistance: (NSInteger) maxDistance       
+              withVariants: (NSArray *) variants     
+      withDurationVariants: (NSArray *) durationVariants
                withPenalty: (NSInteger) penalty                  
                withASPCost: (NSInteger) aspCost
       withPermanentASPCost: (NSInteger) permanentASPCost
@@ -110,16 +121,21 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
        withPermanentLPCost: (NSInteger) permanentLPCost
 {
   self = [super initSpell: name
+                ofVariant: variant
+        ofDurationVariant: durationVariant
                ofCategory: category
                   onLevel: 0
                withOrigin: nil
                  withTest: test
-         withAlternatives: alternatives
+          withMaxDistance: maxDistance       
+             withVariants: variants
+     withDurationVariants: durationVariants
    withMaxTriesPerLevelUp: 0
         withMaxUpPerLevel: 0
           withLevelUpCost: 0];
   if (self)
     {
+      self.penalty = penalty;
       self.aspCost = aspCost;
       self.permanentASPCost = permanentASPCost;
       self.lpCost = lpCost;
@@ -144,7 +160,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 }
 
 - (DSASpellResult *) castOnTarget: (id) target
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -161,7 +178,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // Stabzauber
 @implementation DSASpellMageRitualStabzauberEins
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -170,14 +188,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   NSLog(@"DSASpellMageRitualStabzauberEins castOnTarget called!");
   DSASpellResult *spellResult = [[DSASpellResult alloc] init];
 
+  if (!variant)
+    {
+      variant = self.variant;
+    }
+  
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
-    {
-      spellResult.result = DSASpellResultNone;
-      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
-      return spellResult;
-    }
   if ([[target appliedSpells] count] > 0)
     for (NSString *spellName in [[target appliedSpells] allKeys])
       {
@@ -202,27 +219,44 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       spellResult.result == DSASpellResultAutoSuccess ||
       spellResult.result == DSASpellResultEpicSuccess)
     {
-      castingCharacter.currentAstralEnergy -= self.aspCost;
-      castingCharacter.astralEnergy -= self.permanentASPCost;
-      [(DSAObjectWeaponHandWeapon *)target setBreakFactor: -1];
-      [target.appliedSpells setObject: [self copy] forKey: self.name];
-      target.ownerUUID = [castingCharacter.modelID copy];
-      spellResult.resultDescription = [NSString stringWithFormat: @"%@ stellt einen geistigen Band zu seinem Magierstab her. Der Stab wird unzerstörbar.", castingCharacter.name];
+      if ([variant isEqualToString: _(@"Standard")])  // when casted on a secondary staff, not the initial staff, on character creation
+        {
+          castingCharacter.currentAstralEnergy -= self.aspCost;
+          castingCharacter.astralEnergy -= self.permanentASPCost;
+        }
+          /* [target setBreakFactor: -1];
+          [target.appliedSpells setObject: [self copy] forKey: self.name];
+          target.ownerUUID = [castingCharacter.modelID copy]; */
+          [self applyEffectOnTarget: target forOwner: castingCharacter];
+          spellResult.resultDescription = [NSString stringWithFormat: @"%@ stellt einen geistigen Band zu seinem Magierstab her. Der Stab wird unzerstörbar.", castingCharacter.name];
     }
   else
     {
-      castingCharacter.currentAstralEnergy -= self.aspCost;
+      if ([variant isEqualToString: _(@"Standard")])  // when casted on a secondary staff, not the initial staff, on character creation
+        {
+          castingCharacter.currentAstralEnergy -= self.aspCost;
+        }
       spellResult.resultDescription = _(@"Leider fehlgeschlagen.");
     }
   
   return spellResult;
 }
+
+- (BOOL) applyEffectOnTarget: (id) target forOwner: (DSACharacter *) owner
+{
+  [(DSAObject *)target setBreakFactor: -1];
+  [[(DSAObject *)target appliedSpells] setObject: [self copy] forKey: self.name];
+  [(DSAObject *)target setOwnerUUID: [owner.modelID copy]];  
+  return YES;
+}
+
 @end
 // End of DSASpellStabzauberEins
 
 @implementation DSASpellMageRitualStabzauberZwei
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -233,6 +267,12 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
+  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+    {
+      spellResult.result = DSASpellResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
+      return spellResult;
+    }  
   if ([[target appliedSpells] count] > 0)
     for (NSString *spellName in [[target appliedSpells] allKeys])
       {
@@ -267,9 +307,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
       DSASpell *fackelRitual = [DSASpellMageRitual ritualWithName: @"Magische Fackel"
+                                                        ofVariant: nil // variant
+                                                ofDurationVariant: nil
                                                        ofCategory: _(@"Stabzauber")
                                                          withTest: @[]
-                                                 withAlternatives: nil
+                                                  withMaxDistance: -1
+                                                     withVariants: nil
+                                             withDurationVariants: nil
                                                       withPenalty: 0
                                                       withASPCost: 0
                                              withPermanentASPCost: 0
@@ -295,7 +339,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellMageRitualStabzauberDrei
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -338,9 +383,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
       DSASpell *ropeRitual = [DSASpellMageRitual ritualWithName: _(@"Magisches Seil")
+                                                        ofVariant: nil
+                                                ofDurationVariant: nil
                                                        ofCategory: _(@"Stabzauber")
                                                          withTest: @[]
-                                                 withAlternatives: nil        
+                                                  withMaxDistance: -1       
+                                                     withVariants: nil        
+                                             withDurationVariants: nil
                                                       withPenalty: 0
                                                       withASPCost: 0
                                              withPermanentASPCost: 0
@@ -363,7 +412,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellMageRitualStabzauberVier
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -422,7 +472,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellMageRitualStabzauberFuenf
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -499,13 +550,14 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellMageRitualStabzauberSechs
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
-  NSLog(@"DSASpellMageRitualStabzauberSechs called! %@ %@", self, [[[[Utils getMageRitualsDict] objectForKey: @"Stabzauber"] objectForKey: self.name] objectForKey: @"Alternativen" ]);
+  NSLog(@"DSASpellMageRitualStabzauberSechs called! %@ %@", self, [[[[Utils getMageRitualsDict] objectForKey: @"Stabzauber"] objectForKey: self.name] objectForKey: @"Varianten" ]);
   DSASpellResult *spellResult = [[DSASpellResult alloc] init];
   
   // we ignore any target we got
@@ -542,19 +594,23 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
       [[(DSAObject *)target appliedSpells] setObject: [self copy] forKey: self.name];
-      DSASpell *newRitual = [DSASpellMageRitual ritualWithName: alternative
+      DSASpell *newRitual = [DSASpellMageRitual ritualWithName: _(@"Tierverwandlung")
+                                                     ofVariant: variant
+                                             ofDurationVariant: nil
                                                     ofCategory: _(@"Stabzauber")
                                                       withTest: @[]
-                                              withAlternatives: nil        
+                                               withMaxDistance: -1       
+                                                  withVariants: @[variant]
+                                          withDurationVariants: nil
                                                    withPenalty: 0
                                                    withASPCost: 0
                                           withPermanentASPCost: 0
                                                     withLPCost: 0
                                            withPermanentLPCost: 0];
-      [castingCharacter.specials setObject: newRitual forKey: alternative];  
+      [castingCharacter.specials setObject: newRitual forKey: _(@"Tierverwandlung")];  
       [target.appliedSpells setObject: [self copy] forKey: self.name];
       NSString *article;
-      if ([alternative isEqualToString: _(@"Chamäleon")])
+      if ([variant isEqualToString: _(@"Chamäleon")])
         {
           article = _(@"ein");
         }
@@ -562,7 +618,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
         {
           article = _(@"eine");
         }
-      spellResult.resultDescription = [NSString stringWithFormat: @"%@ kann seinen Magierstab von nun an in %@ %@ verwandeln.", castingCharacter.name, article, alternative];      
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@ kann seinen Magierstab von nun an in %@ %@ verwandeln.", castingCharacter.name, article, variant];      
     }
   else
     {
@@ -577,7 +633,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellMageRitualStabzauberSieben
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -620,15 +677,18 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
       DSASpell *ropeRitual = [DSASpellMageRitual ritualWithName: _(@"Stab herbeirufen")
+                                                      ofVariant: nil
+                                              ofDurationVariant: nil
                                                      ofCategory: _(@"Stabzauber")
                                                        withTest: @[]
-                                               withAlternatives: nil        
+                                                withMaxDistance: 7000 // 7 Meilen       
+                                                   withVariants: nil        
+                                           withDurationVariants: nil
                                                     withPenalty: 0
                                                     withASPCost: 0
                                            withPermanentASPCost: 0
                                                      withLPCost: 0
                                             withPermanentLPCost: 0];
-      ropeRitual.maxDistance = 7000;  // 7 Meilen
       [castingCharacter.specials setObject: ropeRitual forKey: _(@"Stab herbeirufen")];  
       [target.appliedSpells setObject: [self copy] forKey: self.name];
       spellResult.resultDescription = [NSString stringWithFormat: @"%@ festigt den Band mit seinem Stab und kann ihn nun aus bis zu 7 Meilen Entfernung herbeirufen.", castingCharacter.name];   
@@ -646,7 +706,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellMageRitualStabzauberFackel
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                 
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -688,7 +749,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellMageRitualStabzauberSeil
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -727,16 +789,33 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 }
 @end
 
-@implementation DSASpellMageRitualStabzauberChamaeleon
+@implementation DSASpellMageRitualStabzauberTierverwandlung
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
-  NSLog(@"DSASpellMageRitualStabzauberChamaeleon castOnTarget called!");
+  NSLog(@"DSASpellMageRitualStabzauberTierverwandlung castOnTarget called!");
   DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  
+  NSString *article, *article2;
+  if (variant == nil)
+    {
+      variant = self.variant;
+      if ([variant isEqualToString: _(@"Chamäleon")])
+        {
+          article = _(@"Das");
+          article2 = _(@"ein");
+        }
+      else
+        {
+          article = _(@"Die");
+          article2 = _(@"eine");
+        }
+    }
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
@@ -757,63 +836,24 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       
       [target.states removeObject: @(DSAObjectStateStabzauberTierverwandlung)];
       [target.states removeObject: @(DSAObjectStateHasSpellActive)];
-      spellResult.resultDescription = [NSString stringWithFormat: @"Das Chamäleon verwandelt sich zurück in den Magierstab."];
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@ %@ verwandelt sich zurück in den Magierstab.", article, variant];
       return spellResult;
     }
   [target.states addObject: @(DSAObjectStateStabzauberTierverwandlung)];
   [target.states addObject: @(DSAObjectStateHasSpellActive)];
   castingCharacter.currentAstralEnergy -= self.aspCost;
-  spellResult.resultDescription = [NSString stringWithFormat: @"Der Magierstab verwandelt sich in ein Chamäleon."];
+  spellResult.resultDescription = [NSString stringWithFormat: @"Der Magierstab verwandelt sich in %@ %@.", article2, variant];
   return spellResult;
 }
 @end
-// End of DSASpellStabzauberChamäleon
+// End of DSASpellMageRitualStabzauberTierverwandlung
 
-@implementation DSASpellMageRitualStabzauberSpeikobra
-- (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP 
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
-{
-  NSLog(@"DSASpellMageRitualStabzauberSpeikobra castOnTarget called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
-  
-  // we ignore any target we got
-  DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
-    {
-      spellResult.result = DSASpellResultNone;
-      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
-      return spellResult;
-    }
-  if ([target.states containsObject: @(DSAObjectStateHasSpellActive)])
-    {
-      if (![target.states containsObject: @(DSAObjectStateStabzauberTierverwandlung)])
-        {
-          spellResult.result = DSASpellResultNone;
-          spellResult.resultDescription = [NSString stringWithFormat: _(@"Ein anderer Zauber ist schon auf dem Magierstab aktiv.")];
-          return spellResult;
-        }
-      
-      [target.states removeObject: @(DSAObjectStateStabzauberTierverwandlung)];
-      [target.states removeObject: @(DSAObjectStateHasSpellActive)];
-      spellResult.resultDescription = [NSString stringWithFormat: @"Die Speikobra verwandelt sich zurück in den Magierstab."];
-      return spellResult;
-    }
-  [target.states addObject: @(DSAObjectStateStabzauberTierverwandlung)];
-  [target.states addObject: @(DSAObjectStateHasSpellActive)];
-  castingCharacter.currentAstralEnergy -= self.aspCost;
-  spellResult.resultDescription = [NSString stringWithFormat: @"Der Magierstab verwandelt sich in eine Speikobra."];
-  return spellResult;
-}
-@end
-// End of DSASpellStabzauberSpeikobra
+
 
 @implementation DSASpellMageRitualStabzauberHerbeirufen
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -841,7 +881,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // Schwertzauber
 @implementation DSASpellMageRitualSchwertzauber
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -873,9 +914,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;     
-      [(DSAObjectWeaponHandWeapon *)target setBreakFactor: -1];
-      target.ownerUUID = [castingCharacter.modelID copy];
-      [target.appliedSpells setObject: [self copy] forKey: self.name];
+      [self applyEffectOnTarget: target forOwner: castingCharacter];
     }
   else
     {
@@ -885,13 +924,30 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   return spellResult;
 }
+
+- (BOOL) applyEffectOnTarget: (id) target forOwner: (DSACharacter *) owner
+{
+  // This variant is applied on character creation, never when casted onto some other secondary target
+  // character Creation just calles applyEffectOnTarget and that's it...
+  if ([self.variant isEqualToString: _(@"Dunkle Halle der Geister")])
+    {
+      owner.currentAstralEnergy -= 1;
+      owner.astralEnergy -= 1;
+    }
+  [(DSAObject *)target setBreakFactor: -1];
+  [[(DSAObject *)target appliedSpells] setObject: [self copy] forKey: self.name];
+  [(DSAObject *)target setOwnerUUID: [owner.modelID copy]];  
+  return YES;
+}
+
 @end
-// End of DSASpellMageRitualSchalenzauber
+// End of DSASpellMageRitualSchwertzauber
 
 // Schalenzauber
 @implementation DSASpellMageRitualSchalenzauber
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -943,7 +999,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // Kugelzauber
 @implementation DSASpellMageRitualKugelzauberEins
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -999,7 +1056,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellMageRitualKugelzauberZwei
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -1043,9 +1101,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       castingCharacter.astralEnergy -= self.permanentASPCost;
       [target.appliedSpells setObject: [self copy] forKey: self.name];
       DSASpell *lensRitual = [DSASpellMageRitual ritualWithName: _(@"Brennglas")
+                                                      ofVariant: nil
+                                              ofDurationVariant: nil
                                                      ofCategory: _(@"Kugelzauber")
                                                        withTest: @[]
-                                               withAlternatives: nil        
+                                                withMaxDistance: -1       
+                                                   withVariants: nil       
+                                           withDurationVariants: nil 
                                                     withPenalty: 0
                                                     withASPCost: 0
                                            withPermanentASPCost: 0
@@ -1067,7 +1129,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellMageRitualKugelzauberDrei
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -1111,9 +1174,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       castingCharacter.astralEnergy -= self.permanentASPCost;
       [target.appliedSpells setObject: [self copy] forKey: self.name];
       DSASpell *shieldRitual = [DSASpellMageRitual ritualWithName: _(@"Schutzfeld")
+                                                      ofVariant: nil
+                                              ofDurationVariant: nil          
                                                      ofCategory: _(@"Kugelzauber")
                                                        withTest: @[]
-                                               withAlternatives: nil        
+                                                withMaxDistance: -1       
+                                                   withVariants: nil        
+                                           withDurationVariants: nil
                                                     withPenalty: 0
                                                     withASPCost: 5
                                            withPermanentASPCost: 0
@@ -1146,7 +1213,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellMageRitualKugelzauberVier
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -1190,9 +1258,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       castingCharacter.astralEnergy -= self.permanentASPCost;
       [target.appliedSpells setObject: [self copy] forKey: self.name];
       DSASpell *lensRitual = [DSASpellMageRitual ritualWithName: _(@"Auge des Zorns")
+                                                      ofVariant: nil
+                                              ofDurationVariant: nil
                                                      ofCategory: _(@"Kugelzauber")
                                                        withTest: @[]
-                                               withAlternatives: nil        
+                                                withMaxDistance: -1       
+                                                   withVariants: nil       
+                                           withDurationVariants: nil 
                                                     withPenalty: 0
                                                     withASPCost: 3
                                            withPermanentASPCost: 0
@@ -1214,7 +1286,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellMageRitualKugelzauberFuenf
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -1257,15 +1330,18 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
       DSASpell *ropeRitual = [DSASpellMageRitual ritualWithName: _(@"Kristallkugel herbeirufen")
+                                                      ofVariant: nil
+                                              ofDurationVariant: nil        
                                                      ofCategory: _(@"Kugelzauber")
                                                        withTest: @[]
-                                               withAlternatives: nil        
+                                                withMaxDistance: 7000       // 7 Meilen
+                                                   withVariants: nil        
+                                           withDurationVariants: nil
                                                     withPenalty: 0
                                                     withASPCost: 0
                                            withPermanentASPCost: 0
                                                      withLPCost: 0
                                             withPermanentLPCost: 0];
-      ropeRitual.maxDistance = 7000;  // 7 Meilen
       [castingCharacter.specials setObject: ropeRitual forKey: _(@"Kristallkugel herbeirufen")];  
       [target.appliedSpells setObject: [self copy] forKey: self.name];
       spellResult.resultDescription = [NSString stringWithFormat: @"%@ festigt den Band mit seiner Kristallkugel und kann sie nun aus bis zu 7 Meilen Entfernung herbeirufen.", castingCharacter.name];   
@@ -1284,7 +1360,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellMageRitualKugelzauberBrennglas
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -1327,7 +1404,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellMageRitualKugelzauberSchutzfeld
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -1369,7 +1447,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellMageRitualKugelzauberWarnung
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter
@@ -1411,7 +1490,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @implementation DSASpellMageRitualKugelzauberHerbeirufen
 - (DSASpellResult *) castOnTarget: (id) target_ignored
-                    ofAlternative: (NSString *) alternative
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
              spellOriginCharacter: (DSACharacter *) originCharacter

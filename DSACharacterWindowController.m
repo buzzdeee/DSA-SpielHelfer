@@ -23,6 +23,7 @@
 */
 
 #import <objc/message.h>
+#import <objc/runtime.h>
 #import "DSACharacterWindowController.h"
 #import "DSACharacterDocument.h"
 #import "DSACharacterHero.h"
@@ -42,6 +43,7 @@
 #import "DSATalentResult.h"
 #import "DSASpellResult.h"
 #import "DSARegenerationResult.h"
+#import "Utils.h"
 
 @implementation DSACharacterWindowController
 
@@ -62,17 +64,24 @@
   NSLog(@"DSACharacterWindowController is being deallocated.");   
   
   [[NSNotificationCenter defaultCenter] removeObserver:self];
-  
+  [self closeAllAuxiliaryWindows];
+  [[self window] close];
+/*  
   // Remove all observers
+  NSLog(@"DSACharacterWindowController: removing observers");
   for (id object in self.observedKeyPaths) {
+      NSLog(@"DSACharacterWindowController: remove observer for object: %@", object);
       NSSet<NSString *> *keyPaths = self.observedKeyPaths[object];
+      NSLog(@"DSACharacterWindowController: remove observer for keyPaths %@", keyPaths);
       for (NSString *keyPath in keyPaths) {
+          NSLog(@"DSACharacterWindowController: remove observer for keyPath %@", keyPath);
           [object removeObserver:self forKeyPath:keyPath];
       }
   }
   // Clear the dictionary
-  [self.observedKeyPaths removeAllObjects];
-  
+  NSLog(@"DSACharacterWindowController: before remove allObjects");
+  [self.observedKeyPaths removeAllObjects]; */
+  NSLog(@"DSACharacterWindowController: here at the end of dealloc");
 }
 
 - (DSACharacterWindowController *)initWithWindowNibName:(NSString *)nibNameOrNil
@@ -99,8 +108,10 @@
   // Perform additional setup after loading the window
   NSLog(@"DSACharacterWindowController: windowDidLoad called");
   // central KVO observers
-  
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacter *model = (DSACharacter *)document.model;  
   // Register the value transformer
+  NSLog(@"HERE IN WINDOW DID LOAD THE MODEL: %@", model);
   [NSValueTransformer setValueTransformer:[[DSARightAlignedStringTransformer alloc] init] 
                                   forName:@"RightAlignedStringTransformer"];
     
@@ -108,8 +119,18 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleInventoryUpdate)
                                                  name:@"DSAInventoryChangedNotification"
-                                               object:nil]; // listen for notifications of any object... (XXX TODO limit to listen to only THIS object)
-                                                         
+                                               object:model];
+                                               
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleLogsMessage:)
+                                                 name:@"DSACharacterEventLog"
+                                               object:model];
+                                                                                             
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleCharacterStateChange:)
+                                                 name:@"DSACharacterStateChange"
+                                               object:model];                                               
+                                                       
     // Log the window
     if (!self.window) {
         NSLog(@"Error: No window found for DSACharacterWindowController!");
@@ -147,6 +168,42 @@
   [self handleAdventurePointsChange];
   
 }
+
+- (void)closeAllAuxiliaryWindows {
+    unsigned int propertyCount;
+    objc_property_t *properties = class_copyPropertyList([self class], &propertyCount);
+
+    NSLog(@"DSACharacterWindowController closeAllAuxiliaryWindows called");
+    for (unsigned int i = 0; i < propertyCount; i++) {
+        const char *propertyName = property_getName(properties[i]);
+        NSString *name = [NSString stringWithUTF8String:propertyName];
+        //NSLog(@"checking %@", name);
+
+        id propertyValue = [self valueForKey:name];
+
+        if ([propertyValue isKindOfClass:[NSWindow class]]) {
+            NSPanel *panel = (NSPanel *)propertyValue;
+            NSLog(@"checking panel: %@", panel);
+            if (panel.isVisible) {
+                NSLog(@"closing visible panel: %@", panel);
+                [panel close];
+            }
+        }
+    }
+    free(properties);
+}
+
+- (void)windowWillClose:(NSNotification *)notification {
+    NSWindow *closingWindow = notification.object;
+    DSACharacterDocument *doc = (DSACharacterDocument *)self.document;
+
+    NSLog(@"DSACharacterWindowController willCloseWindow called, closing window: %@", closingWindow);
+    if ([doc isMainWindow:closingWindow]) {
+        NSLog(@"Main window is closing. Closing all auxiliary windows.");
+        [self closeAllAuxiliaryWindows];
+    }
+}
+
 
 - (void)addObserverForObject:(id)object keyPath:(NSString *)keyPath {
     // Add observer
@@ -370,18 +427,42 @@
     [self updateInventorySlotsWithInventory:document.model.inventory
                           inventoryIdentifier:@"inventory"
                          startingSlotCounter:0];
-    NSLog(@"after general inventory");
+      CGFloat hungerLevel = [document.model.statesDict[@(DSACharacterStateHunger)] floatValue];
+      CGFloat thirstLevel = [document.model.statesDict[@(DSACharacterStateThirst)] floatValue];
 
+      // Update bars
+      [self updateBar:self.progressBarHunger withSeverity: hungerLevel];
+      [self updateBar:self.progressBarThirst withSeverity: thirstLevel];
+                               
+    // NSLog(@"after general inventory");
+
+    // [self addObserverForObject: document.model keyPath: @"statesDict"];
+    
     // Update body part inventories
     NSInteger bodySlotCounter = 0; // Start a global body slot counter
     for (NSString *propertyName in document.model.bodyParts.inventoryPropertyNames) {
         DSAInventory *inventory = [document.model.bodyParts valueForKey:propertyName];
+        // NSLog(@"DSACharacterWindowController populateInvenotry THE BODY SLOTS: %@", propertyName);
         bodySlotCounter = [self updateInventorySlotsWithInventory:inventory
                                               inventoryIdentifier:@"body"
-                                             startingSlotCounter:bodySlotCounter];
+                                              startingSlotCounter:bodySlotCounter];
     }
-    NSLog(@"after body part inventories");
+    
+    // NSLog(@"DSACharacterWindowController populateInvenotry: after body part inventories: bodySlotCounter: %@", @(bodySlotCounter));
 }
+
+- (void)updateBar:(NSProgressIndicator *)bar withSeverity:(CGFloat) severity
+{
+  NSLog(@"UPDATING BAR, NEW SEVERITY: %f", severity);
+  if (severity < 0 || severity > 1)
+    {
+      NSLog(@"DSACharacterWindowController updateBar: invalid severity %f", severity);
+      return;
+    }
+
+    [bar setDoubleValue: severity];
+}
+
 
 - (void) handleInventoryUpdate {
   [self populateInventory];
@@ -391,13 +472,142 @@
   [self.document updateChangeCount: NSChangeDone];  
 }
 
+- (void)handleCharacterStateChange:(NSNotification *)notification
+{
+    NSDictionary *userInfo = notification.userInfo;
+    if (!userInfo) return;
+    DSACharacterState state = [userInfo[@"state"] integerValue];
+    NSNumber *value = userInfo[@"value"];
+    switch (state)
+      {
+        case DSACharacterStateHunger:
+          [self updateBar: self.progressBarHunger withSeverity: [value doubleValue]];
+          break;
+        case DSACharacterStateThirst:
+          [self updateBar: self.progressBarThirst withSeverity: [value doubleValue]];
+          break;
+        case DSACharacterStateDead:
+          [self handleCharacterDeath];
+          break;          
+        default:
+          NSLog(@"DSACharacterWindowController don't know how to handle state change for state %@", @(state));        
+      }
+   [self.document updateChangeCount: NSChangeDone];
+}                                               
+                                               
+
+- (void)handleLogsMessage:(NSNotification *)notification
+{
+    NSDictionary *userInfo = notification.userInfo;
+    if (!userInfo) return;
+    
+    LogSeverity severity = [userInfo[@"severity"] integerValue];
+    NSString *message = userInfo[@"message"];
+    
+    if (!message) return;
+
+    NSLog(@"Got message: %@", message);
+    // Get timestamp
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"HH:mm:ss"];
+    NSString *timestamp = [formatter stringFromDate:[NSDate date]];
+
+    // Format log entry with bold timestamp
+    NSMutableAttributedString *logEntry = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@\n%@", timestamp, message]];
+    
+    // Apply bold font to timestamp
+    [logEntry addAttribute:NSFontAttributeName value:[NSFont boldSystemFontOfSize:12] range:NSMakeRange(0, timestamp.length)];
+
+    // Apply color based on severity
+    NSColor *textColor;
+    switch (severity) {
+        case LogSeverityInfo:
+            textColor = [NSColor blackColor];
+            break;
+        case LogSeverityHappy:
+            textColor = [NSColor blueColor];
+            break;            
+        case LogSeverityWarning:
+            textColor = [NSColor brownColor];
+            break;
+        case LogSeverityCritical:
+            textColor = [NSColor redColor];
+            break;
+    }
+    
+    [logEntry addAttribute:NSForegroundColorAttributeName value:textColor range:NSMakeRange(timestamp.length + 1, message.length)];
+
+    // Append to existing logs, ensuring we don't exceed the field’s capacity
+    NSLog(@"That's the log entry: %@", logEntry);
+    [self appendLogMessage:logEntry];
+}
+
+- (void)appendLogMessage:(NSAttributedString *)newLog {
+    NSMutableAttributedString *existingLogs = [[NSMutableAttributedString alloc] initWithAttributedString:self.fieldLogs.attributedStringValue];
+
+    // Store log entries as attributed strings
+    NSMutableArray<NSAttributedString *> *logEntries = [NSMutableArray array];
+
+    // Define regex pattern for timestamps (e.g., "12:34:56")
+    NSString *timestampPattern = @"\\b\\d{2}:\\d{2}:\\d{2}\\b";
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:timestampPattern options:0 error:nil];
+
+    __block NSInteger lastMatchLocation = 0;
+    NSArray<NSTextCheckingResult *> *matches = [regex matchesInString:existingLogs.string options:0 range:NSMakeRange(0, existingLogs.length)];
+
+    // Extract log messages based on timestamp locations
+    for (NSTextCheckingResult *match in matches) {
+        if (match.range.location > lastMatchLocation) {
+            NSRange entryRange = NSMakeRange(lastMatchLocation, match.range.location - lastMatchLocation);
+            NSAttributedString *logEntry = [existingLogs attributedSubstringFromRange:entryRange];
+            [logEntries addObject:logEntry];
+        }
+        lastMatchLocation = match.range.location; // Update last match location
+    }
+
+    // Add the last entry if not already added
+    if (lastMatchLocation < existingLogs.length) {
+        NSAttributedString *lastLog = [existingLogs attributedSubstringFromRange:NSMakeRange(lastMatchLocation, existingLogs.length - lastMatchLocation)];
+        [logEntries addObject:lastLog];
+    }
+
+    // Add the new log entry
+    [logEntries addObject:newLog];
+
+    // Define max number of log entries allowed
+    NSInteger maxEntries = 6; // Adjust as needed
+
+    // Remove oldest entries if exceeding max
+    while (logEntries.count > maxEntries) {
+        [logEntries removeObjectAtIndex:0];
+    }
+
+    // Rebuild the attributed string **with newline checks**
+    NSMutableAttributedString *updatedLogs = [[NSMutableAttributedString alloc] init];
+    for (NSInteger i = 0; i < logEntries.count; i++) {
+        // Append the log entry
+        [updatedLogs appendAttributedString:logEntries[i]];
+
+        // Only add a newline if the previous entry didn't end with one
+        if (i < logEntries.count - 1) { // Avoid adding a newline after the last entry
+            NSString *lastEntryString = [logEntries[i] string];
+            if (![lastEntryString hasSuffix:@"\n"]) {
+                [updatedLogs appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
+            }
+        }
+    }
+
+    // Update NSTextField while preserving formatting
+    self.fieldLogs.attributedStringValue = updatedLogs;
+}
+
 // Updates all slots in the specified inventory
 - (NSInteger)updateInventorySlotsWithInventory:(DSAInventory *)inventory
                            inventoryIdentifier:(NSString *)inventoryIdentifier
                           startingSlotCounter:(NSInteger)startingSlotCounter {
     NSInteger slotCounter = startingSlotCounter;
     DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-
+    //NSLog(@"DSACharacterWindowController  updateInventorySlotsWithInventory : updateInventorySlotsWithInventory: %@", inventoryIdentifier);
     for (NSInteger i = 0; i < inventory.slots.count; i++) {
         DSASlot *slot = inventory.slots[i];
         NSString *iconName = slot.object ? [NSString stringWithFormat:@"%@-64x64", [slot.object icon]] : nil;
@@ -405,12 +615,12 @@
 
         // Generate the name of the slot view from the identifier
         NSString *uiName = [NSString stringWithFormat:@"%@Slot%ld", inventoryIdentifier, (long)slotCounter];
-        //NSLog(@"Updating UI for: %@", uiName);
+        // NSLog(@"DSACharacterWindowController Updating UI for: %@", uiName);
 
         // Access the slot view (already a DSAInventorySlotView)
         DSAInventorySlotView *slotView = [self valueForKey:uiName];
         if (slotView) {
-            //NSLog(@"Found slotView for %@, updating properties", uiName);
+            //NSLog(@"DSACharacterWindowController Found slotView for %@, updating properties", uiName);
 
             // Update properties directly
             slotView.slot = slot;
@@ -431,7 +641,7 @@
             [slotView updateQuantityLabelWithQuantity:slot.quantity];
             [slotView updateToolTip];           
         } else {
-            NSLog(@"Slot view %@ not found, skipping update", uiName);
+            NSLog(@"DSACharacterWindowController: updateInventorySlotsWithInventory  Slot view %@ not found, skipping update", uiName);
         }
 
         // Increment the slot counter for the next slot
@@ -1112,6 +1322,8 @@
                         change:(NSDictionary<NSKeyValueChangeKey,id> *)change 
                        context:(void *)context
 {
+  NSLog(@"DSACharacterWindowController observeValueForKeyPath: %@", keyPath);
+   
   if ([keyPath isEqualToString:@"adventurePoints"])
     {
       [self handleAdventurePointsChange];
@@ -1145,10 +1357,40 @@
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   if ([(DSACharacterHero *)document.model canLevelUp])
     {
-      [self showCongratsPanel];
+    
+      NSDictionary *userInfo = @{ @"severity": @(LogSeverityHappy),
+                                  @"message": [NSString stringWithFormat: @"%@ hat genug Abenteuerpunkte um in die nächste Stufe aufzusteigen.", document.model.name]
+                                };
+      [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                          object: nil
+                                                        userInfo: userInfo];     
+    
+      // [self showCongratsPanel];
     }
 }
 
+- (IBAction)handleCharacterDeath {
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+  
+  NSLog(@"HANDLING CHARACTER DEATH");
+  
+  if (!self.deadPanel)
+    {
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSACharacterDead" owner:self];
+    }
+  [self.fieldCharacterDead setStringValue: [NSString stringWithFormat: @"%@ ist ins Reich Borons übergegangen.", model.name]];
+  
+  NSArray *imageArray = @[@"tot_1-512x512", @"tot_2-512x512"];
+  NSString *imageName = [imageArray objectAtIndex: arc4random_uniform([imageArray count])];
+  NSString *imagePath = [[NSBundle mainBundle] pathForResource: imageName ofType:@"webp"];
+  NSImage *image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
+  self.imageCharacterDead.image = image;  
+  
+  [self.deadPanel makeKeyAndOrderFront:nil];
+  
+}
 
 - (void)showCongratsPanel
 {
@@ -2053,6 +2295,21 @@
 // end of character regeneration related methods
 
 // energies manager related methods
+/*
+@property (nonatomic, strong) IBOutlet NSPanel *manageTempEnergiesPanel;
+@property (weak) IBOutlet NSTextField *fieldTempEnergiesAE;
+@property (weak) IBOutlet NSTextField *fieldTempEnergiesKE;
+@property (weak) IBOutlet NSTextField *fieldTempEnergiesLE;
+@property (weak) IBOutlet NSSlider    *sliderTempEnergiesHunger;
+@property (weak) IBOutlet NSSlider    *sliderTempEnergiesThirst;
+@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesWounded;
+@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesSick;
+@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesDrunk;
+@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesPoisoned;
+@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesDead;
+@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesUnconscious;
+@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesSpellbound;
+*/
 -(void)showEnergiesManagerPanel: (id)sender
 {
   NSLog(@"DSACharacterWindowController showEnergiesManagerPanel called!");
@@ -2082,6 +2339,29 @@
     {
       [self.fieldTempEnergiesKE setEnabled: YES];
     }
+  [self.sliderTempEnergiesHunger setFloatValue: [[model.statesDict objectForKey: @(DSACharacterStateHunger)] floatValue]];
+  [self.sliderTempEnergiesThirst setFloatValue: [[model.statesDict objectForKey: @(DSACharacterStateThirst)] floatValue]];
+  [self.popupTempEnergiesWounded removeAllItems];
+  [self.popupTempEnergiesWounded addItemsWithTitles: @[ @"Nein", @"Leicht", @"Mittel", @"Schwer"]];
+  [self.popupTempEnergiesWounded selectItemAtIndex: [[model.statesDict objectForKey: @(DSACharacterStateWounded)] integerValue]];
+  [self.popupTempEnergiesSick removeAllItems];
+  [self.popupTempEnergiesSick addItemsWithTitles: @[ @"Nein", @"Leicht", @"Mittel", @"Schwer"]];
+  [self.popupTempEnergiesSick selectItemAtIndex: [[model.statesDict objectForKey: @(DSACharacterStateSick)] integerValue]];  
+  [self.popupTempEnergiesDrunk removeAllItems];
+  [self.popupTempEnergiesDrunk addItemsWithTitles: @[ @"Nein", @"Leicht", @"Mittel", @"Schwer"]];
+  [self.popupTempEnergiesDrunk selectItemAtIndex: [[model.statesDict objectForKey: @(DSACharacterStateDrunken)] integerValue]];
+  [self.popupTempEnergiesPoisoned removeAllItems];
+  [self.popupTempEnergiesPoisoned addItemsWithTitles: @[ @"Nein", @"Leicht", @"Mittel", @"Schwer"]];  
+  [self.popupTempEnergiesPoisoned selectItemAtIndex: [[model.statesDict objectForKey: @(DSACharacterStatePoisoned)] integerValue]];
+  [self.popupTempEnergiesDead removeAllItems];
+  [self.popupTempEnergiesDead addItemsWithTitles: @[ @"Nein", @"Ja"]];  
+  [self.popupTempEnergiesDead selectItemAtIndex: [[model.statesDict objectForKey: @(DSACharacterStateDead)] integerValue]];
+  [self.popupTempEnergiesUnconscious removeAllItems];
+  [self.popupTempEnergiesUnconscious addItemsWithTitles: @[ @"Nein", @"Ja"]];
+  [self.popupTempEnergiesUnconscious selectItemAtIndex: [[model.statesDict objectForKey: @(DSACharacterStateUnconscious)] integerValue]];
+  [self.popupTempEnergiesSpellbound removeAllItems];
+  [self.popupTempEnergiesSpellbound addItemsWithTitles: @[ @"Nein", @"Ja"]];
+  [self.popupTempEnergiesSpellbound selectItemAtIndex: [[model.statesDict objectForKey: @(DSACharacterStateSpellbound)] integerValue]];    
   [self.manageTempEnergiesPanel makeKeyAndOrderFront:nil];    
     
 }
@@ -2089,7 +2369,7 @@
 -(IBAction) setTempEnergies: (id)sender
 {
 
-  NSLog(@"DSACharacterWindowController setEnergies called!");
+  NSLog(@"DSACharacterWindowController setTempEnergies called!");
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   DSACharacterHero *model = (DSACharacterHero *)document.model;
 
@@ -2128,7 +2408,26 @@
               model.currentKarmaPoints = [[self.fieldTempEnergiesKE stringValue] integerValue];
             }
         }
-    }    
+    }
+  NSLog(@"DER HUNGER: %f", [self.sliderTempEnergiesHunger floatValue]);
+  [model updateStatesDictState: (NSNumber *) @(DSACharacterStateHunger)
+                     withValue: (NSNumber *) @([self.sliderTempEnergiesHunger floatValue])];  
+  [model updateStatesDictState: (NSNumber *) @(DSACharacterStateThirst)
+                     withValue: (NSNumber *) @([self.sliderTempEnergiesThirst floatValue])];
+  [model updateStatesDictState: (NSNumber *) @(DSACharacterStateWounded)
+                     withValue: (NSNumber *) @([self.popupTempEnergiesWounded indexOfSelectedItem])];                                          
+  [model updateStatesDictState: (NSNumber *) @(DSACharacterStateSick)
+                     withValue: (NSNumber *) @([self.popupTempEnergiesSick indexOfSelectedItem])];                     
+  [model updateStatesDictState: (NSNumber *) @(DSACharacterStateDrunken)
+                     withValue: (NSNumber *) @([self.popupTempEnergiesDrunk indexOfSelectedItem])];
+  [model updateStatesDictState: (NSNumber *) @(DSACharacterStatePoisoned)
+                     withValue: (NSNumber *) @([self.popupTempEnergiesPoisoned indexOfSelectedItem])];                     
+  [model updateStatesDictState: (NSNumber *) @(DSACharacterStateDead)
+                     withValue: (NSNumber *) @([self.popupTempEnergiesDead indexOfSelectedItem])];
+  [model updateStatesDictState: (NSNumber *) @(DSACharacterStateUnconscious)
+                     withValue: (NSNumber *) @([self.popupTempEnergiesUnconscious indexOfSelectedItem])];
+  [model updateStatesDictState: (NSNumber *) @(DSACharacterStateSpellbound)
+                     withValue: (NSNumber *) @([self.popupTempEnergiesSpellbound indexOfSelectedItem])];                                                     
 }
 
 // Use Talents related methods
@@ -2336,7 +2635,8 @@
   originCharacter.level = [self.fieldSpellCreatorLevel integerValue];
   
   spellResult = [model castSpell: [[self.popupSpellSelector selectedItem] title]
-                   ofAlternative: nil
+                       ofVariant: nil
+               ofDurationVariant: nil
                         onTarget: targetCharacter
                       atDistance: [self.fieldSpellDistance integerValue]
                      investedASP: [self.fieldSpellInvestedASP integerValue] 
@@ -2485,17 +2785,25 @@
   [self.popupRitualCategorySelector setTarget:self];
   [self.popupRitualCategorySelector setAction:@selector(populateCastRitualBottomPopupWithRituals:)];
   
-  [self.popupRitualAlternativeSelector setEnabled: NO];
-  [self.popupRitualAlternativeSelector removeAllItems];
+  [self.popupRitualVariantSelector setEnabled: NO];
+  [self.popupRitualVariantSelector removeAllItems];
+  [self.popupRitualDurationVariantSelector setEnabled: NO];
+  [self.popupRitualDurationVariantSelector removeAllItems];  
   [self.popupRitualCategorySelector setTarget:self];
   [self.popupRitualCategorySelector setAction:@selector(populateCastRitualBottomPopupWithRituals:)];  
   
   [self.popupRitualSelector setHidden: NO];
   [self.popupRitualSelector setEnabled: YES];
   [self.popupRitualSelector setTarget:self];
-  [self.popupRitualSelector setAction:@selector(populateCastRitualAlternativeSelectorPopup:)];  
+  [self.popupRitualSelector setAction:@selector(populateCastRitualVariantSelectorPopups:)];  
   [self.popupRitualSelector setAutoenablesItems: NO];
-    
+
+  [self.fieldRitualCreatorLevel setStringValue: @"0"];
+  [self.fieldRitualMagicResistance setStringValue: @"0"];
+  [self.fieldRitualDistance setStringValue: @"0"];
+  [self.fieldRitualInvestedASP setStringValue: @"0"];  
+  
+      
   // Populate the bottom popup
   [self populateCastRitualBottomPopupWithRituals: nil];   
   
@@ -2564,30 +2872,42 @@
             }
         }
     }
-    [self populateCastRitualAlternativeSelectorPopup: nil];
+    [self populateCastRitualVariantSelectorPopups: nil];
     // Update the popup button's display
     [self.popupRitualSelector setNeedsDisplay:YES];    
 }
 
-- (void) populateCastRitualAlternativeSelectorPopup:(id)sender
+- (void) populateCastRitualVariantSelectorPopups:(id)sender
 {
     DSACharacterDocument *document = (DSACharacterDocument *)self.document;
     DSACharacterHero *model = (DSACharacterHero *)document.model;
     
-    NSArray *alternatives = [[model.specials objectForKey: [[self.popupRitualSelector selectedItem] title]] alternatives];
-    if (alternatives && [alternatives count] > 0)
+    NSArray *variants = [[model.specials objectForKey: [[self.popupRitualSelector selectedItem] title]] variants];
+    NSArray *durationVariants = [[model.specials objectForKey: [[self.popupRitualSelector selectedItem] title]] durationVariants];
+    if (variants && [variants count] > 0)
       {
-        [self.popupRitualAlternativeSelector setEnabled: YES];
-        [self.popupRitualAlternativeSelector removeAllItems];      
-        [self.popupRitualAlternativeSelector addItemsWithTitles: alternatives];
+        [self.popupRitualVariantSelector setEnabled: YES];
+        [self.popupRitualVariantSelector removeAllItems];      
+        [self.popupRitualVariantSelector addItemsWithTitles: variants];
       }
     else
       {
-        [self.popupRitualAlternativeSelector setEnabled: NO];
-        [self.popupRitualAlternativeSelector removeAllItems];      
+        [self.popupRitualVariantSelector setEnabled: NO];
+        [self.popupRitualVariantSelector removeAllItems];      
+      } 
+    if (durationVariants && [durationVariants count] > 0)
+      {
+        [self.popupRitualDurationVariantSelector setEnabled: YES];
+        [self.popupRitualDurationVariantSelector removeAllItems];      
+        [self.popupRitualDurationVariantSelector addItemsWithTitles: durationVariants];
       }
-      
-   [self.popupRitualSelector setNeedsDisplay:YES];   
+    else
+      {
+        [self.popupRitualDurationVariantSelector setEnabled: NO];
+        [self.popupRitualDurationVariantSelector removeAllItems];      
+      }
+   [self.popupRitualVariantSelector setNeedsDisplay:YES];         
+   [self.popupRitualDurationVariantSelector setNeedsDisplay:YES];   
 }
 
 - (void) castRitual: (id) sender
@@ -2595,18 +2915,30 @@
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   DSACharacterHero *model = (DSACharacterHero *)document.model;
 
-  NSString *ritualName = [[self.popupRitualSelector selectedItem] title];
-  NSString *ritualAlternative;
-  if ([self.popupRitualAlternativeSelector isEnabled])
-    {
-       ritualAlternative = [[self.popupRitualAlternativeSelector selectedItem] title];
-    }
+  DSACharacter *targetCharacter = [[DSACharacter alloc] init];
+
+  targetCharacter.mrBonus = [self.fieldRitualMagicResistance integerValue];  
+  targetCharacter.name = @"Dummy Name";
+  targetCharacter.level = [self.fieldRitualCreatorLevel integerValue];
   
+  NSString *ritualName = [[self.popupRitualSelector selectedItem] title];
+  NSString *ritualVariant;
+  NSString *ritualDurationVariant;
+  if ([self.popupRitualVariantSelector isEnabled])
+    {
+       ritualVariant = [[self.popupRitualVariantSelector selectedItem] title];
+    }
+  if ([self.popupRitualDurationVariantSelector isEnabled])
+    {
+       ritualDurationVariant = [[self.popupRitualDurationVariantSelector selectedItem] title];
+    }
+      
   DSASpellResult *spellResult = [model castRitual: ritualName
-                                    ofAlternative: ritualAlternative
-                                         onTarget: nil
-                                       atDistance: 0
-                                      investedASP: 0
+                                        ofVariant: ritualVariant
+                                ofDurationVariant: ritualDurationVariant
+                                         onTarget: targetCharacter
+                                       atDistance: [self.fieldRitualDistance integerValue]
+                                      investedASP: [self.fieldRitualInvestedASP integerValue]
                              spellOriginCharacter: nil];
   
   NSMutableString *resultString = [NSMutableString stringWithFormat: @"%@", [DSASpellResult resultNameForResultValue: spellResult.result]];

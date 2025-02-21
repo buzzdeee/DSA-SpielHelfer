@@ -48,25 +48,32 @@
   
   NSString *name = [objectInfo objectForKey: @"Name"];
   NSMutableDictionary *appliedSpells = [NSMutableDictionary new];
-  NSLog(@"DSAObject initWithObjectInfo %@", [objectInfo objectForKey: @"Sprüche"]);
+  NSLog(@"DSAObject initWithObjectInfo Sprüche: %@", [objectInfo objectForKey: @"Sprüche"]);
   if ([objectInfo objectForKey: @"Sprüche"] && [[objectInfo objectForKey: @"Sprüche"] count] > 0)
     {
-      NSArray *spruecheArray = [objectInfo objectForKey: @"Sprüche"];
-      for (NSDictionary *spruchDict in spruecheArray)
-        {
-          for (NSString *spellName in [spruchDict allKeys])
+          for (NSString *spellName in [objectInfo objectForKey: @"Sprüche"])
             {
-              NSString *spellType = [Utils findSpellOrRitualWithName: spellName];
+              NSString *spellType = [Utils findSpellOrRitualTypeWithName: spellName];
+              NSDictionary *spruchDict = [[objectInfo objectForKey: @"Sprüche"] objectForKey: spellName];
               DSASpell *appliedSpell;
               if ([spellType isEqualToString: @"DSASpell"])
                 {
-                  NSDictionary *spellDict = [Utils getSpellWithName: spellName];
+                  NSMutableDictionary *spellDict = [[Utils getSpellWithName: spellName] mutableCopy];
+                  for (NSString *key in [spruchDict allKeys])
+                    {
+                      [spellDict setObject: [spruchDict objectForKey: key] 
+                                    forKey: key];
+                    }
                   appliedSpell = [DSASpell spellWithName: spellName
+                                               ofVariant: [spellDict objectForKey: @"Variante"]
+                                       ofDurationVariant: [spellDict objectForKey: @"Dauer Variante"]
                                               ofCategory: [spellDict objectForKey: @"category"]
                                                  onLevel: 0
                                               withOrigin: nil
                                                 withTest: nil
-                                        withAlternatives: [spellDict objectForKey: @"Alternativen"]
+                                         withMaxDistance: [[spellDict objectForKey: @"Maximale Entfernung"] integerValue]
+                                            withVariants: [spellDict objectForKey: @"Varianten"]
+                                    withDurationVariants: [spellDict objectForKey: @"Dauer Varianten"]
                                   withMaxTriesPerLevelUp: 0
                                        withMaxUpPerLevel: 0
                                          withLevelUpCost: 0];
@@ -74,11 +81,20 @@
                 }
               else if ([spellType isEqualToString: @"DSASpellMageRitual"])
                 {
-                  NSDictionary *ritualDict = [Utils getMageRitualWithName: spellName];
+                  NSMutableDictionary *ritualDict = [[Utils getMageRitualWithName: spellName] mutableCopy];
+                  for (NSString *key in [spruchDict allKeys])
+                    {
+                      [ritualDict setObject: [spruchDict objectForKey: key]
+                                     forKey: key];
+                    }
                   appliedSpell = [DSASpellMageRitual ritualWithName: spellName
+                                                          ofVariant: [ritualDict objectForKey: @"Variante"]
+                                                  ofDurationVariant: [ritualDict objectForKey: @"Dauer Variante"]
                                                          ofCategory: [ritualDict objectForKey: @"category"]
                                                            withTest: [ritualDict objectForKey: @"Probe"]
-                                                   withAlternatives: [ritualDict objectForKey: @"Alternativen"]
+                                                    withMaxDistance: [[ritualDict objectForKey: @"Maximale Entfernung"] integerValue]       
+                                                       withVariants: [ritualDict objectForKey: @"Varianten"]
+                                               withDurationVariants: [ritualDict objectForKey: @"Dauer Varianten"]
                                                         withPenalty: [[ritualDict objectForKey: @"Probenaufschlag"] integerValue]
                                                         withASPCost: [[ritualDict objectForKey: @"ASP Kosten"] integerValue]
                                                withPermanentASPCost: [[ritualDict objectForKey: @"davon permanente ASP Kosten"] integerValue]
@@ -87,13 +103,12 @@
                 }
               if (appliedSpell)    // effects are applied at the end of the method                                 
                 {
-                  // [appliedSpell alternative = spruchDict.spellName; HAVE TO THINK MORE ABOUT IT XXXXX
+                  // [appliedSpell variant = spruchDict.spellName; HAVE TO THINK MORE ABOUT IT XXXXX
                   [appliedSpells setObject: appliedSpell
                                     forKey: spellName];
                 }
               NSLog(@"THE APPLIED SPELLS: %@", [appliedSpells allKeys]);
           }
-       }
     }
   NSLog(@"APPLIED SPELL: %@ to OBJECT: %@", [appliedSpells allKeys], name);
   // first ensure that we ownly set the owner on items that are definite personal items
@@ -254,7 +269,7 @@
                                      inSubSubCategory: [objectInfo objectForKey: @"category2"]
                                            withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                             withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
-                                           ofSlotType: [objectInfo objectForKey: @"Slottypen" ] ? [Utils slotTypeFromString: [[objectInfo objectForKey: @"Slottypen" ] objectAtIndex: 0]] : DSASlotTypeGeneral
+                                           ofSlotType: [objectInfo objectForKey: @"HatSlots" ] ? [Utils slotTypeFromString: [[objectInfo objectForKey: @"HatSlots" ] objectAtIndex: 0]] : DSASlotTypeGeneral
                                         withNrOfSlots: [objectInfo objectForKey: @"Slots" ] ? [[objectInfo objectForKey: @"Slots" ] integerValue] : 1
                                       maxItemsPerSlot: [objectInfo objectForKey: @"MaximumPerSlot" ] ? [[objectInfo objectForKey: @"MaximumPerSlot" ] integerValue] : 1
                               validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
@@ -263,6 +278,23 @@
                                         withOwnerUUID: ownerUUID                               
                                           withRegions: [objectInfo objectForKey: @"Regionen"]];                                          
                                             
+    }
+  else if ([[objectInfo objectForKey: @"isFood"] isEqualTo: @YES])
+    {
+      self = [[DSAObjectFood alloc] initWithName: name
+                                        withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
+                                      inCategory: [objectInfo objectForKey: @"category"]
+                                   inSubCategory: [objectInfo objectForKey: @"category1"]
+                                inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                                      withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
+                                       withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
+                                    isConsumable: [objectInfo objectForKey: @"direkt konsumierbar" ] ? YES : NO
+                                 becomeWhenEmpty: [objectInfo objectForKey: @"Objekt wenn leer" ]
+                                       isAlcohol: [objectInfo objectForKey: @"Wirkung" ] ? YES : NO
+                                    alcoholLevel: [[objectInfo objectForKey: @"Wirkung"] integerValue]
+                                  nutritionValue: [[objectInfo objectForKey: @"DurstodHungerlinderung"] floatValue]
+                         validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
+                                    canShareSlot: [[objectInfo objectForKey: @"canShareSlot"] boolValue]];
     }
   else
     {
@@ -277,6 +309,8 @@
                      validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                            occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]                     
                                 canShareSlot: [[objectInfo objectForKey: @"canShareSlot"] boolValue]
+                                     useWith: [objectInfo objectForKey: @"benutzen mit"]
+                                 useWithText: [objectInfo objectForKey: @"benutzen Text" ]
                            withAppliedSpells: appliedSpells
                                withOwnerUUID: ownerUUID                      
                                  withRegions: [objectInfo objectForKey: @"Regionen"]];     
@@ -303,6 +337,8 @@
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
                  canShareSlot: (BOOL) canShareSlot
+                      useWith: (NSArray *) useWith
+                  useWithText: (NSString *) useWithText
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
                 withOwnerUUID: (NSString *) ownerUUID
                   withRegions: (NSArray *) regions
@@ -325,6 +361,8 @@
       self.appliedSpells = appliedSpells;
       self.ownerUUID = ownerUUID;
       self.regions = regions;
+      self.useWith = useWith;
+      self.useWithText = useWithText;
       self.states = [[NSMutableSet alloc] init];
     }  
   return self;
@@ -351,6 +389,8 @@
       self.canShareSlot = [coder decodeBoolForKey:@"canShareSlot"];
       self.validSlotTypes = [coder decodeObjectForKey:@"validSlotTypes"];
       self.occupiedBodySlots = [coder decodeObjectForKey:@"occupiedBodySlots"];
+      self.useWith = [coder decodeObjectForKey:@"useWith"];
+      self.useWithText = [coder decodeObjectForKey:@"useWithText"];
       self.states = [coder decodeObjectForKey:@"states"];
     }
   return self;
@@ -374,6 +414,8 @@
   [coder encodeBool:self.canShareSlot forKey:@"canShareSlot"];
   [coder encodeObject:self.validSlotTypes forKey:@"validSlotTypes"];
   [coder encodeObject:self.occupiedBodySlots forKey:@"occupiedBodySlots"];
+  [coder encodeObject:self.useWith forKey:@"useWith"];
+  [coder encodeObject:self.useWithText forKey:@"useWithText"];
   [coder encodeObject:self.states forKey:@"states"];
 }
 
@@ -493,14 +535,44 @@
 
 
 // used to determine, if the object can share an inventory slot
+// or if we can carry the other object
 - (BOOL)isCompatibleWithObject:(DSAObject *)otherObject
 {
+  // Check if we are a container, and may be able to carry the other Object
+  if ([self isKindOfClass: [DSAObjectContainer class]])
+    {
+    
+      DSAObjectContainer *container = (DSAObjectContainer *)self;
+      BOOL foundSlot = NO;
+      for (DSASlot *slot in container.slots)
+        {
+          if (slot.object == nil)
+            {
+              NSLog(@"DSAObject: %@ found empty slot", self.name);
+              if ([otherObject.validSlotTypes containsObject: @(slot.slotType)])
+                {
+                  NSLog(@"DSAObject: %@ has slots of type: %@ other object %@ can be put into slot types: %@", self.name, @(slot.slotType),  otherObject.name, otherObject.validSlotTypes);
+                  foundSlot = YES;
+                  break;
+                }
+            }
+          else if ([slot.object isCompatibleWithObject: otherObject])
+            {
+              foundSlot = YES;
+              break;
+            }
+        }
+      return foundSlot;
+    }
+
+    
   if (![self.name isEqualToString:otherObject.name])
     {
       return NO; // Different types of objects
     }
   if (!self.canShareSlot || !otherObject.canShareSlot)
     {
+      NSLog(@"DSAObject %@ can't share slot with %@", self.name, otherObject);
       return NO; // Slot-sharing not allowed
     }
   // XXX TODO below tests may be bogus, and not sufficient
@@ -972,5 +1044,66 @@
 // End of DSAObjectArmor
 
 @implementation DSAObjectCloth
+@end
+
+@implementation DSAObjectFood
+- (instancetype) initWithName: (NSString *) name
+                     withIcon: (NSString *) icon
+                   inCategory: (NSString *) category
+                inSubCategory: (NSString *) subCategory
+             inSubSubCategory: (NSString *) subSubCategory
+                   withWeight: (float) weight
+                    withPrice: (float) price
+                 isConsumable: (BOOL) isConsumable
+              becomeWhenEmpty: (NSString *) newItemName
+                    isAlcohol: (BOOL) isAlcohol
+                 alcoholLevel: (NSInteger) alcoholLevel
+               nutritionValue: (float) nutritionValue
+      validInventorySlotTypes: (NSArray *) validSlotTypes
+                 canShareSlot: (BOOL) canShareSlot
+{
+  self = [super init];
+  if (self)
+    {
+      self.name = name;
+      self.icon = icon;
+      self.category = category;
+      self.subCategory = subCategory;
+      self.subSubCategory = subSubCategory;
+      self.weight = weight;
+      self.price = price;
+      self.isConsumable = isConsumable;
+      self.becomeWhenEmpty = (NSString *) newItemName;
+      self.isAlcohol = isAlcohol;
+      self.alcoholLevel = alcoholLevel;
+      self.nutritionValue = nutritionValue;
+      self.validSlotTypes = validSlotTypes;
+      self.canShareSlot = canShareSlot;
+    }  
+  return self;
+}                  
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder: coder];
+    if (self)
+      {
+        self.isConsumable = [coder decodeBoolForKey:@"isConsumable"];
+        self.isAlcohol = [coder decodeBoolForKey:@"isAlcohol"];
+        self.becomeWhenEmpty = [coder decodeObjectForKey:@"becomeWhenEmpty"];
+        self.alcoholLevel = [coder decodeIntegerForKey:@"alcoholLevel"];
+        self.nutritionValue = [[coder decodeObjectForKey:@"nutritionValue"] floatValue];
+      }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+  [super encodeWithCoder: coder];
+  [coder encodeBool:self.isConsumable forKey:@"isConsumable"];
+  [coder encodeBool:self.isAlcohol forKey:@"isAlcohol"];
+  [coder encodeObject:self.becomeWhenEmpty forKey:@"becomeWhenEmpty"];
+  [coder encodeInteger:self.alcoholLevel forKey:@"alcoholLevel"];
+  [coder encodeObject:@(self.nutritionValue) forKey:@"nutritionValue"];
+}             
 @end
 // End of DSAObjectCloth

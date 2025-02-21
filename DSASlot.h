@@ -43,6 +43,7 @@ typedef NS_ENUM(NSUInteger, DSASlotType) {
     DSASlotTypeBackquiver,                      // holds quivers on the back of character
     DSASlotTypeSash,                            // holds Schärpe, or shoulder band
     DSASlotTypeArmArmor,                        // armor at the arms
+    DSASlotTypeArmRing,                         // ring for the hand anckles
     DSASlotTypeGloves,                          // holds gloves at hands
     DSASlotTypeHip,                             // to hold belts etc.
     DSASlotTypeRing,                            // to hold rings on fingers
@@ -62,7 +63,8 @@ typedef NS_ENUM(NSUInteger, DSASlotType) {
     DSASlotTypeSword,                           // a shaft to hold swords
     DSASlotTypeDagger,                          // a shaft to hold daggers 
     DSASlotTypeAxe,                             // a special thing to hold axes
-    DSASlotTypeMoney                            // to hold money
+    DSASlotTypeMoney,                           // to hold money
+    DSASlotTypeTobacco                          // to hold tobacco
     // Add other specific types as needed
 };
 

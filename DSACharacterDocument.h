@@ -34,6 +34,8 @@
 @property (nonatomic, strong) DSACharacter *model;
 @property (nonatomic) BOOL windowControllersCreated;
 
+- (BOOL)isMainWindow:(NSWindow *)window;
+
 @end
 
 #endif // _DSACHARACTERDOCUMENT_H_

@@ -32,9 +32,13 @@
 
 
 + (instancetype)ritualWithName: (NSString *) name
+                     ofVariant: (NSString *) variant
+             ofDurationVariant: (NSString *) durationVariant
                     ofCategory: (NSString *) category 
                       withTest: (NSArray *) test
-              withAlternatives: (NSArray *) alternatives
+               withMaxDistance: (NSInteger) maxDistance
+                  withVariants: (NSArray *) variants
+          withDurationVariants: (NSArray *) durationVariants
                    withPenalty: (NSInteger) penalty
                    withASPCost: (NSInteger) aspCost
           withPermanentASPCost: (NSInteger) permanentASPCost
@@ -42,9 +46,13 @@
            withPermanentLPCost: (NSInteger) permanentLPCost;
 
 - (instancetype)initRitual: (NSString *) name
+                 ofVariant: (NSString *) variant
+         ofDurationVariant: (NSString *) durationVariant
                 ofCategory: (NSString *) category
                   withTest: (NSArray *) test
-          withAlternatives: (NSArray *) alternatives      
+           withMaxDistance: (NSInteger) maxDistance       
+              withVariants: (NSArray *) variants    
+      withDurationVariants: (NSArray *) durationVariants
                withPenalty: (NSInteger) penalty    
                withASPCost: (NSInteger) aspCost
       withPermanentASPCost: (NSInteger) permanentASPCost
@@ -73,9 +81,7 @@
 @end
 @interface DSASpellMageRitualStabzauberSeil : DSASpellMageRitual
 @end
-@interface DSASpellMageRitualStabzauberChamaeleon : DSASpellMageRitual
-@end
-@interface DSASpellMageRitualStabzauberSpeikobra : DSASpellMageRitualStabzauberChamaeleon
+@interface DSASpellMageRitualStabzauberTierverwandlung : DSASpellMageRitual
 @end
 @interface DSASpellMageRitualStabzauberHerbeirufen : DSASpellMageRitual
 @end

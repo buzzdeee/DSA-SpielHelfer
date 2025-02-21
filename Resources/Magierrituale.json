@@ -4,7 +4,7 @@
       "Order": 1,
       "Probe": [ "KL", "CH", "FF" ],
       "Probenzuschlag": 1,
-      "Alternativen": [ "Standard", "InitialerStab" ],
+      "Varianten": [ "Standard", "InitialerStab" ],
       "Typen": [ "Magier" ],
       "ASP Kosten": 21,
       "davon permanente ASP Kosten": 1
@@ -41,7 +41,7 @@
       "Order": 6,
       "Probe": [ "MU", "IN", "CH" ],
       "Probenzuschlag": 6,
-      "Alternativen": [ "Chamaeleon", "Speikobra" ],
+      "Varianten": [ "Chamäleon", "Speikobra" ],
       "Typen": [ "Magier" ],
       "ASP Kosten": 24
     },
@@ -98,7 +98,7 @@
       "Order": 1,
       "Probe": [ "MU", "MU", "KL" ],
       "Probenzuschlag": 7,
-      "Alternativen": [ "Standard", "Dunkle Halle der Geister" ],
+      "Varianten": [ "Standard", "Dunkle Halle der Geister" ],
       "Typen": [ "Magier" ],
       "ASP Kosten": 49,
       "davon permanente ASP Kosten": 3
@@ -110,7 +110,7 @@
       "Probe": [ "MU", "IN", "CH" ],
       "Probenzuschlag": 5,
       "Typen": [ "Magier" ],
-      "ASP Kosten": 49,
+      "ASP Kosten": 27,
       "LP Kosten": "3W6",
       "davon permanente ASP Kosten": 3,
       "davon permanente LP Kosten": 2

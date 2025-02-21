@@ -38,6 +38,26 @@
 @class DSASpellResult;
 @class DSARegenerationResult;
 
+typedef NS_ENUM(NSUInteger, DSACharacterState)
+{
+  DSACharacterStateWounded,                 // the character is wounded
+  DSACharacterStateSick,                    // if the character is sick
+  DSACharacterStateDrunken,                 // the level of drunkenes
+  DSACharacterStatePoisoned,                // if the character is poisoned
+  DSACharacterStateDead,                    // the character is dead
+  DSACharacterStateUnconscious,             // the character is unconscious
+  DSACharacterStateSpellbound,              // a spell was casted onto the character
+  DSACharacterStateHunger,                  // level of hunger
+  DSACharacterStateThirst,                  // level of thirst
+};
+
+typedef NS_ENUM(NSUInteger, DSASeverityLevel) {
+    DSASeverityLevelNone = 0,
+    DSASeverityLevelMild,
+    DSASeverityLevelModerate,
+    DSASeverityLevelSevere
+};
+
 @interface DSACharacter : NSObject <NSCoding>
 
 @property (nonatomic, strong, readonly) NSString *modelID; // Unique ID for each model
@@ -91,6 +111,7 @@
 @property (nonatomic, copy) NSMutableDictionary *spells;
 @property (nonatomic, strong) NSMutableDictionary *specials;
 @property (nonatomic, strong) NSMutableDictionary<NSString*, DSASpell *> *appliedSpells;  // spells casted onto a character, and having effect on it
+@property (nonatomic, strong) NSMutableDictionary<NSNumber *, NSNumber *> *statesDict;
 
 @property (readonly, assign) NSInteger attackBaseValue;
 @property (readonly, assign) NSInteger carryingCapacity;
@@ -107,6 +128,9 @@
 
 - (NSString *) siblingsString;
 
+// Check if the character is able to do anything basic
+- (BOOL) isDeadOrUnconscious;
+
 // used to decide, if a body inventory slot can hold a given item, based on character constraints
 - (BOOL) canUseItem: (DSAObject *) item;
 // to decide if currently a spell can be casted
@@ -120,16 +144,23 @@
 // to decide, if the character can regenerate AE or LP
 - (BOOL) canRegenerate;
 
+- (BOOL) consumeItem: (DSAObject *) item;
+
+- (void) updateStatesDictState: (NSNumber *) DSACharacterState
+                     withValue: (NSNumber *) value;
+
 - (DSATalentResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty;
 - (DSASpellResult *) castSpell: (NSString *) spellName
-                 ofAlternative: (NSString *) alternative 
+                     ofVariant: (NSString *) variant 
+             ofDurationVariant: (NSString *) durationVariant
                       onTarget: (DSACharacter *) targetCharacter 
                     atDistance: (NSInteger) distance
                    investedASP: (NSInteger) investedASP 
           spellOriginCharacter: (DSACharacter *) originCharacter;
 
 - (DSASpellResult *) castRitual: (NSString *) ritualName 
-                  ofAlternative: (NSString *) ritualName
+                      ofVariant: (NSString *) variant
+              ofDurationVariant: (NSString *) durationVariant
                        onTarget: (id) target
                      atDistance: (NSInteger) distance
                     investedASP: (NSInteger) investedASP 

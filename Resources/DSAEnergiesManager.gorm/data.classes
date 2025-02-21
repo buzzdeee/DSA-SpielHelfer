@@ -8,7 +8,16 @@
 	    fieldTempEnergiesAE,
 	    fieldTempEnergiesLE,
 	    fieldTempEnergiesKE,
-	    manageTempEnergiesPanel
+	    manageTempEnergiesPanel,
+	    popupTempEnergiesWounded,
+	    popupTempEnergiesSick,
+	    popupTempEnergiesDrunk,
+	    popupTempEnergiesPoisoned,
+	    popupTempEnergiesDead,
+	    popupTempEnergiesUnconscious,
+	    popupTempEnergiesSpellbound,
+	    sliderTempEnergiesHunger,
+	    sliderTempEnergiesThirst
 	);
 	Super = NSWindowController;
     };
