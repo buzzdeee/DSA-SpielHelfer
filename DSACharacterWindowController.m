@@ -38,6 +38,7 @@
 #import "DSALiturgy.h"
 #import "NSFlippedView.h"
 #import "DSACharacterViewModel.h"
+#import "DSACharacterStatusView.h"
 #import "DSARightAlignedStringTransformer.h"
 #import "DSAInventorySlotView.h"
 #import "DSATalentResult.h"
@@ -55,34 +56,35 @@
   self = [super init];
   if (self)
     {
+      _observedKeyPaths = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsWeakMemory valueOptions:NSPointerFunctionsStrongMemory];
     }
   return self;
 }
 
-- (void)dealloc
-{
-  NSLog(@"DSACharacterWindowController is being deallocated.");   
-  
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-  [self closeAllAuxiliaryWindows];
-  [[self window] close];
-/*  
-  // Remove all observers
-  NSLog(@"DSACharacterWindowController: removing observers");
-  for (id object in self.observedKeyPaths) {
-      NSLog(@"DSACharacterWindowController: remove observer for object: %@", object);
-      NSSet<NSString *> *keyPaths = self.observedKeyPaths[object];
-      NSLog(@"DSACharacterWindowController: remove observer for keyPaths %@", keyPaths);
-      for (NSString *keyPath in keyPaths) {
-          NSLog(@"DSACharacterWindowController: remove observer for keyPath %@", keyPath);
-          [object removeObserver:self forKeyPath:keyPath];
-      }
-  }
-  // Clear the dictionary
-  NSLog(@"DSACharacterWindowController: before remove allObjects");
-  [self.observedKeyPaths removeAllObjects]; */
-  NSLog(@"DSACharacterWindowController: here at the end of dealloc");
+- (void)dealloc {
+    NSLog(@"DSACharacterWindowController is being deallocated.");
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [self closeAllAuxiliaryWindows];
+    [[self window] close];
+
+    NSLog(@"DSACharacterWindowController: removing observers");
+    for (id object in self.observedKeyPaths) {
+        NSLog(@"DSACharacterWindowController: remove observer for object: %@", object);
+        NSSet<NSString *> *keyPaths = [self.observedKeyPaths objectForKey:object];
+        NSLog(@"DSACharacterWindowController: remove observer for keyPaths %@", keyPaths);
+        for (NSString *keyPath in keyPaths) {
+            NSLog(@"DSACharacterWindowController: remove observer for keyPath %@", keyPath);
+            @try {
+                [object removeObserver:self forKeyPath:keyPath];
+            } @catch (NSException *exception) {
+                NSLog(@"Exception removing observer: %@", exception);
+            }
+        }
+    } 
+    NSLog(@"DSACharacterWindowController: here at the end of dealloc");
 }
+
 
 - (DSACharacterWindowController *)initWithWindowNibName:(NSString *)nibNameOrNil
 {
@@ -92,7 +94,8 @@
     {
       NSLog(@"DSACharacterWindowController initialized with nib: %@", nibNameOrNil);
       self.spellItemFieldMap = [NSMutableDictionary dictionary];
-      _observedKeyPaths = [NSMutableDictionary dictionary];
+      _observedKeyPaths = [NSMapTable mapTableWithKeyOptions:NSPointerFunctionsWeakMemory valueOptions:NSPointerFunctionsStrongMemory];
+      // _observedKeyPaths = [NSMutableDictionary dictionary];
     }
   else
     {
@@ -101,6 +104,14 @@
     
   return self;
 }
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    NSLog(@"manageTempEnergiesPanel delegate: %@", [self.manageTempEnergiesPanel delegate]);
+    // Add similar NSLogs for other auxiliary windows.
+}
+
 
 - (void)windowDidLoad
 {
@@ -111,7 +122,7 @@
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   DSACharacter *model = (DSACharacter *)document.model;  
   // Register the value transformer
-  NSLog(@"HERE IN WINDOW DID LOAD THE MODEL: %@", model);
+  //NSLog(@"HERE IN WINDOW DID LOAD THE MODEL: %@", model);
   [NSValueTransformer setValueTransformer:[[DSARightAlignedStringTransformer alloc] init] 
                                   forName:@"RightAlignedStringTransformer"];
     
@@ -193,6 +204,14 @@
     free(properties);
 }
 
+
+- (BOOL)windowShouldClose:(NSWindow *)sender
+{
+    // Simply return YES to close the window without further checks.
+    NSLog(@"DSACharacterWindowController windowShouldClose called!");
+    return YES;
+}
+
 - (void)windowWillClose:(NSNotification *)notification {
     NSWindow *closingWindow = notification.object;
     DSACharacterDocument *doc = (DSACharacterDocument *)self.document;
@@ -204,23 +223,17 @@
     }
 }
 
-
 - (void)addObserverForObject:(id)object keyPath:(NSString *)keyPath {
-    // Add observer
-//    NSLog(@"DSACharacterWindowController: addObserverForObject keyPath: %@", keyPath);
     [object addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:NULL];
-//    NSLog(@"DSACharacterWindowController: addEDObserverForObject keyPath: %@", keyPath);
-    // Track the object and keyPath
-    NSMutableSet<NSString *> *keyPaths = self.observedKeyPaths[object];
-//    NSLog(@"DSACharacterWindowController: got keyPaths: %@", keyPaths);
+
+    NSMutableSet<NSString *> *keyPaths = [self.observedKeyPaths objectForKey:object];
     if (!keyPaths) {
         keyPaths = [NSMutableSet set];
-//        NSLog(@"got these key paths now in if clause: %@", keyPaths);
-        self.observedKeyPaths[(id<NSCopying>)object] = keyPaths;
+        [self.observedKeyPaths setObject:keyPaths forKey:object];
     }
-//    NSLog(@"keyPaths %@", keyPaths);
     [keyPaths addObject:keyPath];
 }
+
 
 // just for debugging purposes...
 - (void)logViewHierarchy:(NSView *)view level:(NSInteger)level {
@@ -380,7 +393,7 @@
   [self addObserverForObject: document.model keyPath: @"level"];
   [self.fieldAdventurePoints bind:NSValueBinding toObject:document.model withKeyPath:@"adventurePoints" options:nil];    
   [self addObserverForObject: document.model keyPath: @"adventurePoints"];
-  
+  NSLog(@"AFTER adding all those observers....");
   [self populateInventory];
   
   NSLog(@"End of populateBasicsTab");   
@@ -447,10 +460,29 @@
                                               inventoryIdentifier:@"body"
                                               startingSlotCounter:bodySlotCounter];
     }
-    
+  [self updateCharacterStateView];
+//  [self.viewCharacterStatus setNeedsDisplay:YES];  
+//  [self.viewCharacterStatus displayIfNeeded];
+/*   
+  DSACharacterStatusView *statusView = [[DSACharacterStatusView alloc] initWithFrame:NSMakeRect(0, 0, 200, 30)];
+  NSLog(@"SETTING THE CHARACTER");
+  [statusView setCharacter: document.model];
+  self.viewCharacterStatus = statusView;
+  NSLog(@"AFTER SETTING THE CHARACTER");  
+  [self.viewCharacterStatus setNeedsDisplay:YES];  
+  [self.viewCharacterStatus displayIfNeeded];
+  */      
     // NSLog(@"DSACharacterWindowController populateInvenotry: after body part inventories: bodySlotCounter: %@", @(bodySlotCounter));
 }
 
+- (void)updateCharacterStateView {
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  if (self.viewCharacterStatus == nil)
+    {
+      self.viewCharacterStatus = [[DSACharacterStatusView alloc] init];
+    }
+  [self.viewCharacterStatus setCharacter: document.model];
+}
 - (void)updateBar:(NSProgressIndicator *)bar withSeverity:(CGFloat) severity
 {
   NSLog(@"UPDATING BAR, NEW SEVERITY: %f", severity);
@@ -487,11 +519,15 @@
           [self updateBar: self.progressBarThirst withSeverity: [value doubleValue]];
           break;
         case DSACharacterStateDead:
-          [self handleCharacterDeath];
+          if ([value boolValue] == YES)
+            {
+              [self handleCharacterDeath];
+            }
           break;          
         default:
           NSLog(@"DSACharacterWindowController don't know how to handle state change for state %@", @(state));        
       }
+   [self updateCharacterStateView];
    [self.document updateChangeCount: NSChangeDone];
 }                                               
                                                
@@ -954,7 +990,7 @@
    NSLog(@"DSACharacterWindowController: populateSpecialTalentsTab before block enumeration");
    [model.specials enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
      {
-        NSLog(@"enumerating specials, found object: %@", obj);
+        // NSLog(@"enumerating specials, found object: %@", obj);
         [specials addObject: obj];
         [categories addObject: [obj category]];
      }];
@@ -1355,6 +1391,7 @@
 
 - (IBAction)handleAdventurePointsChange {
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  NSLog(@"DSACharacterWindowController checking if the character can level up: %@", @([(DSACharacterHero *)document.model canLevelUp]));
   if ([(DSACharacterHero *)document.model canLevelUp])
     {
     
@@ -1362,7 +1399,7 @@
                                   @"message": [NSString stringWithFormat: @"%@ hat genug Abenteuerpunkte um in die nächste Stufe aufzusteigen.", document.model.name]
                                 };
       [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
-                                                          object: nil
+                                                          object: document.model
                                                         userInfo: userInfo];     
     
       // [self showCongratsPanel];
@@ -2951,56 +2988,6 @@
 // End of cast Rituals related methods
 
 
-/*
-// casting spell related methods
--(void)showCastSpellPanel: (id)sender
-{
-  NSLog(@"DSACharacterWindowController showCastSpellPanel called!");
-
-  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
-  DSACharacterHero *model = (DSACharacterHero *)document.model;      
-  if (!self.castSpellPanel)
-    {
-      // Load the panel from the separate .gorm file
-      [NSBundle loadNibNamed:@"DSACastSpell" owner:self];
-    }
-  NSMutableSet *spellCategories = [NSMutableSet set];    
-    // Enumerate talents to find all categories
-  [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop) {
-          [spellCategories addObject: [obj category]];
-  }];
-  NSArray *sortedSpellCategories = [[spellCategories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
-  [self.popupSpellCategorySelector setEnabled: YES];
-  [self.popupSpellCategorySelector removeAllItems];
-  [self.popupSpellCategorySelector addItemsWithTitles: sortedSpellCategories];
-  [self.popupSpellCategorySelector setTarget:self];
-  [self.popupSpellCategorySelector setAction:@selector(populateCastSpellBottomPopupWithSpells:)];
-  
-  [self.popupSpellSelector setHidden: NO];
-  [self.popupSpellSelector setEnabled: YES];
-  [self.popupSpellSelector setAutoenablesItems: NO];
-    
-  // Populate the bottom popup
-  [self populateCastSpellBottomPopupWithSpells: nil];   
-  
-  [self.fieldSpellCreatorLevel setStringValue: @"0"];
-  [self.fieldSpellMagicResistance setStringValue: @"0"];
-  [self.fieldSpellDistance setStringValue: @"0"];
-  [self.fieldSpellInvestedASP setStringValue: @"0"];
-  [self.fieldSpellFeedback setHidden: YES];
-  [self.castSpellPanel makeKeyAndOrderFront:nil];  
-  
-  [self.buttonSpellDoIt setTitle: _(@"Zauberprobe")];
-  [self.buttonSpellDoIt setTarget:self];
-  [self.buttonSpellDoIt setAction:@selector(castSpell:)];  
-  
-  NSLog(@"DSACharacterWindowController finished showCastSpellPanel");
- 
-}
-
-// All the subclasses for the spells right here
-
-*/
 
 
 

@@ -810,10 +810,6 @@ static NSMutableDictionary *namesDict;
               {
                 entry[@"isInstrument"] = @YES;
               }
-            if ([entry[@"category"] isEqualToString: @"Musikinstrumente"])
-              {
-                entry[@"isInstrument"] = @YES;
-              }
             if ([entry[@"category"] isEqualToString: @"Nahrungs- und Genußmittel"])
               {
                 entry[@"isFood"] = @YES;
@@ -934,7 +930,7 @@ static NSMutableDictionary *namesDict;
 
     // Look up the corresponding slot type
     NSNumber *slotTypeNumber = slotTypeMapping[slotTypeString];
-    NSLog(@"Utils: slotTypeFromString: for slot type: %@ returning: %@", slotTypeString, slotTypeNumber);
+    // NSLog(@"Utils: slotTypeFromString: for slot type: %@ returning: %@", slotTypeString, slotTypeNumber);
     return slotTypeNumber ? slotTypeNumber.unsignedIntegerValue : NSNotFound;
 }
 
@@ -1094,5 +1090,21 @@ static NSMutableDictionary *namesDict;
     return [NSString stringWithFormat: @"(%@)", [values componentsJoinedByString:@"/"]];
 }
 // end of methods to format various strings
+
+
++ (NSColor *)colorForDSASeverity:(DSASeverityLevel)level {
+    switch (level) {
+        case DSASeverityLevelNone: return [NSColor greenColor];
+        case DSASeverityLevelMild: return [NSColor blueColor];
+        case DSASeverityLevelModerate: return [NSColor yellowColor];
+        case DSASeverityLevelSevere: return [NSColor redColor];
+    }
+    return [NSColor grayColor]; // Fallback
+}
+
++ (NSColor *)colorForBooleanState:(BOOL)state {
+    return state ? [NSColor redColor] : [NSColor greenColor];
+}
+
 
 @end

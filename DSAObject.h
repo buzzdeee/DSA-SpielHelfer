@@ -82,6 +82,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
              inSubSubCategory: (NSString *) subSubCategory
                    withWeight: (float) weight
                     withPrice: (float) price
+                  withPenalty: (float) penalty
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
                  canShareSlot: (BOOL) canShareSlot
@@ -106,6 +107,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
              inSubSubCategory: (NSString *) subSubCategory
                    withWeight: (float) weight
                     withPrice: (float) price
+                  withPenalty: (float) penalty  
                    ofSlotType: (NSInteger) slotType
                 withNrOfSlots: (NSInteger) nrOfSlots
               maxItemsPerSlot: (NSInteger) maxItemsPerSlot
@@ -302,6 +304,22 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
 // End of DSAObjectFood
                     
 @interface DSAObjectCloth : DSAObject
+@property (nonatomic) BOOL isTailored;                                 // ist Maßgeschneidert
+- (instancetype) initWithName: (NSString *) name
+                     withIcon: (NSString *) icon
+                   inCategory: (NSString *) category
+                inSubCategory: (NSString *) subCategory
+             inSubSubCategory: (NSString *) subSubCategory
+                   withWeight: (float) weight
+                    withPrice: (float) price
+                  withPenalty: (float) penalty                        // Behinderung
+               withProtection: (float) protection                     // armor
+                   isTailored: (BOOL) isTailored
+      validInventorySlotTypes: (NSArray *) validSlotTypes  
+            occupiedBodySlots: (NSArray *) occupiedBodySlots       
+            withAppliedSpells: (NSMutableDictionary *) appliedSpells
+                withOwnerUUID: (NSString *) ownerUUID                     
+                  withRegions: (NSArray *) regions;
 @end
 // End of DSAObjectCloth
 

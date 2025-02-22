@@ -25,7 +25,7 @@
 #ifndef _UTILS_H_
 #define _UTILS_H_
 
-#import <Foundation/Foundation.h>
+#import <AppKit/AppKit.h>
 #import "DSASlot.h"
 #import "DSACharacter.h"
 
@@ -34,6 +34,13 @@ typedef NS_ENUM(NSInteger, LogSeverity) {
     LogSeverityHappy,
     LogSeverityWarning,
     LogSeverityCritical
+};
+
+typedef NS_ENUM(NSUInteger, DSASeverityLevel) {
+    DSASeverityLevelNone = 0,
+    DSASeverityLevelMild,
+    DSASeverityLevelModerate,
+    DSASeverityLevelSevere
 };
 
 @interface Utils : NSObject
@@ -107,6 +114,9 @@ typedef NS_ENUM(NSInteger, LogSeverity) {
 + (NSArray *) getProfessionsForArchetype: (NSString *) archetype;
 
 + (NSDictionary *) getBlessedLiturgiesDict;
+
++ (NSColor *)colorForDSASeverity:(DSASeverityLevel)level;
++ (NSColor *)colorForBooleanState:(BOOL)state;
 
 @end
 

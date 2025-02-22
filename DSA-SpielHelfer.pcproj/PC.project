@@ -116,7 +116,8 @@
 	"DSAAdventureDocument.m",
 	"DSANameGenerator.m",
 	"DSANameGenerationController.m",
-	"DSARegenerationResult.m"
+	"DSARegenerationResult.m",
+	"DSACharacterStatusView.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -229,7 +230,8 @@
 	"DSAAdventureDocument.h",
 	"DSANameGenerator.h",
 	"DSANameGenerationController.h",
-	"DSARegenerationResult.h"
+	"DSARegenerationResult.h",
+	"DSACharacterStatusView.h"
     );
     IMAGES = (
 	"Character_1.png",

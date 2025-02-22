@@ -97,9 +97,11 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
             if (!characterRegistry) {
                 characterRegistry = [NSMutableDictionary dictionary];
             }
-
-            _modelID = [[NSUUID UUID] UUIDString]; // Use NSUUID for a truly unique ID
-            NSLog(@"Generated modelID: %@", _modelID);
+            if (_modelID == nil)
+              {
+                _modelID = [[NSUUID UUID] UUIDString]; // Use NSUUID for a truly unique ID
+                NSLog(@"Generated modelID: %@", _modelID);
+              }
 
             if (!characterRegistry[_modelID]) {
                 characterRegistry[_modelID] = self; // Register the character
@@ -367,10 +369,6 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
   if (self)
     {
       _modelID = [coder decodeObjectOfClass:[NSString class] forKey:@"modelID"];
-      if (!self.modelID)
-        {
-          _modelID = [[NSUUID UUID] UUIDString];  //backward compat
-        }
       if (!characterRegistry[_modelID]) {
           characterRegistry[_modelID] = self; // Register the character
       } else {
@@ -1242,7 +1240,16 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
         break;
       case DSACharacterStateThirst: 
         [self updateStateThirstWithValue: value];
-        break;           
+        break;     
+      case DSACharacterStateWounded: 
+        [self updateStateWoundedWithValue: value];        
+        break;    
+      case DSACharacterStateSick: 
+        [self updateStateSickWithValue: value];        
+        break;    
+      case DSACharacterStatePoisoned: 
+        [self updateStatePoisonedWithValue: value];        
+        break;                        
       case DSACharacterStateDrunken: 
         [self updateStateDrunkenWithValue: value];        
         break;
@@ -1252,7 +1259,11 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
         break;  
       case DSACharacterStateDead: 
         [self updateStateDeadWithValue: value
-                            withReason: nil];        
+                            withReason: nil]; 
+        break; 
+      case DSACharacterStateSpellbound: 
+        [self updateStateSpellboundWithValue: value
+                                  withReason: nil];                                   
         break;              
       default:
         NSLog(@"DSACharacter updateStatesDictState don't know how to handle state: %@", DSACharacterState);
@@ -1341,7 +1352,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
     {
       if (newLevel == 0)
         {
-           NSString  *reason = [NSString stringWithFormat: @"%@ wird vor Durst ohnmächtig.", self.name];
+           NSString  *reason = [NSString stringWithFormat: @"%@ wird vor Durst ohnmächtig.", self.name];          
            [self updateStateUnconsciousWithValue: @(YES)
                                       withReason: reason];
               
@@ -1368,11 +1379,168 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
                                                     userInfo: userInfo];
 }
 
+- (void) updateStateWoundedWithValue: (NSNumber*) value
+{
+  
+  NSInteger newLevel = [value integerValue];
+  NSInteger currentLevel = [[self.statesDict objectForKey: @(DSACharacterStateWounded)] integerValue];
+  if (newLevel == currentLevel)
+    {
+      return; // nothing changed
+    }
+  NSLog(@"UPDATING WOUNDED STATE: CURRENT %@ NEW %@", [self.statesDict objectForKey: @(DSACharacterStateWounded)], value);
+  if (currentLevel < newLevel && newLevel <= DSASeverityLevelSevere)
+    {
+       [self.statesDict setObject: value forKey: @(DSACharacterStateWounded)];
+       NSString  *notificationMessage = [NSString stringWithFormat: @"%@ ist verwundet worden.", self.name];
+       NSInteger notificationSeverity = LogSeverityWarning;
+    
+       NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                    @"message": notificationMessage
+                                 };
+       [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                           object: self
+                                                         userInfo: userInfo]; 
+    }
+  else if (newLevel> DSASeverityLevelNone && newLevel < currentLevel)
+    {
+      [self.statesDict setObject: value forKey: @(DSACharacterStateWounded)];
+       NSString  *notificationMessage = [NSString stringWithFormat: @"%@s Verwundungen heilen wieder.", self.name];
+       NSInteger notificationSeverity = LogSeverityInfo;
+    
+       NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                    @"message": notificationMessage
+                                 };
+       [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                           object: self
+                                                         userInfo: userInfo];      
+    }
+  else if (newLevel == DSASeverityLevelNone && newLevel < currentLevel)
+    {
+      [self.statesDict setObject: value forKey: @(DSACharacterStateWounded)];
+      NSString  *notificationMessage = [NSString stringWithFormat: @"%@s Wunden sind wieder völlig verheilt.", self.name];
+      NSInteger notificationSeverity = LogSeverityHappy;
+    
+      NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                   @"message": notificationMessage
+                                };                               
+      [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                          object: self
+                                                        userInfo: userInfo];      
+    }
+}
+
+- (void) updateStateSickWithValue: (NSNumber*) value
+{
+  
+  NSInteger newLevel = [value integerValue];
+  NSInteger currentLevel = [[self.statesDict objectForKey: @(DSACharacterStateSick)] integerValue];
+  if (newLevel == currentLevel)
+    {
+      return; // nothing changed
+    }
+  NSLog(@"UPDATING WOUNDED STATE: CURRENT %@ NEW %@", [self.statesDict objectForKey: @(DSACharacterStateSick)], value);
+  if (currentLevel < newLevel && newLevel <= DSASeverityLevelSevere)
+    {
+       [self.statesDict setObject: value forKey: @(DSACharacterStateSick)];
+       NSString  *notificationMessage = [NSString stringWithFormat: @"%@ ist krank geworden.", self.name];
+       NSInteger notificationSeverity = LogSeverityWarning;
+    
+       NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                    @"message": notificationMessage
+                                 };
+       [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                           object: self
+                                                         userInfo: userInfo]; 
+    }
+  else if (newLevel> DSASeverityLevelNone && newLevel < currentLevel)
+    {
+      [self.statesDict setObject: value forKey: @(DSACharacterStateSick)];
+       NSString  *notificationMessage = [NSString stringWithFormat: @"%@s Krankheit wird wieder etwas besser.", self.name];
+       NSInteger notificationSeverity = LogSeverityInfo;
+    
+       NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                    @"message": notificationMessage
+                                 };
+       [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                           object: self
+                                                         userInfo: userInfo];      
+    }
+  else if (newLevel == DSASeverityLevelNone && newLevel < currentLevel)
+    {
+      [self.statesDict setObject: value forKey: @(DSACharacterStateSick)];
+      NSString  *notificationMessage = [NSString stringWithFormat: @"%@ ist wieder völlig genesen.", self.name];
+      NSInteger notificationSeverity = LogSeverityHappy;
+    
+      NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                   @"message": notificationMessage
+                                };                               
+      [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                          object: self
+                                                        userInfo: userInfo];      
+    }
+}
+
+- (void) updateStatePoisonedWithValue: (NSNumber*) value
+{
+  
+  NSInteger newLevel = [value integerValue];
+  NSInteger currentLevel = [[self.statesDict objectForKey: @(DSACharacterStatePoisoned)] integerValue];
+  if (newLevel == currentLevel)
+    {
+      return; // nothing changed
+    }
+  NSLog(@"UPDATING WOUNDED STATE: CURRENT %@ NEW %@", [self.statesDict objectForKey: @(DSACharacterStatePoisoned)], value);
+  if (currentLevel < newLevel && newLevel <= DSASeverityLevelSevere)
+    {
+       [self.statesDict setObject: value forKey: @(DSACharacterStatePoisoned)];
+       NSString  *notificationMessage = [NSString stringWithFormat: @"%@ wurde vergiftet.", self.name];
+       NSInteger notificationSeverity = LogSeverityWarning;
+    
+       NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                    @"message": notificationMessage
+                                 };
+       [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                           object: self
+                                                         userInfo: userInfo]; 
+    }
+  else if (newLevel> DSASeverityLevelNone && newLevel < currentLevel)
+    {
+      [self.statesDict setObject: value forKey: @(DSACharacterStatePoisoned)];
+       NSString  *notificationMessage = [NSString stringWithFormat: @"%@s Vergiftungserscheinungen lassen etwas nach.", self.name];
+       NSInteger notificationSeverity = LogSeverityInfo;
+    
+       NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                    @"message": notificationMessage
+                                 };
+       [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                           object: self
+                                                         userInfo: userInfo];      
+    }
+  else if (newLevel == DSASeverityLevelNone && newLevel < currentLevel)
+    {
+      [self.statesDict setObject: value forKey: @(DSACharacterStatePoisoned)];
+      NSString  *notificationMessage = [NSString stringWithFormat: @"%@s Vergiftung ist völlig vorüber.", self.name];
+      NSInteger notificationSeverity = LogSeverityHappy;
+    
+      NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                   @"message": notificationMessage
+                                };                               
+      [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                          object: self
+                                                        userInfo: userInfo];      
+    }
+}
+
 - (void) updateStateDrunkenWithValue: (NSNumber*) value
 {
   
   NSInteger newLevel = [value integerValue];
   NSInteger currentLevel = [[self.statesDict objectForKey: @(DSACharacterStateDrunken)] integerValue];
+  if (newLevel == currentLevel)
+    {
+      return; // nothing changed
+    }  
   NSLog(@"UPDATING DRUNKEN STATE: CURRENT %@ NEW %@", [self.statesDict objectForKey: @(DSACharacterStateDrunken)], value);
   if (currentLevel < newLevel && newLevel <= DSASeverityLevelSevere)
     {
@@ -1510,4 +1678,51 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
                                                     userInfo: userInfo];
 }
 
+
+- (void) updateStateSpellboundWithValue: (NSNumber*) value
+                             withReason: (NSString *) reason
+{
+  NSInteger notificationSeverity = LogSeverityInfo;
+  NSString *notificationMessage = nil;
+
+  BOOL currentState = [[self.statesDict objectForKey: @(DSACharacterStateSpellbound)] boolValue];
+  
+  if (currentState == [value boolValue])
+    {
+      return; // nothing changed...
+    }  
+    
+  [self.statesDict setObject: value forKey: @(DSACharacterStateSpellbound)];
+  if (reason)
+    {
+      notificationSeverity = LogSeverityWarning;
+      notificationMessage = reason;
+
+    }
+  else if ([value integerValue] == DSASeverityLevelNone)
+    {
+      notificationSeverity = LogSeverityHappy;
+      notificationMessage = [NSString stringWithFormat: @"%@ ist nicht mehr von einem Zauber beherrscht.", self.name];
+     
+    }
+  else if ([value integerValue] > DSASeverityLevelNone)
+    {
+      notificationSeverity = LogSeverityCritical;
+      notificationMessage = [NSString stringWithFormat: @"%@ ist von einem Zauber beherrscht.", self.name];
+       
+    }
+  NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                               @"message": notificationMessage
+                            };  
+  [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                      object: self
+                                                    userInfo: userInfo];
+                                                    
+  userInfo = @{ @"state": @(DSACharacterStateSpellbound),
+                @"value": value
+              };                                                     
+  [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterStateChange"
+                                                      object: self
+                                                    userInfo: userInfo];
+}
 @end

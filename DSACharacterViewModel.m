@@ -238,7 +238,7 @@
     
   [_model removeObserver:self forKeyPath:@"lifePoints"];
   [_model removeObserver:self forKeyPath:@"currentLifePoints"];
-  [_model removeObserver:self forKeyPath:@"AstralEnergy"];
+  [_model removeObserver:self forKeyPath:@"astralEnergy"];
   [_model removeObserver:self forKeyPath:@"currentAstralEnergy"];
   [_model removeObserver:self forKeyPath:@"karmaPoints"];
   [_model removeObserver:self forKeyPath:@"currentKarmaPoints"];

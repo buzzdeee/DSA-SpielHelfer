@@ -206,7 +206,7 @@
                                        withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                        withLength: [[objectInfo objectForKey: @"Länge"] floatValue]
-                                      withPenalty: [[objectInfo objectForKey: @"Behinderung"] integerValue]
+                                      withPenalty: [[objectInfo objectForKey: @"Behinderung"] floatValue]
                             withShieldAttackPower: [[objectInfo objectForKey: @"shieldAttackPower"] integerValue]
                              withShieldParryValue: [[objectInfo objectForKey: @"shieldParryValue"] integerValue]
                                     withHitPoints: [objectInfo objectForKey: @"Trefferpunkte"]  // Array of NSNumbers 
@@ -232,7 +232,7 @@
                                        withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                   withBreakFactor: [[objectInfo objectForKey: @"Bruchfaktor"] integerValue]                                        
-                                      withPenalty: [[objectInfo objectForKey: @"Behinderung"] integerValue]
+                                      withPenalty: [[objectInfo objectForKey: @"Behinderung"] floatValue]
                             withShieldAttackPower: [[objectInfo objectForKey: @"shieldAttackPower"] integerValue]
                              withShieldParryValue: [[objectInfo objectForKey: @"shieldParryValue"] integerValue]
                           validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
@@ -251,8 +251,8 @@
                                  inSubSubCategory: [objectInfo objectForKey: @"category2"]
                                        withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
-                                   withProtection: [[objectInfo objectForKey: @"Rüstschutz"] integerValue]
-                                      withPenalty: [[objectInfo objectForKey: @"Behinderung"] integerValue]
+                                   withProtection: [[objectInfo objectForKey: @"Rüstschutz"] floatValue]
+                                      withPenalty: [[objectInfo objectForKey: @"Behinderung"] floatValue]
                           validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                                 occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
                                 withAppliedSpells: appliedSpells
@@ -269,6 +269,7 @@
                                      inSubSubCategory: [objectInfo objectForKey: @"category2"]
                                            withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                             withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
+                                          withPenalty: [[objectInfo objectForKey: @"Behinderung"] floatValue]  
                                            ofSlotType: [objectInfo objectForKey: @"HatSlots" ] ? [Utils slotTypeFromString: [[objectInfo objectForKey: @"HatSlots" ] objectAtIndex: 0]] : DSASlotTypeGeneral
                                         withNrOfSlots: [objectInfo objectForKey: @"Slots" ] ? [[objectInfo objectForKey: @"Slots" ] integerValue] : 1
                                       maxItemsPerSlot: [objectInfo objectForKey: @"MaximumPerSlot" ] ? [[objectInfo objectForKey: @"MaximumPerSlot" ] integerValue] : 1
@@ -296,6 +297,24 @@
                          validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                                     canShareSlot: [[objectInfo objectForKey: @"canShareSlot"] boolValue]];
     }
+  else if ([[objectInfo objectForKey: @"isCloth"] isEqualTo: @YES])
+    {
+       self = [[DSAObjectCloth alloc] initWithName: name
+                                          withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
+                                        inCategory: [objectInfo objectForKey: @"category"]
+                                     inSubCategory: [objectInfo objectForKey: @"category1"]
+                                  inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                                        withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
+                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
+                                       withPenalty: [[objectInfo objectForKey: @"Behinderung"] floatValue]
+                                    withProtection: [[objectInfo objectForKey: @"Rüstschutz"] floatValue]    
+                                        isTailored: [objectInfo objectForKey: @"ist maßgeschneidert" ] ? YES : NO
+                           validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
+                                 occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
+                                 withAppliedSpells: appliedSpells
+                                     withOwnerUUID: ownerUUID
+                                       withRegions: [objectInfo objectForKey: @"Regionen"]];
+    }
   else
     {
       NSLog(@"Unsure how to handle object creation for: %@, just going with DSAObject", name);
@@ -306,6 +325,7 @@
                             inSubSubCategory: [objectInfo objectForKey: @"category2"]
                                   withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                    withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
+                                 withPenalty: [[objectInfo objectForKey: @"Behinderung"] floatValue]    
                      validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                            occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]                     
                                 canShareSlot: [[objectInfo objectForKey: @"canShareSlot"] boolValue]
@@ -334,6 +354,7 @@
              inSubSubCategory: (NSString *) subSubCategory
                    withWeight: (float) weight
                     withPrice: (float) price
+                  withPenalty: (float) penalty
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
                  canShareSlot: (BOOL) canShareSlot
@@ -353,7 +374,7 @@
       self.subSubCategory = subSubCategory;
       self.weight = weight;
       self.price = price;
-      self.penalty = 0.0;
+      self.penalty = penalty;
       self.breakFactor = 0;
       self.canShareSlot = canShareSlot;
       self.validSlotTypes = validSlotTypes;
@@ -596,6 +617,7 @@
              inSubSubCategory: (NSString *) subSubCategory
                    withWeight: (float) weight
                     withPrice: (float) price
+                  withPenalty: (float) penalty  
                    ofSlotType: (NSInteger) slotType
                 withNrOfSlots: (NSInteger) nrOfSlots
               maxItemsPerSlot: (NSInteger) maxItemsPerSlot
@@ -615,6 +637,7 @@
       self.subSubCategory = subSubCategory;
       self.weight = weight;
       self.price = price;
+      self.penalty = penalty;
       self.appliedSpells = appliedSpells;
       self.ownerUUID = ownerUUID;
       self.regions = regions;
@@ -1044,6 +1067,70 @@
 // End of DSAObjectArmor
 
 @implementation DSAObjectCloth
+- (instancetype) initWithName: (NSString *) name
+                     withIcon: (NSString *) icon
+                   inCategory: (NSString *) category
+                inSubCategory: (NSString *) subCategory
+             inSubSubCategory: (NSString *) subSubCategory
+                   withWeight: (float) weight
+                    withPrice: (float) price
+                  withPenalty: (float) penalty
+               withProtection: (float) protection  // armor  
+                   isTailored: (BOOL) isTailored
+      validInventorySlotTypes: (NSArray *) validSlotTypes  
+            occupiedBodySlots: (NSArray *) occupiedBodySlots       
+            withAppliedSpells: (NSMutableDictionary *) appliedSpells
+                withOwnerUUID: (NSString *) ownerUUID                     
+                  withRegions: (NSArray *) regions
+{
+  self = [super init];
+  if (self)
+    {
+      self.name = name;
+      self.icon = icon;
+      self.category = category;
+      self.subCategory = subCategory;
+      self.subSubCategory = subSubCategory;
+      self.weight = weight;
+      self.price = price;
+      self.penalty = penalty;
+      self.isTailored = isTailored;
+      self.validSlotTypes = validSlotTypes;
+      self.occupiedBodySlots = occupiedBodySlots;     
+      self.appliedSpells = appliedSpells;
+      self.ownerUUID = ownerUUID; 
+      self.regions = regions;
+    }  
+  return self;
+}                  
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder: coder];
+    if (self)
+      {
+        self.isTailored = [coder decodeBoolForKey:@"isTailored"];
+      }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+  [super encodeWithCoder: coder];
+  [coder encodeBool:self.isTailored forKey:@"isTailored"];
+}
+
+- (float) penalty
+{
+  if (self.isTailored)
+    {
+      return [super penalty] * 0.75;
+    }
+  else
+    {
+      return [super penalty];
+    }
+}
+                
 @end
 
 @implementation DSAObjectFood

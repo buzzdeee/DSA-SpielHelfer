@@ -51,13 +51,6 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
   DSACharacterStateThirst,                  // level of thirst
 };
 
-typedef NS_ENUM(NSUInteger, DSASeverityLevel) {
-    DSASeverityLevelNone = 0,
-    DSASeverityLevelMild,
-    DSASeverityLevelModerate,
-    DSASeverityLevelSevere
-};
-
 @interface DSACharacter : NSObject <NSCoding>
 
 @property (nonatomic, strong, readonly) NSString *modelID; // Unique ID for each model

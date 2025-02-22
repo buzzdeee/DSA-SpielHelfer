@@ -272,7 +272,7 @@ static NSObject *syncObject = nil; // A synchronization object
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-NSLog(@"DSADocumentController validateMenuItem %@ %lu", [menuItem title], (unsigned long)[menuItem tag]);
+//NSLog(@"DSADocumentController validateMenuItem %@ %lu", [menuItem title], (unsigned long)[menuItem tag]);
 // TAGS: 22: levelUp, 23: Geldbörse managen, 24: Talent anwenden, 25: Abenteuerpunkte hinzufügen, 26: Zaubern, 27: regenerieren, 28: Energien managen
 // 29 Rituale
       NSWindow *keyWindow = [NSApp keyWindow];

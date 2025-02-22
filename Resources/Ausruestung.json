@@ -1818,55 +1818,7 @@
     }
   },
   "Rüstzeug": {
-    "Rüstungen": {
-      "Straßenkleidung": {
-        "Gewicht": 120,
-        "Preis": 20,
-        "Rüstschutz": 1,
-        "Behinderung": 1,
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
-        "Material": "Leinen"
-      }, 
-      "Winterkleidung": {
-        "Gewicht": 200,
-        "Preis": 30,
-        "Rüstschutz": 2,
-        "Behinderung": 2,
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "LF", "MH", "NA", "NO", "OR", "PU", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
-        "Material": "Leinen"
-      },   
-      "Fellkleidung": {
-        "Gewicht": 220,
-        "Preis": 10,
-        "Rüstschutz": 2,
-        "Behinderung": 2,
-        "Regionen": [ "BO", "NO", "OR", "TH" ],
-        "Material": "Leder"
-      },
-      "Fellumhang": {
-        "Gewicht": 120,
-        "Preis": 10,
-        "Rüstschutz": 1,
-        "Behinderung": 0,
-        "Regionen": [ "BO", "EL", "FI", "NO", "OR", "TH", "WE" ],
-        "Material": "Leder"
-      }, 
-      "Pelzkleidung": {
-        "Gewicht": 200,
-        "Preis": 100,
-        "Rüstschutz": 2,
-        "Behinderung": 1,
-        "Regionen": [ "BO", "GA", "LF", "PU", "TO" ],
-        "Material": "Leder"
-      },
-      "Lederkleidung": {
-        "Gewicht": 150,
-        "Preis": 100,
-        "Rüstschutz": 1,
-        "Behinderung": 1,
-        "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
-        "Material": "Leder"
-      },                             
+    "Rüstungen": {                             
       "Wattierter Waffenrock (Gambeson)": {
         "Gewicht": 120,
         "Preis": 40,
@@ -2523,19 +2475,21 @@
       "Lederranzen, 8 Stein": {
         "Gewicht": 30,
         "Preis": 2,
+        "Behinderung": 3,
 	     "Slots": 6,
         "HatSlots": [ "Allgemein" ],
         "MaximumPerSlot": 10,
-        "belegteKörperSlots": [ "Rucksack" ],
+        "ErlaubtInSlots": [ "Rucksack" ],
         "Icon": [ "Lederrucksack_klein_1", "Lederrucksack_klein_2" ]
       },
       "Lederrucksack, 15 Stein": {
         "Gewicht": 40,
         "Preis": 4,
+        "Behinderung": 4,
 	     "Slots": 10,
         "HatSlots": [ "Allgemein" ],
         "MaximumPerSlot": 10,
-        "belegteKörperSlots": [ "Rucksack" ],
+        "ErlaubtInSlots": [ "Rucksack" ],
         "Icon": [ "Lederrucksack_gross_1", "Lederrucksack_gross_2" ]
       }
     },
@@ -2543,19 +2497,21 @@
       "Gürteltasche": {
         "Gewicht": 5,
         "Preis": 0.5,
+        "Behinderung": 0.2,
 	     "Slots": 5,
         "HatSlots": [ "Allgemein" ],
         "MaximumPerSlot": 10,
-        "belegteKörperSlots": [ "Hüfte" ],
+        "ErlaubtInSlots": [ "Hüfte" ],
         "Icon": [ "Guerteltasche_1", "Guerteltasche_2" ]
       },
       "Gürteltasche, verstärkt": {
         "Gewicht": 15,
         "Preis": 4,
+        "Behinderung": 0.2,
 	     "Slots": 5,
         "HatSlots": [ "Allgemein" ],
         "MaximumPerSlot": 10,
-        "belegteKörperSlots": [ "Hüfte" ],
+        "ErlaubtInSlots": [ "Hüfte" ],
         "Icon": [ "Guerteltasche_verstaerkt_1", "Guerteltasche_verstaerkt_2" ]
       }
     },
@@ -4139,6 +4095,8 @@
       "Strümpfe, Wolle": {
         "Gewicht": 4,
         "Preis": 0.3,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": 3,
         "belegteKörperSlots": [ "Socke", "Socke" ],
 	     "Icon": [ "Wollstruempfe_1", "Wollstruempfe_2", "Wollstruempfe_3" ]
@@ -4146,6 +4104,8 @@
       "Strümpfe, Seide": {
         "Gewicht": 2,
         "Preis": 12,
+        "Rüstschutz": 0.05,
+        "Behinderung": 0.05,        
         "Maßgeschneidert": 60,
         "belegteKörperSlots": [ "Socke", "Socke" ],
         "Icon": [ "Seidenstruempfe" ]
@@ -4155,6 +4115,8 @@
       "Nachthemd, Leinen": {
         "Gewicht": 15,
         "Preis": 1,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": 8,
         "belegteKörperSlots": [ "Shirt" ],
         "Icon": [ "Nachthemd_Leinen" ]
@@ -4162,6 +4124,8 @@
       "Nachthemd, Seide": {
         "Gewicht": 5,
         "Preis": 12,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": 80,
         "belegteKörperSlots": [ "Shirt" ],
         "Icon": [ "Nachthemd_Seide_1", "Nachthemd_Seide_2" ]
@@ -4171,6 +4135,8 @@
       "Lendentuch": {
         "Gewicht": 8,
         "Preis": 0.1,
+        "Rüstschutz": 0,
+        "Behinderung": 0,        
         "Maßgeschneidert": -1,
         "belegteKörperSlots": [ "Unterwäsche" ],
         "Icon": [ "Lendentuch" ]
@@ -4178,6 +4144,8 @@
       "Unterwäsche": {
         "Gewicht": 40,
         "Preis": 4,
+        "Rüstschutz": 0.05,
+        "Behinderung": 0.05,        
         "Maßgeschneidert": 100,
         "belegteKörperSlots": [ "Unterwäsche" ],
         "Icon": [ "Unterwaesche_1", "Unterwaesche_2", "Unterwaesche_3" ]
@@ -4185,6 +4153,8 @@
       "Mieder": {
         "Gewicht": 25,
         "Preis": 2,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.3,        
         "Maßgeschneidert": 20,
         "belegteKörperSlots": [ "Unterwäsche" ],
         "Icon": [ "Mieder_1", "Mieder_2" ]
@@ -4192,6 +4162,8 @@
       "Unterrock": {
         "Gewicht": 20,
         "Preis": 1,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": 2,
         "belegteKörperSlots": [ "Unterwäsche" ],
         "Icon": [ "Unterrock_1", "Unterrock_2" ]
@@ -4200,6 +4172,8 @@
     "Nachtmütze": {
       "Gewicht": 4,
       "Preis": 0.2,
+        "Rüstschutz": 0.02,
+        "Behinderung": 0.02,      
       "Maßgeschneidert": 2,
       "belegteKörperSlots": [ "Kopfbedeckung" ],
       "Icon": [ "Nachtmuetze_1", "Nachtmuetze_2" ]
@@ -4207,6 +4181,8 @@
     "Hausmantel": {
       "Gewicht": 30,
       "Preis": 5,
+      "Rüstschutz": 0.1,
+      "Behinderung": 0.1,      
       "Maßgeschneidert": 100,
       "belegteKörperSlots": [ "Jacke" ],
       "Icon": [ "Hausmantel" ]
@@ -4215,6 +4191,8 @@
       "Hemd, Bluse, Leinen": {
         "Gewicht": 10,
         "Preis": 0.8,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": 8,
         "belegteKörperSlots": [ "Shirt" ],
         "Icon": [ "Hemd_Leinen_1", "Hemd_Leinen_2" ]
@@ -4222,6 +4200,8 @@
       "Hemd, Bluse, Wolle": {
         "Gewicht": 15,
         "Preis": 0.8,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": 8,
         "belegteKörperSlots": [ "Shirt" ],
         "Icon": [ "Hemd_Wolle_1", "Hemd_Wolle_2" ]
@@ -4229,6 +4209,8 @@
       "Hemd, Bluse, Bausch": {
         "Gewicht": 8,
         "Preis": 2,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.1,         
         "Maßgeschneidert": 20,
         "belegteKörperSlots": [ "Shirt" ],
         "Icon": [ "Hemd_Bausch_1", "Hemd_Bausch_2" ]
@@ -4236,6 +4218,8 @@
       "Hemd, Bluse, Seide": {
         "Gewicht": 5,
         "Preis": 12,
+        "Rüstschutz": 0.05,
+        "Behinderung": 0.05,        
         "Maßgeschneidert": 80,
         "belegteKörperSlots": [ "Shirt" ],
         "Icon": [ "Hemd_Seide_1", "Hemd_Seide_2" ]
@@ -4245,6 +4229,8 @@
       "Jacke, Wams, Leinen": {
         "Gewicht": 30,
         "Preis": 2,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 10,
         "belegteKörperSlots": [ "Jacke" ],
         "Icon": [ "Jacke_Leinen_1", "Jacke_Leinen_2" ]
@@ -4252,6 +4238,8 @@
       "Jacke, Wams, Wolle": {
         "Gewicht": 40,
         "Preis": 2,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 10,
         "belegteKörperSlots": [ "Jacke" ],
         "Icon": [ "Jacke_Wolle_1", "Jacke_Wolle_2" ]
@@ -4259,6 +4247,8 @@
       "Jacke, Wams, Leder": {
         "Gewicht": 60,
         "Preis": 4,
+        "Rüstschutz": 0.3,
+        "Behinderung": 0.3,        
         "Maßgeschneidert": 30,
         "belegteKörperSlots": [ "Jacke" ],
         "Icon": [ "Jacke_Leder_1", "Jacke_Leder_2" ]
@@ -4266,6 +4256,8 @@
       "Jacke, Wams, Brokat": {
         "Gewicht": 120,
         "Preis": 40,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.3,        
         "Maßgeschneidert": 180,
         "belegteKörperSlots": [ "Jacke" ],
         "Icon": [ "Jacke_Brokat_1", "Jacke_Brokat_2" ]
@@ -4273,6 +4265,8 @@
       "Teerjacke": {
         "Gewicht": 60,
         "Preis": 5,
+        "Rüstschutz": 0.3,
+        "Behinderung": 0.3,        
         "Maßgeschneidert": -1,
         "belegteKörperSlots": [ "Jacke" ],
         "Icon": [ "Teerjacke_1", "Teerjacke_2" ]
@@ -4280,6 +4274,8 @@
       "Fellanorak": {
         "Gewicht": 80,
         "Preis": 8,
+        "Rüstschutz": 0.3,
+        "Behinderung": 0.3,        
         "Maßgeschneidert": 120,
         "belegteKörperSlots": [ "Jacke" ],
         "Icon": [ "Fellanorak_1", "Fellanorak_2" ]
@@ -4289,6 +4285,8 @@
       "Weste, Wolle": {
         "Gewicht": 25,
         "Preis": 3,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": 10,
         "belegteKörperSlots": [ "Weste" ],
         "Icon": [ "Weste_Wolle_1", "Weste_Wolle_2" ]
@@ -4296,6 +4294,8 @@
       "Weste, Leder": {
         "Gewicht": 40,
         "Preis": 5,
+        "Rüstschutz": 0.3,
+        "Behinderung": 0.3,        
         "Maßgeschneidert": 30,
         "belegteKörperSlots": [ "Weste" ],
         "Icon": [ "Weste_Leder_1", "Weste_Leder_2" ]
@@ -4303,6 +4303,8 @@
       "Weste, Pelz": {
         "Gewicht": 50,
         "Preis": 5,
+        "Rüstschutz": 0.3,
+        "Behinderung": 0.3,        
         "Maßgeschneidert": 20,
         "belegteKörperSlots": [ "Weste" ],
         "Icon": [ "Weste_Fell_1", "Weste_Fell_2" ]
@@ -4310,6 +4312,8 @@
       "Weste, Seide": {
         "Gewicht": 10,
         "Preis": 9,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": 100,
         "belegteKörperSlots": [ "Weste" ],
         "Icon": [ "Weste_Seide_1", "Weste_Seide_2" ]
@@ -4317,6 +4321,8 @@
       "Weste, Brokat": {
         "Gewicht": 30,
         "Preis": 30,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.15,        
         "Maßgeschneidert": 150,
         "belegteKörperSlots": [ "Weste" ],
         "Icon": [ "Weste_Brokat_1", "Weste_Brokat_2" ]
@@ -4326,6 +4332,8 @@
       "Beinkleider, Leinen": {
         "Gewicht": 25,
         "Preis": 1,
+        "Rüstschutz": 02,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 10,
         "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Hose_Leinen_1", "Hose_Leinen_2" ]
@@ -4333,6 +4341,8 @@
       "Beinkleider, Wolle": {
         "Gewicht": 30,
         "Preis": 1,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 10,
         "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
 	     "Icon": [ "Beinkleider_Wolle_1", "Beinkleider_Wolle_2" ]
@@ -4340,6 +4350,8 @@
       "Beinkleider, Bausch": {
         "Gewicht": 15,
         "Preis": 3,
+        "Rüstschutz": 0.3,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 30,
         "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Hose_Bausch_1", "Hose_Bausch_2" ]
@@ -4347,6 +4359,8 @@
       "Beinkleider, Leder": {
         "Gewicht": 50,
         "Preis": 3,
+        "Rüstschutz": 0.3,
+        "Behinderung": 0.3,        
         "Maßgeschneidert": 40,
         "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Hose_Leder_1", "Hose_Leder_2" ]
@@ -4354,6 +4368,8 @@
       "Beinkleider, Seide": {
         "Gewicht": 10,
         "Preis": 6,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 120,
         "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Hose_Seide_1", "Hose_Seide_2" ]
@@ -4361,6 +4377,8 @@
       "Pluderhose, Leinen": {
         "Gewicht": 35,
         "Preis": 2,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 20,
         "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Pluderhose_Leinen" ]
@@ -4368,6 +4386,8 @@
       "Pluderhose, Bausch": {
         "Gewicht": 25,
         "Preis": 6,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 60,
         "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Pluderhose_Bausch_1", "Pluderhose_Bausch_2" ]
@@ -4375,6 +4395,8 @@
       "Pluderhose, Seide": {
         "Gewicht": 20,
         "Preis": 10,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 150,
         "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Pluderhose_Seide_1", "Pluderhose_Seide_2" ]
@@ -4384,6 +4406,8 @@
       "Rock, Leinen": {
         "Gewicht": 35,
         "Preis": 1,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": 40,
         "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Rock_Leinen_1", "Rock_Leinen_2" ]
@@ -4391,6 +4415,8 @@
       "Rock, Wolle": {
         "Gewicht": 45,
         "Preis": 1,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": 40,
         "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Rock_Wolle_1", "Rock_Wolle_2" ]
@@ -4398,6 +4424,8 @@
       "Rock, Bausch": {
         "Gewicht": 25,
         "Preis": 4,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.15,        
         "Maßgeschneidert": 50,
         "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Rock_Bausch_1", "Rock_Bausch_2" ]
@@ -4405,6 +4433,8 @@
       "Rock, Leder": {
         "Gewicht": 50,
         "Preis": 5,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 60,
         "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Rock_Leder_1", "Rock_Leder_2" ]
@@ -4412,6 +4442,8 @@
       "Rock, Seide": {
         "Gewicht": 15,
         "Preis": 10,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": 70,
         "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Rock_Seide" ]
@@ -4421,6 +4453,8 @@
       "Kleid, Leinen": {
         "Gewicht": 40,
         "Preis": 1,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 60,
         "belegteKörperSlots": [ "Shirt", "Beinkleidung", "Beinkleidung" ],
         "Icon": [ "Kleid_Leinen_1", "Kleid_Leinen_2" ]
@@ -4428,6 +4462,8 @@
       "Kleid, Wolle": {
         "Gewicht": 50,
         "Preis": 1,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 60,
         "belegteKörperSlots": [ "Shirt", "Beinkleidung", "Beinkleidung" ],
 	     "Icon": [ "Kleid_Wolle" ]
@@ -4435,6 +4471,8 @@
       "Kleid, Bausch": {
         "Gewicht": 30,
         "Preis": 4,
+        "Rüstschutz": 0.3,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 80,
         "belegteKörperSlots": [ "Shirt", "Beinkleidung", "Beinkleidung" ],
 	     "Icon": [ "Kleid_Bausch_1", "Kleid_Bausch_2" ]
@@ -4442,6 +4480,8 @@
       "Kleid, Seide": {
         "Gewicht": 20,
         "Preis": 30,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.2,         
         "Maßgeschneidert": 120,
         "belegteKörperSlots": [ "Shirt", "Beinkleidung", "Beinkleidung" ],
 	     "Icon": [ "Kleid_Seide" ]
@@ -4449,6 +4489,8 @@
       "Kleid, Leder": {
         "Gewicht": 70,
         "Preis": 5,
+        "Rüstschutz": 0.3,
+        "Behinderung": 0.3,        
         "Maßgeschneidert": 80,
         "belegteKörperSlots": [ "Shirt", "Beinkleidung", "Beinkleidung" ],
 	     "Icon": [ "Kleid_Leder" ]
@@ -4456,6 +4498,8 @@
       "Ballkleid": {
         "Gewicht": 40,
         "Preis": 50,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.3,        
         "Maßgeschneidert": 250,
         "belegteKörperSlots": [ "Shirt", "Beinkleidung", "Beinkleidung" ],
 	     "Icon": [ "Ballkleid" ]
@@ -4465,6 +4509,8 @@
       "Wollmantel": {
         "Gewicht": 60,
         "Preis": 3,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 30,
         "belegteKörperSlots": [ "Jacke" ],
 	     "Icon": [ "Wollmantel" ]
@@ -4472,6 +4518,8 @@
       "Pelzmantel": {
         "Gewicht": 120,
         "Preis": 30,
+        "Rüstschutz": 0.3,
+        "Behinderung": 0.3,        
         "Maßgeschneidert": 120,
         "belegteKörperSlots": [ "Jacke" ],
 	     "Icon": [ "Pelzmantel" ]
@@ -4479,6 +4527,8 @@
       "Reitmantel, Leder": {
         "Gewicht": 80,
         "Preis": 8,
+        "Rüstschutz": 0.3,
+        "Behinderung": 0.3,        
         "Maßgeschneidert": 80,
         "belegteKörperSlots": [ "Jacke" ],
 	     "Icon": [ "Reitmantel_1", "Reitmantel_2" ]
@@ -4488,6 +4538,8 @@
       "Kapuzenumhang": {
         "Gewicht": 60,
         "Preis": 4,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.15,        
         "Maßgeschneidert": 40,
         "belegteKörperSlots": [ "Jacke" ],
 	     "Icon": [ "Kapuzenumhang_1", "Kapuzenumhang_2" ]
@@ -4495,6 +4547,8 @@
       "Kutte, grobe Wolle": {
         "Gewicht": 80,
         "Preis": 2,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.15,        
         "Maßgeschneidert": 8,
         "belegteKörperSlots": [ "Jacke" ],
 	     "Icon": [ "Kutte" ]
@@ -4502,6 +4556,8 @@
       "Geweihtenornat": {
         "Gewicht": -1,
         "Preis": -1,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.15,        
         "Maßgeschneidert": 40,
         "belegteKörperSlots": [ "Jacke" ],
 	     "Icon": [ "Geweihtenornat" ]
@@ -4509,6 +4565,8 @@
       "Cape": {
         "Gewicht": 50,
         "Preis": 2,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.15,        
         "Maßgeschneidert": 8,
         "belegteKörperSlots": [ "Jacke" ],
         "Icon": [ "Cape" ]
@@ -4516,6 +4574,8 @@
       "Robe, Brokat": {
         "Gewicht": 200,
         "Preis": 80,
+        "Rüstschutz": 0.3,
+        "Behinderung": 0.25,        
         "Maßgeschneidert": 300,
         "belegteKörperSlots": [ "Jacke" ],
 	     "Icon": [ "Robe_Brokat" ]
@@ -4525,6 +4585,8 @@
       "Wollmütze": {
         "Gewicht": 3,
         "Preis": 0.2,
+        "Rüstschutz": 0.05,
+        "Behinderung": 0.05,        
         "Maßgeschneidert": -1,
         "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Wollmuetze_1", "Wollmuetze_2" ]
@@ -4532,6 +4594,8 @@
       "Haube, Leinen": {
         "Gewicht": 3,
         "Preis": 0.5,
+        "Rüstschutz": 0.05,
+        "Behinderung": 0.05,        
         "Maßgeschneidert": 5,
         "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Haube_Leinen" ]
@@ -4539,6 +4603,8 @@
       "Schleier, Wolltuch": {
         "Gewicht": 4,
         "Preis": 0.2,
+        "Rüstschutz": 0.07,
+        "Behinderung": 0.07,        
         "Maßgeschneidert": 2,
         "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Schleier_Wolle" ]
@@ -4546,6 +4612,8 @@
       "Schleier, Seide": {
         "Gewicht": 1,
         "Preis": 8,
+        "Rüstschutz": 0.05,
+        "Behinderung": 0.05,        
         "Maßgeschneidert": 50,
         "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Schleier_Seide" ]
@@ -4553,6 +4621,8 @@
       "Filzhut": {
         "Gewicht": 4,
         "Preis": 1,
+        "Rüstschutz": 0.05,
+        "Behinderung": 0.05,        
         "Maßgeschneidert": 8,
         "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Filzhut" ]
@@ -4560,6 +4630,8 @@
       "Filzhut mit Federn": {
         "Gewicht": 10,
         "Preis": 3,
+        "Rüstschutz": 0.05,
+        "Behinderung": 0.05,        
         "Maßgeschneidert": 20,
         "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Filzhut_Feder" ]
@@ -4567,6 +4639,8 @@
       "Fellmütze": {
         "Gewicht": 30,
         "Preis": 5,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": 50,
         "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Fellmuetze" ]
@@ -4574,6 +4648,8 @@
       "Stirnband": {
         "Gewicht": 2,
         "Preis": 0.5,
+        "Rüstschutz": 0.01,
+        "Behinderung": 0.01,        
         "Maßgeschneidert": 5,
         "belegteKörperSlots": [ "Kopfbedeckung" ],
         "Icon": [ "Stirnband" ]
@@ -4582,6 +4658,8 @@
     "Halstuch, Seide": {
       "Gewicht": 2,
       "Preis": 2,
+      "Rüstschutz": 0.05,
+      "Behinderung": 0.05,      
       "Maßgeschneidert": 10,
       "belegteKörperSlots": [ "Halskette" ],
       "Icon": [ "Seidenschal" ]
@@ -4589,6 +4667,8 @@
     "Maske, Tuch": {
       "Gewicht": 5,
       "Preis": 5,
+      "Rüstschutz": 0.05,
+      "Behinderung": 0.1,      
       "Maßgeschneidert": 30,
       "belegteKörperSlots": [ "Maske" ],
       "Icon": [ "Maske_Tuch" ]
@@ -4596,6 +4676,8 @@
     "Maske, Leder": {
       "Gewicht": 10,
       "Preis": 10,
+      "Rüstschutz": 0.05,
+      "Behinderung": 0.1,      
       "Maßgeschneidert": 50,
       "belegteKörperSlots": [ "Maske" ],
       "Icon": [ "Ledermaske" ]
@@ -4603,6 +4685,8 @@
     "Larve": {
       "Gewicht": 2,
       "Preis": 1,
+      "Rüstschutz": 0.06,
+      "Behinderung": 0.06,      
       "Maßgeschneidert": 8,
       "belegteKörperSlots": [ "Kopfbedeckung" ],
       "Icon": [ "Larve" ]
@@ -4610,6 +4694,8 @@
     "Schärpe, Seide": {
       "Gewicht": 4,
       "Preis": 5,
+      "Rüstschutz": 0.02,
+      "Behinderung": 0.02,      
       "Maßgeschneidert": 60,
       "belegteKörperSlots": [ "Schärpe" ],
       "Icon": [ "Schaerpe_Seide" ]
@@ -4617,6 +4703,8 @@
     "Ledergürtel": {
       "Gewicht": 6,
       "Preis": 1,
+      "Rüstschutz": 0.05,
+      "Behinderung": 0.05,      
       "Maßgeschneidert": 6,
       "belegteKörperSlots": [ "Hüfte" ],
       "Icon": [ "Lederguertel" ]
@@ -4624,6 +4712,8 @@
     "Schultergurt, Bandelier": {
       "Gewicht": 20,
       "Preis": 6,
+      "Rüstschutz": 0.05,
+      "Behinderung": 0.05,      
       "Maßgeschneidert": 10,
       "belegteKörperSlots": [ "Schärpe" ],
       "Icon": [ "Bandelier_1", "Bandelier_2" ]
@@ -4632,6 +4722,8 @@
       "Lederhandschuhe": {
         "Gewicht": 6,
         "Preis": 3,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": 20,
         "belegteKörperSlots": [ "Handschuhe", "Handschuhe" ],
         "Icon": [ "Lederhandschuhe_1", "Lederhandschuhe_2" ]
@@ -4639,6 +4731,8 @@
       "Stulpenhandschuhe": {
         "Gewicht": 30,
         "Preis": 6,
+        "Rüstschutz": 0.05,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": 30,
         "belegteKörperSlots": [ "Handschuhe", "Handschuhe" ],
         "Icon": [ "Stulpenhandschuhe" ]
@@ -4646,6 +4740,8 @@
       "Wollfäustlinge": {
         "Gewicht": 4,
         "Preis": 0.3,
+        "Rüstschutz": 0.05,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": -1,
         "belegteKörperSlots": [ "Handschuhe", "Handschuhe" ],
         "Icon": [ "Wollfaeustlinge" ]
@@ -4653,6 +4749,8 @@
       "Pelzfäustlinge": {
         "Gewicht": 10,
         "Preis": 4,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 10,
         "belegteKörperSlots": [ "Handschuhe", "Handschuhe" ],
         "Icon": [ "Pelzfaeustlinge" ]
@@ -4660,6 +4758,8 @@
       "Muff": {
         "Gewicht": 30,
         "Preis": 4,
+        "Rüstschutz": 0.3,
+        "Behinderung": 0.5,        
         "Maßgeschneidert": 20,
         "belegteKörperSlots": [ "Handschuhe", "Handschuhe" ],
         "Icon": [ "Muff" ]
@@ -4669,6 +4769,8 @@
       "Strohschuhe": {
         "Gewicht": 25,
         "Preis": 0.3,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": -1,
         "belegteKörperSlots": [ "Schuh", "Schuh" ],
 	     "Icon": [ "Strohschuhe" ]
@@ -4676,6 +4778,8 @@
       "Holzschuhe": {
         "Gewicht": 40,
         "Preis": 0.4,
+        "Rüstschutz": 0.15,
+        "Behinderung": 0.15,        
         "Maßgeschneidert": 4,
         "belegteKörperSlots": [ "Schuh", "Schuh" ],
 	     "Icon": [ "Holzschuhe" ]
@@ -4683,6 +4787,8 @@
       "Sandalen": {
         "Gewicht": 30,
         "Preis": 0.6,
+        "Rüstschutz": 0.05,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": 2,
         "belegteKörperSlots": [ "Schuh", "Schuh" ],
 	     "Icon": [ "Sandalen_1", "Sandalen_2" ]
@@ -4690,6 +4796,8 @@
       "Gamaschen, Leder": {
         "Gewicht": 40,
         "Preis": 1,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 10,
         "belegteKörperSlots": [ "Schuh", "Schuh" ],
         "Icon": [ "Gamaschen" ]
@@ -4697,6 +4805,8 @@
       "Lederschuhe": {
         "Gewicht": 40,
         "Preis": 2,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 10,
         "belegteKörperSlots": [ "Schuh", "Schuh" ],
 	     "Icon": [ "Lederschuhe_1", "Lederschuhe_2", "Lederschuhe_3" ]
@@ -4704,6 +4814,8 @@
       "Spangenschuhe": {
         "Gewicht": 40,
         "Preis": 4,
+        "Rüstschutz": 0.1,
+        "Behinderung": 0.1,        
         "Maßgeschneidert": 20,
         "belegteKörperSlots": [ "Schuh", "Schuh" ],
         "Icon": [ "Spangenschuhe_1", "Spangenschuhe_2" ]
@@ -4711,6 +4823,8 @@
       "Leichte Stiefel": {
         "Gewicht": 75,
         "Preis": 9,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 30,
         "belegteKörperSlots": [ "Schuh", "Schuh" ],
         "Icon": [ "Leichte_Stiefel_1", "Leichte_Stiefel_2" ]
@@ -4718,6 +4832,8 @@
       "Schwere Reitstiefel": {
         "Gewicht": 100,
         "Preis": 20,
+        "Rüstschutz": 0.3,
+        "Behinderung": 0.3,        
         "Maßgeschneidert": 50,
         "belegteKörperSlots": [ "Schuh", "Schuh" ],
         "Icon": [ "Reitstiefel" ]
@@ -4725,6 +4841,8 @@
       "Stulpenstiefel": {
         "Gewicht": 100,
         "Preis": 30,
+        "Rüstschutz": 0.2,
+        "Behinderung": 0.2,        
         "Maßgeschneidert": 60,
         "belegteKörperSlots": [ "Schuh", "Schuh" ],
         "Icon": [ "Stulpenstiefel_1", "Stulpenstiefel_2" ]

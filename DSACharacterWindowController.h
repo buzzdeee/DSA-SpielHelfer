@@ -29,6 +29,7 @@
 #import "DSASpell.h"
 #import "DSAInventorySlotView.h"
 #import "DSAActionIcon.h"
+#import "DSACharacterStatusView.h"
 
 @interface DSACharacterWindowController : NSWindowController
 
@@ -161,7 +162,7 @@
 @property (weak) IBOutlet DSAActionIcon *imageTrash;
 @property (weak) IBOutlet NSProgressIndicator *progressBarHunger;
 @property (weak) IBOutlet NSProgressIndicator *progressBarThirst;
-
+@property (weak) IBOutlet DSACharacterStatusView *viewCharacterStatus;
 
 // For the secondary .gorm file DSACharacterLevelUp
 @property (nonatomic, strong) IBOutlet NSPanel *congratsPanel;
@@ -251,10 +252,12 @@
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSTextField *> *spellItemFieldMap;
 @property (nonatomic, strong) NSMutableSet *observedObjects;
 
+
+@property (nonatomic, strong) NSMapTable<id, NSMutableSet<NSString *> *> *observedKeyPaths; // as a cheaper alternative to above
+
+
+
 - (IBAction)closePanel:(id)sender;
-
-
-@property (nonatomic, strong) NSMutableDictionary<id<NSCopying>, NSMutableSet<NSString *> *> *observedKeyPaths;
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem;
 

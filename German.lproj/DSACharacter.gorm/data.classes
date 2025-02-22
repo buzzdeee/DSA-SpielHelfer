@@ -7,6 +7,13 @@
 	);
 	Super = NSImageView;
     };
+    DSACharacterStatusView = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSView;
+    };
     DSACharacterWindowController = {
 	Actions = (
 	    "updateModel:"
@@ -138,7 +145,8 @@
 	    fieldArmor,
 	    progressBarThirst,
 	    progressBarHunger,
-	    fieldLogs
+	    fieldLogs,
+	    viewCharacterStatus
 	);
 	Super = NSWindowController;
     };
