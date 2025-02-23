@@ -27,7 +27,6 @@
 #import "Utils.h"
 
 @implementation DSATalent
-
 - (instancetype)init
 {
   self = [super init];
@@ -179,8 +178,6 @@
   return copy;
 }
 
-
-
 - (BOOL) levelUp
 {
   NSInteger result = 0;
@@ -203,5 +200,188 @@
       return NO;
     }
 }
-
 @end
+// End of DSATalent
+
+@implementation DSAFightingTalent
+@synthesize subCategory;
+- (instancetype)initTalent: (NSString *) name
+             inSubCategory: (NSString *) newSubCategory
+                ofCategory: (NSString *) category
+                   onLevel: (NSInteger) level
+    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
+           withLevelUpCost: (NSInteger) levelUpCost;
+{
+  self = [super init];
+  if (self)
+    {
+      self.name = name;
+      self.category = category;
+      self.subCategory = newSubCategory;      
+      self.level = level;
+      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
+      self.maxUpPerLevel = maxUpPerLevel;
+      self.levelUpCost = levelUpCost;
+    }
+  //NSLog(@"DSAFightingTalent: initTalent ... self: %@", self);
+  return self;
+}
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder: coder];
+    if (self)
+      {
+        self.subCategory = [coder decodeObjectForKey:@"subCategory"];
+      }
+    return self;
+}
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+  [super encodeWithCoder: coder];
+  [coder encodeObject:self.subCategory forKey:@"subCategory"];  
+}
+@end
+// End of DSAFightingTalent
+
+@implementation DSAOtherTalent
+- (instancetype)initTalent: (NSString *) name
+                ofCategory: (NSString *) category 
+                   onLevel: (NSInteger) level
+                  withTest: (NSArray *) test
+    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+         withMaxUpPerLevel: (NSInteger) maxUpPerLevel 
+           withLevelUpCost: (NSInteger) levelUpCost;                          
+{
+  self = [super init];
+  if (self)
+    {
+      self.name = name;
+      self.category = category;
+      self.level = level;
+      self.test = test;
+      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
+      self.maxUpPerLevel = maxUpPerLevel;      
+      self.levelUpCost = levelUpCost;            
+    }
+  return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder: coder];
+    if (self)
+      {
+        self.test = [coder decodeObjectForKey:@"test"];
+      }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+  [super encodeWithCoder: coder];
+  [coder encodeObject:self.test forKey:@"test"];  
+}
+@end
+// End of DSAOtherTalent
+
+@implementation DSAProfession
+- (instancetype)initProfession: (NSString *) name
+                    ofCategory: (NSString *) category
+                       onLevel: (NSInteger) level
+                      withTest: (NSArray *) test
+        withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+             withMaxUpPerLevel: (NSInteger) maxUpPerLevel
+             influencesTalents: (NSMutableDictionary *)talents
+{
+  self = [super init];
+  if (self)
+    {
+      self.name = name;
+      self.category = category;
+      self.level = level;
+      self.test = test;
+      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
+      self.maxUpPerLevel = maxUpPerLevel;
+      self.influencesTalents = talents;     
+    }
+  return self;
+}                       
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder: coder];
+    if (self)
+      {
+        self.influencesTalents = [coder decodeObjectForKey:@"influencesTalents"];
+      }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+  [super encodeWithCoder: coder];
+  [coder encodeObject:self.influencesTalents forKey:@"influencesTalents"];  
+}
+@end
+// End of DSAProfession
+
+@implementation DSASpecialTalent
+- (instancetype)initTalent: (NSString *) name
+                ofCategory: (NSString *) category 
+                   onLevel: (NSInteger) level
+                  withTest: (NSArray *) test
+    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+         withMaxUpPerLevel: (NSInteger) maxUpPerLevel 
+           withLevelUpCost: (NSInteger) levelUpCost;                          
+{
+  self = [super init];
+  if (self)
+    {
+      self.name = name;
+      self.category = category;
+      self.level = level;
+      self.test = test;
+      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
+      self.maxUpPerLevel = maxUpPerLevel;      
+      self.levelUpCost = levelUpCost;            
+    }
+  return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder: coder];
+    if (self)
+      {
+        self.test = [coder decodeObjectForKey:@"test"];
+      }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+  [super encodeWithCoder: coder];
+  [coder encodeObject:self.test forKey:@"test"];  
+}
+@end
+// End of DSASpecialTalent
+
+@implementation DSATalentResult
+-(instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      _result = DSATalentResultNone;
+      _diceResults = [[NSMutableArray alloc] init];
+      _remainingTalentPoints = 0;
+    }
+  return self;
+}
+
++(NSString *) resultNameForResultValue: (DSATalentResultValue) value
+{
+  NSArray *resultStrings = @[ _(@"Ohne Ergebnis"), _(@"Erfolg"), _(@"Automatischer Erfolg"),
+                              _(@"Epischer Erfolg!"), _(@"Mißerfolg"), _(@"Automatischer Mißerfolg"),
+                              _(@"Epischer Mißerfolg!") ];
+  return resultStrings[value];
+}
+@end
+// End of DSATalentResult

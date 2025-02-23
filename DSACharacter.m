@@ -26,15 +26,9 @@
 #import "DSACharacter.h"
 #import "AppKit/AppKit.h"
 
-#import "DSACharacterHeroHumanAmazon.h"
-#import "DSACharacterHeroHumanJuggler.h"
-#import "DSACharacterHeroHumanHuntsman.h"
-#import "DSACharacterHeroHumanWarrior.h"
-#import "DSACharacterHeroHumanPhysician.h"
 #import "Utils.h"
-#import "DSAOtherTalent.h"
-#import "DSAPositiveTrait.h"
-#import "DSATalentResult.h"
+#import "DSATrait.h"
+#import "DSATalent.h"
 #import "DSASpellMageRitual.h"
 #import "DSASpellDruidRitual.h"
 #import "DSARegenerationResult.h"
@@ -55,7 +49,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
             }
             if (!typeToClassMap) {
                 typeToClassMap = @{
-                    _(@"Alchimist"): [DSACharacterHeroHumanAmazon class],
+                    _(@"Alchimist"): [DSACharacterHeroHumanAlchemist class],
                     _(@"Amazone"): [DSACharacterHeroHumanAmazon class],
                     _(@"Gaukler"): [DSACharacterHeroHumanJuggler class],
                     _(@"Jäger"): [DSACharacterHeroHumanHuntsman class],
@@ -1726,3 +1720,1912 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
                                                     userInfo: userInfo];
 }
 @end
+
+@implementation DSACharacterHero
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.level = 0;
+      self.adventurePoints = 0;
+      self.specials = nil;    
+      self.isLevelingUp = NO;  // even though we likely will level up soon, it shall be triggered by the user
+      self.levelUpTalents = nil;
+      self.levelUpSpells = nil;      
+      self.levelUpProfessions = nil;
+      self.firstLevelUpTalentTriesPenalty = 0; // this is also taken into account in the DSACharacterWindowController...
+      self.maxLevelUpTalentsTries = 30;        // most have this as their starting value
+      self.maxLevelUpSpellsTries = 0;
+      self.maxLevelUpTalentsTriesTmp = 0;      // this value is set in the DSACharacterWindowController, as there are characters out there, that might have variable tries
+      self.maxLevelUpSpellsTriesTmp = 0;       // this value is set in the DSACharacterWindowController, as there are characters out there, that might have variable tries
+      self.maxLevelUpVariableTries = 0;        // thats the value the DSACharacterWindowController checks if there ar variable tries
+    }
+  return self;
+}
+
+- (void) prepareLevelUp
+{
+  // only taking care of the basics here
+  // since we'd have to ask the user how much variable tries 
+  // to distribute between spells and talents, and it 
+  // doesn't fit into the flow
+  // it's triggered from within the upgrade flow
+  self.isLevelingUp = YES;
+
+  NSMutableDictionary *tempLevelUpTalents = [[NSMutableDictionary alloc] init];
+  NSMutableDictionary *tempLevelUpSpells = [[NSMutableDictionary alloc] init];  
+  NSMutableDictionary *tempLevelUpProfessions = [[NSMutableDictionary alloc] init];
+  
+  if (!self.levelUpTalents)
+    {
+      self.levelUpTalents = [[NSMutableDictionary alloc] init];
+    }  
+  NSLog(@"DSACharacterHero: prepareLevelUp: Number of talents: %lu", (unsigned long)[self.talents count]); 
+  for (id key in self.talents)
+    {
+      id value = self.talents[key];
+      // Check if the value conforms to NSCopying
+      if ([value conformsToProtocol:@protocol(NSCopying)])
+        {
+          tempLevelUpTalents[key] = [value copy];
+        }
+      else
+        {
+          tempLevelUpTalents[key] = value; // Shallow copy
+        }
+    }
+  NSLog(@"DSACharacterHero: prepareLevelUp: Number of spells: %lu", (unsigned long)[self.spells count]);    
+  if ([self isMagicalDabbler])
+    {
+      NSLog(@"DSACharacterHero: prepareLevelUp: IM A MAGICAL DABBLER");
+      for (id key in self.spells)
+        {
+          id value = self.spells[key];
+          NSLog(@"DSACharacterHero: prepareLevelUp: spell: %@", value);
+          // Check if the value conforms to NSCopying
+          if ([value conformsToProtocol:@protocol(NSCopying)])
+            {
+              tempLevelUpTalents[key] = [value copy];
+            }
+          else
+            {
+              tempLevelUpTalents[key] = value; // Shallow copy
+            }
+          NSLog(@"DSACharacterHero: prepareLevelUp: added spell to tempLevelUpTalents: %@ for Key: %@", tempLevelUpTalents[key], key);
+        }
+    }
+    
+  // Update the original dictionary after the loop
+  @synchronized(self) {
+    self.levelUpTalents = [tempLevelUpTalents mutableCopy];
+  }
+  
+  if (![self isMagicalDabbler]) // magical dabblers have spells, but they're just treated like normal talents
+    {
+      if (!self.levelUpSpells)
+        {
+          self.levelUpSpells = [[NSMutableDictionary alloc] init];
+        }  
+      NSLog(@"Number of spells: %lu", (unsigned long)[self.spells count]); 
+      for (id key in self.spells)
+        {
+          id value = self.spells[key];
+          // Check if the value conforms to NSCopying
+          if ([value conformsToProtocol:@protocol(NSCopying)])
+            {
+              tempLevelUpSpells[key] = [value copy];
+            }
+          else
+            {
+              tempLevelUpSpells[key] = value; // Shallow copy
+            }
+        }
+        
+      SEL levelUpSpecialsWithSpellsSelector = @selector(levelUpSpecialsWithSpells);
+      if ([self respondsToSelector:levelUpSpecialsWithSpellsSelector])
+        {
+          // Safely invoke the selector and store the result as a BOOL
+          BOOL shouldLevelUpSpecialsWithSpells = ((BOOL (*)(id, SEL))[self methodForSelector:levelUpSpecialsWithSpellsSelector])(self, levelUpSpecialsWithSpellsSelector);
+
+          if (shouldLevelUpSpecialsWithSpells)
+            {
+              for (id key in self.specials)
+                {
+                  id value = self.specials[key];
+
+                  // Check if the value conforms to NSCopying
+                  if ([value conformsToProtocol:@protocol(NSCopying)])
+                    {
+                      tempLevelUpSpells[key] = [value copy];
+                    }
+                  else
+                    {
+                      tempLevelUpSpells[key] = value; // Shallow copy
+                    }
+                }
+            }
+        }
+      // Update the original dictionary after the loop
+      @synchronized(self) {
+        self.levelUpSpells = [tempLevelUpSpells mutableCopy];
+      } 
+    }
+  // NSLog(@"THE SPELLS IN LEVEL UP SPELLS: %@", self.levelUpSpells);
+        
+  if (!self.levelUpProfessions)
+    {
+      self.levelUpProfessions = [[NSMutableDictionary alloc] init];
+    }  
+  // NSLog(@"Number of professions: %lu", (unsigned long)[self.professions count]); 
+  for (id key in self.professions)
+    {
+      id value = _professions[key];
+      // Check if the value conforms to NSCopying
+      if ([value conformsToProtocol:@protocol(NSCopying)])
+        {
+          tempLevelUpProfessions[key] = [value copy];
+        }
+      else
+        {
+          tempLevelUpProfessions[key] = value; // Shallow copy
+        }
+    }
+
+  // Update the original dictionary after the loop
+  @synchronized(self) {
+    self.levelUpProfessions = [tempLevelUpProfessions mutableCopy];
+  }  
+}
+
+- (void) finishLevelUp
+{
+  self.isLevelingUp = NO;
+  self.levelUpTalents = nil;
+  self.levelUpSpells = nil;  
+  self.levelUpProfessions = nil;
+  self.maxLevelUpTalentsTriesTmp = 0;
+  self.maxLevelUpSpellsTriesTmp = 0;
+  self.tempDeltaLpAe = 0;
+  self.level += 1;
+}
+
+// for the most characters done here
+// others with special constraints, it's done in subclasses
+// lifePoints level up described in "Die Helden des schwarzen Auges" Regelbuch II, S. 13
+
+- (NSDictionary *) levelUpBaseEnergies
+{
+  NSInteger result;
+  NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+  result = [Utils rollDice: @"1W6"];
+  NSInteger tmp = self.lifePoints;
+  self.lifePoints = result + tmp;
+  self.currentLifePoints = result + tmp;
+  
+  [resultDict setObject: @(result) forKey: @"deltaLifePoints"];
+  if ([self isMagic])
+    {
+      result = [Utils rollDice: @"1W6"];
+      NSInteger tmp = self.astralEnergy;
+      self.astralEnergy = result + tmp;
+      self.currentAstralEnergy = result + tmp;
+      [resultDict setObject: @(result) forKey: @"deltaAstralEnergy"];
+    }
+
+  if ([self isBlessedOne])
+    {        
+      NSLog(@"leveling up Karma not yet implemented!!!");
+      [resultDict setObject: @(result) forKey: @"deltaKarmaPoints"];
+    }
+  return resultDict;
+}
+
+- (BOOL) levelUpPositiveTrait: (NSString *) trait
+{
+  NSLog(@"DSACharacterHero: BEFORE levelUpPositiveTrait %@", [self.positiveTraits objectForKey: trait]);
+  BOOL result = [(DSAPositiveTrait *)[self.positiveTraits objectForKey: trait] levelUp];
+  NSLog(@"DSACharacterHero: AFTER levelUpPositiveTrait %@", [self.positiveTraits objectForKey: trait]);
+  if (result == YES)  // also bump current positive trait
+    {
+      [[self.currentPositiveTraits objectForKey: trait] setLevel: [[self.currentPositiveTraits objectForKey: trait] level] + 1];
+    }
+  return result;
+}
+
+- (BOOL) levelDownNegativeTrait: (NSString *) trait
+{
+  BOOL result = [(DSANegativeTrait *)[self.negativeTraits objectForKey: trait] levelDown];
+  if (result == YES)  // also lower current positive trait
+    {
+      [[self.currentNegativeTraits objectForKey: trait] setLevel: [[self.currentNegativeTraits objectForKey: trait] level] - 1];
+    }  
+  return result;
+}
+
+
+// basic leveling up of a talent is handled within the talent
+- (BOOL) levelUpTalent: (DSATalent *)talent
+{
+  BOOL result = NO;
+  DSATalent *targetTalent = nil;
+  DSATalent *tmpTalent = nil;
+
+  targetTalent = talent;
+  tmpTalent = [self.levelUpTalents objectForKey: talent.name];
+
+  if (tmpTalent.maxUpPerLevel == 0)
+    {
+      NSLog(@"DSACharacterHero: levelUpTalent: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");
+      return NO;
+    }    
+  
+  self.maxLevelUpTalentsTriesTmp = self.maxLevelUpTalentsTriesTmp - [talent levelUpCost];
+
+  result = [targetTalent levelUp];
+  if (result)
+    {
+      tmpTalent.maxUpPerLevel = tmpTalent.maxUpPerLevel - 1;
+      tmpTalent.maxTriesPerLevelUp = tmpTalent.maxUpPerLevel * 3;
+      tmpTalent.level = targetTalent.level;
+    }
+  else
+    {
+      tmpTalent.maxTriesPerLevelUp = tmpTalent.maxTriesPerLevelUp - 1;
+      if ((tmpTalent.maxTriesPerLevelUp % 3) == 0)
+        {
+          tmpTalent.maxUpPerLevel = tmpTalent.maxUpPerLevel- 1;
+        }
+    }
+  return result;
+}
+
+- (BOOL) canLevelUpTalent: (DSATalent *) talent
+{
+  if (talent.level == 18)
+    {
+      // we're already at the general maximum
+      return NO;
+    }
+    if (self.maxLevelUpTalentsTriesTmp < [talent levelUpCost])  // spells cost
+      {
+        return NO;
+      }
+ 
+  // below test shouldn't really be necessary, because of just last test above, just return YES!!!
+  if ([[self.levelUpTalents objectForKey: [talent name]] maxUpPerLevel] <= 0) // actually should never be < 0
+    {
+      return NO;
+    }
+  else
+    {
+      return YES;
+    }
+}
+
+- (BOOL) canLevelUp {
+  if ([self isDeadOrUnconscious])
+    {
+      return NO;
+    }
+
+    int currentLevel = self.level;
+    int nextLevel = currentLevel + 1;
+
+    // Special case for level 0 to level 1
+    if (currentLevel == 0) {
+        // Transition from level 0 to level 1 requires 0 points
+        return YES;
+    }
+
+    // Calculate cumulative adventure points required to reach the current level
+    int requiredPoints = [self adventurePointsForNextLevel:nextLevel] - [self adventurePointsForNextLevel:currentLevel];
+        
+    return self.adventurePoints >= requiredPoints;
+}
+
+- (int)adventurePointsForNextLevel:(int)level {
+    // Calculate total adventure points required to reach the given level
+    // Points required to reach each level increases by 100 more than the previous level
+    int totalPoints = 0;
+    for (int i = 1; i < level; i++) {
+        totalPoints += 100 * i;
+    }
+    return totalPoints;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+  [super encodeWithCoder: coder];
+      
+  [coder encodeObject:self.professions forKey:@"professions"];  
+  [coder encodeObject:self.levelUpTalents forKey:@"levelUpTalents"];
+  [coder encodeObject:self.levelUpSpells forKey:@"levelUpSpells"];  
+  [coder encodeObject:self.levelUpProfessions forKey:@"levelUpProfessions"];
+  [coder encodeInteger:self.firstLevelUpTalentTriesPenalty forKey:@"firstLevelUpTalentTriesPenalty"];  
+  [coder encodeInteger:self.maxLevelUpTalentsTries forKey:@"maxLevelUpTalentsTries"];
+  [coder encodeInteger:self.maxLevelUpSpellsTries forKey:@"maxLevelUpSpellsTries"];
+  [coder encodeInteger:self.maxLevelUpTalentsTriesTmp forKey:@"maxLevelUpTalentsTriesTmp"];
+  [coder encodeInteger:self.maxLevelUpSpellsTriesTmp forKey:@"maxLevelUpSpellsTriesTmp"];  
+  [coder encodeInteger:self.maxLevelUpVariableTries forKey:@"maxLevelUpVariableTries"];
+  [coder encodeInteger:self.tempDeltaLpAe forKey:@"tempDeltaLpAe"];
+  [coder encodeBool:self.isLevelingUp forKey:@"isLevelingUp"];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+  self = [super initWithCoder: coder];
+  if (self)
+    {           
+      self.professions = [coder decodeObjectForKey:@"professions"];      
+      self.levelUpTalents = [coder decodeObjectForKey:@"levelUpTalents"];
+      self.levelUpSpells = [coder decodeObjectForKey:@"levelUpSpells"];      
+      self.levelUpProfessions = [coder decodeObjectForKey:@"levelUpProfessions"];
+      self.firstLevelUpTalentTriesPenalty = [coder decodeIntegerForKey:@"firstLevelUpTalentTriesPenalty"];            
+      self.maxLevelUpTalentsTries = [coder decodeIntegerForKey:@"maxLevelUpTalentsTries"];
+      self.maxLevelUpSpellsTries = [coder decodeIntegerForKey:@"maxLevelUpSpellsTries"];
+      self.maxLevelUpTalentsTriesTmp = [coder decodeIntegerForKey:@"maxLevelUpTalentsTriesTmp"];
+      self.maxLevelUpSpellsTriesTmp = [coder decodeIntegerForKey:@"maxLevelUpSpellsTriesTmp"];      
+      self.maxLevelUpVariableTries = [coder decodeIntegerForKey:@"maxLevelUpVariableTries"];
+      self.tempDeltaLpAe = [coder decodeIntegerForKey:@"tempDeltaLpAe"];
+      self.isLevelingUp = [coder decodeBoolForKey:@"isLevelingUp"];     
+    }
+  return self;
+}
+
+
+
+/* Calculate Endurance, as described in: Abenteuer Basis Spiel, Regelbuch II, S. 9 */
+- (NSInteger) endurance {
+  NSInteger retVal;
+
+  retVal = self.lifePoints + [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue];  
+  return retVal;
+}
+
+/* calculate CarryingCapacity, as described in: Abenteuer Basis Spiel, Regelbuch II, S. 9 */
+- (NSInteger) carryingCapacity {
+  NSInteger retVal;
+  
+  retVal = [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue] * 50;  
+  return retVal;
+}
+
+- (NSInteger) attackBaseValue {
+  NSInteger retVal;
+  
+  retVal = round(([[self.currentPositiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
+                  [[self.currentPositiveTraits valueForKeyPath: @"GE.level"] integerValue] + 
+                  [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 5);
+  return retVal;
+}
+
+
+- (NSInteger) parryBaseValue {
+  NSInteger retVal;
+  
+  retVal = round(([[self.currentPositiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
+                  [[self.currentPositiveTraits valueForKeyPath: @"GE.level"] integerValue] + 
+                  [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 5);
+  return retVal;
+}
+
+
+- (NSInteger) rangedCombatBaseValue {
+  NSInteger retVal;
+  
+  retVal = floor(([[self.currentPositiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
+                 [[self.currentPositiveTraits valueForKeyPath: @"FF.level"] integerValue] + 
+                 [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 4);
+  return retVal;
+}
+
+- (NSInteger) dodge {
+  NSInteger retVal;
+  
+  retVal = floor(([[self.currentPositiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
+                 [[self.currentPositiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
+                 [[self.currentPositiveTraits valueForKeyPath: @"GE.level"] integerValue]) / 4) - 
+                 roundf(self.encumbrance);
+  return retVal;
+}
+
+- (NSInteger) magicResistance {
+  NSInteger retVal;
+  
+  retVal = floor(([[self.currentPositiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
+                 [[self.currentPositiveTraits valueForKeyPath: @"KL.level"] integerValue] +
+                 self.level) / 3) - 2 * [[self.currentNegativeTraits valueForKeyPath: @"AG.level"] integerValue] +
+                 self.mrBonus;
+  return retVal;
+}
+
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
+{
+  NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
+    
+  if ([key isEqualToString:@"endurance"])
+    {
+      keyPaths = [NSSet setWithObjects:@"lifePoints", @"currentPositiveTraits.KK.level", nil];
+    }
+  else if ([key isEqualToString:@"carryingCapacity"])
+    {
+      keyPaths = [NSSet setWithObject:@"currentPositiveTraits.KK.level"];
+    }
+  else if ([key isEqualToString:@"attackBaseValue"])
+    {
+        keyPaths = [NSSet setWithObjects:@"currentPositiveTraits.MU.level", 
+                                         @"currentPositiveTraits.GE.level", 
+                                         @"currentPositiveTraits.KK.level", nil];        
+    }
+  else if ([key isEqualToString:@"parryBaseValue"])
+    {
+        keyPaths = [NSSet setWithObjects:@"currentPositiveTraits.IN.level", 
+                                         @"currentPositiveTraits.GE.level", 
+                                         @"currentPositiveTraits.KK.level", nil];        
+    }
+  else if ([key isEqualToString:@"rangedCombatBaseValue"])
+    {
+        keyPaths = [NSSet setWithObjects:@"currentPositiveTraits.IN.level", 
+                                         @"currentPositiveTraits.FF.level", 
+                                         @"currentPositiveTraits.KK.level", nil];        
+    }
+  else if ([key isEqualToString:@"dodge"])
+    {
+        keyPaths = [NSSet setWithObjects:@"currentPositiveTraits.MU.level", 
+                                         @"currentPositiveTraits.IN.level", 
+                                         @"currentPositiveTraits.GE.level", nil];        
+    }
+  else if ([key isEqualToString:@"magicResistance"])
+    {
+        keyPaths = [NSSet setWithObjects:@"currentPositiveTraits.MU.level", 
+                                         @"currentPositiveTraits.KL.level",
+                                         @"currentNegativeTraits.AG.level",
+                                         @"mrBonus",
+                                         @"level", nil];        
+    }                 
+  return keyPaths;
+}
+@end
+
+@implementation DSACharacterHeroElf
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.lifePoints = 25;
+      self.astralEnergy = 25;
+      self.currentLifePoints = 25;
+      self.currentAstralEnergy = 25;
+      self.maxLevelUpTalentsTries = 25;        // most have this as their starting value
+      self.maxLevelUpSpellsTries = 25;
+      self.maxLevelUpTalentsTriesTmp = 0;
+      self.maxLevelUpSpellsTriesTmp = 0;      
+      self.maxLevelUpVariableTries = 0;
+      self.isMagic = YES;         
+    }
+  return self;
+}
+
+- (NSDictionary *) levelUpBaseEnergies
+{
+  NSInteger result;
+  NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+  result = [Utils rollDice: @"1W6"] + 2;
+ 
+  self.tempDeltaLpAe = result;
+  // we have to ask the user how to distribute these
+  [resultDict setObject: @(result) forKey: @"deltaLpAe"];
+
+  return resultDict;
+}
+
+// basic leveling up of a spell is handled within the spell
+- (BOOL) levelUpSpell: (DSASpell *)spell
+{
+  BOOL result = NO;
+  DSASpell *targetSpell = nil;
+  DSASpell *tmpSpell = nil;
+
+  targetSpell = spell;
+  NSLog(@"DSACharacterHeroElf: the Spell: %@", spell);
+  tmpSpell = [self.levelUpSpells objectForKey: spell.name];
+  NSLog(@"DSACharacterHeroElf: nr of spells in levelUpSpells: %@", self.levelUpSpells);
+  if (tmpSpell.maxUpPerLevel == 0)
+    {
+      NSLog(@"DSACharacterHeroElf: levelUpSpell: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");
+      return NO;
+    }    
+       
+  self.maxLevelUpSpellsTriesTmp -= 1;
+  result = [targetSpell levelUp];
+  if (result)
+    {
+      tmpSpell.maxUpPerLevel -= 1;
+      tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
+      tmpSpell.level = targetSpell.level;
+      result = YES;
+    }
+  else
+    {
+      tmpSpell.maxTriesPerLevelUp -= 1;
+      if ((tmpSpell.maxTriesPerLevelUp % 3) == 0)
+        {
+          tmpSpell.maxUpPerLevel -= 1;
+        }
+    }
+  return result;
+}
+
+// Non-Elf spells can only be leveled up to 11
+// See: "Dunkle Städte, Lichte Wälder", "Geheimnisse der Elfen", S. 68
+- (BOOL) canLevelUpSpell: (DSASpell *)spell
+{
+  if (![@[ @"A", @"W", @"F" ] containsObject: spell.origin])
+    {
+      if (spell.level == 11 )
+        {
+          return NO;
+        }
+    }
+  if (spell.level == 18)
+    {
+      // we're already at the general maximum
+      return NO;
+    }
+  if ([[self.levelUpSpells objectForKey: [spell name]] maxUpPerLevel] == 0)
+    {
+      return NO;
+    }
+  else
+    {
+      return YES;
+    }    
+}
+
+- (BOOL) levelUpSpecialsWithSpells
+{
+  return NO;
+}
+
+@end
+// End of DSACharacterHeroElf
+
+@implementation DSACharacterHeroElfSnow
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.lifePoints = 30;
+      self.currentLifePoints = 30;
+      self.mrBonus = 3;          
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroElfSnow
+
+@implementation DSACharacterHeroElfWood
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    { 
+      self.mrBonus = 3;          
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroElfWood
+
+@implementation DSACharacterHeroElfMeadow
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    { 
+      self.mrBonus = 3;          
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroElfMeadow
+
+@implementation DSACharacterHeroElfHalf
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.lifePoints = 30;
+      self.astralEnergy = 20;
+      self.currentLifePoints = 30;
+      self.currentAstralEnergy = 20;
+      self.maxLevelUpTalentsTries = 30;        // most have this as their starting value
+      self.maxLevelUpSpellsTries = 20; 
+      self.mrBonus = 1;          
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroElfHalf
+
+@implementation DSACharacterHeroDwarf
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.lifePoints = 40;
+      self.astralEnergy = 0;
+      self.currentLifePoints = 40;
+      self.currentAstralEnergy = 0;
+      self.maxLevelUpTalentsTries = 25;        // most have this as their starting value
+      self.maxLevelUpSpellsTries = 0;
+      self.maxLevelUpTalentsTriesTmp = 0;
+      self.maxLevelUpSpellsTriesTmp = 0;      
+      self.maxLevelUpVariableTries = 0;
+      self.mrBonus = 2;                       // Die Helden des Schwarzen Auges, Regelbuch II S. 40           
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroDwarf
+
+@implementation DSACharacterHeroDwarfAngroschPriest
+@end
+// End of DSACharacterHeroDwarfAngroschPriest
+
+@implementation DSACharacterHeroDwarfGeode
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.astralEnergy = 15;
+      self.currentAstralEnergy = 15;
+      self.maxLevelUpTalentsTries = 20;        // most have this as their starting value
+      self.maxLevelUpSpellsTries = 20;
+      self.maxLevelUpTalentsTriesTmp = 0;
+      self.maxLevelUpSpellsTriesTmp = 0;      
+      self.maxLevelUpVariableTries = 10;
+      self.mrBonus = 3;                      // Die Magie des schwarzen Auges S. 49
+      self.isMagic = YES;
+    }
+  return self;
+}
+
+// basic leveling up of a spell is handled within the spell
+- (BOOL) levelUpSpell: (DSASpell *)spell
+{
+  BOOL result = NO;
+  DSASpell *targetSpell = nil;
+  DSASpell *tmpSpell = nil;
+
+  targetSpell = spell;
+  tmpSpell = [self.levelUpSpells objectForKey: spell.name];
+
+  if (tmpSpell.maxUpPerLevel == 0)
+    {
+      NSLog(@"DSACharacterHeroDwarfGeode: levelUpSpell: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");
+      return NO;
+    }    
+       
+  self.maxLevelUpSpellsTriesTmp -= 1;
+  result = [targetSpell levelUp];
+  if (result)
+    {
+      tmpSpell.maxUpPerLevel -= 1;
+      tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel* 3;
+      tmpSpell.level = targetSpell.level;
+      result = YES;
+    }
+  else
+    {
+      tmpSpell.maxTriesPerLevelUp -= 1;
+      if ((tmpSpell.maxTriesPerLevelUp % 3) == 0)
+        {
+          tmpSpell.maxUpPerLevel -= 1;
+        }
+    }
+  return result;
+}
+
+- (BOOL) canLevelUpSpell: (DSASpell *)spell
+{
+  if (spell.level == 18)
+    {
+      // we're already at the general maximum
+      return NO;
+    }
+  if ([[self.levelUpSpells objectForKey: [spell name]] maxUpPerLevel] == 0)
+    {
+      return NO;
+    }
+  else
+    {
+      return YES;
+    }    
+}
+
+- (BOOL) levelUpSpecialsWithSpells
+{
+  return NO;
+}
+@end
+// End of DSACharacterHeroDwarfGeode
+
+@implementation DSACharacterHeroDwarfFighter
+@end
+// End of DSACharacterHeroDwarfFighter
+
+@implementation DSACharacterHeroDwarfCavalier
+@end
+// End of DSACharacterHeroDwarfCavalier
+
+@implementation DSACharacterHeroDwarfJourneyman
+@end
+// End of DSACharacterHeroDwarfJourneyman
+
+@implementation DSACharacterHeroHuman
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      // Most of the human have 30 lifePoints at the start
+      // as seen in the character descriptions in "Mit Mantel Schwert und Zauberstab", 
+      // and "Die Helden des Schwarzen Auges", Regelbuch II
+      self.lifePoints = 30;
+      self.astralEnergy = 0;
+      self.karmaPoints = 0;
+      self.currentLifePoints = 30;
+      self.currentAstralEnergy = 0;
+      self.currentKarmaPoints = 0;
+      self.mrBonus = 0;
+    }
+  return self;
+}
+
+- (NSDictionary *) levelUpBaseEnergies
+{
+  NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+  NSInteger result = [Utils rollDice: @"1W6"];
+  
+  if ([self isMagicalDabbler])  // as explained in "Die Magie des schwarzen Auges" S. 37
+    {
+      if (result == 1) // 1 point always has to go to the lifePoints
+        {
+          NSInteger tmp = self.lifePoints;
+          self.lifePoints = result + tmp;
+          self.currentLifePoints = result + tmp;
+          [resultDict setObject: [NSNumber numberWithInteger: result] forKey: @"deltaLifePoints"];
+        }
+      else
+        {
+          
+          NSInteger remainder = result - 1;
+          if ( remainder == 1 )
+            {
+              NSInteger tmp = self.lifePoints;
+              self.lifePoints = 1 + tmp;
+              self.currentLifePoints = 1 + tmp;
+              self.tempDeltaLpAe = 1;
+              // we have to ask the user how to distribute the remaining point
+              [resultDict setObject: @1 forKey: @"deltaLpAe"];
+              [resultDict setObject: @1 forKey: @"deltaLifePoints"];
+              self.tempDeltaLpAe = 1;
+            }
+          else if (remainder > 1)
+            {
+              NSInteger tmp = self.lifePoints;
+              self.lifePoints = result - 2 + tmp;
+              self.currentLifePoints = result - 2  + tmp;            
+
+              // we have to ask the user how to distribute remaining points
+              [resultDict setObject: @2 forKey: @"deltaLpAe"];        // a maximum of 2 can be assigned to AstralEnergy
+              [resultDict setObject: [NSNumber numberWithInteger: result - 2] forKey: @"deltaLifePoints"];
+              self.tempDeltaLpAe = 2;
+            }          
+        }
+    }
+  else
+    {
+      NSInteger tmp = self.lifePoints;
+      self.lifePoints = result + tmp;
+      self.currentLifePoints = result + tmp;
+  
+      [resultDict setObject: [NSNumber numberWithInteger: result] forKey: @"deltaLifePoints"];
+      if ([self isMagic])
+        {
+          result = [Utils rollDice: @"1W6"];
+          NSInteger tmp = self.astralEnergy;
+          self.astralEnergy = result + tmp;
+          self.currentAstralEnergy = result + tmp;
+          [resultDict setObject: [NSNumber numberWithInteger: result] forKey: @"deltaAstralEnergy"];
+        }
+
+      if ([self isBlessedOne])
+        {        
+          NSLog(@"leveling up Karma not yet implemented!!!");
+          [resultDict setObject: [NSNumber numberWithInteger: result] forKey: @"deltaKarmaPoints"];
+        }
+    }
+  return resultDict;
+}
+@end
+// End of DSACharacterHeroHuman
+
+@implementation DSACharacterHeroHumanAlchemist
+@end
+// End of DSACharacterHeroHumanAlchemist
+
+@implementation DSACharacterHeroHumanAmazon
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      // see Mit Mantel, Schwert und Zauberstab S. 12
+      self.lifePoints = 35;
+      self.currentLifePoints = 35;  
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroHumanAmazon
+
+@implementation DSACharacterHeroHumanBard
+@end
+// End of DSACharacterHeroHumanBard
+
+@implementation DSACharacterHeroHumanCharlatan
+- (instancetype)init
+{
+  self = [super init];
+  // see "Die Magie des Schwarzen Auges" S. 34
+  if (self)
+    {
+      self.lifePoints = 25;
+      self.currentLifePoints = 25;          
+      self.astralEnergy = 25;
+      self.currentAstralEnergy = 25;
+      self.maxLevelUpTalentsTries = 25;        
+      self.maxLevelUpSpellsTries = 20;
+      self.maxLevelUpTalentsTriesTmp = 25;
+      self.maxLevelUpSpellsTriesTmp = 20;      
+      self.maxLevelUpVariableTries = 0;
+      self.mrBonus = 2;       
+      self.isMagic = YES;                        
+    }
+  return self;
+}
+
+- (NSDictionary *) levelUpBaseEnergies
+{
+  NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+  NSInteger result = [Utils rollDice: @"1W6"] + 1;
+
+  // at least 1 point always has to go to the lifePoints AND astralEnergy
+  NSInteger tmp = self.lifePoints;
+  self.lifePoints = 1 + tmp;
+  self.currentLifePoints = 1 + tmp;
+  [resultDict setObject: @(1) forKey: @"deltaLifePoints"];
+  tmp = self.astralEnergy;
+  self.astralEnergy = 1 + tmp;
+  self.currentAstralEnergy = 1 + tmp;
+  [resultDict setObject: @(1) forKey: @"deltaAstralEnergy"];  
+    
+  if (result > 2)
+    {          
+      // we have to ask the user how to distribute remaining points
+      [resultDict setObject: @(result - 2) forKey: @"deltaLpAe"];
+      self.tempDeltaLpAe = result - 2 ;
+    }
+  return resultDict;
+}
+
+// basic leveling up of a spell is handled within the spell
+- (BOOL) levelUpSpell: (DSASpell *)spell
+{
+  BOOL result = NO;
+  DSASpell *targetSpell = nil;
+  DSASpell *tmpSpell = nil;
+
+  targetSpell = spell;
+  tmpSpell = [self.levelUpSpells objectForKey: spell.name];
+
+  if (tmpSpell.maxUpPerLevel == 0)
+    {
+      NSLog(@"DSACharacterHeroCharlatan: levelUpSpell: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");
+      return NO;
+    }    
+       
+  self.maxLevelUpSpellsTriesTmp -= 1;
+  result = [targetSpell levelUp];
+  if (result)
+    {
+      tmpSpell.maxUpPerLevel -= 1;
+      tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
+      tmpSpell.level = targetSpell.level;
+    }
+  else
+    {
+      tmpSpell.maxTriesPerLevelUp -= 1;
+      if ((tmpSpell.maxTriesPerLevelUp % 3) == 0)
+        {
+          tmpSpell.maxUpPerLevel -= 1;
+        }
+    }
+  return result;
+}
+
+- (BOOL) canLevelUpSpell: (DSASpell *)spell
+{
+  if (spell.level == 18)
+    {
+      // we're already at the general maximum
+      return NO;
+    }
+  if ([[self.levelUpSpells objectForKey: [spell name]] maxUpPerLevel] <= 0)
+    {
+      return NO;
+    }
+  else
+    {
+      return YES;
+    }    
+}
+
+- (BOOL) levelUpSpecialsWithSpells
+{
+  return NO;
+}
+@end
+// End of DSACharacterHeroHumanCharlatan
+
+@implementation DSACharacterHeroHumanDruid
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.astralEnergy = 25;
+      self.currentAstralEnergy = 25;
+      self.maxLevelUpTalentsTries = 20;        // most have this as their starting value
+      self.maxLevelUpSpellsTries = 25;
+      self.maxLevelUpTalentsTriesTmp = 0;
+      self.maxLevelUpSpellsTriesTmp = 0;      
+      self.maxLevelUpVariableTries = 10;
+      self.mrBonus = 2;                      // Die Magie des schwarzen Auges S. 49
+      self.isMagic = YES;
+    }
+  return self;
+}
+
+- (NSDictionary *) levelUpBaseEnergies
+{
+  NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+  NSInteger result = [Utils rollDice: @"1W6"] + 2;
+ 
+  self.tempDeltaLpAe = result;
+  // we have to ask the user how to distribute these
+  [resultDict setObject: @(result) forKey: @"deltaLpAe"];
+
+  return resultDict;
+}
+
+// basic leveling up of a spell is handled within the spell
+- (BOOL) levelUpSpell: (DSASpell *)spell
+{
+  BOOL result = NO;
+  DSASpell *targetSpell = nil;
+  DSASpell *tmpSpell = nil;
+
+  targetSpell = spell;
+  tmpSpell = [self.levelUpSpells objectForKey: spell.name];
+
+  if (tmpSpell.maxUpPerLevel == 0)
+    {
+      NSLog(@"DSACharacterHeroDruid: levelUpSpell: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");
+      return NO;
+    }    
+       
+  self.maxLevelUpSpellsTriesTmp -= 1;
+  result = [targetSpell levelUp];
+  if (result)
+    {
+      tmpSpell.maxUpPerLevel -= 1;
+      tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
+      tmpSpell.level = targetSpell.level;
+    }
+  else
+    {
+      tmpSpell.maxTriesPerLevelUp -= 1;
+      if ((tmpSpell.maxTriesPerLevelUp % 3) == 0)
+        {
+          tmpSpell.maxUpPerLevel -= 1;
+        }
+    }
+  return result;
+}
+
+- (BOOL) canLevelUpSpell: (DSASpell *)spell
+{
+  if (spell.level == 18)
+    {
+      // we're already at the general maximum
+      return NO;
+    }
+  if ([[self.levelUpSpells objectForKey: [spell name]] maxUpPerLevel] <= 0)
+    {
+      return NO;
+    }
+  else
+    {
+      return YES;
+    }    
+}
+
+- (BOOL) levelUpSpecialsWithSpells
+{
+  return NO;
+}
+@end
+// End of DSACharacterHeroHumanDruid
+
+@implementation DSACharacterHeroHumanHuntsman
+@end
+// End of DSACharacterHeroHumanHuntsman
+
+@implementation DSACharacterHeroHumanJester
+- (instancetype)init
+{
+  self = [super init];
+  // see "Die Magie des Schwarzen Auges" S. 47
+  if (self)
+    {
+      self.astralEnergy = 25;
+      self.currentAstralEnergy = 25;
+      self.maxLevelUpTalentsTries = 30;        
+      self.maxLevelUpSpellsTries = 20;
+      self.maxLevelUpTalentsTriesTmp = 30;
+      self.maxLevelUpSpellsTriesTmp = 20;      
+      self.maxLevelUpVariableTries = 0;
+      self.mrBonus = 3;          
+      self.isMagic = YES;                     
+    }
+  return self;
+}
+
+- (NSDictionary *) levelUpBaseEnergies
+{
+  // see "Die Magie des Schwarzen Auges" S. 47
+  NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+  NSInteger result = [Utils rollDice: @"1W6"] + 2;
+ 
+  self.tempDeltaLpAe = result;
+  // we have to ask the user how to distribute these
+  [resultDict setObject: @(result) forKey: @"deltaLpAe"];
+
+  return resultDict;
+}
+
+// basic leveling up of a spell is handled within the spell
+- (BOOL) levelUpSpell: (DSASpell *)spell
+{
+  BOOL result = NO;
+  DSASpell *targetSpell = nil;
+  DSASpell *tmpSpell = nil;
+
+  targetSpell = spell;
+  tmpSpell = [self.levelUpSpells objectForKey: spell.name];
+
+  if (tmpSpell.maxUpPerLevel == 0)
+    {
+      NSLog(@"DSACharacterHeroJester: levelUpSpell: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");
+      return NO;
+    }    
+       
+  self.maxLevelUpSpellsTriesTmp -= 1;
+  result = [targetSpell levelUp];
+  if (result)
+    {
+      tmpSpell.maxUpPerLevel -= 1;
+      tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
+      tmpSpell.level = targetSpell.level;
+    }
+  else
+    {
+      tmpSpell.maxTriesPerLevelUp -= 1;
+      if ((tmpSpell.maxTriesPerLevelUp % 3) == 0)
+        {
+          tmpSpell.maxUpPerLevel -= 1;
+        }
+    }
+  return result;
+}
+
+- (BOOL) canLevelUpSpell: (DSASpell *)spell
+{
+  if (spell.level == 18)
+    {
+      // we're already at the general maximum
+      return NO;
+    }
+  if ([[self.levelUpSpells objectForKey: [spell name]] maxUpPerLevel] <= 0)
+    {
+      return NO;
+    }
+  else
+    {
+      return YES;
+    }    
+}
+
+- (BOOL) levelUpSpecialsWithSpells
+{
+  return NO;
+}
+@end
+// End of DSACharacterHeroHumanJester
+
+@implementation DSACharacterHeroHumanJuggler
+@end
+// End of DSACharacterHeroHumanJuggler
+
+@implementation DSACharacterHeroHumanMage
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.lifePoints = 25;
+      self.astralEnergy = 30;
+      self.currentLifePoints = 25;
+      self.currentAstralEnergy = 30; 
+      self.maxLevelUpTalentsTries = 15;        // Talent und ZF Steigerungen lt. Compendium Salamandris S. 28      
+      self.maxLevelUpSpellsTries = 40;
+      self.maxLevelUpTalentsTriesTmp = 15;
+      self.maxLevelUpSpellsTriesTmp = 40;      
+      self.maxLevelUpVariableTries = 10;
+      self.mrBonus = 3;
+      self.isMagic = YES;      
+    }
+  return self;
+}
+
+- (BOOL) levelUpSpell: (DSASpell *)spell
+{
+  BOOL result = NO;
+  DSASpell *targetSpell = nil;
+  DSASpell *tmpSpell = nil;
+
+  targetSpell = spell;
+  NSLog(@"DSACharacterHeroHumanMage: the Spell: %@", spell);
+  tmpSpell = [self.levelUpSpells objectForKey: spell.name];
+  NSLog(@"DSACharacterHeroHumanMage: nr of spells in levelUpSpells: %@", self.levelUpSpells);
+  if (tmpSpell.maxUpPerLevel == 0)
+    {
+      NSLog(@"DSACharacterHeroHumanMage: levelUpSpell: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");
+      return NO;
+    }    
+       
+  self.maxLevelUpSpellsTriesTmp -=  1;
+  result = [targetSpell levelUp];
+  if (result)
+    {
+      tmpSpell.maxUpPerLevel -= 1;
+      tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
+      tmpSpell.level = targetSpell.level;
+      result = YES;
+    }
+  else
+    {
+      tmpSpell.maxTriesPerLevelUp = tmpSpell.maxTriesPerLevelUp - 1;
+      if ((tmpSpell.maxTriesPerLevelUp % 3) == 0)
+        {
+          tmpSpell.maxUpPerLevel -= 1;
+        }
+    }
+  return result;
+}
+
+- (BOOL) canLevelUpSpell: (DSASpell *)spell
+{
+  if (spell.level == 18)
+    {
+      // we're already at the general maximum
+      return NO;
+    }
+  if ([[self.levelUpSpells objectForKey: [spell name]] maxUpPerLevel] == 0)
+    {
+      return NO;
+    }
+  else
+    {
+      return YES;
+    }
+}
+
+- (BOOL) levelUpSpecialsWithSpells
+{
+  return NO;
+}
+@end
+// End of DSACharacterHeroHumanMage
+
+@implementation DSACharacterHeroHumanMercenary
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      // see Mit Mantel, Schwert und Zauberstab S. 53
+      self.mrBonus = 1;
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroHumanMercenary
+
+@implementation DSACharacterHeroHumanMoha
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      // as described in Mit Mantel Schwert und Zauberstab S. 43
+      self.mrBonus = -3;      
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroHumanMoha
+
+@implementation DSACharacterHeroHumanNivese
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      // see Mit Mantel, Schwert und Zauberstab S. 45
+      self.mrBonus = -1;
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroHumanNivese
+
+@implementation DSACharacterHeroHumanNorbarde
+@end
+// End of DSACharacterHeroHumanNorbarde
+
+@implementation DSACharacterHeroHumanNovadi
+@end
+// End of DSACharacterHeroHumanNovadi
+
+@implementation DSACharacterHeroHumanPhysician
+@end
+// End of DSACharacterHeroHumanPhysician
+
+@implementation DSACharacterHeroHumanRogue
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      // as described in "Mit Mantel, Schwert und Zauberstab" S. 55
+      self.mrBonus = 2;
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroHumanRogue
+
+@implementation DSACharacterHeroHumanSeafarer
+// mrBonus is dynamic, as described in "Mit Mantel, Schwert und Zauberstab",
+// S. 51
+- (NSInteger) mrBonus
+{
+  NSInteger bonus;
+  if (self.level < 5)
+    {
+      bonus = -1;
+    }
+  else
+    {
+      bonus = 0;
+    }
+  return bonus;
+}
+@end
+// End of DSACharacterHeroHumanSeafarer
+
+@implementation DSACharacterHeroHumanShaman
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.astralEnergy = 15;
+      self.currentAstralEnergy = 15;
+      self.maxLevelUpTalentsTries = 20;        // most have this as their starting value
+      self.maxLevelUpSpellsTries = 10;
+      self.maxLevelUpTalentsTriesTmp = 20;
+      self.maxLevelUpSpellsTriesTmp = 10;      
+      self.maxLevelUpVariableTries = 10;
+      self.mrBonus = 3;                      // Die Magie des schwarzen Auges S. 40
+      self.isMagic = YES;
+    }
+  return self;
+}
+
+- (NSDictionary *) levelUpBaseEnergies
+{
+  if (self.spells == nil || [self.spells count] == 0)  // standard shaman without druid spells
+    {
+      NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+      NSInteger result = [Utils rollDice: @"1W6"] + 1;
+
+      // at least 1 point always has to go to the lifePoints AND astralEnergy
+      NSInteger tmp = self.lifePoints;
+      self.lifePoints = 1 + tmp;
+      self.currentLifePoints = 1 + tmp;
+      [resultDict setObject: @(1) forKey: @"deltaLifePoints"];
+      tmp = self.astralEnergy;
+      self.astralEnergy = 1 + tmp;
+      self.currentAstralEnergy = 1 + tmp;
+      [resultDict setObject: @(1) forKey: @"deltaAstralEnergy"];  
+    
+      if (result > 2)
+        {          
+          // we have to ask the user how to distribute remaining points
+          [resultDict setObject: [NSNumber numberWithInteger: result - 2 ] forKey: @"deltaLpAe"];
+          self.tempDeltaLpAe = result - 2;
+        }
+      return resultDict;
+    }
+  else
+    {
+      NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+      NSInteger result = [Utils rollDice: @"1W6"] + 2;
+ 
+      self.tempDeltaLpAe = result;
+      // we have to ask the user how to distribute these
+      [resultDict setObject: @(result) forKey: @"deltaLpAe"];
+
+      return resultDict;    
+    }
+}
+
+// basic leveling up of a spell is handled within the spell
+- (BOOL) levelUpSpell: (DSASpell *)spell
+{
+  BOOL result = NO;
+  DSASpell *targetSpell = nil;
+  DSASpell *tmpSpell = nil;
+
+  targetSpell = spell;
+  tmpSpell = [self.levelUpSpells objectForKey: spell.name];
+
+  if (tmpSpell.maxUpPerLevel == 0)
+    {
+      NSLog(@"DSACharacterHeroHumanShaman: levelUpSpell: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");
+      return NO;
+    }    
+       
+  self.maxLevelUpSpellsTriesTmp -= 1;
+  result = [targetSpell levelUp];
+  if (result)
+    {
+      tmpSpell.maxUpPerLevel -= 1;
+      tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
+      tmpSpell.level = targetSpell.level;
+    }
+  else
+    {
+      tmpSpell.maxTriesPerLevelUp -= 1;
+      if ((tmpSpell.maxTriesPerLevelUp % 3) == 0)
+        {
+          tmpSpell.maxUpPerLevel -= 1;
+        }
+    }
+  return result;
+}
+
+- (BOOL) canLevelUpSpell: (DSASpell *)spell
+{
+
+  NSLog(@"checking if we can level up spell: %@, %lu", spell.name, (unsigned long)[[self.levelUpSpells objectForKey: [spell name]] maxUpPerLevel]);
+  if (spell.level == 18)
+    {
+      // we're already at the general maximum
+      return NO;
+    }
+  if ([[self.levelUpSpells objectForKey: [spell name]] maxUpPerLevel] <= 0)
+    {
+      return NO;
+    }
+  else
+    {
+      return YES;
+    }    
+}
+
+- (BOOL) levelUpSpecialsWithSpells
+{
+  return YES;
+}
+@end
+// End of DSACharacterHeroHumanShaman
+
+@implementation DSACharacterHeroHumanSharisad
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.lifePoints = 30;
+      self.astralEnergy = 15;
+      self.currentLifePoints = 30;
+      self.currentAstralEnergy = 15;   
+      // not setting: maxLevelUpSpellsTries, as it's dependent on origin
+      self.isMagic = YES;
+    }
+  return self;
+}
+
+- (NSDictionary *) levelUpBaseEnergies
+{
+  NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+  NSInteger result = [Utils rollDice: @"1W6"];
+ 
+  if (self.astralEnergy + result > 30) // AstralEnergy can't go above 30
+    {
+      NSInteger diff = 30 - self.astralEnergy;
+      self.lifePoints = self.lifePoints + diff;
+      self.tempDeltaLpAe = result - diff;
+      // we have to ask the user how to distribute these
+      [resultDict setObject: @(self.tempDeltaLpAe) forKey: @"deltaLpAe"];  
+      [resultDict setObject: @(diff) forKey: @"deltaLifePoints"];
+    }
+  else
+    {
+       self.tempDeltaLpAe = result;  
+      // we have to ask the user how to distribute these
+      [resultDict setObject: @(result) forKey: @"deltaLpAe"];         
+    }
+
+  return resultDict;
+}
+
+// basic leveling up of a spell is handled within the spell
+- (BOOL) levelUpSpell: (DSASpell *)spell
+{
+  BOOL result = NO;
+  DSASpell *targetSpell = nil;
+  DSASpell *tmpSpell = nil;
+
+  targetSpell = spell;
+  tmpSpell = [self.levelUpSpells objectForKey: spell.name];
+
+  if (tmpSpell.maxUpPerLevel == 0)
+    {
+      NSLog(@"DSACharacterHeroSharisad: levelUpSpell: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");
+      return NO;
+    }    
+       
+  self.maxLevelUpSpellsTriesTmp -= 1;
+  result = [targetSpell levelUp];
+  if (result)
+    {
+      tmpSpell.maxUpPerLevel -= 1;
+      tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
+      tmpSpell.level = targetSpell.level;
+    }
+  else
+    {
+      tmpSpell.maxTriesPerLevelUp -= 1;
+      if ((tmpSpell.maxTriesPerLevelUp % 3) == 0)
+        {
+          tmpSpell.maxUpPerLevel -= 1;
+        }
+    }
+  return result;
+}
+
+- (BOOL) canLevelUpSpell: (DSASpell *)spell
+{
+  if (spell.level == 18)
+    {
+      // we're already at the general maximum
+      return NO;
+    }
+  if ([[self.levelUpSpells objectForKey: [spell name]] maxUpPerLevel] <= 0)
+    {
+      return NO;
+    }
+  else
+    {
+      return YES;
+    }    
+}
+
+- (BOOL) levelUpSpecialsWithSpells
+{
+  return NO;
+}
+@end
+// End of DSACharacterHeroHumanSharisad
+
+@implementation DSACharacterHeroHumanSkald
+@end
+// End of DSACharacterHeroHumanSkald
+
+@implementation DSACharacterHeroHumanThorwaler
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.origin = @"Thorwal";
+    }
+  return self;
+}
+
+// mrBonus is dynamic, as described in "Die Helden des Schwarzen Auges",
+// Regelbuch II, S. 59
+- (NSInteger) mrBonus
+{
+  NSInteger bonus;
+  if (self.level < 5)
+    {
+      bonus = -1;
+    }
+  else
+    {
+      bonus = 0;
+    }
+  return bonus;
+}
+@end
+// End of DSACharacterHeroHumanThorwaler
+
+@implementation DSACharacterHeroHumanWarrior
+@end
+// End of DSACharacterHeroHumanWarrior
+
+@implementation DSACharacterHeroHumanWitch
+- (instancetype)init
+{
+  self = [super init];
+  // see "Die Magie des Schwarzen Auges" S. 43
+  if (self)
+    {
+      self.lifePoints = 25;
+      self.currentLifePoints = 25;          
+      self.astralEnergy = 25;
+      self.currentAstralEnergy = 25;
+      self.maxLevelUpTalentsTries = 25;        
+      self.maxLevelUpSpellsTries = 30;
+      self.maxLevelUpTalentsTriesTmp = 25;
+      self.maxLevelUpSpellsTriesTmp = 30;      
+      self.maxLevelUpVariableTries = 0;
+      self.mrBonus = 2;   
+      self.isMagic = YES;                            
+    }
+  return self;
+}
+
+- (NSDictionary *) levelUpBaseEnergies
+{
+  NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+  NSInteger result = [Utils rollDice: @"1W6"] + 2;
+ 
+  self.tempDeltaLpAe = result;
+  // we have to ask the user how to distribute these
+  [resultDict setObject: @(result) forKey: @"deltaLpAe"];
+
+  return resultDict;
+}
+
+// basic leveling up of a spell is handled within the spell
+- (BOOL) levelUpSpell: (DSASpell *)spell
+{
+  BOOL result = NO;
+  DSASpell *targetSpell = nil;
+  DSASpell *tmpSpell = nil;
+
+  targetSpell = spell;
+  tmpSpell = [self.levelUpSpells objectForKey: spell.name];
+
+  if (tmpSpell.maxUpPerLevel == 0)
+    {
+      NSLog(@"DSACharacterHeroWitch: levelUpSpell: maxUpPerLevel was 0, I should not have been called in the first place, not doing anything!!!");
+      return NO;
+    }    
+       
+  self.maxLevelUpSpellsTriesTmp -= 1;
+  result = [targetSpell levelUp];
+  if (result)
+    {
+      tmpSpell.maxUpPerLevel -= 1;
+      tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
+      tmpSpell.level = targetSpell.level;
+    }
+  else
+    {
+      tmpSpell.maxTriesPerLevelUp -= 1;
+      if ((tmpSpell.maxTriesPerLevelUp % 3) == 0)
+        {
+          tmpSpell.maxUpPerLevel -= 1;
+        }
+    }
+  return result;
+}
+
+- (BOOL) canLevelUpSpell: (DSASpell *)spell
+{
+  if (spell.level == 18)
+    {
+      // we're already at the general maximum
+      return NO;
+    }
+  if ([[self.levelUpSpells objectForKey: [spell name]] maxUpPerLevel] <= 0)
+    {
+      return NO;
+    }
+  else
+    {
+      return YES;
+    }    
+}
+
+- (BOOL) levelUpSpecialsWithSpells
+{
+  return NO;
+}
+@end
+// End of DSACharacterHeroHumanWitch
+
+@implementation DSACharacterHeroBlessed
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      // Most of the human have 30 lifePoints at the start
+      // as seen in the character descriptions in "Mit Mantel Schwert und Zauberstab", 
+      // and "Die Helden des Schwarzen Auges", Regelbuch II
+      self.lifePoints = 30;
+      self.astralEnergy = 0;
+      self.karmaPoints = 24;           // for Blessed ones of Gods, Halfgods only will have 12 Karma Points, See Kirchen, Kulte, Ordenskrieger S. 10
+      self.currentLifePoints = 30;
+      self.currentAstralEnergy = 0;
+      self.currentKarmaPoints = 24;
+      self.isBlessedOne = YES;
+      self.mrBonus = 0;
+    }
+  return self;
+}
+
+- (NSDictionary *) levelUpBaseEnergies
+{
+  NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+  NSInteger result = [Utils rollDice: @"1W6"];
+  
+  NSInteger tmp = self.lifePoints;
+  self.lifePoints = result + tmp;
+  self.currentLifePoints = result + tmp;
+ 
+  [resultDict setObject: @(result) forKey: @"deltaLifePoints"];
+       
+  // See: Kirchen, Kulte, Ordenskrieger, S. 17 (Visionsqueste, 1x/Stufe), Blessed ones for half-gods, have different calculation
+  result = [Utils rollDice: @"1W3"] + 4;
+  tmp = self.karmaPoints;
+  self.karmaPoints = result + tmp;
+  self.currentKarmaPoints = result + tmp;
+    
+  [resultDict setObject: @(result) forKey: @"deltaKarmaPoints"];
+
+  return resultDict;
+}
+@end
+// End of DSACharacterHeroBlessed
+
+@implementation DSACharacterHeroBlessedPraios
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.mrBonus = 3; // see "Die Götter des schwarzen Auges" S. 36
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroBlessedPraios
+
+@implementation DSACharacterHeroBlessedRondra
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.mrBonus = 1; // see "Die Götter des schwarzen Auges" S. 42
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroBlessedRondra
+
+@implementation DSACharacterHeroBlessedEfferd
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.mrBonus = 1; // see "Die Götter des schwarzen Auges" S. 45
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroBlessedEfferd
+
+@implementation DSACharacterHeroBlessedTravia
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.mrBonus = 1; // see "Die Götter des schwarzen Auges" S. 47
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroBlessedTravia
+
+@implementation DSACharacterHeroBlessedBoron
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.mrBonus = 1; // see "Die Götter des schwarzen Auges" S. 52
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroBlessedBoron
+
+@implementation DSACharacterHeroBlessedHesinde
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.mrBonus = 2; // see "Die Götter des schwarzen Auges" S. 57
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroBlessedHesinde
+
+@implementation DSACharacterHeroBlessedFirun
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.mrBonus = 0; // see "Die Götter des schwarzen Auges" S. 59, nothing specifically mentioned??
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroBlessedFirun
+
+@implementation DSACharacterHeroBlessedTsa
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.mrBonus = 0; // see "Die Götter des schwarzen Auges" S. 61, nothing specifically mentioned??
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroBlessedTsa
+
+@implementation DSACharacterHeroBlessedPhex
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.mrBonus = 1; // see "Die Götter des schwarzen Auges" S. 64
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroBlessedPhex
+
+@implementation DSACharacterHeroBlessedPeraine
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.mrBonus = 0; // see "Die Götter des schwarzen Auges" S. 66, nothing specifically mentioned??
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroBlessedPeraine
+
+@implementation DSACharacterHeroBlessedIngerimm
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.mrBonus = 1; // see "Die Götter des schwarzen Auges" S. 69
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroBlessedIngerimm
+
+@implementation DSACharacterHeroBlessedRahja
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.mrBonus = 1; // see "Die Götter des schwarzen Auges" S. 72
+    }
+  return self;
+}
+@end
+// End of DSACharacterHeroBlessedRahja
+
+@implementation DSACharacterHeroBlessedSwafnir
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.karmaPoints = 10;           // see "Die Götter des schwarzen Auges" S. 90
+      self.currentKarmaPoints = 10;    
+      self.mrBonus = 0;
+    }
+  return self;
+}
+
+- (NSDictionary *) levelUpBaseEnergies
+{
+  NSMutableDictionary *resultDict = [[NSMutableDictionary alloc] init];
+  NSInteger result = [Utils rollDice: @"1W6"];
+  
+  NSInteger tmp = self.lifePoints;
+  self.lifePoints = result + tmp;
+  self.currentLifePoints = result + tmp;
+ 
+  [resultDict setObject: @(result) forKey: @"deltaLifePoints"];
+       
+  // See: Kirchen, Kulte, Ordenskrieger Swafnir is different than other Blessed Ones
+  result = [Utils rollDice: @"1W6"] - 1;
+  tmp = self.karmaPoints;
+  self.karmaPoints = result + tmp;
+  self.currentKarmaPoints = result + tmp;
+    
+  [resultDict setObject: @(result) forKey: @"deltaKarmaPoints"];
+
+  return resultDict;
+}
+@end
+// End of DSACharacterHeroBlessedSwafnir
+

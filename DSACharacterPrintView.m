@@ -23,13 +23,10 @@
 */
 
 #import "DSACharacterPrintView.h"
-#import "DSACharacterHero.h"
+#import "DSACharacter.h"
 #import "DSASpell.h"
 #import "DSATrait.h"
 #import "DSATalent.h"
-#import "DSASpecialTalent.h"
-#import "DSAProfession.h"
-#import "DSAOtherTalent.h"
 #import "NSFlippedView.h"
 
 

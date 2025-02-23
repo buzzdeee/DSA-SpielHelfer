@@ -42,6 +42,75 @@
 - (BOOL) levelUp;
 
 @end
+// End of DSATalent
+
+@interface DSAFightingTalent : DSATalent
+@property (nonatomic, strong) NSString *subCategory;
+- (instancetype)initTalent: (NSString *) name
+             inSubCategory: (NSString *) subCategory
+                ofCategory: (NSString *) category
+                   onLevel: (NSInteger) level
+    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
+           withLevelUpCost: (NSInteger) levelUpCost;
+@end
+// End of DSAFightingTalent
+
+@interface DSAOtherTalent : DSATalent
+@property (nonatomic, strong) NSArray *test;
+- (instancetype)initTalent: (NSString *) name
+                ofCategory: (NSString *) category 
+                   onLevel: (NSInteger) level
+                  withTest: (NSArray *) test
+    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
+           withLevelUpCost: (NSInteger) levelUpCost;                          
+
+@end
+// End of DSAOtherTalent
+
+@interface DSAProfession : DSAOtherTalent <NSCoding, NSCopying>
+@property (nonatomic, strong) NSMutableDictionary *influencesTalents;
+- (instancetype)initProfession: (NSString *) name
+                    ofCategory: (NSString *) category
+                       onLevel: (NSInteger) level
+                      withTest: (NSArray *) test
+        withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+             withMaxUpPerLevel: (NSInteger) maxUpPerLevel
+             influencesTalents: (NSMutableDictionary *)talents;
+@end
+// End of DSAProfession
+
+@interface DSASpecialTalent : DSATalent
+@property (nonatomic, strong) NSArray *test;
+- (instancetype)initTalent: (NSString *) name
+                ofCategory: (NSString *) category 
+                   onLevel: (NSInteger) level
+                  withTest: (NSArray *) test
+    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
+           withLevelUpCost: (NSInteger) levelUpCost;                          
+@end
+// End of DSASpecialTalent
 
 #endif // _DSATALENT_H_
 
+typedef NS_ENUM(NSUInteger, DSATalentResultValue)
+{
+  DSATalentResultNone,             // no result yet
+  DSATalentResultSuccess,          // normal success
+  DSATalentResultAutoSuccess,      // two times 1 as dice result
+  DSATalentResultEpicSuccess,      // three times 1 as dice result
+  DSATalentResultFailure,          // normal failure
+  DSATalentResultAutoFailure,      // two times 20 as dice result
+  DSATalentResultEpicFailure       // three times 20 as dice result
+};
+
+@interface DSATalentResult : NSObject
+@property (nonatomic, assign) DSATalentResultValue result;
+@property (nonatomic, strong) NSArray *diceResults;
+@property (nonatomic, assign) NSInteger remainingTalentPoints;
+
++(NSString *) resultNameForResultValue: (DSATalentResultValue) value;
+@end
+// End of DSATalentResult

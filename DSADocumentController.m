@@ -25,7 +25,7 @@
 #import "DSADocumentController.h"
 #import "DSACharacterWindowController.h"
 #import "DSACharacterDocument.h"
-#import "DSACharacterHero.h"
+#import "DSACharacter.h"
 
 @implementation DSADocumentController
 

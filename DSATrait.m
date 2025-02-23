@@ -24,9 +24,9 @@
 
 #import <objc/runtime.h>
 #import "DSATrait.h"
+#import "Utils.h"
 
 @implementation DSATrait                   
-
 - (NSString *)description
 {
   NSMutableString *descriptionString = [NSMutableString stringWithFormat:@"%@:\n", [self class]];
@@ -157,5 +157,71 @@
     }    
   return copy;
 }
-
 @end
+// End of DSATrait
+
+@implementation DSAPositiveTrait
+- (instancetype)initTrait: (NSString *) name
+                   onLevel: (NSInteger)level
+{
+  self = [super init];
+  if (self)
+    {
+      self.name = name;
+      self.level = level;
+      self.category = _(@"Positive Eigenschaft");
+    }
+  return self;
+}                   
+
+
+- (BOOL) levelUp
+{
+  NSInteger result;
+  NSLog(@"DSAPositiveTrait levelUp %@", self);
+  for (int i=0; i<3;i++)
+    {
+      NSLog(@"DSAPositiveTrait levelUp try: %ld",(signed long) i);
+      result = [Utils rollDice: @"1W20"];
+      if (result >= self.level)
+        {
+          self.level += 1;
+          NSLog(@"DSAPositiveTrait now: %ld", (signed long) self.level);
+          return YES;
+        }
+    }
+  return NO;
+}
+@end
+// End of DSAPositiveTrait
+
+@implementation DSANegativeTrait
+- (instancetype)initTrait: (NSString *) name
+                   onLevel: (NSInteger)level
+{
+  self = [super init];
+  if (self)
+    {
+      self.name = name;
+      self.level = level;
+      self.category = _(@"Negative Eigenschaft");
+    }
+  return self;
+}                   
+
+- (BOOL) levelDown
+{
+  NSInteger result;
+  for (int i=0; i<3;i++)
+    {
+      result = [Utils rollDice: @"1W20"];
+      if (result <= self.level)
+        {
+          self.level -= 1;
+          return YES;
+        }
+    }
+  return NO;
+}
+@end
+// End of DSANegativeTrait

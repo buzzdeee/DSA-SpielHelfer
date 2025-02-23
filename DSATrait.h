@@ -28,12 +28,27 @@
 #import <Foundation/Foundation.h>
 
 @interface DSATrait : NSObject <NSCoding, NSCopying>
-
 @property (nonatomic, assign) NSInteger level;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *category;
-
 @end
+// End of DSATrait
+
+@interface DSAPositiveTrait : DSATrait
+- (instancetype)initTrait: (NSString *) name
+                  onLevel: (NSInteger)level;
+
+- (BOOL) levelUp;               
+@end
+// End of DSAPositiveTrait
+
+@interface DSANegativeTrait : DSATrait
+- (instancetype)initTrait: (NSString *) name
+                  onLevel: (NSInteger)level;
+
+- (BOOL) levelDown;               
+@end
+// End of DSANegativeTrait
 
 #endif // _DSATRAIT_H_
 

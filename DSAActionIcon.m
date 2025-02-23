@@ -26,7 +26,7 @@
 #import "DSACharacter.h"
 #import "DSAInventoryManager.h"
 #import "Utils.h"
-#import "DSATalentResult.h"
+#import "DSATalent.h"
 
 @implementation DSAActionIcon
 

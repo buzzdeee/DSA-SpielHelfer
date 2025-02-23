@@ -23,7 +23,7 @@
 */
 
 #import "DSACharacterViewModel.h"
-#import "DSACharacterHero.h"
+#import "DSACharacter.h"
 
 @implementation DSACharacterViewModel
 

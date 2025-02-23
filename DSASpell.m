@@ -25,7 +25,7 @@
 #import <objc/runtime.h>
 #import "DSASpell.h"
 #import "DSASpellResult.h"
-#import "DSAPositiveTrait.h"
+#import "DSATrait.h"
 #import "Utils.h"
 
 @implementation DSASpell

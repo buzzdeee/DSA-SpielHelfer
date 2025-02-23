@@ -25,61 +25,9 @@
 #import "DSACharacterGenerationController.h"
 #import "DSACharacter.h"
 #import "Utils.h"
-#import "DSACharacterHeroHumanAlchemist.h"
-#import "DSACharacterHeroHumanAmazon.h"
-#import "DSACharacterHeroHumanJuggler.h"
-#import "DSACharacterHeroHumanHuntsman.h"
-#import "DSACharacterHeroHumanWarrior.h"
-#import "DSACharacterHeroHumanPhysician.h"
-#import "DSACharacterHeroHumanMoha.h"
-#import "DSACharacterHeroHumanNivese.h"
-#import "DSACharacterHeroHumanNorbarde.h"
-#import "DSACharacterHeroHumanNovadi.h"
-#import "DSACharacterHeroHumanSeafarer.h"
-#import "DSACharacterHeroHumanMercenary.h"
-#import "DSACharacterHeroHumanRogue.h"
-#import "DSACharacterHeroHumanThorwaler.h"
-#import "DSACharacterHeroHumanSkald.h"
-#import "DSACharacterHeroHumanBard.h"
 
-#import "DSACharacterHeroHumanMage.h"
-#import "DSACharacterHeroHumanDruid.h"
-#import "DSACharacterHeroHumanJester.h"
-#import "DSACharacterHeroHumanCharlatan.h"
-#import "DSACharacterHeroHumanWitch.h"
-#import "DSACharacterHeroHumanShaman.h"
-#import "DSACharacterHeroHumanSharisad.h"
-
-#import "DSACharacterHeroElfMeadow.h"
-#import "DSACharacterHeroElfSnow.h"
-#import "DSACharacterHeroElfWood.h"
-#import "DSACharacterHeroElfHalf.h"
-
-#import "DSACharacterHeroDwarfAngroschPriest.h"
-#import "DSACharacterHeroDwarfFighter.h"
-#import "DSACharacterHeroDwarfGeode.h"
-#import "DSACharacterHeroDwarfCavalier.h"
-#import "DSACharacterHeroDwarfJourneyman.h"
-
-#import "DSACharacterHeroBlessedPraios.h"
-#import "DSACharacterHeroBlessedRondra.h"
-#import "DSACharacterHeroBlessedEfferd.h"
-#import "DSACharacterHeroBlessedTravia.h"
-#import "DSACharacterHeroBlessedBoron.h"
-#import "DSACharacterHeroBlessedHesinde.h"
-#import "DSACharacterHeroBlessedFirun.h"
-#import "DSACharacterHeroBlessedTsa.h"
-#import "DSACharacterHeroBlessedPhex.h"
-#import "DSACharacterHeroBlessedPeraine.h"
-#import "DSACharacterHeroBlessedIngerimm.h"
-#import "DSACharacterHeroBlessedRahja.h"
-#import "DSACharacterHeroBlessedSwafnir.h"
-
-#import "DSAPositiveTrait.h"
-#import "DSANegativeTrait.h"
-#import "DSAFightingTalent.h"
-#import "DSAOtherTalent.h"
-#import "DSASpecialTalent.h"
+#import "DSATrait.h"
+#import "DSATalent.h"
 #import "DSASpell.h"
 #import "DSASpellWitchCurse.h"
 #import "DSASpellDruidRitual.h"
@@ -89,7 +37,6 @@
 #import "DSASpellShamanRitual.h"
 #import "DSASpellElvenSong.h"
 #import "DSALiturgy.h"
-#import "DSAProfession.h"
 #import "NSMutableDictionary+Extras.h"
 #import "DSAAventurianCalendar.h"
 
@@ -184,7 +131,7 @@
   // Based on selectedArchetype, create the correct character subclass
   if ([selectedArchetype isEqualToString:_(@"Alchimist")])
     {
-      newCharacter = [[DSACharacterHeroHumanAmazon alloc] init];
+      newCharacter = [[DSACharacterHeroHumanAlchemist alloc] init];
     }  
   else if ([selectedArchetype isEqualToString:_(@"Amazone")])
     {

@@ -13,7 +13,7 @@
 #import "DSADocumentController.h"
 #import "DSACharacterWindowController.h"
 #import "DSACharacterDocument.h"
-#import "DSACharacterHero.h"
+#import "DSACharacter.h"
 #import "DSAMapViewController.h"
 #import "DSAEquipmentListViewController.h"
 #import "DSANameGenerationController.h"
