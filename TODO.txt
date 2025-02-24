@@ -3,25 +3,14 @@ TODO:
  * Persönliches Instrument Elfen
  * Persönliches Instrument Barde/Skalde
  * Persönliche Waffen
- * Menüpunkt Lebenspunkte abziehen
- * KVO für berechnete Werte
- * alle KVO ins -dealloc
  * Kindheit/Jugend (Vom leben in Aventurien)
    * Auswirkung auf Talente etc....
- * Regenerieren
  * Management Geldbörse
  * Talent anwenden
    * eventuelle Berufe Berücksichtigen
  * Zaubern
  * Magier:
    * Meditation
-   * Stabzauber
-   * Kristallkugel
-   * Schwert
-   * Schale
- * Essen/Trinken
- * Zustand:
-   * gesund, krank, vergiftet, betrunken....
  * Kein Eisen für magische Archetypen, i.e. Elf, Druide, ...
  * Altern
  * Schicksalspunkte
@@ -34,14 +23,18 @@ TODO:
  * Knappe
  * Schamane (erz dinger...)
  * Erweitere Regeneration (Abhängig von Zustand etc.)
+ * Erweitertes Handling der Zustände, Phase, Auswirkungen auf Basiswerte etc.
 
 WIP:
  * Magierakademien
  * Icons für Gegenstände
- * Gegenstände als Objekte
  * Grundausstattung aller Archetypen
  
 DONE:
+ * Minimales Händling der Zustände: verwundet, krank, vergiftest, tot, bewusstlos, betrunken, verzaubert
+ * Essen und Trinken, Durst und Hunger
+ * Interface um Energien und Zustände zu "managen"
+ * Gegenstände sind Objekte
  * Basis Regeneration
  * Namensgenerator
  * Talentprobe
