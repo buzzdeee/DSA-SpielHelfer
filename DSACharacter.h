@@ -101,8 +101,15 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 @property (nonatomic, strong) DSAInventory *inventory;
 @property (nonatomic, strong) DSABodyParts *bodyParts;
 @property (nonatomic, copy) NSMutableDictionary *talents;
+@property (nonatomic, copy) NSMutableDictionary *professions;
 @property (nonatomic, copy) NSMutableDictionary *spells;
 @property (nonatomic, strong) NSMutableDictionary *specials;
+@property (nonatomic, assign) NSInteger firstLevelUpTalentTriesPenalty;  // might have less than usual tries to level up talents to level 1
+@property (nonatomic, assign) NSInteger maxLevelUpTalentsTries;          // how often to try to level up all talents/professions (professions mix in here...)
+@property (nonatomic, assign) NSInteger maxLevelUpSpellsTries;           // how often to try to level up all spells
+@property (nonatomic, assign) NSInteger maxLevelUpTalentsTriesTmp;       // holding nr of overall talent tries, once variable tries is distributed
+@property (nonatomic, assign) NSInteger maxLevelUpSpellsTriesTmp;        // holding nr of overall spell tries, once variable tries is distributed
+@property (nonatomic, assign) NSInteger maxLevelUpVariableTries;         // variable tries, that can be added to talent or spell level ups
 @property (nonatomic, strong) NSMutableDictionary<NSString*, DSASpell *> *appliedSpells;  // spells casted onto a character, and having effect on it
 @property (nonatomic, strong) NSMutableDictionary<NSNumber *, NSNumber *> *statesDict;
 
@@ -116,6 +123,8 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 @property (readonly, assign) NSInteger magicResistance;
 @property (readonly, assign) NSInteger parryBaseValue;
 @property (readonly, assign) NSInteger rangedCombatBaseValue;
+
++ (instancetype)characterWithType:(NSString *)type;     // create a character of given arche-(type)
 
 + (DSACharacter *)characterWithModelID:(NSString *)modelID;
 
@@ -166,16 +175,9 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 @end
 
 @interface DSACharacterHero : DSACharacter
-@property (nonatomic, copy) NSMutableDictionary *professions;
 @property (nonatomic, copy) NSMutableDictionary *levelUpTalents;       // used to track talent level up attempts when reching a new level
 @property (nonatomic, copy) NSMutableDictionary *levelUpSpells;        // used to track spell level up attempts when reching a new level
 @property (nonatomic, copy) NSMutableDictionary *levelUpProfessions;   // used to track profession level up attempts when reching a new level
-@property (nonatomic, assign) NSInteger firstLevelUpTalentTriesPenalty;  // might have less than usual tries to level up talents to level 1
-@property (nonatomic, assign) NSInteger maxLevelUpTalentsTries;          // how often to try to level up all talents/professions (professions mix in here...)
-@property (nonatomic, assign) NSInteger maxLevelUpSpellsTries;           // how often to try to level up all spells
-@property (nonatomic, assign) NSInteger maxLevelUpTalentsTriesTmp;       // holding nr of overall talent tries, once variable tries is distributed
-@property (nonatomic, assign) NSInteger maxLevelUpSpellsTriesTmp;        // holding nr of overall spell tries, once variable tries is distributed
-@property (nonatomic, assign) NSInteger maxLevelUpVariableTries;         // variable tries, that can be added to talent or spell level ups
 @property (nonatomic) BOOL isLevelingUp;                               // keeps track of the fact, if a character is in the phase of leveling up...
 @property (nonatomic, assign) NSInteger tempDeltaLpAe;                   // some characters roll one dice to level up LP and AE, and have to ask user how to distribute, here we temporarily save the result
 

@@ -126,193 +126,7 @@
   NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
   NSString *selectedProfession = [[self.popupProfessions selectedItem] title];
    
-  DSACharacterHero *newCharacter = nil;
-
-  // Based on selectedArchetype, create the correct character subclass
-  if ([selectedArchetype isEqualToString:_(@"Alchimist")])
-    {
-      newCharacter = [[DSACharacterHeroHumanAlchemist alloc] init];
-    }  
-  else if ([selectedArchetype isEqualToString:_(@"Amazone")])
-    {
-      newCharacter = [[DSACharacterHeroHumanAmazon alloc] init];
-    }  
-  else if ([selectedArchetype isEqualToString:_(@"Gaukler")])
-    {
-      newCharacter = [[DSACharacterHeroHumanJuggler alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Jäger")])
-    {
-      newCharacter = [[DSACharacterHeroHumanHuntsman alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Krieger")])
-    {
-      newCharacter = [[DSACharacterHeroHumanWarrior alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Medicus")])
-    {
-      newCharacter = [[DSACharacterHeroHumanPhysician alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Moha")])
-    {
-      newCharacter = [[DSACharacterHeroHumanMoha alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Nivese")])
-    {
-      newCharacter = [[DSACharacterHeroHumanNivese alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Norbarde")])
-    {
-      newCharacter = [[DSACharacterHeroHumanNorbarde alloc] init];
-    } 
-  else if ([selectedArchetype isEqualToString:_(@"Novadi")])
-    {
-      newCharacter = [[DSACharacterHeroHumanNovadi alloc] init];
-    }        
-  else if ([selectedArchetype isEqualToString:_(@"Seefahrer")])
-    {
-      newCharacter = [[DSACharacterHeroHumanSeafarer alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Söldner")])
-    {
-      newCharacter = [[DSACharacterHeroHumanMercenary alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Skalde")])
-    {
-      newCharacter = [[DSACharacterHeroHumanSkald alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Barde")])
-    {
-      newCharacter = [[DSACharacterHeroHumanBard alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Thorwaler")])
-    {
-      newCharacter = [[DSACharacterHeroHumanThorwaler alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Streuner")])
-    {
-      newCharacter = [[DSACharacterHeroHumanRogue alloc] init];        
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Magier")])
-    {
-      newCharacter = [[DSACharacterHeroHumanMage alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Druide")])
-    {
-      newCharacter = [[DSACharacterHeroHumanDruid alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Schamane")])
-    {
-      newCharacter = [[DSACharacterHeroHumanShaman alloc] init];
-    }    
-  else if ([selectedArchetype isEqualToString:_(@"Scharlatan")])
-    {
-      newCharacter = [[DSACharacterHeroHumanCharlatan alloc] init];
-    }      
-  else if ([selectedArchetype isEqualToString:_(@"Schelm")])
-    {
-      newCharacter = [[DSACharacterHeroHumanJester alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Hexe")])
-    {
-      newCharacter = [[DSACharacterHeroHumanWitch alloc] init];
-    } 
-  else if ([selectedArchetype isEqualToString:_(@"Sharisad")])
-    {
-      newCharacter = [[DSACharacterHeroHumanSharisad alloc] init];
-    }             
-  else if ([selectedArchetype isEqualToString:_(@"Auelf")])
-    {
-      newCharacter = [[DSACharacterHeroElfMeadow alloc] init]; 
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Firnelf")])
-    {
-      newCharacter = [[DSACharacterHeroElfSnow alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Waldelf")])
-    {
-      newCharacter = [[DSACharacterHeroElfWood alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Halbelf")])
-    {
-      newCharacter = [[DSACharacterHeroElfHalf alloc] init];
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Angroschpriester")])
-    {
-      newCharacter = [[DSACharacterHeroDwarfAngroschPriest alloc] init];                                       
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Geode")])
-    {
-      newCharacter = [[DSACharacterHeroDwarfGeode alloc] init];                                       
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Kämpfer")])
-    {
-      newCharacter = [[DSACharacterHeroDwarfFighter alloc] init];                                       
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Kavalier")])
-    {
-      newCharacter = [[DSACharacterHeroDwarfCavalier alloc] init];                                       
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Wandergeselle")])
-    {
-      newCharacter = [[DSACharacterHeroDwarfJourneyman alloc] init];                                       
-    }
-  else if ([selectedArchetype isEqualToString:_(@"Praiosgeweihter")])
-    {
-      newCharacter = [[DSACharacterHeroBlessedPraios alloc] init];                                       
-    } 
-  else if ([selectedArchetype isEqualToString:_(@"Rondrageweihter")])
-    {
-      newCharacter = [[DSACharacterHeroBlessedRondra alloc] init];                                       
-    } 
-  else if ([selectedArchetype isEqualToString:_(@"Efferdgeweihter")])
-    {
-      newCharacter = [[DSACharacterHeroBlessedEfferd alloc] init];                                       
-    } 
-  else if ([selectedArchetype isEqualToString:_(@"Traviageweihter")])
-    {
-      newCharacter = [[DSACharacterHeroBlessedTravia alloc] init];                                       
-    } 
-  else if ([selectedArchetype isEqualToString:_(@"Borongeweihter")])
-    {
-      newCharacter = [[DSACharacterHeroBlessedBoron alloc] init];                                       
-    } 
-  else if ([selectedArchetype isEqualToString:_(@"Hesindegeweihter")])
-    {
-      newCharacter = [[DSACharacterHeroBlessedHesinde alloc] init];                                       
-    } 
-  else if ([selectedArchetype isEqualToString:_(@"Firungeweihter")])
-    {
-      newCharacter = [[DSACharacterHeroBlessedFirun alloc] init];                                       
-    } 
-  else if ([selectedArchetype isEqualToString:_(@"Tsageweihter")])
-    {
-      newCharacter = [[DSACharacterHeroBlessedTsa alloc] init];                                       
-    } 
-  else if ([selectedArchetype isEqualToString:_(@"Phexgeweihter")])
-    {
-      newCharacter = [[DSACharacterHeroBlessedPhex alloc] init];                                       
-    } 
-  else if ([selectedArchetype isEqualToString:_(@"Perainegeweihter")])
-    {
-      newCharacter = [[DSACharacterHeroBlessedPeraine alloc] init];                                       
-    } 
-  else if ([selectedArchetype isEqualToString:_(@"Ingerimmgeweihter")])
-    {
-      newCharacter = [[DSACharacterHeroBlessedIngerimm alloc] init];                                       
-    } 
-  else if ([selectedArchetype isEqualToString:_(@"Rahjageweihter")])
-    {
-      newCharacter = [[DSACharacterHeroBlessedRahja alloc] init];                                       
-    } 
-  else if ([selectedArchetype isEqualToString:_(@"Swafnirgeweihter")])
-    {
-      newCharacter = [[DSACharacterHeroBlessedSwafnir alloc] init];                                       
-    }                                                   
-  else
-    {
-      NSLog(@"DSACharacterGenerationController: createCharacter: don't know how to create Archetype: %@", selectedArchetype);
-    }
+  DSACharacter *newCharacter = [DSACharacter characterWithType: selectedArchetype];
 
   NSLog(@"DSACharacterGenerationController: created newCharacter for archetype: %@", selectedArchetype);
   // Set common properties for the new character
@@ -549,7 +363,7 @@
   NSLog(@"DSACharacterGenerationController: assigned events to newCharacter");
   if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanWitch class]])
     {
-      [self addWichCursesToCharacter: newCharacter];
+      [self addWitchCursesToCharacter: newCharacter];
     }
   else if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanDruid class]])
     {
@@ -608,7 +422,7 @@
   [self close]; // Close the character generation window
 }
 
-- (void) applySpellmodificatorsToArchetype: (DSACharacterHero *) archetype
+- (void) applySpellmodificatorsToArchetype: (DSACharacter *) archetype
 {
   if ([archetype isKindOfClass: [DSACharacterHeroElf class]])
     {
@@ -866,7 +680,7 @@
 }
 
 // to apply "Göttergeschenke" or "Herkunfsmodifikatoren"
-- (void) apply: (NSString *) modificator toArchetype: (DSACharacterHero *) archetype
+- (void) apply: (NSString *) modificator toArchetype: (DSACharacter *) archetype
 {
   NSMutableDictionary *traits = [[NSMutableDictionary alloc] init];
   NSMutableDictionary *talents = [[NSMutableDictionary alloc] init];
@@ -2689,7 +2503,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   return weight + height;
 }
 
-- (void) addElvenSongsToCharacter: (DSACharacterHero *) character
+- (void) addElvenSongsToCharacter: (DSACharacter *) character
 {
   NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];    
   for (NSString *song in [[Utils getElvenSongsDict] allKeys])
@@ -2702,7 +2516,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   [character setSpecials: specialTalents];  
 }
 
-- (void) addBlessedLiturgiesToCharacter: (DSACharacterHero *) character
+- (void) addBlessedLiturgiesToCharacter: (DSACharacter *) character
 {
   NSDictionary *blessedLiturgiesDict = [Utils getBlessedLiturgiesDict];
   NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];    
@@ -2727,7 +2541,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   [character setSpecials: specialTalents];  
 }
 
-- (void) addShamanRitualsToCharacter: (DSACharacterHero *) character
+- (void) addShamanRitualsToCharacter: (DSACharacter *) character
 {
   NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];    
   for (NSString *category in [[Utils getShamanRitualsDict] allKeys])
@@ -2745,7 +2559,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   [character setSpecials: specialTalents];  
 }
 
-- (void) addGeodeRitualsToCharacter: (DSACharacterHero *) character
+- (void) addGeodeRitualsToCharacter: (DSACharacter *) character
 {
   NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];    
   for (NSString *category in [[Utils getGeodeRitualsDict] allKeys])
@@ -2769,7 +2583,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   [character setSpecials: specialTalents];  
 }
 
-- (void) addMageRitualsToCharacter: (DSACharacterHero *) character
+- (void) addMageRitualsToCharacter: (DSACharacter *) character
 {
   NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];    
   for (NSString *category in [[Utils getMageRitualsDict] allKeys])
@@ -2816,7 +2630,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   [character setSpecials: specialTalents];  
 }
 
-- (void) addMischievousPranksToCharacter: (DSACharacterHero *) character
+- (void) addMischievousPranksToCharacter: (DSACharacter *) character
 {
   NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];    
   for (NSString *prank in [[Utils getMischievousPranksDict] allKeys])
@@ -2830,7 +2644,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   [character setSpecials: specialTalents];  
 }
 
-- (void) addWichCursesToCharacter: (DSACharacterHero *) character
+- (void) addWitchCursesToCharacter: (DSACharacter *) character
 {
   NSDictionary *curses = [[Utils getWitchCursesDict] objectForKey: @"Flüche"];
 
@@ -2846,7 +2660,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   [character setSpecials: specialTalents];  
 }
 
-- (void) addDruidRitualsToCharacter: (DSACharacterHero *) character
+- (void) addDruidRitualsToCharacter: (DSACharacter *) character
 {
   NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];
   if ([character specials]) // there might be shaman rituals already
@@ -2923,7 +2737,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   [character setSpecials: specialTalents];
 }
 
-- (void) addEquipmentToCharacter: (DSACharacterHero *) character
+- (void) addEquipmentToCharacter: (DSACharacter *) character
 {
   NSDictionary *equipmentDict = [[[[[Utils getArchetypesDict] objectForKey: [character archetype]] objectForKey: @"Herkunft"] objectForKey: [character socialStatus]] objectForKey: @"Equipment"];
   NSLog(@"The EQUIPMENT DICT: %@", equipmentDict);

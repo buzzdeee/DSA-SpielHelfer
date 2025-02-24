@@ -55,6 +55,45 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
                     _(@"Jäger"): [DSACharacterHeroHumanHuntsman class],
                     _(@"Krieger"): [DSACharacterHeroHumanWarrior class],
                     _(@"Medicus"): [DSACharacterHeroHumanPhysician class],
+                    _(@"Moha"): [DSACharacterHeroHumanMoha class],
+                    _(@"Nivese"): [DSACharacterHeroHumanNivese class],
+                    _(@"Norbarde"): [DSACharacterHeroHumanNorbarde class],
+                    _(@"Novadi"): [DSACharacterHeroHumanNovadi class],
+                    _(@"Seefahrer"): [DSACharacterHeroHumanSeafarer class],
+                    _(@"Söldner"): [DSACharacterHeroHumanMercenary class],
+                    _(@"Skalde"): [DSACharacterHeroHumanSkald class],
+                    _(@"Barde"): [DSACharacterHeroHumanBard class],
+                    _(@"Thorwaler"): [DSACharacterHeroHumanThorwaler class],
+                    _(@"Streuner"): [DSACharacterHeroHumanRogue class],
+                    _(@"Magier"): [DSACharacterHeroHumanMage class],
+                    _(@"Druide"): [DSACharacterHeroHumanDruid class],
+                    _(@"Schamane"): [DSACharacterHeroHumanShaman class],
+                    _(@"Scharlatan"): [DSACharacterHeroHumanCharlatan class],
+                    _(@"Schelm"): [DSACharacterHeroHumanJester class],
+                    _(@"Hexe"): [DSACharacterHeroHumanWitch class],
+                    _(@"Sharisad"): [DSACharacterHeroHumanSharisad class],
+                    _(@"Auelf"): [DSACharacterHeroElfMeadow class],
+                    _(@"Firnelf"): [DSACharacterHeroElfSnow class],
+                    _(@"Waldelf"): [DSACharacterHeroElfWood class],
+                    _(@"Halbelf"): [DSACharacterHeroElfHalf class],
+                    _(@"Angroschpriester"): [DSACharacterHeroDwarfAngroschPriest class],
+                    _(@"Geode"): [DSACharacterHeroDwarfGeode class],
+                    _(@"Kämpfer"): [DSACharacterHeroDwarfFighter class],
+                    _(@"Kavalier"): [DSACharacterHeroDwarfCavalier class],
+                    _(@"Wandergeselle"): [DSACharacterHeroDwarfJourneyman class],
+                    _(@"Praiosgeweihter"): [DSACharacterHeroBlessedPraios class],
+                    _(@"Rondrageweihter"): [DSACharacterHeroBlessedRondra class],
+                    _(@"Efferdgeweihter"): [DSACharacterHeroBlessedEfferd class],
+                    _(@"Traviageweihter"): [DSACharacterHeroBlessedTravia class],
+                    _(@"Borongeweihter"): [DSACharacterHeroBlessedBoron class],
+                    _(@"Hesindegeweihter"): [DSACharacterHeroBlessedHesinde class],
+                    _(@"Firungeweihter"): [DSACharacterHeroBlessedFirun class],
+                    _(@"Tsageweihter"): [DSACharacterHeroBlessedTsa class],
+                    _(@"Phexgeweihter"): [DSACharacterHeroBlessedPhex class],
+                    _(@"Perainegeweihter"): [DSACharacterHeroBlessedPeraine class],
+                    _(@"Ingerimmgeweihter"): [DSACharacterHeroBlessedIngerimm class],
+                    _(@"Rahjageweihter"): [DSACharacterHeroBlessedRahja class],
+                    _(@"Swafnirgeweihter"): [DSACharacterHeroBlessedSwafnir class],
                 };
             }
         }
@@ -351,8 +390,15 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
   [coder encodeObject:self.inventory forKey:@"inventory"];
   [coder encodeObject:self.bodyParts forKey:@"bodyParts"];
   [coder encodeObject:self.talents forKey:@"talents"];
+  [coder encodeObject:self.professions forKey:@"professions"];
   [coder encodeObject:self.spells forKey:@"spells"];
   [coder encodeObject:self.specials forKey:@"specials"];
+  [coder encodeInteger:self.firstLevelUpTalentTriesPenalty forKey:@"firstLevelUpTalentTriesPenalty"];  
+  [coder encodeInteger:self.maxLevelUpTalentsTries forKey:@"maxLevelUpTalentsTries"];
+  [coder encodeInteger:self.maxLevelUpSpellsTries forKey:@"maxLevelUpSpellsTries"];
+  [coder encodeInteger:self.maxLevelUpTalentsTriesTmp forKey:@"maxLevelUpTalentsTriesTmp"];
+  [coder encodeInteger:self.maxLevelUpSpellsTriesTmp forKey:@"maxLevelUpSpellsTriesTmp"];  
+  [coder encodeInteger:self.maxLevelUpVariableTries forKey:@"maxLevelUpVariableTries"];  
   [coder encodeObject:self.appliedSpells forKey:@"appliedSpells"];
   [coder encodeObject:self.statesDict forKey:@"statesDict"];
  }
@@ -413,8 +459,15 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
       self.inventory = [coder decodeObjectForKey:@"inventory"];
       self.bodyParts = [coder decodeObjectForKey:@"bodyParts"];
       self.talents = [coder decodeObjectForKey:@"talents"];
+      self.professions = [coder decodeObjectForKey:@"professions"];
       self.spells = [coder decodeObjectForKey:@"spells"];
-      self.specials = [coder decodeObjectForKey:@"specials"]; 
+      self.specials = [coder decodeObjectForKey:@"specials"];
+      self.firstLevelUpTalentTriesPenalty = [coder decodeIntegerForKey:@"firstLevelUpTalentTriesPenalty"];            
+      self.maxLevelUpTalentsTries = [coder decodeIntegerForKey:@"maxLevelUpTalentsTries"];
+      self.maxLevelUpSpellsTries = [coder decodeIntegerForKey:@"maxLevelUpSpellsTries"];
+      self.maxLevelUpTalentsTriesTmp = [coder decodeIntegerForKey:@"maxLevelUpTalentsTriesTmp"];
+      self.maxLevelUpSpellsTriesTmp = [coder decodeIntegerForKey:@"maxLevelUpSpellsTriesTmp"];      
+      self.maxLevelUpVariableTries = [coder decodeIntegerForKey:@"maxLevelUpVariableTries"];       
       self.appliedSpells = [coder decodeObjectForKey:@"appliedSpells"];
       self.statesDict = [coder decodeObjectForKey:@"statesDict"];
     }
@@ -1860,7 +1913,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
   // NSLog(@"Number of professions: %lu", (unsigned long)[self.professions count]); 
   for (id key in self.professions)
     {
-      id value = _professions[key];
+      id value = self.professions[key];
       // Check if the value conforms to NSCopying
       if ([value conformsToProtocol:@protocol(NSCopying)])
         {
@@ -2037,17 +2090,10 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
 - (void)encodeWithCoder:(NSCoder *)coder
 {
   [super encodeWithCoder: coder];
-      
-  [coder encodeObject:self.professions forKey:@"professions"];  
+        
   [coder encodeObject:self.levelUpTalents forKey:@"levelUpTalents"];
   [coder encodeObject:self.levelUpSpells forKey:@"levelUpSpells"];  
   [coder encodeObject:self.levelUpProfessions forKey:@"levelUpProfessions"];
-  [coder encodeInteger:self.firstLevelUpTalentTriesPenalty forKey:@"firstLevelUpTalentTriesPenalty"];  
-  [coder encodeInteger:self.maxLevelUpTalentsTries forKey:@"maxLevelUpTalentsTries"];
-  [coder encodeInteger:self.maxLevelUpSpellsTries forKey:@"maxLevelUpSpellsTries"];
-  [coder encodeInteger:self.maxLevelUpTalentsTriesTmp forKey:@"maxLevelUpTalentsTriesTmp"];
-  [coder encodeInteger:self.maxLevelUpSpellsTriesTmp forKey:@"maxLevelUpSpellsTriesTmp"];  
-  [coder encodeInteger:self.maxLevelUpVariableTries forKey:@"maxLevelUpVariableTries"];
   [coder encodeInteger:self.tempDeltaLpAe forKey:@"tempDeltaLpAe"];
   [coder encodeBool:self.isLevelingUp forKey:@"isLevelingUp"];
 }
@@ -2056,17 +2102,10 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
 {
   self = [super initWithCoder: coder];
   if (self)
-    {           
-      self.professions = [coder decodeObjectForKey:@"professions"];      
+    {                 
       self.levelUpTalents = [coder decodeObjectForKey:@"levelUpTalents"];
       self.levelUpSpells = [coder decodeObjectForKey:@"levelUpSpells"];      
       self.levelUpProfessions = [coder decodeObjectForKey:@"levelUpProfessions"];
-      self.firstLevelUpTalentTriesPenalty = [coder decodeIntegerForKey:@"firstLevelUpTalentTriesPenalty"];            
-      self.maxLevelUpTalentsTries = [coder decodeIntegerForKey:@"maxLevelUpTalentsTries"];
-      self.maxLevelUpSpellsTries = [coder decodeIntegerForKey:@"maxLevelUpSpellsTries"];
-      self.maxLevelUpTalentsTriesTmp = [coder decodeIntegerForKey:@"maxLevelUpTalentsTriesTmp"];
-      self.maxLevelUpSpellsTriesTmp = [coder decodeIntegerForKey:@"maxLevelUpSpellsTriesTmp"];      
-      self.maxLevelUpVariableTries = [coder decodeIntegerForKey:@"maxLevelUpVariableTries"];
       self.tempDeltaLpAe = [coder decodeIntegerForKey:@"tempDeltaLpAe"];
       self.isLevelingUp = [coder decodeBoolForKey:@"isLevelingUp"];     
     }
