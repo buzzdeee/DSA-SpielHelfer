@@ -12,7 +12,8 @@
 	    "showEquipmentList:",
 	    "regenerateCharacter:",
 	    "castSpell:",
-	    "showNameGenerator:"
+	    "showNameGenerator:",
+	    "createNewAdventureDocument:"
 	);
 	Outlets = (
 	);
@@ -84,7 +85,7 @@
 	    "closePanel:",
 	    "levelUp:",
 	    "levelUpBaseValues:",
-	    "showRitualsPanel:",
+	    "createNewAdventureDocument:",
 	    "newCharacterGeneration:",
 	    "openMap:",
 	    "orderFrontFontPanel:",
@@ -96,6 +97,7 @@
 	    "showNameGenerator:",
 	    "showPrefPanel:",
 	    "showRegenerateCharacterPanel:",
+	    "showRitualsPanel:",
 	    "showUseTalentPanel:"
 	);
 	Super = NSObject;

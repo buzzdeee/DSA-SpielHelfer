@@ -215,15 +215,4 @@
   // Perform actions after error presentation
 }
 
-/*
-- (IBAction)newCharacterGeneration:(id)sender
-{
-  NSLog(@"XXXXX TEST XXXXX GOT CALLED");
-}
-
-- (void) showPrefPanel: (id)sender
-{
-  NSLog(@"AppDelegate: showPrefPanel called!");
-}
-*/
 @end

@@ -24,7 +24,9 @@
 
 #import "DSADocumentController.h"
 #import "DSACharacterWindowController.h"
+#import "DSAAdventureWindowController.h"
 #import "DSACharacterDocument.h"
+#import "DSAAdventureDocument.h"
 #import "DSACharacter.h"
 
 @implementation DSADocumentController
@@ -58,11 +60,13 @@ static NSObject *syncObject = nil; // A synchronization object
   // Initialize the map with document type to window controller class mappings
   NSLog(@"DSADocumentController performCustomInitialization: setting up _documentTypeToWindowControllerMap!!!");
   _documentTypeToWindowControllerMap = @{
-      @"DSACharacter": [DSACharacterWindowController class]
+      @"DSACharacter": [DSACharacterWindowController class],
+      @"DSAAdventure": [DSAAdventureWindowController class],
   };
   // Initialize the map with document type to model map
   _documentTypeToModelMap = @{
-      @"DSACharacter": [DSACharacterDocument class]
+      @"DSACharacter": [DSACharacterDocument class],
+      @"DSAAdventure": [DSAAdventureDocument class],
   };
 }
 
@@ -81,7 +85,7 @@ static NSObject *syncObject = nil; // A synchronization object
 
 - (void)newDocument:(id)sender
 {
-  NSLog(@"DSADocumentController newDocument: was called");
+  NSLog(@"DSADocumentController newDocument: was called!!!! is this really ever called????");
   Class documentControllerClass;
   Class windowControllerClass;
   NSString *windowNibName;

@@ -7,7 +7,7 @@
     Authors = (
 	"Sebastian Reitenbach"
     );
-    CFBundleIdentifier = "de.l00-bugdead-prods.de.dsa-spielhelfer";
+    CFBundleIdentifier = "de.l00-bugdead-prods.dsa-spielhelfer";
     Copyright = "Copyright (C) 2024";
     CopyrightDescription = "Released under MIT";
     FullVersionID = "0.1";
@@ -25,6 +25,16 @@
 	    NSRole = Editor;
 	    NSUnixExtensions = (
 		dsac
+	    );
+	},
+	{
+	    NSDocumentClass = DSAAdventureDocument;
+	    NSHumanReadableName = "DSA Adventure";
+	    NSIcon = "_not_yet_";
+	    NSName = DSAAdventure;
+	    NSRole = Editor;
+	    NSUnixExtensions = (
+		dsaa
 	    );
 	}
     );

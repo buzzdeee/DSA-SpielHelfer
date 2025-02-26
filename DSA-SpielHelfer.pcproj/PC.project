@@ -11,7 +11,7 @@
 	dist
     );
     "BUILDER_VERBOSE" = YES;
-    "BUNDLE_IDENTIFIER" = "de.l00-bugdead-prods.de.dsa-spielhelfer";
+    "BUNDLE_IDENTIFIER" = "de.l00-bugdead-prods.dsa-spielhelfer";
     "CLASS_FILES" = (
 	"AppController.m",
 	"AppDelegate.m",
@@ -5000,6 +5000,16 @@
 	    NSRole = Editor;
 	    NSUnixExtensions = (
 		dsac
+	    );
+	},
+	{
+	    NSDocumentClass = DSAAdventureDocument;
+	    NSHumanReadableName = "DSA Adventure";
+	    NSIcon = "_not_yet_";
+	    NSName = DSAAdventure;
+	    NSRole = Editor;
+	    NSUnixExtensions = (
+		dsaa
 	    );
 	}
     );

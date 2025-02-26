@@ -1,5 +1,12 @@
 {
     "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSAActionIcon = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSImageView;
+    };
     DSAAdventureWindowController = {
 	Actions = (
 	);
@@ -33,7 +40,8 @@
 	    imageActionIcon14,
 	    imageHorizontalRuler0,
 	    imageHorizontalRuler1,
-	    imageVerticalRuler0
+	    imageVerticalRuler0,
+	    fieldLogs
 	);
 	Super = NSWindowController;
     };

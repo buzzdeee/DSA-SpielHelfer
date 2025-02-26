@@ -12,8 +12,11 @@
 #import "DSACharacterGenerationController.h"
 #import "DSADocumentController.h"
 #import "DSACharacterWindowController.h"
+#import "DSAAdventureWindowController.h"
 #import "DSACharacterDocument.h"
+#import "DSAAdventureDocument.h"
 #import "DSACharacter.h"
+#import "DSAAdventure.h"
 #import "DSAMapViewController.h"
 #import "DSAEquipmentListViewController.h"
 #import "DSANameGenerationController.h"
@@ -128,5 +131,24 @@
     }
 }
 
+- (IBAction)createNewAdventureDocument:(DSAAdventure *)newAdventure
+{
+  NSError *error = nil;
+  DSADocumentController *docController = [DSADocumentController sharedDocumentController];
+  // Create a new AdventureDocument with the generated character
+  NSLog(@"AppController createNewAdventureDocument! calling makeUntitledDocumentOfType....");
+  DSAAdventureDocument *newDocument = [docController makeUntitledDocumentOfType:@"DSAAdventure" error:&error];
+    
+  if (newDocument)
+    {
+      newDocument.model = newAdventure;
+      [docController addDocument:newDocument];
+      [newDocument makeWindowControllers];  // Create the window controller
+      //[newDocument makeWindowControllersForNewDocument];  // Create the window controller      
+      [newDocument showWindows];            // Show the document window
+      // Mark the document as dirty
+      [newDocument updateChangeCount:NSChangeDone];      
+    }
+}
 
 @end
