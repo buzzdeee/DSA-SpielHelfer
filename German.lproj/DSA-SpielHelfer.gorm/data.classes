@@ -27,6 +27,20 @@
 	);
 	Super = NSObject;
     };
+    DSAAdventure = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSObject;
+    };
+    DSAAdventureDocument = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSDocument;
+    };
     DSACharacter = {
 	Actions = (
 	);
@@ -73,7 +87,13 @@
 	    "regenerateCharacter:",
 	    "showRegenerateCharacterPanel:",
 	    "showEnergiesManagerPanel:",
-	    "showRitualsPanel:"
+	    "showRitualsPanel:",
+	    "addCharacterToAdventure:",
+	    "advanceGameTimeByFiveMinutes:",
+	    "advanceGameTimeByOneDay:",
+	    "advanceGameTimeByOneHour:",
+	    "startGameClock:",
+	    "pauseGameClock:"
 	);
 	Outlets = (
 	);
@@ -82,13 +102,19 @@
     FirstResponder = {
 	Actions = (
 	    "addAdventurePoints:",
+	    "addCharacterToAdventure:",
+	    "advanceGameTimeByFiveMinutes:",
+	    "advanceGameTimeByOneDay:",
+	    "advanceGameTimeByOneHour:",
 	    "closePanel:",
+	    "createNewAdventureDocument:",
 	    "levelUp:",
 	    "levelUpBaseValues:",
-	    "createNewAdventureDocument:",
+	    "startGameClock:",
 	    "newCharacterGeneration:",
 	    "openMap:",
 	    "orderFrontFontPanel:",
+	    "pauseGameClock:",
 	    "regenerateCharacter:",
 	    "showCastSpellPanel:",
 	    "showEnergiesManagerPanel:",

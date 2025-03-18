@@ -22,11 +22,18 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
+#import "DSADocumentController.h"
+#import "DSACharacterDocument.h"
 #import "DSAAdventureDocument.h"
 #import "DSAAdventureWindowController.h"
 #import "DSAAdventure.h"
+#import "Utils.h"
+
+extern NSString * const DSACharacterHighlightedNotification;
 
 @implementation DSAAdventureDocument
+
+NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlightedNotification";
 
 - (instancetype)init
 {
@@ -34,7 +41,12 @@
   if (self)
     {
       // Initialize your document here
-      self.model = [[DSAAdventure alloc] init];                                         
+      _model = [[DSAAdventure alloc] init];
+      _characterDocuments = [[NSMutableArray alloc] init];
+      [[NSNotificationCenter defaultCenter] addObserver:self
+                                         selector:@selector(characterHighlighted:)
+                                             name:DSACharacterHighlightedNotification
+                                           object:nil];
     }
   NSLog(@"DSAAdventureDocument init was called, the model: %@", self.model);  
   return self;
@@ -43,6 +55,7 @@
 - (void)dealloc
 {
   NSLog(@"DSAAdventureDocument is being deallocated.");
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)close
@@ -68,12 +81,16 @@
     }
     self.windowControllersCreated = YES;
   
-  if (![self.model isMemberOfClass:[DSAAdventure class]])
+  if ([self.model isMemberOfClass:[DSAAdventure class]])
     {
       DSAAdventureWindowController *windowController = [[DSAAdventureWindowController alloc] initWithWindowNibName:[self windowNibName]];
       [self addWindowController:windowController];
       
       NSLog(@"DSAAdventureDocument makeWindowControllers called, and it was DSAAdventure class" );
+    }
+  else
+    {
+      NSLog(@"DSAAdventureDocument makeWindowControllers called, and it was NOT a DSAAdventure class: %@", [self.model class]);
     }
 }
 
@@ -131,6 +148,7 @@
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
 {
+  NSLog(@"DSACharacterDocument readFromData called...");
   // Unarchive the model from the data
   self.model = [NSKeyedUnarchiver unarchivedObjectOfClass:[DSAAdventure class] fromData:data error:outError];
     
@@ -144,7 +162,8 @@
 }
 
 - (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError **)outError
-{    
+{ 
+  NSLog(@"DSACharacterDocument readFromURL called...");  
   // Load data from file
   NSData *data = [NSData dataWithContentsOfURL:url];
   if (!data)
@@ -160,7 +179,7 @@
       NSLog(@"Failed to unarchive model");
       return NO;
     }
-    
+  [self loadCharacterDocuments];
   // Notify that the document has been successfully loaded
   [self updateChangeCount:NSChangeCleared];
     
@@ -198,15 +217,196 @@
         return YES;
       }
     
-/*    
-    if ([closingWindow.windowController isKindOfClass:[DSAAdventureWindowController class]]) {
-        if ([closingWindow.windowController != self.windowControllers[0]]) {
-            NSLog(@"DSAAdventureDocument: Auxiliary window closing, bypassing save check.");
-            return YES; // Allow the window to close without saving.
+    return [super canCloseDocument]; // Default behavior: Allow the standard save check.
+}
+
+- (NSInteger)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray<NSString *> *)types {
+    openPanel.allowedFileTypes = @[@"dsaa"];
+    openPanel.allowsMultipleSelection = NO;
+    NSURL *defaultDirectory = [Utils adventureStorageDirectory];
+    if (defaultDirectory) {
+        openPanel.directoryURL = defaultDirectory;
+    }
+    if ([openPanel runModal] == NSModalResponseOK) {
+        return NSModalResponseOK;
+    }    
+    return NSModalResponseCancel;
+}
+
+- (NSInteger)runModalSavePanel:(NSSavePanel *)savePanel withAccessoryView:(NSView *)accessoryView {
+    // Set default directory
+    NSURL *defaultDirectory = [Utils adventureStorageDirectory];
+    if (defaultDirectory) {
+        savePanel.directoryURL = defaultDirectory;
+    }
+    if ([savePanel runModal] == NSModalResponseOK) {
+        return NSModalResponseOK;
+    }    
+    return NSModalResponseCancel;
+}
+
+
+- (void)addCharacterFromFile {
+    NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+    openPanel.allowedFileTypes = @[@"dsac"]; // Using DSACharacter here doesn't work, have to use the file type...
+    openPanel.directoryURL = [Utils characterStorageDirectory];
+    openPanel.allowsMultipleSelection = NO;
+
+    if ([openPanel runModal] == NSModalResponseOK) {
+        NSURL *characterURL = openPanel.URL;
+        [self addCharacterFromURL:characterURL];
+    }
+}
+
+- (void)addCharacterFromURL:(NSURL *)characterURL {
+    NSURL *baseDirURL = [Utils characterStorageDirectory];
+    NSLog(@"DSAAdventureDocument addCharacterFromURL: baseDirURL.path: %@", baseDirURL.path);
+    NSString *relativePath = [characterURL.path stringByReplacingOccurrencesOfString:baseDirURL.path withString:@""];
+    NSLog(@"DSAAdventureDocument addCharacterFromURL: relativePath: %@", relativePath);
+    // Ensure the relative path does not start with a "/"
+    if ([relativePath hasPrefix:@"/"]) {
+        relativePath = [relativePath substringFromIndex:1];
+    }
+
+    if (![self.model.characterFilePaths containsObject:relativePath]) {
+        [self.model.characterFilePaths addObject:relativePath];
+
+        // Open the character document
+        [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:characterURL
+                                                                              display:NO
+                                                                    completionHandler:^(NSDocument *document, BOOL wasOpened, NSError *error) {
+            if (!error && [document isKindOfClass:[DSACharacterDocument class]]) {
+                [self.characterDocuments addObject:(DSACharacterDocument *)document];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
+            }
+        }];
+    }
+    
+    NSLog(@"DSAAdventureDocument addCharacterFromURL, self.model: %@", self.model);
+}
+
+- (void)loadCharacterDocuments {
+    self.characterDocuments = [NSMutableArray array];
+    NSString *baseDir = [[Utils characterStorageDirectory] path];
+
+    NSLog(@"DSAAdventureDocument loadCharacterDocuments self.model: %@", self.model);
+    for (NSString *relativePath in self.model.characterFilePaths) {
+        NSString *fullPath = [baseDir stringByAppendingPathComponent:relativePath];
+        NSURL *characterURL = [NSURL fileURLWithPath:fullPath];
+        [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:characterURL
+                                                                              display:NO
+                                                                    completionHandler:^(NSDocument *document, BOOL wasOpened, NSError *error) {
+            if (!error && [document isKindOfClass:[DSACharacterDocument class]]) {
+                [self.characterDocuments addObject:(DSACharacterDocument *)document];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
+            }
+        }];
+    }
+}
+
+- (BOOL)writeSafelyToURL:(NSURL *)url 
+                  ofType:(NSString *)typeName 
+        forSaveOperation:(NSSaveOperationType)saveOperation 
+                   error:(NSError **)outError {
+    
+    NSLog(@"DSAAdventureDocument: Writing safely to URL %@", url);
+
+    // First, save all character documents
+    for (DSACharacterDocument *charDoc in self.characterDocuments) {
+        NSError *charSaveError = nil;
+        if (![charDoc writeSafelyToURL:[charDoc fileURL] 
+                                ofType:[charDoc fileType] 
+                      forSaveOperation:saveOperation 
+                                 error:&charSaveError]) {
+            NSLog(@"Failed to save character: %@", charSaveError);
+            if (outError) *outError = charSaveError;
+            return NO; // Stop if any character fails to save
         }
     }
-*/
-    return [super canCloseDocument]; // Default behavior: Allow the standard save check.
+
+    // Now save the adventure document itself
+    return [super writeSafelyToURL:url ofType:typeName forSaveOperation:saveOperation error:outError];
+}
+
+- (void)saveCharacterDocuments {
+    for (DSACharacterDocument *charDoc in self.characterDocuments) {
+        [charDoc saveToURL:[charDoc fileURL] 
+                     ofType:[charDoc fileType]
+           forSaveOperation:NSSaveOperation
+                   delegate:self
+            didSaveSelector:@selector(characterDocumentDidSave:success:contextInfo:)
+               contextInfo:NULL];
+    }
+}
+
+// Callback method for character document save
+- (void)characterDocumentDidSave:(NSDocument *)document success:(BOOL)success contextInfo:(void *)contextInfo {
+    if (!success) {
+        NSLog(@"Error saving character document: %@", document);
+    }
+}
+
+// Save adventure document and characters together
+- (void)saveDocumentWithCompletionHandler:(void (^)(NSError *))completionHandler {
+    // Save character documents first
+    [self saveCharacterDocuments];
+NSLog(@"DSAAdventureDocument saveDocumentWithCompletionHandler saving self: %@", self.model);
+    // Save the adventure document itself
+    [self saveToURL:[self fileURL] 
+             ofType:[self fileType]
+   forSaveOperation:NSSaveOperation
+           delegate:self
+    didSaveSelector:@selector(adventureDocumentDidSave:success:contextInfo:)
+       contextInfo:(__bridge void *)completionHandler];
+}
+
+// Callback method for adventure document save
+- (void)adventureDocumentDidSave:(NSDocument *)document success:(BOOL)success contextInfo:(void *)contextInfo {
+    void (^completionHandler)(NSError *) = (__bridge void (^)(NSError *))contextInfo;
+    if (!success) {
+        NSError *error = [NSError errorWithDomain:@"DSAAdventureDocumentError"
+                                             code:1
+                                         userInfo:@{NSLocalizedDescriptionKey: @"Failed to save adventure document"}];
+        completionHandler(error);
+    } else {
+        completionHandler(nil);
+    }
+}
+
+- (void)characterHighlighted:(NSNotification *)notification {
+    DSACharacterDocument *selectedCharacter = notification.object;
+
+    if (selectedCharacter) {
+        // Update the tracked selected character in the document
+        self.selectedCharacterDocument = selectedCharacter;
+
+        NSLog(@"DSAAdventureDocument may want to do something after receiving the Notification...");
+    } else {
+        // No character is selected
+        self.selectedCharacterDocument = nil;
+        NSLog(@"DSAAdventureDocument character was deselected...");
+    }
+}
+
+- (void)pauseGameClock
+{
+  [[self.model gameClock] pauseClock];
+}
+- (void)startGameClock
+{
+  [[self.model gameClock] startClock];
+}
+- (void)advanceGameTimeByMinutes: (NSUInteger) minutes
+{
+  [[self.model gameClock] advanceTimeByMinutes: minutes];
+}
+- (void)advanceGameTimeByHours: (NSUInteger) hours
+{
+  [[self.model gameClock] advanceTimeByHours: hours];
+}
+- (void)advanceGameTimeByDays: (NSUInteger) days
+{
+  [[self.model gameClock] advanceTimeByDays: days];
 }
 
 @end

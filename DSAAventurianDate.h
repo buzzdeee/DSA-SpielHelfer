@@ -27,8 +27,6 @@
 
 #import <Foundation/Foundation.h>
 
-#import <Foundation/Foundation.h>
-
 typedef NS_ENUM(NSUInteger, DSAAventurianMonth) {
     DSAAventurianMonthPraios = 1,
     DSAAventurianMonthRondra,
@@ -62,6 +60,7 @@ typedef NS_ENUM(NSUInteger, DSAAventurianWeekday) {
 @property (nonatomic, assign) DSAAventurianMonth month;
 @property (nonatomic, assign) NSUInteger day;
 @property (nonatomic, assign) NSUInteger hour;
+@property (nonatomic, assign) NSUInteger minute;
 @property (nonatomic, strong) NSString *hourName;
 @property (nonatomic, strong) NSString *weekdayName;
 @property (nonatomic, strong) NSString *monthName;

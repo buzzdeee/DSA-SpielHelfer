@@ -83,46 +83,6 @@ static NSObject *syncObject = nil; // A synchronization object
   return self.documentTypeToModelMap[typeName];  
 }
 
-- (void)newDocument:(id)sender
-{
-  NSLog(@"DSADocumentController newDocument: was called!!!! is this really ever called????");
-  Class documentControllerClass;
-  Class windowControllerClass;
-  NSString *windowNibName;
-    
-  // Obtain the document class    
-  if ([sender tag] == 0)
-    {
-      documentControllerClass = [self documentClassForType:@"DocType1"];
-      windowControllerClass = [self windowControllerClassForDocumentType:@"DocType1"];        
-      windowNibName = @"DSACharacter";
-    }
-  else
-    {
-      NSLog(@"DSADocumentController newDocument: sender tag was not null");       
-    }
-  if (documentControllerClass)
-    {
-      NSDocument *newDocument = [[documentControllerClass alloc] init];
-        
-      // Create and configure the window controller, actually subclasses as well
-      NSWindowController *windowController = [[windowControllerClass alloc] initWithWindowNibName:windowNibName];
-        
-      // Add the window controller to the document
-      [newDocument addWindowController:windowController];
-        
-      // Show the window
-      [windowController.window makeKeyAndOrderFront:self];
-        
-      // Add the new document to the document controller
-      [self addDocument:newDocument];
-    }
-  else
-    {
-      NSLog(@"Error: No document class found for type.");
-    }
-}
-
 -(IBAction)levelUpBaseValues: (id)sender
 {
   NSLog(@"DSADocumentController levelUpBaseValues called!");
@@ -275,10 +235,109 @@ static NSObject *syncObject = nil; // A synchronization object
     }
 }
 
+
+// DSAAdventureDocument related methods
+-(IBAction)addCharacterToAdventure: (id)sender
+{
+  NSLog(@"DSADocumentController addCharacterToAdventure called!");
+  NSDocument *activeDocument = [self currentDocument];
+  
+  if ([activeDocument isMemberOfClass:[DSAAdventureDocument class]])
+    {
+      DSAAdventureDocument *activeAdventure = (DSAAdventureDocument *) activeDocument;
+      [activeAdventure addCharacterFromFile];
+    }
+  else
+    {
+      NSLog(@"DSADocumentController addCharacterToAdventure: active document is not of class DSAAdventureDocument");
+    }
+}
+
+-(IBAction)pauseGameClock: (id)sender
+{
+  NSLog(@"DSADocumentController pauseGameClock called!");
+  NSDocument *activeDocument = [self currentDocument];
+  
+  if ([activeDocument isMemberOfClass:[DSAAdventureDocument class]])
+    {
+      DSAAdventureDocument *activeAdventure = (DSAAdventureDocument *) activeDocument;
+      [activeAdventure pauseGameClock];
+    }
+  else
+    {
+      NSLog(@"DSADocumentController pauseGameClock: active document is not of class DSAAdventureDocument");
+    }
+}
+
+-(IBAction)startGameClock: (id)sender
+{
+  NSLog(@"DSADocumentController startGameClock called!");
+  NSDocument *activeDocument = [self currentDocument];
+  
+  if ([activeDocument isMemberOfClass:[DSAAdventureDocument class]])
+    {
+      DSAAdventureDocument *activeAdventure = (DSAAdventureDocument *) activeDocument;
+      [activeAdventure startGameClock];
+    }
+  else
+    {
+      NSLog(@"DSADocumentController startGameClock: active document is not of class DSAAdventureDocument");
+    }
+}
+
+-(IBAction)advanceGameTimeByFiveMinutes: (id)sender
+{
+  NSLog(@"DSADocumentController advanceGameTimeByFiveMinutes called!");
+  NSDocument *activeDocument = [self currentDocument];
+  
+  if ([activeDocument isMemberOfClass:[DSAAdventureDocument class]])
+    {
+      DSAAdventureDocument *activeAdventure = (DSAAdventureDocument *) activeDocument;
+      [activeAdventure advanceGameTimeByMinutes: 5];
+    }
+  else
+    {
+      NSLog(@"DSADocumentController advanceGameTimeByFiveMinutes: active document is not of class DSAAdventureDocument");
+    }
+}
+
+-(IBAction)advanceGameTimeByOneHour: (id)sender
+{
+  NSLog(@"DSADocumentController advanceGameTimeByOneHour called!");
+  NSDocument *activeDocument = [self currentDocument];
+  
+  if ([activeDocument isMemberOfClass:[DSAAdventureDocument class]])
+    {
+      DSAAdventureDocument *activeAdventure = (DSAAdventureDocument *) activeDocument;
+      [activeAdventure advanceGameTimeByHours: 1];
+    }
+  else
+    {
+      NSLog(@"DSADocumentController advanceGameTimeByOneHour: active document is not of class DSAAdventureDocument");
+    }
+}
+
+-(IBAction)advanceGameTimeByOneDay: (id)sender
+{
+  NSLog(@"DSADocumentController advanceGameTimeByOneDay called!");
+  NSDocument *activeDocument = [self currentDocument];
+  
+  if ([activeDocument isMemberOfClass:[DSAAdventureDocument class]])
+    {
+      DSAAdventureDocument *activeAdventure = (DSAAdventureDocument *) activeDocument;
+      [activeAdventure advanceGameTimeByDays: 1];
+    }
+  else
+    {
+      NSLog(@"DSADocumentController advanceGameTimeByOneDay: active document is not of class DSAAdventureDocument");
+    }
+}
+
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
 //NSLog(@"DSADocumentController validateMenuItem %@ %lu", [menuItem title], (unsigned long)[menuItem tag]);
 // TAGS: 22: levelUp, 23: Geldbörse managen, 24: Talent anwenden, 25: Abenteuerpunkte hinzufügen, 26: Zaubern, 27: regenerieren, 28: Energien managen
 // 29 Rituale
+// Add Character to Adventure
       NSWindow *keyWindow = [NSApp keyWindow];
       NSResponder *firstResponder = [keyWindow firstResponder];
 
@@ -357,7 +416,19 @@ static NSObject *syncObject = nil; // A synchronization object
                 }
             }
           return NO;
-        }      
+        }
+      else if ([menuItem tag] == 201 || [menuItem tag] == 202 || [menuItem tag] == 203 || [menuItem tag] == 204 ||
+               [menuItem tag] == 205 || [menuItem tag] == 206)
+        {
+          if ([[(NSWindow *)firstResponder windowController] isKindOfClass:[DSAAdventureWindowController class]])
+            {
+              return YES;
+            }
+          else
+            {
+              return NO;
+            }
+        }
       else
         {
           return YES;

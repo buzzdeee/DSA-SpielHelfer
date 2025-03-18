@@ -11,6 +11,8 @@
 	Actions = (
 	);
 	Outlets = (
+	    fieldLogs,
+	    NSArray,
 	    imagePartyMember0,
 	    imagePartyMember1,
 	    imagePartyMember2,
@@ -32,17 +34,24 @@
 	    imageActionIcon6,
 	    imageActionIcon7,
 	    imageActionIcon8,
-	    imageActionIcon9,
-	    imageActionIcon10,
-	    imageActionIcon11,
-	    imageActionIcon12,
-	    imageActionIcon13,
-	    imageActionIcon14,
 	    imageHorizontalRuler0,
 	    imageHorizontalRuler1,
-	    imageVerticalRuler0,
-	    fieldLogs
+	    imageVerticalRuler0
 	);
 	Super = NSWindowController;
+    };
+    DSACharacterPortraitView = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSImageView;
+    };
+    DSAClockAnimationView = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSImageView;
     };
 }

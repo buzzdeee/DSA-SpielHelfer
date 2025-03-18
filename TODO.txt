@@ -31,6 +31,16 @@ WIP:
  * Grundausstattung aller Archetypen
  
 DONE:
+ * Abenteuer UI
+   * Basic Wetter
+   * Basic Mondphasen
+   * Hinzufügen von Charaktern zur Gruppe
+ * Karte Aventuriens
+   * Mit Regionen Overlay (Regionen aus Kaiser Retos Waffenkammer)
+   * Mit Straßen Overlay
+   * Mit Ortsuche
+   * Drag and Pan
+   * Zoom in/out
  * Minimales Händling der Zustände: verwundet, krank, vergiftest, tot, bewusstlos, betrunken, verzaubert
  * Essen und Trinken, Durst und Hunger
  * Interface um Energien und Zustände zu "managen"

@@ -30,7 +30,15 @@
     if (self = [super init]) {
         _partyMembers = [NSMutableArray array];
         _partyNPCs = [NSMutableArray array];
-        _gameTime = [[DSAAventurianCalendar alloc] init];
+        NSLog(@"DSAAdventure init before _gameClock");
+        _gameClock = [[DSAAdventureClock alloc] init];
+        NSLog(@"DSAAdventure init after _gameClock: %@", _gameClock.currentDate);        
+        _gameWeather = [[DSAWeather alloc] init];
+        NSLog(@"DSAAdventure init after _gameWeather: %@", _gameWeather);
+        _characterFilePaths = [[NSMutableArray alloc] init];
+        NSLog(@"DSAAdventure init after _characterFilePaths");
+        [_gameClock startClock];
+        NSLog(@"DSAAdventure init after starting clock");
     }
     NSLog(@"DSAAdventure init: returning self: %@", self);
     return self;
@@ -41,7 +49,10 @@
   NSLog(@"DSAAdventure encodeWithCoder called!");
   [coder encodeObject:self.partyMembers forKey:@"partyMembers"];
   [coder encodeObject:self.partyNPCs forKey:@"partyNPCs"];
-  [coder encodeObject:self.gameTime forKey:@"gameTime"];
+  [coder encodeObject:self.gameClock forKey:@"gameClock"];
+  [coder encodeObject:self.gameWeather forKey:@"gameWeather"];
+  
+  [coder encodeObject:self.characterFilePaths forKey:@"characterFilePaths"];
  }
 
 - (instancetype) initWithCoder:(NSCoder *)coder
@@ -52,7 +63,10 @@
     {
       _partyMembers = [coder decodeObjectForKey:@"partyMembers"];
       _partyNPCs = [coder decodeObjectForKey:@"partyNPCs"];
-      _gameTime = [coder decodeObjectForKey:@"gameTime"];
+      _gameClock = [coder decodeObjectForKey:@"gameClock"];
+      _gameWeather = [coder decodeObjectForKey:@"gameWeather"];
+      
+      _characterFilePaths = [coder decodeObjectForKey:@"characterFilePaths"] ?: [NSMutableArray array];
     }
   return self;
 }

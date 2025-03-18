@@ -221,6 +221,33 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
     }
 }
 
+- (NSInteger)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray<NSString *> *)types {
+    openPanel.allowedFileTypes = @[@"dsac"];
+    openPanel.allowsMultipleSelection = NO;
+    NSURL *defaultDirectory = [Utils characterStorageDirectory];
+    if (defaultDirectory) {
+        openPanel.directoryURL = defaultDirectory;
+    }
+    if ([openPanel runModal] == NSModalResponseOK) {
+        return NSModalResponseOK;
+    }    
+    return NSModalResponseCancel;
+}
+
+- (NSInteger)runModalSavePanel:(NSSavePanel *)savePanel withAccessoryView:(NSView *)accessoryView {
+    // Set default directory
+    NSURL *defaultDirectory = [Utils characterStorageDirectory];
+    if (defaultDirectory) {
+        savePanel.directoryURL = defaultDirectory;
+    }
+    if ([savePanel runModal] == NSModalResponseOK) {
+        return NSModalResponseOK;
+    }    
+    return NSModalResponseCancel;
+}
+
+
+
 - (NSString *)description
 {
   NSMutableString *descriptionString = [NSMutableString stringWithFormat:@"%@:\n", [self class]];

@@ -27,13 +27,18 @@
 
 #import <Foundation/Foundation.h>
 #import "DSACharacter.h"
-#import "DSAAventurianCalendar.h"
+#import "DSAAdventureClock.h"
+#import "DSAWeather.h"
 
 @interface DSAAdventure : NSObject
 
 @property (nonatomic, strong) NSMutableArray<DSACharacter *> *partyMembers; // Party of characters
 @property (nonatomic, strong) NSMutableArray<DSACharacter *> *partyNPCs; // NPC party members
-@property (nonatomic, strong) DSAAventurianCalendar *gameTime; // In-game time
+
+@property (nonatomic, strong) DSAAdventureClock *gameClock; // In-game time
+@property (nonatomic, strong) DSAWeather *gameWeather; // the current weather
+
+@property (strong) NSMutableArray<NSString *> *characterFilePaths;
 
 - (void)addCharacterToParty:(DSACharacter *)character;
 - (void)removeCharacterFromParty:(DSACharacter *)character;

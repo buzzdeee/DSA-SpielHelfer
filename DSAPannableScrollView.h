@@ -27,10 +27,16 @@
 
 #import <AppKit/AppKit.h>
 
+@class DSAMapOverlayView;
+
 @interface DSAPannableScrollView : NSScrollView
 @property (nonatomic) BOOL isDragging;
 @property (nonatomic) NSPoint dragStartPoint;
 @property (nonatomic) NSPoint initialOrigin;
+@property (nonatomic, strong) NSMutableArray<DSAMapOverlayView *> *overlays;
+
+- (void)addOverlay:(DSAMapOverlayView *)overlay;
+
 @end
 
 #endif // _DSAPANNABLESCROLLVIEW_H_

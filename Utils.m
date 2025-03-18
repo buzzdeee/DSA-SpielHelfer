@@ -1102,9 +1102,59 @@ static NSMutableDictionary *namesDict;
     return [NSColor grayColor]; // Fallback
 }
 
-+ (NSColor *)colorForBooleanState:(BOOL)state {
++ (NSColor *) colorForBooleanState:(BOOL)state {
     return state ? [NSColor redColor] : [NSColor greenColor];
 }
 
++ (NSURL *)characterStorageDirectory {
+    NSURL * url = [[Utils defaultDocumentsDirectory] URLByAppendingPathComponent:@"Characters"];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath: url.path]) {
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtURL: url
+                                 withIntermediateDirectories:YES
+                                                  attributes:nil
+                                                       error:&error];
+        if (error) {
+            NSLog(@"Failed to create save directory: %@", error.localizedDescription);
+        }
+    }  
+    return url;
+}
+
++ (NSURL *)adventureStorageDirectory {
+    NSURL * url = [[Utils defaultDocumentsDirectory] URLByAppendingPathComponent:@"Adventures"];
+    
+    if (![[NSFileManager defaultManager] fileExistsAtPath: url.path]) {
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtURL: url
+                                 withIntermediateDirectories:YES
+                                                  attributes:nil
+                                                       error:&error];
+        if (error) {
+            NSLog(@"Failed to create save directory: %@", error.localizedDescription);
+        }
+    }  
+    return url;
+}
+
++ (NSURL *)defaultDocumentsDirectory {
+    NSURL *documentsURL = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask].firstObject;
+    NSURL *customDirectory = [documentsURL URLByAppendingPathComponent:@"MyDSAGameSaves"];
+    
+    // Ensure the directory exists
+    if (![[NSFileManager defaultManager] fileExistsAtPath:customDirectory.path]) {
+        NSError *error = nil;
+        [[NSFileManager defaultManager] createDirectoryAtURL:customDirectory
+                                 withIntermediateDirectories:YES
+                                                  attributes:nil
+                                                       error:&error];
+        if (error) {
+            NSLog(@"Failed to create save directory: %@", error.localizedDescription);
+        }
+    }
+    
+    return customDirectory;
+}
 
 @end

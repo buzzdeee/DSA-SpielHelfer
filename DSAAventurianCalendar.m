@@ -23,6 +23,7 @@
 */
 
 #import "DSAAventurianCalendar.h"
+#import "DSAAdventureClock.h"
 
 @implementation DSAAventurianCalendar
 
@@ -193,26 +194,69 @@
     }
 }
 
+/*
 + (NSUInteger)currentMonth {
-    // Get the current date
-    NSDate *currentDate = [NSDate date];
-
-    // Convert the current Gregorian date to an Aventurian date
-    DSAAventurianDate *aventurianDate = [self convertToAventurian:currentDate];
-
-    // Return the current Aventurian month
-    return aventurianDate.month;
+    return [DSAAdventureClock sharedClock].currentDate.month;
 }
 
 + (NSUInteger)currentDay {
-    // Get the current date
-    NSDate *currentDate = [NSDate date];
+    return [DSAAdventureClock sharedClock].currentDate.day;
+}
 
-    // Convert the current Gregorian date to an Aventurian date
-    DSAAventurianDate *aventurianDate = [self convertToAventurian:currentDate];
++ (NSUInteger)currentHour {
+    return [DSAAdventureClock sharedClock].currentDate.hour;
+}
 
-    // Return the current Aventurian day
-    return aventurianDate.day;
++ (NSUInteger)currentMinute {
+    return [DSAAdventureClock sharedClock].currentDate.minute;
+}
+
++ (DSAMoonPhase)currentMoonPhase {
+    DSAAdventureClock *gameClock = [DSAAdventureClock sharedClock];
+    DSAAventurianDate *currentDate = gameClock.currentDate;
+    
+    // Last 5 days of the year → No Moon
+    if (currentDate.month == DSAAventurianMonthNamenlos) {
+        return DSAMoonPhaseNewMoon;
+    }
+    
+    NSUInteger dayOfMonth = currentDate.day;
+
+    if (dayOfMonth == 1 || dayOfMonth == 2) return DSAMoonPhaseNewMoon;
+    if (dayOfMonth >= 3 && dayOfMonth <= 8) return DSAMoonPhaseWaxingCrescent;
+    if (dayOfMonth == 9) return DSAMoonPhaseFirstQuarter;
+    if (dayOfMonth >= 10 && dayOfMonth <= 15) return DSAMoonPhaseWaxingGibbous;
+    if (dayOfMonth == 16 || dayOfMonth == 17) return DSAMoonPhaseFullMoon;
+    if (dayOfMonth >= 18 && dayOfMonth <= 23) return DSAMoonPhaseWaningGibbous;
+    if (dayOfMonth == 24) return DSAMoonPhaseLastQuarter;
+    if (dayOfMonth >= 26 && dayOfMonth <= 30) return DSAMoonPhaseWaningCrescent;
+    
+    return DSAMoonPhaseNewMoon; // Should never reach here, but just in case
+}
+
++ (NSString *)moonPhaseNameForPhase:(DSAMoonPhase)phase {
+    switch (phase) {
+        case DSAMoonPhaseNewMoon: return @"Neumond";
+        case DSAMoonPhaseWaxingCrescent: return @"Zunehmende Sichel";
+        case DSAMoonPhaseFirstQuarter: return @"Erstes Viertel";
+        case DSAMoonPhaseWaxingGibbous: return @"Zunehmender Mond";
+        case DSAMoonPhaseFullMoon: return @"Vollmond";
+        case DSAMoonPhaseWaningGibbous: return @"Abnehmender Mond";
+        case DSAMoonPhaseLastQuarter: return @"Letztes Viertel";
+        case DSAMoonPhaseWaningCrescent: return @"Abnehmende Sichel";
+    }
+    return @"Unbekannt";
+}
+*/
+- (void) encodeWithCoder:(NSCoder *)coder
+{
+
+}
+
+- (instancetype) initWithCoder:(NSCoder *)coder
+{
+  self = [super init];
+  return self;
 }
 
 @end

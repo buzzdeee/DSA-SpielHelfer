@@ -28,10 +28,21 @@
 #import <AppKit/AppKit.h>
 
 @class DSAAdventure;
+@class DSACharacterDocument;
 
 @interface DSAAdventureDocument : NSDocument
 @property (nonatomic, strong) DSAAdventure *model;
 @property (nonatomic) BOOL windowControllersCreated;
+
+@property (strong) NSMutableArray<DSACharacterDocument *> *characterDocuments;
+@property (nonatomic, strong) DSACharacterDocument *selectedCharacterDocument;
+
+- (void)addCharacterFromFile;
+- (void)pauseGameClock;
+- (void)startGameClock;
+- (void)advanceGameTimeByMinutes: (NSUInteger) minutes;
+- (void)advanceGameTimeByHours: (NSUInteger) hours;
+- (void)advanceGameTimeByDays: (NSUInteger) days;
 @end
 
 #endif // _DSAADVENTUREDOCUMENT_H_

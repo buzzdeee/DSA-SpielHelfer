@@ -39,6 +39,7 @@ static const DSAAventurianWeekday ANCHOR_WEEKDAY = Praiostag;
         _month = month;
         _day = day;
         _hour = hour;
+        _minute = 0;
         NSLog(@"DSAAventurianDate before hour");
         _hourName = [self hourNameForHour:hour];
         NSLog(@"DSAAventurianDate before weekdayName");

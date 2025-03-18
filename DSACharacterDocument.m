@@ -73,11 +73,21 @@
   
   if (![self.model isMemberOfClass:[DSACharacter class]])
     {
+      NSLog(@"DSACharacterDocument makeWindowControllers skipped window creation on load");
       DSACharacterWindowController *windowController = [[DSACharacterWindowController alloc] initWithWindowNibName:[self windowNibName]];
       [self addWindowController:windowController];
-      
+    }
+  else
+    {
       NSLog(@"DSACharacterDocument makeWindowControllers called, and it was DSACharacter class" );
     }
+}
+
+- (void)showCharacterWindow {
+    if (!self.windowControllersCreated) {
+        [self makeWindowControllers]; // Manually create window controllers if not already created
+    }
+    [self showWindows]; // Show the window only when explicitly requested
 }
 
 - (BOOL)isMainWindow:(NSWindow *)window {
@@ -177,7 +187,7 @@
   self.windowControllersCreated = YES;  
   DSACharacterWindowController *windowController = [[DSACharacterWindowController alloc] initWithWindowNibName:[self windowNibName]];
   [self addWindowController:windowController];
-  [windowController showWindow:self];
+  // [windowController showWindow:self];
     
   return YES;
 }

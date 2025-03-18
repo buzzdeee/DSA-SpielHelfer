@@ -23,6 +23,7 @@
 */
 
 #import "DSAMapViewController.h"
+#import "DSAMapOverlayView.h"
 
 @implementation DSAMapViewController 
 
@@ -31,7 +32,7 @@
   self = [super initWithWindowNibName:@"DSAMapViewer"];
   if (self)
     {
-      self.currentZoomLevel = 0.5; // Set the default zoom level
+      self.currentZoomLevel = 0.5; // Set the default zoom level, to be the same as in DSAMapOverlayView
     }
   return self;
 }
@@ -95,7 +96,28 @@
     
     // Load the locations
     [self loadLocations];
+
     
+    // Load regions and streets data
+    [self loadRegions];
+    [self loadStreets];
+
+    // Create and add region overlay
+    DSARegionsOverlayView *regionsOverlay = [[DSARegionsOverlayView alloc] initWithFrame:self.mapImageView.bounds features:self.regions];
+    if ([self.switchRegions state] == NSControlStateValueOff)
+      {
+        regionsOverlay.hidden = YES;
+      }
+    [self.mapScrollView addOverlay:regionsOverlay];
+
+    // Create and add streets overlay
+    DSAStreetsOverlayView *streetsOverlay = [[DSAStreetsOverlayView alloc] initWithFrame:self.mapImageView.bounds features:self.streets];
+    if ([self.switchStreets state] == NSControlStateValueOff)
+      {
+        streetsOverlay.hidden = YES;
+      }
+    [self.mapScrollView addOverlay:streetsOverlay];    
+        
     // Initialize the list selector popover controller
     self.listSelectorPopoverVC = [[DSAListSelectorPopoverViewController alloc] init];
     // Initialize the popover and set its contentViewController
@@ -184,6 +206,67 @@
                          
 }
 
+- (void)loadRegions {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Regionen" ofType:@"geojson"];
+    if (!path) {
+        NSLog(@"Regionen.geojson not found!");
+        return;
+    }
+    
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    NSError *error;
+    NSDictionary *geojson = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    
+    if (error) {
+        NSLog(@"Error parsing Regionen.geojson: %@", error.localizedDescription);
+        return;
+    }
+    
+    self.regions = geojson[@"features"]; // Save features for later drawing
+    [self.mapImageView setNeedsDisplay:YES]; // Redraw the map
+}
+
+- (IBAction)toggleRegions:(id)sender {
+    BOOL isVisible = ([sender state] == NSControlStateValueOn);
+    for (DSAMapOverlayView *overlay in ((DSAPannableScrollView *)self.mapScrollView).overlays) {
+        if ([overlay isKindOfClass:[DSARegionsOverlayView class]]) {
+            overlay.hidden = !isVisible;
+            break; // Found the Regions overlay, no need to continue
+        }
+    }
+}
+
+- (void)loadStreets {
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Strassen" ofType:@"geojson"];
+    if (!path) {
+        NSLog(@"Strassen.geojson not found!");
+        return;
+    }
+    
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    NSError *error;
+    NSDictionary *geojson = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    
+    if (error) {
+        NSLog(@"Error parsing Strassen.geojson: %@", error.localizedDescription);
+        return;
+    }
+    
+    self.streets = geojson[@"features"]; // Save features for later drawing
+    [self.mapImageView setNeedsDisplay:YES]; // Redraw the map
+}
+
+- (IBAction)toggleStreets:(id)sender {
+    BOOL isVisible = ([sender state] == NSControlStateValueOn);
+
+    for (DSAMapOverlayView *overlay in ((DSAPannableScrollView *)self.mapScrollView).overlays) {
+        if ([overlay isKindOfClass:[DSAStreetsOverlayView class]]) {
+            overlay.hidden = !isVisible;
+            break;
+        }
+    }
+}
+
 - (NSPoint)coordinatesForLocation:(NSString *)locationName {
     // Iterate through the locations array to find the matching location name
     for (NSDictionary *location in self.locations) {
@@ -210,6 +293,67 @@
 }
 
 - (void)setImageViewScale:(CGFloat)scale {
+    self.currentZoomLevel = scale; 
+    NSLog(@"setImageViewScale called with scale: %lf", scale);
+    NSSize newSize = NSMakeSize(self.mapImageView.image.size.width * scale, 
+                                self.mapImageView.image.size.height * scale);
+
+    [self.mapImageView setFrame:NSMakeRect(0, 0, newSize.width, newSize.height)];
+
+    // Update overlays
+    for (DSAMapOverlayView *overlay in self.mapScrollView.overlays) {
+        NSLog(@"setImageViewScale setting zoom facter in overlay to %lf", scale);
+        overlay.zoomFactor = scale;  // Pass zoom factor
+        [overlay setFrame:NSMakeRect(0, 0, newSize.width, newSize.height)];
+        [overlay setNeedsDisplay:YES]; 
+    }
+
+    [self.mapScrollView setDocumentView:self.mapImageView];
+
+    NSRect visibleRect = [self.mapScrollView.contentView documentVisibleRect];
+    NSPoint center = NSMakePoint(NSMidX(visibleRect), NSMidY(visibleRect));
+
+    [[self.mapScrollView contentView] scrollToPoint:center];
+    [self.mapScrollView reflectScrolledClipView:[self.mapScrollView contentView]];
+}
+
+- (void)setImageViewScaleABX:(CGFloat)scale {
+    NSSize originalSize = self.mapImageView.image.size;
+    NSSize newSize = NSMakeSize(originalSize.width * scale, originalSize.height * scale);
+
+    // Preserve visible center
+    NSRect visibleRectInImage = [self.mapImageView convertRect:[self.mapScrollView.contentView documentVisibleRect]
+                                                      fromView:self.mapScrollView.contentView];
+
+    // **Scale the image view**
+    [self.mapImageView setFrame:NSMakeRect(0, 0, newSize.width, newSize.height)];
+    
+    // **Scale overlays** (Loop through all overlays)
+    for (DSAMapOverlayView *overlay in self.mapScrollView.overlays) {
+        [overlay setFrame:NSMakeRect(0, 0, newSize.width, newSize.height)];
+        [overlay setNeedsDisplay:YES]; // Redraw overlays after resizing
+    }
+
+    [self.mapScrollView setDocumentView:self.mapImageView];
+
+    // **Keep visible center aligned**
+    NSPoint visibleCenterInImage = NSMakePoint(NSMidX(visibleRectInImage), NSMidY(visibleRectInImage));
+
+    NSPoint newOrigin = NSMakePoint(
+        visibleCenterInImage.x - visibleRectInImage.size.width / 2,
+        visibleCenterInImage.y - visibleRectInImage.size.height / 2
+    );
+
+    newOrigin.x = MAX(0, MIN(newOrigin.x, newSize.width - visibleRectInImage.size.width));
+    newOrigin.y = MAX(0, MIN(newOrigin.y, newSize.height - visibleRectInImage.size.height));
+
+    [[self.mapScrollView contentView] scrollToPoint:newOrigin];
+    [self.mapScrollView reflectScrolledClipView:[self.mapScrollView contentView]];
+    [self.mapScrollView setNeedsDisplay:YES];
+}
+
+
+- (void)setImageViewScaleXXX:(CGFloat)scale {
     NSSize originalSize = self.mapImageView.image.size;
     NSSize newSize = NSMakeSize(originalSize.width * scale, originalSize.height * scale);
 

@@ -3,12 +3,16 @@
     DSAMapViewController = {
 	Actions = (
 	    "zoomChanged:",
-	    "searchLocation:"
+	    "searchLocation:",
+	    "toggleStreets:",
+	    "toggleRegions:"
 	);
 	Outlets = (
 	    fieldLocationSearch,
 	    sliderZoom,
-	    mapScrollView
+	    mapScrollView,
+	    switchRegions,
+	    switchStreets
 	);
 	Super = NSWindowController;
     };
@@ -21,8 +25,10 @@
     };
     FirstResponder = {
 	Actions = (
-	    "zoomChanged:",
-	    "searchLocation:"
+	    "toggleStreets:",
+	    "searchLocation:",
+	    "toggleRegions:",
+	    "zoomChanged:"
 	);
 	Super = NSObject;
     };

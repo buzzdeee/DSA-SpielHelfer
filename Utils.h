@@ -118,6 +118,10 @@ typedef NS_ENUM(NSUInteger, DSASeverityLevel) {
 + (NSColor *)colorForDSASeverity:(DSASeverityLevel)level;
 + (NSColor *)colorForBooleanState:(BOOL)state;
 
+// directories to store and load saved files to and from
++ (NSURL *)characterStorageDirectory;
++ (NSURL *)adventureStorageDirectory;
+
 @end
 
 #endif // _UTILS_H_

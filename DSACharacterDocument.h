@@ -36,6 +36,9 @@
 
 - (BOOL)isMainWindow:(NSWindow *)window;
 
+// to show the character window when needed
+- (void)showCharacterWindow;
+
 @end
 
 #endif // _DSACHARACTERDOCUMENT_H_

@@ -39,6 +39,7 @@
 #import "DSALiturgy.h"
 #import "NSMutableDictionary+Extras.h"
 #import "DSAAventurianCalendar.h"
+#import "DSAAdventureClock.h"
 
 #import "DSANameGenerator.h"
 

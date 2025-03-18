@@ -131,24 +131,29 @@
     }
 }
 
-- (IBAction)createNewAdventureDocument:(DSAAdventure *)newAdventure
+- (IBAction)createNewAdventureDocument:(id)sender
 {
-  NSError *error = nil;
-  DSADocumentController *docController = [DSADocumentController sharedDocumentController];
-  // Create a new AdventureDocument with the generated character
-  NSLog(@"AppController createNewAdventureDocument! calling makeUntitledDocumentOfType....");
-  DSAAdventureDocument *newDocument = [docController makeUntitledDocumentOfType:@"DSAAdventure" error:&error];
-    
-  if (newDocument)
-    {
-      newDocument.model = newAdventure;
-      [docController addDocument:newDocument];
-      [newDocument makeWindowControllers];  // Create the window controller
-      //[newDocument makeWindowControllersForNewDocument];  // Create the window controller      
-      [newDocument showWindows];            // Show the document window
-      // Mark the document as dirty
-      [newDocument updateChangeCount:NSChangeDone];      
+    NSError *error = nil;
+    DSADocumentController *docController = [DSADocumentController sharedDocumentController];
+    NSLog(@"AppController createNewAdventureDocument! calling makeUntitledDocumentOfType....");
+    DSAAdventureDocument *newDocument = [docController makeUntitledDocumentOfType:@"DSAAdventure" error:&error];
+
+    if (newDocument) {
+        [docController addDocument:newDocument]; // Add the document, not the model!
+        [newDocument makeWindowControllers];
+        [newDocument showWindows];
+        [newDocument updateChangeCount:NSChangeDone];
+    }
+    if(error){
+        NSLog(@"Error creating Document: %@", error);
     }
 }
+
+/*
+- (IBAction)addCharacterFromFile: (id) sender
+{
+  
+}
+*/
 
 @end

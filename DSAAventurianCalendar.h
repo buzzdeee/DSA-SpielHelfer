@@ -28,6 +28,18 @@
 #import <Foundation/Foundation.h>
 #import "DSAAventurianDate.h"
 
+/*
+typedef NS_ENUM(NSUInteger, DSAMoonPhase) {
+    DSAMoonPhaseNewMoon = 0,     // Day 1
+    DSAMoonPhaseWaxingCrescent,  // Days 2-7
+    DSAMoonPhaseFirstQuarter,    // Day 8
+    DSAMoonPhaseWaxingGibbous,   // Days 9-14
+    DSAMoonPhaseFullMoon,        // Day 15
+    DSAMoonPhaseWaningGibbous,   // Days 16-21
+    DSAMoonPhaseLastQuarter,     // Day 22
+    DSAMoonPhaseWaningCrescent   // Days 23-28
+};
+*/
 @interface DSAAventurianCalendar : NSObject
 
 + (DSAAventurianDate *)convertToAventurian:(NSDate *)gregorianDate;
@@ -40,12 +52,19 @@
                                         birthdayMonth:(DSAAventurianMonth)birthdayMonth
                                              birthdayDay:(NSUInteger)birthdayDay
                                             currentAge:(NSUInteger)currentAge;
-                          
+
 + (NSString *)monthNameForMonth:(DSAAventurianMonth)month;
 + (DSAAventurianMonth)monthForString:(NSString *)monthName;
+/*
 + (NSUInteger)currentMonth;
 + (NSUInteger)currentDay;
++ (NSUInteger)currentHour;
++ (NSUInteger)currentMinute;
 
+
++ (DSAMoonPhase)currentMoonPhase;
++ (NSString *)moonPhaseNameForPhase:(DSAMoonPhase)phase;
+*/
 @end
 
 

@@ -36,11 +36,16 @@
 @property (nonatomic, strong) DSAListSelectorPopoverViewController *listSelectorPopover;
 @property (nonatomic, strong) NSImageView *mapImageView;
 @property (nonatomic, strong) NSArray *locations;                 // stores the locations array read from Orte.json
+@property (nonatomic, strong) NSArray *regions;
+@property (nonatomic, strong) NSArray *streets;
+
 @property (nonatomic, strong) NSDictionary *mageAcademies;
 @property (nonatomic, strong) NSDictionary *warriorAcademies;
 @property (nonatomic, assign) CGFloat currentZoomLevel;
 @property (nonatomic, weak) IBOutlet NSSlider *sliderZoom;        // Slider for zooming
 @property (nonatomic, weak) IBOutlet NSTextField *fieldLocationSearch; // Text field for location search
+@property (nonatomic, weak) IBOutlet NSSwitch *switchRegions;
+@property (nonatomic, weak) IBOutlet NSSwitch *switchStreets;
 
 @property (strong) NSWindow *testWindow;
 @property (strong, nonatomic) NSPopover *testPopover; // to be removed once testing done
@@ -48,7 +53,7 @@
 //@property (nonatomic, strong) DSAListSelectorPopoverViewController *popoverContentVC;
 @property (nonatomic, strong) DSAListSelectorPopoverViewController *listSelectorPopoverVC;
 
-- (void)setupMapView; // Method to setup the map
+//- (void)setupMapView; // Method to setup the map
 - (void)jumpToLocationWithCoordinates:(NSPoint)coordinates; // Method to jump to a location
 
 // Actions for slider and search

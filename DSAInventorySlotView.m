@@ -27,7 +27,6 @@
 
 @implementation DSAInventorySlotView
 
-
 - (void)mouseDown:(NSEvent *)theEvent {
 NSLog(@"DSAInventorySlotView mouseDown called!!!!");
     if ([self initiatesDrag]) {

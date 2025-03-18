@@ -23,8 +23,54 @@
 */
 
 #import "DSAPannableScrollView.h"
+#import "DSAMapOverlayView.h"
 
 @implementation DSAPannableScrollView
+
+// initWithFrame is not called, because it's instantiated from .gorm file
+- (instancetype)initWithFrame:(NSRect)frame {
+    NSLog(@"DSAPannableScrollView initWithFrame called!!!!");
+    if (self = [super initWithFrame:frame]) {
+        _overlays = [NSMutableArray array];
+    }
+    return self;
+}
+
+// this is called instead of initWithFrame:
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    NSLog(@"DSAPannableScrollView initWithCoder called!!!!");
+    if (self = [super initWithCoder:coder]) {
+        _overlays = [NSMutableArray array];
+    }
+    return self;
+}
+
+- (void)tile {
+    [super tile];
+
+    // Ensure all overlays match the documentView's frame
+    NSView *documentView = (NSView *)self.documentView; // Explicitly cast to NSView
+    if (!documentView) return; // Safety check
+
+    for (DSAMapOverlayView *overlay in self.overlays) {
+        overlay.frame = documentView.frame;
+    }
+}
+
+- (void)addOverlay:(DSAMapOverlayView *)overlay {
+    [self.overlays addObject:overlay];
+    [self.contentView addSubview:overlay positioned:NSWindowAbove relativeTo:self.documentView];
+}
+
+- (void)scrollWheel:(NSEvent *)event {
+    [super scrollWheel:event];
+
+    NSView *documentView = (NSView *)self.documentView;
+    // Move all overlays with the scroll
+    for (DSAMapOverlayView *overlay in self.overlays) {
+        overlay.frame = documentView.frame;
+    }
+}
 
 - (void)mouseDown:(NSEvent *)event {
     NSLog(@"DSAPannableScrollView mouseDown");
@@ -36,7 +82,7 @@
 - (void)mouseDragged:(NSEvent *)event {
     if (!self.isDragging) return;
 
-    NSLog(@"DSAPannableScrollView mouseDragged");
+    // NSLog(@"DSAPannableScrollView mouseDragged");
     NSPoint currentPoint = [event locationInWindow];
     CGFloat dx = currentPoint.x - self.dragStartPoint.x;
     CGFloat dy = currentPoint.y - self.dragStartPoint.y;

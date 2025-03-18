@@ -79,10 +79,15 @@
 }
 
 
+- (NSString *)windowNibName {
+    return @"DSACharacter";  // Replace with your actual nib name
+}
+
 - (DSACharacterWindowController *)initWithWindowNibName:(NSString *)nibNameOrNil
 {
   NSLog(@"DSACharacterWindowController initWithWindowNibName %@", nibNameOrNil);
   self = [super initWithWindowNibName:nibNameOrNil];
+  NSLog(@"DSACharacterWindowController initWithWindowNibName self: %@", self);
   if (self)
     {
       NSLog(@"DSACharacterWindowController initialized with nib: %@", nibNameOrNil);
@@ -94,7 +99,7 @@
     {
       NSLog(@"DSACharacterWindowController had trouble initializing");
     }
-    
+  NSLog(@"DSACharacterWindowController initWithWindowNibName before returning self");  
   return self;
 }
 
