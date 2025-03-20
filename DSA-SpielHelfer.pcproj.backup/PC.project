@@ -5188,7 +5188,10 @@
 	"Krankheiten.json",
 	"Namen.json",
 	"Regionen.geojson",
-	"Strassen.geojson"
+	"Strassen.geojson",
+	"location_to_road.json",
+	"road_intersections.geojson",
+	"routes.geojson"
     );
     "OTHER_SOURCES" = (
 	"DSA-SpielHelfer_main.m"

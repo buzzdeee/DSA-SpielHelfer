@@ -30,13 +30,7 @@
 
 @interface DSARoutePlanner : NSObject
 
-@property (nonatomic, strong) NSDictionary *locations; // Named locations
-@property (nonatomic, strong) NSMutableDictionary *roadGraph; // Graph of roads
-
-// Load data from App Bundle
 - (instancetype)initWithBundleFiles;
-
-// Find shortest path between two named locations
 - (NSArray<NSValue *> *)findShortestPathFrom:(NSString *)startName to:(NSString *)destinationName;
 
 @end

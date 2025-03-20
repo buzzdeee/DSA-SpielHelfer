@@ -24,153 +24,270 @@
 
 #import "DSARoutePlanner.h"
 
+@interface DSARoutePlanner ()
+
+@property (nonatomic, strong) NSDictionary *routesData;
+@property (nonatomic, strong) NSDictionary *locationsData;
+@property (nonatomic, strong) NSMutableDictionary *graph;
+
+@end
+
 @implementation DSARoutePlanner
 
 - (instancetype)initWithBundleFiles {
-    if (self = [super init]) {
-        [self loadLocationsFromBundle];
-        _roadGraph = [NSMutableDictionary dictionary];
-        [self loadGeoJSONFromBundle];
+    self = [super init];
+    if (self) {
+        NSString *routesPath = [[NSBundle mainBundle] pathForResource:@"routes" ofType:@"geojson"];
+        NSString *locationsPath = [[NSBundle mainBundle] pathForResource:@"Orte" ofType:@"json"];
+        
+        [self loadRoutesData:routesPath];
+        [self loadLocationsData:locationsPath];
+        [self buildGraph];
     }
     return self;
 }
 
-// Load Orte.json (locations)
-- (void)loadLocationsFromBundle {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Orte" ofType:@"json"];
-    if (!path) {
-        NSLog(@"Error: Orte.json not found in bundle.");
+#pragma mark - Data Loading
+
+- (void)loadRoutesData:(NSString *)filePath {
+    NSLog(@"Loading routes data from: %@", filePath);
+    NSData *data = [NSData dataWithContentsOfFile:filePath];
+    if (!data) {
+        NSLog(@"❌ ERROR: Could not load routes data.");
         return;
     }
-
-    NSData *data = [NSData dataWithContentsOfFile:path];
-    NSError *error;
-    NSArray *locationsArray = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-
-    if (error) {
-        NSLog(@"Error parsing Orte.json: %@", error.localizedDescription);
-        return;
-    }
-
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    for (NSDictionary *loc in locationsArray) {
-        NSString *name = loc[@"name"];
-        NSPoint position = NSMakePoint([loc[@"x"] floatValue], [loc[@"y"] floatValue]);
-        dict[name] = [NSValue valueWithPoint:position];
-    }
-
-    _locations = [dict copy];
-    NSLog(@"Loaded %lu locations from Orte.json", (unsigned long)_locations.count);
+    self.routesData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    NSLog(@"✅ Routes data loaded successfully.");
 }
 
-// Load Strassen.geojson (roads)
-- (void)loadGeoJSONFromBundle {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"Strassen" ofType:@"geojson"];
-    if (!path) {
-        NSLog(@"Error: Strassen.geojson not found in bundle.");
+- (void)loadLocationsData:(NSString *)filePath {
+    NSLog(@"Loading locations data from: %@", filePath);
+    NSData *data = [NSData dataWithContentsOfFile:filePath];
+    if (!data) {
+        NSLog(@"❌ ERROR: Could not load locations data.");
         return;
     }
+    self.locationsData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    NSLog(@"✅ Locations data loaded successfully.");
+}
 
-    NSData *data = [NSData dataWithContentsOfFile:path];
-    NSError *error;
-    NSDictionary *json = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+#pragma mark - Graph Construction
 
-    if (error) {
-        NSLog(@"Error parsing Strassen.geojson: %@", error.localizedDescription);
-        return;
-    }
+- (void)buildGraph {
+    NSLog(@"🔧 Building road network graph...");
+    self.graph = [NSMutableDictionary dictionary];
 
-    NSArray *features = json[@"features"];
-    for (NSDictionary *feature in features) {
-        NSDictionary *properties = feature[@"properties"];
-        NSArray *multiLineString = feature[@"geometry"][@"coordinates"];
+    NSUInteger roadCount = 0;
+    for (NSDictionary *feature in self.routesData[@"features"]) {
+        if (![feature[@"geometry"][@"type"] isEqualToString:@"LineString"]) {
+            continue;
+        }
 
-        for (NSArray *lineString in multiLineString) {
-            [self processRoadSegment:lineString roadType:properties[@"type"]];
+        NSArray *coordinates = feature[@"geometry"][@"coordinates"];
+        roadCount++;
+
+        for (NSUInteger i = 0; i < coordinates.count - 1; i++) {
+            NSArray *start = coordinates[i];
+            NSArray *end = coordinates[i + 1];
+
+            NSString *startKey = [NSString stringWithFormat:@"%@,%@", start[0], start[1]];
+            NSString *endKey = [NSString stringWithFormat:@"%@,%@", end[0], end[1]];
+
+            CGFloat distance = [self distanceBetweenPoint:start andPoint:end];
+
+            if (!self.graph[startKey]) {
+                self.graph[startKey] = [NSMutableDictionary dictionary];
+            }
+            if (!self.graph[endKey]) {
+                self.graph[endKey] = [NSMutableDictionary dictionary];
+            }
+
+            self.graph[startKey][endKey] = @(distance);
+            self.graph[endKey][startKey] = @(distance);
         }
     }
-    NSLog(@"Loaded %lu roads from Strassen.geojson", (unsigned long)_roadGraph.count);
+    NSLog(@"✅ Graph built successfully. Total roads processed: %lu, Total nodes: %lu", (unsigned long)roadCount, (unsigned long)self.graph.count);
 }
 
-// Convert road segment into graph representation
-- (void)processRoadSegment:(NSArray *)lineString roadType:(NSString *)roadType {
-    if (lineString.count < 2) return; // A road must have at least two points
+#pragma mark - Pathfinding
 
-    for (NSUInteger i = 0; i < lineString.count - 1; i++) {
-        NSArray *pointA = lineString[i];
-        NSArray *pointB = lineString[i + 1];
-
-        NSPoint posA = NSMakePoint([pointA[0] floatValue], [pointA[1] floatValue]);
-        NSPoint posB = NSMakePoint([pointB[0] floatValue], [pointB[1] floatValue]);
-
-        CGFloat distance = hypot(posB.x - posA.x, posB.y - posA.y); // Euclidean distance
-
-        // Add edges bidirectionally
-        [self addEdgeFrom:posA to:posB withDistance:distance];
-        [self addEdgeFrom:posB to:posA withDistance:distance];
-    }
-}
-
-// Adds an edge to the adjacency list
-- (void)addEdgeFrom:(NSPoint)start to:(NSPoint)end withDistance:(CGFloat)distance {
-    NSValue *startValue = [NSValue valueWithPoint:start];
-    NSValue *endValue = [NSValue valueWithPoint:end];
-
-    if (!_roadGraph[startValue]) {
-        _roadGraph[startValue] = [NSMutableArray array];
-    }
-    [_roadGraph[startValue] addObject:@{ @"point": endValue, @"distance": @(distance) }];
-}
-
-// Find the shortest path using Dijkstra’s Algorithm
 - (NSArray<NSValue *> *)findShortestPathFrom:(NSString *)startName to:(NSString *)destinationName {
-    NSValue *startValue = _locations[startName];
-    NSValue *endValue = _locations[destinationName];
+    NSLog(@"🚀 Starting pathfinding from '%@' to '%@'...", startName, destinationName);
+    NSLog(@"🔍 Debug: self.locationsData: %@", self.locationsData);    
 
-    if (!startValue || !endValue) {
-        NSLog(@"Error: Invalid start or destination name.");
-        return nil;
+    NSDictionary *startLocation = [self locationForName:startName];
+    NSDictionary *endLocation = [self locationForName:destinationName];
+
+    if (!startLocation) {
+        NSLog(@"❌ ERROR: Location '%@' not found in Orte.json", startName);
+        return @[];
+    }
+    if (!endLocation) {
+        NSLog(@"❌ ERROR: Location '%@' not found in Orte.json", destinationName);
+        return @[];
     }
 
-    NSMutableDictionary<NSValue *, NSNumber *> *distances = [NSMutableDictionary dictionary];
-    NSMutableDictionary<NSValue *, NSValue *> *previousNodes = [NSMutableDictionary dictionary];
-    NSMutableArray<NSValue *> *priorityQueue = [NSMutableArray array];
+    NSLog(@"📍 Mapped locations: '%@' -> %@, '%@' -> %@", startName, startLocation, destinationName, endLocation);
 
-    for (NSValue *key in _roadGraph) {
+    NSString *startKey = [self nearestRoadPointForLocation:@[@([startLocation[@"x"] floatValue]), @([startLocation[@"y"] floatValue])]];
+    NSString *endKey = [self nearestRoadPointForLocation:@[@([endLocation[@"x"] floatValue]), @([endLocation[@"y"] floatValue])]];
+
+    if (!startKey || !endKey) {
+        NSLog(@"❌ ERROR: No nearby roads found for '%@' or '%@'.", startName, destinationName);
+        return @[];
+    }
+
+    NSLog(@"🛣️ Nearest road points: Start: %@ -> %@, Destination: %@ -> %@", startName, startKey, destinationName, endKey);
+
+    return [self dijkstraFrom:startKey to:endKey];
+}
+
+- (NSArray<NSValue *> *)findShortestPathFromXXX:(NSString *)startName to:(NSString *)destinationName {
+    NSLog(@"🚀 Starting pathfinding from '%@' to '%@'...", startName, destinationName);
+
+NSLog(@"self.locationsData: %@", self.locationsData);    
+    
+    NSArray *startLocation = self.locationsData[startName];
+    NSArray *endLocation = self.locationsData[destinationName];
+
+    NSLog(@"startLocation: %@, endLocation: %@", startLocation, endLocation);
+    
+    if (!startLocation) {
+        NSLog(@"❌ ERROR: Location '%@' not found in Orte.json", startName);
+        return @[];
+    }
+    if (!endLocation) {
+        NSLog(@"❌ ERROR: Location '%@' not found in Orte.json", destinationName);
+        return @[];
+    }
+
+    NSLog(@"📍 Mapped locations: '%@' -> %@, '%@' -> %@", startName, startLocation, destinationName, endLocation);
+
+    NSString *startKey = [self nearestRoadPointForLocation:startLocation];
+    NSString *endKey = [self nearestRoadPointForLocation:endLocation];
+
+    if (!startKey || !endKey) {
+        NSLog(@"❌ ERROR: No nearby roads found for '%@' or '%@'.", startName, destinationName);
+        return @[];
+    }
+
+    NSLog(@"🛣️ Nearest road points: Start: %@ -> %@, Destination: %@ -> %@", startName, startKey, destinationName, endKey);
+
+    return [self dijkstraFrom:startKey to:endKey];
+}
+
+- (NSString *)nearestRoadPointForLocation:(NSArray *)location {
+    NSLog(@"🔍 Finding nearest road point for location: %@", location);
+    CGFloat minDistance = CGFLOAT_MAX;
+    NSString *nearestPointKey = nil;
+
+    for (NSString *key in self.graph) {
+        NSArray *coords = [key componentsSeparatedByString:@","];
+        if (coords.count < 2) continue;
+
+        NSArray *roadPoint = @[@([coords[0] floatValue]), @([coords[1] floatValue])];
+        CGFloat distance = [self distanceBetweenPoint:location andPoint:roadPoint];
+
+        if (distance < minDistance) {
+            minDistance = distance;
+            nearestPointKey = key;
+        }
+    }
+
+    NSLog(@"✅ Nearest road point found: %@", nearestPointKey);
+    return nearestPointKey;
+}
+
+- (NSArray<NSValue *> *)dijkstraFrom:(NSString *)startKey to:(NSString *)endKey {
+    NSLog(@"🔄 Running Dijkstra's algorithm from %@ to %@...", startKey, endKey);
+
+    NSMutableDictionary *distances = [NSMutableDictionary dictionary];
+    NSMutableDictionary *previous = [NSMutableDictionary dictionary];
+    NSMutableArray *queue = [NSMutableArray array];
+
+    for (NSString *key in self.graph) {
         distances[key] = @(INFINITY);
-        [priorityQueue addObject:key];
+        previous[key] = [NSNull null];
+        [queue addObject:key];
     }
+    distances[startKey] = @(0);
 
-    distances[startValue] = @0;
+    while (queue.count > 0) {
+        NSString *currentKey = [queue firstObject];
+        for (NSString *node in queue) {
+            if ([distances[node] floatValue] < [distances[currentKey] floatValue]) {
+                currentKey = node;
+            }
+        }
 
-    while (priorityQueue.count > 0) {
-        [priorityQueue sortUsingComparator:^NSComparisonResult(NSValue *a, NSValue *b) {
-            return [distances[a] compare:distances[b]];
-        }];
+        NSLog(@"📍 Processing node: %@ (distance: %@)", currentKey, distances[currentKey]);
+        [queue removeObject:currentKey];
 
-        NSValue *current = priorityQueue.firstObject;
-        [priorityQueue removeObjectAtIndex:0];
+        if ([currentKey isEqualToString:endKey]) {
+            NSLog(@"🏁 Destination reached: %@", endKey);
+            break;
+        }
 
-        if ([current isEqualTo:endValue]) break;
+        NSDictionary *neighbors = self.graph[currentKey];
+        if (!neighbors) {
+            NSLog(@"⚠️ No neighbors found for node %@", currentKey);
+            continue;
+        }
 
-        for (NSDictionary *neighbor in _roadGraph[current]) {
-            NSValue *neighborPoint = neighbor[@"point"];
-            CGFloat edgeDistance = [neighbor[@"distance"] floatValue];
+        for (NSString *neighbor in neighbors) {
+            float alt = [distances[currentKey] floatValue] + [neighbors[neighbor] floatValue];
 
-            CGFloat alternativeDistance = [distances[current] floatValue] + edgeDistance;
-            if (alternativeDistance < [distances[neighborPoint] floatValue]) {
-                distances[neighborPoint] = @(alternativeDistance);
-                previousNodes[neighborPoint] = current;
+            if (alt < [distances[neighbor] floatValue]) {
+                distances[neighbor] = @(alt);
+                previous[neighbor] = currentKey;
+                NSLog(@"🔄 Updated distance: %@ -> %@, new cost: %f", currentKey, neighbor, alt);
             }
         }
     }
 
     NSMutableArray<NSValue *> *path = [NSMutableArray array];
-    for (NSValue *step = endValue; step; step = previousNodes[step]) {
-        [path insertObject:step atIndex:0];
+    NSString *step = endKey;
+
+    NSLog(@"🔄 Starting path reconstruction from %@", endKey);
+    while (step && ![step isEqual:[NSNull null]]) {
+        NSArray *coords = [step componentsSeparatedByString:@","];
+        if (coords.count < 2) {
+            NSLog(@"❌ ERROR: Invalid coordinate format: %@", step);
+            break;
+        }
+
+        NSPoint point = NSMakePoint([coords[0] floatValue], [coords[1] floatValue]);
+        [path insertObject:[NSValue valueWithPoint:point] atIndex:0];
+        NSLog(@"🛤️ Path step: %@ at %@", step, NSStringFromPoint(point));
+
+        step = previous[step];
     }
 
-    return path.count > 1 ? path : nil;
+    NSLog(@"✅ Pathfinding complete. Total steps: %lu", (unsigned long)path.count);
+    return path;
+}
+
+#pragma mark - Utility Methods
+
+// Helper function to find location by name
+- (NSDictionary *)locationForName:(NSString *)locationName {
+    for (NSDictionary *location in self.locationsData) {
+        if ([location[@"name"] isEqualToString:locationName]) {
+            return location;
+        }
+    }
+    return nil; // Return nil if not found
+}
+
+- (CGFloat)distanceBetweenPoint:(NSArray *)p1 andPoint:(NSArray *)p2 {
+    if (p1.count < 2 || p2.count < 2) {
+        NSLog(@"❌ ERROR: Invalid coordinate format in distance calculation.");
+        return CGFLOAT_MAX;
+    }
+
+    CGFloat dx = [p1[0] floatValue] - [p2[0] floatValue];
+    CGFloat dy = [p1[1] floatValue] - [p2[1] floatValue];
+    return sqrt(dx * dx + dy * dy);
 }
 
 @end

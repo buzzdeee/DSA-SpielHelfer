@@ -5062,7 +5062,10 @@ Resources/Magierrituale.json \
 Resources/Krankheiten.json \
 Resources/Namen.json \
 Resources/Regionen.geojson \
-Resources/Strassen.geojson 
+Resources/Strassen.geojson \
+Resources/location_to_road.json \
+Resources/road_intersections.geojson \
+Resources/routes.geojson 
 
 
 #
