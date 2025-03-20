@@ -65,7 +65,8 @@
 	"DSAAdventureClock.m",
 	"DSAClockAnimationView.m",
 	"DSAWeather.m",
-	"DSAMapOverlayView.m"
+	"DSAMapOverlayView.m",
+	"DSARoutePlanner.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -127,7 +128,8 @@
 	"DSAAdventureClock.h",
 	"DSAClockAnimationView.h",
 	"DSAWeather.h",
-	"DSAMapOverlayView.h"
+	"DSAMapOverlayView.h",
+	"DSARoutePlanner.h"
     );
     IMAGES = (
 	"Character_1.png",

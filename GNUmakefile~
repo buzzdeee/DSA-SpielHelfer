@@ -5131,7 +5131,8 @@ DSACharacterPortraitView.h \
 DSAAdventureClock.h \
 DSAClockAnimationView.h \
 DSAWeather.h \
-DSAMapOverlayView.h
+DSAMapOverlayView.h \
+DSARoutePlanner.h
 
 #
 # Objective-C Class files
@@ -5189,7 +5190,8 @@ DSACharacterPortraitView.m \
 DSAAdventureClock.m \
 DSAClockAnimationView.m \
 DSAWeather.m \
-DSAMapOverlayView.m
+DSAMapOverlayView.m \
+DSARoutePlanner.m
 
 #
 # Other sources

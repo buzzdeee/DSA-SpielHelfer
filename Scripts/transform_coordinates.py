@@ -1,3 +1,4 @@
+import os
 import json
 
 # Load the corners.geojson file
@@ -40,6 +41,10 @@ def geo_to_pixel(lon, lat, lon_min, lat_min, lon_max, lat_max, width, height):
 
 # Load the streets.geojson and regions.geojson files and transform their coordinates
 def transform_geojson(geojson_file, lon_min, lat_min, lon_max, lat_max, width, height):
+    if not os.path.exists(geojson_file):
+        print("file not found")
+        return
+
     with open(geojson_file, 'r') as f:
         data = json.load(f)
     
@@ -93,7 +98,7 @@ def transform_geojson(geojson_file, lon_min, lat_min, lon_max, lat_max, width, h
     return data
 
 # Transform the streets and regions
-streets_transformed = transform_geojson('streets.geojson', lon_min, lat_min, lon_max, lat_max, image_width, image_height)
+streets_transformed = transform_geojson('streets2.geojson', lon_min, lat_min, lon_max, lat_max, image_width, image_height)
 regions_transformed = transform_geojson('regions.geojson', lon_min, lat_min, lon_max, lat_max, image_width, image_height)
 
 # Save the transformed geojson files

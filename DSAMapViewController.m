@@ -117,7 +117,12 @@
         streetsOverlay.hidden = YES;
       }
     [self.mapScrollView addOverlay:streetsOverlay];    
-        
+
+    self.routePlanner = [[DSARoutePlanner alloc] initWithBundleFiles];
+    DSARouteOverlayView  *routeOverlay = [[DSARouteOverlayView alloc] initWithFrame:self.mapImageView.bounds features:@[]];
+    routeOverlay.hidden = YES; // Initially hidden until a route is calculated
+    [self.mapScrollView addOverlay: routeOverlay];    
+            
     // Initialize the list selector popover controller
     self.listSelectorPopoverVC = [[DSAListSelectorPopoverViewController alloc] init];
     // Initialize the popover and set its contentViewController
@@ -236,6 +241,35 @@
     }
 }
 
+- (IBAction)calculateRoute:(id)sender {
+    NSString *startLocation = self.fieldLocationSearch.stringValue;
+    NSString *destinationLocation = self.fieldLocationDestination.stringValue;
+
+    if (startLocation.length == 0 || destinationLocation.length == 0) {
+        NSLog(@"Error: Start or destination field is empty.");
+        return;
+    }
+
+    NSArray<NSValue *> *path = [self.routePlanner findShortestPathFrom:startLocation to:destinationLocation];
+
+    if (!path || path.count < 2) {
+        NSLog(@"No valid route found.");
+        return;
+    }
+
+    NSLog(@"Route found! Updating overlay.");
+    DSARouteOverlayView *routeOverlay;
+    for (DSARouteOverlayView *overlay in ((DSAPannableScrollView *)self.mapScrollView).overlays) {
+        if ([overlay isKindOfClass:[DSARouteOverlayView class]]) {
+            overlay.hidden = NO;
+            routeOverlay = overlay;
+            break; // Found the Regions overlay, no need to continue
+        }
+    }    
+    [routeOverlay updateRouteWithPoints:path];
+}
+
+
 - (void)loadStreets {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"Strassen" ofType:@"geojson"];
     if (!path) {
@@ -315,92 +349,6 @@
 
     [[self.mapScrollView contentView] scrollToPoint:center];
     [self.mapScrollView reflectScrolledClipView:[self.mapScrollView contentView]];
-}
-
-- (void)setImageViewScaleABX:(CGFloat)scale {
-    NSSize originalSize = self.mapImageView.image.size;
-    NSSize newSize = NSMakeSize(originalSize.width * scale, originalSize.height * scale);
-
-    // Preserve visible center
-    NSRect visibleRectInImage = [self.mapImageView convertRect:[self.mapScrollView.contentView documentVisibleRect]
-                                                      fromView:self.mapScrollView.contentView];
-
-    // **Scale the image view**
-    [self.mapImageView setFrame:NSMakeRect(0, 0, newSize.width, newSize.height)];
-    
-    // **Scale overlays** (Loop through all overlays)
-    for (DSAMapOverlayView *overlay in self.mapScrollView.overlays) {
-        [overlay setFrame:NSMakeRect(0, 0, newSize.width, newSize.height)];
-        [overlay setNeedsDisplay:YES]; // Redraw overlays after resizing
-    }
-
-    [self.mapScrollView setDocumentView:self.mapImageView];
-
-    // **Keep visible center aligned**
-    NSPoint visibleCenterInImage = NSMakePoint(NSMidX(visibleRectInImage), NSMidY(visibleRectInImage));
-
-    NSPoint newOrigin = NSMakePoint(
-        visibleCenterInImage.x - visibleRectInImage.size.width / 2,
-        visibleCenterInImage.y - visibleRectInImage.size.height / 2
-    );
-
-    newOrigin.x = MAX(0, MIN(newOrigin.x, newSize.width - visibleRectInImage.size.width));
-    newOrigin.y = MAX(0, MIN(newOrigin.y, newSize.height - visibleRectInImage.size.height));
-
-    [[self.mapScrollView contentView] scrollToPoint:newOrigin];
-    [self.mapScrollView reflectScrolledClipView:[self.mapScrollView contentView]];
-    [self.mapScrollView setNeedsDisplay:YES];
-}
-
-
-- (void)setImageViewScaleXXX:(CGFloat)scale {
-    NSSize originalSize = self.mapImageView.image.size;
-    NSSize newSize = NSMakeSize(originalSize.width * scale, originalSize.height * scale);
-
-    // Optional offsets for fine-tuning, adjust as needed
-    CGFloat offsetX = 0; 
-    CGFloat offsetY = 0; 
-
-    NSLog(@"BORDER WIDTH: %lu", (unsigned long)[self.mapImageView imageFrameStyle]);
-
-    // **Get the current visible rectangle in image coordinates**
-    NSRect visibleRectInImage = [self.mapImageView convertRect:[self.mapScrollView.contentView documentVisibleRect]
-                                                      fromView:self.mapScrollView.contentView];
-
-    // **Log current frames and bounds for debugging**
-    NSLog(@"NSScrollView frame: %@", NSStringFromRect(self.mapScrollView.frame));
-    NSLog(@"NSScrollView bounds: %@", NSStringFromRect(self.mapScrollView.bounds));
-    NSLog(@"NSImageView frame (before resizing): %@", NSStringFromRect(self.mapImageView.frame));
-    NSLog(@"NSImageView bounds: %@", NSStringFromRect(self.mapImageView.bounds));
-    NSLog(@"NSImage size: %@", NSStringFromSize(originalSize));
-
-    // Resize the image view
-    [self.mapImageView setFrame:NSMakeRect(0, 0, newSize.width, newSize.height)];
-    [self.mapScrollView setDocumentView:self.mapImageView];
-
-    NSLog(@"NSImageView frame (after resizing): %@", NSStringFromRect(self.mapImageView.frame));
-
-    // **Calculate the center of the visible rectangle**
-    NSPoint visibleCenterInImage = NSMakePoint(NSMidX(visibleRectInImage), NSMidY(visibleRectInImage));
-    NSLog(@"Visible Center in Image: %@", NSStringFromPoint(visibleCenterInImage));
-
-    // Calculate new origin point to keep the focus
-    NSPoint newOrigin = NSMakePoint(
-        visibleCenterInImage.x - visibleRectInImage.size.width / 2 + offsetX,
-        visibleCenterInImage.y - visibleRectInImage.size.height / 2 + offsetY
-    );
-
-    // Ensure the new origin doesn't exceed the image bounds
-    newOrigin.x = MAX(0, MIN(newOrigin.x, newSize.width - visibleRectInImage.size.width));
-    newOrigin.y = MAX(0, MIN(newOrigin.y, newSize.height - visibleRectInImage.size.height));
-
-    // Scroll to the adjusted origin point
-    [[self.mapScrollView contentView] scrollToPoint:newOrigin];
-    [self.mapScrollView reflectScrolledClipView:[self.mapScrollView contentView]];
-    [self.mapScrollView setNeedsDisplay:YES];
-
-    // Log the final calculated origin
-    NSLog(@"Final origin point after adjustments: %@", NSStringFromPoint(newOrigin));
 }
 
 - (IBAction)searchLocation:(id)sender {

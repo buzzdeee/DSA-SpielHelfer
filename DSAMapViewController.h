@@ -29,6 +29,7 @@
 #import <AppKit/AppKit.h>
 #import "DSAPannableScrollView.h"
 #import "DSAListSelectorPopoverViewController.h"
+#import "DSARoutePlanner.h"
 
 @interface DSAMapViewController : NSWindowController <NSTextFieldDelegate>
 
@@ -44,8 +45,12 @@
 @property (nonatomic, assign) CGFloat currentZoomLevel;
 @property (nonatomic, weak) IBOutlet NSSlider *sliderZoom;        // Slider for zooming
 @property (nonatomic, weak) IBOutlet NSTextField *fieldLocationSearch; // Text field for location search
+@property (nonatomic, weak) IBOutlet NSTextField *fieldLocationDestination; // destination for route planning
+@property (nonatomic, weak) IBOutlet NSButton *buttonCalculateRoute;
 @property (nonatomic, weak) IBOutlet NSSwitch *switchRegions;
 @property (nonatomic, weak) IBOutlet NSSwitch *switchStreets;
+
+@property (nonatomic, strong) DSARoutePlanner *routePlanner;
 
 @property (strong) NSWindow *testWindow;
 @property (strong, nonatomic) NSPopover *testPopover; // to be removed once testing done
@@ -59,6 +64,7 @@
 // Actions for slider and search
 - (IBAction)zoomChanged:(id)sender; // Action for zoom slider
 - (IBAction)searchLocation:(id)sender; // Action for search field
+- (IBAction)calculateRoute:(id)sender;  // calculate and draw the route
 
 @end
 

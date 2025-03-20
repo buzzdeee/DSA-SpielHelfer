@@ -207,3 +207,39 @@
     return 2.0; // Default width
 }
 @end
+
+@implementation DSARouteOverlayView
+
+- (void)updateRouteWithPoints:(NSArray<NSValue *> *)points {
+    self.routePoints = points;
+    [self setNeedsDisplay:YES]; // Trigger re-draw
+}
+
+- (void)drawRect:(NSRect)dirtyRect {
+    [super drawRect:dirtyRect];
+
+    if (self.routePoints.count < 2) return;
+
+    [[NSColor redColor] setStroke];
+
+    NSBezierPath *path = [NSBezierPath bezierPath];
+    path.lineWidth = 4.0; // Make the route stand out
+
+    for (NSUInteger i = 0; i < self.routePoints.count; i++) {
+        NSPoint point = [self.routePoints[i] pointValue];
+
+        // Scale by zoom factor
+        CGFloat x = point.x * self.zoomFactor;
+        CGFloat y = point.y * self.zoomFactor;
+
+        if (i == 0) {
+            [path moveToPoint:NSMakePoint(x, y)];
+        } else {
+            [path lineToPoint:NSMakePoint(x, y)];
+        }
+    }
+
+    [path stroke];
+}
+
+@end

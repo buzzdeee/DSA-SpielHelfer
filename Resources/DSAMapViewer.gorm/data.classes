@@ -5,14 +5,17 @@
 	    "zoomChanged:",
 	    "searchLocation:",
 	    "toggleStreets:",
-	    "toggleRegions:"
+	    "toggleRegions:",
+	    "calculateRoute:"
 	);
 	Outlets = (
 	    fieldLocationSearch,
 	    sliderZoom,
 	    mapScrollView,
 	    switchRegions,
-	    switchStreets
+	    switchStreets,
+	    fieldLocationDestination,
+	    buttonCalucateRoute
 	);
 	Super = NSWindowController;
     };
@@ -25,9 +28,10 @@
     };
     FirstResponder = {
 	Actions = (
-	    "toggleStreets:",
+	    "calculateRoute:",
 	    "searchLocation:",
 	    "toggleRegions:",
+	    "toggleStreets:",
 	    "zoomChanged:"
 	);
 	Super = NSObject;

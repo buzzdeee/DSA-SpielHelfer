@@ -5,7 +5,7 @@
 
    Author: Sebastian Reitenbach
 
-   Created: 2025-03-16 20:59:12 +0100 by sebastia
+   Created: 2025-03-19 22:19:06 +0100 by sebastia
 
    This application is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,30 +22,24 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
-#ifndef _DSAMAPOVERLAYVIEW_H_
-#define _DSAMAPOVERLAYVIEW_H_
+#ifndef _DSAROUTEPLANNER_H_
+#define _DSAROUTEPLANNER_H_
 
+#import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
-@interface DSAMapOverlayView : NSView
-@property (nonatomic, strong) NSArray *features;  // Generic features array
-@property (nonatomic, assign) CGFloat zoomFactor;
-- (instancetype)initWithFrame:(NSRect)frame features:(NSArray *)features;
+@interface DSARoutePlanner : NSObject
+
+@property (nonatomic, strong) NSDictionary *locations; // Named locations
+@property (nonatomic, strong) NSMutableDictionary *roadGraph; // Graph of roads
+
+// Load data from App Bundle
+- (instancetype)initWithBundleFiles;
+
+// Find shortest path between two named locations
+- (NSArray<NSValue *> *)findShortestPathFrom:(NSString *)startName to:(NSString *)destinationName;
+
 @end
 
-@interface DSARegionsOverlayView : DSAMapOverlayView
-@property (nonatomic, strong) NSMutableDictionary *regionColors;
-@end
-
-@interface DSAStreetsOverlayView : DSAMapOverlayView
-@end
-
-@interface DSARouteOverlayView : DSAMapOverlayView
-@property (nonatomic, strong) NSArray<NSValue *> *routePoints; // Points along the route
-- (void)updateRouteWithPoints:(NSArray<NSValue *> *)points;
-@end
-
-
-
-#endif // _DSAMAPOVERLAYVIEW_H_
+#endif // _DSAROUTEPLANNER_H_
 
