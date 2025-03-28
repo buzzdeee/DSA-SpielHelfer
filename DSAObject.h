@@ -58,7 +58,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
 @property (nonatomic, assign) float penalty;
 @property (nonatomic, assign) float protection;
 @property (nonatomic, assign) NSInteger breakFactor;
-@property (nonatomic, strong) NSString *ownerUUID;
+@property (nonatomic, strong) NSUUID *ownerUUID;
 @property (nonatomic, strong) NSArray *regions;
 @property (nonatomic, strong) NSArray *useWith;                       // object can be used with these other objects
 @property (nonatomic, strong) NSString *useWithText;                  // text displayed when used
@@ -71,9 +71,9 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
 @property (nonatomic, strong) NSMutableDictionary<NSString*, DSASpell *> *appliedSpells;  // spells casted onto a character, and having effect on it
 
 
-- (instancetype) initWithName: (NSString *) name forOwner: (NSString *)ownerUUID;
+- (instancetype) initWithName: (NSString *) name forOwner: (NSUUID *)ownerUUID;
 
-- (instancetype) initWithObjectInfo: (NSDictionary *) objectInfo forOwner: (NSString *) ownerUUID;
+- (instancetype) initWithObjectInfo: (NSDictionary *) objectInfo forOwner: (NSUUID *) ownerUUID;
 
 - (instancetype) initWithName: (NSString *) name
                      withIcon: (NSString *) icon
@@ -89,7 +89,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
                       useWith: (NSArray *) useWith
                   useWithText: (NSString *) useWithText
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID
+                withOwnerUUID: (NSUUID *) ownerUUID
                   withRegions: (NSArray *) regions;
                   
 - (BOOL)isCompatibleWithObject:(DSAObject *)otherObject;                    
@@ -114,7 +114,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID            
+                withOwnerUUID: (NSUUID *) ownerUUID            
                   withRegions: (NSArray *) regions;
 
 @end
@@ -147,7 +147,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots          
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID                  
+                withOwnerUUID: (NSUUID *) ownerUUID                  
                   withRegions: (NSArray *) regions;
 @end
 // End of DSAObjectWeaponHandWeapon
@@ -176,7 +176,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots         
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID                   
+                withOwnerUUID: (NSUUID *) ownerUUID                   
                   withRegions: (NSArray *) regions;
 
 
@@ -202,7 +202,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots      
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID                      
+                withOwnerUUID: (NSUUID *) ownerUUID                      
                   withRegions: (NSArray *) regions;
 @end
 // End of DSAObjectWeaponLongRange
@@ -225,7 +225,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots       
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID                     
+                withOwnerUUID: (NSUUID *) ownerUUID                     
                   withRegions: (NSArray *) regions;
 @end
 // End of DSAObjectShield
@@ -256,7 +256,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots    
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID                        
+                withOwnerUUID: (NSUUID *) ownerUUID                        
                   withRegions: (NSArray *) regions;
 @end
 // End of DSAObjectShieldAndParry
@@ -275,7 +275,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots   
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID                         
+                withOwnerUUID: (NSUUID *) ownerUUID                         
                   withRegions: (NSArray *) regions;
 @end
 // End of DSAObjectArmor
@@ -318,7 +318,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots       
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID                     
+                withOwnerUUID: (NSUUID *) ownerUUID                     
                   withRegions: (NSArray *) regions;
 @end
 // End of DSAObjectCloth

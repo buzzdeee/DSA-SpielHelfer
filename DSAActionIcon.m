@@ -56,7 +56,7 @@
     // Parse the dragged item ID (UUID:inventoryIdentifier:slotIndex)
     NSArray *components = [draggedItemID componentsSeparatedByString:@":"];
     if (components.count == 3) {
-        NSString *sourceModelID = components[0];
+        NSUUID *sourceModelID = [[NSUUID alloc] initWithUUIDString: components[0]];
         NSString *sourceInventory = components[1];
         NSInteger sourceSlotIndex = [components[2] integerValue];
 
@@ -103,7 +103,7 @@
     // Parse the dragged item ID (UUID:inventoryIdentifier:slotIndex)
     NSArray *components = [draggedItemID componentsSeparatedByString:@":"];
     if (components.count == 3) {
-        NSString *sourceModelID = components[0];
+        NSUUID *sourceModelID = [[NSUUID alloc] initWithUUIDString: components[0]];
         NSString *sourceInventory = components[1];
         NSInteger sourceSlotIndex = [components[2] integerValue];
 

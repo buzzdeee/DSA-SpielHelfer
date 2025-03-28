@@ -48,6 +48,7 @@ Resources/DSARegenerateEnergies.gorm \
 Resources/DSACastSpell.gorm \
 Resources/DSACastRitual.gorm \
 Resources/DSACharacterDead.gorm \
+Resources/DSAAdventureGeneration.gorm \
 Resources/Character_1.png \
 Resources/Character_10.png \
 Resources/Character_100.png \
@@ -5135,7 +5136,10 @@ DSAAdventureClock.h \
 DSAClockAnimationView.h \
 DSAWeather.h \
 DSAMapOverlayView.h \
-DSARoutePlanner.h
+DSARoutePlanner.h \
+DSALocation.h \
+DSALocations.h \
+DSAAdventureGenerationController.h
 
 #
 # Objective-C Class files
@@ -5194,7 +5198,10 @@ DSAAdventureClock.m \
 DSAClockAnimationView.m \
 DSAWeather.m \
 DSAMapOverlayView.m \
-DSARoutePlanner.m
+DSARoutePlanner.m \
+DSALocation.m \
+DSALocations.m \
+DSAAdventureGenerationController.m
 
 #
 # Other sources

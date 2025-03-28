@@ -33,7 +33,7 @@
 
 @implementation DSAObject
 
-- (instancetype) initWithName: (NSString *) name forOwner: (NSString *) ownerUUID
+- (instancetype) initWithName: (NSString *) name forOwner: (NSUUID *) ownerUUID
 {
   self = [super init];
   NSDictionary *objectInfo = [Utils getDSAObjectInfoByName: name];
@@ -42,7 +42,7 @@
   
 }
 
-- (instancetype) initWithObjectInfo: (NSDictionary *) objectInfo forOwner: (NSString *) ownerUUID
+- (instancetype) initWithObjectInfo: (NSDictionary *) objectInfo forOwner: (NSUUID *) ownerUUID
 {
   self = [super init];
   
@@ -361,7 +361,7 @@
                       useWith: (NSArray *) useWith
                   useWithText: (NSString *) useWithText
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID
+                withOwnerUUID: (NSUUID *) ownerUUID
                   withRegions: (NSArray *) regions
 {
   self = [super init];
@@ -598,7 +598,7 @@
     }
   // XXX TODO below tests may be bogus, and not sufficient
   if (self.appliedSpells != otherObject.appliedSpells || 
-      ![self.ownerUUID isEqualToString: otherObject.ownerUUID] ||
+      ![self.ownerUUID isEqual: otherObject.ownerUUID] ||
       [self.states containsObject: @(DSAObjectStateIsPoisoned)] != [otherObject.states containsObject: @(DSAObjectStateIsPoisoned)])
     {
       return NO; // Mismatched properties
@@ -624,7 +624,7 @@
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID            
+                withOwnerUUID: (NSUUID *) ownerUUID            
                   withRegions: (NSArray *) regions
 {
   self = [super init];
@@ -707,7 +707,7 @@
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots     
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID                       
+                withOwnerUUID: (NSUUID *) ownerUUID                       
                   withRegions: (NSArray *) regions
 {
   self = [super init];
@@ -779,7 +779,7 @@
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots       
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID                     
+                withOwnerUUID: (NSUUID *) ownerUUID                     
                   withRegions: (NSArray *) regions
 {
   self = [super init];
@@ -845,7 +845,7 @@
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots   
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID                         
+                withOwnerUUID: (NSUUID *) ownerUUID                         
                   withRegions: (NSArray *) regions
 {
   self = [super init];
@@ -906,7 +906,7 @@
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots            
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID                
+                withOwnerUUID: (NSUUID *) ownerUUID                
                   withRegions: (NSArray *) regions;
 {
   self = [super init];
@@ -971,7 +971,7 @@
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots       
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID                     
+                withOwnerUUID: (NSUUID *) ownerUUID                     
                   withRegions: (NSArray *) regions
 {
   self = [super init];
@@ -1040,7 +1040,7 @@
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID            
+                withOwnerUUID: (NSUUID *) ownerUUID            
                   withRegions: (NSArray *) regions
 {
   self = [super init];
@@ -1080,7 +1080,7 @@
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots       
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
-                withOwnerUUID: (NSString *) ownerUUID                     
+                withOwnerUUID: (NSUUID *) ownerUUID                     
                   withRegions: (NSArray *) regions
 {
   self = [super init];

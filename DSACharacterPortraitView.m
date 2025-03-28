@@ -93,12 +93,12 @@ static NSString * const DSACharacterDragType = @"DSACharacterDragType";
         return; // No valid character to drag
     }
 
-    NSString *modelID = self.characterDocument.model.modelID; // Get the UUID
+    NSUUID *modelID = self.characterDocument.model.modelID; // Get the UUID
 
     // Use the pasteboard for drag-and-drop
     NSPasteboard *pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
     [pboard declareTypes:@[DSACharacterDragType] owner:self];
-    [pboard setString:modelID forType:DSACharacterDragType]; // Store modelID
+    [pboard setString:[modelID UUIDString] forType:DSACharacterDragType]; // Store modelID
 
     // Scale the image to 64x64 before dragging
     NSImage *dragImage = self.image ?: [[NSImage alloc] initWithSize:self.bounds.size];
@@ -138,33 +138,6 @@ static NSString * const DSACharacterDragType = @"DSACharacterDragType";
           slideBack:YES];
 }
 
-
-/*
-- (void)mouseDragged:(NSEvent *)event {
-    if (!self.characterDocument || !self.characterDocument.model) {
-        return; // No valid character to drag
-    }
-
-    NSString *modelID = self.characterDocument.model.modelID; // Get the UUID
-
-    // Use the pasteboard for drag-and-drop
-    NSPasteboard *pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
-    [pboard declareTypes:@[DSACharacterDragType] owner:self];
-    [pboard setString:modelID forType:DSACharacterDragType]; // Store modelID
-
-    // Start drag session (old API)
-    NSImage *dragImage = self.image ?: [[NSImage alloc] initWithSize:self.bounds.size]; // Use existing or placeholder image
-    NSPoint dragPosition = [self convertPoint:event.locationInWindow fromView:nil];
-
-    [self dragImage:dragImage
-                 at:dragPosition
-             offset:NSZeroSize
-              event:event
-         pasteboard:pboard
-             source:self
-          slideBack:YES];
-}
-*/
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
     NSString *draggedModelID = [pboard stringForType:DSACharacterDragType];
@@ -179,7 +152,7 @@ static NSString * const DSACharacterDragType = @"DSACharacterDragType";
         DSACharacterDocument *targetCharacter = self.characterDocument;
 
         for (DSACharacterDocument *charDoc in characters) {
-            if ([charDoc.model.modelID isEqualToString:draggedModelID]) {
+            if ([charDoc.model.modelID isEqual:[[NSUUID alloc] initWithUUIDString: draggedModelID]]) {
                 draggedCharacter = charDoc;
                 break;
             }
@@ -204,49 +177,6 @@ static NSString * const DSACharacterDragType = @"DSACharacterDragType";
     return NO;
 }
 
-/*
-- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender {
-    NSPasteboard *pboard = [sender draggingPasteboard];
-    NSString *draggedModelID = [pboard stringForType:DSACharacterDragType];
-
-    if (!draggedModelID || !self.characterDocument) {
-        return NO;
-    }
-
-    // Get reference to the adventure document
-    DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.window.windowController.document;
-    NSMutableArray *characters = [adventureDoc.characterDocuments mutableCopy];
-
-    // Find the dragged character
-    DSACharacterDocument *draggedCharacter = nil;
-    DSACharacterDocument *targetCharacter = self.characterDocument;
-
-    for (DSACharacterDocument *charDoc in characters) {
-        if ([charDoc.model.modelID isEqualToString:draggedModelID]) {
-            draggedCharacter = charDoc;
-            break;
-        }
-    }
-
-    if (draggedCharacter && targetCharacter && draggedCharacter != targetCharacter) {
-        NSUInteger draggedIndex = [characters indexOfObject:draggedCharacter];
-        NSUInteger targetIndex = [characters indexOfObject:targetCharacter];
-
-        // Swap positions in the array
-        [characters exchangeObjectAtIndex:draggedIndex withObjectAtIndex:targetIndex];
-
-        // Update the document’s character order
-        adventureDoc.characterDocuments = characters;
-
-        // Refresh UI
-        [adventureDoc updatePartyPortraits];
-
-        return YES;
-    }
-
-    return NO;
-}
-*/
 - (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
     NSLog(@"DSACharacterPortraitView: draggingSourceOperationMaskForLocal: %@", isLocal ? @"YES" : @"NO");
 

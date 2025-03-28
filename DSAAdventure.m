@@ -30,6 +30,7 @@
     if (self = [super init]) {
         _partyMembers = [NSMutableArray array];
         _partyNPCs = [NSMutableArray array];
+        _subGroups = [NSMutableArray array];
         NSLog(@"DSAAdventure init before _gameClock");
         _gameClock = [[DSAAdventureClock alloc] init];
         NSLog(@"DSAAdventure init after _gameClock: %@", _gameClock.currentDate);        
@@ -39,9 +40,18 @@
         NSLog(@"DSAAdventure init after _characterFilePaths");
         [_gameClock startClock];
         NSLog(@"DSAAdventure init after starting clock");
+        _currentLocation = [[DSALocation alloc] init];
+        
     }
     NSLog(@"DSAAdventure init: returning self: %@", self);
     return self;
+}
+
+- (void)dealloc
+{
+  NSLog(@"DSAAdventure is being deallocated.");
+  
+  NSLog(@"DSAAdventure finished dealloc.");  
 }
 
 - (void) encodeWithCoder:(NSCoder *)coder
@@ -49,8 +59,10 @@
   NSLog(@"DSAAdventure encodeWithCoder called!");
   [coder encodeObject:self.partyMembers forKey:@"partyMembers"];
   [coder encodeObject:self.partyNPCs forKey:@"partyNPCs"];
+  [coder encodeObject:self.subGroups forKey:@"subGroups"];
   [coder encodeObject:self.gameClock forKey:@"gameClock"];
   [coder encodeObject:self.gameWeather forKey:@"gameWeather"];
+  [coder encodeObject:self.currentLocation forKey:@"currentLocation"];
   
   [coder encodeObject:self.characterFilePaths forKey:@"characterFilePaths"];
  }
@@ -63,14 +75,17 @@
     {
       _partyMembers = [coder decodeObjectForKey:@"partyMembers"];
       _partyNPCs = [coder decodeObjectForKey:@"partyNPCs"];
+      _subGroups = [coder decodeObjectForKey:@"subGroups"];
       _gameClock = [coder decodeObjectForKey:@"gameClock"];
       _gameWeather = [coder decodeObjectForKey:@"gameWeather"];
+      _currentLocation = [coder decodeObjectForKey:@"currentLocation"];
       
       _characterFilePaths = [coder decodeObjectForKey:@"characterFilePaths"] ?: [NSMutableArray array];
     }
   return self;
 }
 
+/*
 - (void)addCharacterToParty:(DSACharacter *)character {
     if ([self.partyMembers count] < 6) {
       if (![self.partyMembers containsObject:character]) {
@@ -94,7 +109,7 @@
 - (void)removeNPCFromParty:(DSACharacter *)character {
     [self.partyNPCs removeObject:character];
 }
-
+*/
 - (NSString *)description
 {
   NSMutableString *descriptionString = [NSMutableString stringWithFormat:@"%@:\n", [self class]];

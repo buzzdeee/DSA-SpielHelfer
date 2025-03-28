@@ -403,7 +403,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
         {
           if (!self.canCastOnSelf)
             {
-              if ([[(DSACharacter *)target modelID] isEqualToString: [origin modelID]])
+              if ([[(DSACharacter *)target modelID] isEqual: [origin modelID]])
                 {
                   return NO;
                 }

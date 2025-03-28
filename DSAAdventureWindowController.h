@@ -7,7 +7,7 @@
 @class DSACharacterPortraitView;
 @class DSAClockAnimationView;
 
-@interface DSAAdventureWindowController : NSWindowController
+@interface DSAAdventureWindowController : NSWindowController <NSWindowDelegate>
 @property (weak) IBOutlet NSTextField *fieldLogs;
 
 @property (strong) IBOutletCollection(NSImageView) NSArray *partyMemberImages;

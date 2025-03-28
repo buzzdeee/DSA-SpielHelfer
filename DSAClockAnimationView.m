@@ -29,16 +29,6 @@
 #import "DSAAdventureWindowController.h"
 #import "DSAAdventure.h"
 
-@interface DSAClockAnimationView ()
-
-// Properties to store the current hour and moon phase
-@property (nonatomic, assign) NSUInteger currentHour;
-@property (nonatomic, assign) NSUInteger currentMinute;
-@property (nonatomic, assign) DSAMoonPhase currentMoonPhase;
-@property (nonatomic, strong) NSTimer *updateTimer;
-
-@end
-
 @implementation DSAClockAnimationView
 
 // Initialization
@@ -56,12 +46,12 @@
 {
     NSLog(@"DSAClockAnimationView awakeFromNib called");
     NSWindow *window = self.window;
-    DSAAdventureWindowController *windowController = (DSAAdventureWindowController *)window.windowController;
+    __weak DSAAdventureWindowController *windowController = (DSAAdventureWindowController *)window.windowController;
     if (windowController && windowController.document) {
         // Access the model's gameClock here
         DSAAdventureDocument *document = (DSAAdventureDocument*)windowController.document;
         NSLog(@"Game Clock: %@", document.model.gameClock);
-        self.gameClock = document.model.gameClock; // or any other logic
+        self.gameClock = document.model.gameClock; 
         self.gameWeather = document.model.gameWeather;
     } else {
         NSLog(@"WindowController or document not available.");
@@ -69,22 +59,53 @@
     // Sync initial values
     [self updateFromAdventureClock];
 
-    // Start the timer to update the view every second
+    // Start the timer to update the view every minute     
+    __weak typeof(self) weakSelf = self;                                              
     _updateTimer = [NSTimer scheduledTimerWithTimeInterval:60.0
-                                                    target:self
-                                                  selector:@selector(timerUpdate)
-                                                  userInfo:nil
-                                                   repeats:YES];
-                                                       
+                                                repeats:YES
+                                                  block:^(NSTimer * _Nonnull timer) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) {
+            [timer invalidate];
+            return;
+        }
+        [strongSelf timerUpdate];
+    }];                                                                                                      
 }
 
-- (void)dealloc {   
-    [_updateTimer invalidate];
-    _updateTimer = nil;
+- (void) dealloc
+{
+    NSLog(@"DSAClockAnimationView dealloc called");
+    if (self.updateTimer) {
+        [self.updateTimer invalidate];
+        self.updateTimer = nil;
+        NSLog(@"DSAClockAnimationView: Timer stopped.");
+    }   
+//    if (self.gameClock) {
+//        [self.gameClock.gameTimer invalidate];
+//        self.gameClock.gameTimer = nil;
+//    }
+
+// we don't observe anything
+//    [[NSNotificationCenter defaultCenter] removeObserver:self];     
+}
+
+- (void) viewWillDisappear {
+    NSLog(@"DSAClockAnimationView viewWillDisappear called");
+    [self.updateTimer invalidate];
+    self.updateTimer = nil;
 }
 
 - (void)updateFromAdventureClock {
     NSLog(@"DSAClockAnimationView updateFromAdventureClock called");
+    
+    if (self.gameClock.gameTimer) {
+        NSLog(@"DSAClockAnimationView updateFromAdventureClock: Timer reference exists.");
+    } else {
+        NSLog(@"DSAClockAnimationView updateFromAdventureClock: Timer is nil, no need to update the UI.");
+        return;
+    }    
+    
     DSAAventurianDate *currentDate = [self.gameClock currentDate];
     
     self.currentHour = currentDate.hour;
@@ -93,7 +114,17 @@
 }
 
 - (void)timerUpdate {
+
+    if (self.gameClock.gameTimer) {
+        NSLog(@"DSAClockAnimationView timerUpdate: Timer reference exists.");
+    } else {
+        NSLog(@"DSAClockAnimationView timerUpdate: Timer is nil, no need to update the UI.");
+        return;
+    }
+    
     DSAAventurianDate *currentDate = [self.gameClock currentDate];
+    NSLog(@"DSAClockAnimationView timerUpdate THE GAME CLOCK: %@", self.gameClock);
+    NSLog(@"DSAClockAnimationView timerUpdate self.superview: %@", self.superview);
 //    DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)[[NSDocumentController sharedDocumentController] currentDocument];
 //    self.gameWeather = adventureDoc.model.gameWeather;
     NSLog(@"DSAClockAnimationView timerUpdate %@", currentDate);
@@ -109,6 +140,12 @@
                      moonPhase:(DSAMoonPhase)moonPhase {
     NSLog(@"DSAClockAnimationView updateAnimationForHour %@:%@", @(hour), @(minute));
     NSLog(@"DSAClockAnimationView updateAnimationForHour weather: %@", self.gameWeather);
+    if (self.gameClock.gameTimer) {
+        NSLog(@"DSAClockAnimationView updateAnimationForHour: Timer reference exists.");
+    } else {
+        NSLog(@"DSAClockAnimationView updateAnimationForHour: Timer is nil, no need to update the UI.");
+        return;
+    }     
     self.currentHour = hour;
     self.currentMinute = minute;  // Store minute for smooth animation
     self.currentMoonPhase = moonPhase;
@@ -333,62 +370,6 @@
     }
 }
 
-/*
-
-// Determine the sky color based on the current hour and minute for smooth transitions
-- (NSColor *)skyColorForHour:(NSUInteger)hour minute:(NSUInteger)minute {
-    CGFloat t = (hour + minute / 60.0 - 6) / 12.0;  // Normalize time (0 to 1) for sunrise to sunset
-    if (t < 0 || t > 1) return [NSColor blackColor];  // Don't draw outside valid range
-
-    NSColor *dayColorStart = [NSColor colorWithCalibratedRed:0.2 green:0.4 blue:0.6 alpha:1];  // Darker early morning (6 AM)
-    NSColor *dayColorEnd = [NSColor colorWithCalibratedRed:0.5 green:0.7 blue:1 alpha:1];      // Light blue day color (12 PM)
-    
-    // Night colors (dark version of the day colors)
-    NSColor *nightColorStart = [NSColor colorWithCalibratedRed:0.1 green:0.1 blue:0.2 alpha:1];  // Darker night color (6 PM)
-    NSColor *nightColorEnd = [NSColor colorWithCalibratedRed:0.05 green:0.05 blue:0.1 alpha:1];    // Very dark (5 AM)
-
-    NSColor *skyColor;
-
-    // Morning transition (6 AM - 7 AM)
-    if (hour >= 6 && hour < 7) {
-        CGFloat morningT = (hour + minute / 60.0 - 6) / 1.0;  // Normalize 6 AM to 7 AM
-        skyColor = [self interpolateColorFrom:dayColorStart to:dayColorEnd progress:morningT];
-    }
-    // Evening transition (6 PM - 7 PM)
-    else if (hour >= 18 && hour < 19) {
-        CGFloat eveningT = (hour + minute / 60.0 - 18) / 1.0;  // Normalize 6 PM to 7 PM
-        skyColor = [self interpolateColorFrom:nightColorStart to:nightColorEnd progress:eveningT];
-    }
-    // Daytime (7 AM - 5 PM)
-    else if (hour >= 7 && hour < 17) {
-        skyColor = dayColorEnd;  // Full daytime color
-    }
-    // Nighttime (5 PM - 6 AM)
-    else {
-        CGFloat nightT = (hour + minute / 60.0 - 18) / 12.0;  // Normalize for night (6 PM to 6 AM)
-        skyColor = [self interpolateColorFrom:nightColorStart to:nightColorEnd progress:nightT];
-    }
-
-    return skyColor;
-}
-
-// Interpolating between two colors based on progress (0 - 1)
-- (NSColor *)interpolateColorFrom:(NSColor *)startColor to:(NSColor *)endColor progress:(CGFloat)progress {
-    CGFloat startRed, startGreen, startBlue, startAlpha;
-    CGFloat endRed, endGreen, endBlue, endAlpha;
-    
-    [startColor getRed:&startRed green:&startGreen blue:&startBlue alpha:&startAlpha];
-    [endColor getRed:&endRed green:&endGreen blue:&endBlue alpha:&endAlpha];
-    
-    CGFloat interpolatedRed = startRed + (endRed - startRed) * progress;
-    CGFloat interpolatedGreen = startGreen + (endGreen - startGreen) * progress;
-    CGFloat interpolatedBlue = startBlue + (endBlue - startBlue) * progress;
-    CGFloat interpolatedAlpha = startAlpha + (endAlpha - startAlpha) * progress;
-
-    return [NSColor colorWithCalibratedRed:interpolatedRed green:interpolatedGreen blue:interpolatedBlue alpha:interpolatedAlpha];
-}
-
-*/
 // Draw the sun with proper horizon clipping
 - (void)drawSun {
     CGFloat width = self.bounds.size.width;

@@ -56,11 +56,15 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
 {
   NSLog(@"DSAAdventureDocument is being deallocated.");
   [[NSNotificationCenter defaultCenter] removeObserver:self];
+  NSLog(@"DSAAdventureDocument finished dealloc.");  
 }
 
 - (void)close
 {
     NSLog(@"DSAAdventureDocument close called!");
+    [self.model.gameClock.gameTimer invalidate];
+    self.model.gameClock.gameTimer = nil;
+    self.model = nil;
     [super close];
 }
 
@@ -258,6 +262,7 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
     }
 }
 
+/*
 - (void)addCharacterFromURL:(NSURL *)characterURL {
     NSURL *baseDirURL = [Utils characterStorageDirectory];
     NSLog(@"DSAAdventureDocument addCharacterFromURL: baseDirURL.path: %@", baseDirURL.path);
@@ -283,6 +288,44 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
     }
     
     NSLog(@"DSAAdventureDocument addCharacterFromURL, self.model: %@", self.model);
+}
+*/
+
+- (void)addCharacterFromURL:(NSURL *)characterURL {
+    NSURL *baseDirURL = [Utils characterStorageDirectory];
+    NSString *relativePath = [characterURL.path stringByReplacingOccurrencesOfString:baseDirURL.path withString:@""];
+    
+    if ([relativePath hasPrefix:@"/"]) {
+        relativePath = [relativePath substringFromIndex:1];
+    }
+
+    if (![self.model.characterFilePaths containsObject:relativePath]) {
+        [self.model.characterFilePaths addObject:relativePath];
+
+        [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:characterURL
+                                                                              display:NO
+                                                                    completionHandler:^(NSDocument *document, BOOL wasOpened, NSError *error) {
+            if (!error && [document isKindOfClass:[DSACharacterDocument class]]) {
+                DSACharacterDocument *characterDoc = (DSACharacterDocument *)document;
+                DSACharacter *character = characterDoc.model;
+
+                // Assign character to the default subgroup (by modelID)
+                if (self.model.subGroups.count == 0) {
+                    [self.model.subGroups addObject:[NSMutableArray array]];
+                }
+                
+                NSMutableArray<NSUUID *> *mainGroup = self.model.subGroups.firstObject;
+                if (![mainGroup containsObject:character.modelID]) {
+                    [mainGroup addObject:character.modelID];
+                }
+
+                // Track document separately
+                [self.characterDocuments addObject:characterDoc];
+
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
+            }
+        }];
+    }
 }
 
 - (void)loadCharacterDocuments {

@@ -14,9 +14,11 @@
 
 extern NSString * const DSACharacterHighlightedNotification;
 
+/*
 @interface DSAAdventureWindowController ()
 @property (nonatomic, strong) NSTimer *dayTimeAnimationUpdateTimer;
 @end
+*/
 
 @implementation DSAAdventureWindowController
 
@@ -31,21 +33,51 @@ extern NSString * const DSACharacterHighlightedNotification;
 }
 
 - (void)dealloc {
+@autoreleasepool {
     NSLog(@"DSAAdventureWindowController is being deallocated.");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     NSLog(@"removing observer of DSAAdventureDocument!");
-    [(DSAAdventureDocument *)self.document removeObserver:self forKeyPath:@"selectedCharacterDocument"];    
+    [(DSAAdventureDocument *)self.document removeObserver:self forKeyPath:@"selectedCharacterDocument"];  
+/*    [self.clockAnimationView removeFromSuperview];
+    [self.clockAnimationView.gameClock.gameTimer invalidate];
+    self.clockAnimationView.gameClock.gameTimer = nil;
+    [self.clockAnimationView.updateTimer invalidate];
+    self.clockAnimationView.updateTimer = nil;    
+[self.clockAnimationView removeFromSuperview];
+    self.clockAnimationView = nil;
+    
+    
+  */  
+    NSLog(@"DSAAdventureWindowController finished with dealloc");  
 }
+}
+
+- (void)close {
+    NSLog(@"Window is being closed manually, cleaning up.");
+    [self.window close];  // This ensures the window is properly closed
+    [self.clockAnimationView removeFromSuperview];  // Manually remove the view
+    self.clockAnimationView = nil;  // Set the reference to nil
+}
+
 
 
 - (void)windowWillClose:(NSNotification *)notification {
     // Remove observer before window closes
-    NSLog(@"removing observer of DSAAdventureDocument!");
+    NSLog(@"DSAAdventureWindowController windowWillClose: removing observer of DSAAdventureDocument!");
     if (self.document) {
         [self.document removeObserver:self forKeyPath:@"selectedCharacterDocument"];
     }
-    [super windowWillClose:notification];
+    [self.clockAnimationView removeFromSuperview];
+    [self.clockAnimationView.gameClock.gameTimer invalidate];
+    self.clockAnimationView.gameClock.gameTimer = nil;
+    [self.clockAnimationView.updateTimer invalidate];
+    self.clockAnimationView.updateTimer = nil;    
+    self.clockAnimationView = nil;
+    [self.clockAnimationView removeFromSuperview];
+    self.window.contentView = nil;  // Force the window to release views
+
+    //[super windowWillClose:notification];
 }
 
 - (DSAAdventureWindowController *)initWithWindowNibName:(NSString *)nibNameOrNil

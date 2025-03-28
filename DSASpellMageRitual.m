@@ -267,7 +267,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -351,7 +351,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -424,7 +424,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -484,7 +484,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -562,7 +562,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -645,7 +645,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -718,7 +718,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -761,7 +761,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -819,7 +819,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -863,7 +863,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -1068,7 +1068,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -1141,7 +1141,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -1225,7 +1225,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -1298,7 +1298,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -1373,7 +1373,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
   NSLog(@"FOUND TARGET: %@", target);
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -1416,7 +1416,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -1459,7 +1459,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -1501,7 +1501,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];

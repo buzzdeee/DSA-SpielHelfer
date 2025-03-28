@@ -40,14 +40,14 @@ NSLog(@"DSAInventorySlotView mouseDown called!!!!");
             NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSDragPboard];
 
             // Create a unique identifier for the dragged item, including modelID, inventory, and slot index
-            NSString *draggedItemID = [NSString stringWithFormat:@"%@:%@:%ld", self.model.modelID, self.inventoryIdentifier, self.slotIndex];
+            NSString *draggedItemID = [NSString stringWithFormat:@"%@:%@:%ld", [self.model.modelID UUIDString], self.inventoryIdentifier, self.slotIndex];
 
             // Store necessary information on the pasteboard
             [pasteboard declareTypes:@[NSStringPboardType] owner:self];
             [pasteboard setString:draggedItemID forType:NSStringPboardType];
 
             NSLog(@"DSAInventorySlotView: mouseDown dragging data: %@, inventory: %@, slot: %ld",
-                  self.model.modelID, self.inventoryIdentifier, (long)self.slotIndex);
+                  [self.model.modelID UUIDString], self.inventoryIdentifier, (long)self.slotIndex);
 
             NSLog(@"mouseDown: Pasteboard contains %@", [pasteboard stringForType:NSStringPboardType]);
             // Start the drag
@@ -112,7 +112,7 @@ NSLog(@"DSAInventorySlotView mouseDown called!!!!");
     // Parse draggedItemID into components
     NSArray *components = [draggedItemID componentsSeparatedByString:@":"];
     if (components.count == 3) {
-        NSString *sourceModelID = components[0];
+        NSUUID *sourceModelID = [[NSUUID alloc] initWithUUIDString: components[0]];
         NSString *sourceInventory = components[1];
         NSInteger sourceSlotIndex = [components[2] integerValue];
 
@@ -227,7 +227,7 @@ NSLog(@"DSAInventorySlotView mouseDown called!!!!");
     // Parse draggedItemID into inventoryIdentifier and slotIndex
     NSArray *components = [draggedItemID componentsSeparatedByString:@":"];
     if (components.count == 3) { // modelID:inventoryIdentifier:slotIndex
-        NSString *sourceModelID = components[0];
+        NSUUID *sourceModelID = [[NSUUID alloc] initWithUUIDString: components[0]];
         NSString *sourceInventory = components[1];
         NSInteger sourceSlotIndex = [components[2] integerValue];
 

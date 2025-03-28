@@ -29,21 +29,25 @@
 #import "DSACharacter.h"
 #import "DSAAdventureClock.h"
 #import "DSAWeather.h"
+#import "DSALocation.h"
 
 @interface DSAAdventure : NSObject
 
-@property (nonatomic, strong) NSMutableArray<DSACharacter *> *partyMembers; // Party of characters
-@property (nonatomic, strong) NSMutableArray<DSACharacter *> *partyNPCs; // NPC party members
+@property (nonatomic, strong) NSMutableArray<NSUUID *> *partyMembers; // Party of characters
+@property (nonatomic, strong) NSMutableArray<NSUUID *> *partyNPCs; // NPC party members
+@property (nonatomic, strong) NSMutableArray<NSMutableArray<NSUUID *> *> *subGroups;
+
 
 @property (nonatomic, strong) DSAAdventureClock *gameClock; // In-game time
 @property (nonatomic, strong) DSAWeather *gameWeather; // the current weather
+@property (nonatomic, strong) DSALocation *currentLocation; // the current location
 
 @property (strong) NSMutableArray<NSString *> *characterFilePaths;
 
-- (void)addCharacterToParty:(DSACharacter *)character;
-- (void)removeCharacterFromParty:(DSACharacter *)character;
-- (void)addNPCToParty:(DSACharacter *)character;
-- (void)removeNPCFromParty:(DSACharacter *)character;
+//- (void)addCharacterToParty:(DSACharacter *)character;
+//- (void)removeCharacterFromParty:(DSACharacter *)character;
+//- (void)addNPCToParty:(DSACharacter *)character;
+//- (void)removeNPCFromParty:(DSACharacter *)character;
 
 @end
 #endif // _DSAADVENTURE_H_

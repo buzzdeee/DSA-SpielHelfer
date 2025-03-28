@@ -33,12 +33,13 @@
 #import "DSASpellDruidRitual.h"
 #import "DSARegenerationResult.h"
 #import "DSAInventoryManager.h"
+#import "DSALocation.h"
 
 
 @implementation DSACharacter
 
 static NSDictionary<NSString *, Class> *typeToClassMap = nil;
-static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
+static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 
 
 + (void)initialize {
@@ -109,16 +110,16 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
     return nil;
 }
 
-+ (DSACharacter *)characterWithModelID:(NSString *)modelID {
++ (DSACharacter *)characterWithModelID:(NSUUID *)modelID {
     @synchronized(characterRegistry) {
-    for (NSString *key in [characterRegistry allKeys]) {
-        if ([key isEqualToString:modelID]) {
-            NSLog(@"Found matching modelID: %@", key);
-            return characterRegistry[modelID];
+        // Just look up the character by modelID (NSUUID key)
+        DSACharacter *character = characterRegistry[modelID];
+        if (character) {
+            NSLog(@"Found matching modelID: %@", modelID);
+        } else {
+            NSLog(@"Character with modelID: %@ not found", modelID);
         }
-    }    
-        NSLog(@"searching character with model ID: %@ in all keys: %@", modelID, [characterRegistry allKeys]);
-        return characterRegistry[modelID];
+        return character;
     }
 }
 
@@ -132,7 +133,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
             }
             if (_modelID == nil)
               {
-                _modelID = [[NSUUID UUID] UUIDString]; // Use NSUUID for a truly unique ID
+                _modelID = [NSUUID UUID]; // Use NSUUID for a truly unique ID
                 NSLog(@"Generated modelID: %@", _modelID);
               }
 
@@ -149,6 +150,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
         _isMagicalDabbler = NO;
         _element = nil;
         _religion = nil;
+        _currentLocation = [[DSALocation alloc] init];
         _siblings = [[NSArray alloc] init];
         _childhoodEvents = [[NSArray alloc] init];
         _youthEvents = [[NSArray alloc] init];
@@ -172,6 +174,11 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
                       ];
     }
     return self;
+}
+
+- (void)moveToLocation:(DSALocation *)newLocation {
+    _currentLocation = newLocation;
+    NSLog(@"%@ moved to %@", _name, newLocation.name ?: @"an unknown location");
 }
 
 - (void)setCurrentLifePoints: (NSInteger) lifePoints
@@ -428,6 +435,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
   [coder encodeInteger:self.maxLevelUpVariableTries forKey:@"maxLevelUpVariableTries"];  
   [coder encodeObject:self.appliedSpells forKey:@"appliedSpells"];
   [coder encodeObject:self.statesDict forKey:@"statesDict"];
+  [coder encodeObject:self.currentLocation forKey:@"currentLocation"];
  }
 
 - (instancetype)initWithCoder:(NSCoder *)coder
@@ -497,6 +505,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
       self.maxLevelUpVariableTries = [coder decodeIntegerForKey:@"maxLevelUpVariableTries"];       
       self.appliedSpells = [coder decodeObjectForKey:@"appliedSpells"];
       self.statesDict = [coder decodeObjectForKey:@"statesDict"];
+      self.currentLocation = [coder decodeObjectForKey:@"currentLocation"];
     }
   return self;
 }
@@ -1115,7 +1124,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
                     }
                   else
                     {
-                      if (![self.modelID isEqualToString: target.ownerUUID])  // higher order spells should only be applied to spells where we're owner of
+                      if (![self.modelID isEqual: target.ownerUUID])  // higher order spells should only be applied to spells where we're owner of
                         {
                           return NO;
                         }
@@ -1178,7 +1187,7 @@ static NSMutableDictionary<NSString *, DSACharacter *> *characterRegistry = nil;
                         }
                       else
                         {
-                          if (![self.modelID isEqualToString: target.ownerUUID])  // higher order spells should only be applied to spells where we're owner of
+                          if (![self.modelID isEqual: target.ownerUUID])  // higher order spells should only be applied to spells where we're owner of
                             {
                               return NO;
                             }

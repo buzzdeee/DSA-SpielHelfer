@@ -43,6 +43,7 @@ typedef NS_ENUM(NSUInteger, DSAMoonPhase) {
 
 @property (nonatomic, strong) DSAAventurianDate *currentDate;
 @property (nonatomic, assign) NSTimeInterval gameSpeedMultiplier; // 2.0 means 2x real-time
+@property (nonatomic, strong) NSTimer *gameTimer;
 
 - (void)startClock;
 - (void)pauseClock;

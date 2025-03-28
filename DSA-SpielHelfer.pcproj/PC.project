@@ -66,7 +66,10 @@
 	"DSAClockAnimationView.m",
 	"DSAWeather.m",
 	"DSAMapOverlayView.m",
-	"DSARoutePlanner.m"
+	"DSARoutePlanner.m",
+	"DSALocation.m",
+	"DSALocations.m",
+	"DSAAdventureGenerationController.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -129,7 +132,10 @@
 	"DSAClockAnimationView.h",
 	"DSAWeather.h",
 	"DSAMapOverlayView.h",
-	"DSARoutePlanner.h"
+	"DSARoutePlanner.h",
+	"DSALocation.h",
+	"DSALocations.h",
+	"DSAAdventureGenerationController.h"
     );
     IMAGES = (
 	"Character_1.png",
@@ -5139,7 +5145,8 @@
 	"DSARegenerateEnergies.gorm",
 	"DSACastSpell.gorm",
 	"DSACastRitual.gorm",
-	"DSACharacterDead.gorm"
+	"DSACharacterDead.gorm",
+	"DSAAdventureGeneration.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (

@@ -37,6 +37,7 @@
 @class DSATalentResult;
 @class DSASpellResult;
 @class DSARegenerationResult;
+@class DSALocation;
 
 typedef NS_ENUM(NSUInteger, DSACharacterState)
 {
@@ -53,7 +54,7 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 
 @interface DSACharacter : NSObject <NSCoding>
 
-@property (nonatomic, strong, readonly) NSString *modelID; // Unique ID for each model
+@property (nonatomic, strong, readonly) NSUUID *modelID; // Unique ID for each model
 
 // copy properties, to prevent others fiddling with the model...
 @property (nonatomic, copy) NSString *name;
@@ -124,9 +125,11 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 @property (readonly, assign) NSInteger parryBaseValue;
 @property (readonly, assign) NSInteger rangedCombatBaseValue;
 
+@property (nonatomic, strong) DSALocation *currentLocation;
+
 + (instancetype)characterWithType:(NSString *)type;     // create a character of given arche-(type)
 
-+ (DSACharacter *)characterWithModelID:(NSString *)modelID;
++ (DSACharacter *)characterWithModelID:(NSUUID *)modelID;
 
 - (NSString *) siblingsString;
 
@@ -171,6 +174,9 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 - (DSARegenerationResult *) regenerateBaseEnergiesForHours: (NSInteger) hours;
 
 // - (DSAObject *)findObjectWithName:(NSString *)name;
+
+// Location related methods
+- (void)moveToLocation:(DSALocation *)newLocation;
 
 @end
 

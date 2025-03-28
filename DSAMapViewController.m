@@ -24,6 +24,7 @@
 
 #import "DSAMapViewController.h"
 #import "DSAMapOverlayView.h"
+#import "DSALocations.h"
 
 @implementation DSAMapViewController 
 
@@ -39,7 +40,7 @@
 
 - (void)windowDidLoad {
     [super windowDidLoad];
-    NSLog(@"DSAMapViewController windowDidLoad called!");
+    // NSLog(@"DSAMapViewController windowDidLoad called!");
     
     // Load the map image
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"Aventurien" ofType:@"jpg"];
@@ -49,7 +50,7 @@
         return;
     }
     
-    NSLog(@"DSAMapViewController image loaded");
+    // NSLog(@"DSAMapViewController image loaded");
     
     // Use NSBitmapImageRep to get the original image dimensions
     NSBitmapImageRep *bitmapRep = [[NSBitmapImageRep alloc] initWithData:[mapImage TIFFRepresentation]];
@@ -59,18 +60,18 @@
     }
     
     NSSize originalSize = NSMakeSize(bitmapRep.pixelsWide, bitmapRep.pixelsHigh);
-    NSLog(@"Original image size (from NSBitmapImageRep): %@", NSStringFromSize(originalSize));
+    // NSLog(@"Original image size (from NSBitmapImageRep): %@", NSStringFromSize(originalSize));
     
     // Create an NSImageView with the original image dimensions
     self.mapImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, originalSize.width, originalSize.height)];
-    NSLog(@"mapImageView rect: %@", NSStringFromRect(NSMakeRect(0, 0, originalSize.width, originalSize.height)));
-    NSLog(@"mapImageView size: %@", NSStringFromRect([self.mapImageView frame]));
+    //NSLog(@"mapImageView rect: %@", NSStringFromRect(NSMakeRect(0, 0, originalSize.width, originalSize.height)));
+    //NSLog(@"mapImageView size: %@", NSStringFromRect([self.mapImageView frame]));
     
     [self.mapImageView setImageAlignment:NSImageAlignTopLeft];
     [self.mapImageView setImageScaling:NSImageScaleProportionallyUpOrDown]; // Avoid any scaling
     [self.mapImageView setImage:mapImage];
     [self.mapImageView.image setSize:originalSize];
-    NSLog(@"Image size within mapImageView: %@", NSStringFromSize(self.mapImageView.image.size));
+    // NSLog(@"Image size within mapImageView: %@", NSStringFromSize(self.mapImageView.image.size));
     
     // Set the NSImageView as the content view of the NSScrollView
     [self.mapScrollView setDocumentView:self.mapImageView];
@@ -78,7 +79,7 @@
     // Initialize the slider
     [self.sliderZoom setDoubleValue:self.currentZoomLevel];
     
-    NSLog(@"Initial slider value: %f minValue: %f, maxValue: %f", [self.sliderZoom doubleValue], [self.sliderZoom minValue], [self.sliderZoom maxValue]);
+    // NSLog(@"Initial slider value: %f minValue: %f, maxValue: %f", [self.sliderZoom doubleValue], [self.sliderZoom minValue], [self.sliderZoom maxValue]);
     
     // Set the initial scale of the image view based on the slider
     [self setImageViewScale:[self.sliderZoom doubleValue]]; // Apply initial zoom level
@@ -122,55 +123,22 @@
     DSARouteOverlayView  *routeOverlay = [[DSARouteOverlayView alloc] initWithFrame:self.mapImageView.bounds features:@[]];
     routeOverlay.hidden = YES; // Initially hidden until a route is calculated
     [self.mapScrollView addOverlay: routeOverlay];    
-            
-    // Initialize the list selector popover controller
-    self.listSelectorPopoverVC = [[DSAListSelectorPopoverViewController alloc] init];
-    // Initialize the popover and set its contentViewController
-    self.listPopover = [[NSPopover alloc] init];
-    NSLog(@"ONE");
-//    self.listPopover.contentViewController = self.listSelectorPopoverVC;
-    NSLog(@"TWO");
-    self.listPopover.behavior = NSPopoverBehaviorTransient;    
+             
 
-    // Set the selection handler
-    __weak typeof(self) weakSelf = self;
-    self.listSelectorPopover.locationSelected = ^(NSDictionary *location) {
-        [weakSelf jumpToLocationWithCoordinates:NSMakePoint([location[@"x"] floatValue], [location[@"y"] floatValue])];
-    };        
+    // Set the delegate of the Comboboxes
+    // Load available locations
+    DSALocations *locations = [DSALocations sharedInstance];
+    self.locationsArray = [locations locationNames];
+    self.filteredLocations = self.locationsArray;    
     
-/*    __weak typeof(self) weakSelf = self;
-    self.listSelectorPopoverVC.locationSelected = ^(NSDictionary *location) {
-        [weakSelf jumpToLocationWithCoordinates:NSMakePoint([location[@"x"] floatValue], [location[@"y"] floatValue])];
-        weakSelf.fieldLocationSearch.stringValue = location[@"name"];
-        [weakSelf.listPopover performClose:nil]; // Close the popover
-    };
-  */  
-
-    self.testPopover = [[NSPopover alloc] init];
-    self.testPopover.behavior = NSPopoverBehaviorTransient;
-//    self.testPopover.contentViewController = [[NSViewController alloc] init];
-    NSLog(@"Popover initialized in windowDidLoad.");  
-
-    // Set the delegate of the text field to listen for changes
-    [self.fieldLocationSearch setDelegate:self];
-  
-    NSLog(@"Window loaded successfully.");
-}
-
-- (void)controlTextDidChange:(NSNotification *)notification {
-    if (notification.object == self.fieldLocationSearch) {
-        NSLog(@"Search text changed.");
-
-        // Show the retained popover
-        @try {
-            [self.testPopover showRelativeToRect:self.fieldLocationSearch.bounds
-                                          ofView:self.fieldLocationSearch
-                                   preferredEdge:0];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"Exception when trying to show popover: %@, %@", exception.name, exception.reason);
-        }
-    }
+    self.fieldLocationSearch.usesDataSource = YES;
+    self.fieldLocationSearch.delegate = self;
+    self.fieldLocationSearch.dataSource = self;
+    self.fieldLocationDestination.usesDataSource = YES;
+    self.fieldLocationDestination.delegate = self;
+    self.fieldLocationDestination.dataSource = self;   
+      
+    // NSLog(@"Window loaded successfully.");
 }
 
 - (void)loadLocations
@@ -306,11 +274,11 @@
     for (NSDictionary *location in self.locations) {
         if ([location[@"name"] isEqualToString:locationName]) {
             // Return the coordinates as NSPoint
-            NSLog(@"found location: %@ at %@", locationName, NSStringFromPoint(NSMakePoint([location[@"x"] floatValue], [location[@"y"] floatValue])));
+            // NSLog(@"found location: %@ at %@", locationName, NSStringFromPoint(NSMakePoint([location[@"x"] floatValue], [location[@"y"] floatValue])));
             return NSMakePoint([location[@"x"] floatValue], [location[@"y"] floatValue]);
         }
     }
-    NSLog(@"didn't find location: %@", locationName);
+    NSLog(@"DSAMapViewController coordinatesForLocation: didn't find location: %@", locationName);
     return NSZeroPoint; // Return zero point if not found
 }
 
@@ -320,7 +288,7 @@
     
     // Only update if the zoom factor has changed
     if (fabs(zoomFactor - self.currentZoomLevel) > 0.001) { // Consider a small tolerance
-        NSLog(@"Slider changed, new zoom factor: %f", zoomFactor);
+        // NSLog(@"Slider changed, new zoom factor: %f", zoomFactor);
         self.currentZoomLevel = zoomFactor; // Update the current zoom level
         [self setImageViewScale:zoomFactor]; // Scale the image view based on slider value
     }
@@ -328,7 +296,7 @@
 
 - (void)setImageViewScale:(CGFloat)scale {
     self.currentZoomLevel = scale; 
-    NSLog(@"setImageViewScale called with scale: %lf", scale);
+    // NSLog(@"setImageViewScale called with scale: %lf", scale);
     NSSize newSize = NSMakeSize(self.mapImageView.image.size.width * scale, 
                                 self.mapImageView.image.size.height * scale);
 
@@ -336,7 +304,7 @@
 
     // Update overlays
     for (DSAMapOverlayView *overlay in self.mapScrollView.overlays) {
-        NSLog(@"setImageViewScale setting zoom facter in overlay to %lf", scale);
+        // NSLog(@"setImageViewScale setting zoom facter in overlay to %lf", scale);
         overlay.zoomFactor = scale;  // Pass zoom factor
         [overlay setFrame:NSMakeRect(0, 0, newSize.width, newSize.height)];
         [overlay setNeedsDisplay:YES]; 
@@ -351,8 +319,8 @@
     [self.mapScrollView reflectScrolledClipView:[self.mapScrollView contentView]];
 }
 
-- (IBAction)searchLocation:(id)sender {
-    NSString *locationName = [self.fieldLocationSearch stringValue];
+- (void)searchLocation:(NSComboBox *) sender {
+    NSString *locationName = [sender stringValue];
     
     // You would typically have a dictionary or array that maps location names to coordinates.
     // For simplicity, let’s assume we have a method to get the coordinates:
@@ -360,9 +328,9 @@
     
     if (!NSEqualPoints(coordinates, NSZeroPoint)) {
         [self jumpToLocationWithCoordinates:coordinates];
-        [self displayPopupForLocation:locationName atCoordinates:coordinates];
+        // [self displayPopupForLocation:locationName atCoordinates:coordinates];
     } else {
-        NSLog(@"Location not found: %@", locationName);
+        NSLog(@"DSAMapViewController searchLocation: Location not found: %@", locationName);
     }
 }
 
@@ -402,86 +370,67 @@
     [scrollView reflectScrolledClipView:[scrollView contentView]];
 }
 
-- (void)displayPopupForLocation:(NSString *)locationName atCoordinates:(NSPoint)coordinates {
-    NSMutableString *popupText = [NSMutableString string];
-    
-    // Find the location in self.locations
-    NSDictionary *location = nil;
-    for (NSDictionary *loc in self.locations) {
-        if ([loc[@"name"] isEqualToString:locationName]) {
-            location = loc;
-            break;
-        }
-    }
-    
-    if (!location) {
-        NSLog(@"Error: Could not find location in locations array");
-        return;
-    }
-    
-    // Basic location info (from self.locations)
-    [popupText appendFormat:@"%@ (%@)\n", location[@"name"], location[@"type"]];
-    
-    // Check self.warriorAcademies for additional data
-    NSDictionary *warriorInfo = [self findEntryWithMatchingOrt:locationName inDictionary:self.warriorAcademies];
-    if (warriorInfo) {
-        [popupText appendFormat:@"Warrior Academy: %@\n", warriorInfo[@"Langer Name"]];
-    }
-    
-    // Check self.mageAcademies for additional data
-    NSDictionary *mageInfo = [self findEntryWithMatchingOrt:locationName inDictionary:self.mageAcademies];
-    if (mageInfo) {
-        [popupText appendFormat:@"Mage Academy:\n%@\nSpecialization: %@\nLeader: %@\n",
-         mageInfo[@"Weltlicher Name"],
-         mageInfo[@"Spezialgebiet"],
-         mageInfo[@"Akademieleiter"]];
-    }
-    
-    // Handle the case where no additional data is found
-    if (!warriorInfo && !mageInfo) {
-        [popupText appendString:@"No additional information available.\n"];
-    }
-    
-    // Display the popup
-    //[self showPopupWithText:popupText atCoordinates:coordinates];
+# pragma mark - NSCombobox related stuffs
+
+- (NSInteger)numberOfItemsInComboBox:(NSComboBox *)comboBox {
+    // NSLog(@"DSAAdventureGenerationController numberOfItemsInComboBox called");
+    return self.filteredLocations.count;
 }
 
-- (NSDictionary *)findEntryWithMatchingOrt:(NSString *)locationName inDictionary:(NSDictionary *)dictionary {
-    for (NSString *key in dictionary) {
-        NSDictionary *entry = dictionary[key];
-        if ([entry[@"Ort"] isEqualToString:locationName]) {
-            return entry;
-        }
-    }
-    return nil; // Return nil if no match is found
+- (id)comboBox:(NSComboBox *)comboBox objectValueForItemAtIndex:(NSInteger)index {
+    // NSLog(@"DSAAdventureGenerationController objectValueForItemAtIndex called");
+    return self.filteredLocations[index];
 }
 
-- (void)showPopupWithText:(NSString *)text atCoordinates:(NSPoint)coordinates {
-    // Create the popover
-    NSPopover *popover = [[NSPopover alloc] init];
-    popover.behavior = NSPopoverBehaviorTransient;
+- (void)comboBoxWillDismiss:(NSNotification *)notification {
+    // NSLog(@"DSAAdventureGenerationController comboBoxWillDismiss called Notification sender %@", notification.object);
+    NSComboBox *comboBox = (NSComboBox *)notification.object;
+    NSString *text = [comboBox stringValue];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF CONTAINS[cd] %@", text];
+    self.filteredLocations = [self.locationsArray filteredArrayUsingPredicate:predicate];
+    [comboBox reloadData];
+}
+
+- (void)comboBoxSelectionDidChange:(NSNotification *)notification {
+    // NSLog(@"DSAAdventureGenerationController comboBoxSelectionDidChange called");
+    NSComboBox *comboBox = (NSComboBox *)notification.object;
+    NSInteger selectedIndex = [comboBox indexOfSelectedItem];
+
+    if (selectedIndex >= 0) {
+        NSString *selectedItem = self.filteredLocations[selectedIndex]; // Get from filtered list
+        // NSLog(@"comboBoxSelectionDidChange called: %@", selectedItem);
+        
+        // Ensure OK button is updated based on selection
+        BOOL isValid = [self.locationsArray containsObject:selectedItem];
+        //[self.okButton setEnabled:isValid];
+        if (isValid)
+          {
+            [self searchLocation: comboBox];  
+          }
+    }
+}
+
+- (void)controlTextDidChange:(NSNotification *)notification {
+    // NSLog(@"DSAAdventureGenerationController controlTextDidChange called Notification sender %@", notification.object);
+    NSComboBox *comboBox = (NSComboBox *)notification.object;
+    NSString *input = [comboBox stringValue];
     
-    NSLog(@"Going to show the popup!!!");
-    
-    // Create a simple NSTextField for the content
-    NSTextField *textField = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 250, 150)];
-    textField.stringValue = text;
-    textField.editable = NO;
-    textField.bordered = NO;
-    textField.backgroundColor = [NSColor clearColor];
-    
-    // Set the popover's content view controller
-    NSViewController *popoverController = [[NSViewController alloc] init];
-    popoverController.view = textField;
-    popover.contentViewController = popoverController;
-    
-    // Convert map coordinates to view coordinates (accounting for flipping if needed)
-    NSPoint viewCoordinates = [self.mapImageView convertPoint:coordinates toView:self.mapScrollView.contentView];
-    
-    // Display the popover near the location
-    [popover showRelativeToRect:NSMakeRect(viewCoordinates.x, viewCoordinates.y, 100, 100)
-                         ofView:self.mapScrollView
-                  preferredEdge:0];
+    // Filter locations
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF BEGINSWITH[c] %@", input];
+    self.filteredLocations = [self.locationsArray filteredArrayUsingPredicate:predicate];
+
+    // Refresh the combo box data
+    [comboBox reloadData];
+    [comboBox noteNumberOfItemsChanged]; // Ensure UI refresh
+
+    // Enable OK button only if input exactly matches a known location
+    // NSLog(@"controlTextDidChange: location: %@ ARRAY: %@", input, self.locationsArray);
+    BOOL isValid = [self.locationsArray containsObject:input];
+    //[self.okButton setEnabled:isValid];
+    if (isValid)
+      {
+        [self searchLocation: comboBox];  
+      }
 }
 
 @end

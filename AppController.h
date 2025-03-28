@@ -14,15 +14,17 @@
 #import <AppKit/AppKit.h>
 
 @class DSACharacterGenerationController;
+@class DSAAdventureGenerationController;
 @class DSAMapViewController;
 @class DSAEquipmentListViewController;
 @class DSANameGenerationController;
 
-@interface AppController : NSObject
+@interface AppController : NSObject <NSComboBoxDataSource, NSComboBoxDelegate>
 
 
 
 @property (strong) DSACharacterGenerationController *characterGenController;
+@property (strong) DSAAdventureGenerationController *adventureGenController;
 @property (nonatomic, strong) DSAMapViewController *mapViewController; // Retain the map view controller
 @property (nonatomic, strong) DSAEquipmentListViewController *equipmentListViewController; // Retain the equipment view controller
 @property (nonatomic, strong) DSANameGenerationController *nameGenerationController; // Retain the equipment view controller

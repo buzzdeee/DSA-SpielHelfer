@@ -10,6 +10,7 @@
 
 #import "AppController.h"
 #import "DSACharacterGenerationController.h"
+#import "DSAAdventureGenerationController.h"
 #import "DSADocumentController.h"
 #import "DSACharacterWindowController.h"
 #import "DSAAdventureWindowController.h"
@@ -20,6 +21,7 @@
 #import "DSAMapViewController.h"
 #import "DSAEquipmentListViewController.h"
 #import "DSANameGenerationController.h"
+#import "DSALocations.h"
 
 @implementation AppController
 
@@ -57,8 +59,6 @@
   NSLog(@"AppController: showPrefPanel called!");
 }
 
-
-
 - (void)setupApplication
 {
   // Setup global settings, preferences, or shared resources here
@@ -94,6 +94,8 @@
   // Show the window
   [self.nameGenerationController showWindow:self];
 }
+
+#pragma mark Character Generation
 
 - (IBAction)newCharacterGeneration:(id)sender
 {
@@ -131,29 +133,49 @@
     }
 }
 
-- (IBAction)createNewAdventureDocument:(id)sender
-{
+#pragma mark Adventure Generation
+
+- (IBAction)newAdventureGeneration:(id)sender {
+    NSLog(@"AppController: newAdventureGeneration was called");
+    
+    // Instantiate the adventure generation controller
+    self.adventureGenController = [[DSAAdventureGenerationController alloc] init];
+
+    // Set up completion handler to create the adventure document after selecting a location
+    __weak typeof(self) weakSelf = self;
+    self.adventureGenController.completionHandler = ^(NSString *selectedLocation) {
+        if (selectedLocation) { // Only proceed if a valid selection was made
+            [weakSelf createNewAdventureDocument:selectedLocation];
+        } else {
+            NSLog(@"Adventure generation was cancelled.");
+        }
+    };
+
+    // Start adventure generation process
+    [self.adventureGenController startAdventureGeneration:sender];
+}
+
+- (void)createNewAdventureDocument:(NSString *) selectedLocation {
     NSError *error = nil;
     DSADocumentController *docController = [DSADocumentController sharedDocumentController];
     NSLog(@"AppController createNewAdventureDocument! calling makeUntitledDocumentOfType....");
+    
     DSAAdventureDocument *newDocument = [docController makeUntitledDocumentOfType:@"DSAAdventure" error:&error];
+    DSALocations *locations = [DSALocations sharedInstance];
 
     if (newDocument) {
-        [docController addDocument:newDocument]; // Add the document, not the model!
+        if (selectedLocation) {
+            newDocument.model.currentLocation = [locations locationWithName:selectedLocation];
+        }
+        [docController addDocument:newDocument];
         [newDocument makeWindowControllers];
         [newDocument showWindows];
         [newDocument updateChangeCount:NSChangeDone];
     }
-    if(error){
+
+    if (error) {
         NSLog(@"Error creating Document: %@", error);
     }
 }
-
-/*
-- (IBAction)addCharacterFromFile: (id) sender
-{
-  
-}
-*/
 
 @end

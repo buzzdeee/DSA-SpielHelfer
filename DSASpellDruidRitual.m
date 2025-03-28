@@ -500,7 +500,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Vulkanglasdolch" inModel: castingCharacter]; 
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -574,7 +574,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Vulkanglasdolch" inModel: castingCharacter]; 
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -639,7 +639,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSASpellResult *spellResult = [[DSASpellResult alloc] init];
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Vulkanglasdolch" inModel: castingCharacter]; 
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat keinen persönlichen Vulkanglasdolch."), [(DSAObject *)target name]];
@@ -673,7 +673,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSASpellResult *spellResult = [[DSASpellResult alloc] init];
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Vulkanglasdolch" inModel: castingCharacter]; 
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat keinen persönlichen Vulkanglasdolch."), [(DSAObject *)target name]];
@@ -698,7 +698,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSASpellResult *spellResult = [[DSASpellResult alloc] init];
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Vulkanglasdolch" inModel: castingCharacter]; 
-  if (![target.ownerUUID isEqualToString: castingCharacter.modelID])
+  if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
       spellResult.result = DSASpellResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat keinen persönlichen Vulkanglasdolch."), [(DSAObject *)target name]];

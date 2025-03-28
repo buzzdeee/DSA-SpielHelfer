@@ -31,8 +31,13 @@
 
 @interface DSAClockAnimationView : NSImageView
 
-@property (nonatomic, strong) DSAWeather *gameWeather;
-@property (nonatomic, strong) DSAAdventureClock *gameClock;
+@property (nonatomic, weak) DSAWeather *gameWeather;
+@property (nonatomic, weak) DSAAdventureClock *gameClock;
+
+@property (nonatomic, assign) NSUInteger currentHour;
+@property (nonatomic, assign) NSUInteger currentMinute;
+@property (nonatomic, assign) DSAMoonPhase currentMoonPhase;
+@property (nonatomic, strong) NSTimer *updateTimer;
 
 // Method to update the animation based on the current time and moon phase
 - (void)updateAnimationForHour:(NSUInteger)hour 

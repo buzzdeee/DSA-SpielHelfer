@@ -31,10 +31,9 @@
 #import "DSAListSelectorPopoverViewController.h"
 #import "DSARoutePlanner.h"
 
-@interface DSAMapViewController : NSWindowController <NSTextFieldDelegate>
+@interface DSAMapViewController : NSWindowController <NSComboBoxDelegate, NSComboBoxDataSource>
 
 @property (nonatomic, weak) IBOutlet DSAPannableScrollView *mapScrollView; // Connected in Gorm
-@property (nonatomic, strong) DSAListSelectorPopoverViewController *listSelectorPopover;
 @property (nonatomic, strong) NSImageView *mapImageView;
 @property (nonatomic, strong) NSArray *locations;                 // stores the locations array read from Orte.json
 @property (nonatomic, strong) NSArray *regions;
@@ -44,26 +43,24 @@
 @property (nonatomic, strong) NSDictionary *warriorAcademies;
 @property (nonatomic, assign) CGFloat currentZoomLevel;
 @property (nonatomic, weak) IBOutlet NSSlider *sliderZoom;        // Slider for zooming
-@property (nonatomic, weak) IBOutlet NSTextField *fieldLocationSearch; // Text field for location search
-@property (nonatomic, weak) IBOutlet NSTextField *fieldLocationDestination; // destination for route planning
+@property (nonatomic, weak) IBOutlet NSComboBox *fieldLocationSearch; // Text field for location search
+@property (nonatomic, weak) IBOutlet NSComboBox *fieldLocationDestination; // destination for route planning
 @property (nonatomic, weak) IBOutlet NSButton *buttonCalculateRoute;
 @property (nonatomic, weak) IBOutlet NSSwitch *switchRegions;
 @property (nonatomic, weak) IBOutlet NSSwitch *switchStreets;
 
 @property (nonatomic, strong) DSARoutePlanner *routePlanner;
 
-@property (strong) NSWindow *testWindow;
-@property (strong, nonatomic) NSPopover *testPopover; // to be removed once testing done
-@property (nonatomic, strong) NSPopover *listPopover;
-//@property (nonatomic, strong) DSAListSelectorPopoverViewController *popoverContentVC;
-@property (nonatomic, strong) DSAListSelectorPopoverViewController *listSelectorPopoverVC;
+
+@property (strong) NSArray<NSString *> *locationsArray;
+@property (strong) NSArray<NSString *> *filteredLocations;
 
 //- (void)setupMapView; // Method to setup the map
 - (void)jumpToLocationWithCoordinates:(NSPoint)coordinates; // Method to jump to a location
 
 // Actions for slider and search
 - (IBAction)zoomChanged:(id)sender; // Action for zoom slider
-- (IBAction)searchLocation:(id)sender; // Action for search field
+- (void)searchLocation:(NSComboBox *)sender; // Action for search field
 - (IBAction)calculateRoute:(id)sender;  // calculate and draw the route
 
 @end
