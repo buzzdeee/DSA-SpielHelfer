@@ -27,6 +27,7 @@
 
 // DSAMapViewController.h
 #import <AppKit/AppKit.h>
+#import <WebKit/WebKit.h>
 #import "DSAPannableScrollView.h"
 #import "DSAListSelectorPopoverViewController.h"
 #import "DSARoutePlanner.h"
@@ -38,6 +39,7 @@
 @property (nonatomic, strong) NSArray *locations;                 // stores the locations array read from Orte.json
 @property (nonatomic, strong) NSArray *regions;
 @property (nonatomic, strong) NSArray *streets;
+@property (nonatomic, weak) NSTextField *locationInfos;
 
 @property (nonatomic, strong) NSDictionary *mageAcademies;
 @property (nonatomic, strong) NSDictionary *warriorAcademies;
@@ -63,8 +65,8 @@
 - (void)searchLocation:(NSComboBox *)sender; // Action for search field
 - (IBAction)calculateRoute:(id)sender;  // calculate and draw the route
 
+- (void)showInfosForLocationWithName: (NSString *) name;
+
 @end
 
 #endif // _DSAMAPVIEWCONTROLLER_H_
-
-;

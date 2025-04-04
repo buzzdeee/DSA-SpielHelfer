@@ -1,0 +1,93 @@
+{
+  "Achaz": {
+    "Typkategorie": [ "Kulturschaffend" ],
+    "Images": [ "Achaz_1.webp", "Achaz_2.webp" ],
+    "Eigenschaften Constraints": {
+      "TA": "3-",
+      "AG": "7+"
+    },
+    "Eigenschaften": {
+      "MU": [ "1W3", "6", "(2/4)" ],
+      "IN": [ "1W3", "10", "(1/2)" ],
+      "GE": [ "1W3", "9", "(1/2)" ],
+      "KK": [ "1W3", "6", "(1/0)" ],
+      "KL": [ "1W3", "8", "(0/1)" ],
+      "CH": [ "1W3", "8", "(0/1)" ],
+      "FF": [ "1W3", "9", "(1/2)" ]
+    },
+    "RS": 2,
+    "AT": [ "8", "(11/13)" ],
+    "PA": [ "6", "(8/10)" ],
+    "LE": [ "2W6", "15", "(15/30)" ],
+    "GS": "GST1",
+    "AU": "LE+KK",
+    "MR": [ "1W2", "(2/4)" ],
+    "TP": "abhänging von Waffe",
+    "Größe": "ca. 9 Spann",
+    "Gewicht": "ca. 60 Stein",
+    "Waffen": [
+      "Speer",
+      "Schleuder",
+      "Wurfnetz",
+      "Dolch"
+    ],
+    "Besonderheiten": {
+      "Kältestarre": {
+         "XXX": "TBD see Bestiarium S. 11"
+      }
+    },    
+    "Herkunft": {
+      "Echsensümpfe": {
+        "KK": "+2",
+        "RS": "+1",
+        "Waffen": [ "Doppelaxt" ]
+      },
+      "Orkland": {
+        "RS": "-1"
+      },
+      "Waldinseln": {
+        "FF": "-2",
+        "Größe": "ca. 2 Schritt, 2 Spann",
+        "Gewicht": "ca. 90 Stein"
+      },
+      "Maraskan": { },
+      "Bodirtal": { }
+    }
+  },
+  "Affenmenschen": {
+    "Typkategorie": [ "Kulturschaffend" ],
+    "Images": [ "Affenmensch_1.webp", "Affenmensch_2.webp" ],
+    "Eigenschaften Constraints": {
+      "NG": "5+",
+      "AG": "8+"
+    },
+    "Eigenschaften": {
+      "MU": [ "1W3", "9" ],
+      "IN": [ "1W3", "10" ],
+      "GE": [ "1W3", "8" ],
+      "KK": [ "1W3", "11" ],
+      "KL": [ "1W3", "4" ],
+      "CH": [ "1W3", "6" ],
+      "FF": [ "1W3", "8" ]
+    },
+    "RS": 0,
+    "AT": [ "9" ],
+    "PA": [ "8" ],
+    "LE": [ "25", "(5/10)" ],
+    "GS": "GST1",
+    "AU": "LE+KK",
+    "MR": [ "1W2", "-12" ],
+    "TP": "abhänging von Waffe",
+    "Größe": "ca. 8 - 9 Spann",
+    "Gewicht": "ca. 70 Stein",
+    "Waffen": [
+      "Keule",
+      "Speer"
+    ],
+    "Besonderheiten": { },    
+    "Herkunft": {
+      "Schwarze Sichel": { },
+      "Ehernes Schwert": { }
+    }
+  }
+}

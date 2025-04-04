@@ -12,7 +12,7 @@ ADDITIONAL_OBJCFLAGS += -fobjc-arc -g
 ADDITIONAL_CFLAGS += 
 
 # Additional flags to pass to the linker
-ADDITIONAL_LDFLAGS += -lexecinfo 
+ADDITIONAL_LDFLAGS +=  
 
 # Additional include directories the compiler should search
 ADDITIONAL_INCLUDE_DIRS += 

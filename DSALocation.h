@@ -36,6 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger y; // Y coordinate on the main map
 @property (nonatomic, strong) NSString *type; // City, village, dungeon, etc.
 @property (nonatomic, strong) NSString *region; // Region code
+@property (nonatomic, strong) NSString *htmlinfo;
+@property (nonatomic, strong) NSString *shortinfo;
+@property (nonatomic, strong) NSString *plaininfo;
 @property (nonatomic, strong, nullable) DSALocation *parentLocation; // Parent (if inside a detailed location)
 @property (nonatomic, strong, nullable) NSMutableArray<DSALocation *> *sublocations; // Detailed sublocations
 @property (nonatomic, assign) NSInteger detailX; // X coord within the detailed map

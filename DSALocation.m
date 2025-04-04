@@ -62,6 +62,9 @@ dungeon.dungeonLevel = 1;
         _y = [dict[@"y"] integerValue];
         _type = dict[@"type"];
         _region = dict[@"region"];
+        _htmlinfo = dict[@"htmlinfo"];
+        _shortinfo = dict[@"shortinfo"];
+        _plaininfo = dict[@"plaininfo"];
         _sublocations = [NSMutableArray array]; // Start empty
         _detailX = -1; // Default: not in a sublocation
         _detailY = -1;
@@ -92,6 +95,9 @@ dungeon.dungeonLevel = 1;
     [coder encodeInteger:self.y forKey:@"y"];
     [coder encodeObject:self.type forKey:@"type"];
     [coder encodeObject:self.region forKey:@"region"];
+    [coder encodeObject:self.shortinfo forKey:@"shortinfo"];
+    [coder encodeObject:self.plaininfo forKey:@"plaininfo"];
+    [coder encodeObject:self.htmlinfo forKey:@"htmlinfo"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -102,6 +108,9 @@ dungeon.dungeonLevel = 1;
         _y = [coder decodeIntegerForKey:@"y"];
         _type = [coder decodeObjectForKey:@"type"];
         _region = [coder decodeObjectForKey:@"region"];
+        _shortinfo = [coder decodeObjectForKey:@"shortinfo"];
+        _plaininfo = [coder decodeObjectForKey:@"plaininfo"];
+        _htmlinfo = [coder decodeObjectForKey:@"htmlinfo"];
     }
     return self;
 }

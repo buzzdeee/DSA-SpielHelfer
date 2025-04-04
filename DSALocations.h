@@ -41,6 +41,8 @@
 - (NSArray<NSString *> *)locationNames;
 
 - (DSALocation *)locationWithName:(NSString *)name;
+- (NSString *) htmlInfoForLocationWithName: (NSString *) name;
+- (NSString *) plainInfoForLocationWithName: (NSString *) name;
 - (NSArray<NSString *> *)locationNamesOfType:(NSString *)type;
 - (NSArray<NSString *> *)locationNamesOfTypes:(NSArray<NSString *> *)types;
 - (NSArray<NSString *> *)locationNamesOfTypes:(NSArray<NSString *> *)types matching:(NSString *)match;

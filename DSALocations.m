@@ -113,6 +113,28 @@
     return nil; // Not found
 }
 
+- (NSString *)htmlInfoForLocationWithName:(NSString *)name {
+    @synchronized (self) {
+        for (DSALocation *location in self.locations) {
+            if ([location.name isEqualToString:name]) {
+                return location.htmlinfo;
+            }
+        }
+    }
+    return nil; // Not found
+}
+
+- (NSString *)plainInfoForLocationWithName:(NSString *)name {
+    @synchronized (self) {
+        for (DSALocation *location in self.locations) {
+            if ([location.name isEqualToString:name]) {
+                return location.plaininfo;
+            }
+        }
+    }
+    return nil; // Not found
+}
+
 - (NSArray<NSString *> *)locationNamesOfType:(NSString *)type {
     NSMutableArray *results = [NSMutableArray array];
 

@@ -5123,7 +5123,51 @@
 	"Weaponshop_2.webp",
 	"Wegweiser_1.webp",
 	"Wegweiser_2.webp",
-	"sun.png"
+	"sun.png",
+	"Achaz_1-128x128.webp",
+	"Achaz_1-256x256.webp",
+	"Achaz_1-32x32.webp",
+	"Achaz_1-512x512.webp",
+	"Achaz_1-64x64.webp",
+	"Achaz_1.webp",
+	"Achaz_2-128x128.webp",
+	"Achaz_2-256x256.webp",
+	"Achaz_2-32x32.webp",
+	"Achaz_2-512x512.webp",
+	"Achaz_2-64x64.webp",
+	"Achaz_2.webp",
+	"Affenmensch_1-128x128.webp",
+	"Affenmensch_1-256x256.webp",
+	"Affenmensch_1-32x32.webp",
+	"Affenmensch_1-512x512.webp",
+	"Affenmensch_1-64x64.webp",
+	"Affenmensch_1.webp",
+	"Affenmensch_2-128x128.webp",
+	"Affenmensch_2-256x256.webp",
+	"Affenmensch_2-32x32.webp",
+	"Affenmensch_2-512x512.webp",
+	"Affenmensch_2-64x64.webp",
+	"Affenmensch_2.webp",
+	"Hafen_1-128x128.webp",
+	"Hafen_1-256x256.webp",
+	"Hafen_1-32x32.webp",
+	"Hafen_1-512x512.webp",
+	"Hafen_1-64x64.webp",
+	"Hafen_2-128x128.webp",
+	"Hafen_2-256x256.webp",
+	"Hafen_2-32x32.webp",
+	"Hafen_2-512x512.webp",
+	"Hafen_2-64x64.webp",
+	"Wegweiser_1-128x128.webp",
+	"Wegweiser_1-256x256.webp",
+	"Wegweiser_1-32x32.webp",
+	"Wegweiser_1-512x512.webp",
+	"Wegweiser_1-64x64.webp",
+	"Wegweiser_2-128x128.webp",
+	"Wegweiser_2-256x256.webp",
+	"Wegweiser_2-32x32.webp",
+	"Wegweiser_2-512x512.webp",
+	"Wegweiser_2-64x64.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;
@@ -5153,7 +5197,7 @@
 	"gnustep-base",
 	"gnustep-gui"
     );
-    LINKEROPTIONS = "-lexecinfo";
+    LINKEROPTIONS = "";
     "LOCALIZED_RESOURCES" = (
 	"DSA-SpielHelfer.gorm",
 	"CharacterGeneration.gorm",
@@ -5198,7 +5242,8 @@
 	"Strassen.geojson",
 	"location_to_road.json",
 	"road_intersections.geojson",
-	"routes.geojson"
+	"routes.geojson",
+	"NPC.json"
     );
     "OTHER_SOURCES" = (
 	"DSA-SpielHelfer_main.m"

@@ -328,11 +328,13 @@
     
     if (!NSEqualPoints(coordinates, NSZeroPoint)) {
         [self jumpToLocationWithCoordinates:coordinates];
+        [self showInfosForLocationWithName: locationName];
         // [self displayPopupForLocation:locationName atCoordinates:coordinates];
     } else {
         NSLog(@"DSAMapViewController searchLocation: Location not found: %@", locationName);
     }
 }
+
 
 - (void)jumpToLocationWithCoordinates:(NSPoint)coordinates {
     // 1. Flip the Y-coordinate to match the scroll view's coordinate system (origin at bottom-left)
@@ -429,8 +431,16 @@
     //[self.okButton setEnabled:isValid];
     if (isValid)
       {
-        [self searchLocation: comboBox];  
+        [self searchLocation: comboBox];
       }
+}
+
+- (void)showInfosForLocationWithName: (NSString *) name {
+    NSLog(@"DSAMapViewController showInfosForLocationWithName %@", name);
+    DSALocations *locations = [DSALocations sharedInstance];
+    NSString *plainInfo = [locations plainInfoForLocationWithName: name];
+    
+    self.locationInfos.stringValue = plainInfo;
 }
 
 @end
