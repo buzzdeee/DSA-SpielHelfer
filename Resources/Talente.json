@@ -48,7 +48,8 @@
         "Perrainegeweihter": 2,
         "Ingerimmgeweihter": 2,
         "Rahjageweihter": 3,
-        "Swafnirgeweihter": 4
+        "Swafnirgeweihter": 4,
+        "Other NPC": 0
       }
     },
     "Boxen": {
@@ -98,7 +99,8 @@
         "Perrainegeweihter": 1,
         "Ingerimmgeweihter": 1,
         "Rahjageweihter": 2,
-        "Swafnirgeweihter": 3
+        "Swafnirgeweihter": 3,
+        "Other NPC": 0        
       }
     },
     "Hruruzat": {
@@ -148,7 +150,8 @@
         "Perrainegeweihter": -7,
         "Ingerimmgeweihter": -7,
         "Rahjageweihter": -6,
-        "Swafnirgeweihter": -7
+        "Swafnirgeweihter": -7,
+        "Other NPC": 0        
       }
     },
     "Ringen": {
@@ -198,7 +201,8 @@
         "Perrainegeweihter": 1,
         "Ingerimmgeweihter": 2,
         "Rahjageweihter": 2,
-        "Swafnirgeweihter": 3
+        "Swafnirgeweihter": 3,
+        "Other NPC": 0        
       }
     },
     "Äxte und Beile": {
@@ -248,7 +252,8 @@
         "Perrainegeweihter": -4,
         "Ingerimmgeweihter": 1,
         "Rahjageweihter": -4,
-        "Swafnirgeweihter": 3
+        "Swafnirgeweihter": 3,
+        "Other NPC": 0        
       }
     },
     "Dolche": {
@@ -298,7 +303,8 @@
         "Perrainegeweihter": 1,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 2,
-        "Swafnirgeweihter": 1
+        "Swafnirgeweihter": 1,
+        "Other NPC": 0        
       }
     },
     "Infanteriewaffen": {
@@ -348,7 +354,8 @@
         "Perrainegeweihter": -5,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": -4,
-        "Swafnirgeweihter": 2
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Linkshändig": {
@@ -398,7 +405,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": 0
+        "Swafnirgeweihter": 0,
+        "Other NPC": 0        
       }
     },
     "Kettenwaffen": {
@@ -448,7 +456,8 @@
         "Perrainegeweihter": -5,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": -4,
-        "Swafnirgeweihter": 1
+        "Swafnirgeweihter": 1,
+        "Other NPC": 0        
       }
     },
     "Peitsche": {
@@ -498,7 +507,8 @@
         "Perrainegeweihter": -2,
         "Ingerimmgeweihter": -2,
         "Rahjageweihter": -2,
-        "Swafnirgeweihter": -1
+        "Swafnirgeweihter": -1,
+        "Other NPC": 0        
       }
     },
     "Scharfe Hiebwaffen": {
@@ -548,7 +558,8 @@
         "Perrainegeweihter": -2,
         "Ingerimmgeweihter": 2,
         "Rahjageweihter": -2,
-        "Swafnirgeweihter": 2
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Schwerter": {
@@ -598,7 +609,8 @@
         "Perrainegeweihter": -3,
         "Ingerimmgeweihter": -2,
         "Rahjageweihter": -3,
-        "Swafnirgeweihter": 2
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Speere und Stäbe": {
@@ -648,7 +660,8 @@
         "Perrainegeweihter": 1,
         "Ingerimmgeweihter": 1,
         "Rahjageweihter": 0,
-        "Swafnirgeweihter": 2
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Stichwaffen": {
@@ -698,7 +711,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": -1,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": 0
+        "Swafnirgeweihter": 0,
+        "Other NPC": 0        
       }
     },
     "Stumpfe Hiebwaffen": {
@@ -748,7 +762,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 2,
         "Rahjageweihter": 0,
-        "Swafnirgeweihter": 2
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Zweihänder": {
@@ -798,7 +813,8 @@
         "Perrainegeweihter": -5,
         "Ingerimmgeweihter": -1,
         "Rahjageweihter": -5,
-        "Swafnirgeweihter": 2
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Lanzenreiten": {
@@ -848,7 +864,8 @@
         "Perrainegeweihter": -5,
         "Ingerimmgeweihter": -5,
         "Rahjageweihter": -5,
-        "Swafnirgeweihter": -5
+        "Swafnirgeweihter": -5,
+        "Other NPC": 0        
       }
     },
     "Schußwaffen": {
@@ -898,7 +915,8 @@
         "Perrainegeweihter": -3,
         "Ingerimmgeweihter": -3,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": -4
+        "Swafnirgeweihter": -4,
+        "Other NPC": 0        
       }
     },
     "Wurfwaffen": {
@@ -948,7 +966,8 @@
         "Perrainegeweihter": -3,
         "Ingerimmgeweihter": -3,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": 0
+        "Swafnirgeweihter": 0,
+        "Other NPC": 0        
       }
     },
     "Schleuder": {
@@ -998,7 +1017,8 @@
         "Perrainegeweihter": -1,
         "Ingerimmgeweihter": 1,
         "Rahjageweihter":-2,
-        "Swafnirgeweihter":-1
+        "Swafnirgeweihter":-1,
+        "Other NPC": 0        
       }
     }
   },
@@ -1051,7 +1071,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": -1,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": 0
+        "Swafnirgeweihter": 0,
+        "Other NPC": 0        
       }
     },
     "Fliegen": {
@@ -1101,7 +1122,8 @@
         "Perrainegeweihter": -1,
         "Ingerimmgeweihter": -2,
         "Rahjageweihter": -1,
-        "Swafnirgeweihter": -3
+        "Swafnirgeweihter": -3,
+        "Other NPC": 0        
       }
     },
     "Gaukeleien": {
@@ -1151,7 +1173,8 @@
         "Perrainegeweihter": -4,
         "Ingerimmgeweihter": -5,
         "Rahjageweihter": 0,
-        "Swafnirgeweihter": -4
+        "Swafnirgeweihter": -4,
+        "Other NPC": 0        
       }
     },
     "Klettern": {
@@ -1201,7 +1224,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 0,
-        "Swafnirgeweihter": 2
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Körperbeherrschung": {
@@ -1251,7 +1275,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": 2
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Reiten": {
@@ -1301,7 +1326,8 @@
         "Perrainegeweihter": 1,
         "Ingerimmgeweihter": 1,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": -2
+        "Swafnirgeweihter": -2,
+        "Other NPC": 0        
       }
     },
     "Schleichen": {
@@ -1351,7 +1377,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 2,
-        "Swafnirgeweihter": 0
+        "Swafnirgeweihter": 0,
+        "Other NPC": 0        
       }
     },
     "Schwimmen": {
@@ -1401,7 +1428,8 @@
         "Perrainegeweihter": 1,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": 7
+        "Swafnirgeweihter": 7,
+        "Other NPC": 0        
       }
     },
     "Selbstbeherrschung": {
@@ -1451,7 +1479,8 @@
         "Perrainegeweihter": 3,
         "Ingerimmgeweihter": 3,
         "Rahjageweihter": 4,
-        "Swafnirgeweihter": 3
+        "Swafnirgeweihter": 3,
+        "Other NPC": 0        
       }
     },
     "Sich Verstecken": {
@@ -1501,7 +1530,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 2,
-        "Swafnirgeweihter": -2 
+        "Swafnirgeweihter": -2,
+        "Other NPC": 0        
       }
     },
     "Tanzen": {
@@ -1551,7 +1581,8 @@
         "Perrainegeweihter": 1,
         "Ingerimmgeweihter": -1,
         "Rahjageweihter": 5,
-        "Swafnirgeweihter": 0 
+        "Swafnirgeweihter": 0,
+        "Other NPC": 0        
       }
     },
     "Zechen": {
@@ -1601,7 +1632,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 2,
         "Rahjageweihter": 4,
-        "Swafnirgeweihter": 5 
+        "Swafnirgeweihter": 5,
+        "Other NPC": 0        
       }
     }
   },
@@ -1654,7 +1686,8 @@
         "Perrainegeweihter": 2,
         "Ingerimmgeweihter": 3,
         "Rahjageweihter": 5,
-        "Swafnirgeweihter": 1 
+        "Swafnirgeweihter": 1,
+        "Other NPC": 0        
       }
     },
     "Betören": {
@@ -1704,7 +1737,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 5,
-        "Swafnirgeweihter": 0 
+        "Swafnirgeweihter": 0,
+        "Other NPC": 0        
       }
     },
     "Etikette": {
@@ -1754,7 +1788,8 @@
         "Perrainegeweihter": 1,
         "Ingerimmgeweihter": 1,
         "Rahjageweihter": 2,
-        "Swafnirgeweihter": -4 
+        "Swafnirgeweihter": -4,
+        "Other NPC": 0        
       }
     },
     "Feilschen": {
@@ -1804,7 +1839,8 @@
         "Perrainegeweihter": -1,
         "Ingerimmgeweihter": 2,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": -2 
+        "Swafnirgeweihter": -2,
+        "Other NPC": 0        
       }
     },
     "Gassenwissen": {
@@ -1854,7 +1890,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 1,
         "Rahjageweihter": 2,
-        "Swafnirgeweihter": -3
+        "Swafnirgeweihter": -3,
+        "Other NPC": 0        
       }
     },
     "Lehren": {
@@ -1904,7 +1941,8 @@
         "Perrainegeweihter": 3,
         "Ingerimmgeweihter": 3,
         "Rahjageweihter": 4,
-        "Swafnirgeweihter": 3
+        "Swafnirgeweihter": 3,
+        "Other NPC": 0        
       }
     },
     "Lügen": {
@@ -1954,7 +1992,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 4,
-        "Swafnirgeweihter": 1
+        "Swafnirgeweihter": 1,
+        "Other NPC": 0        
       }
     },
     "Menschenkenntnis": {
@@ -2004,7 +2043,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 4,
-        "Swafnirgeweihter": 1
+        "Swafnirgeweihter": 1,
+        "Other NPC": 0        
       }
     },
     "Schätzen": {
@@ -2054,7 +2094,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 3,
         "Rahjageweihter": 2,
-        "Swafnirgeweihter": 0
+        "Swafnirgeweihter": 0,
+        "Other NPC": 0        
       }
     },
     "Sich Verkleiden": {
@@ -2104,7 +2145,8 @@
         "Perrainegeweihter": -1,
         "Ingerimmgeweihter": -1,
         "Rahjageweihter": 4,
-        "Swafnirgeweihter": -2
+        "Swafnirgeweihter": -2,
+        "Other NPC": 0        
       }
     }
   },
@@ -2157,7 +2199,8 @@
         "Perrainegeweihter": -2,
         "Ingerimmgeweihter": -4,
         "Rahjageweihter": -5,
-        "Swafnirgeweihter": -5
+        "Swafnirgeweihter": -5,
+        "Other NPC": 0        
       }
     },
     "Fallenstellen": {
@@ -2207,7 +2250,8 @@
         "Perrainegeweihter": -2,
         "Ingerimmgeweihter": -4,
         "Rahjageweihter": -5,
-        "Swafnirgeweihter": -4
+        "Swafnirgeweihter": -4,
+        "Other NPC": 0        
       }
     },
     "Fesseln/Entfesseln": {
@@ -2257,7 +2301,8 @@
         "Perrainegeweihter": -3,
         "Ingerimmgeweihter": -1,
         "Rahjageweihter": 3,
-        "Swafnirgeweihter": 4
+        "Swafnirgeweihter": 4,
+        "Other NPC": 0        
       }
     },
     "Fischen/Angeln": {
@@ -2307,7 +2352,8 @@
         "Perrainegeweihter": 1,
         "Ingerimmgeweihter": -3,
         "Rahjageweihter": -4,
-        "Swafnirgeweihter": 5
+        "Swafnirgeweihter": 5,
+        "Other NPC": 0        
       }
     },
     "Pflanzenkunde": {
@@ -2357,7 +2403,8 @@
         "Perrainegeweihter": 6,
         "Ingerimmgeweihter": -2,
         "Rahjageweihter": 2,
-        "Swafnirgeweihter": 0
+        "Swafnirgeweihter": 0,
+        "Other NPC": 0        
       }
     },
     "Orientierung": {
@@ -2407,7 +2454,8 @@
         "Perrainegeweihter": 1,
         "Ingerimmgeweihter": 1,
         "Rahjageweihter": 0,
-        "Swafnirgeweihter": 5
+        "Swafnirgeweihter": 5,
+        "Other NPC": 0        
       }
     },
     "Tierkunde": {
@@ -2457,7 +2505,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": -3,
         "Rahjageweihter": -2,
-        "Swafnirgeweihter":-2 
+        "Swafnirgeweihter":-2,
+        "Other NPC": 0        
       }
     },
     "Wettervorhersage": {
@@ -2507,7 +2556,8 @@
         "Perrainegeweihter": -1,
         "Ingerimmgeweihter": -3,
         "Rahjageweihter": -4,
-        "Swafnirgeweihter": 6 
+        "Swafnirgeweihter": 6,
+        "Other NPC": 0        
       }
     },
     "Wildnisleben": {
@@ -2557,7 +2607,8 @@
         "Perrainegeweihter": 2,
         "Ingerimmgeweihter": -2,
         "Rahjageweihter": -4,
-        "Swafnirgeweihter": -3 
+        "Swafnirgeweihter": -3,
+        "Other NPC": 0        
       }
     }
   },
@@ -2610,7 +2661,8 @@
         "Perrainegeweihter": -3,
         "Ingerimmgeweihter": -4,
         "Rahjageweihter": -4,
-        "Swafnirgeweihter": -2
+        "Swafnirgeweihter": -2,
+        "Other NPC": 0        
       }
     },
     "Alte Sprachen": {
@@ -2660,7 +2712,8 @@
         "Perrainegeweihter": 2,
         "Ingerimmgeweihter": 2,
         "Rahjageweihter": 2,
-        "Swafnirgeweihter": 0
+        "Swafnirgeweihter": 0,
+        "Other NPC": 0        
       }
     },
     "Geographie": {
@@ -2710,7 +2763,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 2,
-        "Swafnirgeweihter": 2
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Geschichtswissen": {
@@ -2760,7 +2814,8 @@
         "Perrainegeweihter": 2,
         "Ingerimmgeweihter": 3,
         "Rahjageweihter": 3,
-        "Swafnirgeweihter": 1
+        "Swafnirgeweihter": 1,
+        "Other NPC": 0        
       }
     },
     "Götter und Kulte": {
@@ -2810,7 +2865,8 @@
         "Perrainegeweihter": 4,
         "Ingerimmgeweihter": 3,
         "Rahjageweihter": 4,
-        "Swafnirgeweihter": 0
+        "Swafnirgeweihter": 0,
+        "Other NPC": 0        
       }
     },
     "Kriegskunst": {
@@ -2860,7 +2916,8 @@
         "Perrainegeweihter": -7,
         "Ingerimmgeweihter": -6,
         "Rahjageweihter": -7,
-        "Swafnirgeweihter": 1
+        "Swafnirgeweihter": 1,
+        "Other NPC": 0        
       }
     },
     "Lesen/Schreiben": {
@@ -2910,7 +2967,8 @@
         "Perrainegeweihter": 4,
         "Ingerimmgeweihter": 5,
         "Rahjageweihter": 4,
-        "Swafnirgeweihter": 2
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Magiekunde": {
@@ -2960,7 +3018,8 @@
         "Perrainegeweihter": 1,
         "Ingerimmgeweihter": 2,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": -3
+        "Swafnirgeweihter": -3,
+        "Other NPC": 0        
       }
     },
     "Mechanik": {
@@ -3010,7 +3069,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 4,
         "Rahjageweihter": 0,
-        "Swafnirgeweihter": 2
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Rechnen": {
@@ -3060,7 +3120,8 @@
         "Perrainegeweihter": 2,
         "Ingerimmgeweihter": 5,
         "Rahjageweihter": 2,
-        "Swafnirgeweihter": 2
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Rechtskunde": {
@@ -3110,7 +3171,8 @@
         "Perrainegeweihter": 2,
         "Ingerimmgeweihter": 1,
         "Rahjageweihter": 2,
-        "Swafnirgeweihter": -2
+        "Swafnirgeweihter": -2,
+        "Other NPC": 0        
       }
     },
     "Sprachen Kennen": {
@@ -3160,7 +3222,8 @@
         "Perrainegeweihter": 2,
         "Ingerimmgeweihter": 2,
         "Rahjageweihter": 2,
-        "Swafnirgeweihter": 3
+        "Swafnirgeweihter": 3,
+        "Other NPC": 0        
       }
     },
     "Staatskunst": {
@@ -3210,7 +3273,8 @@
         "Perrainegeweihter": -7,
         "Ingerimmgeweihter": -7,
         "Rahjageweihter": -6,
-        "Swafnirgeweihter": -2 
+        "Swafnirgeweihter": -2,
+        "Other NPC": 0        
       }
     },
     "Sternkunde": {
@@ -3260,7 +3324,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 0,
-        "Swafnirgeweihter": 3 
+        "Swafnirgeweihter": 3,
+        "Other NPC": 0        
       }
     }
   },
@@ -3313,7 +3378,8 @@
         "Perrainegeweihter": -3,
         "Ingerimmgeweihter": -4,
         "Rahjageweihter": -4,
-        "Swafnirgeweihter": -4 
+        "Swafnirgeweihter": -4,
+        "Other NPC": 0        
       }
     },
     "Boote Fahren": {
@@ -3363,7 +3429,8 @@
         "Perrainegeweihter": 1,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": -1,
-        "Swafnirgeweihter": 5
+        "Swafnirgeweihter": 5,
+        "Other NPC": 0        
       }
     },
     "Fahrzeug Lenken": {
@@ -3413,7 +3480,8 @@
         "Perrainegeweihter": -1,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": -1,
-        "Swafnirgeweihter": -3 
+        "Swafnirgeweihter": -3,
+        "Other NPC": 0        
       }
     },
     "Falschspiel": {
@@ -3463,7 +3531,8 @@
         "Perrainegeweihter": -4,
         "Ingerimmgeweihter": -2,
         "Rahjageweihter": 2,
-        "Swafnirgeweihter": -2 
+        "Swafnirgeweihter": -2,
+        "Other NPC": 0        
       }
     },
     "Heilkunde Gift": {
@@ -3513,7 +3582,8 @@
         "Perrainegeweihter": 4,
         "Ingerimmgeweihter": 2,
         "Rahjageweihter": 3,
-        "Swafnirgeweihter": 1 
+        "Swafnirgeweihter": 1,
+        "Other NPC": 0        
       }
     },
     "Heilkunde Krankheiten": {
@@ -3563,7 +3633,8 @@
         "Perrainegeweihter": 6,
         "Ingerimmgeweihter": -1,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": 2 
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Heilkunde Seele": {
@@ -3613,7 +3684,8 @@
         "Perrainegeweihter": 3,
         "Ingerimmgeweihter": -1,
         "Rahjageweihter": 5,
-        "Swafnirgeweihter": 2 
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Heilkunde Wunden": {
@@ -3663,7 +3735,8 @@
         "Perrainegeweihter": 4,
         "Ingerimmgeweihter": 3,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": 3 
+        "Swafnirgeweihter": 3,
+        "Other NPC": 0        
       }
     },
     "Holzbearbeitung": {
@@ -3713,7 +3786,8 @@
         "Perrainegeweihter": -1,
         "Ingerimmgeweihter": 3,
         "Rahjageweihter": -1,
-        "Swafnirgeweihter": 3 
+        "Swafnirgeweihter": 3,
+        "Other NPC": 0        
       }
     },
     "Kochen": {
@@ -3763,7 +3837,8 @@
         "Perrainegeweihter": 3,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": -3 
+        "Swafnirgeweihter": -3,
+        "Other NPC": 0        
       }
     },
     "Lederarbeiten": {
@@ -3813,7 +3888,8 @@
         "Perrainegeweihter": 2,
         "Ingerimmgeweihter": 2,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": 1 
+        "Swafnirgeweihter": 1,
+        "Other NPC": 0        
       }
     },
     "Malen/Zeichnen": {
@@ -3863,7 +3939,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 2,
         "Rahjageweihter": 2,
-        "Swafnirgeweihter": 0 
+        "Swafnirgeweihter": 0,
+        "Other NPC": 0        
       }
     },
     "Musizieren": {
@@ -3913,7 +3990,8 @@
         "Perrainegeweihter": 1,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 4,
-        "Swafnirgeweihter": 2 
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Schneidern": {
@@ -3963,7 +4041,8 @@
         "Perrainegeweihter": 2,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 3,
-        "Swafnirgeweihter": 1 
+        "Swafnirgeweihter": 1,
+        "Other NPC": 0        
       }
     },
     "Schlösser Knacken": {
@@ -4013,7 +4092,8 @@
         "Perrainegeweihter": -1,
         "Ingerimmgeweihter": 2,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": 0 
+        "Swafnirgeweihter": 0,
+        "Other NPC": 0        
       }
     },
     "Singen": {
@@ -4063,7 +4143,8 @@
         "Perrainegeweihter": 1,
         "Ingerimmgeweihter": 1,
         "Rahjageweihter": 4,
-        "Swafnirgeweihter": -1 
+        "Swafnirgeweihter": -1,
+        "Other NPC": 0        
       }
     },
     "Taschendiebstahl": {
@@ -4113,7 +4194,8 @@
         "Perrainegeweihter": -4,
         "Ingerimmgeweihter": -3,
         "Rahjageweihter": 0,
-        "Swafnirgeweihter": -5 
+        "Swafnirgeweihter": -5,
+        "Other NPC": 0        
       }
     },
     "Töpfern": {
@@ -4163,7 +4245,8 @@
         "Perrainegeweihter": 2,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": -3,
-        "Swafnirgeweihter": -3 
+        "Swafnirgeweihter": -3,
+        "Other NPC": 0        
       }
     }
   },
@@ -4216,7 +4299,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": 0 
+        "Swafnirgeweihter": 0,
+        "Other NPC": 0        
       }
     },
     "Glücksspiel": {
@@ -4266,7 +4350,8 @@
         "Perrainegeweihter": -1,
         "Ingerimmgeweihter": 2,
         "Rahjageweihter": 4,
-        "Swafnirgeweihter": 3 
+        "Swafnirgeweihter": 3,
+        "Other NPC": 0        
       }
     },
     "Prophezeien": {
@@ -4316,7 +4401,8 @@
         "Perrainegeweihter": 1,
         "Ingerimmgeweihter": 0,
         "Rahjageweihter": 1,
-        "Swafnirgeweihter": 2 
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Sinnenschärfe": {
@@ -4366,7 +4452,8 @@
         "Perrainegeweihter": 1,
         "Ingerimmgeweihter": 2,
         "Rahjageweihter": 3,
-        "Swafnirgeweihter": 2 
+        "Swafnirgeweihter": 2,
+        "Other NPC": 0        
       }
     },
     "Stimmen Imitieren": {
@@ -4416,7 +4503,8 @@
         "Perrainegeweihter": 0,
         "Ingerimmgeweihter": -7,
         "Rahjageweihter": -5,
-        "Swafnirgeweihter": 1 
+        "Swafnirgeweihter": 1,
+        "Other NPC": 0        
       }
     }
   }

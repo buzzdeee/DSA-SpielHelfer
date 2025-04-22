@@ -13,7 +13,8 @@
 	    "regenerateCharacter:",
 	    "castSpell:",
 	    "showNameGenerator:",
-	    "newAdventureGeneration:"
+	    "newAdventureGeneration:",
+	    "newNPCGeneration:"
 	);
 	Outlets = (
 	);
@@ -107,10 +108,10 @@
 	    "advanceGameTimeByOneDay:",
 	    "advanceGameTimeByOneHour:",
 	    "closePanel:",
-	    "newAdventureGeneration:",
 	    "levelUp:",
 	    "levelUpBaseValues:",
-	    "startGameClock:",
+	    "newNPCGeneration:",
+	    "newAdventureGeneration:",
 	    "newCharacterGeneration:",
 	    "openMap:",
 	    "orderFrontFontPanel:",
@@ -124,7 +125,8 @@
 	    "showPrefPanel:",
 	    "showRegenerateCharacterPanel:",
 	    "showRitualsPanel:",
-	    "showUseTalentPanel:"
+	    "showUseTalentPanel:",
+	    "startGameClock:"
 	);
 	Super = NSObject;
     };

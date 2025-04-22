@@ -3474,7 +3474,8 @@ NSLog(@"popupCategorySelected called!");
     {
       [self.fieldName setBackgroundColor: [NSColor redColor]];    
     }                                                                                                                                              
-}                                                                        
+}
+                                                                        
 - (IBAction)buttonFinishClicked:(id)sender
 {
   // Validate all required fields, create the appropriate character subclass

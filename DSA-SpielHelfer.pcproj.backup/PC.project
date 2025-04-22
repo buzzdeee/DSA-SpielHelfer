@@ -69,7 +69,8 @@
 	"DSARoutePlanner.m",
 	"DSALocation.m",
 	"DSALocations.m",
-	"DSAAdventureGenerationController.m"
+	"DSAAdventureGenerationController.m",
+	"DSANPCGenerationController.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -135,7 +136,8 @@
 	"DSARoutePlanner.h",
 	"DSALocation.h",
 	"DSALocations.h",
-	"DSAAdventureGenerationController.h"
+	"DSAAdventureGenerationController.h",
+	"DSANPCGenerationController.h"
     );
     IMAGES = (
 	"Character_1.png",
@@ -5183,14 +5185,14 @@
 	"DSAItemInspection.gorm",
 	"DSAUseTalent.gorm",
 	"DSAAdventure.gorm",
-	"DSANPCGeneration.gorm",
 	"DSANameGeneration.gorm",
 	"DSAEnergiesManager.gorm",
 	"DSARegenerateEnergies.gorm",
 	"DSACastSpell.gorm",
 	"DSACastRitual.gorm",
 	"DSACharacterDead.gorm",
-	"DSAAdventureGeneration.gorm"
+	"DSAAdventureGeneration.gorm",
+	"DSANPCGenerator.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (

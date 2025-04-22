@@ -97,6 +97,7 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 @property (nonatomic, assign) NSInteger karmaPoints;
 @property (nonatomic, assign) NSInteger currentKarmaPoints;
 @property (nonatomic, assign) NSInteger mrBonus;
+@property (nonatomic, assign) NSInteger armorBaseValue;                  // esp. for different types of NPCs 
 @property (nonatomic, strong, readonly) NSImage *portrait;
 @property (nonatomic, copy) NSString *portraitName;
 @property (nonatomic, strong) DSAInventory *inventory;
@@ -402,6 +403,28 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 @interface DSACharacterHeroBlessedSwafnir : DSACharacterHeroBlessed
 @end
 // End of DSACharacterHeroBlessedSwafnir
+
+@interface DSACharacterNpc : DSACharacter
+@property (nonatomic, assign) NSInteger staticAttackBaseValue;
+@property (nonatomic, assign) NSInteger staticParryBaseValue;
+@end
+// End of DSACharacterNpc
+
+@interface DSACharacterNpcHumanoid : DSACharacterNpc
+@end
+// End of DSACharacterNpcHumanoid
+
+@interface DSACharacterNpcHumanoidAchaz : DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidAchaz
+
+@interface DSACharacterNpcHumanoidApeman : DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidApeman
+
+@interface DSACharacterNpcHumanoidElf : DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidElf
 
 #endif // _DSACHARACTER_H_
 

@@ -34,6 +34,7 @@ static NSMutableDictionary *masseDict;
 static NSMutableDictionary *talentsDict;
 static NSMutableDictionary *spellsDict;
 static NSMutableDictionary *archetypesDict;
+static NSMutableDictionary *npcTypesDict;
 static NSMutableDictionary *professionsDict;
 static NSMutableDictionary *originsDict;
 static NSMutableDictionary *mageAcademiesDict;
@@ -283,7 +284,16 @@ static NSMutableDictionary *namesDict;
           if (e)
             {
                NSLog(@"Error loading JSON: %@", e.localizedDescription);
-            }                                                 
+            }   
+          filePath = [[NSBundle mainBundle] pathForResource:@"NPC" ofType:@"json"];                         
+          npcTypesDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];   
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }                                                           
         }
     }
   return sharedInstance;
@@ -495,6 +505,14 @@ static NSMutableDictionary *namesDict;
     {
       typus = character.origin;
     }
+  else if ([archetype isEqualToString: _(@"Steppenelf")])  // Only exists as NPC, but closely related to Auelf
+    {
+      typus = @"Auelf";
+    }
+  else if ([character isKindOfClass: [DSACharacterNpc class]])  // all other NPCs for now
+    {
+      typus = @"Other NPC";
+    }
   else
     {
       typus = archetype;
@@ -556,6 +574,92 @@ static NSMutableDictionary *namesDict;
   return warriorAcademiesDict;
 }
 // end of warriorAcademies dict related methods
+
+
+// NPC dict related methods
++ (NSDictionary *) getNpcTypesDict
+{
+  return npcTypesDict;
+}
+// finds and returns all NPCTypes as an array
++ (NSArray *) getAllNpcTypesCategories
+{
+  NSMutableOrderedSet *categories = [[NSMutableOrderedSet alloc] init];
+  
+  for (NSDictionary *type in npcTypesDict)
+    {
+      [categories addObjectsFromArray: [[npcTypesDict objectForKey: type] objectForKey: @"Typkategorie"]];
+    }
+  NSArray *sortedCategories = [[categories array] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+  return sortedCategories;
+}
+
+// finds all NPC types for a given category and returns them as an array
++ (NSArray *) getAllNpcTypesForCategory: (NSString *) category
+{
+  NSMutableArray *npcTypes = [[NSMutableArray alloc] init];
+  
+  for (NSString *type in [npcTypesDict allKeys])
+    {
+      if ([[[npcTypesDict objectForKey: type] objectForKey: @"Typkategorie"] containsObject: category])
+        {
+          [npcTypes addObject: type];
+        }
+    }
+  NSArray *sortedArchetypes = [npcTypes sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+  return sortedArchetypes;
+}
+
+// returns possible levels of experience
++ (NSArray *) getAllExperienceLevelsForNpcType: (NSString *) type
+{
+  NSArray *experienceLevels = [[NSArray alloc] init];
+  
+  NSLog(@"Utils getAllExperienceLeveslForNpcType: %@, %@", type, [npcTypesDict objectForKey: type]);
+  
+  experienceLevels = [[[npcTypesDict objectForKey: type] objectForKey: @"Erfahrungsstufen"] allKeys];
+  
+  if ([experienceLevels count] == 0)
+    {
+      experienceLevels = @[ @"standard" ];
+    }
+  return experienceLevels;
+}
+
++ (NSArray *) getAllOriginsForNpcType: (NSString *) type ofSubtype: (NSString *) subtype
+{
+  NSArray *origins = [[NSArray alloc] init];
+  
+  NSLog(@"Utils getAllOriginsForNpcType: %@, %@", type, [npcTypesDict objectForKey: type]);
+  
+  if (subtype != nil && [subtype length] > 0)
+    {
+      origins = [[[[npcTypesDict objectForKey: type]
+                                 objectForKey: @"Subtypen"]
+                                 objectForKey: subtype]               
+                                 objectForKey: @"Herkunft"];
+    }
+  if ([origins count] == 0)
+    {
+      origins = [[[npcTypesDict objectForKey: type] objectForKey: @"Herkunft"] allKeys];
+    }
+  if ([origins count] == 0)
+    {
+      origins = @[ @"Aventurien" ];
+    }
+  return origins;  
+}
+
++ (NSArray *) getAllSubtypesForNpcType: (NSString *) type
+{
+  NSArray *subtypes = [[NSArray alloc] init];
+  
+  NSLog(@"Utils getAllSubtypesForNpcType: %@, %@", type, [npcTypesDict objectForKey: type]);
+  
+  subtypes = [[[npcTypesDict objectForKey: type] objectForKey: @"Subtypen"] allKeys];
+  
+  return subtypes;  // might be empty, i.e. no subtypes
+}
 
 // archetypes dict related methods
 + (NSDictionary *) getArchetypesDict

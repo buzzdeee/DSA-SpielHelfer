@@ -41,7 +41,6 @@
 static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 
-
 + (void)initialize {
     if (self == [DSACharacter class]) {
         @synchronized(self) {
@@ -95,6 +94,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                     _(@"Ingerimmgeweihter"): [DSACharacterHeroBlessedIngerimm class],
                     _(@"Rahjageweihter"): [DSACharacterHeroBlessedRahja class],
                     _(@"Swafnirgeweihter"): [DSACharacterHeroBlessedSwafnir class],
+                    _(@"Achaz"): [DSACharacterNpcHumanoidAchaz class],
+                    _(@"Affenmensch"): [DSACharacterNpcHumanoidApeman class],
+                    _(@"Elf"): [DSACharacterNpcHumanoidElf class],
                 };
             }
         }
@@ -146,6 +148,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 
         // Initialize other properties
         _isMagic = NO;
+        _armorBaseValue = 0;
         _isBlessedOne = NO;
         _isMagicalDabbler = NO;
         _element = nil;
@@ -395,6 +398,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   [coder encodeBool:self.isMagicalDabbler forKey:@"isMagicalDabbler"]; 
   [coder encodeBool:self.isBlessedOne forKey:@"isBlessedOne"];    
   [coder encodeInteger:self.mrBonus forKey:@"mrBonus"];
+  [coder encodeInteger:self.armorBaseValue forKey:@"armorBaseValue"];
   [coder encodeInteger:self.adventurePoints forKey:@"adventurePoints"];
   [coder encodeObject:self.origin forKey:@"origin"];
   [coder encodeObject:self.mageAcademy forKey:@"mageAcademy"];
@@ -461,7 +465,8 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.currentLifePoints = [coder decodeIntegerForKey:@"currentLifePoints"];
       self.currentAstralEnergy = [coder decodeIntegerForKey:@"currentAstralEnergy"];
       self.currentKarmaPoints = [coder decodeIntegerForKey:@"currentKarmaPoints"];   
-      self.mrBonus = [coder decodeIntegerForKey:@"mrBonus"];         
+      self.mrBonus = [coder decodeIntegerForKey:@"mrBonus"];
+      self.armorBaseValue = [coder decodeIntegerForKey:@"armorBaseValue"];
       self.isMagic = [coder decodeBoolForKey:@"isMagic"];
       self.isMagicalDabbler = [coder decodeBoolForKey:@"isMagicalDabbler"];      
       self.isBlessedOne = [coder decodeBoolForKey:@"isBlessedOne"];      
@@ -713,7 +718,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 }
 
 - (float)armor {
-    float totalArmor = 0.0;
+    float totalArmor = 0.0 + self.armorBaseValue;
     NSMutableSet<DSAObject *> *countedItems = [NSMutableSet set];
 
     // Iterate over body parts inventories
@@ -746,6 +751,72 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         }
     }
     return roundf(totalArmor);
+}
+
+
+/* Calculate Endurance, as described in: Abenteuer Basis Spiel, Regelbuch II, S. 9 */
+- (NSInteger) endurance {
+  NSInteger retVal;
+
+  retVal = self.lifePoints + [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue];  
+  return retVal;
+}
+
+/* calculate CarryingCapacity, as described in: Abenteuer Basis Spiel, Regelbuch II, S. 9 */
+- (NSInteger) carryingCapacity {
+  NSInteger retVal;
+  NSLog(@"DSACharacter carryingCapacity currentPositiveTraits: %@", self.currentPositiveTraits);
+  retVal = [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue] * 50;  
+  return retVal;
+}
+
+- (NSInteger) attackBaseValue {
+  NSInteger retVal;
+  
+  retVal = round(([[self.currentPositiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
+                  [[self.currentPositiveTraits valueForKeyPath: @"GE.level"] integerValue] + 
+                  [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 5);
+  return retVal;
+}
+
+
+- (NSInteger) parryBaseValue {
+  NSInteger retVal;
+  
+  retVal = round(([[self.currentPositiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
+                  [[self.currentPositiveTraits valueForKeyPath: @"GE.level"] integerValue] + 
+                  [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 5);
+  return retVal;
+}
+
+
+- (NSInteger) rangedCombatBaseValue {
+  NSInteger retVal;
+  
+  retVal = floor(([[self.currentPositiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
+                 [[self.currentPositiveTraits valueForKeyPath: @"FF.level"] integerValue] + 
+                 [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 4);
+  return retVal;
+}
+
+- (NSInteger) dodge {
+  NSInteger retVal;
+  
+  retVal = floor(([[self.currentPositiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
+                 [[self.currentPositiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
+                 [[self.currentPositiveTraits valueForKeyPath: @"GE.level"] integerValue]) / 4) - 
+                 roundf(self.encumbrance);
+  return retVal;
+}
+
+- (NSInteger) magicResistance {
+  NSInteger retVal;
+  
+  retVal = floor(([[self.currentPositiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
+                 [[self.currentPositiveTraits valueForKeyPath: @"KL.level"] integerValue] +
+                 self.level) / 3) - 2 * [[self.currentNegativeTraits valueForKeyPath: @"AG.level"] integerValue] +
+                 self.mrBonus;
+  return retVal;
 }
 
 - (NSImage *)portrait {
@@ -2147,74 +2218,6 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
   return self;
 }
-
-
-
-/* Calculate Endurance, as described in: Abenteuer Basis Spiel, Regelbuch II, S. 9 */
-- (NSInteger) endurance {
-  NSInteger retVal;
-
-  retVal = self.lifePoints + [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue];  
-  return retVal;
-}
-
-/* calculate CarryingCapacity, as described in: Abenteuer Basis Spiel, Regelbuch II, S. 9 */
-- (NSInteger) carryingCapacity {
-  NSInteger retVal;
-  
-  retVal = [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue] * 50;  
-  return retVal;
-}
-
-- (NSInteger) attackBaseValue {
-  NSInteger retVal;
-  
-  retVal = round(([[self.currentPositiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
-                  [[self.currentPositiveTraits valueForKeyPath: @"GE.level"] integerValue] + 
-                  [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 5);
-  return retVal;
-}
-
-
-- (NSInteger) parryBaseValue {
-  NSInteger retVal;
-  
-  retVal = round(([[self.currentPositiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
-                  [[self.currentPositiveTraits valueForKeyPath: @"GE.level"] integerValue] + 
-                  [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 5);
-  return retVal;
-}
-
-
-- (NSInteger) rangedCombatBaseValue {
-  NSInteger retVal;
-  
-  retVal = floor(([[self.currentPositiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
-                 [[self.currentPositiveTraits valueForKeyPath: @"FF.level"] integerValue] + 
-                 [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 4);
-  return retVal;
-}
-
-- (NSInteger) dodge {
-  NSInteger retVal;
-  
-  retVal = floor(([[self.currentPositiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
-                 [[self.currentPositiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
-                 [[self.currentPositiveTraits valueForKeyPath: @"GE.level"] integerValue]) / 4) - 
-                 roundf(self.encumbrance);
-  return retVal;
-}
-
-- (NSInteger) magicResistance {
-  NSInteger retVal;
-  
-  retVal = floor(([[self.currentPositiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
-                 [[self.currentPositiveTraits valueForKeyPath: @"KL.level"] integerValue] +
-                 self.level) / 3) - 2 * [[self.currentNegativeTraits valueForKeyPath: @"AG.level"] integerValue] +
-                 self.mrBonus;
-  return retVal;
-}
-
 + (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)key
 {
   NSSet *keyPaths = [super keyPathsForValuesAffectingValueForKey:key];
@@ -3703,4 +3706,63 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 }
 @end
 // End of DSACharacterHeroBlessedSwafnir
+
+@implementation DSACharacterNpc : DSACharacter
+
+- (void)encodeWithCoder:(NSCoder *)coder
+{
+  [super encodeWithCoder: coder];
+        
+  [coder encodeInteger:self.staticAttackBaseValue forKey:@"staticAttackBaseValue"];
+  [coder encodeInteger:self.staticParryBaseValue forKey:@"staticParryBaseValue"];
+
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder
+{
+  self = [super initWithCoder: coder];
+  if (self)
+    {
+      self.staticAttackBaseValue = [coder decodeIntegerForKey:@"staticAttachBaseValue"];               
+      self.staticParryBaseValue = [coder decodeIntegerForKey:@"staticParryBaseValue"];
+    }
+  return self;
+}
+
+// No wild calculations for NPCs, just return the mrBonus value...
+- (NSInteger) magicResistance {
+  return self.mrBonus;
+}
+
+- (NSInteger) attackBaseValue {
+  return self.staticAttackBaseValue;
+}
+
+- (NSInteger) parryBaseValue {
+  return self.staticParryBaseValue;
+}
+
+- (BOOL) canLevelUp
+{
+  return NO;
+}
+
+@end
+// End of DSACharacterNpc
+
+@implementation DSACharacterNpcHumanoid : DSACharacterNpc
+@end
+// End of DSACharacterNpcHumanoid
+
+@implementation DSACharacterNpcHumanoidAchaz : DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidAchaz
+
+@implementation DSACharacterNpcHumanoidApeman : DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidApeman
+
+@implementation DSACharacterNpcHumanoidElf : DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidElf
 

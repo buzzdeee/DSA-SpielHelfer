@@ -1,30 +1,72 @@
 {
   "Achaz": {
     "Typkategorie": [ "Kulturschaffend" ],
-    "Images": [ "Achaz_1.webp", "Achaz_2.webp" ],
+    "isMagic": false,
+    "Images": { 
+      "männlich": [ "Achaz_1.webp", "Achaz_2.webp" ],
+      "weiblich": [ "Achaz_1.webp", "Achaz_2.webp" ]
+    },
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Eigenschaften Constraints": {
-      "TA": "3-",
+      "TA": "2-",
       "AG": "7+"
     },
-    "Eigenschaften": {
-      "MU": [ "1W3", "6", "(2/4)" ],
-      "IN": [ "1W3", "10", "(1/2)" ],
-      "GE": [ "1W3", "9", "(1/2)" ],
-      "KK": [ "1W3", "6", "(1/0)" ],
-      "KL": [ "1W3", "8", "(0/1)" ],
-      "CH": [ "1W3", "8", "(0/1)" ],
-      "FF": [ "1W3", "9", "(1/2)" ]
+    "Erfahrungsstufen": {
+      "unerfahren": {
+        "ST": [ "1W2" ],
+        "AT": [ "8" ],
+        "PA": [ "6" ],
+        "LE": [ "2W6", 15 ],
+        "MR": [ "1W2" ],
+        "Eigenschaften": {
+          "MU": [ "1W3", "6" ],
+          "IN": [ "1W3", "10" ],
+          "GE": [ "1W3", "9" ],
+          "KK": [ "1W3", "6" ],
+          "KL": [ "1W3", "8" ],
+          "CH": [ "1W3", "8" ],
+          "FF": [ "1W3", "9" ]
+        }
+      },
+      "erfahren": {
+        "ST": [ "1W3", 5 ],
+        "AT": [ "11" ],
+        "PA": [ "8" ],
+        "LE": [ "2W6", "30" ],
+        "MR": [ "1W2", "2" ],
+        "Eigenschaften": {
+          "MU": [ "1W3", "8" ],
+          "IN": [ "1W3", "11" ],
+          "GE": [ "1W3", "10" ],
+          "KK": [ "1W3", "7" ],
+          "KL": [ "1W3", "8" ],
+          "CH": [ "1W3", "8" ],
+          "FF": [ "1W3", "10" ]
+        }        
+      },
+      "Veteran": {
+        "ST": [ "1W3", 13 ],      
+        "AT": [ "13" ],
+        "PA": [ "10" ],
+        "LE": [ "2W6", "45" ],
+        "MR": [ "1W2", "4" ],
+        "Eigenschaften": {
+          "MU": [ "1W3", "10" ],
+          "IN": [ "1W3", "12" ],
+          "GE": [ "1W3", "11" ],
+          "KK": [ "1W3", "6" ],
+          "KL": [ "1W3", "9" ],
+          "CH": [ "1W3", "9" ],
+          "FF": [ "1W3", "11" ]
+        }           
+      }
     },
-    "RS": 2,
-    "AT": [ "8", "(11/13)" ],
-    "PA": [ "6", "(8/10)" ],
-    "LE": [ "2W6", "15", "(15/30)" ],
+    "RS": "2",
     "GS": "GST1",
     "AU": "LE+KK",
-    "MR": [ "1W2", "(2/4)" ],
     "TP": "abhänging von Waffe",
-    "Größe": "ca. 9 Spann",
-    "Gewicht": "ca. 60 Stein",
+    "Größe": [ "1W20", "170" ],
+    "Gewicht": [ "1W20", "50" ],
     "Waffen": [
       "Speer",
       "Schleuder",
@@ -38,28 +80,47 @@
     },    
     "Herkunft": {
       "Echsensümpfe": {
-        "KK": "+2",
-        "RS": "+1",
-        "Waffen": [ "Doppelaxt" ]
+        "KK": "2",
+        "RS": "1",
+        "Waffen": [ "Echsische Axt" ]
       },
       "Orkland": {
         "RS": "-1"
       },
       "Waldinseln": {
         "FF": "-2",
-        "Größe": "ca. 2 Schritt, 2 Spann",
-        "Gewicht": "ca. 90 Stein"
+        "Größe": [ "1W20", "210" ],
+        "Gewicht": [ "1W20", "80" ]
       },
       "Maraskan": { },
       "Bodirtal": { }
     }
   },
-  "Affenmenschen": {
+  "Affenmensch": {
     "Typkategorie": [ "Kulturschaffend" ],
-    "Images": [ "Affenmensch_1.webp", "Affenmensch_2.webp" ],
+    "isMagic": false,
+    "Images": {
+      "männlich": [ "Affenmensch_1.webp", "Affenmensch_2.webp" ],
+      "weiblich": [ "Affenmensch_1.webp", "Affenmensch_2.webp" ]
+    },
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Eigenschaften Constraints": {
       "NG": "5+",
       "AG": "8+"
+    },
+    "Erfahrungsstufen": { 
+      "unerfahren": {
+        "ST": [ "1W2" ],
+        "LE": [ "25" ]
+      },
+      "erfahren": {
+        "ST": [ "1W3", 5 ],
+        "LE": [ "30" ]
+      },
+      "Veteran": {
+        "ST": [ "1W3", 13 ], 
+        "LE": [ "35" ]
+      }
     },
     "Eigenschaften": {
       "MU": [ "1W3", "9" ],
@@ -70,16 +131,15 @@
       "CH": [ "1W3", "6" ],
       "FF": [ "1W3", "8" ]
     },
-    "RS": 0,
+    "RS": "0",
     "AT": [ "9" ],
     "PA": [ "8" ],
-    "LE": [ "25", "(5/10)" ],
     "GS": "GST1",
     "AU": "LE+KK",
     "MR": [ "1W2", "-12" ],
     "TP": "abhänging von Waffe",
-    "Größe": "ca. 8 - 9 Spann",
-    "Gewicht": "ca. 70 Stein",
+    "Größe": [ "1W20", "160" ],
+    "Gewicht": [ "1W20", "60" ],
     "Waffen": [
       "Keule",
       "Speer"
@@ -89,5 +149,113 @@
       "Schwarze Sichel": { },
       "Ehernes Schwert": { }
     }
+  },
+  "Elf": {
+    "Typkategorie": [ "Kulturschaffend" ],
+    "isMagic": false,
+    "Subtypen": {
+      "Auelf": {
+        "Herkunft": [ "Salamandersteine" ],
+        "Images": {
+          "männlich": [ "Character_12.png", "Character_20.png", "Character_21.png", "Character_22.png", "Character_23.png" ],
+          "weiblich": [ "Character_16.png", "Character_17.png", "Character_18.png", "Character_19.png", "Character_32.png" ]
+        },        
+        "KL": "1"
+      },
+      "Steppenelf": {
+        "Herkunft": [ "Grüne Ebene" ],
+        "Images": {
+          "männlich": [ "Character_12.png", "Character_20.png", "Character_21.png", "Character_22.png", "Character_23.png" ],
+          "weiblich": [ "Character_16.png", "Character_17.png", "Character_18.png", "Character_19.png", "Character_32.png" ]
+        },        
+        "KL": "1"
+      },
+      "Waldelf": {
+        "Herkunft": [ "Salamanderwälder" ],
+        "Images": {
+          "männlich": [ "Character_11.png", "Character_13.png", "Character_14.png", "Character_15.png", "Character_69.png", "Character_70.png", "Character_71.png", "Character_72.png" ],
+          "weiblich": [ "Character_8.png", "Character_9.png", "Character_10.png", "Character_73.png", "Character_74.png", "Character_75.png" ]
+        },        
+        "GE": "1"
+      },
+      "Firnelf": {
+        "Herkunft": [ "Hoher Norden" ],
+        "Images": {
+          "männlich": [ "Character_4.png", "Character_5.png", "Character_6.png", "Character_7.png" ],
+          "weiblich": [ "Character_1.png", "Character_2.png", "Character_3.png" ]
+        },        
+        "IN": "1"
+      }
+    },
+    "Geschlecht": [ "männlich", "weiblich" ],
+    "Eigenschaften Constraints": {
+      "GG": "3-"
+    },
+    "Erfahrungsstufen": {
+      "unerfahren": {
+        "ST": [ "1W2" ],
+        "AT": [ "8" ],
+        "PA": [ "8" ],
+        "LE": [ "2W6", 20 ],
+        "AE": [ "2W6", 20 ],
+        "MR": [ "1W2" ],
+        "Eigenschaften": {
+          "MU": [ "1W3", "8" ],
+          "IN": [ "1W3", "9" ],
+          "GE": [ "1W3", "9" ],
+          "KK": [ "1W3", "7" ],
+          "KL": [ "1W3", "9" ],
+          "CH": [ "1W3", "9" ],
+          "FF": [ "1W3", "9" ]
+        }
+      },
+      "erfahren": {
+        "ST": [ "1W3", 5 ],
+        "AT": [ "12" ],
+        "PA": [ "11" ],
+        "LE": [ "2W6", "25" ],
+        "AE": [ "2W6", "25" ],
+        "MR": [ "1W2", "2" ],
+        "Eigenschaften": {
+          "MU": [ "1W3", "8" ],
+          "IN": [ "1W3", "11" ],
+          "GE": [ "1W3", "10" ],
+          "KK": [ "1W3", "7" ],
+          "KL": [ "1W3", "10" ],
+          "CH": [ "1W3", "10" ],
+          "FF": [ "1W3", "10" ]
+        }        
+      },
+      "Veteran": {
+        "ST": [ "1W3", 13 ],      
+        "AT": [ "16" ],
+        "PA": [ "14" ],
+        "LE": [ "2W6", "40" ],
+        "LE": [ "2W6", "40" ],
+        "MR": [ "1W2", "6" ],
+        "Eigenschaften": {
+          "MU": [ "1W3", "9" ],
+          "IN": [ "1W3", "12" ],
+          "GE": [ "1W3", "11" ],
+          "KK": [ "1W3", "8" ],
+          "KL": [ "1W3", "10" ],
+          "CH": [ "1W3", "11" ],
+          "FF": [ "1W3", "11" ]
+        }           
+      }
+    },
+    "RS": "0",
+    "GS": "GST1",
+    "AU": "LE+KK",
+    "TP": "abhänging von Waffe",
+    "Größe": [ "1W20", "180" ],
+    "Gewicht": [ "1W10", "60" ],
+    "Waffen": [
+      "Speer",
+      "Jagdspieß, elfisch",
+      "Elfenbogen",
+      "Jagdmesser, firnelfisch",
+      "Dolch"
+    ]
   }
 }

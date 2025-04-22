@@ -10,6 +10,7 @@
 
 #import "AppController.h"
 #import "DSACharacterGenerationController.h"
+#import "DSANPCGenerationController.h"
 #import "DSAAdventureGenerationController.h"
 #import "DSADocumentController.h"
 #import "DSACharacterWindowController.h"
@@ -119,6 +120,43 @@
   DSADocumentController *docController = [DSADocumentController sharedDocumentController];
   // Create a new CharacterDocument with the generated character
   NSLog(@"AppController createNewCharacterDocument! calling makeUntitledDocumentOfType....");
+  DSACharacterDocument *newDocument = [docController makeUntitledDocumentOfType:@"DSACharacter" error:&error];
+    
+  if (newDocument)
+    {
+      newDocument.model = newCharacter;
+      [docController addDocument:newDocument];
+      [newDocument makeWindowControllers];  // Create the window controller
+      //[newDocument makeWindowControllersForNewDocument];  // Create the window controller      
+      [newDocument showWindows];            // Show the document window
+      // Mark the document as dirty
+      [newDocument updateChangeCount:NSChangeDone];      
+    }
+}
+
+#pragma mark NPC Generation
+- (IBAction)newNPCGeneration:(id)sender
+{
+  NSLog(@"AppController: newNPCGeneration was called");
+   // Instantiate the CharacterGenerationController when the menu item is clicked
+  self.npcGenController = [[DSANPCGenerationController alloc] init];
+   // Set up the completion handler to transition to the character management document
+  __weak typeof(self) weakSelf = self;
+  self.npcGenController.completionHandler = ^(DSACharacter *newCharacter)
+    {
+      [weakSelf createNewNpcDocument:newCharacter];
+    };
+
+  // Start character generation process
+  [self.npcGenController startNpcGeneration: sender];
+}
+
+- (void)createNewNpcDocument:(DSACharacter *)newCharacter
+{
+  NSError *error = nil;
+  DSADocumentController *docController = [DSADocumentController sharedDocumentController];
+  // Create a new CharacterDocument with the generated character
+  NSLog(@"AppController createNewNpcDocument! calling makeUntitledDocumentOfType....");
   DSACharacterDocument *newDocument = [docController makeUntitledDocumentOfType:@"DSACharacter" error:&error];
     
   if (newDocument)

@@ -1,0 +1,41 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSANPCGenerationController = {
+	Actions = (
+	    "buttonGenerateClicked:",
+	    "popupLevelSelected:",
+	    "popupCategorySelected:",
+	    "popupTypesSelected:",
+	    "popupOriginSelected:",
+	    "popupSubtypesSelected:"
+	);
+	Outlets = (
+	    buttonGenerate,
+	    popupCategories,
+	    popupCount,
+	    popupTypes,
+	    popupLevel,
+	    popupOrigins,
+	    popupSubtypes
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "buttonGenerateClicked:",
+	    "popupSubtypesSelected:",
+	    "popupCategorySelected:",
+	    "popupLevelSelected:",
+	    "popupOriginSelected:",
+	    "popupTypesSelected:"
+	);
+	Super = NSObject;
+    };
+    Utils = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSObject;
+    };
+}

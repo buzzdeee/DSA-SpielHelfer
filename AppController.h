@@ -14,6 +14,7 @@
 #import <AppKit/AppKit.h>
 
 @class DSACharacterGenerationController;
+@class DSANPCGenerationController;
 @class DSAAdventureGenerationController;
 @class DSAMapViewController;
 @class DSAEquipmentListViewController;
@@ -24,6 +25,7 @@
 
 
 @property (strong) DSACharacterGenerationController *characterGenController;
+@property (strong) DSANPCGenerationController *npcGenController;
 @property (strong) DSAAdventureGenerationController *adventureGenController;
 @property (nonatomic, strong) DSAMapViewController *mapViewController; // Retain the map view controller
 @property (nonatomic, strong) DSAEquipmentListViewController *equipmentListViewController; // Retain the equipment view controller

@@ -175,7 +175,7 @@
   [self populateBiographyTab];
   NSLog(@"DSACharacterWindowController: before handleAdventurePointsChange");
   [self handleAdventurePointsChange];
-  
+  NSLog(@"DSACharacterWindowController: after handleAdventurePointsChange");
 }
 
 - (void)closeAllAuxiliaryWindows {
@@ -377,6 +377,7 @@
   [self addObserverForObject: document.model keyPath: @"attackBaseValue"];
   [self.fieldCarryingCapacity bind:NSValueBinding toObject:document.model withKeyPath:@"carryingCapacity" options:nil];    
   [self addObserverForObject: document.model keyPath: @"carryingCapacity"];
+  NSLog(@"DSACharacterWindowController populateBasicsTab: carryingCapacity: %lu", (unsigned long) document.model.carryingCapacity);
   [self.fieldDodge bind:NSValueBinding toObject:document.model withKeyPath:@"dodge" options:nil];    
   [self addObserverForObject: document.model keyPath: @"dodge"];
   [self.fieldEndurance bind:NSValueBinding toObject:document.model withKeyPath:@"endurance" options:nil];    

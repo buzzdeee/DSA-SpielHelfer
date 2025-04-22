@@ -41,7 +41,6 @@ Resources/DSAEquipmentListViewer.gorm \
 Resources/DSAItemInspection.gorm \
 Resources/DSAUseTalent.gorm \
 Resources/DSAAdventure.gorm \
-Resources/DSANPCGeneration.gorm \
 Resources/DSANameGeneration.gorm \
 Resources/DSAEnergiesManager.gorm \
 Resources/DSARegenerateEnergies.gorm \
@@ -49,6 +48,7 @@ Resources/DSACastSpell.gorm \
 Resources/DSACastRitual.gorm \
 Resources/DSACharacterDead.gorm \
 Resources/DSAAdventureGeneration.gorm \
+Resources/DSANPCGenerator.gorm \
 Resources/Character_1.png \
 Resources/Character_10.png \
 Resources/Character_100.png \
@@ -5184,7 +5184,8 @@ DSAMapOverlayView.h \
 DSARoutePlanner.h \
 DSALocation.h \
 DSALocations.h \
-DSAAdventureGenerationController.h
+DSAAdventureGenerationController.h \
+DSANPCGenerationController.h
 
 #
 # Objective-C Class files
@@ -5246,7 +5247,8 @@ DSAMapOverlayView.m \
 DSARoutePlanner.m \
 DSALocation.m \
 DSALocations.m \
-DSAAdventureGenerationController.m
+DSAAdventureGenerationController.m \
+DSANPCGenerationController.m
 
 #
 # Other sources

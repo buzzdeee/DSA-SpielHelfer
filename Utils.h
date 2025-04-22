@@ -101,6 +101,13 @@ typedef NS_ENUM(NSUInteger, DSASeverityLevel) {
 + (NSArray *) getAllArchetypesCategories;
 + (NSArray *) getAllArchetypesForCategory: (NSString *) category;
 
++ (NSDictionary *) getNpcTypesDict;
++ (NSArray *) getAllNpcTypesCategories;
++ (NSArray *) getAllNpcTypesForCategory: (NSString *) category;
++ (NSArray *) getAllExperienceLevelsForNpcType: (NSString *) type;
++ (NSArray *) getAllOriginsForNpcType: (NSString *) type ofSubtype: (NSString *) subtype;
++ (NSArray *) getAllSubtypesForNpcType: (NSString *) type;
+
 + (NSDictionary *) getOriginsDict;
 + (NSArray *) getOriginsForArchetype: (NSString *) archetype;
 

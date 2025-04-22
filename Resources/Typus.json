@@ -1,6 +1,10 @@
 {
   "Magier": {
     "Typkategorie": [ "Mensch", "Magiebegabt" ],
+    "Images": {
+      "männlich": [ "Character_76.png", "Character_77.png", "Character_78.png", "Character_79.png" ],
+      "weiblich": [ "Character_80.png", "Character_81.png", "Character_82.png", "Character_83.png" ]
+    },    
     "Eigenschaften": {
       "KL": "13+",
       "CH": "12+",
@@ -377,7 +381,7 @@
       "hellblond": [ 18, 19 ],
       "albino": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "160", "1W20", "3W6" ],
     "Gewicht": -110
   },
@@ -444,7 +448,7 @@
       "weißblond": [ 19 ],
       "albino": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "165", "1W20", "1W6"],
     "Gewicht": -110,
     "LE": 25,
@@ -499,7 +503,7 @@
       "rotblond": [ 18, 19 ],
       "weißblond": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "150", "1W20", "3W6"],
     "Gewicht": -115,
     "LE": 25,
@@ -582,7 +586,7 @@
       "grau": [ 16, 17, 18 ],
       "kahlköpfig": [ 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "150", "1W20", "3W6"],
     "Gewicht": -110,
     "LE": 30,
@@ -674,11 +678,11 @@
           "dunkelblond": [ 19 ],      
           "schwarz": [ 20 ]
         },
-        "Geschlecht": [ "männlich", "weiblich", "divers" ],
+        "Geschlecht": [ "männlich", "weiblich" ],
         "Körpergröße": [ "156", "2W20" ]
       }
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Gewicht": -110
   },  
   "Schelm": {
@@ -705,7 +709,7 @@
       "karottenrot": [ 13, 14, 15, 16, 17 ],
       "weizenblond": [ 18, 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "148","1W20", "1W6"],
     "Gewicht": -110,
     "LE": 30,
@@ -723,6 +727,9 @@
   },
   "Sharisad": {
     "Typkategorie": [ "Mensch", "Magiebegabt" ],
+    "Images": {
+      "weiblich": [ "Character_104.png", "Character_105.png", "Character_106.png" ]
+    },    
     "Eigenschaften": {
       "CH": "13+",
       "GE": "12+",
@@ -770,6 +777,10 @@
   },
   "Angroschpriester": {
     "Typkategorie": [ "Zwerg" ],
+    "Images": {
+      "männlich": [ "Character_27.png", "Character_28.png", "Character_29.png", "Character_34.png", "Character_35.png", "Character_36.png" ],
+      "weiblich": [ "Character_30.png", "Character_31.png", "Character_33.png" ]
+    },    
     "Eigenschaften": {
       "MU": "12+",
       "IN": "12+",
@@ -826,7 +837,7 @@
       "silbergrau": [ 18, 19 ],
       "goldgelb": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "128", "2W6" ],
     "Gewicht": -70
   },
@@ -890,7 +901,7 @@
       "silbergrau": [ 18, 19 ],
       "goldgelb": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "128", "2W6" ],
     "Gewicht": -70
   },
@@ -952,7 +963,7 @@
       "silbergrau": [ 18, 19 ],
       "goldgelb": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "128", "2W6" ],
     "Gewicht": -70
   },
@@ -1014,7 +1025,7 @@
       "silbergrau": [ 18, 19 ],
       "goldgelb": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "128", "2W6" ],
     "Gewicht": -70
   },
@@ -1076,7 +1087,7 @@
       "silbergrau": [ 18, 19 ],
       "goldgelb": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "128", "2W6" ],
     "Gewicht": -70
   },
@@ -1138,12 +1149,16 @@
       "bernsteinfarben": [ 19 ],
       "goldgesprenkelt": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "158", "1W20", "4W6" ],
     "Gewicht": -120
   },
   "Auelf": {
     "Typkategorie": [ "Elf", "Magiebegabt" ],
+    "Images": {
+      "männlich": [ "Character_12.png", "Character_20.png", "Character_21.png", "Character_22.png", "Character_23.png" ],
+      "weiblich": [ "Character_16.png", "Character_17.png", "Character_18.png", "Character_19.png", "Character_32.png" ]
+    },     
     "Eigenschaften": {
       "IN": "13+",
       "CH": "12+",
@@ -1199,12 +1214,16 @@
       "goldgesprenkelt": [ 19 ],
       "amethyst": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "166", "1W20", "3W6" ],
     "Gewicht": -120
   },
   "Firnelf": {
     "Typkategorie": [ "Elf", "Magiebegabt" ],
+    "Images": {
+      "männlich": [ "Character_4.png", "Character_5.png", "Character_6.png", "Character_7.png" ],
+      "weiblich": [ "Character_1.png", "Character_2.png", "Character_3.png" ]
+    },    
     "Eigenschaften": {
       "IN": "13+",
       "CH": "12+",
@@ -1247,11 +1266,15 @@
       "goldgesprenkelt": [ 19 ],
       "rubinrot": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "156", "1W20", "3W6" ],
     "Gewicht": -120  },
   "Waldelf": {
     "Typkategorie": [ "Elf", "Magiebegabt" ],
+    "Images": {
+      "männlich": [ "Character_11.png", "Character_13.png", "Character_14.png", "Character_15.png", "Character_69.png", "Character_70.png", "Character_71.png", "Character_72.png" ],
+      "weiblich": [ "Character_8.png", "Character_9.png", "Character_10.png", "Character_73.png", "Character_74.png", "Character_75.png" ]
+    },    
     "Eigenschaften": {
       "IN": "13+",
       "CH": "13+",
@@ -1302,7 +1325,7 @@
       "rubinrot": [ 18, 19 ],
       "amethystviolett": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "166", "1W20", "4W6" ],
     "Gewicht": -120
   },
@@ -1352,12 +1375,15 @@
       "grau": [ 19 ],
       "kahl": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "150", "1W20", "3W6" ],
     "Gewicht": -105
   },  
   "Amazone": {
     "Typkategorie": [ "Mensch" ],
+    "Images": {
+      "weiblich": [ "Character_58.png", "Character_59.png", "Character_60.png", "Character_61.png", "Character_66.png", "Character_67.png", "Character_68.png" ]
+    },    
     "Eigenschaften": {
       "MU": "13+",
       "CH": "12+",
@@ -1459,6 +1485,10 @@
   },
   "Gaukler": {
     "Typkategorie": [ "Mensch" ],
+    "Images": {
+      "männlich": [ "Character_37.png", "Character_38.png", "Character_39.png" ],
+      "weiblich": [ ]
+    },    
     "Magiedilettant": true,
     "Eigenschaften": {
       "MU": "11+",
@@ -1560,7 +1590,7 @@
       "rot": [ 17, 18, 19 ],
       "albino": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "145", "2W20" ],
     "Gewicht": -110
   },
@@ -1650,12 +1680,16 @@
       "rot": [ 19 ],
       "albino": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "158", "1W20", "2W6" ],
     "Gewicht": -110
   },
   "Krieger": {
     "Typkategorie": [ "Mensch" ],
+    "Images": {
+      "männlich": [ "Character_62.png", "Character_63.png", "Character_64.png", "Character_65.png" ],
+      "weiblich": [ "Character_58.png", "Character_59.png", "Character_60.png", "Character_61.png", "Character_66.png", "Character_67.png", "Character_68.png" ]
+    },    
     "Eigenschaften": {
       "MU": "12+",
       "GE": "11+",
@@ -1709,7 +1743,7 @@
       "rot": [ 19 ],
       "albino": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "163", "2W20" ],
     "Gewicht": -105,
     "LE": 30,
@@ -1727,6 +1761,10 @@
   },
   "Medicus": {
     "Typkategorie": [ "Mensch" ],
+    "Images": {
+      "männlich": [ "Character_40.png", "Character_41.png", "Character_42.png", "Character_43.png", "Character_48.png", "Character_49.png", "Character_50.png", "Character_51.png" ],
+      "weiblich": [ "Character_44.png", "Character_45.png", "Character_46.png", "Character_47.png" ]
+    },    
     "Magiedilettant": true,    
     "Eigenschaften": {
       "KL": "12+",
@@ -1780,7 +1818,7 @@
       "hellblond": [ 16, 17 ],
       "grau": [ 18, 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "150", "5W6" ],
     "Gewicht": -100,
     "LE": 30,
@@ -1798,6 +1836,10 @@
   },
   "Moha": {
     "Typkategorie": [ "Mensch" ],
+    "Images": {
+      "männlich": [ "Character_84.png", "Character_85.png", "Character_86.png", "Character_87.png", "Character_88.png" ],
+      "weiblich": [ "Character_89.png", "Character_90.png", "Character_91.png" ]
+    },    
     "Eigenschaften": {
       "CH": "12+",
       "GE": "12+",
@@ -1830,7 +1872,7 @@
       "blauschwarz": [ 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19 ],
       "albino": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "152", "3W6" ],
     "Gewicht": -110,
     "LE": 30,
@@ -1848,6 +1890,10 @@
   },
   "Nivese": {
     "Typkategorie": [ "Mensch" ],
+    "Images": {
+      "männlich": [ "Character_92.png", "Character_95.png", "Character_94.png", "Character_93.png" ],
+      "weiblich": [ ]
+    },    
     "Eigenschaften": {
       "IN": "12+",
       "GE": "12+",
@@ -1888,7 +1934,7 @@
       "dunkelblond": [ 19 ],      
       "schwarz": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "156", "2W20" ],
     "Gewicht": -110
   },
@@ -1931,12 +1977,16 @@
       "blond": [ 19 ],
       "albino": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "156", "2W20" ],
     "Gewicht": -100
   },  
   "Novadi": {
     "Typkategorie": [ "Mensch" ],
+    "Images": {
+      "männlich": [ "Character_96.png", "Character_97.png", "Character_99.png" ],
+      "weiblich": [ "Character_98.png", "Character_100.png", "Character_101.png", "Character_102.png", "Character_103.png" ]
+    },
     "Magiedilettant": true,    
     "Eigenschaften": {
       "MU": "12+",
@@ -1990,7 +2040,7 @@
       "rot": [ 19 ],
       "blond": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "156", "2W20" ],
     "Gewicht": -110
   },  
@@ -2049,7 +2099,7 @@
       "hellblond": [ 18, 19 ],
       "weißblond": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "155", "2W20" ],
     "Gewicht": -100,
     "LE": 30,
@@ -2115,7 +2165,7 @@
       "hellblond": [ 16, 17, 18 ],
       "grau": [ 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich"],
     "Körpergröße": [ "160", "2W20" ],
     "Gewicht": -100,
     "LE": 30,
@@ -2185,7 +2235,7 @@
       "braun": [ 12, 13, 14, 15, 16, 17, 18, 19 ],
       "albino": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "154", "2W20" ],
     "Gewicht": -110
   },
@@ -2242,12 +2292,16 @@
       "braun": [ 19 ],
       "schwarz": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "168", "2W20" ],
     "Gewicht": -100
   },
   "Skalde": {
     "Typkategorie": [ "Mensch" ],
+    "Images": {
+      "männlich": [ "Character_52.png", "Character_53.png", "Character_54.png" ],
+      "weiblich": [ "Character_55.png", "Character_56.png", "Character_57.png" ]
+    },    
     "Magiedilettant": true,    
     "Eigenschaften": {
       "MU": "11+",
@@ -2300,7 +2354,7 @@
       "braun": [ 19 ],
       "schwarz": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "168", "2W20" ],
     "Gewicht": -100,
     "LE": 30,
@@ -2318,6 +2372,10 @@
   },
   "Barde": {
     "Typkategorie": [ "Mensch"],
+    "Images": {
+      "männlich": [ "Character_52.png", "Character_53.png", "Character_54.png" ],
+      "weiblich": [ "Character_55.png", "Character_56.png", "Character_57.png" ]
+    },    
     "Magiedilettant": true,    
     "Eigenschaften": {
       "IN": "12+",
@@ -2371,12 +2429,16 @@
       "blond": [ 14, 15, 16, 17, 18 ],
       "hellblond": [ 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "160", "5W6" ],
     "Gewicht": -100
   },
   "Praiosgeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Images": {
+      "männlich": [ "Character_24.png", "Character_26.png" ],
+      "weiblich": [ "Character_25.png" ]
+    },    
     "Eigenschaften": {
       "MU": "13+",
       "KL": "12+",
@@ -2428,12 +2490,16 @@
       "hellblond": [ 16, 17 ],
       "grau": [ 18, 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "158", "2W20", "1W6" ],
     "Gewicht": -110
   },
   "Rondrageweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Images": {
+      "männlich": [ "Character_24.png", "Character_26.png" ],
+      "weiblich": [ "Character_25.png" ]
+    },    
     "Eigenschaften": {
       "MU": "12+",
       "CH": "12+",
@@ -2485,12 +2551,16 @@
       "hellblond": [ 16, 17 ],
       "grau": [ 18, 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "158", "2W20", "1W6" ],
     "Gewicht": -110
   },
   "Efferdgeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Images": {
+      "männlich": [ "Character_24.png", "Character_26.png" ],
+      "weiblich": [ "Character_25.png" ]
+    },    
     "Eigenschaften": {
       "KL": "12+",
       "CH": "12+",
@@ -2542,12 +2612,16 @@
       "hellblond": [ 16, 17 ],
       "grau": [ 18, 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "158", "2W20", "1W6" ],
     "Gewicht": -110
   },
   "Traviageweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Images": {
+      "männlich": [ "Character_24.png", "Character_26.png" ],
+      "weiblich": [ "Character_25.png" ]
+    },    
     "Eigenschaften": {
       "KL": "12+",
       "CH": "13+",
@@ -2599,12 +2673,16 @@
       "hellblond": [ 16, 17 ],
       "grau": [ 18, 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "158", "2W20", "1W6" ],
     "Gewicht": -110
   },
   "Borongeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Images": {
+      "männlich": [ "Character_24.png", "Character_26.png" ],
+      "weiblich": [ "Character_25.png" ]
+    },    
     "Eigenschaften": {
       "MU": "11+",
       "KL": "13+",
@@ -2656,12 +2734,16 @@
       "hellblond": [ 16, 17 ],
       "grau": [ 18, 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "158", "2W20", "1W6" ],
     "Gewicht": -110
   },
   "Hesindegeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Images": {
+      "männlich": [ "Character_24.png", "Character_26.png" ],
+      "weiblich": [ "Character_25.png" ]
+    },    
     "Eigenschaften": {
       "KL": "13+",
       "CH": "12+",
@@ -2713,12 +2795,16 @@
       "hellblond": [ 16, 17 ],
       "grau": [ 18, 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "158", "2W20", "1W6" ],
     "Gewicht": -110
   },
   "Firungeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Images": {
+      "männlich": [ "Character_24.png", "Character_26.png" ],
+      "weiblich": [ "Character_25.png" ]
+    },    
     "Eigenschaften": {
       "MU": "12+",
       "IN": "12+",
@@ -2770,12 +2856,16 @@
       "hellblond": [ 16, 17 ],
       "grau": [ 18, 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "158", "2W20", "1W6" ],
     "Gewicht": -110
   },
   "Tsageweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Images": {
+      "männlich": [ "Character_24.png", "Character_26.png" ],
+      "weiblich": [ "Character_25.png" ]
+    },    
     "Eigenschaften": {
       "IN": "12+",
       "CH": "12+",
@@ -2827,12 +2917,16 @@
       "hellblond": [ 16, 17 ],
       "grau": [ 18, 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "158", "2W20", "1W6" ],
     "Gewicht": -110
   },
   "Phexgeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Images": {
+      "männlich": [ "Character_24.png", "Character_26.png" ],
+      "weiblich": [ "Character_25.png" ]
+    },    
     "Eigenschaften": {
       "KL": "12+",
       "CH": "11+",
@@ -2884,12 +2978,16 @@
       "hellblond": [ 16, 17 ],
       "grau": [ 18, 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "158", "2W20", "1W6" ],
     "Gewicht": -110
   },
   "Perainegeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Images": {
+      "männlich": [ "Character_24.png", "Character_26.png" ],
+      "weiblich": [ "Character_25.png" ]
+    },    
     "Eigenschaften": {
       "KL": "12+",
       "CH": "13+",
@@ -2941,12 +3039,16 @@
       "hellblond": [ 16, 17 ],
       "grau": [ 18, 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "158", "2W20", "1W6" ],
     "Gewicht": -110
   },
   "Ingerimmgeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Images": {
+      "männlich": [ "Character_24.png", "Character_26.png" ],
+      "weiblich": [ "Character_25.png" ]
+    },    
     "Eigenschaften": {
       "KL": "12+",
       "FF": "12+",
@@ -2998,12 +3100,16 @@
       "hellblond": [ 16, 17 ],
       "grau": [ 18, 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "158", "2W20", "1W6" ],
     "Gewicht": -110
   },
   "Rahjageweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Images": {
+      "männlich": [ "Character_24.png", "Character_26.png" ],
+      "weiblich": [ "Character_25.png" ]
+    },    
     "Eigenschaften": {
       "IN": "11+",
       "CH": "13+",
@@ -3055,12 +3161,16 @@
       "hellblond": [ 16, 17 ],
       "grau": [ 18, 19, 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "158", "2W20", "1W6" ],
     "Gewicht": -110
   },
   "Swafnirgeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
+    "Images": {
+      "männlich": [ "Character_24.png", "Character_26.png" ],
+      "weiblich": [ "Character_25.png" ]
+    },    
     "Eigenschaften": {
       "MU": "13+",
       "CH": "13+",
@@ -3110,7 +3220,7 @@
       "braun": [ 19 ],
       "schwarz": [ 20 ]
     },
-    "Geschlecht": [ "männlich", "weiblich", "divers" ],
+    "Geschlecht": [ "männlich", "weiblich" ],
     "Körpergröße": [ "168", "2W20" ],
     "Gewicht": -100
   }
