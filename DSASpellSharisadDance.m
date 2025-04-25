@@ -1,11 +1,11 @@
 /*
    Project: DSA-SpielHelfer
 
-   Copyright (C) 2024 Free Software Foundation
+   Copyright (C) 2025 Free Software Foundation
 
    Author: Sebastian Reitenbach
 
-   Created: 2024-11-13 21:43:33 +0100 by sebastia
+   Created: 2025-04-25 22:41:59 +0200 by sebastia
 
    This application is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,55 +22,34 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
-#import "DSASpellElvenSong.h"
+#import "DSASpellSharisadDance.h"
 
-@implementation DSASpellElvenSong
+@implementation DSASpellSharisadDance
 - (instancetype)initSpell: (NSString *) name
                  withTest: (NSArray *) test
 {
   self = [super initSpell: name
                 ofVariant: nil // variant
         ofDurationVariant: nil
-               ofCategory: _(@"Elfenlieder")
-                  onLevel: 0
+               ofCategory: _(@"Magische Tänze")
+                  onLevel: 3
                withOrigin: nil
                  withTest: test
           withMaxDistance: -1       
-             withVariants: nil
+             withVariants: nil        
      withDurationVariants: nil
-   withMaxTriesPerLevelUp: 0
-        withMaxUpPerLevel: 0
+   withMaxTriesPerLevelUp: 6
+        withMaxUpPerLevel: 3
           withLevelUpCost: 0];
   if (self)
     {
-      self.canUseSpell = YES;
+      
     }
   return self;
-}
-- (instancetype)initWithCoder:(NSCoder *)coder
-{
-  self = [super initWithCoder: coder];
-  if (self)
-    {
-      self.canUseSpell = [coder decodeBoolForKey:@"canUseSpell"];
-    }
-  return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder
-{ 
-  [super encodeWithCoder: coder];
-  [coder encodeBool:self.canUseSpell forKey:@"canUseSpell"];
-}
-
-- (BOOL) levelUp;  // in this case means learn the spell (:
-{
-  NSLog(@"DSASpellElvenSongs levelUp NOT YET implemented");
-  return YES;
 }
 
 - (BOOL) isActiveSpell
 {
-  return self.canUseSpell;
+  return YES;
 }
 @end

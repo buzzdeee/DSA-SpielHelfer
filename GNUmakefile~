@@ -5185,7 +5185,8 @@ DSARoutePlanner.h \
 DSALocation.h \
 DSALocations.h \
 DSAAdventureGenerationController.h \
-DSANPCGenerationController.h
+DSANPCGenerationController.h \
+DSASpellSharisadDance.h
 
 #
 # Objective-C Class files
@@ -5248,7 +5249,8 @@ DSARoutePlanner.m \
 DSALocation.m \
 DSALocations.m \
 DSAAdventureGenerationController.m \
-DSANPCGenerationController.m
+DSANPCGenerationController.m \
+DSASpellSharisadDance.m
 
 #
 # Other sources

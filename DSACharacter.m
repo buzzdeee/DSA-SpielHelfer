@@ -3251,7 +3251,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.currentLifePoints = 30;
       self.currentAstralEnergy = 15;   
       // not setting: maxLevelUpSpellsTries, as it's dependent on origin
-      self.isMagic = YES;
+      self.isMagic = NO;
     }
   return self;
 }
@@ -3334,7 +3334,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 
 - (BOOL) levelUpSpecialsWithSpells
 {
-  return NO;
+  return YES;
 }
 @end
 // End of DSACharacterHeroHumanSharisad

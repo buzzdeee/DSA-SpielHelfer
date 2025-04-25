@@ -35,6 +35,7 @@
 #import "DSASpellGeodeRitual.h"
 #import "DSASpellMageRitual.h"
 #import "DSASpellShamanRitual.h"
+#import "DSASpellSharisadDance.h"
 #import "DSASpellElvenSong.h"
 #import "DSALiturgy.h"
 #import "NSMutableDictionary+Extras.h"
@@ -340,11 +341,13 @@
         }
       newCharacter.spells = newSpells;
       [self applySpellmodificatorsToArchetype: newCharacter];
+/* not needed anymore...  
       if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanSharisad class]])
         {
           newCharacter.maxLevelUpSpellsTries = [newCharacter.spells count] * 3;  // depending on number of spells, see: Die Magie des Schwarzen Auges S. 48
         }
-      else if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanShaman class]])
+*/        
+      if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanShaman class]])
         {
           if ([_(@"Ja") isEqualToString: [[self.popupMageAcademies selectedItem] title]])
             {
@@ -377,7 +380,11 @@
   else if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanMage class]])
     {
       [self addMageRitualsToCharacter: newCharacter];
-    }    
+    }
+  else if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanSharisad class]])
+    {
+      [self addSharisadDancesToCharacter: newCharacter];
+    }       
   else if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanShaman class]])
     {
       [self addShamanRitualsToCharacter: newCharacter];
@@ -569,6 +576,7 @@
             }
         }
     }
+/* Not needed anymore    
   else if ([archetype isKindOfClass: [DSACharacterHeroHumanSharisad class]])
     {
       for (DSASpell *spell in [archetype.spells allValues])
@@ -576,6 +584,7 @@
           spell.isTraditionSpell = YES;  // comes from a different list of spells, the SharisadDances.json
         }
     }
+*/    
   else if ([archetype isKindOfClass: [DSACharacterHeroHumanMage class]])
     {
       NSLog(@"Applying spellModificatorsToArchetype: %@", archetype.archetype);
@@ -900,7 +909,7 @@
     {
       typus = archetype;
     }
-  
+/*  Sharisad doesn't have spells anymore, she has Magic dances, in the specials now!
   if ([typus isEqualToString: _(@"Sharisad")])
     {
       categories = [NSArray arrayWithArray: [[Utils getSharisadDancesDict] allKeys]];
@@ -940,7 +949,8 @@
         }
       return spells;  // Sharisad finished here (:
     }
-  else if ([typus isEqualToString: _(@"Schamane")] && [[[self.popupMageAcademies selectedItem] title] isEqualToString: _(@"Nein")])
+*/    
+  if ([typus isEqualToString: _(@"Schamane")] && [[[self.popupMageAcademies selectedItem] title] isEqualToString: _(@"Nein")])
     {
       return spells;  // if not magic, we dont have spells
     }
@@ -2558,6 +2568,42 @@ NSLog(@"generateFamilyBackground %@", retVal);
         }
     }
   [character setSpecials: specialTalents];  
+}
+
+- (void) addSharisadDancesToCharacter: (DSACharacter *) character
+{
+  NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];
+  NSString *origin = character.origin;
+  NSString *religion = character.religion;
+NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");  
+  NSDictionary *dances = [[Utils getSharisadDancesDict] objectForKey: @"Magische Tänze"];
+  
+  for (NSString *dance in dances)
+    {
+      NSLog(@"THE DANCE: %@", dance);
+      if ([[dances objectForKey: dance] objectForKey: @"Glaube"])  // only in case Glaube is set, we have to ensure that the characters religion matches, otherwise, we don't care
+        {
+          NSLog(@"XXX %@ %@", [[dances objectForKey: dance] objectForKey: @"Glaube"], religion);
+          if (![[[dances objectForKey: dance] objectForKey: @"Glaube"] containsObject: religion])
+            {
+              NSLog(@"continuing...");
+              continue;
+            }
+        }
+      NSLog(@"now looking for origin: %@", origin);  
+      if ([[[dances objectForKey: dance] objectForKey: @"Typen"] containsObject: origin])
+        {
+          NSLog(@"yuck!");
+          DSASpellSharisadDance *d = [[DSASpellSharisadDance alloc] initSpell: dance
+                                                                     withTest: [[dances objectForKey: dance] objectForKey: @"Probe"]];
+          d.isTraditionSpell = YES;                                                                     
+          [specialTalents setObject: d forKey: dance];
+        }
+    }
+  NSLog(@"all the dances: %@", specialTalents);    
+  [character setSpecials: specialTalents];
+  character.isMagic = YES;
+  character.maxLevelUpSpellsTries = [character.specials count] * 3;  // depending on number of spells, see: Die Magie des Schwarzen Auges S. 48
 }
 
 - (void) addGeodeRitualsToCharacter: (DSACharacter *) character
