@@ -149,7 +149,11 @@
   newCharacter.portraitName = [self generatePortraitName: charConstraints forGender: newCharacter.sex ofSubtype: selectedSubtype];
   
   [self addTalentsToCharacter: newCharacter];
-  [self addSpellsToCharacter: newCharacter];
+  if (newCharacter.isMagic)
+    {
+      [self addSpellsToCharacter: newCharacter];
+      [Utils applySpellmodificatorsToCharacter: newCharacter];
+    }
   
   [self apply: @"Herkunft" to: newCharacter using: charConstraints];
   [self apply: @"Subtypen" to: newCharacter using: charConstraints];

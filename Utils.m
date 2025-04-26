@@ -536,6 +536,267 @@ static NSMutableDictionary *namesDict;
   return spells;  
 }
 
++ (void) applySpellmodificatorsToCharacter: (DSACharacter *) character
+{
+  if (character.isMagic == NO)  // safety belt, as should only be called on magic characters...
+    {
+      return;
+    }
+
+  NSString *archetype = character.archetype;
+
+  if ([character isKindOfClass: [DSACharacterHeroElf class]] || [character isKindOfClass: [DSACharacterNpcHumanoidElf class]])
+    {
+      // All Elf spells can be leveled up two times per level
+      // All others only once, see: "Geheimnisse der Elfen", S. 68
+      NSMutableArray *originIdentifiers = [NSMutableArray arrayWithArray:@[ @"A", @"W", @"F"] ];
+      NSString *originIdentifier;
+      if ([archetype isEqualToString: _(@"Waldelf")])
+        {
+          originIdentifier = @"W";
+        }
+      else if ([archetype isEqualToString: _(@"Firnelf")])
+        {
+          originIdentifier = @"F";
+        }
+      else if ([@[@"Auelf", @"Steppenelf"] containsObject: archetype])
+        {
+          originIdentifier = @"A";
+        }
+
+      for (DSASpell *spell in [character.spells allValues])      
+        {
+          if ([spell.origin containsObject: originIdentifier])
+            {
+              spell.isTraditionSpell = YES;
+            }
+        
+          NSSet *spellOrigin = [NSSet setWithArray: spell.origin];
+          NSSet *otherElfOrigins = [NSSet setWithArray: originIdentifiers];
+          if ([spellOrigin intersectsSet: otherElfOrigins])
+            {
+              spell.maxUpPerLevel = 2;
+              spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;            
+            }
+        }
+    }
+  else if ([character isKindOfClass: [DSACharacterHeroDwarfGeode class]])  // as described in "Die Magie des schwarzen Auges", S. 49
+    {
+      NSString *ownSchool;
+      NSString *otherSchool;
+      NSLog(@"DSACHaracterGenerationController applySpellmodificatorsToCharacter: applying Geode related stuff");
+      if ([character.mageAcademy isEqualToString: _(@"Diener Sumus")])
+        {
+          ownSchool = @"DS";
+          otherSchool = @"HdE";
+        }
+      else
+        {
+          ownSchool = @"HdE";
+          otherSchool = @"DS";        
+        }
+      for (DSASpell *spell in [character.spells allValues])      
+        {
+          if ([spell.origin containsObject: ownSchool])
+            { // own school 3 attampts per try
+              spell.isTraditionSpell = YES;
+              spell.maxUpPerLevel = 3;
+              spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;              
+            }
+          else if ([spell.origin containsObject: otherSchool])
+            {
+              // other school 2 attempts per try
+              spell.maxUpPerLevel = 2;
+              spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;              
+            }
+        }      
+    }
+  else if ([character isKindOfClass: [DSACharacterHeroHumanDruid class]])
+    {
+      // All Druid spells can be leveled up three times per level
+      // All others only once, see: "Die Magie des Schwarzen Auges", S. 45
+      for (DSASpell *spell in [character.spells allValues])      
+        {
+          if ([spell.origin containsObject: @"D"])
+            {
+              spell.isTraditionSpell = YES;
+              spell.maxUpPerLevel = 3;
+              spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;
+            }
+        }
+    }
+  else if ([character isKindOfClass: [DSACharacterHeroHumanShaman class]])
+    {
+      // All Shaman spells can be leveled up three times per level (same as Druid)
+      // All others only once, see: "Compendium Salamandris" S. 77
+      // but can't learn any other spells
+      for (DSASpell *spell in [character.spells allValues])      
+        {
+          if ([spell.origin containsObject: @"D"])
+            {
+              spell.isTraditionSpell = YES;
+              spell.maxUpPerLevel = 3;
+              spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;
+            }
+          else
+            {
+              spell.isTraditionSpell = NO;
+              spell.level = -20;
+              spell.maxUpPerLevel = 0;
+              spell.maxTriesPerLevelUp = 0;
+            }
+        }
+      character.maxLevelUpSpellsTries = 20;  // See "Compendium Salamandris" S. 77
+      character.astralEnergy = 25;
+      character.currentAstralEnergy = 25;
+    }
+  else if ([character isKindOfClass: [DSACharacterHeroHumanWitch class]])
+    {
+      // All Witch spells can be leveled up three times per level
+      // All others only once, see: "Die Magie des Schwarzen Auges", S. 43
+      for (DSASpell *spell in [character.spells allValues])      
+        {
+          if ([spell.origin containsObject: @"H"])
+            {
+              spell.isTraditionSpell = YES;
+              spell.maxUpPerLevel = 3;
+              spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;
+            }
+        }
+    }    
+  else if ([character isKindOfClass: [DSACharacterHeroHumanJester class]])
+    {
+      // All Jester spells can be leveled up three times per level
+      // All others only once, see: "Die Magie des Schwarzen Auges", S. 47
+      for (DSASpell *spell in [character.spells allValues])      
+        {
+          if ([spell.origin containsObject: @"S"])
+            {
+              spell.isTraditionSpell = YES;
+              spell.maxUpPerLevel = 3;
+              spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;
+            }
+        }
+    }
+  else if ([character isKindOfClass: [DSACharacterHeroHumanCharlatan class]])
+    {
+      // Nothing special for Charlatans, only mark the start spells
+      // see "Die Magie des Schwarzen Auges", S. 34
+      NSLog(@"Applying Spell modificators for Charlatan");
+      for (DSASpell *spell in [character.spells allValues])      
+        {
+          NSLog(@"spell %@, origin: %@", spell.name, spell.origin);
+          if ([spell.origin containsObject: @"Scharlatan"])
+            {
+              spell.isTraditionSpell = YES;
+            }
+        }
+    }   
+  else if ([character isKindOfClass: [DSACharacterHeroHumanMage class]])
+    {
+      NSLog(@"Applying spellModificatorsToArchetype: %@", archetype);
+      NSDictionary *mageAcademyInfos = [[Utils getMageAcademiesDict] objectForKey: character.mageAcademy];
+      NSArray *haussprueche = [mageAcademyInfos objectForKey: @"Haussprüche"];
+      NSDictionary *academySpellModificators = [mageAcademyInfos objectForKey: @"Zaubersprüche"];
+      NSString *spezialgebiet = [mageAcademyInfos objectForKey: @"Spezialgebiet"];
+      for (DSASpell *spell in [character.spells allValues])
+        {
+          NSString *spellName = [spell name];
+          NSString *spellCategory = [spell category];
+          if ([spellCategory isEqualToString: spezialgebiet])
+            {
+              spell.maxUpPerLevel = 2;
+              spell.maxTriesPerLevelUp = 6;
+            }
+          
+          if ([[academySpellModificators allKeys] containsObject: spellCategory])
+            {
+              NSLog(@"Found spell category: %@", spellCategory);
+              if ([[academySpellModificators objectForKey: spellCategory] objectForKey: spellName])
+                {
+                  NSLog(@"modifying spell.level for spell: %@", spellName);
+                  spell.level = spell.level + [[[academySpellModificators objectForKey: spellCategory] objectForKey: spellName] integerValue];
+                }
+              for (NSDictionary *dict in haussprueche)
+                {
+                  if ([dict objectForKey: spellName])
+                    {
+                      NSLog(@"HAUSSPRUCH: modifying spell.level for spell: %@", spellName);
+                      spell.level = spell.level + [[dict objectForKey: spellName] integerValue];
+                      spell.maxUpPerLevel = 3;
+                      spell.maxTriesPerLevelUp = 9;
+                      spell.isTraditionSpell = YES;
+                      break;
+                    }
+                  
+                }
+            }
+        }      
+    }
+  else
+    {
+      NSLog(@"DSACharacterGenerationController: applySpellmodificatorsToCharacter: don't know about Archetype: %@", archetype);
+    }
+  if ([character element])
+    {
+      // special treatment for Archetypes specialized on one of the Elements, as described in Mysteria Arkana S. 94
+      
+
+      NSArray *elements = @[ _(@"Feuer"), _(@"Erz"), _(@"Eis"), _(@"Wasser"), _(@"Luft"), _(@"Humus")];
+      NSInteger count = [elements count];
+      NSInteger selectedIndex;
+      NSInteger oppositeIndex;
+      NSString *ownElement = [character element];
+      
+      selectedIndex = [elements indexOfObject: ownElement];
+      oppositeIndex = (selectedIndex + count / 2) % count;      
+      NSString *oppositeElement = [elements objectAtIndex: oppositeIndex];
+//      NSLog(@"applying spell modificators for own element: %@ opposite element: %@", ownElement, oppositeElement);
+      for (DSASpell *spell in [character.spells allValues])
+        {
+          if ([spell element]) NSLog(@"testing spell: %@ with element: %@", [spell name], [spell element]);
+          if ([spell element] != nil)
+            {
+              if ([[spell element] isEqualToString: ownElement])
+                {
+//                  NSLog(@"own element spell before: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);
+                  spell.level = spell.level + 2;
+                  if (spell.maxUpPerLevel < 3)
+                    {
+                      spell.maxUpPerLevel += 1;
+                      spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;
+                    }
+//                  NSLog(@"own element spell after: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                  
+                }
+              else if ([[spell element] isEqualToString: oppositeElement])
+                {
+//                  NSLog(@"opposite element spell before: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
+                  spell.level = spell.level - 3;
+                  spell.maxUpPerLevel = spell.maxUpPerLevel - 1;
+                  spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;
+//                  NSLog(@"opposite element spell after: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
+                }
+              else
+                {
+//                  NSLog(@"other element spell before: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
+                  if (spell.maxUpPerLevel >= 3)
+                    {
+                      spell.maxUpPerLevel = 2;
+                      spell.maxTriesPerLevelUp = spell.maxUpPerLevel * 3;                    
+                      
+                    }
+//                  NSLog(@"other element spell after: %@ %@ %@", [spell name], [spell level], [spell maxUpPerLevel]);                
+                    
+                }
+            }
+        }
+    }
+  else
+    {
+      NSLog(@"The character didn't have element selected!");
+    }
+}
+
 // end of spells dict related methods
 
 // sharisad dances dict related methods

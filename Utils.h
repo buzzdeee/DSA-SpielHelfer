@@ -86,6 +86,7 @@ typedef NS_ENUM(NSUInteger, DSASeverityLevel) {
 + (NSDictionary *) getSpellsDict;
 + (NSDictionary *) getSpellWithName: (NSString *) ritualName;
 + (NSDictionary *) getSpellsForCharacter: (DSACharacter *)character;
++ (void) applySpellmodificatorsToCharacter: (DSACharacter *) character;  // probably should have this in a separate DSACharacterGenerator class ;)
 
 + (NSDictionary *) getSharisadDancesDict;
 
