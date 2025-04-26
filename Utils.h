@@ -85,6 +85,7 @@ typedef NS_ENUM(NSUInteger, DSASeverityLevel) {
 
 + (NSDictionary *) getSpellsDict;
 + (NSDictionary *) getSpellWithName: (NSString *) ritualName;
++ (NSDictionary *) getSpellsForCharacter: (DSACharacter *)character;
 
 + (NSDictionary *) getSharisadDancesDict;
 

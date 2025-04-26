@@ -288,18 +288,18 @@
     }
   //NSLog(@"THE NEW TALENTS: newTalents %@", newTalents);
   newCharacter.talents = newTalents;
-  //NSLog(@"DSACharacterGenerationController: assigned talents to newCharacter: %@", newCharacter.talents);  
+  //NSLog(@"DSACharacterGenerationController: assigned talents to newCharacter: %@", newCharacter.talents);
+  
+  if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanShaman class]] && [[[self.popupMageAcademies selectedItem] title] isEqualToString: _(@"Ja")])
+    {
+      newCharacter.isMagic = YES;
+    }
+    
   if ([newCharacter isMagic])
     {
       NSDictionary *spells = [[NSDictionary alloc] init];
-      if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanShaman class]])
-        {
-          spells = [self getSpellsForArchetype: _(@"Druide")];
-        }
-      else
-        {
-          spells = [self getSpellsForArchetype: selectedArchetype];
-        }
+      
+      spells = [Utils getSpellsForCharacter: newCharacter];
       NSMutableDictionary *newSpells = [[NSMutableDictionary alloc] init];
       for (NSString *category in spells)
         {
@@ -340,13 +340,7 @@
             }
         }
       newCharacter.spells = newSpells;
-      [self applySpellmodificatorsToArchetype: newCharacter];
-/* not needed anymore...  
-      if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanSharisad class]])
-        {
-          newCharacter.maxLevelUpSpellsTries = [newCharacter.spells count] * 3;  // depending on number of spells, see: Die Magie des Schwarzen Auges S. 48
-        }
-*/        
+      [self applySpellmodificatorsToArchetype: newCharacter];       
       if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanShaman class]])
         {
           if ([_(@"Ja") isEqualToString: [[self.popupMageAcademies selectedItem] title]])
@@ -575,16 +569,7 @@
               spell.isTraditionSpell = YES;
             }
         }
-    }
-/* Not needed anymore    
-  else if ([archetype isKindOfClass: [DSACharacterHeroHumanSharisad class]])
-    {
-      for (DSASpell *spell in [archetype.spells allValues])
-        {
-          spell.isTraditionSpell = YES;  // comes from a different list of spells, the SharisadDances.json
-        }
-    }
-*/    
+    }   
   else if ([archetype isKindOfClass: [DSACharacterHeroHumanMage class]])
     {
       NSLog(@"Applying spellModificatorsToArchetype: %@", archetype.archetype);
@@ -891,116 +876,6 @@
   NSArray *sortedReligions = [religions sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
   NSLog(@"SOPRTED RELIGIONS: %@", sortedReligions);
   return sortedReligions;
-}
-
-- (NSDictionary *) getSpellsForArchetype: (NSString *)archetype
-{
-  NSMutableDictionary *spells = [[NSMutableDictionary alloc] init];
-  
-  NSArray *categories;
-  
-  NSString *typus;
-  if ([archetype isEqualToString: _(@"Geode")])
-    {
-      // For Geode, the different start values are in the .json dictionary directly
-      typus = [[self.popupMageAcademies selectedItem] title];
-    }
-  else
-    {
-      typus = archetype;
-    }
-/*  Sharisad doesn't have spells anymore, she has Magic dances, in the specials now!
-  if ([typus isEqualToString: _(@"Sharisad")])
-    {
-      categories = [NSArray arrayWithArray: [[Utils getSharisadDancesDict] allKeys]];
-      NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
-      NSString *selectedReligion = [[self.popupReligions selectedItem] title];
-      for (NSString *category in categories)
-        {
-          for (NSString *key in [[Utils getSharisadDancesDict] objectForKey: category])
-            {
-              NSArray *probe = [NSArray arrayWithArray: [[[[Utils getSharisadDancesDict] objectForKey: category] objectForKey: key] objectForKey: @"Probe"]];
-              NSArray *typen = [NSArray arrayWithArray: [[[[Utils getSharisadDancesDict] objectForKey: category] objectForKey: key] objectForKey: @"Typen"]];
-              NSArray *religions = [NSArray arrayWithArray: [[[[Utils getSharisadDancesDict] objectForKey: category] objectForKey: key] objectForKey: @"Glaube"]];
-              // starting values for the dances see: Die Magie des schwarzen Auges S. 85
-              if ([typen containsObject: selectedOrigin])
-                {
-                  if ([religions count] > 0)  // Novadi Sharisad may have 2 more dances, but only when she is of a given religion
-                    {
-                      if ([religions containsObject: selectedReligion])
-                        {
-                          [spells setValue: @{@"Startwert": @"3",
-                                              @"Probe": probe,
-                                              @"Steigern": @"2",
-                                              @"Versuche": @"6"}
-                           forKeyHierarchy: @[category, key]];
-                        }
-                    }
-                  else
-                    {
-                       [spells setValue: @{@"Startwert": @"3",
-                                               @"Probe": probe,
-                                            @"Steigern": @"2",
-                                            @"Versuche": @"6"}
-                        forKeyHierarchy: @[category, key]];                    
-                    }
-                }
-            }
-        }
-      return spells;  // Sharisad finished here (:
-    }
-*/    
-  if ([typus isEqualToString: _(@"Schamane")] && [[[self.popupMageAcademies selectedItem] title] isEqualToString: _(@"Nein")])
-    {
-      return spells;  // if not magic, we dont have spells
-    }
-  else
-    {
-      categories = [NSArray arrayWithArray: [[Utils getSpellsDict] allKeys]];
-    }
-    
-    
-  for (NSString *category in categories)
-    {
-      NSString *steigern = @"1";
-      NSString *versuche = [NSString stringWithFormat: @"%li", [steigern integerValue] * 3];
-      for (NSString *key in [[Utils getSpellsDict] objectForKey: category])
-        {
-          NSString *startwert;
-          NSString *element = nil;
-          NSArray *probe = [NSArray arrayWithArray: [[[[Utils getSpellsDict] objectForKey: category] objectForKey: key] objectForKey: @"Probe"]];
-          NSArray *origin = [NSArray arrayWithArray: [[[[Utils getSpellsDict] objectForKey: category] objectForKey: key] objectForKey: @"Ursprung"]];
-          if ([[[[[Utils getSpellsDict] objectForKey: category] objectForKey: key] allKeys] containsObject: @"Element"])
-            {
-              element = [NSString stringWithString: [[[[Utils getSpellsDict] objectForKey: category] objectForKey: key] objectForKey: @"Element"]];
-            }
-          else
-            {
-              element = nil;
-            }
-          startwert = [NSString stringWithFormat: @"%@", [[[[[Utils getSpellsDict] objectForKey: category] objectForKey: key] objectForKey: @"Startwerte"] objectForKey: typus]];
-          if (element)
-            {
-              [spells setValue: @{@"Startwert": startwert, 
-                                  @"Probe": probe, 
-                                  @"Ursprung": origin, 
-                                  @"Steigern": steigern, 
-                                  @"Versuche": versuche, 
-                                  @"Element": element}
-               forKeyHierarchy: @[category, key]];
-            }
-          else
-            {
-              [spells setValue: @{@"Startwert": startwert, 
-                                  @"Probe": probe, 
-                                  @"Ursprung": origin, 
-                                  @"Steigern": steigern, 
-                                  @"Versuche": versuche} 
-               forKeyHierarchy: @[category, key]];   
-            }
-          }
-    }
-  return spells;  
 }
 
 /* generates positive traits, as described in
@@ -2971,7 +2846,7 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
       [(DSACharacterHero *)self.generatedCharacter setSpecials: newTalents];
       NSMutableDictionary *newSpells = [[NSMutableDictionary alloc] init];
       NSDictionary *spells = [[NSDictionary alloc] init];
-      spells = [self getSpellsForArchetype: @"Magier"];      // doesn't matter what we use, we initialize the values differently
+      spells = [Utils getSpellsForCharacter: self.generatedCharacter];
       for (NSInteger i=0; i< 19; i++)
         {
           NSString *fieldName = [NSString stringWithFormat: @"switchMagicalDabbler%li", i];

@@ -127,7 +127,7 @@
   newCharacter.staticAttackBaseValue = [self generateAttackBaseValue: charConstraints];
   newCharacter.staticParryBaseValue = [self generateParryBaseValue: charConstraints];
   newCharacter.armorBaseValue = [self generateArmorBaseValue: charConstraints];
-  newCharacter.isMagic = [[charConstraints objectForKey: @"isMagic"] boolValue];
+  // newCharacter.isMagic = [[charConstraints objectForKey: @"isMagic"] boolValue];
   
   newCharacter.positiveTraits = [self generatePositiveTraits: charConstraints];
   NSMutableDictionary *deepCopyPositiveTraits = [NSMutableDictionary dictionary];
@@ -149,6 +149,7 @@
   newCharacter.portraitName = [self generatePortraitName: charConstraints forGender: newCharacter.sex ofSubtype: selectedSubtype];
   
   [self addTalentsToCharacter: newCharacter];
+  [self addSpellsToCharacter: newCharacter];
   
   [self apply: @"Herkunft" to: newCharacter using: charConstraints];
   [self apply: @"Subtypen" to: newCharacter using: charConstraints];
@@ -633,33 +634,20 @@
   character.talents = newTalents;
 }
 
-
-/*
-HAVE TO FIX UP SHARISAD FIRST, MAKE HER DANCES SPECIAL TALENTS...
-MOVE getSpellsForArchetype into Utils....
-
 - (void) addSpellsToCharacter: (DSACharacterNpc *) character
 {
+
+  NSLog(@"DSANPCGenerationController addSpellsToCharacter called");
   if ([character isMagic])
     {
+      NSLog(@"DSANPCGenerationController addSpellsToCharacter called and we have a magic character");
       NSDictionary *spells = [[NSDictionary alloc] init];
-      if ([character isMemberOfClass: [DSACharacterHeroHumanShaman class]])
-        {
-          spells = [self getSpellsForArchetype: _(@"Druide")];
-        }
-      else if ([character.archetype isEqualToString: @"Steppenelf"])
-        {
-          spells = [self getSpellsForArchetype: @"Auelf"];
-        }
-      else if ([character isKindOfClass: [DSACharacterNpc class]])
-        {
-          spells = [self getSpellsForArchetype: @"Other NPC"];
-        }
-      else
-        {
-          spells = [self getSpellsForArchetype: character.archetype];
-        }
+      spells = [Utils getSpellsForCharacter: character];
+
+      NSLog(@"DSANPCGenerationController addSpellsToCharacter called and these are the spells for the character: %@", spells);
+      
       NSMutableDictionary *newSpells = [[NSMutableDictionary alloc] init];
+      
       for (NSString *category in spells)
         {
           for (NSString *s in [spells objectForKey: category])
@@ -698,24 +686,11 @@ MOVE getSpellsForArchetype into Utils....
               [newSpells setObject: spell forKey: s];
             }
         }
-      newCharacter.spells = newSpells;
-      [self applySpellmodificatorsToArchetype: newCharacter];
-      if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanSharisad class]])
-        {
-          newCharacter.maxLevelUpSpellsTries = [newCharacter.spells count] * 3;  // depending on number of spells, see: Die Magie des Schwarzen Auges S. 48
-        }
-      else if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanShaman class]])
-        {
-          if ([_(@"Ja") isEqualToString: [[self.popupMageAcademies selectedItem] title]])
-            {
-              newCharacter.maxLevelUpSpellsTries = 20;  // See "Compendium Salamandris" S. 77
-              newCharacter.astralEnergy = 25;
-              newCharacter.currentAstralEnergy = 25;
-            }
-        }        
+      character.spells = newSpells;
+      NSLog(@"DSANPCGenerationController: addSpellsToCharacter: not applying any archetype related spell modificators");        
     }
 }
-*/
+
 
 // depending on experience level, have to level up talents/spells etc.
 // until better ideas, assume every talent starts with 0, and every spell starts at -5

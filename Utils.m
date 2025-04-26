@@ -438,6 +438,7 @@ static NSMutableDictionary *namesDict;
 {
   return spellsDict;
 }
+
 + (NSDictionary *) getSpellWithName: (NSString *) spellName
 {
   for (NSString *category in [spellsDict allKeys])
@@ -456,6 +457,85 @@ static NSMutableDictionary *namesDict;
     }
   return nil;
 }
+
++ (NSDictionary *) getSpellsForCharacter: (DSACharacter *)character
+{
+  NSMutableDictionary *spells = [[NSMutableDictionary alloc] init];
+  NSDictionary *spellsDict = [Utils getSpellsDict];
+  
+  NSArray *categories;
+  
+  NSString *typus;
+  
+  if ([character.archetype isEqualToString: _(@"Geode")])
+    {
+      // For Geode, the different start values, depending on their school, are in the .json dictionary directly
+      typus = character.mageAcademy;
+    }
+  else if ([character.archetype isEqualToString: _(@"Steppenelf")])
+    {
+      typus = @"Auelf";  // Steppenelf only exists as NPC, but closely related to Auelf
+    }
+  else
+    {
+      typus = character.archetype;
+    }
+
+  
+  if ([character isMemberOfClass: [DSACharacterHeroHumanShaman class]] && character.isMagic == NO)
+    {
+      return spells;  // non magic Shamans
+    }
+  else if ([character isMemberOfClass: [DSACharacterHeroHumanShaman class]] && character.isMagic == YES)
+    {
+      typus = @"Druide";  // Shamans have same start values like Druids if they are magic
+    }    
+    
+  categories = [NSArray arrayWithArray: [[Utils getSpellsDict] allKeys]];
+        
+  for (NSString *category in categories)
+    {
+      NSString *steigern = @"1";
+      NSString *versuche = [NSString stringWithFormat: @"%li", [steigern integerValue] * 3];
+      for (NSString *key in [spellsDict objectForKey: category])
+        {
+          NSString *startwert;
+          NSString *element = nil;
+          NSArray *probe = [NSArray arrayWithArray: [[[spellsDict objectForKey: category] objectForKey: key] objectForKey: @"Probe"]];
+          NSArray *origin = [NSArray arrayWithArray: [[[spellsDict objectForKey: category] objectForKey: key] objectForKey: @"Ursprung"]];
+          if ([[[[spellsDict objectForKey: category] objectForKey: key] allKeys] containsObject: @"Element"])
+            {
+              element = [NSString stringWithString: [[[spellsDict objectForKey: category] objectForKey: key] objectForKey: @"Element"]];
+            }
+          else
+            {
+              element = nil;
+            }
+          startwert = [NSString stringWithFormat: @"%@", [[[[spellsDict objectForKey: category] objectForKey: key] objectForKey: @"Startwerte"] objectForKey: typus]];
+          if (element)
+            {
+              [spells setValue: @{@"Startwert": startwert, 
+                                  @"Probe": probe, 
+                                  @"Ursprung": origin, 
+                                  @"Steigern": steigern, 
+                                  @"Versuche": versuche, 
+                                  @"Element": element}
+               forKeyHierarchy: @[category, key]];
+            }
+          else
+            {
+              [spells setValue: @{@"Startwert": startwert, 
+                                  @"Probe": probe, 
+                                  @"Ursprung": origin, 
+                                  @"Steigern": steigern, 
+                                  @"Versuche": versuche} 
+               forKeyHierarchy: @[category, key]];   
+            }
+          }
+    }
+  return spells;  
+}
+
 // end of spells dict related methods
 
 // sharisad dances dict related methods
@@ -567,6 +647,8 @@ static NSMutableDictionary *namesDict;
   return talents;
 }
 // end of talents dict related methods
+
+
 
 // warriorAcademies dict related methods
 + (NSDictionary *) getWarriorAcademiesDict

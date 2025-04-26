@@ -3136,7 +3136,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.maxLevelUpSpellsTriesTmp = 10;      
       self.maxLevelUpVariableTries = 10;
       self.mrBonus = 3;                      // Die Magie des schwarzen Auges S. 40
-      self.isMagic = YES;
+      self.isMagic = NO;                     // default to NO, but might be switched to YES for some in character generation
     }
   return self;
 }
@@ -3251,7 +3251,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.currentLifePoints = 30;
       self.currentAstralEnergy = 15;   
       // not setting: maxLevelUpSpellsTries, as it's dependent on origin
-      self.isMagic = NO;
+      self.isMagic = NO;                        // but will set it later to YES when assigning the magic dances
     }
   return self;
 }
@@ -3763,6 +3763,20 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 // End of DSACharacterNpcHumanoidApeman
 
 @implementation DSACharacterNpcHumanoidElf : DSACharacterNpcHumanoid
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.maxLevelUpTalentsTries = 25;
+      self.maxLevelUpSpellsTries = 25;
+      self.maxLevelUpTalentsTriesTmp = 0;
+      self.maxLevelUpSpellsTriesTmp = 0;      
+      self.maxLevelUpVariableTries = 0;
+      self.isMagic = YES;         
+    }
+  return self;
+}
 @end
 // End of DSACharacterNpcHumanoidElf
 
