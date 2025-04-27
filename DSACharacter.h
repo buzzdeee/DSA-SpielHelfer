@@ -426,5 +426,13 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 @end
 // End of DSACharacterNpcHumanoidElf
 
+@interface DSACharacterNpcHumanoidFerkina : DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidFerkina
+
+@interface DSACharacterNpcHumanoidFishman : DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidFishman
+
 #endif // _DSACHARACTER_H_
 

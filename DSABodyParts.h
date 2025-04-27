@@ -53,7 +53,7 @@
 
 - (instancetype)init;
 - (DSAEquipResult *)equipObject:(DSAObject *)object;
-
+- (DSAInventory *)inventoryForBodyPart:(NSString *)bodyPart;
 - (NSInteger)countInventories;
 - (NSArray<NSString *> *)inventoryPropertyNames;
 

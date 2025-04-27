@@ -17,7 +17,7 @@
         "AT": [ "8" ],
         "PA": [ "6" ],
         "LE": [ "2W6", 15 ],
-        "MR": [ "1W2" ],
+        "MR": [ "2W6" ],
         "Eigenschaften": {
           "MU": [ "1W3", "6" ],
           "IN": [ "1W3", "10" ],
@@ -33,7 +33,7 @@
         "AT": [ "11" ],
         "PA": [ "8" ],
         "LE": [ "2W6", "30" ],
-        "MR": [ "1W2", "2" ],
+        "MR": [ "2W6", "2" ],
         "Eigenschaften": {
           "MU": [ "1W3", "8" ],
           "IN": [ "1W3", "11" ],
@@ -49,7 +49,7 @@
         "AT": [ "13" ],
         "PA": [ "10" ],
         "LE": [ "2W6", "45" ],
-        "MR": [ "1W2", "4" ],
+        "MR": [ "2W6", "4" ],
         "Eigenschaften": {
           "MU": [ "1W3", "10" ],
           "IN": [ "1W3", "12" ],
@@ -62,7 +62,9 @@
       }
     },
     "RS": "2",
-    "GS": "GST1",
+    "GS": {
+      "Land": "GST1"
+    },
     "AU": "LE+KK",
     "TP": "abhänging von Waffe",
     "Größe": [ "1W20", "170" ],
@@ -134,9 +136,11 @@
     "RS": "0",
     "AT": [ "9" ],
     "PA": [ "8" ],
-    "GS": "GST1",
+    "GS": {
+      "Land": "GST1"
+    },
     "AU": "LE+KK",
-    "MR": [ "1W2", "-12" ],
+    "MR": [ "2W6", "-12" ],
     "TP": "abhänging von Waffe",
     "Größe": [ "1W20", "160" ],
     "Gewicht": [ "1W20", "60" ],
@@ -152,7 +156,7 @@
   },
   "Elf": {
     "Typkategorie": [ "Kulturschaffend" ],
-    "isMagic": false,
+    "isMagic": true,
     "Subtypen": {
       "Auelf": {
         "Herkunft": [ "Salamandersteine" ],
@@ -198,7 +202,7 @@
         "PA": [ "8" ],
         "LE": [ "2W6", 20 ],
         "AE": [ "2W6", 20 ],
-        "MR": [ "1W2" ],
+        "MR": [ "2W6" ],
         "Eigenschaften": {
           "MU": [ "1W3", "8" ],
           "IN": [ "1W3", "9" ],
@@ -215,7 +219,7 @@
         "PA": [ "11" ],
         "LE": [ "2W6", "25" ],
         "AE": [ "2W6", "25" ],
-        "MR": [ "1W2", "2" ],
+        "MR": [ "2W6", "2" ],
         "Eigenschaften": {
           "MU": [ "1W3", "8" ],
           "IN": [ "1W3", "11" ],
@@ -232,7 +236,7 @@
         "PA": [ "14" ],
         "LE": [ "2W6", "40" ],
         "LE": [ "2W6", "40" ],
-        "MR": [ "1W2", "6" ],
+        "MR": [ "2W6", "6" ],
         "Eigenschaften": {
           "MU": [ "1W3", "9" ],
           "IN": [ "1W3", "12" ],
@@ -245,17 +249,181 @@
       }
     },
     "RS": "0",
-    "GS": "GST1",
+    "GS": {
+      "Land": "GST1"
+    },
     "AU": "LE+KK",
     "TP": "abhänging von Waffe",
     "Größe": [ "1W20", "180" ],
     "Gewicht": [ "1W10", "60" ],
+    "Herkunft": {
+      "Salamandersteine": {
+        "Waffen": [ "Jagdspieß, elfisch", "Elfenbogen" ]
+      },
+      "Grüne Ebene": {
+        "Waffen": [ "Speer", "Elfenbogen" ]
+      },
+      "Salamanderwälder": {
+        "Waffen": [ "Dolch", "Elfenbogen" ]
+      },
+      "Hoher Norden": { 
+        "Waffen": [ "Jagdmesser, firnelfisch", "Elfenbogen" ]
+      }
+    }    
+  },
+  "Ferkina": {
+    "Typkategorie": [ "Kulturschaffend" ],
+    "isMagic": false,
+    "Subtypen": {
+      "Ferkina": {
+        "Herkunft": [ "Raschtulswall", "Khoramgebirge" ]
+      },
+      "Trollzacker": {
+        "Herkunft": [ "Trollzacken" ]
+      }
+    },    
+    "Images": {
+      "männlich": [ "Ferkina_male_1.webp", "Ferkina_male_2.webp", "Ferkina_male_2.webp" ],
+      "weiblich": [ "Ferkina_female_1.webp", "Ferkina_female_2.webp" ]
+    },
+    "Geschlecht": [ "männlich", "weiblich" ],
+    "Eigenschaften Constraints": {
+      "JZ": "6+"
+    },
+    "Erfahrungsstufen": { 
+      "unerfahren": {
+        "ST": [ "1W2" ],
+        "LE": [ "25" ]
+      },
+      "erfahren": {
+        "ST": [ "1W3", 5 ],
+        "LE": [ "30" ]
+      },
+      "Veteran": {
+        "ST": [ "1W3", 13 ], 
+        "LE": [ "35" ]
+      }
+    },
+    "Eigenschaften": {
+      "MU": [ "1W3", "11" ],
+      "IN": [ "1W3", "9" ],
+      "GE": [ "1W3", "8" ],
+      "KK": [ "1W3", "10" ],
+      "KL": [ "1W3", "7" ],
+      "CH": [ "1W3", "9" ],
+      "FF": [ "1W3", "8" ]
+    },
+    "RS": "0",
+    "AT": [ "11" ],
+    "PA": [ "7" ],
+    "GS": {
+      "Land": "GST1"
+    },
+    "AU": "LE+KK",
+    "MR": [ "2W6", "-9" ],
+    "TP": "abhänging von Waffe",
+    "Größe": [ "1W20", "180" ],
+    "Gewicht": [ "1W10", "80" ],
     "Waffen": [
-      "Speer",
-      "Jagdspieß, elfisch",
-      "Elfenbogen",
-      "Jagdmesser, firnelfisch",
-      "Dolch"
-    ]
-  }
+      "Keule",
+      "Kriegsbeil",
+      "Schwert",
+      "Speer"
+    ],
+    "Besonderheiten": { },
+    "Herkunft": {
+      "Trollzacken": {
+        "Größe": [ "2W20", "200" ],
+        "Gewicht": [ "1W10", "95" ]
+      }
+    }    
+  },
+  "Fischmensch": {
+    "Typkategorie": [ "Kulturschaffend" ],
+    "isMagic": false,
+    "Subtypen": {
+      "Zilit": {
+        "Herkunft": [ "Echsensümpfe", "Südmeerinseln" ],
+        "Images": {
+          "männlich": [ "Zilit_1.webp", "Zilit_2.webp" ],
+          "weiblich": [ "Zilit_1.webp", "Zilit_2.webp" ]
+        }        
+      },
+      "Risso": {
+        "Herkunft": [ "Selemgrund" ],
+        "Images": {
+          "männlich": [ "Risso_1.webp", "Risso_2.webp" ],
+          "weiblich": [ "Risso_1.webp", "Risso_2.webp" ]
+        }         
+      }
+    }
+    "Geschlecht": [ "männlich", "weiblich" ],
+    "Eigenschaften Constraints": {
+      "LA": "11+"
+    },
+    "Erfahrungsstufen": { 
+      "unerfahren": {
+        "ST": [ "1W2" ],
+        "LE": [ "1W6", "15" ],
+        "AT": [ "10" ],
+        "PA": [ "10" ],
+        "MR": [ "2W6", "0" ],
+        "Eigenschaften": {
+          "MU": [ "1W3", "8" ],
+          "IN": [ "1W3", "8" ],
+          "GE": [ "1W3", "10" ],
+          "KK": [ "1W3", "5" ],
+          "KL": [ "1W3", "8" ],
+          "CH": [ "1W3", "4" ],
+          "FF": [ "1W3", "10" ]
+        }
+      },
+      "erfahren": {
+        "ST": [ "1W3", 5 ],
+        "LE": [ "1W6", "25" ],
+        "AT": [ "12" ],
+        "PA": [ "11" ],        
+        "MR": [ "2W6", "1" ],
+        "Eigenschaften": {
+          "MU": [ "1W3", "9" ],
+          "IN": [ "1W3", "9" ],
+          "GE": [ "1W3", "11" ],
+          "KK": [ "1W3", "6" ],
+          "KL": [ "1W3", "9" ],
+          "CH": [ "1W3", "4" ],
+          "FF": [ "1W3", "11" ]
+        }        
+      },
+      "Veteran": {
+        "ST": [ "1W3", 13 ], 
+        "LE": [ "1W6", "35" ],
+        "AT": [ "14" ],
+        "PA": [ "12" ],        
+        "MR": [ "2W6", "2" ],                       
+      }
+    },
+    "RS": "2",
+    "GS": { 
+      "Land": "GST1",
+      "Wasser": "GST6"
+    },
+    "AU": "LE+KK",
+
+    "TP": "abhänging von Waffe",
+    "Größe": [ "1W20", "180" ],
+    "Gewicht": [ "1W10", "80" ],
+    "Waffen": [
+      "Keule",
+      "Kriegsbeil",
+      "Schwert",
+      "Speer"
+    ],
+    "Besonderheiten": { },
+    "Herkunft": {
+      "Trollzacken": {
+        "Größe": [ "2W20", "200" ],
+        "Gewicht": [ "1W10", "95" ]
+      }
+    }    
+  }  
 }

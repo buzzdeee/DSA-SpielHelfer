@@ -99,6 +99,14 @@ NS_ASSUME_NONNULL_BEGIN
                           inModel:(DSACharacter *)sourceModel
         sourceInventoryIdentifier:(NSString *)sourceInventoryIdentifier
                 sourceSlotIndex:(NSInteger)sourceSlotIndex;
+
+// attempt to equip quantity number of object to a given slotType into a bodyPart of a given character
+// returns number of actually equipped objects                                
+- (NSInteger) equipCharacter: (DSACharacter *) character 
+                  withObject:(DSAObject *)object 
+                  ofQuantity:(NSInteger)quantity 
+                  toBodyPart:(NSString *)bodyPart 
+                    slotType:(DSASlotType)slotType;
                    
 - (DSASlot *)findOccupiedBodySlotOfType:(DSASlotType)slotType inModel:(DSACharacter *)model;
 - (DSASlot *)findFreeBodySlotOfType:(NSInteger)slotType inModel:(DSACharacter *)model;

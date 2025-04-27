@@ -187,6 +187,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
 @property (nonatomic, assign) NSInteger maxDistance;
 @property (nonatomic, strong) NSDictionary *distancePenalty;
 @property (nonatomic, strong) NSArray *hitPointsLongRange;
+@property (nonatomic, strong) NSArray *ammunition;
 
 
 - (instancetype) initWithName: (NSString *) name
@@ -199,6 +200,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
               withMaxDistance: (NSInteger) maxDistance
           withDistancePenalty: (NSDictionary *) distancePenalty
        withHitPointsLongRange: (NSArray *) hitPointsLongRange
+               withAmmunition: (NSArray *) ammunition
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots      
             withAppliedSpells: (NSMutableDictionary *) appliedSpells

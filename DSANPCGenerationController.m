@@ -26,6 +26,7 @@
 #import "Utils.h"
 #import "DSANameGenerator.h"
 #import "DSATrait.h"
+#import "DSAInventoryManager.h"
 
 @implementation DSANPCGenerationController
 
@@ -157,7 +158,7 @@
   
   [self apply: @"Herkunft" to: newCharacter using: charConstraints];
   [self apply: @"Subtypen" to: newCharacter using: charConstraints];
-  
+  [self addEquipmentToCharacter: newCharacter using: charConstraints];
   self.generatedNpc = newCharacter;
   
   NSLog(@"DSANPCGenerationController: newCharacter: %@", newCharacter);
@@ -419,7 +420,7 @@
 - (NSInteger) generateHeight: (NSDictionary *) charConstraints
 {
   NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
-  NSLog(@"DSANPCGenerationController generateHeight selectedOrigin: %@", selectedOrigin);
+  NSLog(@"DSANPCGenerationController generateHeight selectedOrigin: %@, %@", selectedOrigin, charConstraints);
   NSArray *heightDefinition = [[[charConstraints objectForKey: @"Herkunft"] 
                                                  objectForKey: selectedOrigin] 
                                                  objectForKey: @"Größe"];
@@ -695,6 +696,34 @@
     }
 }
 
+- (void) addEquipmentToCharacter: (DSACharacterNpc *) character using: (NSDictionary *) charConstraints
+{
+  NSString *origin = character.origin;
+  DSAInventoryManager *inventoryManager = [DSAInventoryManager sharedManager];
+  NSLog(@"DSANPCGenerationController addEquipmentToCharacter selectedOrigin: %@", origin);
+  NSArray *weaponArray = [[[charConstraints objectForKey: @"Herkunft"] 
+                                            objectForKey: origin] 
+                                            objectForKey: @"Waffen"];
+  NSLog(@"DSANPCGenerationController addEquipmentToCharacter weaponArray: %@", weaponArray);                                                  
+  if (! weaponArray)
+    {
+      weaponArray = [charConstraints objectForKey: @"Waffen"];
+    }
+  NSLog(@"DSANPCGenerationController addEquipmentToCharacter weaponArray: %@", weaponArray);
+  
+  NSUInteger randomIndex = arc4random_uniform((uint32_t) [weaponArray count]);
+  NSString *weaponName = [weaponArray objectAtIndex: randomIndex];
+  DSAObject *weapon = [[DSAObject alloc] initWithName: weaponName forOwner: nil];
+  
+  NSLog(@"DSANPCGenerationController addEquipmentToCharacter weapon: %@", weapon);
+  
+  [inventoryManager equipCharacter: character
+                        withObject: weapon
+                        ofQuantity: 1
+                        toBodyPart: @"rightHand"
+                          slotType: DSASlotTypeGeneral];
+  
+}
 
 // depending on experience level, have to level up talents/spells etc.
 // until better ideas, assume every talent starts with 0, and every spell starts at -5

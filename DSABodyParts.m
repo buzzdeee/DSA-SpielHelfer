@@ -25,6 +25,8 @@
 #import "DSABodyParts.h"
 
 @implementation DSABodyParts
+
+
 - (instancetype)init
 {
   self = [super init];
@@ -293,6 +295,17 @@
     return NO; // No free slots
 }
 
+- (void)unequipObject:(DSAObject *)object {
+    for (NSString *bodyPart in object.occupiedBodySlots) {
+        DSAInventory *inventory = [self inventoryForBodyPart:bodyPart];
+        for (DSASlot *slot in inventory.slots) {
+            if ([slot.object isEqual:object]) {
+                [slot removeObjectWithQuantity: 1];
+            }
+        }
+    }
+}
+
 // Map body part names to their corresponding inventory
 - (DSAInventory *)inventoryForBodyPart:(NSString *)bodyPart {
     if ([bodyPart isEqualToString:@"head"]) return self.head;
@@ -316,17 +329,6 @@
     if ([bodyPart isEqualToString:@"leftFoot"]) return self.leftFoot;
     if ([bodyPart isEqualToString:@"rightFoot"]) return self.rightFoot;    
     return nil; // Invalid body part
-}
-
-- (void)unequipObject:(DSAObject *)object {
-    for (NSString *bodyPart in object.occupiedBodySlots) {
-        DSAInventory *inventory = [self inventoryForBodyPart:bodyPart];
-        for (DSASlot *slot in inventory.slots) {
-            if ([slot.object isEqual:object]) {
-                [slot removeObjectWithQuantity: 1];
-            }
-        }
-    }
 }
 
 - (NSInteger)countInventories {

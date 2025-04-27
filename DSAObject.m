@@ -159,7 +159,8 @@
                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                   withMaxDistance: [[objectInfo objectForKey: @"Reichweite"] integerValue]
                               withDistancePenalty: [objectInfo objectForKey: @"TP Entfernung"]                                        
-                           withHitPointsLongRange: [objectInfo objectForKey: @"Trefferpunkte Fernwaffe"]  // Array of NSNumbers 
+                           withHitPointsLongRange: [objectInfo objectForKey: @"Trefferpunkte Fernwaffe"]  // Array of NSNumbers
+                                   withAmmunition: [objectInfo objectForKey: @"Munition"]
                           validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                                 occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
                                 withAppliedSpells: appliedSpells
@@ -842,6 +843,7 @@
               withMaxDistance: (NSInteger) maxDistance
           withDistancePenalty: (NSDictionary *) distancePenalty
        withHitPointsLongRange: (NSArray *) hitPointsLongRange
+               withAmmunition: (NSArray *) ammunition
       validInventorySlotTypes: (NSArray *) validSlotTypes  
             occupiedBodySlots: (NSArray *) occupiedBodySlots   
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
@@ -861,6 +863,7 @@
       self.maxDistance = maxDistance;
       self.distancePenalty = distancePenalty;      
       self.hitPointsLongRange = hitPointsLongRange;
+      self.ammunition = ammunition;
       self.validSlotTypes = validSlotTypes;
       self.occupiedBodySlots = occupiedBodySlots;     
       self.appliedSpells = appliedSpells;
@@ -876,7 +879,8 @@
       {
         self.maxDistance = [coder decodeIntegerForKey:@"maxDistance"];
         self.distancePenalty = [coder decodeObjectForKey:@"distancePenalty"];
-        self.hitPointsLongRange = [coder decodeObjectForKey:@"hitPointsLongRange"];        
+        self.hitPointsLongRange = [coder decodeObjectForKey:@"hitPointsLongRange"];
+        self.ammunition = [coder decodeObjectForKey:@"ammunition"];      
       }
     return self;
 }
@@ -887,6 +891,7 @@
   [coder encodeInteger:self.maxDistance forKey:@"maxDistance"];
   [coder encodeObject:self.distancePenalty forKey:@"distancePenalty"];
   [coder encodeObject:self.hitPointsLongRange forKey:@"hitPointsLongRange"];
+  [coder encodeObject:self.ammunition forKey:@"ammunition"];
 }
 @end
 // End of DSAObjectWeaponLongRange

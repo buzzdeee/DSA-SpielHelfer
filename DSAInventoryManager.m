@@ -121,39 +121,7 @@
         [self postDSAInventoryChangedNotificationForSourceModel: sourceModel targetModel: targetModel];
         return YES;       
       }
-/*    
-    if ([targetSlot.object isKindOfClass: [DSAObjectContainer class]])
-      {
-        NSLog(@"TARGET SLOT OBJECT IS A DSAOBJECTCONTAINER!!!");
-        DSAObjectContainer *container = (DSAObjectContainer *)targetSlot.object;
-        for (DSASlot *slot in container.slots)
-          {
-            NSLog(@"CHECKING container slot: %@", slot);
-            if (slot.object == nil)
-              {
-                slot.object = sourceSlot.object;
-                slot.quantity = sourceSlot.quantity;
-                sourceSlot.object = nil;
-                sourceSlot.quantity = 0;
-                [self postDSAInventoryChangedNotificationForSourceModel: sourceModel targetModel: targetModel];
-                return YES;
-              }
-            else
-              {
-                if([self isItem: sourceSlot.object compatibleWithSlot:slot])
-                  {
-                    slot.object = sourceSlot.object;
-                    slot.quantity = sourceSlot.quantity;
-                    sourceSlot.object = nil;
-                    sourceSlot.quantity = 0;
-                    [self postDSAInventoryChangedNotificationForSourceModel: sourceModel targetModel: targetModel];
-                    return YES;                  
-                  }
-              }
-          }
-        return NO;
-      }
-*/    
+    
     
     // Check if we can transfer the item (check max item count, etc.)
     NSInteger remainingCapacity = targetSlot.maxItemsPerSlot - targetSlot.quantity;
@@ -347,6 +315,54 @@
     [self.itemActionMenu close];
 }
 
+- (NSInteger)equipCharacter:(DSACharacter *)character withObject:(DSAObject *)object ofQuantity:(NSInteger)quantity toBodyPart:(NSString *)bodyPart slotType:(DSASlotType)slotType {
+
+    DSAInventory *inventory = [character.bodyParts inventoryForBodyPart:bodyPart];
+    if (!inventory) {
+        NSLog(@"Invalid body part: %@", bodyPart);
+        return 0;
+    }
+    
+    NSInteger equippedCount = 0;
+    
+    // Sort slots by slot type and ensure preferred slots come first
+    NSArray *sortedSlots = [inventory.slots sortedArrayUsingComparator:^NSComparisonResult(DSASlot *slot1, DSASlot *slot2) {
+        if (slot1.slotType == slotType && slot2.slotType != slotType) {
+            return NSOrderedAscending;
+        } else if (slot1.slotType != slotType && slot2.slotType == slotType) {
+            return NSOrderedDescending;
+        }
+        return NSOrderedSame;
+    }];
+    
+    for (DSASlot *slot in sortedSlots) {
+        if (slot.slotType == slotType) {
+            // Use the existing compatibility check
+            if (![self isItem:object compatibleWithSlot:slot]) {
+                continue; // Skip incompatible slots
+            }
+            
+            // Check if the slot is available (either empty or already occupied with the same object)
+            NSInteger availableQuantity = slot.maxItemsPerSlot - slot.quantity;
+            if (slot.object == nil || [slot.object isEqual:object]) {
+                NSInteger toEquip = MIN(quantity - equippedCount, availableQuantity);
+                
+                if (toEquip > 0) {
+                    slot.object = object; // Assign the object to the slot
+                    slot.quantity += toEquip; // Increase the quantity of the object in this slot
+                    equippedCount += toEquip; // Track how many were successfully equipped
+                    
+                    if (equippedCount == quantity) {
+                        break; // Stop once the requested quantity is fully equipped
+                    }
+                }
+            }
+        }
+    }
+    
+    return equippedCount; // Return the number of successfully equipped objects
+}
+
 // Implement all the NSMenuDelegate methods:
 - (void)menuWillOpen:(NSMenu *)menu {
     // Called just before the menu opens.  You can do any setup here.
@@ -517,13 +533,7 @@
         NSLog(@"DSAInventoryManager isItem: compatibleWithSlot: Item cannot share slot and the slot is already occupied.");
         return NO;
     }
-/*
-    // If the slot is occupied, ensure the items are compatible
-    if (![slot.object isCompatibleWithObject:item]) {
-        NSLog(@"Shared slot is already occupied by a different or incompatible item.");
-        return NO;
-    }
-*/
+
     // If the item can share the slot, check for available capacity
     NSInteger remainingCapacity = slot.maxItemsPerSlot - slot.quantity;
     if (remainingCapacity <= 0) {

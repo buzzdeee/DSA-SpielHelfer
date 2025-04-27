@@ -273,7 +273,8 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "10/2",
           "Regionen": [ "NO", "TO" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "Icon": [ "Barbarenstreitaxt_1", "Barbarenstreitaxt_2" ]
         },
         "Molokdeschnaja": {
           "Gewicht": 100,
@@ -306,7 +307,8 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "8/6",
           "Regionen": [ "WA" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "Icon": [ "Echsische_Axt_1", "Echsische_Axt_2" ]
         }
       },
       "Scharfe Hiebwaffen": {
@@ -475,7 +477,8 @@
             "weit": -2,
             "sehr weit": 0,
             "extrem weit": 0
-          }
+          },
+          "Icon": [ "Holzspeer_1", "Holzspeer_2" ]
         },
         "Speer": {
           "Gewicht": 80,
@@ -497,7 +500,8 @@
             "weit": -3,
             "sehr weit": 0,
             "extrem weit": 0
-          }                   
+          },
+          "Icon": [ "Speer_1", "Speer_2" ]                  
         },
         "Jagdspieß": {
           "Gewicht": 80,
@@ -508,7 +512,8 @@
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "5/4",
           "Regionen": [ "BO", "TO", "WE" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "Icon": [ "Jagdspiess_1", "Jagdspiess_2" ]
         },
         "Jagdspieß, elfisch": {
           "Gewicht": 80,
@@ -519,7 +524,8 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "5/4",
           "Regionen": [ "EL" ],           
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "Icon": [ "Jagdspiess_elfisch_1", "Jagdspiess_elfisch_2" ]
         },
         "Stoßspeer": {
           "Gewicht": 150,
@@ -530,7 +536,8 @@
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "5/3",
           "Regionen": [ "BO", "EL", "FI", "NO", "WE" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "Icon": [ "Stossspeer_1", "Stossspeer_2" ]
         },
         "Dschadra": {
           "Gewicht": 80,
@@ -937,7 +944,8 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "7/3",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
-          "Material": "Holz"
+          "Material": "Holz",
+          "Icon": [ "Keule_1", "Keule_2" ]
         },
         "Streitkolben": {
           "Gewicht": 120,
@@ -1470,11 +1478,14 @@
           "sehr weit": 0,
           "extrem weit": 0
         }         
-      },
+      }
+    },
+    "Schleuder": {
       "Schleuder": {
         "Gewicht": 10,
         "Preis": 15,
         "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Munition": [ "Schleuderblei", "Kieselstein" ],
         "Material": "Holz",
         "Reichweite": 40,
         "Trefferpunkte Fernwaffe": [ "1W6", 2 ],
@@ -1487,7 +1498,8 @@
           "sehr weit": 0,
           "extrem weit": 0
         }        
-      }
+      },
+      "Icon": [ "Schleuder_1" ]
     },
     "Schußwaffen": {
       "Bögen": {
@@ -1495,6 +1507,7 @@
         "Gewicht": 20,
         "Preis": 45,
         "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Munition": [ "Pfeil, kurze Bögen" ],
         "Material": "Holz",
         "Reichweite": 60,
         "Trefferpunkte Fernwaffe": [ "1W6", 3 ],
@@ -1513,6 +1526,7 @@
         "Gewicht": 35,
         "Preis": 80,
         "Regionen": [ "KH", "MA", "MH", "PU" ],
+        "Munition": [ "Pfeil, kurze Bögen" ],
         "Material": "Holz",
         "Reichweite": 80,
         "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
@@ -1530,6 +1544,7 @@
         "Gewicht": 40,
         "Preis": 120,
         "Regionen": [ "OR" ],
+        "Munition": [ "Pfeil, kurze Bögen" ],
         "Material": "Holz",
         "Reichweite": 100,
         "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
@@ -1547,6 +1562,7 @@
         "Gewicht": 30,
         "Preis": 60,
         "Regionen": [ "BO", "EL", "GA", "HA", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
+        "Munition": [ "Pfeil, lange Bögen" ],
         "Material": "Holz",
         "Reichweite": 200,
         "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
@@ -1565,6 +1581,7 @@
         "Gewicht": 25,
         "Preis": 150,
         "Regionen": [ "EL" ],
+        "Munition": [ "Pfeil, lange Bögen" ],
         "Material": "Holz",
         "Reichweite": 200,
         "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
@@ -1576,12 +1593,14 @@
           "weit": 0,
           "sehr weit": 0,
           "extrem weit": 0
-        }
+        },
+        "Icon": [ "Elfenbogen_1", "Elfenbogen_2" ]
       },
       "Kriegsbogen": {
         "Gewicht": 45,
         "Preis": 100,
         "Regionen": [ "HA", "SÜ", "WE" ],
+        "Munition": [ "Pfeil, Kriegsbogen" ],
         "Material": "Holz",
         "Reichweite": 150,
         "Trefferpunkte Fernwaffe": [ "1W6", 6 ],
@@ -1600,6 +1619,7 @@
         "Gewicht": 150,
         "Preis": 180,
         "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "PU", "SÜ", "TO", "WE", "ZW", "ZY" ],
+        "Munition": [ "Bolzen, leichte Armbrust" ],
         "Material": "Holz",
         "Reichweite": 60,
         "Trefferpunkte Fernwaffe": [ "2W6", 2 ],
@@ -1617,6 +1637,7 @@
         "Gewicht": 200,
         "Preis": 250,
         "Regionen": [ "HA", "LF", "ZW" ],
+        "Munition": [ "Bolzen, schwere Armbrust" ],
         "Material": "Holz",
         "Reichweite": 200,
         "Trefferpunkte Fernwaffe": [ "2W6", 6 ],
@@ -1634,6 +1655,7 @@
         "Gewicht": 200,
         "Preis": 300,
         "Regionen": [ "ZW" ],
+        "Munition": [ "Bolzen, leichte Armbrust" ],
         "Material": "Holz",
         "Reichweite": 40,
         "Trefferpunkte Fernwaffe": [ "1W6", 3 ],
@@ -1646,12 +1668,14 @@
           "sehr weit": 0,
           "extrem weit": 0
         }
-      },
-
+      }
+    },
+    "Kugelschußwaffen": {      
       "Arbalone": {
         "Gewicht": 480,
         "Preis": 600,
         "Regionen": [ "LF", "ZW" ],
+        "Munition": [ "Bleikugel, Balläster" ],
         "Material": "Holz",
         "Reichweite": 250,
         "Trefferpunkte Fernwaffe": [ "3W6", 8 ],
@@ -1669,6 +1693,7 @@
         "Gewicht": 200,
         "Preis": 400,
         "Regionen": [ "LF", "ZW" ],
+        "Munition": [ "Bolzen, schwere Armbrust", "Bleikugel, Balläster" ],
         "Material": "Holz",
         "Reichweite": 100,
         "Trefferpunkte Fernwaffe": [ "2W6", 6 ],
@@ -1686,6 +1711,7 @@
         "Gewicht": 150,
         "Preis": 350,
         "Regionen": [ "LF" ],
+        "Munition": [ "Bleikugel, Balläster" ],
         "Material": "Holz",
         "Reichweite": 60,
         "Trefferpunkte Fernwaffe": [ "2W6", 2 ],
@@ -1703,6 +1729,7 @@
         "Gewicht": 60,
         "Preis": 250,
         "Regionen": [ "LF" ],
+        "Munition": [ "Bleikugel, Balläster" ],
         "Material": "Holz",
         "Reichweite": 25,
         "Trefferpunkte Fernwaffe": [ "1W6", 5 ],
@@ -1715,12 +1742,12 @@
           "sehr weit": 0,
           "extrem weit": 0
         }
-      }},
-      "Kugelschußwaffen": {
-            "Balläster": {
+      },
+      "Balläster": {
         "Gewicht": 120,
         "Preis": 160,
         "Regionen": [ "ZW" ],
+        "Munition": [ "Bleikugel, Balläster" ],
         "Material": "Holz",
         "Reichweite": 100,
         "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
@@ -1733,13 +1760,14 @@
           "sehr weit": -1,
           "extrem weit": -1
         }
-      }},
-      
-      "Blasrohre": {
+      }
+    },
+    "Blasrohre": {
       "Blasrohr": {
         "Gewicht": 15,
         "Preis": 40,
         "Regionen": [ "MO", "WA" ],
+        "Munition": [ "Blasrohrpfeil" ],
         "Material": "Holz",
         "Reichweite": 25,
         "Trefferpunkte Fernwaffe": [ "1W6" ],
@@ -1803,6 +1831,11 @@
         "Preis": 0.6,
         "Material": "Eisen"
       },
+      "Kieselstein": {
+        "Gewicht": 2,
+        "Preis": 0.0,
+        "Material": "Stein"
+      }      
       "Schleuderblei": {
         "Gewicht": 2,
         "Preis": 0.5,
@@ -2942,7 +2975,7 @@
         "Waffenvergleichswert": "6/2",
         "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
         "Material": "Eisen" ,
-        "Icon": [ "Beil_1", "Beil_2" ]
+        "Icon": [ "Beil_1", "Beil_2", "Beil_3", "Beil_4" ]
       },
       "Fleischerbeil": {
         "Gewicht": 60,
