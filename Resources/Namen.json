@@ -878,6 +878,36 @@
             "hasClanNames": false
         }
     },
+  "Ferkina": {
+        "maleFirstNames":  [
+    "Abtuul", "Ardavan", "Ardesh", "Azad", "Bashur", "Burshuk", "Chosraw", "Devlekh", "Djershar", "Dschafur", "Dschalf", "Durjin", "Faruch", "Farzand", "Feridun", "Fervez", "Gulbad", "Hafiz", "Harnar", "Haydar", "Jikhab", "Kaszan", "Kazh", "Kazum", "Kherim", "Khordad", "Madawan", "Mharbal", "Mirlam", "Muyanshir", "Nashrath", "Rachwan", "Rashni", "Rasuul", "Rashuul", "Rustam", "Sharkhan", "Tsharik", "Tugril", "Tulsani", "Uchrab", "Umar", "Waqran", "Yabman", "Yistarrech", "Zakhaban", "Zhandur"
+    ],
+        "femaleFirstNames": [
+    "Ashu", "Azrubat", "Begum", "Belkhara", "Chanum", "Chatun", "Chizuran", "Chorjan", "Chorshilan", "Dscheridocht", "Duncha", "Farah", "Faroshte", "Farsha", "Farzandeh", "Golbanu", "Golsban", "Harshan", "Hulya", "Jeleyin", "Khalila", "Khullat", "Laal", "Lahileh", "Massudeh", "Mehrshan", "Mirhay", "Nadam", "Nazrin", "Nuraya", "Nurjahan", "Peribanu", "Rashadocht", "Rôhila", "Rushan", "Shiringol", "Shmahba", "Sulefin", "Tamra", "Tarshabet", "Tebay", "Tulamin", "Zarbanu", "Zulecha", "Zuleycha"
+  ],
+        "epithetsMale": ["iban"],
+        "epithetsFemale": ["sabu", "sabu", "zawsh", "zawshi"],
+        "lastNames": ["Bân Anghrachan", "Bân Awallakh", "Bân Farkash", "Bân Gassarah", "Bân Hadarri", "Bân Khalil", "Bân Kherash", "Bân Malya", "Bân Mhadjaduri", "Bân Sharida", "Bân TirghUfa", "Bân Uludh", "Bem Chalif", "Bem Yashkar", "Shai'Aian", "Ulad Asuban", "Ulad Barshirn", "Ulad Yerkash"],
+        "regionSpecifics": {
+            "nobleNamesAreLastNames": false,
+            "lastNamesAreAllFirstNames": false,
+            "lastNamesAreMaleFirstNames": false,
+            "lastNamesAreFemaleFirstNames": false,
+            "lastNamesMatchesGenderFirstNames": false,
+            "hasGenderSpecificFirstName": true,
+            "hasGenderSpecificLastName": false,
+            "hasLastNamePrefix": false,
+            "hasEpithet": true,
+            "hasGenderSpecificEpithe": true,
+            "hasEpithetBeforeLastName": true,
+            "hasNoLastName": false,
+            "hasNoble": false,
+            "hasNoblePrefix": false,
+            "hasNobleFirstNames": false,
+            "hasMultiFirstNames": false,
+            "hasClanNames": false
+        }  
+  },    
     "Firnelf": {
         "maleFirstNames": [
             "Aelindir",
@@ -1648,6 +1678,32 @@
             "hasClanNames": false
         }
     },
+  "Goblin": {
+        "maleFirstNames":  ["Aargaal", "Aarguk", "Barl", "Bluugh", "Bluurz", "Chraaz", "Chruuk", "Furuukh", "Gnatz", "Gnupp", "Gorrwarrn", "Grrargh", "Gragh", "Groggi", "Groinkh", "Groom", "Grootz", "Grul", "Gruum", "Gullinburst", "Gurluug", "Guurk", "Jaak", "Jukuul", "Juukoor", "Juuksed", "Kaarstock", "Kwoork", "Mrarrk", "Naark", "Norf", "Örf", "Paabertz", "Priidul", "Rarrf", "Röff", "Shraa", "Sniigs", "Sulrik", "Suviini", "Traak", "Tschak", "Urmeg", "Uuzvaral", "Vurl", "Xeetsch", "Ziplim"],
+        "femaleFirstNames": ["Aada", "Azzgra", "Azzgrada", "Bupuuscha", "Furka", "Garrgh", "Griibna", "Jacuula", "Jamuutan", "Jeetka", "Kashka", "Kasuukas", "Kergatai", "Khischa", "Kolainaa", "Leelos", "Maalis", "Mantka", "Mikdai", "Morka", "Naissuguun", "Oozols", "Orvazz", "Porsa", "Riiba", "Rukuuka", "Russuula", "Ruulka", "Sakuuska", "Seenä", "Sieva", "Siisikai", "Souuli", "Suncuua", "Suviintan", "Treescha", "Triinuun", "Tschiiba", "Ushka", "Uukra", "Varmiias", "Viivelas", "Weetinka", "Yaakscha", "Zooqa"],
+        "lastNames":  ["Kuyac Mapai", "Lungai Gyrrwa", "Lungai Mikdai", "Lungai Mulla", "Lungai Naarak", "Lungai Ruuga", "Lungai Scherschai", "Lungai Siiskal", "Lungai Theluzi", "Lungai Urmorgh", "Saali Bluughai", "Saali Moorakh", "Saali Priidah", "Saali Triphaa"],
+        "epithets": ["Ascheregen", "Blutpelz", "der Flinke", "der Jäger", "die Blutige", "Eichelfinder", "Feuerpelz", "Goldzahn", "Hrungsa", "Krigscha", "Luuch", "Paala", "Raschaa", "Riiba", "Ruubah", "Sauzwinger", "Schwarzzahn", "Schweinefänger", "Suulah", "Tschekrai", "Tuluum", "Wjasuu"],
+        "lastNamesPrefix": ["von den "],
+        "regionSpecifics": {
+            "nobleNamesAreLastNames": false,
+            "lastNamesAreAllFirstNames": false,
+            "lastNamesAreMaleFirstNames": false,
+            "lastNamesAreFemaleFirstNames": false,
+            "lastNamesMatchesGenderFirstNames": false,
+            "hasGenderSpecificFirstName": true,
+            "hasGenderSpecificLastName": false,
+            "hasLastNamePrefix": true,
+            "hasEpithet": true,
+            "hasGenderSpecificEpithe": false,
+            "hasEpithetBeforeLastName": true,
+            "hasNoLastName": false,
+            "hasNoble": false,
+            "hasNoblePrefix": false,
+            "hasNobleFirstNames": false,
+            "hasMultiFirstNames": false,
+            "hasClanNames": false
+        }  
+  },    
     "Liebliches Feld": {
         "maleFirstNames": [
             "Abelmir",
@@ -3491,6 +3547,54 @@
             "hasClanNames": false
         }
     },
+  "Oger": {
+        "maleFirstNames":  ["Arrgak", "Arzuch", "Bagelak", "Barthak", "Basuff", "Blutkeule", "Bluttrinker", "Brzuch", "Bullg", "Dickwampe", "Elfenesser", "Garrg", "Gorpp", "Gubbruz", "Knochenknacker", "Knochenschmatzer", "Krog", "Schlorgog", "Todesfaust", "Ullgump", "Urbul", "Urmpf", "Wehkhir", "Yahrazz"],
+        "femaleFirstNames": ["Ahrkh", "Arzach", "Beinkauerin", "Blutgurgler", "Bulka", "Fleischhauerin", "Fumta", "Gharraa", "Gomwekh", "Gurza", "Harge", "Haudrf", "Honngnar", "Korpa", "Lahuff", "Nimmersatt", "Ograa", "Omtom", "Orkentot", "Oweh", "Shlach", "Usta", "Zhuraar"],
+        "regionSpecifics": {
+            "nobleNamesAreLastNames": false,
+            "lastNamesAreAllFirstNames": false,
+            "lastNamesAreMaleFirstNames": false,
+            "lastNamesAreFemaleFirstNames": false,
+            "lastNamesMatchesGenderFirstNames": false,
+            "hasGenderSpecificFirstName": true,
+            "hasGenderSpecificLastName": false,
+            "hasLastNamePrefix": false,
+            "hasEpithet": false,
+            "hasGenderSpecificEpithe": false,
+            "hasEpithetBeforeLastName": false,
+            "hasNoLastName": true,
+            "hasNoble": false,
+            "hasNoblePrefix": false,
+            "hasNobleFirstNames": false,
+            "hasMultiFirstNames": false,
+            "hasClanNames": false
+        }  
+  },
+  "Ork": {
+        "firstNames":   ["Airakh", "Alrork", "Arbachzeg", "Aregz", "Ashim", "Ashrraz", "Ashirraz", "Azparuch", "Azzek", "Brazoch", "Burchai", "Buiruzz", "Byakkrak", "Dradgk", "Drasok", "Drugh", "Elgork", "Ertugulk", "Gach", "Garch", "Garvash", "Garzlokh", "Gharrai", "Ghartai", "Ghairazz", "Gharrz", "Girkush", "Gorromp", "Gospodorkreg", "Graksch", "Grakshazz", "Gryazhai", "Gurshai", "Gushrogh", "Harkhash", "Hugur", "Hulgharuk", "Jurran", "Kempreg", "Kerschoi", "Khaidach", "Kharrechzek", "Kholzzsha", "Khurrach", "Kliurraz", "Krurkatunga", "Kurruz", "Kurugoch", "Mardugh", "Mardukh", "Marfogh", "Mohork", "Morak", "Morghinak", "Morrok", "Naggai", "Nargazz", "Netragh", "Ochozzog", "Ogrik", "Oigrunz", "Okorork", "Olrik", "Olruk", "Orchegg", "Orcheggz", "Orezzar", "Orgrosch", "Raszech", "Rulgargop", "Sadrak", "Sarkhai", "Schindzilarz", "Shardur", "Sharkak", "Sharraz", "Sholocham", "Shurrak", "Tairon", "Thukraz", "Thurraz", "Trufagh", "Tuzzugh", "Ugur", "Ugurkan", "Uigar", "Upaatl", "Varrakh", "Waldoch", "Waldochz", "Walduch", "Wosz", "Yagrikzek", "Yagu", "Yaguch", "Yorrak", "Yrram", "Ziraitach", "Zurok"],
+        "lastNamesPrefix": [ "Riak ", "" ],
+        "lastNames": ["Assai", "Gravachai", "Murgashai", "Orianhash", "Siburash", "Tochai", "Zahachtai", "Girikh", "Hyarrik", "Kergai", "Komorish", "Omokhan", "Pakoor", "Sorrish", "Utasch", "Yallor", "Burrkuzk", "Dharrach", "Drugash", "Garyakai", "Gharrachai", "Gorlochai", "Karkaguresh", "Keschuwai", "Kurkharrash", "Marrikai", "Mokolash", "Nurashai", "Olochtai", "Ramuchai", "Ruazash", "Schurachai", "Tarkairash", "Truanzhai", "Tscharshai"],
+        "epithets": [ "Aschepelz", "Blutauge", "Blutaxt", "Blutfaust", "Bluttrinker", "Brandschild", "Dunkelhand", "Einohr", "Eisauge", "Eisenhammer", "Eispelz", "Faulzahn", "Feuerfänger", "Feuerpelz", "Feuerspeer", "Funkenleser", "Geisterklaue", "Gelbzahn", "Gifttrinker", "Glutherz", "Glutsucher", "Goldzahn", "Hornpfeil", "Kettenreißer", "Knochenbrecher", "Ogerschelle", "Ogerschlächter", "Rauchbringer", "Rostklinge", "Schädelspalter", "Schattenpelz", "Schmerzsinger", "Schmerzsucher", "Schmiedeglut", "Schneidzahn", "Seidenpelz", "Silberaxt", "Spurenleser", "Stahlbrecher", "Steinhand", "Wutklinge" ],
+        "regionSpecifics": {
+            "nobleNamesAreLastNames": false,
+            "lastNamesAreAllFirstNames": false,
+            "lastNamesAreMaleFirstNames": false,
+            "lastNamesAreFemaleFirstNames": false,
+            "lastNamesMatchesGenderFirstNames": false,
+            "hasGenderSpecificFirstName": false,
+            "hasGenderSpecificLastName": false,
+            "hasLastNamePrefix": true,
+            "hasEpithet": true,
+            "hasGenderSpecificEpithe": false,
+            "hasEpithetBeforeLastName": true,
+            "hasNoLastName": true,
+            "hasNoble": false,
+            "hasNoblePrefix": false,
+            "hasNobleFirstNames": false,
+            "hasMultiFirstNames": false,
+            "hasClanNames": false
+        }  
+  },  
     "Steppenelf": {
         "maleFirstNames": [
             "Aelindir",
@@ -3998,6 +4102,60 @@
             "hasClanNames": true
         }
     },
+  "Troll": {
+        "maleFirstNames": ["Agalosch", "Allerbatsch", "Bagsch", "Banderatsch", "Berkhold", "Bombatsch", "Bomborosch", "Bompeldatsch", "Bortosch", "Brototaksch", "Drollgomp", "Durlatsch", "Forkhold", "Gneiserich", "Gnorix", "Gramumpf", "Graugdasch", "Grimdasch", "Grollombotsch", "Grumatsch", "Gumbalodsch", "Ilkhold", "Katathmarr", "Kerbhold", "Knopphold", "Knorzer", "Krallerwatsch", "Krallulatsch", "Kraschtonn", "Kroppgomp", "Krumpelratsch", "Latsch", "Luderdotsch", "Murdlatsch", "Römpeldasch", "Ronkhold", "Rumpold", "Rurak", "Straumpff", "Strock", "Strotromm", "Struzz", "Stubben", "Tarbasch", "Tarkampf", "Tartzilman", "Torfkompf", "Tralluschampf", "Troddsch", "Trolltatsch", "Tubolosch", "Tumpatsch", "Wungwatsch", "Ylkholt"],
+        "femaleFirstNames": ["Aldascha", "Amakscha", "Bagoscha", "Bartoscha", "Borrcke", "Doscha", "Dotscha", "Draschpatscha", "Durschanna", "Ellermudd", "Garlescha", "Gnoschda", "Goscha", "Graschda", "Grauramcke", "Grollcke", "Grollgascha", "Gumuncke", "Horoschka", "Illkscha", "Knopphild", "Knorralka", "Knorrholde", "Knoschpanke", "Krallschka", "Kraschta", "Kraschtar", "Kullamenke", "Latschka", "Manscha", "Moschgrimma", "Murscha", "Orrda", "Pompffe", "Roschara", "Ruppicke", "Schmorka", "Schtemmke", "Silberhaar", "Tromprancke", "Trumpke", "Urte", "Wamruncke", "Wantascha"],
+        "epithetsFemale": [
+           "Tochter der"
+        ],
+        "epithetsMale": [
+           "Sohn des"
+        ],
+        "regionSpecifics": {
+            "nobleNamesAreLastNames": false,
+            "lastNamesAreAllFirstNames": false,
+            "lastNamesAreMaleFirstNames": false,
+            "lastNamesAreFemaleFirstNames": false,
+            "lastNamesMatchesGenderFirstNames": true,
+            "hasGenderSpecificFirstName": true,
+            "hasGenderSpecificLastName": true,
+            "hasLastNamePrefix": true,
+            "hasEpithet": true,
+            "hasGenderSpecificEpithe": true,
+            "hasEpithetBeforeLastName": true,
+            "hasNoLastName": false,
+            "hasNoble": false,
+            "hasNoblePrefix": false,
+            "hasNobleFirstNames": false,
+            "hasMultiFirstNames": false,
+            "hasClanNames": false
+        }  
+  },    
+  "Trollzacker": {
+        "maleFirstNames":  ["Achzul", "Alzaar", "Arachtoch", "Ashur", "Azzadh", "Bashoth", "Bradrukh", "Dabrush", "Drechan", "Dorkhach", "Faraz", "Gandrosh", "Gandroshaq", "Ghonech", "Grachan", "Kcharron", "Kchorech", "Khornan", "Moqtach", "Rhazzar", "Rochan", "Shamsharb", "Shinmashq", "Shinmashaq", "Shulman", "Tashach", "Tashachz", "Trachan", "Trauchan", "Zerasuul", "Zuldar", "Zuldhamach"],
+        "femaleFirstNames": ["Artun", "Ashirut", "Chulye", "Chumra", "Draneth", "Dur'Ghacha", "Greshira", "Habiza", "Hachnah", "Hachinah", "Kcharra", "Kchodi", "Kchodima", "Khordha", "Lahl'a", "Makatta", "Manlochla", "Marchune", "Moqtah", "Perchi", "R'Hana", "Rhazzeshta", "Shazzula", "Shulmacha", "Tash'ahr", "Tash'ahra", "Uchazu", "Zul'artun", "Zulecha"],
+        "lastNamesPrefix": [ "Ul' " ],
+        "lastNames": ["Amad'rochan", "Charis'ramarh", "Gor'rohashim", "Koro'warh", "Mach'nahtul", "Zum'achan"],
+        "regionSpecifics": {
+            "nobleNamesAreLastNames": false,
+            "lastNamesAreAllFirstNames": false,
+            "lastNamesAreMaleFirstNames": false,
+            "lastNamesAreFemaleFirstNames": false,
+            "lastNamesMatchesGenderFirstNames": false,
+            "hasGenderSpecificFirstName": true,
+            "hasGenderSpecificLastName": false,
+            "hasLastNamePrefix": true,
+            "hasEpithet": false,
+            "hasGenderSpecificEpithe": false,
+            "hasEpithetBeforeLastName": false,
+            "hasNoLastName": false,
+            "hasNoble": false,
+            "hasNoblePrefix": false,
+            "hasNobleFirstNames": false,
+            "hasMultiFirstNames": false,
+            "hasClanNames": false
+        }  
+  },    
     "Tulamide": {
         "maleFirstNames": [
             "Abdul",

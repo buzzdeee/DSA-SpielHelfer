@@ -37,7 +37,7 @@
 - (instancetype)init;
 
 // Configurable initializer
-- (instancetype)initWithSlotTypes:(NSArray<NSNumber *> *)slotTypes maxItemsPerSlot: (NSInteger) maxItemsPerSlot;  // for an inventory with different types per slot
+- (instancetype)initWithSlotTypes:(NSArray<NSNumber *> *)slotTypes maxItemsPerSlot: (NSInteger) maxItemsPerSlot;  // for an inventory with different types per slot, if there is any DSASlotGeneral in the list, maxItemsPerSlot is ignored and hard-coded to 99
 - (instancetype)initWithSlotType:(NSInteger)slotType quantity:(NSInteger)quantity maxItemsPerSlot: (NSInteger) maxItemsPerSlot; // for an inventory with a single type of slots
 
 - (NSInteger)addObject:(DSAObject *)object quantity:(NSInteger)quantity;

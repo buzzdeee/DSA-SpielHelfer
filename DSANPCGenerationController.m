@@ -509,22 +509,23 @@
   NSLog(@"DSANPCGenerationCtroller: generateName: supportedNames: %@", supportedNames);
   NSString *origin;
   NSString *name;
-  if ([supportedNames containsObject: [[self.popupCategories selectedItem] title]])
-    {
-      origin = [[self.popupCategories selectedItem] title];
-    }
-  else if ([supportedNames containsObject: [[self.popupTypes selectedItem] title]])
-    {
-      origin = [[self.popupTypes selectedItem] title];
-    }
-  else if ([supportedNames containsObject: [[self.popupSubtypes selectedItem] title]])
+
+  if ([supportedNames containsObject: [[self.popupSubtypes selectedItem] title]])     // first check Subtyp, might be more specifc name available
     {
       origin = [[self.popupSubtypes selectedItem] title];
     }    
-  else if ([supportedNames containsObject: [[self.popupOrigins selectedItem] title]])
+  else if ([supportedNames containsObject: [[self.popupTypes selectedItem] title]])   // fall back to Typus
+    {
+      origin = [[self.popupTypes selectedItem] title];
+    }    
+  else if ([supportedNames containsObject: [[self.popupOrigins selectedItem] title]]) // or origin
     {
       origin = [[self.popupOrigins selectedItem] title];
     }
+  if ([supportedNames containsObject: [[self.popupCategories selectedItem] title]])   // before falling back to more or less last resort...
+    {
+      origin = [[self.popupCategories selectedItem] title];
+    }    
   if ([origin length] == 0)
     {
       name = @"ohne Namen";
@@ -722,6 +723,22 @@
                         ofQuantity: 1
                         toBodyPart: @"rightHand"
                           slotType: DSASlotTypeGeneral];
+   if ([weapon isMemberOfClass:[DSAObjectWeaponLongRange class]])
+     {
+       NSArray *ammoArray = [(DSAObjectWeaponLongRange *)weapon ammunition];
+
+       if (ammoArray != nil && [ammoArray count] > 0)
+         {
+           randomIndex = arc4random_uniform((uint32_t) [ammoArray count]);
+           NSString *ammoName = [ammoArray objectAtIndex: randomIndex];
+           DSAObject *ammo = [[DSAObject alloc] initWithName: ammoName forOwner: nil];
+           [inventoryManager equipCharacter: character
+                                 withObject: ammo
+                                 ofQuantity: 20
+                                 toBodyPart: @"leftHand"
+                                   slotType: DSASlotTypeGeneral];
+         }
+     }
   
 }
 

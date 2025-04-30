@@ -39,7 +39,14 @@
         for (NSNumber *slotType in slotTypes) {
             DSASlot *slot = [[DSASlot alloc] init];
             slot.slotType = slotType.unsignedIntegerValue;
-            slot.maxItemsPerSlot = maxItemsPerSlot;
+            if ([slotType integerValue] == DSASlotTypeGeneral)
+              {
+                slot.maxItemsPerSlot = 99;
+              }
+            else
+              {
+                slot.maxItemsPerSlot = maxItemsPerSlot;
+              }
             [_slots addObject:slot];
         }
     }
