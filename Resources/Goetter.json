@@ -165,9 +165,24 @@
  "Angrosch": {
    "Typkategorie": [ "Zwerg" ]
  },
+ "Charyb'Yzz": {
+   "Typus": [ "Krakonier" ]
+ }, 
+ "Mailam Rekdai": {
+   "Typus": [ "Goblin" ]
+ }, 
  "Nurti und Zerzal": {
    "Typkategorie": [ "Elf" ]
  },
+ "Orvai Kurim": {
+   "Typus": [ "Goblin" ]
+ }, 
+ "Rascha": {
+   "Typus": [ "Trollzacker" ]
+ }, 
+ "Raschtulla": {
+   "Typus": [ "Ferkina", "Trollzacker" ]
+ }, 
  "Rastullah": {
    "Typus": [ "Novadi" ],
    "Herkunft": [ "Novadi" ]

@@ -356,7 +356,7 @@
           "weiblich": [ "Risso_1.webp", "Risso_2.webp" ]
         }         
       }
-    }
+    },
     "Geschlecht": [ "männlich", "weiblich" ],
     "Eigenschaften Constraints": {
       "LA": "11+"
@@ -399,7 +399,16 @@
         "LE": [ "1W6", "35" ],
         "AT": [ "14" ],
         "PA": [ "12" ],        
-        "MR": [ "2W6", "2" ],                       
+        "MR": [ "2W6", "2" ],
+        "Eigenschaften": {
+          "MU": [ "1W3", "9" ],
+          "IN": [ "1W3", "9" ],
+          "GE": [ "1W3", "12" ],
+          "KK": [ "1W3", "7" ],
+          "KL": [ "1W3", "11" ],
+          "CH": [ "1W3", "4" ],
+          "FF": [ "1W3", "13" ]
+        }                            
       }
     },
     "RS": "2",
@@ -425,5 +434,240 @@
         "Gewicht": [ "1W10", "95" ]
       }
     }    
-  }  
+  },
+  "Goblin": {
+    "Typkategorie": [ "Kulturschaffend" ],
+    "isMagic": false,
+    "Images": {
+      "männlich": [ "Goblin_male_1.webp", "Goblin_male_2.webp" ],
+      "weiblich": [ "Goblin_female_1.webp", "Goblin_female_2.webp" ]
+    },
+    "Geschlecht": [ "männlich", "weiblich" ],
+    "Eigenschaften Constraints": {
+      "AG": "11+"
+    },
+    "Erfahrungsstufen": { 
+      "unerfahren": {
+        "ST": [ "1W2" ],
+        "LE": [ "1W6", "10" ],
+        "AT": [ "8" ],
+        "PA": [ "7" ],
+        "MR": [ "1W6", "-6" ],
+        "Eigenschaften": {
+          "MU": [ "1W3", "4" ],
+          "IN": [ "1W3", "7" ],
+          "GE": [ "1W3", "7" ],
+          "KK": [ "1W3", "4" ],
+          "KL": [ "1W3", "4" ],
+          "CH": [ "1W3", "4" ],
+          "FF": [ "1W3", "8" ]
+        }
+      },
+      "erfahren": {
+        "ST": [ "1W3", 5 ],
+        "LE": [ "1W6", "20" ],
+        "AT": [ "10" ],
+        "PA": [ "9" ],        
+        "MR": [ "1W6", "-5" ],
+        "Eigenschaften": {
+          "MU": [ "1W3", "5" ],
+          "IN": [ "1W3", "8" ],
+          "GE": [ "1W3", "8" ],
+          "KK": [ "1W3", "4" ],
+          "KL": [ "1W3", "5" ],
+          "CH": [ "1W3", "5" ],
+          "FF": [ "1W3", "9" ]
+        }        
+      },
+      "Veteran": {
+        "ST": [ "1W3", 13 ], 
+        "LE": [ "1W6", "25" ],
+        "AT": [ "13" ],
+        "PA": [ "11" ],        
+        "MR": [ "1W6", "-4" ],
+        "Eigenschaften": {
+          "MU": [ "1W3", "6" ],
+          "IN": [ "1W3", "9" ],
+          "GE": [ "1W3", "9" ],
+          "KK": [ "1W3", "5" ],
+          "KL": [ "1W3", "5" ],
+          "CH": [ "1W3", "5" ],
+          "FF": [ "1W3", "11" ]
+        }                
+      }
+    },
+    "RS": "0",
+    "GS": { 
+      "Land": "GST1"
+    },
+    "AU": "LE+KK",
+    "TP": "abhänging von Waffe",
+    "Größe": [ "1W20", "140" ],
+    "Gewicht": [ "1W10", "35" ],
+    "Waffen": [
+      "Keule",
+      "Speer"
+    ],
+    "Besonderheiten": { },
+    "Herkunft": {
+      "Grüne Ebene": { },
+      "Rote Sichel": { },
+      "Schwarze Sichel": { },
+      "Aventurien": {
+        "Note": "Umherziehende Banden ausserhalb ihrer Heimatgebiete...",
+        "AT": "1",
+        "PA": "3",
+        "MU": "2",
+        "IN": "-2"
+      }
+    }    
+  },
+  "Krakonier": {
+    "Typkategorie": [ "Kulturschaffend" ],
+    "isMagic": false,
+    "Images": {
+      "männlich": [ "Krakonier_1.webp", "Krakonier_2.webp" ],
+      "weiblich": [ "Krakonier_1.webp", "Krakonier_2.webp" ]
+    },
+    "Geschlecht": [ "männlich", "weiblich" ],
+    "Eigenschaften Constraints": {
+      "LA": "11+"
+    },
+    "Erfahrungsstufen": { 
+      "unerfahren": {
+        "ST": [ "1W2" ],
+        "LE": [ "1W6", "20" ],
+        "AT": [ "9" ],
+        "PA": [ "9" ],
+        "RS": "3",
+        "MR": [ "2W6", "5" ],
+        "Eigenschaften": {
+          "MU": [ "1W3", "10" ],
+          "IN": [ "1W3", "7" ],
+          "GE": [ "1W3", "8" ],
+          "KK": [ "1W3", "10" ],
+          "KL": [ "1W3", "6" ],
+          "CH": [ "1W3", "5" ],
+          "FF": [ "1W3", "8" ]
+        }
+      },
+      "erfahren": {
+        "ST": [ "1W3", 5 ],
+        "LE": [ "1W6", "40" ],
+        "AT": [ "12" ],
+        "PA": [ "11" ],
+        "RS": "4",        
+        "MR": [ "2W6", "7" ],
+        "Eigenschaften": {
+          "MU": [ "1W3", "12" ],
+          "IN": [ "1W3", "8" ],
+          "GE": [ "1W3", "9" ],
+          "KK": [ "1W3", "11" ],
+          "KL": [ "1W3", "7" ],
+          "CH": [ "1W3", "5" ],
+          "FF": [ "1W3", "8" ]
+        }        
+      },
+      "Veteran": {
+        "ST": [ "1W3", 13 ], 
+        "LE": [ "1W6", "60" ],
+        "AT": [ "14" ],
+        "PA": [ "13" ],
+        "RS": "5",       
+        "MR": [ "2W6", "10" ],
+        "Eigenschaften": {
+          "MU": [ "1W3", "13" ],
+          "IN": [ "1W3", "9" ],
+          "GE": [ "1W3", "10" ],
+          "KK": [ "1W3", "14" ],
+          "KL": [ "1W3", "8" ],
+          "CH": [ "1W3", "6" ],
+          "FF": [ "1W3", "9" ]
+        }                
+      }
+    },
+    "GS": { 
+      "Wasser": "GST2"
+    },
+    "AU": "LE+KK",
+    "TP": "abhänging von Waffe",
+    "Größe": [ "1W20", "160" ],
+    "Gewicht": [ "1W10", "80" ],
+    "Waffen": [
+      "Säbel",
+      "Speer"
+    ],
+    "Besonderheiten": { },
+    "Herkunft": {
+      "Selemgrund": { }
+    }    
+  },
+  "Maru": {
+    "Typkategorie": [ "Kulturschaffend" ],
+    "isMagic": false,
+    "Images": {
+      "männlich": [ "Maru_1.webp", "Maru_2.webp" ],
+      "weiblich": [ "Maru_1.webp", "Maru_2.webp" ]
+    },
+    "Geschlecht": [ "männlich", "weiblich" ],
+    "Eigenschaften Constraints": {
+      "LA": "11+"
+    },
+    "Erfahrungsstufen": { 
+      "unerfahren": {
+        "ST": [ "1W2" ],
+        "LE": [ "1W1", "24" ]
+      },
+      "erfahren": {
+        "ST": [ "1W3", 5 ],
+        "LE": [ "1W1", "34" ]
+      },
+      "Veteran": {
+        "ST": [ "1W3", 13 ], 
+        "LE": [ "1W1", "44" ]
+      }
+    },    
+    "LE": [ "1W6", "60" ],
+    "AT": [ "12" ],
+    "PA": [ "9" ],
+    "RS": "2",       
+    "MR": [ "1W6", "6" ],
+    "Eigenschaften": {
+      "MU": [ "1W3", "15" ],
+      "IN": [ "1W3", "7" ],
+      "GE": [ "1W3", "7" ],
+      "KK": [ "1W3", "10" ],
+      "KL": [ "1W3", "5" ],
+      "CH": [ "1W3", "4" ],
+      "FF": [ "1W3", "5" ]
+    },
+    "Spezielle Angriffstechniken": {
+      "Zähne": {
+        "AT": "12",
+        "TP": [ "2W6", "2" ]
+      },
+      "Schwanz": {
+        "AT": "10",
+        "TP": [ "2W6", "4" ]
+      }
+    },
+    "RS": "2",
+    "GS": { 
+      "Land": "GST1"
+    },
+    "AU": "LE+KK",
+    "TP": "abhänging von Waffe",
+    "Größe": [ "1W20", "180" ],
+    "Gewicht": [ "1W10", "90" ],
+    "Waffen": [
+      "Schwert"
+    ],
+    "Besonderheiten": { 
+      "Note": "Kampfrausch, wenn LE kleiner Hälfte, dann 2 AT/KR, bei PA: 0, TP steigen um 4"
+    },
+    "Herkunft": {
+      "Echsensümpfe": { },
+      "Maraskan": { }
+    }    
+  }    
 }

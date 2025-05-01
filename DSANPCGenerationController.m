@@ -543,7 +543,7 @@
 }
 
 
-- (void) apply: (NSString *)modificator to: (DSACharacter *) character using: (NSDictionary *) charConstraints
+- (void) apply: (NSString *)modificator to: (DSACharacterNpc *) character using: (NSDictionary *) charConstraints
 {
   NSString *charProperty;
   if ([modificator isEqualToString: @"Herkunft"])
@@ -588,6 +588,18 @@
     {
       character.armorBaseValue = character.armorBaseValue + armorBaseValueModificator;
     }
+  NSInteger attackBaseValueModificator = 0;
+  attackBaseValueModificator = [[modificators objectForKey: @"AT"] integerValue];
+  if (attackBaseValueModificator != 0)
+    {
+      character.staticAttackBaseValue = [character staticAttackBaseValue] + attackBaseValueModificator;
+    }
+  NSInteger parryBaseValueModificator = 0;
+  parryBaseValueModificator = [[modificators objectForKey: @"PA"] integerValue];
+  if (parryBaseValueModificator != 0)
+    {
+      character.staticParryBaseValue = [character staticParryBaseValue] + parryBaseValueModificator;
+    }    
 }
 
 - (void) addTalentsToCharacter: (DSACharacterNpc *) character
