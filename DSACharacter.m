@@ -102,6 +102,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                     _(@"Goblin"): [DSACharacterNpcHumanoidGoblin class],
                     _(@"Krakonier"): [DSACharacterNpcHumanoidKrakonier class],
                     _(@"Maru"): [DSACharacterNpcHumanoidMarus class],
+                    _(@"Oger"): [DSACharacterNpcHumanoidOger class],
+                    _(@"Ork"): [DSACharacterNpcHumanoidOrk class],
+                    _(@"Riese"): [DSACharacterNpcHumanoidRiese class],
                 };
             }
         }
@@ -3804,3 +3807,15 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 @implementation DSACharacterNpcHumanoidMarus : DSACharacterNpcHumanoid
 @end
 // End of DSACharacterNpcHumanoidMarus
+
+@implementation DSACharacterNpcHumanoidOger : DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidOger
+
+@implementation DSACharacterNpcHumanoidOrk : DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidOrk
+
+@implementation DSACharacterNpcHumanoidRiese : DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidRiese

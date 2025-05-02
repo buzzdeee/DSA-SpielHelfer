@@ -235,7 +235,7 @@
         "AT": [ "16" ],
         "PA": [ "14" ],
         "LE": [ "2W6", "40" ],
-        "LE": [ "2W6", "40" ],
+        "AE": [ "2W6", "40" ],
         "MR": [ "2W6", "6" ],
         "Eigenschaften": {
           "MU": [ "1W3", "9" ],
@@ -669,5 +669,261 @@
       "Echsensümpfe": { },
       "Maraskan": { }
     }    
-  }    
+  },
+  "Oger": {
+    "Typkategorie": [ "Kulturschaffend" ],
+    "isMagic": false,
+    "Images": {
+      "männlich": [ "Oger_male_1.webp", "Oger_male_2.webp" ],
+      "weiblich": [ "Oger_female_1.webp", "Oger_female_2.webp" ]
+    },    
+    "Subtypen": {
+      "Schwarzoger": {
+        "Herkunft": [ "Regenwald", "Waldinseln" ]
+      },
+      "Streitoger": {
+        "Herkunft": [ "Orkland" ]
+      }
+    },
+    "Geschlecht": [ "männlich", "weiblich" ],
+    "Eigenschaften Constraints": {
+      "AG": "11+",
+      "JZ": "11+"
+    },
+    "Erfahrungsstufen": {
+      "unerfahren": {
+        "ST": [ "1W2" ],
+        "LE": [ "1W1", 29 ],
+        "AU": [ "1W1", 30 ]
+      },
+      "erfahren": {
+        "ST": [ "1W3", 5 ],
+        "LE": [ "1W1", 49 ],
+        "AU": [ "1W1", 39 ]               
+      },
+      "Veteran": {
+        "ST": [ "1W3", 13 ],      
+        "LE": [ "1W1", 69 ],
+        "AU": [ "1W1", 49 ]        
+      }
+    },
+    "Eigenschaften": {
+      "MU": [ "1W6", "17" ],
+      "IN": [ "1W3", "4" ],
+      "GE": [ "1W6", "6" ],
+      "KK": [ "1W6", "18" ],
+      "KL": [ "1W3", "3" ],
+      "CH": [ "1W3", "2" ],
+      "FF": [ "1W3", "5" ]
+    },    
+    "RS": "2",
+    "MR": [ "1W6", "-6" ],
+    "GS": {
+      "Land": "GST10"
+    },
+    "AU": "LE+KK",
+    "TP": [ "3W6", "6" ],
+    "Größe": [ "1W20", "260" ],
+    "Gewicht": [ "1W10", "175" ],
+    "Spezielle Angriffstechniken": {
+      "Faust": {
+        "AT": "9",
+        "PA": "5",
+        "TP": [ "2W6", "2" ]
+      },
+      "Keule": {
+        "AT": "10",
+        "PA": "6",
+        "BF": "6",
+        "TP": [ "3W6", "4" ]
+      }
+    },    
+    "Herkunft": {
+      "Regenwald": { },
+      "Waldinseln": { },
+      "Orkland": {
+        "AT": "5",
+        "PA": "5",
+        "KL": "1",
+        "IN": "2",
+        "TP": [ "3W6", "6" ],
+        "Waffen": [ "Keule" ],
+        "Rüstung": [ "Lederharnisch (Kurbul)", "Lederzeug" ],
+        "Spezielle Angriffstechniken": {
+          "Faust": {
+            "AT": "9",
+            "PA": "5",
+            "TP": [ "2W6", "2" ]
+          },
+          "Keule": {
+            "AT": "10",
+            "PA": "6",
+            "BF": "4",
+            "TP": [ "3W6", "6" ]
+          }
+        }
+      },
+      "Aventurien": { }
+    }    
+  },
+  "Ork": {
+    "Typkategorie": [ "Kulturschaffend" ],
+    "isMagic": false,
+    "Images": {
+      "männlich": [ "Ork_male_1.webp", "Ork_male_2.webp" ],
+      "weiblich": [ "Ork_female_1.webp", "Ork_female_2.webp" ]
+    },    
+    "Subtypen": {
+      "Korogai": {
+
+      }, 
+      "Olochtai": {
+
+      },         
+      "Orichai": {
+
+      },
+      "Hilval-Orks": {
+
+      },
+      "Mokolash": {
+
+      },           
+      "Rhorwed-Orks": {
+
+      },      
+      "Thash-Orks": {
+
+      }, 
+      "Gharrachai": {
+
+      },
+      "Tscharschei": {
+
+      },                  
+      "Truanzhai": {
+
+      },      
+      "Zholochai": {
+        "MU": "1",
+        "KK": "1"
+      }
+    },
+    "Geschlecht": [ "männlich", "weiblich" ],
+    "Eigenschaften Constraints": {
+      "GG": "7+",
+      "AG": "9+"
+    },
+    "Erfahrungsstufen": {
+      "unerfahren": {
+        "ST": [ "1W2" ],
+        "LE": [ "2W6", 10 ],
+        "AT": [ "9" ],
+        "PA": [ "5" ],
+        "MR": [ "2W6", "-12" ],  
+        "Eigenschaften": {
+          "MU": [ "1W6", "6" ],
+          "IN": [ "1W3", "8" ],
+          "GE": [ "1W6", "6" ],
+          "KK": [ "1W6", "7" ],
+          "KL": [ "1W6", "4" ],
+          "CH": [ "1W3", "4" ],
+          "FF": [ "1W3", "7" ]
+        }               
+      },
+      "erfahren": {
+        "ST": [ "1W3", 5 ],
+        "LE": [ "2W6", 20 ],
+        "AT": [ "11" ],
+        "PA": [ "7" ],
+        "MR": [ "2W6", "-9" ],        
+        "Eigenschaften": {
+          "MU": [ "1W6", "7" ],
+          "IN": [ "1W3", "9" ],
+          "GE": [ "1W6", "7" ],
+          "KK": [ "1W6", "9" ],
+          "KL": [ "1W6", "5" ],
+          "CH": [ "1W3", "4" ],
+          "FF": [ "1W3", "8" ]
+        }          
+      },
+      "Veteran": {
+        "ST": [ "1W3", 13 ],      
+        "LE": [ "2W6", 30 ],
+        "AT": [ "14" ],
+        "PA": [ "10" ],
+        "MR": [ "2W6", "-6" ],       
+        "Eigenschaften": {
+          "MU": [ "1W6", "9" ],
+          "IN": [ "1W3", "10" ],
+          "GE": [ "1W6", "7" ],
+          "KK": [ "1W6", "11" ],
+          "KL": [ "1W6", "5" ],
+          "CH": [ "1W3", "5" ],
+          "FF": [ "1W3", "9" ]
+        }         
+      }
+    },
+    "RS": "0", 
+    "GS": {
+      "Land": "GST1"
+    },
+    "AU": "LE+KK + 20",
+    "TP": "abhänging von Waffe",
+    "Größe": [ "1W20", "150" ],
+    "Gewicht": [ "1W10", "55" ], 
+    "Waffen": [ "Arbach", "Byakka", "Gruufhai", "Wurfspeer", "Orkischer Reiterbogen" ],   
+    "Herkunft": {
+      "Thorwal": { },
+      "Svellttal": { },
+      "Orkland": { },
+      "Aventurien": { }
+    }    
+  },
+  "Riese": {
+    "Typkategorie": [ "Kulturschaffend" ],
+    "isMagic": false,
+    "Images": {
+      "männlich": [ "Riese_1.webp", "Riese_2.webp" ]
+    },
+    "Geschlecht": [ "männlich" ],
+    "Eigenschaften Constraints": {
+      "JZ": "6+",
+      "NG": "8+"
+    },
+    "LE": [ "1W1", 174 ],
+    "AT": [ "8" ],
+    "PA": [ "8" ],
+    "MR": [ "1W20", "5" ],  
+    "Eigenschaften": {
+      "MU": [ "1W6", "17" ],
+      "IN": [ "1W3", "12" ],
+      "GE": [ "1W3", "5" ],
+      "KK": [ "2W20", "40" ],
+      "KL": [ "1W3", "6" ],
+      "CH": [ "1W3", "7" ],
+      "FF": [ "1W6", "4" ]
+    },
+    "RS": "5", 
+    "GS": {
+      "Land": "GST8"
+    },
+    "AU": "200",
+    "TP": "abhänging von Waffe",
+    "Größe": [ "1W20", "690" ],
+    "Gewicht": [ "1W10", "1995" ], 
+    "Waffen": [ "Arbach", "Byakka", "Gruufhai", "Wurfspeer", "Orkischer Reiterbogen" ],
+    "Spezielle Angriffstechniken": {
+      "Faust": { },
+      "Baum": {
+        "TP": [ "5W20" ]
+      },
+      "Findling": {
+        "TP": [ "4W20" ]
+      }
+    },
+    "Herkunft": {
+      "Aventurien": { }
+    }    
+  }  
 }
