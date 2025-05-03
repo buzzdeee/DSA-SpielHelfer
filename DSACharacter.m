@@ -105,6 +105,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                     _(@"Oger"): [DSACharacterNpcHumanoidOger class],
                     _(@"Ork"): [DSACharacterNpcHumanoidOrk class],
                     _(@"Riese"): [DSACharacterNpcHumanoidRiese class],
+                    _(@"Troll"): [DSACharacterNpcHumanoidTroll class],
+                    _(@"Yeti"): [DSACharacterNpcHumanoidYeti class],
+                    _(@"Zyklop"): [DSACharacterNpcHumanoidZyklop class],
                 };
             }
         }
@@ -402,6 +405,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   [coder encodeInteger:self.currentLifePoints forKey:@"currentLifePoints"];
   [coder encodeInteger:self.currentAstralEnergy forKey:@"currentAstralEnergy"];
   [coder encodeInteger:self.currentKarmaPoints forKey:@"currentKarmaPoints"];
+  [coder encodeBool:self.isNPC forKey:@"isNPC"];
   [coder encodeBool:self.isMagic forKey:@"isMagic"];
   [coder encodeBool:self.isMagicalDabbler forKey:@"isMagicalDabbler"]; 
   [coder encodeBool:self.isBlessedOne forKey:@"isBlessedOne"];    
@@ -475,6 +479,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.currentKarmaPoints = [coder decodeIntegerForKey:@"currentKarmaPoints"];   
       self.mrBonus = [coder decodeIntegerForKey:@"mrBonus"];
       self.armorBaseValue = [coder decodeIntegerForKey:@"armorBaseValue"];
+      self.isNPC = [coder decodeBoolForKey:@"isNPC"];
       self.isMagic = [coder decodeBoolForKey:@"isMagic"];
       self.isMagicalDabbler = [coder decodeBoolForKey:@"isMagicalDabbler"];      
       self.isBlessedOne = [coder decodeBoolForKey:@"isBlessedOne"];      
@@ -1895,6 +1900,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     {
+      self.isNPC = NO;
       self.level = 0;
       self.adventurePoints = 0;
       self.specials = nil;    
@@ -3717,6 +3723,16 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 
 @implementation DSACharacterNpc : DSACharacter
 
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      self.isNPC = YES;
+    }
+  return self;
+}
+
 - (void)encodeWithCoder:(NSCoder *)coder
 {
   [super encodeWithCoder: coder];
@@ -3819,3 +3835,15 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 @implementation DSACharacterNpcHumanoidRiese : DSACharacterNpcHumanoid
 @end
 // End of DSACharacterNpcHumanoidRiese
+
+@implementation DSACharacterNpcHumanoidTroll : DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidTroll
+
+@implementation DSACharacterNpcHumanoidYeti : DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidYeti
+
+@implementation DSACharacterNpcHumanoidZyklop : DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidZyklop

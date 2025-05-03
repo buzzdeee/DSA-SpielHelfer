@@ -89,6 +89,7 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 @property (nonatomic, copy) NSMutableDictionary<NSString *, DSANegativeTrait *> *currentNegativeTraits;
 @property (nonatomic, assign) NSInteger lifePoints;
 @property (nonatomic, assign) NSInteger currentLifePoints;
+@property (nonatomic) BOOL isNPC;
 @property (nonatomic) BOOL isMagic;
 @property (nonatomic) BOOL isMagicalDabbler;
 @property (nonatomic) BOOL isBlessedOne;
@@ -457,6 +458,18 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 @interface DSACharacterNpcHumanoidRiese: DSACharacterNpcHumanoid
 @end
 // End of DSACharacterNpcHumanoidRiese
+
+@interface DSACharacterNpcHumanoidTroll: DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidTroll
+
+@interface DSACharacterNpcHumanoidYeti: DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidYeti
+
+@interface DSACharacterNpcHumanoidZyklop: DSACharacterNpcHumanoid
+@end
+// End of DSACharacterNpcHumanoidZyklop
 
 #endif // _DSACHARACTER_H_
 

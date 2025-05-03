@@ -670,6 +670,10 @@
       "Maraskan": { }
     }    
   },
+  "Mensch": {
+    "Typkategorie": [ "Kulturschaffend" ],
+    "see Typus.json": true
+  },
   "Oger": {
     "Typkategorie": [ "Kulturschaffend" ],
     "isMagic": false,
@@ -924,6 +928,159 @@
     },
     "Herkunft": {
       "Aventurien": { }
+    }    
+  },
+  "Troll": {
+    "Typkategorie": [ "Kulturschaffend" ],
+    "isMagic": false,
+    "Images": {
+      "männlich": [ "Troll_1.webp", "Troll_2.webp" ]
+    },
+    "Geschlecht": [ "männlich" ],
+    "Eigenschaften Constraints": {
+      "AG": "6+",
+      "NG": "6+",
+      "Trollwut": "11+"
+    },
+    "LE": [ "1W51", 49 ],
+    "AT": [ "8" ],
+    "PA": [ "8" ],
+    "MR": [ "1W6", "4" ],  
+    "Eigenschaften": {
+      "MU": [ "1W6", "21" ],
+      "IN": [ "1W3", "8" ],
+      "GE": [ "1W3", "5" ],
+      "KK": [ "1W20", "20" ],
+      "KL": [ "1W6", "4" ],
+      "CH": [ "1W3", "7" ],
+      "FF": [ "1W3", "7" ]
+    },
+    "RS": "3", 
+    "GS": {
+      "Land": "GST7"
+    },
+    "AU": "120",
+    "TP": "abhänging von Waffe",
+    "Größe": [ "1W20", "390" ],
+    "Gewicht": [ "1W10", "595" ], 
+    "Waffen": [ "Faust", "Keule", "Axt" ],
+    "Spezielle Angriffstechniken": {
+      "Faust": { 
+        "TP": [ "2W6", "1" ],
+        "AT": [ "13" ],
+        "PA": [ "8" ]
+      },
+      "Keule": {
+        "TP": [ "3W6", "3" ],
+        "AT": [ "10" ],
+        "PA": [ "8" ]
+        
+      },
+      "Axt": {
+        "TP": [ "4W6", "8" ],
+        "AT": [ "10" ],
+        "PA": [ "8" ]        
+      }
+    },
+    "Herkunft": {
+      "Aventurien": { }
+    }    
+  },
+  "Yeti": {
+    "Typkategorie": [ "Kulturschaffend" ],
+    "isMagic": false,
+    "Images": {
+      "männlich": [ "Yeti_1.webp", "Yeti_2.webp" ]
+    },
+    "Geschlecht": [ "männlich" ],
+    "Eigenschaften Constraints": {
+      "RA": "8+"
+    },
+    "LE": [ "1W21", 39 ],
+    "AT": [ "10" ],
+    "PA": [ "6" ],
+    "MR": [ "1W6", "-3" ],  
+    "Eigenschaften": {
+      "MU": [ "1W6", "8" ],
+      "IN": [ "1W3", "8" ],
+      "GE": [ "1W3", "4" ],
+      "KK": [ "1W6", "15" ],
+      "KL": [ "1W3", "2" ],
+      "CH": [ "1W3", "4" ],
+      "FF": [ "1W3", "5" ]
+    },
+    "RS": "3", 
+    "GS": {
+      "Land": "GST10"
+    },
+    "AU": "100",
+    "TP": "abhänging von Waffe",
+    "Größe": [ "1W20", "290" ],
+    "Gewicht": [ "1W10", "395" ], 
+    "Waffen": [ "Keule" ],
+    "Spezielle Angriffstechniken": {
+      "Keule": {
+        "TP": [ "2W6", "6" ]
+      }
+    },
+    "Herkunft": {
+      "Aventurien": { }
+    }    
+  },
+  "Zwerg": {
+    "Typkategorie": [ "Kulturschaffend" ],
+    "see Typus.json": true
+  },  
+  "Zyklop": {
+    "Typkategorie": [ "Kulturschaffend" ],
+    "isMagic": false,
+    "Images": {
+      "männlich": [ "Zyklop_1.webp", "Zyklop_2.webp" ]
+    },
+    "Geschlecht": [ "männlich" ],
+    "Eigenschaften Constraints": {
+      "GG": "8+"
+    },
+    "LE": [ "1W60", 59 ],
+    "MR": [ "1W11", "9" ],  
+    "Eigenschaften": {
+      "MU": [ "1W20", "20" ],
+      "IN": [ "1W6", "12" ],
+      "GE": [ "1W6", "10" ],
+      "KK": [ "1W20", "25" ],
+      "KL": [ "1W3", "5" ],
+      "CH": [ "1W6", "7" ],
+      "FF": [ "1W3", "12" ]
+    },
+    "RS": "3", 
+    "GS": {
+      "Land": "GST10"
+    },
+    "AU": "100",
+    "TP": "abhänging von Waffe",
+    "Größe": [ "1W80", "460" ],
+    "Gewicht": [ "1W200", "700" ], 
+    "Waffen": [ "Keule" ],
+    "Spezielle Angriffstechniken": {
+      "Faust": {
+        "TP": [ "3W6" ],
+        "AT": [ "10" ],
+        "PA": [ "9" ]
+      },
+      "Schmiedehammer": {
+        "TP": [ "1W20", "5" ],
+        "AT": [ "8" ],
+        "PA": [ "3" ]
+      },
+      "Pailos": {
+        "TP": [ "2W20", "5" ],
+        "AT": [ "7" ],
+        "PA": [ "3" ]
+      }    
+    },
+    "Herkunft": {
+      "Zyklopeninseln": { },
+      "Südmeer": { }
     }    
   }  
 }
