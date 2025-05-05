@@ -5528,7 +5528,8 @@ DSALocation.h \
 DSALocations.h \
 DSAAdventureGenerationController.h \
 DSANPCGenerationController.h \
-DSASpellSharisadDance.h
+DSASpellSharisadDance.h \
+DSACharacterGenerator.h
 
 #
 # Objective-C Class files
@@ -5592,7 +5593,8 @@ DSALocation.m \
 DSALocations.m \
 DSAAdventureGenerationController.m \
 DSANPCGenerationController.m \
-DSASpellSharisadDance.m
+DSASpellSharisadDance.m \
+DSACharacterGenerator.m
 
 #
 # Other sources

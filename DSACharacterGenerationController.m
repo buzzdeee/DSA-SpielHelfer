@@ -23,6 +23,7 @@
 */
 
 #import "DSACharacterGenerationController.h"
+#import "DSACharacterGenerator.h"
 #import "DSACharacter.h"
 #import "Utils.h"
 
@@ -123,19 +124,42 @@
 
 - (void)createCharacter:(id)sender
 {
+  NSLog(@"DSACharacterGenerationController createCharacter: called");
+  DSACharacterGenerator *generator = [[DSACharacterGenerator alloc] init];
+  NSMutableDictionary *characterParameters = [[NSMutableDictionary alloc] init];
+  NSLog(@"DSACharacterGenerationController createCharacter: called after generator and characterParameters");
   NSString *characterName = [self.fieldName stringValue];
   NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
   NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
-  NSString *selectedProfession = [[self.popupProfessions selectedItem] title];
-   
-  DSACharacter *newCharacter = [DSACharacter characterWithType: selectedArchetype];
+  
+  // DSACharacter *newCharacter = [DSACharacter characterWithType: selectedArchetype];
+  
+  [characterParameters setObject: [NSNumber numberWithBool: NO] forKey: @"isNPC"];
+  [characterParameters setObject: characterName forKey: @"name"];
+  [characterParameters setObject: selectedArchetype forKey: @"archetype"];
+  [characterParameters setObject: selectedOrigin forKey: @"origin"];
+  NSLog(@"DSACharacterGenerationController createCharacter: called after setting initial characterParameters");
+  if ([self.popupProfessions isEnabled] && [self.popupProfessions indexOfSelectedItem] != 0)
+    {
+      [characterParameters setObject: [[self.popupProfessions selectedItem] title] forKey: @"profession"];
+    }
 
+  NSLog(@"DSACharacterGenerationController createCharacter: called after setting profession");  
+  if ([self.popupElements isEnabled] && [self.popupElements indexOfSelectedItem] != 0)
+    {
+      [characterParameters setObject: [[self.popupElements selectedItem] title] forKey: @"element"];
+    }
+    
+  NSLog(@"DSACharacterGenerationController createCharacter: going to call DSACharacterGenerator with parameters: %@", characterParameters);        
+  DSACharacter *newCharacter = [generator generateCharacterWithParameters: characterParameters];
+  NSLog(@"DSACharacterGenerationController createCharacter: returned from calling DSACharacterGenerator got character: %@", newCharacter);
+  
   NSLog(@"DSACharacterGenerationController: created newCharacter for archetype: %@", selectedArchetype);
   // Set common properties for the new character
-  newCharacter.name = characterName;
-  newCharacter.archetype = selectedArchetype;
+  //newCharacter.name = characterName;
+  //newCharacter.archetype = selectedArchetype;
   NSLog(@"DSACharacterGenerationController: assigned archetype to newCharacter");
-  if ([self.popupProfessions isEnabled] && [self.popupProfessions indexOfSelectedItem] != 0)
+/*  if ([self.popupProfessions isEnabled] && [self.popupProfessions indexOfSelectedItem] != 0)
     {
       NSDictionary *professionDict = [NSDictionary dictionaryWithDictionary: [[Utils getProfessionsDict] objectForKey: selectedProfession]];
       DSAProfession *profession = [[DSAProfession alloc] initProfession: selectedProfession
@@ -161,7 +185,7 @@
   else
     {
       newCharacter.element = nil;
-    }
+    } */
   NSLog(@"DSACharacterGenerationController: assigned professions to newCharacter");
   newCharacter.religion = [[self.popupReligions selectedItem] title]; 
   newCharacter.hairColor = [self.fieldHairColor stringValue];
