@@ -172,7 +172,8 @@
    "Typus": [ "Goblin" ]
  }, 
  "Nurti und Zerzal": {
-   "Typkategorie": [ "Elf" ]
+   "Typkategorie": [ "Elf" ],
+   "Typkategorie": [ "Firnelf", "Steppenelf", "Auelf", "Waldelf" ]
  },
  "Orvai Kurim": {
    "Typus": [ "Goblin" ]

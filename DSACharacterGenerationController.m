@@ -124,74 +124,54 @@
 
 - (void)createCharacter:(id)sender
 {
-  NSLog(@"DSACharacterGenerationController createCharacter: called");
   DSACharacterGenerator *generator = [[DSACharacterGenerator alloc] init];
   NSMutableDictionary *characterParameters = [[NSMutableDictionary alloc] init];
-  NSLog(@"DSACharacterGenerationController createCharacter: called after generator and characterParameters");
+
   NSString *characterName = [self.fieldName stringValue];
   NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
   NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
   
   // DSACharacter *newCharacter = [DSACharacter characterWithType: selectedArchetype];
   
-  [characterParameters setObject: [NSNumber numberWithBool: NO] forKey: @"isNPC"];
-  [characterParameters setObject: characterName forKey: @"name"];
-  [characterParameters setObject: selectedArchetype forKey: @"archetype"];
-  [characterParameters setObject: selectedOrigin forKey: @"origin"];
-  NSLog(@"DSACharacterGenerationController createCharacter: called after setting initial characterParameters");
+  [characterParameters setObject: [NSNumber numberWithBool: NO] forKey: @"isNPC"];   // we only create characters here
+  [characterParameters setObject: characterName forKey: @"name"];                    // name is enforced to be set
+  [characterParameters setObject: selectedArchetype forKey: @"archetype"];           // and we definitely have an archetype
+  if ([self.popupOrigins isEnabled])
+    {
+      [characterParameters setObject: selectedOrigin forKey: @"origin"];
+    }
   if ([self.popupProfessions isEnabled] && [self.popupProfessions indexOfSelectedItem] != 0)
     {
       [characterParameters setObject: [[self.popupProfessions selectedItem] title] forKey: @"profession"];
     }
-
-  NSLog(@"DSACharacterGenerationController createCharacter: called after setting profession");  
   if ([self.popupElements isEnabled] && [self.popupElements indexOfSelectedItem] != 0)
     {
       [characterParameters setObject: [[self.popupElements selectedItem] title] forKey: @"element"];
     }
-    
-  NSLog(@"DSACharacterGenerationController createCharacter: going to call DSACharacterGenerator with parameters: %@", characterParameters);        
-  DSACharacter *newCharacter = [generator generateCharacterWithParameters: characterParameters];
-  NSLog(@"DSACharacterGenerationController createCharacter: returned from calling DSACharacterGenerator got character: %@", newCharacter);
-  
-  NSLog(@"DSACharacterGenerationController: created newCharacter for archetype: %@", selectedArchetype);
-  // Set common properties for the new character
-  //newCharacter.name = characterName;
-  //newCharacter.archetype = selectedArchetype;
-  NSLog(@"DSACharacterGenerationController: assigned archetype to newCharacter");
-/*  if ([self.popupProfessions isEnabled] && [self.popupProfessions indexOfSelectedItem] != 0)
+  if ([self.popupReligions isEnabled])
     {
-      NSDictionary *professionDict = [NSDictionary dictionaryWithDictionary: [[Utils getProfessionsDict] objectForKey: selectedProfession]];
-      DSAProfession *profession = [[DSAProfession alloc] initProfession: selectedProfession
-                                                             ofCategory: [professionDict objectForKey: @"Freizeittalent"] ? _(@"Freizeittalent") : _(@"Beruf")
-                                                                onLevel: 3
-                                                               withTest: [professionDict objectForKey: @"Probe"]
-                                                 withMaxTriesPerLevelUp: 6
-                                                      withMaxUpPerLevel: 2
-                                                      influencesTalents: [professionDict objectForKey: @"Bonus"]];     
-
-      NSMutableDictionary *professionsDictionary = [[NSMutableDictionary alloc] init];
-      [professionsDictionary setObject: profession forKey: selectedProfession];
-      newCharacter.professions = professionsDictionary;
+      [characterParameters setObject: [[self.popupReligions selectedItem] title] forKey: @"religion"];
     }
-  else
-    {
-      newCharacter.professions = nil;
-    }
-  if ([self.popupElements isEnabled] && [self.popupElements indexOfSelectedItem] != 0)
-    {
-      newCharacter.element = [[self.popupElements selectedItem] title];
-    }
-  else
-    {
-      newCharacter.element = nil;
-    } */
-  NSLog(@"DSACharacterGenerationController: assigned professions to newCharacter");
-  newCharacter.religion = [[self.popupReligions selectedItem] title]; 
+/* 
   newCharacter.hairColor = [self.fieldHairColor stringValue];
   newCharacter.eyeColor = [self.fieldEyeColor stringValue];
   newCharacter.height = [self.fieldHeight floatValue];
   newCharacter.weight = [self.fieldWeight floatValue];
+  newCharacter.god = [self.fieldGod stringValue];
+  newCharacter.stars = [self.fieldStars stringValue];
+  newCharacter.socialStatus = [self.fieldSocialStatus stringValue];
+  newCharacter.parents = [self.fieldParents stringValue];
+  newCharacter.sex = [[self.popupSex selectedItem] title];
+  newCharacter.title = [self.fieldTitle stringValue];    
+  */      
+  DSACharacter *newCharacter = [generator generateCharacterWithParameters: characterParameters];
+  
+  
+  //newCharacter.religion = [[self.popupReligions selectedItem] title]; 
+  //newCharacter.hairColor = [self.fieldHairColor stringValue];
+  //newCharacter.eyeColor = [self.fieldEyeColor stringValue];
+  //newCharacter.height = [self.fieldHeight floatValue];
+  //newCharacter.weight = [self.fieldWeight floatValue];
   newCharacter.god = [self.fieldGod stringValue];
   newCharacter.stars = [self.fieldStars stringValue];
   newCharacter.socialStatus = [self.fieldSocialStatus stringValue];
@@ -220,10 +200,10 @@
        newCharacter.mageAcademy = nil;
     }
 
-  if ([self.popupOrigins isEnabled])
+/*  if ([self.popupOrigins isEnabled])
     {
       newCharacter.origin = selectedOrigin;
-    }
+    } */
   // handle positive Traits
   NSMutableDictionary *positiveTraits = [[NSMutableDictionary alloc] init];
   for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
@@ -581,7 +561,7 @@
 
 // lots of private methods here....
 
-// returns all relevant professions for a given Archetype in an array
+// returns all relevant religions for a given Archetype in an array
 - (NSArray *) getReligionsForArchetype: (NSString *) archetype
 {
   NSMutableArray *religions = [[NSMutableArray alloc] init];
@@ -771,7 +751,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   return money;
 }
 
-
+/*
 - (NSString *) generateHairColorForArchetype: (NSString *) archetype
 {
   NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
@@ -798,9 +778,10 @@ NSLog(@"generateFamilyBackground %@", retVal);
     }
   return @"nix";
 }
-
+*/
 /* if no Augenfarbe in the Typus description, 
    use the formula as defined in "Mit Mantel, Schwert und Zauberstab" */
+/*   
 - (NSString *) generateEyeColorForArchetype: (NSString *) archetype withHairColor: (NSString *) hairColor
 {
   NSInteger diceResult = [Utils rollDice: @"1W20"];
@@ -842,7 +823,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
     }
   return @"nix";
 }
-
+*/
 - (DSAAventurianDate *) generateBirthday
 {
   NSLog(@"generateBirthday called");
@@ -2126,7 +2107,8 @@ NSLog(@"generateFamilyBackground %@", retVal);
     }
   return resultArr;   
 }
-  
+
+/*  
 - (float) generateHeightForArchetype: (NSString *) archetype
 {
   NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
@@ -2154,7 +2136,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
   float weight = [[[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Gewicht"] floatValue];
   return weight + height;
 }
-
+*/
 - (void) addElvenSongsToCharacter: (DSACharacter *) character
 {
   NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];    
@@ -3044,12 +3026,12 @@ NSLog(@"popupCategorySelected called!");
     }
   NSDictionary *wealthDict = [self generateWealth: [socialStatusParents objectForKey: @"Stand"]];
   
-  [self.fieldHairColor setStringValue: [self generateHairColorForArchetype: [[self.popupArchetypes selectedItem] title]]];
-  [self.fieldEyeColor setStringValue: [self generateEyeColorForArchetype: [[self.popupArchetypes selectedItem] title] withHairColor: [self.fieldHairColor stringValue]]];  
+  [self.fieldHairColor setStringValue: @"TBD"];
+  [self.fieldEyeColor setStringValue: @"TBD"];  
   birthday = [self generateBirthday];
   [self.fieldBirthday setStringValue: [NSString stringWithFormat: @"%lu. %@ %lu %@", (unsigned long)birthday.day, birthday.monthName, (unsigned long)birthday.year, birthday.year > 0 ? @"AF" : @"BF"]];
-  [self.fieldHeight setStringValue: [NSString stringWithFormat: @"%f", [self generateHeightForArchetype: [[self.popupArchetypes selectedItem] title]]]];
-  [self.fieldWeight setStringValue: [NSString stringWithFormat: @"%f", [self generateWeightForArchetype: [[self.popupArchetypes selectedItem] title] withHeight: [self.fieldHeight floatValue]]]];
+  [self.fieldHeight setStringValue: @"TBD"];
+  [self.fieldWeight setStringValue: @"TBD"];
   [self.fieldName setEnabled: YES];
   [self.fieldTitle setEnabled: YES];
   [self.buttonGenerateName setEnabled: YES];
