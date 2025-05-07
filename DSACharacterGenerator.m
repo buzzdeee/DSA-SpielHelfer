@@ -25,6 +25,7 @@
 #import "DSACharacterGenerator.h"
 #import "DSACharacter.h"
 #import "Utils.h"
+#import "DSAAventurianCalendar.h"
 
 @implementation DSACharacterGenerator
 
@@ -36,8 +37,10 @@
   
   self.character = [DSACharacter characterWithType: archetype];
   self.character.isNPC = [self shouldMarkAsNPCFromParameters: parameters];
+  self.character.isMagicalDabbler = [self shouldMarkAsMagicalDabblerFromParameters: parameters];
   self.character.archetype = archetype;
   self.character.name = [self resolveNameFromParameters: parameters];
+  self.character.title = [self resolveNameFromParameters: parameters];
   self.character.origin = [self resolveOriginFromParameters: parameters];
   self.character.professions = [self resolveProfessionFromParameters: parameters];
   self.character.element = [self resolveElementFromParameters: parameters];
@@ -46,6 +49,12 @@
   self.character.eyeColor = [self resolveEyeColorFromParameters: parameters];
   self.character.height = [self resolveHeightFromParameters: parameters];
   self.character.weight = [self resolveWeightFromParameters: parameters];
+  self.character.birthday = [self resolveBirthdayFromParameters: parameters];
+  self.character.god = [self resolveGodFromParameters: parameters];
+  self.character.stars = [self resolveStarsFromParameters: parameters];
+  self.character.socialStatus = [self resolveSocialStatusFromParameters: parameters];
+  self.character.parents = [self resolveParentsFromParameters: parameters];
+  self.character.money = [self resolveWealthFromParameters: parameters];
   
 /*  newCharacter.hairColor = [self.fieldHairColor stringValue];
   newCharacter.eyeColor = [self.fieldEyeColor stringValue];
@@ -69,6 +78,9 @@
 - (BOOL)shouldMarkAsNPCFromParameters:(NSDictionary *)parameters {
     return [parameters[@"isNPC"] boolValue];
 }
+- (BOOL)shouldMarkAsMagicalDabblerFromParameters:(NSDictionary *)parameters {
+    return [parameters[@"isMagicalDabbler"] boolValue];
+}
 - (NSString *)resolveNameFromParameters:(NSDictionary *)parameters {
     NSString *name = parameters[@"name"];
     if (name && [name length] > 0)
@@ -78,6 +90,17 @@
     else
       {
         return @"Ohne Name";
+      }
+}
+- (NSString *)resolveTitleFromParameters:(NSDictionary *)parameters {
+    NSString *title = parameters[@"title"];
+    if (title && [title length] > 0)
+      {
+        return title;
+      }
+    else
+      {
+        return @"Ohne Titel";
       }
 }
 - (NSString *)resolveOriginFromParameters:(NSDictionary *)parameters {
@@ -317,6 +340,224 @@
   return weight + height;
 }
 
+- (DSAAventurianDate *) resolveBirthdayFromParameters:(NSDictionary *)parameters {
+  DSAAventurianDate *birthday = parameters[@"birthday"];
+  if (birthday)
+    {
+      return birthday;
+    }
+
+  NSInteger level = self.character.level;
+  NSString *monthName = [[NSString alloc] init];
+  NSUInteger day;
+  NSInteger year;
+  NSInteger diceResult = [Utils rollDice: @"1W20"];
+  NSArray *months = [[[Utils getBirthdaysDict] objectForKey: @"Monat"] allKeys];
+
+  for (NSString *month in months)
+    {
+      if ([[[[Utils getBirthdaysDict] objectForKey: @"Monat"] objectForKey: month] containsObject: @(diceResult)])
+        {
+          monthName = [NSString stringWithFormat: @"%@", month];
+        }
+    }
+
+  diceResult = [Utils rollDice: @"1W20"];
+  NSArray *fifthOfMonth = [[[Utils getBirthdaysDict] objectForKey: @"Monatsfuenftel"] allKeys];
+  for (NSString *fifth in fifthOfMonth)  
+    {
+      if ([[[[Utils getBirthdaysDict] objectForKey: @"Monatsfuenftel"] objectForKey: fifth] containsObject: @(diceResult)])
+        {
+          day = [fifth intValue] + [Utils rollDice: @"1W6"] - 1;
+        }
+    }
+  NSLog(@"generateBirthday before year with this month %lu for monthName: %@", (unsigned long) [DSAAventurianCalendar monthForString: monthName], monthName);
+  year = [DSAAventurianCalendar calculateAventurianYearOfBirthFromCurrentDate: [DSAAventurianCalendar convertToAventurian: [NSDate date]]
+                                                                birthdayMonth: [DSAAventurianCalendar monthForString: monthName]
+                                                                  birthdayDay: day
+                                                                   currentAge: 16 + 2 * level];   // always starting with 16 years for now
+
+  NSLog(@"generateBirthday after year %li", (long) year);                                                                     
+  return [[DSAAventurianDate alloc] initWithYear: year
+                                           month: [DSAAventurianCalendar monthForString: monthName]
+                                             day: day
+                                            hour: [Utils rollDice: @"1W24"] - 1];         // for now, everyone is born at 5 am in the morning
+}
+
+- (NSString *)resolveGodFromParameters:(NSDictionary *)parameters {
+  NSString *god = parameters[@"god"];
+  if (god)
+    {
+      return god;
+    }
+  NSString *monthName = self.character.birthday.monthName;
+  NSDictionary *godsDict = [Utils getGodsDict];
+  for (NSString *god in [godsDict allKeys])
+    {
+      if ([[[godsDict objectForKey: god] objectForKey: @"Monat"] isEqualToString: monthName])
+        {
+          return god;
+        }
+    }
+  return nil;
+}
+
+
+- (NSString *)resolveStarsFromParameters:(NSDictionary *)parameters {
+  NSString *stars = parameters[@"stars"];
+  if (stars)
+    {
+      return stars;
+    }
+  NSString *god = self.character.god;
+  NSDictionary *godsDict = [Utils getGodsDict];
+  
+  return [[godsDict objectForKey: god] objectForKey: @"Sternbild"];
+}
+
+- (NSString *)resolveSocialStatusFromParameters:(NSDictionary *)parameters {
+  NSString *socialStatus = parameters[@"socialStatus"];
+  if (socialStatus)
+    {
+      return socialStatus;
+    }
+
+  NSString *dice;
+  NSDictionary *herkuenfteDict;
+
+  NSString *archetype = self.character.archetype;
+  NSString *origin = self.character.origin;
+  BOOL isMagicalDabbler = self.character.isMagicalDabbler;
+  NSDictionary *archetypeDict = [[Utils getArchetypesDict] objectForKey: archetype];
+  if ([archetype isEqualToString: _(@"Schamane")])
+    {
+      dice = [[[[archetypeDict objectForKey: @"Typus"] objectForKey: origin] objectForKey: @"Herkunft"] objectForKey: @"Würfel"];
+      herkuenfteDict = [NSDictionary dictionaryWithDictionary: [[[archetypeDict objectForKey: @"Typus"] objectForKey: origin] objectForKey: @"Herkunft"]];    
+    }
+  else
+    {
+      dice = [[archetypeDict objectForKey: @"Herkunft"] objectForKey: @"Würfel"];
+      herkuenfteDict = [NSDictionary dictionaryWithDictionary: [archetypeDict objectForKey: @"Herkunft"]];    
+    }
+    
+  NSLog(@"generateFamilyBackground %@ %@", dice, herkuenfteDict);
+  NSArray *herkuenfteArr = [NSArray arrayWithArray: [herkuenfteDict allKeys]];
+  
+  BOOL finished = NO;
+  while (!finished)
+    {
+      NSInteger diceResult = [Utils rollDice: dice];
+  
+      for (NSString *socialStatus in herkuenfteArr)
+        {
+          if ([@"Würfel" isEqualTo: socialStatus])
+            {
+              continue;
+            }
+          NSDictionary *socialStatusDict = [herkuenfteDict objectForKey: socialStatus];
+      
+          if ([[socialStatusDict objectForKey: dice] containsObject: @(diceResult)])
+            {
+              if (isMagicalDabbler && [@[_(@"reich"), _(@"adelig")] containsObject: socialStatus])
+                {
+                  break;  // roll dice and try again
+                }
+              else
+                {
+                  return socialStatus;
+                }
+            }
+        }
+    }
+  return nil;
+}
+
+
+- (NSString *)resolveParentsFromParameters:(NSDictionary *)parameters {
+  NSString *parents = parameters[@"parents"];
+  if (parents)
+    {
+      return parents;
+    }
+
+  NSString *dice;
+  NSDictionary *herkuenfteDict;
+
+  NSString *archetype = self.character.archetype;
+  NSString *origin = self.character.origin;
+  NSDictionary *archetypeDict = [[Utils getArchetypesDict] objectForKey: archetype];
+  if ([archetype isEqualToString: _(@"Schamane")])
+    {
+      dice = [[[[archetypeDict objectForKey: @"Typus"] objectForKey: origin] objectForKey: @"Herkunft"] objectForKey: @"Würfel"];
+      herkuenfteDict = [NSDictionary dictionaryWithDictionary: [[[archetypeDict objectForKey: @"Typus"] objectForKey: origin] objectForKey: @"Herkunft"]];    
+    }
+  else
+    {
+      dice = [[archetypeDict objectForKey: @"Herkunft"] objectForKey: @"Würfel"];
+      herkuenfteDict = [NSDictionary dictionaryWithDictionary: [archetypeDict objectForKey: @"Herkunft"]];    
+    }
+    
+  NSLog(@"generateFamilyBackground %@ %@", dice, herkuenfteDict);
+  NSArray *herkuenfteArr = [NSArray arrayWithArray: [herkuenfteDict allKeys]];
+  
+  NSInteger diceResult = [Utils rollDice: dice];
+  
+  for (NSString *socialStatus in herkuenfteArr)
+    {
+      if ([@"Würfel" isEqualTo: socialStatus])
+        {
+          continue;
+        }
+      NSDictionary *socialStatusDict = [herkuenfteDict objectForKey: socialStatus];
+      if ([[socialStatusDict objectForKey: dice] containsObject: @(diceResult)])
+        {
+          for (NSString *parents in [[socialStatusDict objectForKey: @"Eltern"] allKeys])
+            {
+              if ([[[socialStatusDict objectForKey: @"Eltern"] objectForKey: parents] containsObject: @(diceResult)])
+                {
+                  return parents;
+                }
+            }
+        }
+    }
+  return nil;
+}
+
+/* generates initial wealth/money, as described in "Mit Mantel, Schwert
+   und Zauberstab" S. 61 */
+- (NSMutableDictionary *)resolveWealthFromParameters:(NSDictionary *)parameters {   
+   NSMutableDictionary *money = [NSMutableDictionary dictionaryWithDictionary: @{@"K": [NSNumber numberWithInt: 0], 
+                                                                                 @"H": [NSNumber numberWithInt: 0], 
+                                                                                 @"S": [NSNumber numberWithInt: 0], 
+                                                                                 @"D": [NSNumber numberWithInt: 0]}];
+   NSString *socialStatus = self.character.socialStatus;
+                                                                                                                                                                  
+   if ([socialStatus isEqualTo: @"unfrei"])
+     {
+       [money setObject: @([Utils rollDice: @"1W6"]) forKey: @"S"];
+     }
+   else if ([socialStatus isEqualTo: @"arm"])
+     {
+       [money setObject: @([Utils rollDice: @"1W6"]) forKey: @"D"];
+     }
+   else if ([socialStatus isEqualTo: @"mittelständisch"])
+     {
+       [money setObject: @([Utils rollDice: @"3W6"]) forKey: @"D"];
+     }
+   else if ([socialStatus isEqualTo: @"reich"])
+     {
+       [money setObject: [NSNumber numberWithInteger: [Utils rollDice: @"2W20"] + 20] forKey: @"D"];
+     }
+   else if ([socialStatus isEqualTo: @"adelig"] || [socialStatus isEqualTo: @"niederer Adel"] || [socialStatus isEqualTo: @"Hochadel"] || [socialStatus isEqualTo: @"unbekannt"]) // "unbekannt" can be quite rich, or poor 
+     {
+       [money setObject: @([Utils rollDice: @"3W20"]) forKey: @"D"];
+     }
+   else
+     {
+       NSLog(@"DSACharacterGenerationController: generateWealth: don't know how to handle socialStatus: %@", socialStatus);
+     }
+  return money;
+}
 
 /* end of parameter parsing methods */
 

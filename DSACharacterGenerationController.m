@@ -131,10 +131,13 @@
   NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
   NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
   
+  NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getArchetypesDict] objectForKey: selectedArchetype]];
+  
   // DSACharacter *newCharacter = [DSACharacter characterWithType: selectedArchetype];
   
   [characterParameters setObject: [NSNumber numberWithBool: NO] forKey: @"isNPC"];   // we only create characters here
   [characterParameters setObject: characterName forKey: @"name"];                    // name is enforced to be set
+  [characterParameters setObject: [self.fieldTitle stringValue] forKey: @"title"];   // title is enforced to be set
   [characterParameters setObject: selectedArchetype forKey: @"archetype"];           // and we definitely have an archetype
   if ([self.popupOrigins isEnabled])
     {
@@ -163,7 +166,20 @@
   newCharacter.parents = [self.fieldParents stringValue];
   newCharacter.sex = [[self.popupSex selectedItem] title];
   newCharacter.title = [self.fieldTitle stringValue];    
-  */      
+  */
+  // Sigh, misusing UI elements for multiple purposes ;)
+  if ([[charConstraints allKeys] containsObject: @"Magiedilettant"])
+  if ([self.popupMageAcademies isEnabled] && [[charConstraints allKeys] containsObject: @"Magiedilettant"])
+    {
+      if ([[[self.popupMageAcademies selectedItem] title] isEqualToString: _(@"Ja")])
+        {
+          [characterParameters setObject: [NSNumber numberWithBool: YES] forKey: @"isMagicalDabbler"];
+        }
+      else
+        {
+          [characterParameters setObject: [NSNumber numberWithBool: NO] forKey: @"isMagicalDabbler"];
+        }
+    }       
   DSACharacter *newCharacter = [generator generateCharacterWithParameters: characterParameters];
   
   
@@ -172,16 +188,16 @@
   //newCharacter.eyeColor = [self.fieldEyeColor stringValue];
   //newCharacter.height = [self.fieldHeight floatValue];
   //newCharacter.weight = [self.fieldWeight floatValue];
-  newCharacter.god = [self.fieldGod stringValue];
-  newCharacter.stars = [self.fieldStars stringValue];
-  newCharacter.socialStatus = [self.fieldSocialStatus stringValue];
-  newCharacter.parents = [self.fieldParents stringValue];
+  //newCharacter.god = [self.fieldGod stringValue];
+  //newCharacter.stars = [self.fieldStars stringValue];
+  //newCharacter.socialStatus = [self.fieldSocialStatus stringValue];
+  //newCharacter.parents = [self.fieldParents stringValue];
   newCharacter.sex = [[self.popupSex selectedItem] title];
-  newCharacter.title = [self.fieldTitle stringValue];
+  // newCharacter.title = [self.fieldTitle stringValue];
   NSLog(@"DSACharacterGenerationController: before assiging birthday to newCharacter");
-  newCharacter.birthday = self.birthday;
+  // newCharacter.birthday = self.birthday;
   NSLog(@"DSACharacterGenerationController: assigned birthday to newCharacter");
-  newCharacter.money = [NSMutableDictionary dictionaryWithDictionary: self.wealth];
+  // newCharacter.money = [NSMutableDictionary dictionaryWithDictionary: self.wealth];
   //newCharacter.portrait = [self.imageViewPortrait image];
   newCharacter.portraitName = _portraitsArray[_currentPortraitIndex];
   NSLog(@"DSACharacterGenerationController: assigned portrait to newCharacter");
@@ -666,7 +682,7 @@
   return traits;
 }
 
-
+/*
 - (NSDictionary *) generateFamilyBackground: (NSString *)archetype
 {
   NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
@@ -715,9 +731,10 @@
 NSLog(@"generateFamilyBackground %@", retVal);
   return retVal;
 } 
-
+*/
 /* generates initial wealth/money, as described in "Mit Mantel, Schwert
    und Zauberstab" S. 61 */
+/*   
 - (NSDictionary *) generateWealth: (NSString *)socialStatus
 {
    NSMutableDictionary *money = [NSMutableDictionary dictionaryWithDictionary: @{@"K": [NSNumber numberWithInt: 0], 
@@ -750,7 +767,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
      }
   return money;
 }
-
+*/
 /*
 - (NSString *) generateHairColorForArchetype: (NSString *) archetype
 {
@@ -823,7 +840,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
     }
   return @"nix";
 }
-*/
+
 - (DSAAventurianDate *) generateBirthday
 {
   NSLog(@"generateBirthday called");
@@ -862,7 +879,7 @@ NSLog(@"generateFamilyBackground %@", retVal);
                                              day: day
                                             hour: [Utils rollDice: @"1W24"] - 1];         // for now, everyone is born at 5 am in the morning
 }
-
+*/
 // loosely following "Vom Leben in Aventurien", S. 34
 - (NSArray *) generateSiblings
 {
@@ -3016,7 +3033,7 @@ NSLog(@"popupCategorySelected called!");
   NSArray *positiveArr = [NSArray arrayWithArray: [self generatePositiveTraits]];
   NSArray *negativeArr = [NSArray arrayWithArray: [self generateNegativeTraits]];
   DSAAventurianDate *birthday = [[DSAAventurianDate alloc] init];
-  NSDictionary *socialStatusParents = [self generateFamilyBackground: [[self.popupArchetypes selectedItem] title]];
+/*  NSDictionary *socialStatusParents = [self generateFamilyBackground: [[self.popupArchetypes selectedItem] title]];
   if ([[self.fieldMageSchool stringValue] isEqualToString: _(@"Magiedilettant")])
     {
       while ([@[_(@"reich"), _(@"adelig")] containsObject: [socialStatusParents objectForKey: @"Stand"]])
@@ -3025,11 +3042,11 @@ NSLog(@"popupCategorySelected called!");
         }
     }
   NSDictionary *wealthDict = [self generateWealth: [socialStatusParents objectForKey: @"Stand"]];
-  
+  */
   [self.fieldHairColor setStringValue: @"TBD"];
   [self.fieldEyeColor setStringValue: @"TBD"];  
-  birthday = [self generateBirthday];
-  [self.fieldBirthday setStringValue: [NSString stringWithFormat: @"%lu. %@ %lu %@", (unsigned long)birthday.day, birthday.monthName, (unsigned long)birthday.year, birthday.year > 0 ? @"AF" : @"BF"]];
+  // birthday = [self generateBirthday];
+  [self.fieldBirthday setStringValue: @"TBD"];
   [self.fieldHeight setStringValue: @"TBD"];
   [self.fieldWeight setStringValue: @"TBD"];
   [self.fieldName setEnabled: YES];
@@ -3056,13 +3073,17 @@ NSLog(@"popupCategorySelected called!");
       [self.fieldTitle setBackgroundColor: [NSColor redColor]];    
     }
     
-  [self.fieldSocialStatus setStringValue: [socialStatusParents objectForKey: @"Stand"]];
-  [self.fieldParents setStringValue: [socialStatusParents objectForKey: @"Eltern"]];
-  [self.fieldWealth setStringValue: [NSString stringWithFormat: @"%@D %@S %@H %@K", 
-                                              [wealthDict objectForKey: @"D"], 
-                                              [wealthDict objectForKey: @"S"], 
-                                              [wealthDict objectForKey: @"H"], 
-                                              [wealthDict objectForKey: @"K"]]];
+//  [self.fieldSocialStatus setStringValue: [socialStatusParents objectForKey: @"Stand"]];
+//  [self.fieldParents setStringValue: [socialStatusParents objectForKey: @"Eltern"]];
+  [self.fieldSocialStatus setStringValue: @"TBD" ];
+  [self.fieldParents setStringValue: @"TBD" ];
+  [self.fieldWealth setStringValue: @"TBD" ];
+//  [self.fieldWealth setStringValue: [NSString stringWithFormat: @"%@D %@S %@H %@K", 
+//                                              [wealthDict objectForKey: @"D"], 
+//                                              [wealthDict objectForKey: @"S"], 
+//                                              [wealthDict objectForKey: @"H"], 
+//                                              [wealthDict objectForKey: @"K"]]];
+/*                                              
   for (NSString *god in [[Utils getGodsDict] allKeys])
     {
       if ([[[[Utils getGodsDict] objectForKey: god] objectForKey: @"Monat"] isEqualToString: birthday.monthName])
@@ -3072,7 +3093,9 @@ NSLog(@"popupCategorySelected called!");
           break;
         }
     }
-  
+*/
+  [self.fieldStars setStringValue: @"TBD" ];
+  [self.fieldGod setStringValue: @"TBD" ];
   // positive traits  
   int i = 0;
   for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
@@ -3094,8 +3117,8 @@ NSLog(@"popupCategorySelected called!");
   [self enableFinishButtonIfPossible];
 
   // save that temporarily here, so we can assign it later when it comes to character creation....
-  self.birthday = birthday;
-  self.wealth = wealthDict;
+//  self.birthday = birthday;
+//  self.wealth = wealthDict;
   
 /*  if (self.portraitsArray.count > 0)
     { */
