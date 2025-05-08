@@ -480,7 +480,8 @@ static NSMutableDictionary *namesDict;
     {
       typus = character.archetype;
     }
-
+  
+  NSLog(@"Utils getSpellsForCharacter typus: %@", typus);  
   
   if ([character isMemberOfClass: [DSACharacterHeroHumanShaman class]] && character.isMagic == NO)
     {
@@ -490,7 +491,7 @@ static NSMutableDictionary *namesDict;
     {
       typus = @"Druide";  // Shamans have same start values like Druids if they are magic
     }    
-    
+  NSLog(@"Utils getSpellsForCharacter typus: %@", typus);  
   categories = [NSArray arrayWithArray: [[Utils getSpellsDict] allKeys]];
         
   for (NSString *category in categories)
@@ -501,17 +502,18 @@ static NSMutableDictionary *namesDict;
         {
           NSString *startwert;
           NSString *element = nil;
-          NSArray *probe = [NSArray arrayWithArray: [[[spellsDict objectForKey: category] objectForKey: key] objectForKey: @"Probe"]];
-          NSArray *origin = [NSArray arrayWithArray: [[[spellsDict objectForKey: category] objectForKey: key] objectForKey: @"Ursprung"]];
-          if ([[[[spellsDict objectForKey: category] objectForKey: key] allKeys] containsObject: @"Element"])
+          NSDictionary *spellDict = [[spellsDict objectForKey: category] objectForKey: key];
+          NSArray *probe = [NSArray arrayWithArray: [spellDict objectForKey: @"Probe"]];
+          NSArray *origin = [NSArray arrayWithArray: [spellDict objectForKey: @"Ursprung"]];
+          if ([[spellDict allKeys] containsObject: @"Element"])
             {
-              element = [NSString stringWithString: [[[spellsDict objectForKey: category] objectForKey: key] objectForKey: @"Element"]];
+              element = [NSString stringWithString: [spellDict objectForKey: @"Element"]];
             }
           else
             {
               element = nil;
             }
-          startwert = [NSString stringWithFormat: @"%@", [[[[spellsDict objectForKey: category] objectForKey: key] objectForKey: @"Startwerte"] objectForKey: typus]];
+          startwert = [NSString stringWithFormat: @"%@", [[spellDict objectForKey: @"Startwerte"] objectForKey: typus]];
           if (element)
             {
               [spells setValue: @{@"Startwert": startwert, 
@@ -533,6 +535,7 @@ static NSMutableDictionary *namesDict;
             }
           }
     }
+  NSLog(@"Utils getSpellsForCharacter returning spells: %@", [spells allKeys]);
   return spells;  
 }
 

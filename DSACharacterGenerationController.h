@@ -42,8 +42,6 @@
 // used to keep track, how many switches to select at a maximum in the Magical Dabbler creation
 @property (nonatomic) NSInteger magicalDabblerMaxSwitchesToBeSelected;
 @property (nonatomic) NSInteger magicalDabblerDiceResult;
-@property (nonatomic, strong) DSAAventurianDate *birthday;
-@property (nonatomic, strong) NSDictionary *wealth;
 // UI elements
 
 @property (weak) IBOutlet NSPopUpButton *popupCategories;

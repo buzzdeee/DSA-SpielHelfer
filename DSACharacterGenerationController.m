@@ -40,8 +40,6 @@
 #import "DSASpellElvenSong.h"
 #import "DSALiturgy.h"
 #import "NSMutableDictionary+Extras.h"
-#import "DSAAventurianCalendar.h"
-#import "DSAAdventureClock.h"
 
 #import "DSANameGenerator.h"
 
@@ -56,16 +54,27 @@
     {
       self.generatedCharacter = [[DSACharacter alloc] init];
       self.traitsDict = [[NSMutableDictionary alloc] init];
-      self.wealth = [[NSMutableDictionary alloc] init];
-      self.birthday = [[DSAAventurianDate alloc] init];
       _portraitsArray = [[NSMutableArray alloc] init];
                                                                                                                                     
-      [self loadPortraits];
     }
   return self;
 }
 
-- (void)loadPortraits {
+- (NSMutableArray *)loadPortraitsForArchetype: (NSString *) archetype
+{
+    NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getArchetypesDict] objectForKey: archetype]];
+    NSMutableArray *portraitNames = [[NSMutableArray alloc] init];
+    portraitNames = [[charConstraints objectForKey: @"Images"]
+                                      objectForKey: [[self.popupSex selectedItem] title]];
+
+    if ([portraitNames count] > 0)
+      {
+        return portraitNames;
+      }
+    portraitNames = [[NSMutableArray alloc] init];
+    // those character types that have a .webp are all good,
+    // fallback to load all Character_*.png files to select from ...
+      
     // Get the main bundle path
     NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
     
@@ -74,7 +83,6 @@
     
     // Get all files in the resource directory
     NSArray *allFiles = [fileManager contentsOfDirectoryAtPath:resourcePath error:nil];
-    
     // Regular expression to match "Character_XXXX.png" where XXXX is a number
     NSString *pattern = @"^Character_\\d*\\.png$";
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
@@ -84,9 +92,10 @@
         NSRange range = NSMakeRange(0, fileName.length);
         if ([regex numberOfMatchesInString:fileName options:0 range:range] > 0) {
             // Add the file name to the array
-            [_portraitsArray addObject:fileName];
+            [portraitNames addObject:fileName];
         }
     }
+    return portraitNames;
 }
 
 - (void)startCharacterGeneration: (id)sender
@@ -132,13 +141,12 @@
   NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
   
   NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getArchetypesDict] objectForKey: selectedArchetype]];
-  
-  // DSACharacter *newCharacter = [DSACharacter characterWithType: selectedArchetype];
-  
-  [characterParameters setObject: [NSNumber numberWithBool: NO] forKey: @"isNPC"];   // we only create characters here
-  [characterParameters setObject: characterName forKey: @"name"];                    // name is enforced to be set
-  [characterParameters setObject: [self.fieldTitle stringValue] forKey: @"title"];   // title is enforced to be set
-  [characterParameters setObject: selectedArchetype forKey: @"archetype"];           // and we definitely have an archetype
+    
+  [characterParameters setObject: [NSNumber numberWithBool: NO] forKey: @"isNPC"];      // we only create characters here
+  [characterParameters setObject: characterName forKey: @"name"];                       // name is enforced to be set
+  [characterParameters setObject: [self.fieldTitle stringValue] forKey: @"title"];      // title is enforced to be set
+  [characterParameters setObject: selectedArchetype forKey: @"archetype"];              // and we definitely have an archetype
+  [characterParameters setObject: [[self.popupSex selectedItem] title] forKey: @"sex"]; // one is always selected
   if ([self.popupOrigins isEnabled])
     {
       [characterParameters setObject: selectedOrigin forKey: @"origin"];
@@ -155,20 +163,8 @@
     {
       [characterParameters setObject: [[self.popupReligions selectedItem] title] forKey: @"religion"];
     }
-/* 
-  newCharacter.hairColor = [self.fieldHairColor stringValue];
-  newCharacter.eyeColor = [self.fieldEyeColor stringValue];
-  newCharacter.height = [self.fieldHeight floatValue];
-  newCharacter.weight = [self.fieldWeight floatValue];
-  newCharacter.god = [self.fieldGod stringValue];
-  newCharacter.stars = [self.fieldStars stringValue];
-  newCharacter.socialStatus = [self.fieldSocialStatus stringValue];
-  newCharacter.parents = [self.fieldParents stringValue];
-  newCharacter.sex = [[self.popupSex selectedItem] title];
-  newCharacter.title = [self.fieldTitle stringValue];    
-  */
+
   // Sigh, misusing UI elements for multiple purposes ;)
-  if ([[charConstraints allKeys] containsObject: @"Magiedilettant"])
   if ([self.popupMageAcademies isEnabled] && [[charConstraints allKeys] containsObject: @"Magiedilettant"])
     {
       if ([[[self.popupMageAcademies selectedItem] title] isEqualToString: _(@"Ja")])
@@ -179,48 +175,24 @@
         {
           [characterParameters setObject: [NSNumber numberWithBool: NO] forKey: @"isMagicalDabbler"];
         }
-    }       
-  DSACharacter *newCharacter = [generator generateCharacterWithParameters: characterParameters];
-  
-  
-  //newCharacter.religion = [[self.popupReligions selectedItem] title]; 
-  //newCharacter.hairColor = [self.fieldHairColor stringValue];
-  //newCharacter.eyeColor = [self.fieldEyeColor stringValue];
-  //newCharacter.height = [self.fieldHeight floatValue];
-  //newCharacter.weight = [self.fieldWeight floatValue];
-  //newCharacter.god = [self.fieldGod stringValue];
-  //newCharacter.stars = [self.fieldStars stringValue];
-  //newCharacter.socialStatus = [self.fieldSocialStatus stringValue];
-  //newCharacter.parents = [self.fieldParents stringValue];
-  newCharacter.sex = [[self.popupSex selectedItem] title];
-  // newCharacter.title = [self.fieldTitle stringValue];
-  NSLog(@"DSACharacterGenerationController: before assiging birthday to newCharacter");
-  // newCharacter.birthday = self.birthday;
-  NSLog(@"DSACharacterGenerationController: assigned birthday to newCharacter");
-  // newCharacter.money = [NSMutableDictionary dictionaryWithDictionary: self.wealth];
-  //newCharacter.portrait = [self.imageViewPortrait image];
-  newCharacter.portraitName = _portraitsArray[_currentPortraitIndex];
-  NSLog(@"DSACharacterGenerationController: assigned portrait to newCharacter");
-  // A Mage or Geode
-  if ([self.popupMageAcademies isEnabled] && ([newCharacter isMemberOfClass: [DSACharacterHeroHumanMage class]] || 
-                                              [newCharacter isMemberOfClass: [DSACharacterHeroDwarfGeode class]]))
-    {
-       newCharacter.mageAcademy = [[self.popupMageAcademies selectedItem] title];
     }
-  else if ([self.popupMageAcademies isEnabled] && [newCharacter isMemberOfClass: [DSACharacterHeroHumanWarrior class]])
+  // Sigh, Sigh, even more misusing UI elements for multiple purposes
+  if ([selectedArchetype isEqualToString: @"Schamane"] && [[[self.popupMageAcademies selectedItem] title] isEqualToString: _(@"Ja")])
     {
-       newCharacter.mageAcademy = [[self.popupMageAcademies selectedItem] title];  // misusing mageAcademy here for the Warrior Academy as well
-    }
-  else  
+      [characterParameters setObject: [NSNumber numberWithBool: YES] forKey: @"isMagic"];
+    }    
+  if ([self.popupMageAcademies isEnabled] && ([selectedArchetype isEqualToString: @"Magier"] || 
+                                              [selectedArchetype isEqualToString: @"Geode"]))
     {
-       newCharacter.mageAcademy = nil;
+       [characterParameters setObject: [[self.popupMageAcademies selectedItem] title] forKey: @"academy"];
     }
+  else if ([self.popupMageAcademies isEnabled] && [selectedArchetype isEqualToString: @"Krieger"])
+    {
+       [characterParameters setObject: [[self.popupMageAcademies selectedItem] title] forKey: @"academy"];  // misusing mageAcademy here for the Warrior Academy as well
+    }
+    
+  [characterParameters setObject: _portraitsArray[_currentPortraitIndex] forKey: @"portraitName"];
 
-/*  if ([self.popupOrigins isEnabled])
-    {
-      newCharacter.origin = selectedOrigin;
-    } */
-  // handle positive Traits
   NSMutableDictionary *positiveTraits = [[NSMutableDictionary alloc] init];
   for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
     {
@@ -228,20 +200,8 @@
         [[DSAPositiveTrait alloc] initTrait: field 
                                     onLevel: [[self valueForKey: [NSString stringWithFormat: @"field%@", field]] integerValue]]
                          forKey: field];  
-    }
-  newCharacter.positiveTraits = positiveTraits;
-  // deep copy of the traits
-  NSMutableDictionary *deepCopyPositiveTraits = [NSMutableDictionary dictionary];
-  for (id key in positiveTraits) {
-    id value = positiveTraits[key];
-    if ([value conformsToProtocol:@protocol(NSCopying)]) {
-        deepCopyPositiveTraits[key] = [value copy];
-    } else {
-        deepCopyPositiveTraits[key] = value; // or handle non-copyable objects appropriately
-    }
-  }
-  newCharacter.currentPositiveTraits = [deepCopyPositiveTraits mutableCopy];
-  // handle negative Traits    
+    }    
+  [characterParameters setObject: positiveTraits forKey: @"positiveTraits"];
   NSMutableDictionary *negativeTraits = [[NSMutableDictionary alloc] init];
   for (NSString *field in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
     {
@@ -250,127 +210,10 @@
                                     onLevel: [[self valueForKey: [NSString stringWithFormat: @"field%@", field]] integerValue]]
                          forKey: field];  
     }
-  newCharacter.negativeTraits = negativeTraits;
-  NSMutableDictionary *deepCopyNegativeTraits = [NSMutableDictionary dictionary];
-  for (id key in negativeTraits) {
-    id value = negativeTraits[key];
-    if ([value conformsToProtocol:@protocol(NSCopying)]) {
-        deepCopyNegativeTraits[key] = [value copy];
-    } else {
-        deepCopyNegativeTraits[key] = value; // or handle non-copyable objects appropriately
-    }
-  }
-  newCharacter.currentNegativeTraits = [deepCopyNegativeTraits mutableCopy];
-  NSLog(@"DSACharacterGenerationController: assigned traits to newCharacter"); 
-  // handle talents
-  NSDictionary *talents = [[NSDictionary alloc] init];
-  talents = [Utils getTalentsForCharacter: newCharacter];
-  NSMutableDictionary *newTalents = [[NSMutableDictionary alloc] init];
-  for (NSString *category in talents)
-    {
-      if ([category isEqualTo: @"Kampftechniken"])
-        {   
-          for (NSString *subCategory in [talents objectForKey: category])
-            {
-              for (NSString *t in [[talents objectForKey: category] objectForKey: subCategory])
-                {
-                   NSLog(@"dealing with talent in if clause for loop: %@", t);
-                   NSDictionary *tDict = [[[talents objectForKey: category] objectForKey: subCategory] objectForKey: t];
-                   DSAFightingTalent *talent = [[DSAFightingTalent alloc] initTalent: t
-                                                                       inSubCategory: subCategory
-                                                                          ofCategory: category
-                                                                             onLevel: [[tDict objectForKey: @"Startwert"] integerValue]
-                                                              withMaxTriesPerLevelUp: [[tDict objectForKey: @"Versuche"] integerValue]
-                                                                   withMaxUpPerLevel: [[tDict objectForKey: @"Steigern"] integerValue]
-                                                                     withLevelUpCost: 1];
-                  NSLog(@"DSACharacterGenerationController: initialized talent: %@", talent);                                                                     
-                  [newTalents setObject: talent forKey: t];
-                }
-            }
-        }
-      else
-        {
-          for (NSString *t in [talents objectForKey: category])
-            {
-              //NSLog(@"dealing with talent in else clause for loop: %@", t);
-              NSDictionary *tDict = [[talents objectForKey: category] objectForKey: t];                             
-              DSAOtherTalent *talent = [[DSAOtherTalent alloc] initTalent: t
-                                                               ofCategory: category
-                                                                  onLevel: [[tDict objectForKey: @"Startwert"] integerValue]
-                                                                 withTest: [tDict objectForKey: @"Probe"]
-                                                   withMaxTriesPerLevelUp: [[tDict objectForKey: @"Versuche"] integerValue]
-                                                        withMaxUpPerLevel: [[tDict objectForKey: @"Steigern"] integerValue]
-                                                          withLevelUpCost: 1];
-              //NSLog(@"DSACharacterGenerationController: initialized talent: %@", talent);
-              [newTalents setObject: talent forKey: t];
-            }
-        }        
-    }
-  //NSLog(@"THE NEW TALENTS: newTalents %@", newTalents);
-  newCharacter.talents = newTalents;
-  //NSLog(@"DSACharacterGenerationController: assigned talents to newCharacter: %@", newCharacter.talents);
-  
-  if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanShaman class]] && [[[self.popupMageAcademies selectedItem] title] isEqualToString: _(@"Ja")])
-    {
-      newCharacter.isMagic = YES;
-    }
-    
-  if ([newCharacter isMagic])
-    {
-      NSDictionary *spells = [[NSDictionary alloc] init];
-      
-      spells = [Utils getSpellsForCharacter: newCharacter];
-      NSMutableDictionary *newSpells = [[NSMutableDictionary alloc] init];
-      for (NSString *category in spells)
-        {
-          for (NSString *s in [spells objectForKey: category])
-            {
-              NSDictionary *sDict = [[spells objectForKey: category] objectForKey: s];
-              DSASpell *spell = [DSASpell spellWithName: s
-                                              ofVariant: [sDict objectForKey: @"Variante"]
-                                      ofDurationVariant: [sDict objectForKey: @"Dauer Variante"]
-                                             ofCategory: category
-                                                onLevel: [[sDict objectForKey: @"Startwert"] integerValue]
-                                             withOrigin: [sDict objectForKey: @"Ursprung"]
-                                               withTest: [sDict objectForKey: @"Probe"]
-                                        withMaxDistance: [[sDict objectForKey: @"Maximale Entfernung" ] integerValue]       
-                                           withVariants: [sDict objectForKey: @"Varianten"]     
-                                   withDurationVariants: [sDict objectForKey: @"Dauer Varianten"]                                             
-                                 withMaxTriesPerLevelUp: [[sDict objectForKey: @"Versuche"] integerValue]
-                                      withMaxUpPerLevel: [[sDict objectForKey: @"Steigern"] integerValue]
-                                        withLevelUpCost: 1];
-              if (!spell) // as long as not every spell is implemented in it's own subclass, fall back to this simple default...
-                {
-                    spell = [[DSASpell alloc] initSpell: s
-                                                  ofVariant: [sDict objectForKey: @"Variante"]
-                                          ofDurationVariant: [sDict objectForKey: @"Dauer Variante"]           
-                                                 ofCategory: category
-                                                    onLevel: [[sDict objectForKey: @"Startwert"] integerValue]
-                                                 withOrigin: [sDict objectForKey: @"Ursprung"]
-                                                   withTest: [sDict objectForKey: @"Probe"]
-                                            withMaxDistance: [[sDict objectForKey: @"Maximale Entfernung" ] integerValue]       
-                                               withVariants: [sDict objectForKey: @"Varianten"]
-                                       withDurationVariants: [sDict objectForKey: @"Dauer Varianten"]                                                    
-                                     withMaxTriesPerLevelUp: [[sDict objectForKey: @"Versuche"] integerValue]
-                                          withMaxUpPerLevel: [[sDict objectForKey: @"Steigern"] integerValue]
-                                            withLevelUpCost: 1];
-                 }
-              [spell setElement: [sDict objectForKey: @"Element"]];
-              [newSpells setObject: spell forKey: s];
-            }
-        }
-      newCharacter.spells = newSpells;
-      // [self applySpellmodificatorsToCharacter: newCharacter];
-      [Utils applySpellmodificatorsToCharacter: newCharacter];             
-    }
-  NSLog(@"DSACharacterGenerationController: assigned spells to newCharacter");
-  newCharacter.birthPlace = [self generateBirthPlaceForCharacter: newCharacter];
-  newCharacter.birthEvent = [self generateBirthEventForCharacter: newCharacter];  
-  newCharacter.legitimation = [self generateLegitimationForCharacter: newCharacter];
-  newCharacter.siblings = [self generateSiblings];
-  newCharacter.childhoodEvents = [self generateChildhoodEventsForCharacter: newCharacter];
-  newCharacter.youthEvents = [self generateYouthEventsForCharacter: newCharacter];    
-  NSLog(@"DSACharacterGenerationController: assigned events to newCharacter");
+  [characterParameters setObject: negativeTraits forKey: @"negativeTraits"];
+                
+  DSACharacter *newCharacter = [generator generateCharacterWithParameters: characterParameters];
+
   if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanWitch class]])
     {
       [self addWitchCursesToCharacter: newCharacter];
@@ -682,1478 +525,6 @@
   return traits;
 }
 
-/*
-- (NSDictionary *) generateFamilyBackground: (NSString *)archetype
-{
-  NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
-  NSLog(@"the origin: %@", selectedOrigin);
-  NSString *dice;
-  NSDictionary *herkuenfteDict;
-  
-  if ([archetype isEqualToString: _(@"Schamane")])
-    {
-      dice = [[[[[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Typus"] objectForKey: selectedOrigin] objectForKey: @"Herkunft"] objectForKey: @"Würfel"];
-      herkuenfteDict = [NSDictionary dictionaryWithDictionary: [[[[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Typus"] objectForKey: selectedOrigin] objectForKey: @"Herkunft"]];    
-    }
-  else
-    {
-      dice = [[[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Herkunft"] objectForKey: @"Würfel"];
-      herkuenfteDict = [NSDictionary dictionaryWithDictionary: [[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Herkunft"]];    
-    }
-    
-  NSLog(@"generateFamilyBackground %@ %@", dice, herkuenfteDict);
-  NSArray *herkuenfteArr = [NSArray arrayWithArray: [herkuenfteDict allKeys]];
-  NSMutableDictionary *retVal = [[NSMutableDictionary alloc] init];
-  
-  NSInteger diceResult = [Utils rollDice: dice];
-  
-  for (NSString *socialStatus in herkuenfteArr)
-    {
-      if ([@"Würfel" isEqualTo: socialStatus])
-        {
-          continue;
-        }
-      
-      if ([[[herkuenfteDict objectForKey: socialStatus] objectForKey: dice] containsObject: @(diceResult)])
-        {
-          [retVal setObject: socialStatus forKey:@"Stand"];
-          for (NSString *parents in [[[herkuenfteDict objectForKey: socialStatus] objectForKey: @"Eltern"] allKeys])
-            {
-              if ([[[[herkuenfteDict objectForKey: socialStatus] objectForKey: @"Eltern"] objectForKey: parents] containsObject: @(diceResult)])
-                {
-                  [retVal setObject: parents forKey: @"Eltern"];
-                  break;
-                }
-            }
-          break;
-        }
-    }
-NSLog(@"generateFamilyBackground %@", retVal);
-  return retVal;
-} 
-*/
-/* generates initial wealth/money, as described in "Mit Mantel, Schwert
-   und Zauberstab" S. 61 */
-/*   
-- (NSDictionary *) generateWealth: (NSString *)socialStatus
-{
-   NSMutableDictionary *money = [NSMutableDictionary dictionaryWithDictionary: @{@"K": [NSNumber numberWithInt: 0], 
-                                                                                 @"H": [NSNumber numberWithInt: 0], 
-                                                                                 @"S": [NSNumber numberWithInt: 0], 
-                                                                                 @"D": [NSNumber numberWithInt: 0]}];
-   if ([socialStatus isEqualTo: @"unfrei"])
-     {
-       [money setObject: @([Utils rollDice: @"1W6"]) forKey: @"S"];
-     }
-   else if ([socialStatus isEqualTo: @"arm"])
-     {
-       [money setObject: @([Utils rollDice: @"1W6"]) forKey: @"D"];
-     }
-   else if ([socialStatus isEqualTo: @"mittelständisch"])
-     {
-       [money setObject: @([Utils rollDice: @"3W6"]) forKey: @"D"];
-     }
-   else if ([socialStatus isEqualTo: @"reich"])
-     {
-       [money setObject: [NSNumber numberWithInteger: [Utils rollDice: @"2W20"] + 20] forKey: @"D"];
-     }
-   else if ([socialStatus isEqualTo: @"adelig"] || [socialStatus isEqualTo: @"niederer Adel"] || [socialStatus isEqualTo: @"Hochadel"] || [socialStatus isEqualTo: @"unbekannt"]) // "unbekannt" can be quite rich, or poor 
-     {
-       [money setObject: @([Utils rollDice: @"3W20"]) forKey: @"D"];
-     }
-   else
-     {
-       NSLog(@"DSACharacterGenerationController: generateWealth: don't know how to handle socialStatus: %@", socialStatus);
-     }
-  return money;
-}
-*/
-/*
-- (NSString *) generateHairColorForArchetype: (NSString *) archetype
-{
-  NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
-  NSDictionary *hairConstraint;
-  
-  if ([archetype isEqualToString: _(@"Schamane")])
-    {
-      hairConstraint = [NSDictionary dictionaryWithDictionary: [[[[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Typus"] objectForKey: selectedOrigin] objectForKey: @"Haarfarbe"]];
-    }
-  else
-    {
-      hairConstraint = [NSDictionary dictionaryWithDictionary: [[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Haarfarbe"]];    
-    }
-  NSInteger diceResult = [Utils rollDice: @"1W20"];
-  
-  NSArray *colors = [NSArray arrayWithArray: [hairConstraint allKeys]];
-  
-  for (NSString *color in colors)
-    {
-      if ([[hairConstraint objectForKey: color] containsObject: @(diceResult)])
-        {
-          return color;
-        }
-    }
-  return @"nix";
-}
-*/
-/* if no Augenfarbe in the Typus description, 
-   use the formula as defined in "Mit Mantel, Schwert und Zauberstab" */
-/*   
-- (NSString *) generateEyeColorForArchetype: (NSString *) archetype withHairColor: (NSString *) hairColor
-{
-  NSInteger diceResult = [Utils rollDice: @"1W20"];
-  
-  if ([[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Augenfarbe"] == nil)
-    {
-      // No special Augenfarbe defined for the characterType, we use the default calculation
-      // algorithm as defined in "Mit Mantel, Schwert und Zauberstab S. 61"
-      for (NSDictionary *entry in [Utils getEyeColorsDict])
-        {
-          for (NSString *color in [entry objectForKey: @"Haarfarben"])
-            {
-              if ([color isEqualTo: hairColor])
-                {
-                  for (NSString *ec in [[entry objectForKey: @"Augenfarben"] allKeys])
-                    {
-                      if ([[[entry objectForKey: @"Augenfarben"] objectForKey: ec] containsObject: @(diceResult)])
-                        {
-                          return ec;
-                        }
-                    }
-                }
-            }
-        }        
-    }
-  else
-    {
-      // We're dealing with a Character that has special Augenfarben constraints
-      NSDictionary *eyeColors = [NSDictionary dictionaryWithDictionary: [[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Haarfarbe"]];
-      
-      for (NSString *color in [eyeColors allKeys])
-        {
-          if ([[eyeColors objectForKey: color] containsObject: @(diceResult)])
-            {
-              // we found the color
-              return color;
-            }
-        }
-    }
-  return @"nix";
-}
-
-- (DSAAventurianDate *) generateBirthday
-{
-  NSLog(@"generateBirthday called");
-  NSString *monthName = [[NSString alloc] init];
-  NSUInteger day;
-  NSInteger year;
-  NSInteger diceResult = [Utils rollDice: @"1W20"];
-  NSArray *months = [[[Utils getBirthdaysDict] objectForKey: @"Monat"] allKeys];
-
-  for (NSString *month in months)
-    {
-      if ([[[[Utils getBirthdaysDict] objectForKey: @"Monat"] objectForKey: month] containsObject: @(diceResult)])
-        {
-          monthName = [NSString stringWithFormat: @"%@", month];
-        }
-    }
-
-  diceResult = [Utils rollDice: @"1W20"];
-  NSArray *fifthOfMonth = [[[Utils getBirthdaysDict] objectForKey: @"Monatsfuenftel"] allKeys];
-  for (NSString *fifth in fifthOfMonth)  
-    {
-      if ([[[[Utils getBirthdaysDict] objectForKey: @"Monatsfuenftel"] objectForKey: fifth] containsObject: @(diceResult)])
-        {
-          day = [fifth intValue] + [Utils rollDice: @"1W6"] - 1;
-        }
-    }
-  NSLog(@"generateBirthday before year with this month %lu for monthName: %@", (unsigned long) [DSAAventurianCalendar monthForString: monthName], monthName);
-  year = [DSAAventurianCalendar calculateAventurianYearOfBirthFromCurrentDate: [DSAAventurianCalendar convertToAventurian: [NSDate date]]
-                                                                birthdayMonth: [DSAAventurianCalendar monthForString: monthName]
-                                                                  birthdayDay: day
-                                                                   currentAge: 16];   // always starting with 16 years for now
-
-  NSLog(@"generateBirthday after year %li", (long) year);                                                                     
-  return [[DSAAventurianDate alloc] initWithYear: year
-                                           month: [DSAAventurianCalendar monthForString: monthName]
-                                             day: day
-                                            hour: [Utils rollDice: @"1W24"] - 1];         // for now, everyone is born at 5 am in the morning
-}
-*/
-// loosely following "Vom Leben in Aventurien", S. 34
-- (NSArray *) generateSiblings
-{
-  NSInteger diceResult = [Utils rollDice: @"1W10"];
-  NSMutableArray *resultArr = [[NSMutableArray alloc] init];
-  if (diceResult == 1)
-    {
-      return resultArr; // no siblings
-    }
-  else
-    {
-      for (NSInteger cnt = 1;cnt <= diceResult;cnt++)
-        {
-          NSMutableDictionary *sibling = [[NSMutableDictionary alloc] init];
-          NSInteger result = [Utils rollDice: @"1W2"];
-          if (result == 1)
-            {
-              [sibling setObject: _(@"älter") forKey: @"age"];
-            }
-          else
-            {
-              [sibling setObject: _(@"jünger") forKey: @"age"];
-            }
-          result = [Utils rollDice: @"1W2"];
-          if (result == 1)
-            {
-              [sibling setObject: _(@"weiblich") forKey: @"sex"];
-            }
-          else
-            {
-              [sibling setObject: _(@"männlich") forKey: @"sex"];
-            }
-          [resultArr addObject: sibling];
-        }
-    }
-  return resultArr;  
-}
-
-// loosely following "Vom Leben in Aventurien" S. 34
-- (NSString *) generateBirthPlaceForCharacter: (DSACharacter *) character
-{
-  NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
-  NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
-
-  NSInteger diceResult = [Utils rollDice: @"1W20"];
-  NSInteger typusOffset = 0;
-  if ([selectedArchetype isEqualToString: _(@"Jäger")])
-    {
-      typusOffset = -8;
-    }
-  else if ([@[_(@"Gaukler"), _(@"Streuner")] containsObject: selectedArchetype])
-    {
-      typusOffset = 5;
-    }
-  else if ([@[_(@"Moha"), _(@"Nivese")] containsObject: selectedArchetype] || [@[_(@"Moha"), _(@"Nivese")] containsObject: selectedOrigin])
-    {
-      typusOffset = -17;
-    }
-  
-  NSInteger testValue = diceResult + typusOffset;  
-  NSString *resultStr;
-  if (testValue >= -16 && testValue <= 2)
-    {
-      diceResult = [Utils rollDice: @"1W20"];
-
-      if (diceResult == 1)
-        {
-          resultStr = _(@"in der Wildnis");
-        }
-      else
-        {
-          resultStr = _(@"in einer Hütte im Wald");
-        }
-    }
-  else if (testValue == 3)
-    {
-      diceResult = [Utils rollDice: @"1W3"];
-      if (diceResult == 1)
-        {
-          resultStr = _(@"in einer Ruine in einem verlassenem Dorf");
-        }
-      else if (diceResult == 2)
-        {
-          resultStr = _(@"in einer Ruine einer Festung");
-        }
-      else if (diceResult == 3)
-        {
-          resultStr = _(@"in einer Ruine eines Tempels");
-        }
-    }
-  else if (testValue >= 4 && testValue <= 12)
-    {
-      diceResult = [Utils rollDice: @"1W3"];
-      if (diceResult == 1)
-        {
-          resultStr = _(@"in einem Dorf");
-        }
-      else if (diceResult == 2)
-        {
-          resultStr = _(@"in einem Weiler");
-        }
-      else if (diceResult == 3)
-        {
-          resultStr = _(@"in einer Burg");
-        }    
-    }
-  else if (testValue >= 13 && testValue <= 17)
-    {
-      resultStr = _(@"in einer Stadt");
-    }
-  else if (testValue >= 18 && testValue <= 19)
-    {
-      resultStr = _(@"in einer Großstadt");
-    }
-  else if (testValue >= 20 && testValue <= 25)
-    {
-      if ([@[_(@"Thorwaler"), _(@"Skalde"), _(@"Seefahrer")] containsObject: selectedArchetype])
-        {
-          resultStr = _(@"auf einem Schiff");
-        }
-      else
-        {
-          resultStr = _(@"in einem Wagen auf der Straße");
-        }
-    }
-
-  return [NSString stringWithFormat: _(@"%@ wird %@ geboren."), [character name], resultStr];
-}
-
-// loosely following "Vom Leven in Aventurien" S. 35
-- (NSString *) generateBirthEventForCharacter: (DSACharacter *) character
-{
-  NSInteger diceResult = [Utils rollDice: @"1W20"];
-  
-  if (diceResult == 1)
-    {
-      if ([character.siblings count] == 0)
-        { 
-          return [self generateBirthEventForCharacter: character];
-        }
-      else
-        {
-          return _(@"Die Geburt war eine Zwillingsgeburt.");
-        }
-    }
-  else if (diceResult == 2)
-    {
-      return _(@"Es erscheint ein erster Sonnenstrahl nach einem schweren Unwetter.");
-    }
-  else if (diceResult == 3)
-    {
-      return _(@"Die Sonne und Regen formten einen prächtigen Regenbogen.");
-    }
-  else if (diceResult == 4)
-    {
-      return _(@"Sternschnuppen und Kometen zeigten sich am Himmel.");
-    }
-  else if (diceResult == 5)
-    {
-      return _(@"Ucri, der Siegesstern, ging auf.");
-    }
-  else if (diceResult == 6)
-    {
-      return _(@"Nicht weit enfernt färbte sich ein Bach blutrot.");
-    }
-  else if (diceResult == 7)
-    {
-      return _(@"Zur gleichen Zeit starb in der Nähe ein Tier.");
-    }
-  else if (diceResult == 8)
-    {
-      return _(@"\"Lämmerschwänzchen\": Das Kind trägt eine auffällige Locke am Hinterkopf - angeblich ein Zeichen, daß es von den Göttern auswerwählt ist.");
-    }
-  else if (diceResult == 9)
-    {
-      diceResult = [Utils rollDice: @"1W3"];
-      NSString *result;
-      if (diceResult == 1)
-        {
-          result = _(@"in geistige Verwirrung");
-        }
-      else if (diceResult == 2)
-        {
-          result = _(@"in Apathie");
-        }
-      else if (diceResult == 3)
-        {
-          result = _(@"in einen Weinkrampf");
-        }        
-      return [NSString stringWithFormat: _(@"Die Mutter verfiel unmittelbar nach der Geburt für mehrere Stunden %@."), result];
-    }
-  else if (diceResult == 10)
-    {
-      return _(@"Der Vater stieß beim Anblick des Säuglings ein hysterisches Gelächter aus.");
-    }
-  else if (diceResult == 11)
-    {
-      return _(@"Während der Geburt war aus nächster Nähe stetes, unheimliches Gepolter zu hören.");
-    }
-  else if (diceResult >= 12 && diceResult <= 15)
-    {
-      return _(@"Es gab keine besonderen Vorkommnisse bei der Geburt.");
-    }
-  else if (diceResult == 16)
-    {
-      return _(@"Die Wölfe und Hunde in der Umgebung begannen zu heulen.");
-    }
-  else if (diceResult == 17)
-    {
-      return _(@"Gewitter und Hagelsturm tobten an diesem Tag.");
-    }                
-  else if (diceResult == 18)
-    {
-      return _(@"Ein Blitz fuhr aus heiterem Himmel nieder.");
-    }                
-  else if (diceResult == 19)
-    {
-      return _(@"Zeitgleich verdunkelte der Mond die Sonne zu einer Sonnenfinsternis.");
-    }                    
-  else if (diceResult == 20)
-    {
-      return _(@"Zeitgleich erschütterte die Erde bei einem Erdbeben.");
-    }
-  // we shouldn't end up here, but ...
-  return _(@"Es gab keine besonderen Vorkommnisse bei der Geburt.");               
-}
-
-- (NSString *) generateLegitimationForCharacter: (DSACharacter *)character
-{
-  NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
-  NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
-
-  NSInteger diceResult = [Utils rollDice: @"1W20"];
-  NSInteger typusOffset = -1;
-  if ([selectedArchetype isEqualToString: _(@"Moha")] || [selectedOrigin isEqualTo: _(@"Moha")])
-    {
-      typusOffset = 3;
-    }
-  else if ([selectedArchetype isEqualToString: _(@"Nivese")] || [selectedOrigin isEqualTo: _(@"Nivese")])
-    {
-      typusOffset = 3;
-    }
-  
-  NSInteger testValue = diceResult + typusOffset;
-  if (testValue >= 0 && testValue <= 2)
-    {
-      diceResult = [Utils rollDice: @"1W3"];
-      if (diceResult == 1)
-        {
-          return [NSString stringWithFormat: _(@"%@ wird in einem Dorf ausgesetzt und wächst als Findelkind bei Pflegeeltern auf."), [character name]];
-        }
-      else if (diceResult == 2)
-        {
-          return [NSString stringWithFormat: _(@"%@ wird in einer Stadt ausgesetzt und wächst als Findelkind bei Pflegeeltern auf."), [character name]];
-        } 
-      else if (diceResult == 3)
-        {
-          return [NSString stringWithFormat: _(@"%@ wird in einer Großstadt ausgesetzt und wächst als Findelkind bei Pflegeeltern auf."), [character name]];
-        }                
-    }
-  else if (testValue >= 3 && testValue <= 17)
-    {
-      return [NSString stringWithFormat: _(@"%@ wird von den Eltern bei der Geburt anerkannt."), [character name]];
-    }
-  else if (testValue == 18)
-    {
-      return [NSString stringWithFormat: _(@"%@'s Vater behauptet, daß das Kind von einem anderen Mann stammt."), [character name]];
-    } 
-  else if (testValue == 19)
-    {
-      return [NSString stringWithFormat: _(@"%@'s Mutter behauptet, daß ihr Gefährte nicht der Vater ist."), [character name]];
-    }
-  else if (testValue >= 20 && testValue <= 22)
-    {
-      return [NSString stringWithFormat: _(@"%@ gilt bei der Geburt als schwächlich und nicht lebensfähig, weshalb es in der Wildnis ausgesetzt wird. Es wird jedoch gefunden, und wächst bei einer anderen Sippe auf."), [character name]];
-    } 
-  else if (testValue == 23)
-    {
-      return [NSString stringWithFormat: _(@"%@ gilt bei der Geburt als schwächlich und nicht lebensfähig, weshalb es in der Wildnis ausgesetzt wird. Es wird bis zum sechten Jahr von Wölfen aufgezogen. Danach wird es von einer fremden Sippe aufgenommen."), [character name]];
-    }
-  return @"nix";            
-}
-
-- (NSArray *) generateChildhoodEventsForCharacter: (DSACharacter *) character
-{
-  NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
-  NSInteger eventCount = [Utils rollDice: @"1W3"];
-  NSMutableArray *resultArr = [[NSMutableArray alloc] init];
-  
-  NSMutableArray *tracker = [[NSMutableArray alloc] init];
-  
-  NSInteger cnt = 0;
-  
-  while (cnt < eventCount)
-    {
-      NSInteger eventResult = [Utils rollDice: @"1W20"];
-      NSString *resultStr;
-      if ([tracker containsObject: [NSNumber numberWithInteger: eventResult]])
-        {
-          continue;  // we don't want to have the same event happen twice
-        }
-      else
-        {
-          [tracker addObject: [NSNumber numberWithInteger: eventResult]];
-        }
-      if (eventResult == 1)
-        {
-          resultStr = [NSString stringWithFormat: _(@"%@ wird Zeuge eines Zwölfgöttlichen Wunders."), [character name]];
-        }
-      else if (eventResult == 2)
-        {
-          eventResult = [Utils rollDice: @"1W7"];
-          NSString *who;
-          if (eventResult == 1)
-            {
-              who = _(@"Dieb");
-            }
-          else if (eventResult == 2)
-            {
-              who = _(@"Räuber");
-            }
-          else if (eventResult == 3 || eventResult == 4)
-            {
-              who = _(@"Geweihter");
-            }
-          else if (eventResult == 5)
-            {
-              who = _(@"Zauberer");
-            }
-          else if (eventResult == 6)
-            {
-              who = _(@"alter Gaukler");
-            }
-          else if (eventResult == 7)
-            {
-              who = _(@"Kriegsveteran");
-            }            
-          resultStr = [NSString stringWithFormat: _(@"%@ findet einen Gönner: Ein %@ wird auf das Kleine aufmerksam, weil er in ihm eine besondere Begabung entdeckt. Er verwöhnt es mit Geschenken, erzählt ihm von seinem Leben und seinen Fahrten und bring ihm möglicherweise ein paar spezielle Fertigkeiten oder kleine Kunststücke bei."), [character name], who];
-        }
-      else if (eventResult == 3)
-        {
-          eventResult = [Utils rollDice: @"1W6"];
-          if (eventResult == 1 | eventResult == 2)
-            {
-              eventResult = [Utils rollDice: @"2W6"];
-              resultStr = [NSString stringWithFormat: _(@"%@ findet einen Beutel mit %lu Goldstücken."), [character name], (unsigned long) eventResult];
-            }
-          else if (eventResult == 3)
-            {
-              resultStr = [NSString stringWithFormat: _(@"%@ findet ein wertvolles Instrument."), [character name]];
-            }
-          else if (eventResult == 4)
-            {
-              resultStr = [NSString stringWithFormat: _(@"%@ findet ein wertvolles Schmuckstück."), [character name]];
-            }
-          else if (eventResult == 5)
-            {
-              resultStr = [NSString stringWithFormat: _(@"%@ findet eine kostbare Waffe."), [character name]];
-            }
-          else if (eventResult == 6)
-            {
-              resultStr = [NSString stringWithFormat: _(@"%@ findet einen magischen Gegenstand."), [character name]];
-            }            
-        }
-      else if (eventResult == 4)
-        {
-          eventResult = [Utils rollDice: @"1W3"];
-          // more flesh to be added here, see book
-          resultStr = _(@"Die Eltern werden vom Fürsten für eine besondere Tat belohnt.");
-
-        }
-      else if (eventResult == 5)
-        {
-          eventResult = [Utils rollDice: @"1W6"];
-          NSInteger socialStatus = [Utils rollDice: @"1W6"];
-          NSString *timeFrame;
-          NSString *status;
-          if (eventResult == 1 || eventResult == 2)
-            {
-              timeFrame = [NSString stringWithFormat: _(@"%lu Jahr%@"), eventResult, eventResult == 1? _(@""): _(@"e")];
-            }
-          else 
-            {
-              timeFrame = _(@"ein Leben lang");
-            }
-          if (socialStatus == 1)
-            {
-              status = _(@"unfrei");
-            }
-          else if (socialStatus == 2 || socialStatus == 3)
-            {
-              status = _(@"arm");
-            }
-          else if (socialStatus == 2 || socialStatus == 3)
-            {
-              status = _(@"reich");
-            }
-          else if (socialStatus == 6)
-            {
-              status = _(@"adelig");
-            }            
-          resultStr = [NSString stringWithFormat: _(@"%@ findet einen guten Freund gleichen Alters. Der Freund ist %@. Die Freundschaft währt %@."), [character name], status, timeFrame];
-        }
-      else if (eventResult == 6)
-        {
-          NSInteger who = [Utils rollDice: @"1W2"];
-          eventResult = [Utils rollDice: @"1W6"];
-          NSString *whoStr;
-          if (who == 1)
-            {
-              whoStr = _(@"Ein freundlicher Nachbar");
-            }
-          else
-            {
-              whoStr = _(@"Ein Geweihter");
-            }
-          if (eventResult == 1 || eventResult == 2)
-            {
-              resultStr = [NSString stringWithFormat: _(@"%@ unterweist %@ im Lesen und Schreiben."), whoStr, [character name]];
-            }
-          if (eventResult == 3 || eventResult == 4)
-            {
-              resultStr = [NSString stringWithFormat: _(@"%@ unterweist %@ im Rechnen."), whoStr, [character name]];
-            }
-          if (eventResult == 5)
-            {
-              resultStr = [NSString stringWithFormat: _(@"%@ unterweist %@ im Malen und Zeichnen."), whoStr, [character name]];
-            }            
-          if (eventResult == 6)
-            {
-              resultStr = [NSString stringWithFormat: _(@"%@ unterweist %@ im Musizieren."), whoStr, [character name]];
-            }             
-        }
-      else if (eventResult == 7)
-        {
-          eventResult = [Utils rollDice: @"1W2"];
-          NSString *whereTo;
-          if (eventResult == 1)
-            {
-              whereTo = _(@"eine andere Stadt");
-            }
-          else
-            {
-              whereTo = _(@"ein anderes Dorf");
-            }
-          resultStr = [NSString stringWithFormat: _(@"Die Familie zieht in %@. %@ erlebt eine unglückliche Zeit der Trennung von den Gefährten der Heimat."), whereTo, [character name]];
-        }
-      else if (eventResult == 8)
-        {
-          resultStr = [NSString stringWithFormat: _(@"Eine Wahrsagerin sagt %@ eine große Zukunft voraus."), [character name]];
-        }
-      else if (eventResult == 9)
-        {
-          resultStr = [NSString stringWithFormat: _(@"Ein alter Kämpe und guter Freund der Familie erzählt von Abenteuern und Heldentaten. %@ ist davon sehr beeindruckt und möchte es später einmal diesem Recken gleichtun."), [character name]];
-        }
-      else if (eventResult == 10)
-        {
-          eventResult = [Utils rollDice: @"1W6"];
-          NSInteger typusOffset = 0;
-          if ([selectedArchetype isEqualToString: _(@"Streuner")])
-            {
-              typusOffset = 2;
-            }
-          NSInteger testValue = eventResult + typusOffset;
-          NSString *whatStr;
-          if (testValue >= 1 && testValue <= 4)
-            {
-              whatStr = _(@"ist freundlich zu dem Kind");
-            }
-          else
-            {
-              whatStr = _(@"ist unfreundlich und nutzt das Kind als billige Arbeitskraft aus");
-            }
-          resultStr = [NSString stringWithFormat: _(@"Die Eltern können ihre Nachkommen nicht mehr ernähren. Sie geben %@ in die Hände einer anderen Familie. Diese %@"), [character name], whatStr];
-        }
-      else if (eventResult == 11)
-        {
-          eventResult = [Utils rollDice: @"1W6"];
-          NSInteger typusOffset = 0;
-          if ([selectedArchetype isEqualToString: _(@"Streuner")])
-            {
-              typusOffset = -2;
-            }
-          NSInteger testValue = eventResult + typusOffset;
-          NSString *whatStr;
-          if (testValue >= -1 && testValue <= 1)
-            {
-              whatStr = _(@"und kehrt nicht zurück und schlägt sich allein durch");
-            }
-          else if (testValue == 2)
-            {
-              whatStr = _(@"und kehrt nicht zurück und wächst bei Gauklern auf");
-            }
-          else if (testValue == 3)
-            {
-              whatStr = _(@"und kehrt nicht zurück und wächst bei anderen Pflegeeltern auf");
-            }                        
-          else
-            {
-              NSInteger days = [Utils rollDice: @"1W6"] + 3;
-              whatStr = [NSString stringWithFormat: _(@"und kehrt nach %lu Tagen wieder zurück"), (unsigned long) days];
-            }
-          resultStr = [NSString stringWithFormat: _(@"%@ läuft von zu Hause fort, %@"), [character name], whatStr];
-        }
-      else if (eventResult == 12)
-        {
-          resultStr = [NSString stringWithFormat: _(@"%@ wird seinen Eltern geraubt und verschleppt. Es wächst fortan bei Pflegeeltern auf."), [character name]];
-        }
-      else if (eventResult == 13)
-        {
-          eventResult = [Utils rollDice: @"1W6"];
-          NSString *article;
-          NSString *whatStr;
-          if ([[character sex] isEqualToString: _(@"männlich")])
-            {
-              article = _(@"er");
-            }
-          else
-            {
-              article = _(@"sie");
-            }
-          if (eventResult == 1 || eventResult == 2)
-            {
-              whatStr = [NSString stringWithFormat: _(@"%@ wird nicht erwischt"), article];
-            }
-          else if (eventResult == 3 || eventResult == 4 || eventResult == 5)
-            {
-              whatStr = [NSString stringWithFormat: _(@"%@ wird erwischt und milde bestraft"), article];
-            }
-          else
-            {
-              whatStr = [NSString stringWithFormat: _(@"%@ wird erwischt und hart bestraft"), article];
-            }
-          resultStr = [NSString stringWithFormat: _(@"Freunde verführen %@ dazu, etwas verbotenes zu tun. %@."), [character name], whatStr];
-        }
-      else if (eventResult == 14)
-        {
-          eventResult = [Utils rollDice: @"1W6"];
-          NSString *whoStr;         
-          if (eventResult == 1)
-            {
-              whoStr = _(@"dem Vater");
-            }
-          else if (eventResult == 2)
-            {
-              whoStr = _(@"der Mutter");
-            }
-          else
-            {
-              if ([[character siblings] count] == 0)
-                {
-                  if (eventResult == 3 || eventResult == 5)
-                    {
-                      whoStr = _(@"dem Vater");
-                    }
-                  else
-                    {
-                      whoStr = _(@"der Mutter");
-                    }                  
-                }
-              else if ([[character siblings] count] == 1)
-                {
-                  if ([[[[character siblings] objectAtIndex: 0] objectForKey: @"sex"] isEqualTo: _(@"männlich")])
-                    {
-                      whoStr = _(@"dem Bruder");
-                    }
-                  else
-                    {
-                      whoStr = _(@"der Schwester");
-                    }
-                }
-              else
-                {
-                  whoStr = _(@"einem der Geschwister");
-                }
-            }
-          resultStr = [NSString stringWithFormat: _(@"%@ verstreitet sich mit %@. Zwischen beiden regiert fortan blinder Haß."), [character name], whoStr];
-        }
-      else if (eventResult == 15)
-        {
-          eventResult = [Utils rollDice: @"1W6"];
-          NSString *whatStr;
-          NSString *article;
-          if ([[character sex] isEqualToString: _(@"männlich")])
-            {
-              article = _(@"er");
-            }
-          else
-            {
-              article = _(@"sie");
-            }          
-          if (eventResult >= 1 && eventResult <= 4)
-            {
-              whatStr = _(@"läßt Milde walten");
-            }
-          else
-            {
-              whatStr = _(@"bleibt hart");
-            }
-          resultStr = [NSString stringWithFormat: _(@"%@ wird für etwas bestraft, was %@ nicht getan hat. Der Richter %@."), [character name], article, whatStr];
-        }
-      else if (eventResult == 16)
-        {
-          resultStr = [NSString stringWithFormat: _(@"%@ wird von einem wilden Tier schwer verletzt."), [character name]];        
-        }
-      else if (eventResult == 17)
-        {
-          eventResult = [Utils rollDice: @"1W2"];
-          NSString *event;
-          if (eventResult == 1)
-            {
-              event = _(@"Krieg");
-            }
-          else
-            {
-              event = _(@"Aufstand");
-            }
-          eventResult = [Utils rollDice: @"1W6"];
-          NSString *whatStr;
-          if (eventResult == 1 || eventResult == 2)
-            {
-              whatStr = _(@"kommt dabei zu Tode");
-            }
-          else
-            {
-              whatStr = _(@"wird dabei schwer verletzt");
-            }
-          NSString *whoStr;         
-          if (eventResult == 1)
-            {
-              whoStr = _(@"Der Vater");
-            }
-          else if (eventResult == 2)
-            {
-              whoStr = _(@"Die Mutter");
-            }
-          else
-            {
-              if ([[character siblings] count] == 0)
-                {
-                  if (eventResult == 3 || eventResult == 5)
-                    {
-                      whoStr = _(@"Der Vater");
-                    }
-                  else
-                    {
-                      whoStr = _(@"Die Mutter");
-                    }                  
-                }
-              else if ([[character siblings] count] == 1)
-                {
-                  if ([[[[character siblings] objectAtIndex: 0] objectForKey: @"sex"] isEqualTo: _(@"männlich")])
-                    {
-                      whoStr = _(@"Der Bruder");
-                    }
-                  else
-                    {
-                      whoStr = _(@"Die Schwester");
-                    }
-                }
-              else
-                {
-                  whoStr = _(@"Eines der Geschwister");
-                }
-            }
-          resultStr = [NSString stringWithFormat: _(@"Ein %@ überzieht das Land. %@ %@."), event, whoStr, whatStr];            
-        }
-      else if (eventResult == 18)
-        {
-          eventResult = [Utils rollDice: @"1W6"];
-          NSString *reason;
-          if (eventResult == 1)
-            {
-              reason = _(@"wegen einem berechtigtem Todesurteil");
-            }
-          else if (eventResult == 2)
-            {
-              reason = _(@"wegen einem unberechtigtem Todesurteil");
-            }
-          else if (eventResult == 3)
-            {
-              eventResult = [Utils rollDice: @"1W3"];
-              NSString *whoStr;
-              if (eventResult == 1)
-                {
-                  whoStr = _(@"der Orks");
-                }
-              if (eventResult == 2)
-                {
-                  whoStr = _(@"von Ogern");
-                }                
-              else
-                {
-                  whoStr = _(@"von Räubern");
-                }
-              reason = [NSString stringWithFormat: _(@"bei einem Überfall %@"), whoStr];
-            }
-          else if (eventResult == 4)
-            {
-              reason = _(@"in einer Rauferei");
-            }
-          else if (eventResult == 5)
-            {
-              reason = _(@"wegen eines Unfalles");
-            }
-          else
-            {
-              reason = _(@"bei einem Selbstmord");
-            }
-          eventResult = [Utils rollDice: @"1W6"];  
-          NSString *whoStr;         
-          if (eventResult == 1)
-            {
-              whoStr = _(@"Der Vater");
-            }
-          else if (eventResult == 2)
-            {
-              whoStr = _(@"Die Mutter");
-            }
-          else
-            {
-              if ([[character siblings] count] == 0)
-                {
-                  if (eventResult == 3 || eventResult == 5)
-                    {
-                      whoStr = _(@"Der Vater");
-                    }
-                  else
-                    {
-                      whoStr = _(@"Die Mutter");
-                    }                  
-                }
-              else if ([[character siblings] count] == 1)
-                {
-                  if ([[[[character siblings] objectAtIndex: 0] objectForKey: @"sex"] isEqualTo: _(@"männlich")])
-                    {
-                      whoStr = _(@"Der Bruder");
-                    }
-                  else
-                    {
-                      whoStr = _(@"Die Schwester");
-                    }
-                }
-              else
-                {
-                  whoStr = _(@"Eines der Geschwister");
-                }
-            }
-          resultStr = [NSString stringWithFormat: _(@"%@ kommt %@ zu Tode."), whoStr, reason];            
-        }
-      else if (eventResult == 19)
-        {
-          eventResult = [Utils rollDice: @"1W6"];
-          NSString *sickness;
-          if (eventResult >= 1 && eventResult <= 3)
-            {
-              sickness = [NSString stringWithFormat: _(@"%@ erkrankt auch schwer, aber überlebt."), [character name]];
-            }
-          else
-            {
-              sickness = [NSString stringWithFormat: _(@"%@ bleibt von der Krankheit verschont."), [character name]];
-            }
-          
-          NSString *whoStr;         
-          if (eventResult == 1)
-            {
-              whoStr = _(@"Der Vater");
-            }
-          else if (eventResult == 2)
-            {
-              whoStr = _(@"Die Mutter");
-            }
-          else
-            {
-              if ([[character siblings] count] == 0)
-                {
-                  if (eventResult == 3 || eventResult == 5)
-                    {
-                      whoStr = _(@"Der Vater");
-                    }
-                  else
-                    {
-                      whoStr = _(@"Die Mutter");
-                    }                  
-                }
-              else if ([[character siblings] count] == 1)
-                {
-                  if ([[[[character siblings] objectAtIndex: 0] objectForKey: @"sex"] isEqualTo: _(@"männlich")])
-                    {
-                      whoStr = _(@"Der Bruder");
-                    }
-                  else
-                    {
-                      whoStr = _(@"Die Schwester");
-                    }
-                }
-              else
-                {
-                  whoStr = _(@"Eines der Geschwister");
-                }
-            }
-          resultStr = [NSString stringWithFormat: _(@"Die Familie wird von einer schweren Krankheit heimgesucht. %@ stirbt dabei. %@."), whoStr, sickness];       
-        }
-      else if (eventResult == 20)
-        {
-           eventResult = [Utils rollDice: @"1W3"];
-           NSString *whoStr;
-           NSString *reason;
-           if (eventResult == 1)
-             {
-               whoStr = _(@"der Orks");
-             }
-           if (eventResult == 2)
-             {
-               whoStr = _(@"von Ogern");
-             }                
-           else
-             {
-               whoStr = _(@"von Räubern");
-             }
-           reason = [NSString stringWithFormat: _(@"bei einem Überfall %@"), whoStr];
-           eventResult = [Utils rollDice: @"1W3"];
-           NSString *whatStr;
-           if (eventResult == 1)
-             {
-               whatStr = [NSString stringWithFormat: _(@"%@ schlägt sich von nun an allein durch"), [character name]];
-             }
-           else
-             {
-               whatStr = [NSString stringWithFormat: _(@"%@ wird von einer Pflegefamilie aufgenommen"), [character name]];
-             }
-           resultStr = [NSString stringWithFormat: _(@"Die gesamte Familie kommt %@ ums Leben. %@."), reason, whatStr];
-        }
-      [resultArr addObject: resultStr];  
-      cnt++;
-    }
-  return resultArr;
-}
-
-
-- (NSArray *) generateYouthEventsForCharacter: (DSACharacter *) character
-{
-  NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
-  NSInteger eventCount = [Utils rollDice: @"1W3"];
-  NSMutableArray *resultArr = [[NSMutableArray alloc] init];
-  
-  NSMutableArray *tracker = [[NSMutableArray alloc] init];
-  
-  NSInteger cnt = 0;
-  
-  NSString *pronoun;
-  NSString *pronounUpper;
-  NSString *personalPronounDativ;
-  NSString *personalPronounDativUpper;
-  NSString *personalPronounAkkusativ;
-  NSString *possesivPronounDativ;
-  NSString *possesivPronounAkkusativ;
-  NSString *whateverTypeOfWord1Upper;
-  if ([[character sex] isEqualToString: _(@"männlich")])
-    {
-      pronoun = _(@"er");
-      pronounUpper = _(@"Er");
-      personalPronounDativ = _(@"ihm");
-      personalPronounDativUpper = _(@"Ihm");
-      personalPronounAkkusativ = _(@"ihn");
-      possesivPronounDativ = _(@"seiner");
-      possesivPronounAkkusativ = _(@"sein");
-      whateverTypeOfWord1Upper = _(@"Dieser");
-    }
-  else
-    {
-      pronoun = _(@"sie");
-      pronounUpper = _(@"Sie");
-      personalPronounDativ = _(@"ihr");
-      personalPronounDativUpper = _(@"Ihr");
-      personalPronounAkkusativ = _(@"sie");
-      possesivPronounDativ = _(@"ihrer");
-      possesivPronounAkkusativ = _(@"ihr");
-      whateverTypeOfWord1Upper = _(@"Diese");
-    }
-  
-  while (cnt < eventCount)
-    {
-      NSInteger eventResult = [Utils rollDice: @"1W20"];
-      NSString *resultStr;
-      NSString *whatStr;
-      NSInteger testValue = 0;
-      if ([tracker containsObject: [NSNumber numberWithInteger: eventResult]])
-        {
-          continue;  // we don't want to have the same event happen twice
-        }
-      else
-        {
-          [tracker addObject: [NSNumber numberWithInteger: eventResult]];
-        }
-      if (eventResult >= 1 && eventResult <= 4)
-        {
-          eventResult = [Utils rollDice: @"1W13"];
-          NSString *godStr;
-          if (eventResult == 1)
-            {
-              godStr = _(@"des Praios");
-            }
-          else if (eventResult == 2)
-            {
-              godStr = _(@"der Rondra");
-            }
-          else if (eventResult == 3)
-            {
-              godStr = _(@"des Efferd");
-            }
-          else if (eventResult == 4)
-            {
-              godStr = _(@"der Travia");
-            }
-          else if (eventResult == 5)
-            {
-              godStr = _(@"des Boron");
-            }
-          else if (eventResult == 6)
-            {
-              godStr = _(@"der Hesinde");
-            }
-          else if (eventResult == 7)
-            {
-              godStr = _(@"des Firun");
-            }
-          else if (eventResult == 8)
-            {
-              godStr = _(@"der Tsa");
-            }
-          else if (eventResult == 9)
-            {
-              godStr = _(@"des Phes");
-            }
-          else if (eventResult == 10)
-            {
-              godStr = _(@"der Peraine");
-            }
-          else if (eventResult == 11)
-            {
-              godStr = _(@"des Ingerimm");
-            }
-          else if (eventResult == 12)
-            {
-              godStr = _(@"der Rahja");
-            }
-          eventResult = [Utils rollDice: @"1W6"];
-          if (eventResult == 1 || eventResult == 2)
-            {
-              whatStr = [NSString stringWithFormat: _(@"Nach dieser Zeit entscheidet %@ sich, Geweihter zu werden."), pronoun];
-            }
-          else if (eventResult == 3 || eventResult == 4)
-            {
-              whatStr = [NSString stringWithFormat: _(@"Nach dieser Zeit behält %@ einen starken Glauben an die Gottheit."), pronoun];              
-            }
-          else if (eventResult == 6)
-            {
-              whatStr = [NSString stringWithFormat: _(@"Nach dieser Zeit wendet %@ sich wieder von der Gottheit ab."), pronoun];              
-            }
-          resultStr = [NSString stringWithFormat: _(@"%@ durchlebt eine Phase der Frömmigkeit. %@ such die Nähe von Geweihten %@. %@"), [character name], pronounUpper, godStr, whatStr];
-        }
-      else if (eventResult == 5)
-        {
-          eventResult = [Utils rollDice: @"1W6"];
-          NSInteger typusOffset = +3;
-          NSString *akademieStr;
-          if ([@[_(@"Krieger"), _(@"Magier")] containsObject: selectedArchetype])
-            {
-              typusOffset = -3;
-            }
-          testValue = eventResult + typusOffset;            
-          if ([selectedArchetype isEqualToString: _(@"Magier")])
-            {
-              akademieStr = _(@"Magierakademie");
-            }
-          else if ([selectedArchetype isEqualToString: _(@"Krieger")])
-            {
-              akademieStr = _(@"Kriegerakademie");
-            }
-          else
-            {
-              eventResult = [Utils rollDice: @"1W2"];
-              if (eventResult == 1)
-                {
-                  akademieStr = _(@"Magierakademie");
-                }
-              else
-                {
-                  akademieStr = _(@"Kriegerakademie");
-                }            
-            }
-
-          if (testValue >= -2 && testValue <= 2)      
-            {
-              whatStr = [NSString stringWithFormat: _(@"%@ schafft den Abschluß."), pronounUpper];
-            }
-          else
-            {
-              whatStr = [NSString stringWithFormat: _(@"%@ fliegt von der Schule."), pronounUpper];
-            }
-          resultStr = [NSString stringWithFormat: _(@"%@ erhält ein Stipendium für eine %@. %@"), [character name], akademieStr, whatStr];
-        }
-      else if (eventResult == 6)
-        {
-          resultStr = [NSString stringWithFormat: _(@"%@ hilft einem verletzen Tier, das %@ von nun an treu folgt."), [character name], personalPronounDativ];
-        }
-      else if (eventResult >= 7 && eventResult <= 11)
-        {
-          eventResult = [Utils rollDice: @"1W6"];
-          NSString *whatStr;
-          if (eventResult == 1 || eventResult == 2)
-            {
-              whatStr = _(@" unsterblich, stößt aber nicht auf Gegenliebe.");
-            }
-          else if (eventResult == 3 || eventResult == 4)
-            {
-              whatStr = [NSString stringWithFormat: _(@", aber der geliebte Mensch zieht fort, und %@ kann ihn nicht mehr vergessen."), pronoun];
-            }
-          else if (eventResult == 5)
-            {
-              whatStr = _(@", doch der geliebte Mensch kommt ums Leben.");
-            }
-          else if (eventResult == 6)
-            {
-              whatStr = _(@"und stößt auf Gegenliebe.");
-            }
-          resultStr = [NSString stringWithFormat: _(@"%@ verliebt sich%@"), [character name], whatStr];
-        }
-      else if (eventResult == 12)
-        {
-          resultStr = [NSString stringWithFormat: _(@"%@ trifft auf eine berühmte Persönlichkeit und ist von ihr sehr beeindruckt."), [character name]];
-        }
-      else if (eventResult == 13)
-        {
-          eventResult = [Utils rollDice: @"1W6"];
-          NSString *whatStr;
-          if (eventResult == 1)
-            {
-              whatStr = _(@"Eine Warnung im Traum rettet ihm das Leben.");
-            }
-          else if (eventResult == 2)
-            {
-              eventResult = [Utils rollDice: @"1W2"];
-              NSString *whoStr;
-              if (eventResult == 1)
-                {
-                  whoStr = _(@"Freund");
-                }
-              else 
-                {
-                  whoStr = _(@"Verwandten");
-                }
-              whatStr = [NSString stringWithFormat: _(@"%@ begegnet einem längst verstorbenem %@."), pronounUpper, whoStr];
-            }
-          else if (eventResult == 3)
-            {
-              whatStr = [NSString stringWithFormat: _(@"%@ träumt von einer Queste. Der Gedanke daran läßt %@ nicht mehr los."), pronounUpper, personalPronounAkkusativ];
-            }
-          else if (eventResult == 4)
-            {
-              whatStr = [NSString stringWithFormat: _(@"%@ steht einem wilden Tier gegenüber, kann diesem aber offenbar befehlen, nicht anzugreifen."), pronounUpper];
-            }
-          else if (eventResult == 5)
-            {
-              eventResult = [Utils rollDice: @"1W2"];
-              NSString *whoStr;
-              if (eventResult == 1)
-                {
-                  whoStr = _(@"einem Kobold");
-                }
-              else
-                {
-                  whoStr = _(@"einer Fee");
-                }
-              whatStr = [NSString stringWithFormat: _(@"%@ begegnet %@."), pronounUpper, whoStr];
-            }
-          else if (eventResult == 6)
-            {
-              whatStr = [NSString stringWithFormat: _(@"%@ sieht ein Einhorn."), pronounUpper];
-            }
-          resultStr = [NSString stringWithFormat: _(@"%@ wiederfährt etwas Seltsames. %@"), [character name], whatStr];
-        }
-      else if (eventResult == 14)
-        {
-          if ([@[_(@"Krieger"), _(@"Magier")] containsObject: selectedArchetype])  //those go to academies
-            {
-              continue;
-            }
-          eventResult = [Utils rollDice: @"1W6"];
-          NSInteger typusOffset = 0;
-          if ([selectedArchetype isEqualToString: _(@"Streuner")])
-            {
-              typusOffset = -1;
-            }
-          testValue = eventResult + typusOffset;
-          if (testValue >= 0 && testValue <= 5)
-            {
-              eventResult = [Utils rollDice: @"1W3"];
-              if (eventResult == 1)
-                {
-                  whatStr =[NSString stringWithFormat: _(@"%@ bricht diese aber nach einem Jahr ab."), pronounUpper];
-                }
-              else
-                {
-                  whatStr = [NSString stringWithFormat: _(@"%@ bricht diese aber nach %lu Jahren ab."), pronounUpper, (unsigned long) eventResult];
-                }
-            }
-          else
-            {
-              whatStr = [NSString stringWithFormat: _(@"%@ erhält die Freisprechung %@ Zunft."), pronounUpper, possesivPronounDativ];
-            }
-          resultStr = [NSString stringWithFormat: _(@"Wie es üblich ist, geht %@ bei einem Handwerker in die Lehre. %@"), [character name], whatStr];  
-        }
-      else if (eventResult == 15)
-        {
-          eventResult = [Utils rollDice: @"1W6"];
-          NSInteger typusOffset = 0;
-          if ([selectedArchetype isEqualToString: _(@"Streuner")])
-            {
-              typusOffset = 2;
-            }
-          NSInteger testValue = eventResult + typusOffset;
-          NSString *whatStr;
-          if (testValue >= 1 && testValue <= 4)
-            {
-              whatStr = _(@"schlägt sich von nun an alleine durch.");
-            }
-          else if (testValue == 5)
-            {
-              whatStr = _(@"beginnt in jungen Jahren ein Abenteuerleben.");
-            }
-          else
-            {
-              whatStr = _(@"wird von einer anderen Familie aufgenommen.");
-            }
-          resultStr = [NSString stringWithFormat: _(@"Die Eltern können ihre Familie nicht mehr ernähren, und schicken deshalb %@ fort, allein %@ Glück zu machen. %@ %@"), [character name], possesivPronounAkkusativ, pronounUpper, whatStr];
-        } 
-      else if (eventResult == 16)
-        {
-          eventResult = [Utils rollDice: @"1W6"];
-          NSString *whoStr;
-          if ([[character sex] isEqualToString: _(@"männlich")])
-            {
-              whoStr = _(@"einen Rivalen");
-            }
-          else
-            {
-              whoStr = _(@"eine Rivalin");
-            }          
-          if (eventResult == 1)
-            {
-              if ([[character sex] isEqualToString: _(@"männlich")])
-                {
-                  whatStr = _(@"Dieser ist ein alter Familienfeind.");
-                }
-              else
-                {
-                  whatStr = _(@"Diese ist eine alte Feindin der Familie.");
-                }
-            }
-          else if (eventResult == 2)
-            {
-              whatStr = [NSString stringWithFormat: _(@"%@ ist neidisch auf das Äußere von %@."), whateverTypeOfWord1Upper, [character name]];
-            }
-          else if (eventResult == 3)
-            {
-              whatStr = [NSString stringWithFormat: _(@"%@ ist neidisch auf ein Besitzstück von %@."), whateverTypeOfWord1Upper, personalPronounDativ];
-            }
-          else if (eventResult >= 4 && eventResult <= 6)
-            {
-              whatStr = [NSString stringWithFormat: _(@"%@ ist in die selbe Person verliebt wie %@."), whateverTypeOfWord1Upper, pronoun];
-            }
-          resultStr = [NSString stringWithFormat: _(@"%@ hat %@. %@"), [character name], whoStr, whatStr];
-        }
-      else if (eventResult == 17 || eventResult == 18)
-        {
-          eventResult = [Utils rollDice: @"1W6"];
-          NSString *whoStr;
-          if ([[character sex] isEqualToString: _(@"männlich")])
-            {
-              whoStr = _(@"die zukünftige Ehepartnerin");
-            }
-          else
-            {
-              whoStr = _(@"der zukunftige Ehepartner");
-            }          
-          NSInteger typusOffset = 0;
-          if ([selectedArchetype isEqualToString: _(@"Streuner")])
-            {
-              typusOffset = -1;
-            }
-          NSInteger testValue = eventResult + typusOffset;
-          if (testValue >= 0 && testValue <= 5)
-            {
-              whatStr = [NSString stringWithFormat: _(@"%@ schlägt sich von nun an allein durchs Leben."), pronounUpper];
-            }
-          else
-            {
-              whatStr = [NSString stringWithFormat: _(@"%@ wird von einer anderen Familie aufgenommen."), pronounUpper];
-            }
-            
-          resultStr = [NSString stringWithFormat: _(@"%@ soll verheiratet werden. %@ jedoch gefällt %@ nicht, so das %@ fortläuft. %@"), [character name], personalPronounDativUpper, whoStr, pronoun, whatStr];
-        }
-      else if (eventResult == 19)
-        {
-          resultStr = [NSString stringWithFormat: _(@"%@ wird von einem wilden Tier schwer verletzt."), [character name]];        
-        }
-      else if (eventResult == 20)      
-        {
-           eventResult = [Utils rollDice: @"1W3"];
-           NSString *whoStr;
-           NSString *reason;
-           if (eventResult == 1)
-             {
-               whoStr = _(@"der Orks");
-             }
-           if (eventResult == 2)
-             {
-               whoStr = _(@"von Ogern");
-             }                
-           else
-             {
-               whoStr = _(@"von Räubern");
-             }
-           reason = [NSString stringWithFormat: _(@"bei einem Überfall %@"), whoStr];
-           eventResult = [Utils rollDice: @"1W6"];
-           NSString *whatStr;
-           if (eventResult == 1 || eventResult == 2)
-             {
-               whatStr = [NSString stringWithFormat: _(@"%@ schlägt sich von nun an allein durch"), [character name]];
-             }
-           else
-             {
-               whatStr = [NSString stringWithFormat: _(@"%@ wird von einer Pflegefamilie aufgenommen"), [character name]];
-             }
-           resultStr = [NSString stringWithFormat: _(@"Die gesamte Familie kommt %@ ums Leben. %@."), reason, whatStr];
-        }      
-        
-      [resultArr addObject: resultStr];
-      cnt++;
-    }
-  return resultArr;   
-}
-
-/*  
-- (float) generateHeightForArchetype: (NSString *) archetype
-{
-  NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
-  NSArray *heightArr;
-  
-  if ([archetype isEqualToString: _(@"Schamane")])
-    {
-      heightArr = [NSArray arrayWithArray: [[[[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Typus"] objectForKey: selectedOrigin] objectForKey: @"Körpergröße"]];
-    }
-  else
-    {
-      heightArr = [NSArray arrayWithArray: [[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Körpergröße"]];      
-    }
-  float height = [[heightArr objectAtIndex: 0] floatValue];
-  unsigned int count = [heightArr count];
-  for (unsigned int i = 1;i<count; i++)
-    {
-      height += [Utils rollDice: [heightArr objectAtIndex: i]];
-    }
-  return height;
-}
-
-- (float) generateWeightForArchetype: (NSString *) archetype withHeight: (float) height
-{
-  float weight = [[[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Gewicht"] floatValue];
-  return weight + height;
-}
-*/
 - (void) addElvenSongsToCharacter: (DSACharacter *) character
 {
   NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];    
@@ -2760,9 +1131,14 @@ NSLog(@"popupCategorySelected called!");
     {
       return;
     }
+  NSString *selectedArchetype = [[self.popupArchetypes selectedItem] title];
 
-  NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getArchetypesDict] objectForKey: [[self.popupArchetypes selectedItem] title]]];
-      
+  NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getArchetypesDict] objectForKey: selectedArchetype]];
+  [self.popupSex removeAllItems];
+  [self.popupSex addItemsWithTitles: [charConstraints objectForKey: @"Geschlecht"]];  
+  _portraitsArray = [self loadPortraitsForArchetype: selectedArchetype];
+  [self assignPortraitToCharacter];
+  
   if ( [[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Magier")] )
     {
       [self.popupMageAcademies setEnabled: NO];
@@ -2773,7 +1149,7 @@ NSLog(@"popupCategorySelected called!");
       [self.popupMageAcademies setAction:@selector(popupMageAcademySelected:)];      
       [self.fieldMageSchool setStringValue: _(@"Magierakademie")];
     }
-  else if ( [[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Geode")] )
+  else if ( [selectedArchetype isEqualToString: _(@"Geode")] )
     {
       [self.popupMageAcademies setEnabled: YES];
       [self.popupMageAcademies removeAllItems];
@@ -2782,7 +1158,7 @@ NSLog(@"popupCategorySelected called!");
       [self.popupMageAcademies setAction:@selector(popupMageAcademySelected:)]; 
       [self.fieldMageSchool setStringValue: _(@"Geodische Schule")];           
     }
-  else if ( [[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Krieger")] )
+  else if ( [selectedArchetype isEqualToString: _(@"Krieger")] )
     {
       [self.popupMageAcademies setEnabled: YES];
       [self.popupMageAcademies removeAllItems];
@@ -2792,7 +1168,7 @@ NSLog(@"popupCategorySelected called!");
       [self.popupMageAcademies setAction:@selector(popupMageAcademySelected:)]; 
       [self.fieldMageSchool setStringValue: _(@"Kriegerakademie")];           
     }
-  else if ([[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Schamane")] )
+  else if ([selectedArchetype isEqualToString: _(@"Schamane")] )
     {
       [self.popupMageAcademies setEnabled: YES];
       [self.popupMageAcademies removeAllItems];
@@ -2820,11 +1196,11 @@ NSLog(@"popupCategorySelected called!");
       [self.fieldMageSchool setStringValue: _(@"Magierakademie")];
     }
     
-  if ([[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Geode")] || 
-      [[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Druide")] ||
-      [[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Magier")])
+  if ([selectedArchetype isEqualToString: _(@"Geode")] || 
+      [selectedArchetype isEqualToString: _(@"Druide")] ||
+      [selectedArchetype isEqualToString: _(@"Magier")])
     {
-      if ([[[self.popupArchetypes selectedItem] title] isEqualToString: _(@"Magier")])
+      if ([selectedArchetype isEqualToString: _(@"Magier")])
         {
           [self.popupElements setEnabled: YES];
           [self.popupElements removeAllItems];
@@ -2845,7 +1221,7 @@ NSLog(@"popupCategorySelected called!");
     {
       [self.popupElements setEnabled: NO];
     }
-  NSArray *religions = [self getReligionsForArchetype: [[self.popupArchetypes selectedItem] title]];
+  NSArray *religions = [self getReligionsForArchetype: selectedArchetype];
   if (religions)
     {
       [self.popupReligions setEnabled: YES];
@@ -2859,7 +1235,7 @@ NSLog(@"popupCategorySelected called!");
         
   // Die Herkünfte
   [self.popupOrigins removeAllItems];
-  [self.popupOrigins addItemsWithTitles: [Utils getOriginsForArchetype: [[self.popupArchetypes selectedItem] title]]];
+  [self.popupOrigins addItemsWithTitles: [Utils getOriginsForArchetype: selectedArchetype]];
   if ([self.popupOrigins numberOfItems] == 0)
     {
       [self.popupOrigins setEnabled: NO];        
@@ -2872,7 +1248,7 @@ NSLog(@"popupCategorySelected called!");
   // Die Berufe
   [self.popupProfessions removeAllItems];
   [self.popupProfessions addItemWithTitle: _(@"Beruf wählen")];  
-  [self.popupProfessions addItemsWithTitles: [Utils getProfessionsForArchetype: [[self.popupArchetypes selectedItem] title]]];
+  [self.popupProfessions addItemsWithTitles: [Utils getProfessionsForArchetype: selectedArchetype]];
   if ([self.popupProfessions numberOfItems] == 1)
     {
       [self.popupProfessions setEnabled: NO];        
@@ -3025,6 +1401,8 @@ NSLog(@"popupCategorySelected called!");
 
 - (IBAction) popupSexSelected: (id)sender
 {
+  _portraitsArray = [self loadPortraitsForArchetype: [[self.popupArchetypes selectedItem] title]];
+  [self assignPortraitToCharacter];
 }
 
 - (IBAction) buttonGenerateClicked: (id)sender
@@ -3032,20 +1410,9 @@ NSLog(@"popupCategorySelected called!");
   NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getArchetypesDict] objectForKey: [[self.popupArchetypes selectedItem] title]]];
   NSArray *positiveArr = [NSArray arrayWithArray: [self generatePositiveTraits]];
   NSArray *negativeArr = [NSArray arrayWithArray: [self generateNegativeTraits]];
-  DSAAventurianDate *birthday = [[DSAAventurianDate alloc] init];
-/*  NSDictionary *socialStatusParents = [self generateFamilyBackground: [[self.popupArchetypes selectedItem] title]];
-  if ([[self.fieldMageSchool stringValue] isEqualToString: _(@"Magiedilettant")])
-    {
-      while ([@[_(@"reich"), _(@"adelig")] containsObject: [socialStatusParents objectForKey: @"Stand"]])
-        {
-          socialStatusParents = [self generateFamilyBackground: [[self.popupArchetypes selectedItem] title]];        
-        }
-    }
-  NSDictionary *wealthDict = [self generateWealth: [socialStatusParents objectForKey: @"Stand"]];
-  */
+
   [self.fieldHairColor setStringValue: @"TBD"];
   [self.fieldEyeColor setStringValue: @"TBD"];  
-  // birthday = [self generateBirthday];
   [self.fieldBirthday setStringValue: @"TBD"];
   [self.fieldHeight setStringValue: @"TBD"];
   [self.fieldWeight setStringValue: @"TBD"];
@@ -3073,27 +1440,9 @@ NSLog(@"popupCategorySelected called!");
       [self.fieldTitle setBackgroundColor: [NSColor redColor]];    
     }
     
-//  [self.fieldSocialStatus setStringValue: [socialStatusParents objectForKey: @"Stand"]];
-//  [self.fieldParents setStringValue: [socialStatusParents objectForKey: @"Eltern"]];
   [self.fieldSocialStatus setStringValue: @"TBD" ];
   [self.fieldParents setStringValue: @"TBD" ];
   [self.fieldWealth setStringValue: @"TBD" ];
-//  [self.fieldWealth setStringValue: [NSString stringWithFormat: @"%@D %@S %@H %@K", 
-//                                              [wealthDict objectForKey: @"D"], 
-//                                              [wealthDict objectForKey: @"S"], 
-//                                              [wealthDict objectForKey: @"H"], 
-//                                              [wealthDict objectForKey: @"K"]]];
-/*                                              
-  for (NSString *god in [[Utils getGodsDict] allKeys])
-    {
-      if ([[[[Utils getGodsDict] objectForKey: god] objectForKey: @"Monat"] isEqualToString: birthday.monthName])
-        {
-          [self.fieldStars setStringValue: [[[Utils getGodsDict] objectForKey: god] objectForKey: @"Sternbild"]];
-          [self.fieldGod setStringValue: god];
-          break;
-        }
-    }
-*/
   [self.fieldStars setStringValue: @"TBD" ];
   [self.fieldGod setStringValue: @"TBD" ];
   // positive traits  
@@ -3115,10 +1464,6 @@ NSLog(@"popupCategorySelected called!");
     }
       
   [self enableFinishButtonIfPossible];
-
-  // save that temporarily here, so we can assign it later when it comes to character creation....
-//  self.birthday = birthday;
-//  self.wealth = wealthDict;
   
 /*  if (self.portraitsArray.count > 0)
     { */
