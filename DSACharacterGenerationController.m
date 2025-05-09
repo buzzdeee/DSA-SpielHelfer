@@ -30,15 +30,7 @@
 #import "DSATrait.h"
 #import "DSATalent.h"
 #import "DSASpell.h"
-#import "DSASpellWitchCurse.h"
-#import "DSASpellDruidRitual.h"
-#import "DSASpellMischievousPrank.h"
-#import "DSASpellGeodeRitual.h"
-#import "DSASpellMageRitual.h"
-#import "DSASpellShamanRitual.h"
-#import "DSASpellSharisadDance.h"
-#import "DSASpellElvenSong.h"
-#import "DSALiturgy.h"
+
 #import "NSMutableDictionary+Extras.h"
 
 #import "DSANameGenerator.h"
@@ -214,56 +206,6 @@
                 
   DSACharacter *newCharacter = [generator generateCharacterWithParameters: characterParameters];
 
-  if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanWitch class]])
-    {
-      [self addWitchCursesToCharacter: newCharacter];
-    }
-  else if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanDruid class]])
-    {
-      [self addDruidRitualsToCharacter: newCharacter];
-    }
-  else if ([newCharacter isMemberOfClass: [DSACharacterHeroDwarfGeode class]])
-    {
-      [self addGeodeRitualsToCharacter: newCharacter];
-    }
-  else if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanMage class]])
-    {
-      [self addMageRitualsToCharacter: newCharacter];
-    }
-  else if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanSharisad class]])
-    {
-      [self addSharisadDancesToCharacter: newCharacter];
-    }       
-  else if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanShaman class]])
-    {
-      [self addShamanRitualsToCharacter: newCharacter];
-      if ([_(@"Ja") isEqualToString: [[self.popupMageAcademies selectedItem] title]])
-        {
-          [self addDruidRitualsToCharacter: newCharacter];
-        }
-    }        
-  else if ([newCharacter isMemberOfClass: [DSACharacterHeroHumanJester class]])
-    {
-      [self addMischievousPranksToCharacter: newCharacter];
-    }
-  else if ([newCharacter isMemberOfClass: [DSACharacterHeroElfMeadow class]] ||
-           [newCharacter isMemberOfClass: [DSACharacterHeroElfSnow class]] || 
-           [newCharacter isMemberOfClass: [DSACharacterHeroElfWood class]] )
-    {
-      [self addElvenSongsToCharacter: newCharacter];
-    }
-  else if ([newCharacter isKindOfClass: [DSACharacterHeroBlessed class]])
-    {
-      [self addBlessedLiturgiesToCharacter: newCharacter];
-    }
-      
-  // apply Göttergeschenke and Origins modificators
-  [self apply: @"Goettergeschenke" toArchetype: newCharacter];
-  [self apply: @"Herkunft" toArchetype: newCharacter];
-  [self apply: @"Kriegerakademie" toArchetype: newCharacter];
-  [self apply: @"Magierakademie" toArchetype: newCharacter];
-  [self apply: @"Schamanenmodifikatoren" toArchetype: newCharacter];
-  [self addEquipmentToCharacter: newCharacter];
   NSLog(@"DSACharacterGenerationController: assigned equipment to newCharacter");
   // Store the generated character
   self.generatedCharacter = newCharacter;
@@ -278,147 +220,6 @@
     }
   [self close]; // Close the character generation window
 }
-
-// to apply "Göttergeschenke" or "Herkunfsmodifikatoren"
-- (void) apply: (NSString *) modificator toArchetype: (DSACharacter *) archetype
-{
-  NSMutableDictionary *traits = [[NSMutableDictionary alloc] init];
-  NSMutableDictionary *talents = [[NSMutableDictionary alloc] init];
-  
-  if ([@"Goettergeschenke" isEqualTo: modificator])
-    {
-      traits = [[[Utils getGodsDict] objectForKey: archetype.god] objectForKey: @"Basiswerte"];
-      talents = [[[Utils getGodsDict] objectForKey: archetype.god] objectForKey: @"Talente"]; 
-    }
-  else if ([@"Herkunft" isEqualTo: modificator])
-    {
-      if ([archetype.archetype isEqualToString: _(@"Magier")])
-        {
-           NSLog(@"not applying Herkunft to archetype %@, die Magierakademie prägt mehr als die Herkunft.", archetype.archetype);
-        }
-      if ([archetype.archetype isEqualToString: _(@"Thorwaler")] || [archetype.archetype isEqualToString: _(@"Skalde")])
-        {
-           NSLog(@"not applying Herkunft to archetype %@, der Thorwaler bzw. Skalde hat schon ordentliche Thorwaler Werte ;)", archetype.archetype);
-        }        
-      else
-        {
-          talents = [[[Utils getOriginsDict] objectForKey: archetype.origin] objectForKey: @"Talente"];
-        }
-    }
-  else if ([@"Kriegerakademie" isEqualTo: modificator])
-    {
-      talents = [[[Utils getWarriorAcademiesDict] objectForKey: archetype.mageAcademy] objectForKey: @"Talente"];  // mageAcademy is misused here for the Kriegerakademie...
-      archetype.firstLevelUpTalentTriesPenalty = [[[[Utils getWarriorAcademiesDict] objectForKey: archetype.mageAcademy] objectForKey: @"Initiale Steigerungsversuche"] integerValue];
-    }
-  else if ([@"Magierakademie" isEqualTo: modificator])
-    {
-      if ([archetype.archetype isEqualToString: _(@"Magier")])
-        {
-          NSLog(@"applying Magierakademie modificators: %@", archetype.archetype);
-          talents = [[[Utils getMageAcademiesDict] objectForKey: archetype.mageAcademy] objectForKey: @"Talente"];
-          NSLog(@"Talents: %@", talents);
-        }
-      else
-        {
-          NSLog(@"not applying Magierakademie modificator to archetype: %@", archetype.archetype);
-        }
-      NSDictionary *equipment = [[[Utils getMageAcademiesDict] objectForKey: archetype.mageAcademy] objectForKey: @"Equipment"];
-      if (equipment)
-        {
-          for (NSString *itemName in [equipment allKeys])
-            {
-              NSDictionary *itemInfo = [equipment objectForKey: itemName];
-              NSMutableDictionary *itemDict = [[Utils getDSAObjectInfoByName: itemName] mutableCopy];
-              if ([itemInfo objectForKey: @"Sprüche"])
-                {
-                  [itemDict setObject: [itemInfo objectForKey: @"Sprüche"] forKey: @"Sprüche"];
-                }
-              NSLog(@"THE ITEM DICT: %@", itemDict);
-              DSAObject *item = [[DSAObject alloc] initWithObjectInfo: itemDict forOwner: archetype.modelID];
-              for (NSString *spellName in item.appliedSpells)
-                {
-                  [[item.appliedSpells objectForKey: spellName] applyEffectOnTarget: item forOwner: archetype];  
-                }
-              NSLog(@"AFTER CREATING ITEM %@", item);
-              if ([[itemInfo objectForKey: @"persönliches Objekt"] isEqualTo: @YES])
-                {
-                  [item setOwnerUUID: archetype.modelID];
-                }
-              [archetype.inventory addObject: item quantity: [[itemInfo objectForKey: @"Anzahl"] integerValue]];
-            }
-        }
-    }
-  else if ([@"Schamanenmodifikatoren" isEqualTo: modificator])
-    {
-      if ([archetype.archetype isEqualToString: _(@"Schamane")])
-        {
-          NSLog(@"applying Schamanenmodifikatoren origin: %@", archetype.origin);
-          talents = [[[Utils getShamanOriginsDict] objectForKey: archetype.origin] objectForKey: @"Talente"];
-          NSLog(@"Talents: %@", talents);
-        }
-      else
-        {
-          NSLog(@"not applying Schamanenmodifikatoren to archetype: %@", archetype.archetype);
-        }
-    }
-  else
-    {
-      NSLog(@"Don't know how to apply modificator: %@", modificator);
-    }  
-
-  // positive traits
-  if ([traits count] > 0)
-    {
-      for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
-        {
-          if ([[traits allKeys] containsObject: field])
-            {
-              [archetype setValue: [NSNumber numberWithInteger: [[archetype valueForKeyPath: [NSString stringWithFormat: @"positiveTraits.%@.level", field]] integerValue]  + 
-                                   [[traits objectForKey: field] integerValue]]
-                       forKeyPath: [NSString stringWithFormat: @"positiveTraits.%@.level", field]];
-            }
-        }
-      // negative traits
-      for (NSString *field in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
-        {
-          if ([[traits allKeys] containsObject: field])
-            {
-              [archetype setValue: [NSNumber numberWithInteger: [[archetype valueForKeyPath: [NSString stringWithFormat: @"negativeTraits.%@.level", field]] integerValue]  + 
-                                   [[traits objectForKey: field] integerValue]]
-                       forKeyPath: [NSString stringWithFormat: @"negativeTraits.%@.level", field]];
-            }
-        }
-    }
-  for (NSString *category in [talents allKeys])
-    {
-      if ([category isEqualTo: @"Kampftechniken"])
-        {
-          for (NSString *subCategory in [talents objectForKey: category])
-            {
-              for (NSString *talent in [[talents objectForKey: category] objectForKey: subCategory])
-                {
-                  NSLog(@"testing talent: %@", talent);
-                  NSInteger geschenk = [[archetype valueForKeyPath: [NSString stringWithFormat: @"talents.%@.level", talent]] integerValue] + 
-                                                                    [[[[talents objectForKey: category] objectForKey: subCategory] objectForKey: talent] integerValue];
-                  [archetype setValue: [NSNumber numberWithInteger: geschenk]
-                           forKeyPath: [NSString stringWithFormat: @"talents.%@.level", talent]];
-                }
-            }
-        }
-      else
-        {
-          for (NSString *talent in [[talents objectForKey: category] allKeys])
-            {
-              NSLog(@"testing talent: %@", talent);
-              NSInteger geschenk = [[archetype valueForKeyPath: [NSString stringWithFormat: @"talents.%@.level", talent]] integerValue] + [[[talents objectForKey: category] objectForKey: talent] integerValue];
-              [archetype setValue: [NSNumber numberWithInteger: geschenk]             
-                       forKeyPath: [NSString stringWithFormat: @"talents.%@.level", talent]];
-            }
-        }
-    }    
-}
-
-// lots of private methods here....
 
 // returns all relevant religions for a given Archetype in an array
 - (NSArray *) getReligionsForArchetype: (NSString *) archetype
@@ -525,323 +326,16 @@
   return traits;
 }
 
-- (void) addElvenSongsToCharacter: (DSACharacter *) character
-{
-  NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];    
-  for (NSString *song in [[Utils getElvenSongsDict] allKeys])
-    {
-      NSLog(@"checking song: %@", song);
-      DSASpellElvenSong *s = [[DSASpellElvenSong alloc] initSpell: song
-                                                         withTest: [[[Utils getElvenSongsDict] objectForKey: song] objectForKey: @"Probe" ]];                
-      [specialTalents setObject: s forKey: song];
-    }
-  [character setSpecials: specialTalents];  
-}
-
-- (void) addBlessedLiturgiesToCharacter: (DSACharacter *) character
-{
-  NSDictionary *blessedLiturgiesDict = [Utils getBlessedLiturgiesDict];
-  NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];    
-  for (NSString *category in [blessedLiturgiesDict allKeys])
-    {
-      if ([category isEqualToString: @"META"])
-        {
-          continue;
-        }    
-      for (NSString *liturgy in [blessedLiturgiesDict objectForKey: category])
-        {
-          if ([[[[blessedLiturgiesDict objectForKey: category] objectForKey: liturgy] objectForKey: @"Anwender"] containsObject: character.religion] ||
-              ([[[[blessedLiturgiesDict objectForKey: category] objectForKey: liturgy] objectForKey: @"Anwender"] count] == 0 && 
-              ![[[[blessedLiturgiesDict objectForKey: category] objectForKey: liturgy] objectForKey: @"Nicht Anwender"] containsObject: character.religion]))
-            {
-              DSALiturgy *l = [[DSALiturgy alloc] initLiturgy: liturgy
-                                                   ofCategory: category];
-              [specialTalents setObject: l forKey: liturgy];
-            }
-        }
-    }
-  [character setSpecials: specialTalents];  
-}
-
-- (void) addShamanRitualsToCharacter: (DSACharacter *) character
-{
-  NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];    
-  for (NSString *category in [[Utils getShamanRitualsDict] allKeys])
-    {
-      for (NSString *ritual in [[Utils getShamanRitualsDict] objectForKey: category])
-        {
-          if ([[[[[Utils getShamanRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Typen"] containsObject: [[self.popupOrigins selectedItem] title]])
-            {
-              DSASpellShamanRitual *r = [[DSASpellShamanRitual alloc] initSpell: ritual
-                                                                       withTest: [[[[Utils getShamanRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Probe" ]];
-              [specialTalents setObject: r forKey: ritual];
-            }
-        }
-    }
-  [character setSpecials: specialTalents];  
-}
-
-- (void) addSharisadDancesToCharacter: (DSACharacter *) character
-{
-  NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];
-  NSString *origin = character.origin;
-  NSString *religion = character.religion;
-NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");  
-  NSDictionary *dances = [[Utils getSharisadDancesDict] objectForKey: @"Magische Tänze"];
-  
-  for (NSString *dance in dances)
-    {
-      NSLog(@"THE DANCE: %@", dance);
-      if ([[dances objectForKey: dance] objectForKey: @"Glaube"])  // only in case Glaube is set, we have to ensure that the characters religion matches, otherwise, we don't care
-        {
-          NSLog(@"XXX %@ %@", [[dances objectForKey: dance] objectForKey: @"Glaube"], religion);
-          if (![[[dances objectForKey: dance] objectForKey: @"Glaube"] containsObject: religion])
-            {
-              NSLog(@"continuing...");
-              continue;
-            }
-        }
-      NSLog(@"now looking for origin: %@", origin);  
-      if ([[[dances objectForKey: dance] objectForKey: @"Typen"] containsObject: origin])
-        {
-          NSLog(@"yuck!");
-          DSASpellSharisadDance *d = [[DSASpellSharisadDance alloc] initSpell: dance
-                                                                     withTest: [[dances objectForKey: dance] objectForKey: @"Probe"]];
-          d.isTraditionSpell = YES;                                                                     
-          [specialTalents setObject: d forKey: dance];
-        }
-    }
-  NSLog(@"all the dances: %@", specialTalents);    
-  [character setSpecials: specialTalents];
-  character.isMagic = YES;
-  character.maxLevelUpSpellsTries = [character.specials count] * 3;  // depending on number of spells, see: Die Magie des Schwarzen Auges S. 48
-}
-
-- (void) addGeodeRitualsToCharacter: (DSACharacter *) character
-{
-  NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];    
-  for (NSString *category in [[Utils getGeodeRitualsDict] allKeys])
-    {
-      if ([category isEqualToString: @"META"])
-        {
-          continue;
-        }
-      for (NSString *ritual in [[Utils getGeodeRitualsDict] objectForKey: category])
-        {
-          if ([[[[[Utils getGeodeRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Typen"] containsObject: [[self.popupMageAcademies selectedItem] title]])
-            {
-              DSASpellGeodeRitual *r = [[DSASpellGeodeRitual alloc] initSpell: ritual
-                                                                   ofCategory: category
-                                                                     withTest: [[[[Utils getGeodeRitualsDict] objectForKey: category] objectForKey: ritual] objectForKey: @"Probe" ]
-                                                                    isLearned: NO];                                                          
-              [specialTalents setObject: r forKey: ritual];
-            }
-        }
-    }
-  [character setSpecials: specialTalents];  
-}
-
-- (void) addMageRitualsToCharacter: (DSACharacter *) character
-{
-  NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];    
-  for (NSString *category in [[Utils getMageRitualsDict] allKeys])
-    {
-      if ([category isEqualToString: @"META"])
-        {
-          continue;
-        }
-      for (NSString *ritual in [[Utils getMageRitualsDict] objectForKey: category])
-        {
-            NSDictionary *ritualDict = [[[Utils getMageRitualsDict] objectForKey: category] objectForKey: ritual];
-            DSASpellMageRitual *r = [DSASpellMageRitual ritualWithName: ritual
-                                                             ofVariant: [ritualDict objectForKey: @"Variante" ]
-                                                     ofDurationVariant: [ritualDict objectForKey: @"Dauer Variante" ]
-                                                            ofCategory: category
-                                                              withTest: [ritualDict objectForKey: @"Probe" ]
-                                                       withMaxDistance: [[ritualDict objectForKey: @"Maximale Entfernung" ] integerValue]
-                                                          withVariants: [ritualDict objectForKey: @"Varianten" ]
-                                                  withDurationVariants: [ritualDict objectForKey: @"Dauer Varianten" ]
-                                                           withPenalty: [[ritualDict objectForKey: @"Probenaufschlag" ] integerValue]
-                                                           withASPCost: [ritualDict objectForKey: @"ASP Kosten" ] ? [[ritualDict objectForKey: @"ASP Kosten" ] integerValue]: 0
-                                                  withPermanentASPCost: [ritualDict objectForKey: @"davon permanente ASP Kosten" ] ? [[ritualDict objectForKey: @"davon permanente ASP Kosten" ] integerValue]: 0
-                                                            withLPCost: [[ritualDict objectForKey: @"LP Kosten" ] integerValue] ? [[ritualDict objectForKey: @"LP Kosten" ] integerValue]: 0
-                                                   withPermanentLPCost: [ritualDict objectForKey: @"davon permanente LP Kosten" ] ? [[ritualDict objectForKey: @"davon permanente LP Kosten" ] integerValue]: 0];
-            if (!r)
-              {
-                r = [[DSASpellMageRitual alloc] initRitual: ritual
-                                                 ofVariant: [ritualDict objectForKey: @"Variante" ]
-                                         ofDurationVariant: [ritualDict objectForKey: @"Dauer Variante" ]
-                                                ofCategory: category
-                                                  withTest: [ritualDict objectForKey: @"Probe" ]
-                                           withMaxDistance: [[ritualDict objectForKey: @"Maximale Entfernung" ] integerValue]       
-                                              withVariants: [ritualDict objectForKey: @"Varianten" ]
-                                      withDurationVariants: [ritualDict objectForKey: @"Dauer Varianten" ]       
-                                               withPenalty: [[ritualDict objectForKey: @"Probenaufschlag" ] integerValue]
-                                               withASPCost: [ritualDict objectForKey: @"ASP Kosten" ] ? [[ritualDict objectForKey: @"ASP Kosten" ] integerValue]: 0
-                                      withPermanentASPCost: [ritualDict objectForKey: @"davon permanente ASP Kosten" ] ? [[ritualDict objectForKey: @"davon permanente ASP Kosten" ] integerValue]: 0
-                                                withLPCost: [[ritualDict objectForKey: @"LP Kosten" ] integerValue] ? [[ritualDict objectForKey: @"LP Kosten" ] integerValue]: 0
-                                       withPermanentLPCost: [ritualDict objectForKey: @"davon permanente LP Kosten" ] ? [[ritualDict objectForKey: @"davon permanente LP Kosten" ] integerValue]: 0];              
-              }
-            [specialTalents setObject: r forKey: ritual];
-        }
-    }
-  [character setSpecials: specialTalents];  
-}
-
-- (void) addMischievousPranksToCharacter: (DSACharacter *) character
-{
-  NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];    
-  for (NSString *prank in [[Utils getMischievousPranksDict] allKeys])
-    {
-      NSLog(@"checking prank: %@", prank);
-      DSASpellMischievousPrank *p = [[DSASpellMischievousPrank alloc] initSpell: prank
-                                                                       withTest: [[[Utils getMischievousPranksDict] objectForKey: prank] objectForKey: @"Probe" ]
-                                                                      isLearned: NO];                                                          
-      [specialTalents setObject: p forKey: prank];
-    }
-  [character setSpecials: specialTalents];  
-}
-
-- (void) addWitchCursesToCharacter: (DSACharacter *) character
-{
-  NSDictionary *curses = [[Utils getWitchCursesDict] objectForKey: @"Flüche"];
-
-  NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];    
-  for (NSString *curse in [curses allKeys])
-    {
-      NSLog(@"checking curse: %@", curse);
-      DSASpellWitchCurse *spell = [[DSASpellWitchCurse alloc] initSpell: curse
-                                                               withTest: @[ @"KL", @"IN", @"CH", [[curses objectForKey: curse] objectForKey: @"PenaltyLernen"]]
-                                                              isLearned: NO];                                                          
-      [specialTalents setObject: spell forKey: curse];
-    }
-  [character setSpecials: specialTalents];  
-}
-
-- (void) addDruidRitualsToCharacter: (DSACharacter *) character
-{
-  NSMutableDictionary * specialTalents = [[NSMutableDictionary alloc] init];
-  if ([character specials]) // there might be shaman rituals already
-    {
-      specialTalents = [[character specials] mutableCopy];  
-    }
-  for (NSString *category in [[Utils getDruidRitualsDict] allKeys])
-    {
-      if ([category isEqualToString: @"META"])
-        {
-          continue;
-        }
-      for (NSString *ritualName in [[[Utils getDruidRitualsDict] objectForKey: category] allKeys])
-        {
-          NSLog(@"Checking if Typen contains: %@ XXX %@", character.archetype, [[[[Utils getDruidRitualsDict] objectForKey: category] objectForKey: ritualName] objectForKey: @"Typen"]);
-          NSDictionary *ritualDict = [[[Utils getDruidRitualsDict] objectForKey: category] objectForKey: ritualName];
-          if ([[ritualDict objectForKey: @"Typen"] containsObject: character.archetype])
-            {
-             /* DSASpellDruidRitual *spell = [[DSASpellDruidRitual alloc] initSpell: spellName
-                                                                        ofVariant: [ritualDict objectForKey: @"Variante"]
-                                                                ofDurationVariant: [ritualDict objectForKey: @"Dauer Variante"]
-                                                                       ofCategory: category
-                                                                          onLevel: 0
-                                                                       withOrigin: nil
-                                                                         withTest: [ritualDict objectForKey: @"Probe"]
-                                                                     withVariants: [ritualDict objectForKey: @"Varianten"]
-                                                             withDurationVariants: [ritualDict objectForKey: @"Dauer Varianten"]
-                                                           withMaxTriesPerLevelUp: 0
-                                                                withMaxUpPerLevel: 0
-                                                                  withLevelUpCost: 0];
-               */                                                   
-            NSDictionary *ritialDict = [[[Utils getDruidRitualsDict] objectForKey: category] objectForKey: ritualName];
-            DSASpellDruidRitual *r = [DSASpellDruidRitual ritualWithName: ritualName
-                                                               ofVariant: [ritialDict objectForKey: @"Variante" ]
-                                                       ofDurationVariant: [ritialDict objectForKey: @"Dauer Variante" ]
-                                                              ofCategory: category
-                                                                withTest: [ritialDict objectForKey: @"Probe" ]
-                                                         withMaxDistance: [[ritialDict objectForKey: @"Maximale Entfernung" ] integerValue]         
-                                                            withVariants: [ritialDict objectForKey: @"Varianten" ]
-                                                    withDurationVariants: [ritialDict objectForKey: @"Dauer Varianten" ]
-                                                             withPenalty: [[ritialDict objectForKey: @"Probenaufschlag" ] integerValue]
-                                                             withASPCost: [ritialDict objectForKey: @"ASP Kosten" ] ? [[ritialDict objectForKey: @"ASP Kosten" ] integerValue]: 0
-                                                    withPermanentASPCost: [ritialDict objectForKey: @"davon permanente ASP Kosten" ] ? [[ritialDict objectForKey: @"davon permanente ASP Kosten" ] integerValue]: 0
-                                                              withLPCost: [[ritialDict objectForKey: @"LP Kosten" ] integerValue] ? [[ritialDict objectForKey: @"LP Kosten" ] integerValue]: 0
-                                                     withPermanentLPCost: [ritialDict objectForKey: @"davon permanente LP Kosten" ] ? [[ritialDict objectForKey: @"davon permanente LP Kosten" ] integerValue]: 0];
-            if (!r)  
-              {
-                r = [[DSASpellDruidRitual alloc] initRitual: ritualName
-                                                  ofVariant: [ritialDict objectForKey: @"Variante" ]
-                                          ofDurationVariant: [ritialDict objectForKey: @"Dauer Variante" ]
-                                                 ofCategory: category
-                                                   withTest: [ritialDict objectForKey: @"Probe" ]
-                                            withMaxDistance: [[ritialDict objectForKey: @"Maximale Entfernung" ] integerValue]
-                                               withVariants: [ritialDict objectForKey: @"Varianten" ]
-                                       withDurationVariants: [ritialDict objectForKey: @"Dauer Varianten" ]       
-                                                withPenalty: [[ritialDict objectForKey: @"Probenaufschlag" ] integerValue]
-                                                withASPCost: [ritialDict objectForKey: @"ASP Kosten" ] ? [[ritialDict objectForKey: @"ASP Kosten" ] integerValue]: 0
-                                       withPermanentASPCost: [ritialDict objectForKey: @"davon permanente ASP Kosten" ] ? [[ritialDict objectForKey: @"davon permanente ASP Kosten" ] integerValue]: 0
-                                                 withLPCost: [[ritialDict objectForKey: @"LP Kosten" ] integerValue] ? [[ritialDict objectForKey: @"LP Kosten" ] integerValue]: 0
-                                        withPermanentLPCost: [ritialDict objectForKey: @"davon permanente LP Kosten" ] ? [[ritialDict objectForKey: @"davon permanente LP Kosten" ] integerValue]: 0];              
-              }                                                                  
-                                                                  
-                                                                  
-              [specialTalents setObject: r forKey: ritualName];
-               NSLog(@"YES");              
-            }
-          else
-            {
-               NSLog(@"NO");
-            }
-        }
-    }
-    NSLog(@"specialTalents: %@", specialTalents);
-  [character setSpecials: specialTalents];
-}
-
-- (void) addEquipmentToCharacter: (DSACharacter *) character
-{
-  NSDictionary *equipmentDict = [[[[[Utils getArchetypesDict] objectForKey: [character archetype]] objectForKey: @"Herkunft"] objectForKey: [character socialStatus]] objectForKey: @"Equipment"];
-  NSLog(@"The EQUIPMENT DICT: %@", equipmentDict);
-  for (NSString *equipment in equipmentDict)
-    {
-      NSDictionary *tEquipment = [equipmentDict objectForKey: equipment];
-      DSAObject *item;
-      NSLog(@"GOT THIS tEquipment HERE: %@", tEquipment);
-      
-      
-      if ([tEquipment objectForKey: @"Sprüche"])
-        {
-          NSMutableDictionary *eEquipment = [[Utils getDSAObjectInfoByName: equipment] mutableCopy];
-          NSLog(@"THE eEquipment: %@", eEquipment);
-          [eEquipment setObject: [tEquipment objectForKey: @"Sprüche"] forKey: @"Sprüche"];
-          NSLog(@"AGAIN THE eEquipment: %@", eEquipment);          
-          item = [[DSAObject alloc] initWithObjectInfo: eEquipment forOwner: character.modelID];
-          for (NSString *spellName in item.appliedSpells)
-            {
-              [[item.appliedSpells objectForKey: spellName] applyEffectOnTarget: item forOwner: character];
-              
-            }
-        }
-      else
-        {
-          item = [[DSAObject alloc] initWithName: equipment forOwner: character.modelID];
-        }
-      
-      NSLog(@"DSACharacterGenerationController: addEquipmentToCharacter %@", item.name);
-      [character.inventory addObject: item
-                            quantity: [[[equipmentDict objectForKey: equipment] objectForKey: @"Anzahl"] integerValue]];
-    } 
-  NSLog(@"THE INVENTORY: %@", character.inventory);
-}
-
 - (void) makeCharacterAMagicalDabbler
 {
 
   NSLog(@"makeCharacterAMagicalDabbler called");
   [self.generatedCharacter setIsMagicalDabbler: YES];
-  NSInteger diceResult = [Utils rollDice: @"1W20"];
-  self.magicalDabblerDiceResult = diceResult;
+  self.magicalDabblerDiceResult = [Utils rollDice: @"1W20"];
   
-  NSInteger ae = [Utils rollDice: @"1W6"] + 3;
-  [self.generatedCharacter setAstralEnergy: ae];
-  [self.generatedCharacter setCurrentAstralEnergy: ae];  
+  self.magicalDabblerAE = [Utils rollDice: @"1W6"] + 3;
+  [self.generatedCharacter setAstralEnergy: self.magicalDabblerAE];
+  [self.generatedCharacter setCurrentAstralEnergy: self.magicalDabblerAE];  
   
   NSString *headline;
   NSString *secondLine;
@@ -853,41 +347,41 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
     }
   [self.windowMagicalDabbler makeKeyAndOrderFront:nil];  
     
-  if (diceResult == 1)
+  if (self.magicalDabblerDiceResult == 1)
     {
       headline = [NSString stringWithFormat: _(@"%@ besitzt %ld AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen. Weiterhin kann er 3 Zauber aus der unten stehenden Liste wählen."),
-                                             [self.generatedCharacter name], (signed long)ae];
+                                             [self.generatedCharacter name], (signed long)self.magicalDabblerAE];
       secondLine = _(@"3 Zaubersprüche auswählen");
       self.magicalDabblerMaxSwitchesToBeSelected = 3;
       [self.buttonMagicalDabblerFinish setEnabled: NO];
     }
-  else if (diceResult >= 2 && diceResult <= 6)
+  else if (self.magicalDabblerDiceResult >= 2 && self.magicalDabblerDiceResult <= 6)
     {
       headline = [NSString stringWithFormat: _(@"%@ besitzt %ld AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen. Weiterhin kann er 2 Zauber aus der unten stehenden Liste wählen."),
-                                             [self.generatedCharacter name], (signed long)ae];
+                                             [self.generatedCharacter name], (signed long)self.magicalDabblerAE];
       secondLine = _(@"2 Zaubersprüche auswählen");                                                   
       self.magicalDabblerMaxSwitchesToBeSelected = 2; 
       [self.buttonMagicalDabblerFinish setEnabled: NO];     
     }
-  else if (diceResult >= 7 && diceResult <= 15)    
+  else if (self.magicalDabblerDiceResult >= 7 && self.magicalDabblerDiceResult <= 15)    
     {
       headline = [NSString stringWithFormat: _(@"%@ besitzt %ld AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen. Weiterhin kann er 1 Zauber aus der unten stehenden Liste wählen."),
-                                             [self.generatedCharacter name], (signed long)ae];
+                                             [self.generatedCharacter name], (signed long)self.magicalDabblerAE];
       secondLine = _(@"1 Zauberspruch auswählen");                                                   
       self.magicalDabblerMaxSwitchesToBeSelected = 1; 
       [self.buttonMagicalDabblerFinish setEnabled: NO];     
     }
-  else if (diceResult >= 16 && diceResult <= 19)
+  else if (self.magicalDabblerDiceResult >= 16 && self.magicalDabblerDiceResult <= 19)
     {
       headline = [NSString stringWithFormat: _(@"%@ besitzt %ld AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen."),
-                                             [self.generatedCharacter name], (signed long)ae];
+                                             [self.generatedCharacter name], (signed long)self.magicalDabblerAE];
       secondLine = @"";  
       [self.buttonMagicalDabblerFinish setEnabled: YES];    
     }
-  else if (diceResult == 20)
+  else if (self.magicalDabblerDiceResult == 20)
     {
       headline = [NSString stringWithFormat: _(@"%@ besitzt %ld AE und kann seine AE für einen 'Schutzgeist' oder das 'Magische Meisterhandwerk' einsetzen."),
-                                             [self.generatedCharacter name], (signed long)ae];
+                                             [self.generatedCharacter name], (signed long)self.magicalDabblerAE];
       secondLine = _(@"Auswählen");     
       self.magicalDabblerMaxSwitchesToBeSelected = 1; 
       [self.buttonMagicalDabblerFinish setEnabled: NO];     
@@ -895,7 +389,7 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
 
   [self.fieldHeadline setStringValue: headline];
   [self.fieldSecondLine setStringValue: secondLine];
-  if (diceResult >= 1 && diceResult <= 15)
+  if (self.magicalDabblerDiceResult >= 1 && self.magicalDabblerDiceResult <= 15)
     {
       NSArray *magicalDabblerSpells = [[Utils getMagicalDabblerSpellsDict] allValues];
       NSLog(@"magicalDabblerSpells: %@", magicalDabblerSpells);
@@ -911,7 +405,7 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
           [[self valueForKey: fieldName] setTitle: [allSpells objectAtIndex: i]];
         }
     }
-  else if (diceResult >= 16 && diceResult <= 19)
+  else if (self.magicalDabblerDiceResult >= 16 && self.magicalDabblerDiceResult <= 19)
     {
       for (NSInteger i=0; i< 20; i++)
         {
@@ -920,7 +414,7 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
           [[self valueForKey: fieldName] setEnabled: NO];          
         }      
     }
-  else if (diceResult == 20)
+  else if (self.magicalDabblerDiceResult == 20)
     {
       [self.switchMagicalDabbler0 setTitle: _(@"Schutzgeist")];
       [self.switchMagicalDabbler1 setTitle: _(@"Magisches Meisterhandwerk")];      
@@ -986,15 +480,15 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
       for (NSInteger i=0; i< 19; i++)
         {
           NSString *fieldName = [NSString stringWithFormat: @"switchMagicalDabbler%li", i];
-
-          if ([[self valueForKey: fieldName] state] == 1)
+          NSButton *button = [self valueForKey: fieldName];
+          if ([button state] == 1)
             {
-               NSLog(@"testing spell: %@", [[self valueForKey: fieldName] title]);
+               NSLog(@"testing spell: %@", [button title]);
                for (NSString *category in spells)
                  {
                     for (NSString *s in [spells objectForKey: category])
                       {
-                        if ([s isEqualToString: [[self valueForKey: fieldName] title]])
+                        if ([s isEqualToString: [button title]])
                           {
                             NSDictionary *sDict = [[spells objectForKey: category] objectForKey: s];
                             DSASpell *spell = [[DSASpell alloc] initSpell: s
@@ -1020,16 +514,47 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
     }
   else if (self.magicalDabblerDiceResult >= 16 && self.magicalDabblerDiceResult <= 19)
     {
-      [(DSACharacterHero *)self.generatedCharacter setSpecials: [NSMutableDictionary dictionaryWithDictionary: @{ _(@"Schutzgeist"): @{}, _(@"Magisches Meisterhandwerk"): @{}}]];
+      NSMutableDictionary * newTalents = [[NSMutableDictionary alloc] init];    
+      for (NSString *specialTalent in @[_(@"Schutzgeist"), _(@"Magisches Meisterhandwerk")])
+        {
+          DSASpecialTalent *talent = [[DSASpecialTalent alloc] initTalent: specialTalent
+                                                               ofCategory: _(@"Spezialtalent")
+                                                                  onLevel: 0
+                                                                 withTest: nil
+                                                   withMaxTriesPerLevelUp: 0
+                                                        withMaxUpPerLevel: 0
+                                                          withLevelUpCost: 0];
+          if ([specialTalent isEqualToString: _(@"Magisches Meisterhandwerk")])                                             
+            {
+              [talent setTest: @[ @"IN"] ];
+            }
+          [newTalents setObject: talent forKey: specialTalent];
+        }    
+      [(DSACharacterHero *)self.generatedCharacter setSpecials: newTalents];
     }
   else if (self.magicalDabblerDiceResult == 20)
     {
       for (NSInteger i=0; i< 2; i++)
         {
           NSString *fieldName = [NSString stringWithFormat: @"switchMagicalDabbler%li", i];
-          if ([[self valueForKey: fieldName] state] == 1)
+          NSButton *button = [self valueForKey: fieldName];          
+          if ([button state] == 1)
             {
-              [(DSACharacterHero *)self.generatedCharacter setSpecials: [NSMutableDictionary dictionaryWithDictionary: @{ [[self valueForKey: fieldName] title]: @{}}]];
+              NSString *specialTalent = [button title];
+              NSMutableDictionary * newTalents = [[NSMutableDictionary alloc] init];    
+              DSASpecialTalent *talent = [[DSASpecialTalent alloc] initTalent: specialTalent
+                                                                   ofCategory: _(@"Spezialtalent")
+                                                                      onLevel: 0
+                                                                     withTest: nil
+                                                       withMaxTriesPerLevelUp: 0
+                                                            withMaxUpPerLevel: 0
+                                                              withLevelUpCost: 0];
+              if ([specialTalent isEqualToString: _(@"Magisches Meisterhandwerk")])                                             
+                {
+                  [talent setTest: @[ @"IN"] ];
+                }
+              [newTalents setObject: talent forKey: specialTalent];
+              [(DSACharacterHero *)self.generatedCharacter setSpecials: newTalents];
               break;
             }
         }
