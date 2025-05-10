@@ -99,7 +99,7 @@
     {
       [self apply: modificator toCharacter: self.character];
     }
-  
+  [self makeCharacterAMagicalDabblerFromParameters: parameters];
   [self addEquipmentToCharacter];
     
   return self.character;
@@ -2832,8 +2832,80 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
   NSLog(@"THE INVENTORY: %@", character.inventory);
 }
 
+-(void) makeCharacterAMagicalDabblerFromParameters: (NSDictionary *)parameters
+{
+  NSLog(@"DSACharacterGenerator makeCharacterAMagicalDabblerFromParameters called");
+  NSDictionary *magicalDabblerInfo = [parameters objectForKey: @"magicalDabblerInfo"];
+  NSLog(@"DSACharacterGenerator makeCharacterAMagicalDabblerFromParameters magicalDabblerInfo: %@", magicalDabblerInfo);
+  BOOL isMagicalDabbler = [[magicalDabblerInfo objectForKey: @"isMagicalDabbler"] boolValue];
+  if (! isMagicalDabbler)
+    {
+      return;
+    }
+  NSArray *spells = [magicalDabblerInfo objectForKey: @"spells"];
+  NSArray *specialTalents = [magicalDabblerInfo objectForKey: @"specialTalents"];
+  
+  DSACharacter *character = self.character;
+  character.isMagicalDabbler = isMagicalDabbler;
+  character.astralEnergy = [[magicalDabblerInfo objectForKey: @"AE"] integerValue];
+  character.currentAstralEnergy = character.astralEnergy;
+
+  NSMutableDictionary * newTalents = [[NSMutableDictionary alloc] init];        
+  for (NSString *specialTalent in specialTalents)
+    {
+        NSLog(@"Checking specialTalent: %@", specialTalent);
+        DSASpecialTalent *talent = [[DSASpecialTalent alloc] initTalent: specialTalent
+                                                             ofCategory: _(@"Spezialtalent")
+                                                                onLevel: 0
+                                                               withTest: nil
+                                                 withMaxTriesPerLevelUp: 0
+                                                      withMaxUpPerLevel: 0
+                                                        withLevelUpCost: 0];
+        if ([specialTalent isEqualToString: _(@"Magisches Meisterhandwerk")])                                             
+          {
+            [talent setTest: @[ @"IN"] ];
+          }
+        NSLog(@"created Talent: %@", talent);
+        [newTalents setObject: talent forKey: specialTalent];
+    }
+  [self.character setSpecials: newTalents];
+  NSLog(@"THE magical dabbler talents: %@", newTalents);
+  NSMutableDictionary *newSpells = [[NSMutableDictionary alloc] init];
+  NSDictionary *spellsDict = [[NSDictionary alloc] init];
+  spellsDict = [Utils getSpellsForCharacter: character];
+
+  for (NSString *spellName in spells)
+    {
+      for (NSString *category in spellsDict)
+        {
+           for (NSString *s in [spellsDict objectForKey: category])
+             {
+               if ([s isEqualToString: spellName])
+                 {
+                    NSDictionary *sDict = [[spellsDict objectForKey: category] objectForKey: s];
+                    DSASpell *spell = [[DSASpell alloc] initSpell: s
+                                                        ofVariant: [sDict objectForKey: @"Variante"]
+                                                ofDurationVariant: [sDict objectForKey: @"Dauer Variante"]
+                                                       ofCategory: category
+                                                          onLevel: 0               // See Compendium Salamandris S. 29
+                                                       withOrigin: [sDict objectForKey: @"Ursprung"]
+                                                         withTest: [sDict objectForKey: @"Probe"]
+                                                  withMaxDistance: [[sDict objectForKey: @"Maximale Entfernung"] integerValue]
+                                                     withVariants: [sDict objectForKey: @"Varianten"]
+                                             withDurationVariants: [sDict objectForKey: @"Dauer Varianten"]        
+                                           withMaxTriesPerLevelUp: 3
+                                                withMaxUpPerLevel: 1
+                                                  withLevelUpCost: 2]; 
+                    [newSpells setObject: spell forKey: s];
+                 }
+             }
+         }
+    }
+  [self.character setSpells: newSpells];
+  NSLog(@"the magical dabbler spells: %@", newSpells);
+           
+}
+
 @end
-
-
 
 

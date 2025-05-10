@@ -125,6 +125,8 @@
 
 - (void)createCharacter:(id)sender
 {
+  NSLog(@"DSACharacterGenerationController createCharacter called!");
+
   DSACharacterGenerator *generator = [[DSACharacterGenerator alloc] init];
   NSMutableDictionary *characterParameters = [[NSMutableDictionary alloc] init];
 
@@ -203,12 +205,17 @@
                          forKey: field];  
     }
   [characterParameters setObject: negativeTraits forKey: @"negativeTraits"];
-                
+  if (self.magicalDabblerInfo)
+    {
+      [characterParameters setObject: self.magicalDabblerInfo forKey: @"magicalDabblerInfo"];
+    }
+  NSLog(@"DSACharacterGenerationController calling character generator!");              
   DSACharacter *newCharacter = [generator generateCharacterWithParameters: characterParameters];
+  NSLog(@"DSACharacterGenerationController createCharacter created!");
 
-  NSLog(@"DSACharacterGenerationController: assigned equipment to newCharacter");
   // Store the generated character
   self.generatedCharacter = newCharacter;
+  NSLog(@"DSACharacterGenerationController createCharacter finished!");
 }
 
 // Call this once the character generation process is complete
@@ -330,12 +337,13 @@
 {
 
   NSLog(@"makeCharacterAMagicalDabbler called");
-  [self.generatedCharacter setIsMagicalDabbler: YES];
+  NSString *characterName = [self.fieldName stringValue];
+  self.magicalDabblerInfo = [[NSMutableDictionary alloc] init];
+  [self.magicalDabblerInfo setObject: [NSNumber numberWithBool: YES] forKey: @"isMagicalDabbler"];
   self.magicalDabblerDiceResult = [Utils rollDice: @"1W20"];
   
-  self.magicalDabblerAE = [Utils rollDice: @"1W6"] + 3;
-  [self.generatedCharacter setAstralEnergy: self.magicalDabblerAE];
-  [self.generatedCharacter setCurrentAstralEnergy: self.magicalDabblerAE];  
+  NSInteger ae = [Utils rollDice: @"1W6"] + 3;
+  [self.magicalDabblerInfo setObject: [NSNumber numberWithInteger: ae] forKey: @"AE"];
   
   NSString *headline;
   NSString *secondLine;
@@ -350,7 +358,7 @@
   if (self.magicalDabblerDiceResult == 1)
     {
       headline = [NSString stringWithFormat: _(@"%@ besitzt %ld AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen. Weiterhin kann er 3 Zauber aus der unten stehenden Liste wählen."),
-                                             [self.generatedCharacter name], (signed long)self.magicalDabblerAE];
+                                             characterName, (signed long)ae];
       secondLine = _(@"3 Zaubersprüche auswählen");
       self.magicalDabblerMaxSwitchesToBeSelected = 3;
       [self.buttonMagicalDabblerFinish setEnabled: NO];
@@ -358,7 +366,7 @@
   else if (self.magicalDabblerDiceResult >= 2 && self.magicalDabblerDiceResult <= 6)
     {
       headline = [NSString stringWithFormat: _(@"%@ besitzt %ld AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen. Weiterhin kann er 2 Zauber aus der unten stehenden Liste wählen."),
-                                             [self.generatedCharacter name], (signed long)self.magicalDabblerAE];
+                                             characterName, (signed long) ae];
       secondLine = _(@"2 Zaubersprüche auswählen");                                                   
       self.magicalDabblerMaxSwitchesToBeSelected = 2; 
       [self.buttonMagicalDabblerFinish setEnabled: NO];     
@@ -366,7 +374,7 @@
   else if (self.magicalDabblerDiceResult >= 7 && self.magicalDabblerDiceResult <= 15)    
     {
       headline = [NSString stringWithFormat: _(@"%@ besitzt %ld AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen. Weiterhin kann er 1 Zauber aus der unten stehenden Liste wählen."),
-                                             [self.generatedCharacter name], (signed long)self.magicalDabblerAE];
+                                             characterName, (signed long) ae];
       secondLine = _(@"1 Zauberspruch auswählen");                                                   
       self.magicalDabblerMaxSwitchesToBeSelected = 1; 
       [self.buttonMagicalDabblerFinish setEnabled: NO];     
@@ -374,14 +382,14 @@
   else if (self.magicalDabblerDiceResult >= 16 && self.magicalDabblerDiceResult <= 19)
     {
       headline = [NSString stringWithFormat: _(@"%@ besitzt %ld AE und kann seine AE für einen 'Schutzgeist' und das 'Magische Meisterhandwerk' einsetzen."),
-                                             [self.generatedCharacter name], (signed long)self.magicalDabblerAE];
+                                             characterName, (signed long) ae];
       secondLine = @"";  
       [self.buttonMagicalDabblerFinish setEnabled: YES];    
     }
   else if (self.magicalDabblerDiceResult == 20)
     {
       headline = [NSString stringWithFormat: _(@"%@ besitzt %ld AE und kann seine AE für einen 'Schutzgeist' oder das 'Magische Meisterhandwerk' einsetzen."),
-                                             [self.generatedCharacter name], (signed long)self.magicalDabblerAE];
+                                             characterName, (signed long) ae];
       secondLine = _(@"Auswählen");     
       self.magicalDabblerMaxSwitchesToBeSelected = 1; 
       [self.buttonMagicalDabblerFinish setEnabled: NO];     
@@ -429,9 +437,9 @@
 
 - (IBAction) switchMagicalDabblerSelected: (id)sender
 {
-  NSLog(@"switchMagicalDabblerSelected called");
+  NSLog(@"switchMagicalDabblerSelected called %@", [sender title]);
   NSInteger counter = 0;
-  for (NSInteger i=0; i< 19; i++)
+  for (NSInteger i=0; i<= 19; i++)
     {
       NSString *fieldName = [NSString stringWithFormat: @"switchMagicalDabbler%li", i];
       if ([[self valueForKey: fieldName] state] == 1)
@@ -450,6 +458,53 @@
 }
 
 - (IBAction) buttonMagicalDabblerFinish: (id)sender
+{
+
+  NSLog(@"buttonMagicalDabblerFinish have to do the magical dabbler thing on the generated character...");
+  
+  if (self.magicalDabblerDiceResult >= 1 && self.magicalDabblerDiceResult <= 15)
+    {
+      [self.magicalDabblerInfo setObject: @[_(@"Schutzgeist"), _(@"Magisches Meisterhandwerk")] forKey: @"specialTalents"];
+
+      NSMutableArray *newSpells = [[NSMutableArray alloc] init];
+      for (NSInteger i=0; i <= 19; i++)
+        {
+          NSString *fieldName = [NSString stringWithFormat: @"switchMagicalDabbler%li", i];
+          NSButton *button = [self valueForKey: fieldName];
+          if ([button state] == 1)
+            {
+               NSLog(@"testing spell: %@", [button title]);
+               [newSpells addObject: [button title]];
+            }
+        }
+      [self.magicalDabblerInfo setObject: newSpells forKey: @"spells"];
+    }
+  else if (self.magicalDabblerDiceResult >= 16 && self.magicalDabblerDiceResult <= 19)
+    {
+       [self.magicalDabblerInfo setObject: @[_(@"Schutzgeist"), _(@"Magisches Meisterhandwerk")] forKey: @"specialTalents"];
+    }
+  else if (self.magicalDabblerDiceResult == 20)
+    {
+      for (NSInteger i=0; i< 2; i++)
+        {
+          NSString *fieldName = [NSString stringWithFormat: @"switchMagicalDabbler%li", i];
+          NSButton *button = [self valueForKey: fieldName];          
+          if ([button state] == 1)
+            {
+              [self.magicalDabblerInfo setObject: @[[button title]] forKey: @"specialTalents"];
+              break;
+            }
+        }
+    }
+  NSLog(@"Going to create the character!");
+  [self createCharacter:sender];    
+  NSLog(@"Going to close the magical dabbler window");
+  [self.windowMagicalDabbler close];
+  NSLog(@"going to complete character generation");
+  [self completeCharacterGeneration];  
+}
+
+- (IBAction) buttonMagicalDabblerFinishXXX: (id)sender
 {
 
   NSLog(@"buttonMagicalDabblerFinish have to do the magical dabbler thing on the generated character...");
@@ -1037,8 +1092,8 @@ NSLog(@"popupCategorySelected called!");
       [self.fieldName setBackgroundColor: [NSColor redColor]];    
     }                                                                                                                                              
 }
-                                                                        
-- (IBAction)buttonFinishClicked:(id)sender
+
+- (IBAction)buttonFinishClickedXXX:(id)sender
 {
   // Validate all required fields, create the appropriate character subclass
   [self createCharacter:sender];
@@ -1064,6 +1119,23 @@ NSLog(@"popupCategorySelected called!");
     { 
       // Complete the character generation and trigger the completion handler
       NSLog(@"DSACharacterGenerationController buttonFinishClicked: not a magical dabbler, going to complete character generation");
+      [self completeCharacterGeneration];
+    }
+}
+                                                                        
+- (IBAction)buttonFinishClicked:(id)sender
+{
+
+  if ([self.popupMageAcademies isEnabled] && 
+      ![self.generatedCharacter isMagic] && 
+      [[[self.popupMageAcademies selectedItem] title] isEqualToString: _(@"Ja")])
+    {  
+       [self makeCharacterAMagicalDabbler];
+    }
+  else
+    {
+      // we do the same at the end of the makeCharacterAMagicalDabbler flow
+      [self createCharacter:sender];
       [self completeCharacterGeneration];
     }
 }
