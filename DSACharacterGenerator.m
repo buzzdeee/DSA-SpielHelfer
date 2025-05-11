@@ -43,27 +43,32 @@
 {
   NSString *archetype = [self resolveArchetypeFromParameters:parameters];
   
-  
   // Order below is important
   self.character = [DSACharacter characterWithType: archetype];
-  self.character.isNPC = [self shouldMarkAsNPCFromParameters: parameters];
-  self.character.isMagicalDabbler = [self shouldMarkAsMagicalDabblerFromParameters: parameters];
-  self.character.archetype = archetype;
+  self.character.isNPC = [self shouldMarkAsNPCFromParameters: parameters]; 
+  // self.character.isMagicalDabbler = [self shouldMarkAsMagicalDabblerFromParameters: parameters];
+  self.character.archetype = archetype;  
   self.character.sex = [self resolveSexFromParameters: parameters];
-  self.character.name = [self resolveNameFromParameters: parameters];
   self.character.title = [self resolveTitleFromParameters: parameters];
   self.character.origin = [self resolveOriginFromParameters: parameters];
-  self.character.professions = [self resolveProfessionFromParameters: parameters];
+  self.character.professions = [self resolveProfessionFromParameters: parameters]; 
   self.character.element = [self resolveElementFromParameters: parameters];
+
   self.character.religion = [self resolveReligionFromParameters: parameters];
+
   self.character.hairColor = [self resolveHairColorFromParameters: parameters];
   self.character.eyeColor = [self resolveEyeColorFromParameters: parameters];
+  
+  if (![[parameters objectForKey: @"isNPC"] boolValue])
+    {   
+            
   self.character.height = [self resolveHeightFromParameters: parameters];
   self.character.weight = [self resolveWeightFromParameters: parameters];
   self.character.birthday = [self resolveBirthdayFromParameters: parameters];
   self.character.god = [self resolveGodFromParameters: parameters];
   self.character.stars = [self resolveStarsFromParameters: parameters];
   self.character.socialStatus = [self resolveSocialStatusFromParameters: parameters];
+  self.character.name = [self resolveNameFromParameters: parameters];
   self.character.parents = [self resolveParentsFromParameters: parameters];
   self.character.siblings = [self resolveSiblingsFromParameters: parameters];
   self.character.money = [self resolveWealthFromParameters: parameters];
@@ -101,7 +106,7 @@
     }
   [self makeCharacterAMagicalDabblerFromParameters: parameters];
   [self addEquipmentToCharacter];
-    
+} // end of if !isNPC
   return self.character;
 }
 
@@ -117,16 +122,30 @@
     return [parameters[@"isMagicalDabbler"] boolValue];
 }
 - (NSString *)resolveSexFromParameters:(NSDictionary *)parameters {
+    NSString *archetype = parameters[@"archetype"];
     NSString *sex = parameters[@"sex"];
+    // proper characters always have sex set
     if (sex && [sex length] > 0)
       {
         return sex;
       }
-    else
-      {
-        return @"Ohne Geschlecht";
-      }
+  
+  NSDictionary *charConstraints = [[NSDictionary alloc] init];
+  if ([self.character isKindOfClass: [DSACharacterHero class]])
+    {
+      charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getArchetypesDict] objectForKey: archetype]];
+    }
+  else
+    {
+      charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+    }
+      
+  NSArray *gender = [charConstraints objectForKey: @"Geschlecht"];
+  NSUInteger randomIndex = arc4random_uniform((uint32_t) [gender count]);
+  
+  return [gender objectAtIndex: randomIndex];
 }
+
 - (NSString *)resolveNameFromParameters:(NSDictionary *)parameters {
     NSString *name = parameters[@"name"];
     if (name && [name length] > 0)
@@ -270,16 +289,26 @@
     
   NSString *origin = self.character.origin;
   NSString *archetype = self.character.archetype;
-  
+
+  NSDictionary *charConstraints = [[NSDictionary alloc] init];
+  if ([self.character isKindOfClass: [DSACharacterHero class]])
+    {
+      charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getArchetypesDict] objectForKey: archetype]];
+    }
+  else
+    {
+      charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+    }  
+    
   NSDictionary *hairConstraint;
   
   if ([archetype isEqualToString: _(@"Schamane")])
     {
-      hairConstraint = [NSDictionary dictionaryWithDictionary: [[[[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Typus"] objectForKey: origin] objectForKey: @"Haarfarbe"]];
+      hairConstraint = [NSDictionary dictionaryWithDictionary: [[[charConstraints objectForKey: @"Typus"] objectForKey: origin] objectForKey: @"Haarfarbe"]];
     }
   else
     {
-      hairConstraint = [NSDictionary dictionaryWithDictionary: [[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Haarfarbe"]];    
+      hairConstraint = [NSDictionary dictionaryWithDictionary: [charConstraints objectForKey: @"Haarfarbe"]];    
     }
   NSInteger diceResult = [Utils rollDice: @"1W20"];
   
@@ -304,10 +333,20 @@
     
   NSString *archetype = self.character.archetype;
   NSString *hairColor = self.character.hairColor;
-  
+
+  NSDictionary *charConstraints = [[NSDictionary alloc] init];
+  if ([self.character isKindOfClass: [DSACharacterHero class]])
+    {
+      charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getArchetypesDict] objectForKey: archetype]];
+    }
+  else
+    {
+      charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+    }
+      
   NSInteger diceResult = [Utils rollDice: @"1W20"];
   
-  if ([[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Augenfarbe"] == nil)
+  if ([charConstraints objectForKey: @"Augenfarbe"] == nil)
     {
       // No special Augenfarbe defined for the characterType, we use the default calculation
       // algorithm as defined in "Mit Mantel, Schwert und Zauberstab S. 61"
@@ -331,7 +370,7 @@
   else
     {
       // We're dealing with a Character that has special Augenfarben constraints
-      NSDictionary *eyeColors = [NSDictionary dictionaryWithDictionary: [[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Haarfarbe"]];
+      NSDictionary *eyeColors = [NSDictionary dictionaryWithDictionary: [charConstraints objectForKey: @"Augenfarbe"]];
       
       for (NSString *color in [eyeColors allKeys])
         {

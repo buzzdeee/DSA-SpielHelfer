@@ -30,11 +30,8 @@
 #import "DSATrait.h"
 #import "DSATalent.h"
 #import "DSASpell.h"
-
 #import "NSMutableDictionary+Extras.h"
-
 #import "DSANameGenerator.h"
-
 #import "DSAObject.h"
 
 @implementation DSACharacterGenerationController
@@ -502,121 +499,6 @@
   [self.windowMagicalDabbler close];
   NSLog(@"going to complete character generation");
   [self completeCharacterGeneration];  
-}
-
-- (IBAction) buttonMagicalDabblerFinishXXX: (id)sender
-{
-
-  NSLog(@"buttonMagicalDabblerFinish have to do the magical dabbler thing on the generated character...");
-  
-  if (self.magicalDabblerDiceResult >= 1 && self.magicalDabblerDiceResult <= 15)
-    {
-      NSMutableDictionary * newTalents = [[NSMutableDictionary alloc] init];    
-      for (NSString *specialTalent in @[_(@"Schutzgeist"), _(@"Magisches Meisterhandwerk")])
-        {
-          DSASpecialTalent *talent = [[DSASpecialTalent alloc] initTalent: specialTalent
-                                                               ofCategory: _(@"Spezialtalent")
-                                                                  onLevel: 0
-                                                                 withTest: nil
-                                                   withMaxTriesPerLevelUp: 0
-                                                        withMaxUpPerLevel: 0
-                                                          withLevelUpCost: 0];
-          if ([specialTalent isEqualToString: _(@"Magisches Meisterhandwerk")])                                             
-            {
-              [talent setTest: @[ @"IN"] ];
-            }
-          [newTalents setObject: talent forKey: specialTalent];
-        }
-    
-      [(DSACharacterHero *)self.generatedCharacter setSpecials: newTalents];
-      NSMutableDictionary *newSpells = [[NSMutableDictionary alloc] init];
-      NSDictionary *spells = [[NSDictionary alloc] init];
-      spells = [Utils getSpellsForCharacter: self.generatedCharacter];
-      for (NSInteger i=0; i< 19; i++)
-        {
-          NSString *fieldName = [NSString stringWithFormat: @"switchMagicalDabbler%li", i];
-          NSButton *button = [self valueForKey: fieldName];
-          if ([button state] == 1)
-            {
-               NSLog(@"testing spell: %@", [button title]);
-               for (NSString *category in spells)
-                 {
-                    for (NSString *s in [spells objectForKey: category])
-                      {
-                        if ([s isEqualToString: [button title]])
-                          {
-                            NSDictionary *sDict = [[spells objectForKey: category] objectForKey: s];
-                            DSASpell *spell = [[DSASpell alloc] initSpell: s
-                                                                ofVariant: [sDict objectForKey: @"Variante"]
-                                                        ofDurationVariant: [sDict objectForKey: @"Dauer Variante"]
-                                                               ofCategory: category
-                                                                  onLevel: 0               // See Compendium Salamandris S. 29
-                                                               withOrigin: [sDict objectForKey: @"Ursprung"]
-                                                                 withTest: [sDict objectForKey: @"Probe"]
-                                                          withMaxDistance: [[sDict objectForKey: @"Maximale Entfernung"] integerValue]
-                                                             withVariants: [sDict objectForKey: @"Varianten"]
-                                                     withDurationVariants: [sDict objectForKey: @"Dauer Varianten"]        
-                                                   withMaxTriesPerLevelUp: 3
-                                                        withMaxUpPerLevel: 1
-                                                          withLevelUpCost: 2]; 
-                            [newSpells setObject: spell forKey: s];
-                          }
-                      }
-                 }
-            }
-        }
-      [(DSACharacterHero *)self.generatedCharacter setSpells: newSpells];
-    }
-  else if (self.magicalDabblerDiceResult >= 16 && self.magicalDabblerDiceResult <= 19)
-    {
-      NSMutableDictionary * newTalents = [[NSMutableDictionary alloc] init];    
-      for (NSString *specialTalent in @[_(@"Schutzgeist"), _(@"Magisches Meisterhandwerk")])
-        {
-          DSASpecialTalent *talent = [[DSASpecialTalent alloc] initTalent: specialTalent
-                                                               ofCategory: _(@"Spezialtalent")
-                                                                  onLevel: 0
-                                                                 withTest: nil
-                                                   withMaxTriesPerLevelUp: 0
-                                                        withMaxUpPerLevel: 0
-                                                          withLevelUpCost: 0];
-          if ([specialTalent isEqualToString: _(@"Magisches Meisterhandwerk")])                                             
-            {
-              [talent setTest: @[ @"IN"] ];
-            }
-          [newTalents setObject: talent forKey: specialTalent];
-        }    
-      [(DSACharacterHero *)self.generatedCharacter setSpecials: newTalents];
-    }
-  else if (self.magicalDabblerDiceResult == 20)
-    {
-      for (NSInteger i=0; i< 2; i++)
-        {
-          NSString *fieldName = [NSString stringWithFormat: @"switchMagicalDabbler%li", i];
-          NSButton *button = [self valueForKey: fieldName];          
-          if ([button state] == 1)
-            {
-              NSString *specialTalent = [button title];
-              NSMutableDictionary * newTalents = [[NSMutableDictionary alloc] init];    
-              DSASpecialTalent *talent = [[DSASpecialTalent alloc] initTalent: specialTalent
-                                                                   ofCategory: _(@"Spezialtalent")
-                                                                      onLevel: 0
-                                                                     withTest: nil
-                                                       withMaxTriesPerLevelUp: 0
-                                                            withMaxUpPerLevel: 0
-                                                              withLevelUpCost: 0];
-              if ([specialTalent isEqualToString: _(@"Magisches Meisterhandwerk")])                                             
-                {
-                  [talent setTest: @[ @"IN"] ];
-                }
-              [newTalents setObject: talent forKey: specialTalent];
-              [(DSACharacterHero *)self.generatedCharacter setSpecials: newTalents];
-              break;
-            }
-        }
-    }
-    
-  [self.windowMagicalDabbler close];
-  [self completeCharacterGeneration];
 }
 
 - (void) setBackgroundColorForTraitsField: (NSString *) fieldName
@@ -1091,36 +973,6 @@ NSLog(@"popupCategorySelected called!");
     {
       [self.fieldName setBackgroundColor: [NSColor redColor]];    
     }                                                                                                                                              
-}
-
-- (IBAction)buttonFinishClickedXXX:(id)sender
-{
-  // Validate all required fields, create the appropriate character subclass
-  [self createCharacter:sender];
-
-  NSLog(@"DSACharacterGenerationController buttonFinishClicked: after createCharacter, going to test for Magical Dabbler");
-  // A Magical Dabbler
-  if ([self.popupMageAcademies isEnabled] && ![self.generatedCharacter isMagic])
-    {
-        NSLog(@"DSACharacterGenerationController buttonFinishClicked: first IF test survived");
-      if ([[[self.popupMageAcademies selectedItem] title] isEqualToString: _(@"Ja")])
-        {
-        NSLog(@"DSACharacterGenerationController buttonFinishClicked: second IF test survived");
-        
-          [self makeCharacterAMagicalDabbler];
-        }
-      else
-        {
-          NSLog(@"DSACharacterGenerationController buttonFinishClicked: it was chosen NOT to create a magical dabbler, going to complete character generation");
-          [self completeCharacterGeneration];
-        }
-    }
-  else 
-    { 
-      // Complete the character generation and trigger the completion handler
-      NSLog(@"DSACharacterGenerationController buttonFinishClicked: not a magical dabbler, going to complete character generation");
-      [self completeCharacterGeneration];
-    }
 }
                                                                         
 - (IBAction)buttonFinishClicked:(id)sender
