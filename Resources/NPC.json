@@ -118,15 +118,15 @@
     "Erfahrungsstufen": { 
       "unerfahren": {
         "ST": [ "1W2" ],
-        "LE": [ "25" ]
+        "LE": [ "1W1", "24" ]
       },
       "erfahren": {
         "ST": [ "1W3", 5 ],
-        "LE": [ "30" ]
+        "LE": [ "1W1", "29" ]
       },
       "Veteran": {
         "ST": [ "1W3", 13 ], 
-        "LE": [ "35" ]
+        "LE": [ "1W1", "34" ]
       }
     },
     "Eigenschaften": {
@@ -301,15 +301,15 @@
     "Erfahrungsstufen": { 
       "unerfahren": {
         "ST": [ "1W2" ],
-        "LE": [ "25" ]
+        "LE": [ "1W1", "24" ]
       },
       "erfahren": {
         "ST": [ "1W3", 5 ],
-        "LE": [ "30" ]
+        "LE": [ "1W1", "29" ]
       },
       "Veteran": {
         "ST": [ "1W3", 13 ], 
-        "LE": [ "35" ]
+        "LE": [ "1W1", "34" ]
       }
     },
     "Eigenschaften": {

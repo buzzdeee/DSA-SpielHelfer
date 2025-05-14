@@ -26,6 +26,7 @@
 #import "DSACharacter.h"
 #import "Utils.h"
 #import "DSAAventurianCalendar.h"
+#import "DSANameGenerator.h"
 #import "DSATrait.h"
 #import "DSASpellWitchCurse.h"
 #import "DSASpellDruidRitual.h"
@@ -45,9 +46,18 @@
   
   // Order below is important
   self.character = [DSACharacter characterWithType: archetype];
-  self.character.isNPC = [self shouldMarkAsNPCFromParameters: parameters]; 
+  self.character.isNPC = [self shouldMarkAsNPCFromParameters: parameters];
   // self.character.isMagicalDabbler = [self shouldMarkAsMagicalDabblerFromParameters: parameters];
-  self.character.archetype = archetype;  
+  self.character.archetype = archetype;
+  self.character.level = [self resolveLevelFromParameters: parameters];
+  self.character.lifePoints = [self resolveLifePointsFromParameters: parameters];
+  self.character.currentLifePoints = self.character.lifePoints;
+  self.character.astralEnergy = [self resolveAstralEnergyFromParameters: parameters];
+  self.character.currentAstralEnergy = self.character.astralEnergy;  
+  self.character.karmaPoints = [self resolveKarmaPointsFromParameters: parameters];
+  self.character.currentKarmaPoints = self.character.karmaPoints;
+  self.character.mrBonus = [self resolveMagicResistanceFromParameters: parameters];
+  
   self.character.sex = [self resolveSexFromParameters: parameters];
   self.character.title = [self resolveTitleFromParameters: parameters];
   self.character.origin = [self resolveOriginFromParameters: parameters];
@@ -58,25 +68,29 @@
 
   self.character.hairColor = [self resolveHairColorFromParameters: parameters];
   self.character.eyeColor = [self resolveEyeColorFromParameters: parameters];
-  
-  if (![[parameters objectForKey: @"isNPC"] boolValue])
-    {   
-            
   self.character.height = [self resolveHeightFromParameters: parameters];
   self.character.weight = [self resolveWeightFromParameters: parameters];
   self.character.birthday = [self resolveBirthdayFromParameters: parameters];
   self.character.god = [self resolveGodFromParameters: parameters];
   self.character.stars = [self resolveStarsFromParameters: parameters];
+
   self.character.socialStatus = [self resolveSocialStatusFromParameters: parameters];
+
   self.character.name = [self resolveNameFromParameters: parameters];
+  
   self.character.parents = [self resolveParentsFromParameters: parameters];
   self.character.siblings = [self resolveSiblingsFromParameters: parameters];
   self.character.money = [self resolveWealthFromParameters: parameters];
+
   self.character.birthPlace = [self resolveBirthplaceFromParameters: parameters];
   self.character.birthEvent = [self resolveBirthEventFromParameters: parameters];
   self.character.legitimation = [self resolveLegitimationFromParameters: parameters];
   self.character.childhoodEvents = [self resolveChildhoodEventsFromParameters: parameters];
   self.character.youthEvents = [self resolveYouthEventsFromParameters: parameters];
+  
+  if (![[parameters objectForKey: @"isNPC"] boolValue])
+    {   
+  
   self.character.portraitName = [self resolvePortraitNameFromParameters: parameters];
   self.character.mageAcademy = [self resolveAcademyFromParameters: parameters];   // also resolves Geodische Schule and Warrior Academy
   
@@ -146,17 +160,277 @@
   return [gender objectAtIndex: randomIndex];
 }
 
+- (NSInteger)resolveLevelFromParameters:(NSDictionary *)parameters
+{
+  NSString *levelString = parameters[@"level"];  // Normal characters should start with level 0, and that's in the character class init method set...
+  if (levelString)                               // Otherwise, they may start at this direct level given as a number...
+    {
+      return [levelString integerValue];
+    }
+  NSInteger level;
+  NSDictionary *charConstraints = [[NSDictionary alloc] init];  
+  if ([self.character isKindOfClass: [DSACharacterNpc class]])
+    {
+       NSString *experienceLevel = parameters[@"experienceLevel"];  // That might be "unerfahren", "erfahren", or "Veteran"
+       NSString *archetype = parameters[@"archetype"];
+       charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+       
+       NSArray *levelDefinition = [[[charConstraints objectForKey: @"Erfahrungsstufen"] 
+                                                     objectForKey: experienceLevel] 
+                                                     objectForKey: @"ST"];
+       if (!levelDefinition)  // maybe we got "standard" here ...
+         {
+           levelDefinition = [charConstraints objectForKey: @"ST"];
+         }
+  
+       if ([levelDefinition count] == 0)
+         {
+            NSLog(@"DSACharacterGenerator: NPC doesn't have 'ST' defined, initializing NPC character level with 1");
+            level = 1;
+         }
+       else if ([levelDefinition count] == 1)
+         {
+            level = [Utils rollDice: [levelDefinition objectAtIndex: 0]];
+         }
+       else
+         {
+           level = [Utils rollDice: [levelDefinition objectAtIndex: 0]] + [[levelDefinition objectAtIndex: 1] integerValue];
+         }
+    }
+  else
+    {
+      level = 0;
+    }
+  return level;
+}
+
+- (NSInteger)resolveLifePointsFromParameters:(NSDictionary *)parameters
+{
+  NSInteger le;
+  if ([self.character isKindOfClass: [DSACharacterHero class]])
+    {
+      le = self.character.lifePoints;  // They are set in the Characters init class, and we should just use that (:
+    }
+  else
+    {
+      NSDictionary *charConstraints = [[NSDictionary alloc] init];
+      NSString *archetype = parameters[@"archetype"];
+      charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+      NSString *experienceLevel = parameters[@"experienceLevel"];  // That might be "unerfahren", "erfahren", or "Veteran"
+      NSArray *leDefinition = [[[charConstraints objectForKey: @"Erfahrungsstufen"] 
+                                                 objectForKey: experienceLevel] 
+                                                 objectForKey: @"LE"];
+      if (!leDefinition)
+        {
+          leDefinition = [charConstraints objectForKey: @"LE"];
+        }
+       if ([leDefinition count] == 0)
+         {
+            NSLog(@"DSACharacterGenerator: NPC doesn't have 'LE' defined, initializing NPC character LE with 20");
+            le = 20;
+         }
+       else if ([leDefinition count] == 1)
+         {
+            le = [Utils rollDice: [leDefinition objectAtIndex: 0]];
+         }
+       else
+         {
+            le = [Utils rollDice: [leDefinition objectAtIndex: 0]] + [[leDefinition objectAtIndex: 1] integerValue];
+         }
+    }
+  return le;
+}
+
+- (NSInteger)resolveAstralEnergyFromParameters:(NSDictionary *)parameters
+{
+  NSInteger ae;
+  if ([self.character isKindOfClass: [DSACharacterHero class]])
+    {
+      ae = self.character.astralEnergy;  // They are set in the Characters init class, and we should just use that (:
+    }
+  else
+    {
+      NSDictionary *charConstraints = [[NSDictionary alloc] init];
+      NSString *archetype = parameters[@"archetype"];
+      charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+      NSString *experienceLevel = parameters[@"experienceLevel"];  // That might be "unerfahren", "erfahren", or "Veteran"
+      NSArray *aeDefinition = [[[charConstraints objectForKey: @"Erfahrungsstufen"] 
+                                                 objectForKey: experienceLevel] 
+                                                 objectForKey: @"AE"];
+      if (!aeDefinition)
+        {
+          aeDefinition = [charConstraints objectForKey: @"AE"];
+        }
+       if ([aeDefinition count] == 0)
+         {
+            NSLog(@"DSACharacterGenerator: NPC doesn't have 'AE' defined, initializing NPC character AE with 0");
+            ae = 0;
+         }
+       else if ([aeDefinition count] == 1)
+         {
+            ae = [Utils rollDice: [aeDefinition objectAtIndex: 0]];
+         }
+       else
+         {
+            ae = [Utils rollDice: [aeDefinition objectAtIndex: 0]] + [[aeDefinition objectAtIndex: 1] integerValue];
+         }
+    }
+  return ae;
+}
+
+- (NSInteger)resolveKarmaPointsFromParameters:(NSDictionary *)parameters
+{
+  NSInteger ke;
+  if ([self.character isKindOfClass: [DSACharacterHero class]])
+    {
+      ke = self.character.karmaPoints;  // They are set in the Characters init class, and we should just use that (:
+    }
+  else
+    {
+      NSDictionary *charConstraints = [[NSDictionary alloc] init];
+      NSString *archetype = parameters[@"archetype"];
+      charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+      NSString *experienceLevel = parameters[@"experienceLevel"];  // That might be "unerfahren", "erfahren", or "Veteran"
+      NSArray *keDefinition = [[[charConstraints objectForKey: @"Erfahrungsstufen"] 
+                                                 objectForKey: experienceLevel] 
+                                                 objectForKey: @"KE"];
+      if (!keDefinition)
+        {
+          keDefinition = [charConstraints objectForKey: @"KE"];
+        }
+       if ([keDefinition count] == 0)
+         {
+            NSLog(@"DSACharacterGenerator: NPC doesn't have 'KE' defined, initializing NPC character KE with 0");
+            ke = 0;
+         }
+       else if ([keDefinition count] == 1)
+         {
+            ke = [Utils rollDice: [keDefinition objectAtIndex: 0]];
+         }
+       else
+         {
+            ke = [Utils rollDice: [keDefinition objectAtIndex: 0]] + [[keDefinition objectAtIndex: 1] integerValue];
+         }
+    }
+  return ke;
+}
+
+- (NSInteger)resolveMagicResistanceFromParameters:(NSDictionary *)parameters
+{
+  NSInteger mr;
+  if ([self.character isKindOfClass: [DSACharacterHero class]])
+    {
+      mr = self.character.magicResistance;  // it's set in the Characters init class, and we should just use that (:
+    }
+  else
+    {
+      NSDictionary *charConstraints = [[NSDictionary alloc] init];
+      NSString *archetype = parameters[@"archetype"];
+      charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+      NSString *experienceLevel = parameters[@"experienceLevel"];  // That might be "unerfahren", "erfahren", or "Veteran"
+          
+      NSArray *mrDefinition = [[[charConstraints objectForKey: @"Erfahrungsstufen"] 
+                                                 objectForKey: experienceLevel] 
+                                                 objectForKey: @"MR"];
+      if (!mrDefinition)
+        {
+          mrDefinition = [charConstraints objectForKey: @"MR"];
+        }
+
+       if ([mrDefinition count] == 0)
+         {
+            NSLog(@"DSACharacterGenerator: NPC doesn't have 'MR' defined, initializing NPC character MR with 0");
+            mr = 0;
+         }    
+       else if ([mrDefinition count] == 1)
+         {
+            mr = [Utils rollDice: [mrDefinition objectAtIndex: 0]];
+         }
+       else
+         {
+           mr = [Utils rollDice: [mrDefinition objectAtIndex: 0]] + [[mrDefinition objectAtIndex: 1] integerValue];
+         }
+    }
+  return mr;
+}
+
 - (NSString *)resolveNameFromParameters:(NSDictionary *)parameters {
     NSString *name = parameters[@"name"];
     if (name && [name length] > 0)
       {
         return name;
       }
-    else
+    
+    NSString *origin;
+    NSString *archetype = self.character.archetype;
+    NSString *sex = self.character.sex;
+    NSArray *supportedNames = [DSANameGenerator getTypesOfNames];
+    
+    if ([supportedNames containsObject: archetype])
       {
-        return @"Ohne Name";
+        origin = archetype;
       }
+    else if ([supportedNames containsObject: self.character.origin])
+      { 
+        origin = self.character.origin;
+      }
+      
+    if ([origin length] == 0)
+      {
+        name = @"Name unbekannt";
+        return name;
+      }
+    name = [DSANameGenerator generateNameWithGender: sex
+                                            isNoble: NO
+                                           nameData: [Utils getNamesForRegion: origin]]; 
+    if ([name length] == 0)
+      {
+        name = @"Name unbekannt";
+      }       
+  return name;
+      
 }
+/*
+-(NSString *) generateNameForGender: (NSString *) gender
+{
+  NSArray *supportedNames = [DSANameGenerator getTypesOfNames];
+  NSLog(@"DSANPCGenerationCtroller: generateName: supportedNames: %@", supportedNames);
+  NSString *origin;
+  NSString *name;
+
+  if ([supportedNames containsObject: [[self.popupSubtypes selectedItem] title]])     // first check Subtyp, might be more specifc name available
+    {
+      origin = [[self.popupSubtypes selectedItem] title];
+    }    
+  else if ([supportedNames containsObject: [[self.popupTypes selectedItem] title]])   // fall back to Typus
+    {
+      origin = [[self.popupTypes selectedItem] title];
+    }    
+  else if ([supportedNames containsObject: [[self.popupOrigins selectedItem] title]]) // or origin
+    {
+      origin = [[self.popupOrigins selectedItem] title];
+    }
+  if ([supportedNames containsObject: [[self.popupCategories selectedItem] title]])   // before falling back to more or less last resort...
+    {
+      origin = [[self.popupCategories selectedItem] title];
+    }    
+  if ([origin length] == 0)
+    {
+      name = @"ohne Namen";
+      return name;
+    }
+    
+  name = [DSANameGenerator generateNameWithGender: gender
+                                          isNoble: NO
+                                         nameData: [Utils getNamesForRegion: origin]]; 
+  if ([name length] == 0)
+    {
+      name = @"ohne Namen";
+    }       
+  return name;                                                                                                                                   
+}
+*/
+
 - (NSString *)resolveTitleFromParameters:(NSDictionary *)parameters {
     NSString *title = parameters[@"title"];
     if (title && [title length] > 0)
@@ -390,25 +664,53 @@
     {
       return height;
     }
+    
   NSString *origin = self.character.origin;
   NSString *archetype = self.character.archetype;
+  NSDictionary *charConstraints = [[NSDictionary alloc] init];
+
+  // NPC and normal characters have different approach for defining height
+  if ([self.character isKindOfClass: [DSACharacterHero class]])
+    {
+      NSArray *heightArr;
+      charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getArchetypesDict] objectForKey: archetype]];
+      if ([archetype isEqualToString: _(@"Schamane")])
+        {
+          heightArr = [NSArray arrayWithArray: [[[charConstraints objectForKey: @"Typus"] objectForKey: origin] objectForKey: @"Körpergröße"]];
+        }
+      else
+        {
+          heightArr = [NSArray arrayWithArray: [charConstraints objectForKey: @"Körpergröße"]];      
+        }
+      height = [[heightArr objectAtIndex: 0] floatValue];
+      unsigned int count = [heightArr count];
+      for (unsigned int i = 1;i<count; i++)
+        {
+          height += [Utils rollDice: [heightArr objectAtIndex: i]];
+        }
+    }
+  else  // end of normal character hero
+    {
+      NSLog(@"generating NPC height");
+      charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+      NSArray *heightDefinition = [[[charConstraints objectForKey: @"Herkunft"] 
+                                                     objectForKey: origin] 
+                                                     objectForKey: @"Größe"];
+      if (! heightDefinition)
+        {
+          heightDefinition = [charConstraints objectForKey: @"Größe"];
+        }
   
-  NSArray *heightArr;
-  
-  if ([archetype isEqualToString: _(@"Schamane")])
-    {
-      heightArr = [NSArray arrayWithArray: [[[[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Typus"] objectForKey: origin] objectForKey: @"Körpergröße"]];
-    }
-  else
-    {
-      heightArr = [NSArray arrayWithArray: [[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Körpergröße"]];      
-    }
-  height = [[heightArr objectAtIndex: 0] floatValue];
-  unsigned int count = [heightArr count];
-  for (unsigned int i = 1;i<count; i++)
-    {
-      height += [Utils rollDice: [heightArr objectAtIndex: i]];
-    }
+      if ([heightDefinition count] == 1)
+        {
+           height = [Utils rollDice: [heightDefinition objectAtIndex: 0]];
+        }
+      else
+        {
+          height = [Utils rollDice: [heightDefinition objectAtIndex: 0]] + [[heightDefinition objectAtIndex: 1] integerValue];
+        }
+    }  // end of NPC
+  NSLog(@"returning height: %@", [NSNumber numberWithFloat: height]);  
   return height;
 }
 
@@ -419,10 +721,41 @@
       return weight;
     }
 
+  NSString *origin = self.character.origin;
   NSString *archetype = self.character.archetype;
-  float height = self.character.height;
-  weight = [[[[Utils getArchetypesDict] objectForKey: archetype] objectForKey: @"Gewicht"] floatValue];
-  return weight + height;
+  NSDictionary *charConstraints = [[NSDictionary alloc] init];    
+  if ([self.character isKindOfClass: [DSACharacterHero class]])
+    {  
+      float height = self.character.height;
+      charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getArchetypesDict] objectForKey: archetype]];
+      weight = [[charConstraints objectForKey: @"Gewicht"] floatValue];
+      weight = weight + height;
+    }
+  else
+    {
+      charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+      NSLog(@"generating NPC weight");
+      NSLog(@"THE CHAR CONSTRAINTS: %@", charConstraints);
+      NSArray *weightDefinition = [[[charConstraints objectForKey: @"Herkunft"] 
+                                                     objectForKey: origin] 
+                                                     objectForKey: @"Gewicht"];
+
+      if (! weightDefinition)
+        {
+          weightDefinition = [charConstraints objectForKey: @"Gewicht"];
+        }
+      NSLog(@"THE WEIGHT definition: %@", weightDefinition);
+      if ([weightDefinition count] == 1)
+        {
+           weight = [Utils rollDice: [weightDefinition objectAtIndex: 0]];
+        }
+      else
+        {
+          weight = [Utils rollDice: [weightDefinition objectAtIndex: 0]] + [[weightDefinition objectAtIndex: 1] integerValue];
+        }    
+    }
+  NSLog(@"returning weight: %@", [NSNumber numberWithFloat: weight]);
+  return weight;
 }
 
 - (DSAAventurianDate *) resolveBirthdayFromParameters:(NSDictionary *)parameters {
@@ -507,6 +840,10 @@
       return socialStatus;
     }
 
+  if ([self.character isKindOfClass: [DSACharacterNpc class]])
+    {
+      return @"arm";   // if ever NPCs implmement social status, update ;)
+    }
   NSString *dice;
   NSDictionary *herkuenfteDict;
 
@@ -565,6 +902,11 @@
       return parents;
     }
 
+  if ([self.character isKindOfClass: [DSACharacterNpc class]])
+    {
+      return @"unbekannt";  // in case NPCs implement that ever, ...
+    }
+    
   NSString *dice;
   NSDictionary *herkuenfteDict;
 
@@ -605,7 +947,7 @@
             }
         }
     }
-  return nil;
+  return @"unbekannt";
 }
 
 /* generates initial wealth/money, as described in "Mit Mantel, Schwert
@@ -1573,7 +1915,7 @@
         }
       if (eventResult >= 1 && eventResult <= 4)
         {
-          eventResult = [Utils rollDice: @"1W13"];
+          eventResult = [Utils rollDice: @"1W12"];
           NSString *godStr;
           if (eventResult == 1)
             {
@@ -1609,7 +1951,7 @@
             }
           else if (eventResult == 9)
             {
-              godStr = _(@"des Phes");
+              godStr = _(@"des Phex");
             }
           else if (eventResult == 10)
             {
@@ -1623,16 +1965,16 @@
             {
               godStr = _(@"der Rahja");
             }
-          eventResult = [Utils rollDice: @"1W6"];
-          if (eventResult == 1 || eventResult == 2)
+          eventResult = [Utils rollDice: @"1W3"];
+          if (eventResult == 1)
             {
               whatStr = [NSString stringWithFormat: _(@"Nach dieser Zeit entscheidet %@ sich, Geweihter zu werden."), pronoun];
             }
-          else if (eventResult == 3 || eventResult == 4)
+          else if (eventResult == 2)
             {
               whatStr = [NSString stringWithFormat: _(@"Nach dieser Zeit behält %@ einen starken Glauben an die Gottheit."), pronoun];              
             }
-          else if (eventResult == 6)
+          else if (eventResult == 3)
             {
               whatStr = [NSString stringWithFormat: _(@"Nach dieser Zeit wendet %@ sich wieder von der Gottheit ab."), pronoun];              
             }

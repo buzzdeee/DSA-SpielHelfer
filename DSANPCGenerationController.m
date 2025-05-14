@@ -115,6 +115,7 @@
     }      
   [characterParameters setObject: [NSNumber numberWithBool: YES] forKey: @"isNPC"];      // we only create characters here
   [characterParameters setObject: selectedOrigin forKey: @"origin"];
+
   DSACharacterNpc *newCharacter = [generator generateCharacterWithParameters: characterParameters];
   
   
@@ -131,18 +132,18 @@
       newCharacter.archetype = selectedSubtype;
     } */
   // newCharacter.origin = selectedOrigin; 
-  newCharacter.level = [self generateLevel: charConstraints];
-  newCharacter.lifePoints = [self generateLifePoints: charConstraints];
-  newCharacter.currentLifePoints = newCharacter.lifePoints;
-  newCharacter.astralEnergy = [self generateAstralEnergy: charConstraints];
-  newCharacter.currentAstralEnergy = newCharacter.astralEnergy;
-  newCharacter.karmaPoints = [self generateKarmaPoints: charConstraints];
-  newCharacter.currentKarmaPoints = newCharacter.karmaPoints;
-  newCharacter.mrBonus = [self generateMagicResistance: charConstraints];  // NPCs return just the mrBonus as magicResistance, no calculations ...
+  // newCharacter.level = [self generateLevel: charConstraints];
+  //newCharacter.lifePoints = [self generateLifePoints: charConstraints];
+  //newCharacter.currentLifePoints = newCharacter.lifePoints;
+  //newCharacter.astralEnergy = [self generateAstralEnergy: charConstraints];
+  //newCharacter.currentAstralEnergy = newCharacter.astralEnergy;
+  //newCharacter.karmaPoints = [self generateKarmaPoints: charConstraints];
+  //newCharacter.currentKarmaPoints = newCharacter.karmaPoints;
+  // newCharacter.mrBonus = [self generateMagicResistance: charConstraints];  // NPCs return just the mrBonus as magicResistance, no calculations ...
   // newCharacter.sex = [self generateGender: charConstraints];
-  newCharacter.name = [self generateNameForGender: newCharacter.sex];
-  newCharacter.height = [self generateHeight: charConstraints];
-  newCharacter.weight = [self generateWeight: charConstraints];
+  // newCharacter.name = [self generateNameForGender: newCharacter.sex];
+  //newCharacter.height = [self generateHeight: charConstraints];
+  //newCharacter.weight = [self generateWeight: charConstraints];
   newCharacter.staticAttackBaseValue = [self generateAttackBaseValue: charConstraints];
   newCharacter.staticParryBaseValue = [self generateParryBaseValue: charConstraints];
   newCharacter.armorBaseValue = [self generateArmorBaseValue: charConstraints];
@@ -316,6 +317,7 @@
   return armorBaseValue;
 }
 
+/*
 - (NSInteger) generateMagicResistance: (NSDictionary *) charConstraints
 {
   NSString *selectedLevel = [[self.popupLevel selectedItem] title];
@@ -346,6 +348,7 @@
     }
   return mr;
 }
+
 
 - (NSInteger) generateLifePoints: (NSDictionary *) charConstraints
 {
@@ -559,7 +562,7 @@
     }       
   return name;                                                                                                                                   
 }
-
+*/
 
 - (void) apply: (NSString *)modificator to: (DSACharacterNpc *) character using: (NSDictionary *) charConstraints
 {
