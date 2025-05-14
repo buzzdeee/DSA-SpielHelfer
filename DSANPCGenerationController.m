@@ -103,16 +103,14 @@
   NSString *selectedArchetype = [[self.popupTypes selectedItem] title];
   NSString *selectedSubtype = [[self.popupSubtypes selectedItem] title];
   NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
+  NSLog(@"DSANPCGenerationController selectedOrigin: %@", selectedOrigin);
 
-
-  if ([selectedSubtype isEqualToString: @"Subtypus wählen"])
+  [characterParameters setObject: selectedArchetype forKey: @"archetype"];
+  if (![selectedSubtype isEqualToString: @"Subtypus wählen"])
     {
-      [characterParameters setObject: selectedArchetype forKey: @"archetype"];
+      [characterParameters setObject: selectedSubtype forKey: @"subarchetype"];
     }
-  else
-    {
-      [characterParameters setObject: selectedSubtype forKey: @"archetype"];
-    }      
+
   [characterParameters setObject: [NSNumber numberWithBool: YES] forKey: @"isNPC"];      // we only create characters here
   [characterParameters setObject: selectedOrigin forKey: @"origin"];
 

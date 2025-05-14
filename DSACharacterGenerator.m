@@ -44,11 +44,17 @@
 {
   NSString *archetype = [self resolveArchetypeFromParameters:parameters];
   
+  NSLog(@"DSACharacterGenerator generateCharacterWithParameters paramters: %@", parameters);
+  
   // Order below is important
   self.character = [DSACharacter characterWithType: archetype];
   self.character.isNPC = [self shouldMarkAsNPCFromParameters: parameters];
-  // self.character.isMagicalDabbler = [self shouldMarkAsMagicalDabblerFromParameters: parameters];
-  self.character.archetype = archetype;
+
+  // NPCs may have subarchetypes
+  if ([self.character isKindOfClass: [DSACharacterNpc class]] && parameters[@"subarchetype"])
+    {
+       self.character.archetype = parameters[@"subarchetype"];
+    }
   self.character.level = [self resolveLevelFromParameters: parameters];
   self.character.lifePoints = [self resolveLifePointsFromParameters: parameters];
   self.character.currentLifePoints = self.character.lifePoints;
@@ -60,7 +66,9 @@
   
   self.character.sex = [self resolveSexFromParameters: parameters];
   self.character.title = [self resolveTitleFromParameters: parameters];
+  NSLog(@"DSACharacterGenerator generateCharacterWithParameters self.character: %@", self.character);
   self.character.origin = [self resolveOriginFromParameters: parameters];
+  NSLog(@"DSACharacterGenerator generateCharacterWithParameters: origin: %@", self.character.origin);
   self.character.professions = [self resolveProfessionFromParameters: parameters]; 
   self.character.element = [self resolveElementFromParameters: parameters];
 
@@ -362,7 +370,7 @@
       }
     
     NSString *origin;
-    NSString *archetype = self.character.archetype;
+    NSString *archetype = parameters[@"archetype"];
     NSString *sex = self.character.sex;
     NSArray *supportedNames = [DSANameGenerator getTypesOfNames];
     
@@ -444,6 +452,7 @@
 }
 - (NSString *)resolveOriginFromParameters:(NSDictionary *)parameters {
     NSString *origin = parameters[@"origin"];
+    NSLog(@"DSACharacterGenerator resolveOriginFromParameters origin: %@, %@", origin, parameters);
     if (origin && [origin length] > 0)
       {
         return origin;
@@ -488,7 +497,7 @@
     }
     
   NSString *origin = self.character.origin;  
-  NSString *archetype = self.character.archetype;
+  NSString *archetype = parameters[@"archetype"];
   
   // Otherwise, let's see if we can auto-generate one...
   NSMutableArray *religions = [[NSMutableArray alloc] init];
@@ -562,7 +571,7 @@
     }
     
   NSString *origin = self.character.origin;
-  NSString *archetype = self.character.archetype;
+  NSString *archetype = parameters[@"archetype"];
 
   NSDictionary *charConstraints = [[NSDictionary alloc] init];
   if ([self.character isKindOfClass: [DSACharacterHero class]])
@@ -605,7 +614,7 @@
       return eyeColor;
     }
     
-  NSString *archetype = self.character.archetype;
+  NSString *archetype = parameters[@"archetype"];
   NSString *hairColor = self.character.hairColor;
 
   NSDictionary *charConstraints = [[NSDictionary alloc] init];
@@ -666,7 +675,7 @@
     }
     
   NSString *origin = self.character.origin;
-  NSString *archetype = self.character.archetype;
+  NSString *archetype = parameters[@"archetype"];
   NSDictionary *charConstraints = [[NSDictionary alloc] init];
 
   // NPC and normal characters have different approach for defining height
@@ -691,11 +700,12 @@
     }
   else  // end of normal character hero
     {
-      NSLog(@"generating NPC height");
+      NSLog(@"generating NPC height for Herkunft: %@", origin);
       charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
       NSArray *heightDefinition = [[[charConstraints objectForKey: @"Herkunft"] 
                                                      objectForKey: origin] 
                                                      objectForKey: @"Größe"];
+      NSLog(@"NPC height Definition: %@", heightDefinition);                                               
       if (! heightDefinition)
         {
           heightDefinition = [charConstraints objectForKey: @"Größe"];
@@ -722,7 +732,7 @@
     }
 
   NSString *origin = self.character.origin;
-  NSString *archetype = self.character.archetype;
+  NSString *archetype = parameters[@"archetype"];
   NSDictionary *charConstraints = [[NSDictionary alloc] init];    
   if ([self.character isKindOfClass: [DSACharacterHero class]])
     {  
@@ -844,10 +854,11 @@
     {
       return @"arm";   // if ever NPCs implmement social status, update ;)
     }
+  NSLog(@"DSACharacterGenerator resolveSocialStatusFromParameters not a NPC");  
   NSString *dice;
   NSDictionary *herkuenfteDict;
 
-  NSString *archetype = self.character.archetype;
+  NSString *archetype = parameters[@"archetype"];
   NSString *origin = self.character.origin;
   BOOL isMagicalDabbler = self.character.isMagicalDabbler;
   NSDictionary *archetypeDict = [[Utils getArchetypesDict] objectForKey: archetype];
@@ -906,11 +917,11 @@
     {
       return @"unbekannt";  // in case NPCs implement that ever, ...
     }
-    
+  NSLog(@"DSACharacterGenerator resolveParentsFromParameters not a NPC");
   NSString *dice;
   NSDictionary *herkuenfteDict;
 
-  NSString *archetype = self.character.archetype;
+  NSString *archetype = parameters[@"archetype"];
   NSString *origin = self.character.origin;
   NSDictionary *archetypeDict = [[Utils getArchetypesDict] objectForKey: archetype];
   if ([archetype isEqualToString: _(@"Schamane")])
@@ -2332,7 +2343,7 @@
    "Mit Mantel, Schwert und Zauberstab" S. 7,
    8 * 1W6 + 7, then discard lowest result */
 
-- (NSArray *) generatePositiveTraits
+- (NSArray *) generatePositiveTraitsFromParameters: (NSDictionary *) parameters
 {
   NSMutableArray *traits = [[NSMutableArray alloc] init];
   NSInteger cnt;
@@ -2356,7 +2367,7 @@
    "Mit Mantel, Schwert und Zauberstab" S. 7,
    7 * 1W6 + 1 */
 
-- (NSArray *) generateNegativeTraits
+- (NSArray *) generateNegativeTraitsFromParameters: (NSDictionary *)parameters
 {
   NSMutableArray *traits = [[NSMutableArray alloc] init];
   NSInteger cnt;
@@ -2370,9 +2381,10 @@
   return traits;
 }
 
-- (NSDictionary *) generatePositiveTraitConstraints {
+- (NSDictionary *) generatePositiveTraitConstraintsFromParameters: (NSDictionary *)parameters 
+{
   // start with the basic archetype constraints
-  NSString *archetype = self.character.archetype;
+  NSString *archetype = parameters[@"archetype"];
   NSString *origin = self.character.origin;
   NSMutableDictionary *professions = self.character.professions;
   BOOL isMagicalDabbler = self.character.isMagicalDabbler;
@@ -2430,9 +2442,10 @@
   return positiveTraitsConstraintsDict;
 }
 
-- (NSDictionary *) generateNegativeTraitConstraints {
+- (NSDictionary *) generateNegativeTraitConstraintsFromParameters: (NSDictionary *)parameters 
+{
   // start with the basic archetype constraints
-  NSString *archetype = self.character.archetype;
+  NSString *archetype = parameters[@"archetype"];
   NSString *origin = self.character.origin;
   NSMutableDictionary *professions = self.character.professions;
   BOOL isMagicalDabbler = self.character.isMagicalDabbler;
@@ -2534,8 +2547,8 @@
   NSLog(@"DSACharacterGenerator resolvePositiveTraitsFromParameters going to generate positive traits");
   positiveTraits = [[NSMutableDictionary alloc] init];
 
-  NSArray *positiveTraitsArr = [self generatePositiveTraits];
-  NSDictionary *traitConstraints = [self generatePositiveTraitConstraints];
+  NSArray *positiveTraitsArr = [self generatePositiveTraitsFromParameters: parameters];
+  NSDictionary *traitConstraints = [self generatePositiveTraitConstraintsFromParameters: parameters];
   BOOL all_good = NO;
  
   do
@@ -2570,8 +2583,8 @@
 
   negativeTraits = [[NSMutableDictionary alloc] init];
 
-  NSArray *negativeTraitsArr = [self generateNegativeTraits];
-  NSDictionary *traitConstraints = [self generateNegativeTraitConstraints];
+  NSArray *negativeTraitsArr = [self generateNegativeTraitsFromParameters: parameters];
+  NSDictionary *traitConstraints = [self generateNegativeTraitConstraintsFromParameters: parameters];
   BOOL all_good = NO;
  
   do

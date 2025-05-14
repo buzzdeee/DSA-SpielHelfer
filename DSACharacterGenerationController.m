@@ -138,6 +138,7 @@
   [characterParameters setObject: [self.fieldTitle stringValue] forKey: @"title"];      // title is enforced to be set
   [characterParameters setObject: selectedArchetype forKey: @"archetype"];              // and we definitely have an archetype
   [characterParameters setObject: [[self.popupSex selectedItem] title] forKey: @"sex"]; // one is always selected
+  NSLog(@"DSACharacterGenerationController createCharacter before origins");
   if ([self.popupOrigins isEnabled])
     {
       [characterParameters setObject: selectedOrigin forKey: @"origin"];
@@ -154,7 +155,7 @@
     {
       [characterParameters setObject: [[self.popupReligions selectedItem] title] forKey: @"religion"];
     }
-
+  NSLog(@"DSACharacterGenerationController createCharacter before Magiedilettant");
   // Sigh, misusing UI elements for multiple purposes ;)
   if ([self.popupMageAcademies isEnabled] && [[charConstraints allKeys] containsObject: @"Magiedilettant"])
     {
@@ -167,6 +168,7 @@
           [characterParameters setObject: [NSNumber numberWithBool: NO] forKey: @"isMagicalDabbler"];
         }
     }
+  NSLog(@"DSACharacterGenerationController createCharacter before Schamane");  
   // Sigh, Sigh, even more misusing UI elements for multiple purposes
   if ([selectedArchetype isEqualToString: @"Schamane"] && [[[self.popupMageAcademies selectedItem] title] isEqualToString: _(@"Ja")])
     {
@@ -751,7 +753,10 @@ NSLog(@"popupCategorySelected called!");
 
 - (IBAction) popupOriginSelected: (id)sender
 {
+
+  NSLog(@"DSACharacterGenerationController popupOriginSelected archetype: %@", [[self.popupArchetypes selectedItem] title]);
   NSArray *religions = [self getReligionsForArchetype: [[self.popupArchetypes selectedItem] title]];
+  NSLog(@"DSACharacterGenerationController popupOriginSelected religions: %@", religions);
   if (religions)
     {
       [self.popupReligions setEnabled: YES];
