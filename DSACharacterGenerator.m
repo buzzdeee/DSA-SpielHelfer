@@ -55,6 +55,10 @@
     {
        self.character.archetype = parameters[@"subarchetype"];
     }
+  else
+    {
+      self.character.archetype = archetype;  // NPCs don't have that encoded in their init method
+    }
   self.character.level = [self resolveLevelFromParameters: parameters];
   self.character.lifePoints = [self resolveLifePointsFromParameters: parameters];
   self.character.currentLifePoints = self.character.lifePoints;
@@ -95,13 +99,10 @@
   self.character.legitimation = [self resolveLegitimationFromParameters: parameters];
   self.character.childhoodEvents = [self resolveChildhoodEventsFromParameters: parameters];
   self.character.youthEvents = [self resolveYouthEventsFromParameters: parameters];
-  
-  if (![[parameters objectForKey: @"isNPC"] boolValue])
-    {   
-  
   self.character.portraitName = [self resolvePortraitNameFromParameters: parameters];
+
   self.character.mageAcademy = [self resolveAcademyFromParameters: parameters];   // also resolves Geodische Schule and Warrior Academy
-  
+
   self.character.positiveTraits = [self resolvePositiveTraitsFromParameters: parameters];
   NSMutableDictionary *deepCopyPositiveTraits = [NSMutableDictionary dictionary];
   for (NSString *key in self.character.positiveTraits) {
@@ -118,10 +119,18 @@
   }  
   self.character.currentNegativeTraits = deepCopyNegativeTraits;
   
+  self.character.staticAttackBaseValue = [self resolveStaticAttackBaseValueFromParameters: parameters];
+  self.character.staticParryBaseValue = [self resolveStaticParryBaseValueFromParameters: parameters];
+  self.character.armorBaseValue = [self resolveArmorBaseValueFromParameters: parameters];
+
   self.character.talents = [self resolveTalentsFromParameters: parameters];
   self.character.spells = [self resolveSpellsFromParameters: parameters];
+
   [Utils applySpellmodificatorsToCharacter: self.character];  
   
+  if (![[parameters objectForKey: @"isNPC"] boolValue])
+    {   
+            
   for (NSString *modificator in @[ @"Goettergeschenke", @"Herkunft", @"Kriegerakademie", @"Magierakademie", @"Schamanenmodifikatoren"])
     {
       [self apply: modificator toCharacter: self.character];
@@ -370,14 +379,18 @@
       }
     
     NSString *origin;
-    NSString *archetype = parameters[@"archetype"];
+    NSString *archetype = self.character.archetype;  // not using parameters[@"archeytpe"] here on purpose
     NSString *sex = self.character.sex;
     NSArray *supportedNames = [DSANameGenerator getTypesOfNames];
     
-    if ([supportedNames containsObject: archetype])
+    if ([supportedNames containsObject: archetype])  // might be the subtype, in case of NPCs...
       {
         origin = archetype;
       }
+    if ([supportedNames containsObject: parameters[@"archetype"]])
+      {
+        origin = parameters[@"archetype"];
+      }      
     else if ([supportedNames containsObject: self.character.origin])
       { 
         origin = self.character.origin;
@@ -705,12 +718,11 @@
       NSArray *heightDefinition = [[[charConstraints objectForKey: @"Herkunft"] 
                                                      objectForKey: origin] 
                                                      objectForKey: @"Größe"];
-      NSLog(@"NPC height Definition: %@", heightDefinition);                                               
       if (! heightDefinition)
         {
           heightDefinition = [charConstraints objectForKey: @"Größe"];
         }
-  
+      NSLog(@"NPC height Definition: %@", heightDefinition);
       if ([heightDefinition count] == 1)
         {
            height = [Utils rollDice: [heightDefinition objectAtIndex: 0]];
@@ -2281,16 +2293,25 @@
       return portraitName;
     }
 
-  NSString *selectedArchetype = self.character.archetype;
+  NSString *archetype = parameters[@"archetype"];
+  NSString *subarchetype = parameters[@"subarchetype"];
   NSString *sex = self.character.sex;
-  NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getArchetypesDict] objectForKey: selectedArchetype]];
+  NSDictionary *charConstraints;
+  if ([self.character isKindOfClass: [DSACharacterHero class]])
+    {
+      charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getArchetypesDict] objectForKey: archetype]];
+    }
+  else
+    {
+      charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+    }  
   NSArray *subtypen = [[charConstraints objectForKey: @"Subtypen"] allKeys];
   NSString *subtype;
   if (subtypen)
     {
-      if ([subtypen containsObject: selectedArchetype])
+      if ([subtypen containsObject: subarchetype])
         {
-          subtype = selectedArchetype;
+          subtype = subarchetype;
         }
     }
   
@@ -2315,7 +2336,7 @@
       return academy;
     }
 
-  NSString *selectedArchetype = self.character.archetype;
+  NSString *selectedArchetype = parameters[@"archetype"];
   NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getArchetypesDict] objectForKey: selectedArchetype]];
   NSArray *academies;
   if ([self.character isMemberOfClass: [DSACharacterHeroHumanMage class]])
@@ -2547,29 +2568,63 @@
   NSLog(@"DSACharacterGenerator resolvePositiveTraitsFromParameters going to generate positive traits");
   positiveTraits = [[NSMutableDictionary alloc] init];
 
-  NSArray *positiveTraitsArr = [self generatePositiveTraitsFromParameters: parameters];
-  NSDictionary *traitConstraints = [self generatePositiveTraitConstraintsFromParameters: parameters];
-  BOOL all_good = NO;
- 
-  do
+  if ([self.character isKindOfClass: [DSACharacterHero class]])
     {
-      NSInteger cnt = 0;
-      for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
+      NSArray *positiveTraitsArr = [self generatePositiveTraitsFromParameters: parameters];
+      NSDictionary *traitConstraints = [self generatePositiveTraitConstraintsFromParameters: parameters];
+      BOOL all_good = NO;
+ 
+      do
         {
-          NSInteger traitValue = [[positiveTraitsArr objectAtIndex: cnt] integerValue];
-          all_good = [self verifyTraitValue: traitValue againstConstraint: [traitConstraints objectForKey: field]];
-          if (!all_good)
+          NSInteger cnt = 0;
+          for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
             {
-              break;  // break out of the for loop, to start all over
+              NSInteger traitValue = [[positiveTraitsArr objectAtIndex: cnt] integerValue];
+              all_good = [self verifyTraitValue: traitValue againstConstraint: [traitConstraints objectForKey: field]];
+              if (!all_good)
+                {
+                  break;  // break out of the for loop, to start all over
+                }
+              [positiveTraits setObject: 
+                [[DSAPositiveTrait alloc] initTrait: field 
+                                            onLevel: traitValue]
+                                 forKey: field];
             }
-          [positiveTraits setObject: 
-            [[DSAPositiveTrait alloc] initTrait: field 
-                                        onLevel: traitValue]
-                             forKey: field];
         }
+      while (!all_good);
     }
-  while (!all_good);
-  
+  else
+    {
+       NSString *experienceLevel = parameters[@"experienceLevel"];
+       NSString *archetype = parameters[@"archetype"];
+       NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+       
+       NSDictionary *traitDefinitions = [[[charConstraints objectForKey: @"Erfahrungsstufen"]
+                                                           objectForKey: experienceLevel]
+                                                           objectForKey: @"Eigenschaften"];
+       if (!traitDefinitions)
+         {
+           traitDefinitions = [charConstraints objectForKey: @"Eigenschaften"];
+         }
+       NSLog(@"DSACharacterGenerator resolvePositiveTraitsFromParameters for archetype: %@, experienceLevel: %@, traitDefinitions: %@", archetype, experienceLevel, traitDefinitions);
+       for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK"])
+         {
+           NSArray *traitDefinition = [traitDefinitions objectForKey: field];
+           NSInteger traitValue;
+           if ([traitDefinition count] == 1)
+             {
+                traitValue = [Utils rollDice: [traitDefinition objectAtIndex: 0]];
+             }
+           else
+             {
+                traitValue = [Utils rollDice: [traitDefinition objectAtIndex: 0]] + [[traitDefinition objectAtIndex: 1] integerValue];
+             }
+           [positiveTraits setObject:
+             [[DSAPositiveTrait alloc] initTrait: field
+                                         onLevel: traitValue]
+                              forKey: field];
+         }        
+    }
   return positiveTraits;
 }
 
@@ -2582,32 +2637,144 @@
     }
 
   negativeTraits = [[NSMutableDictionary alloc] init];
-
-  NSArray *negativeTraitsArr = [self generateNegativeTraitsFromParameters: parameters];
-  NSDictionary *traitConstraints = [self generateNegativeTraitConstraintsFromParameters: parameters];
-  BOOL all_good = NO;
- 
-  do
+  if ([self.character isKindOfClass: [DSACharacterHero class]])
     {
-      NSInteger cnt = 0;
-      for (NSString *field in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
+      NSArray *negativeTraitsArr = [self generateNegativeTraitsFromParameters: parameters];
+      NSDictionary *traitConstraints = [self generateNegativeTraitConstraintsFromParameters: parameters];
+      BOOL all_good = NO;
+ 
+      do
         {
-          NSInteger traitValue = [[negativeTraitsArr objectAtIndex: cnt] integerValue];
-          all_good = [self verifyTraitValue: traitValue againstConstraint: [traitConstraints objectForKey: field]];
-          if (!all_good)
+          NSInteger cnt = 0;
+          for (NSString *field in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
             {
-              break;  // break out of the for loop, to start all over
+              NSInteger traitValue = [[negativeTraitsArr objectAtIndex: cnt] integerValue];
+              all_good = [self verifyTraitValue: traitValue againstConstraint: [traitConstraints objectForKey: field]];
+              if (!all_good)
+                {
+                  break;  // break out of the for loop, to start all over
+                }
+              [negativeTraits setObject: 
+                [[DSAPositiveTrait alloc] initTrait: field 
+                                            onLevel: traitValue]
+                                 forKey: field];
             }
-          [negativeTraits setObject: 
-            [[DSAPositiveTrait alloc] initTrait: field 
-                                        onLevel: traitValue]
-                             forKey: field];
         }
+      while (!all_good);
     }
-  while (!all_good);
-  
+  else
+    {
+      NSString *archetype = parameters[@"archetype"];
+      NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];    
+      NSDictionary *traitConstraints = [charConstraints objectForKey: @"Eigenschaften Constraints"];
+      for (NSString *field in @[@"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ"])
+        {
+          NSInteger result;
+          result = [Utils rollDice: @"1W6"] + 1;
+          NSString *traitConstraint = [traitConstraints objectForKey: field];
+          if (traitConstraint)
+            {
+              NSDictionary *constraintsDict = [Utils parseConstraint: traitConstraint];
+              if ([[constraintsDict objectForKey: @"constraint"] isEqualTo: @"MAX"])
+                {
+                  if (result < [[constraintsDict objectForKey: @"value"] integerValue])
+                    {
+                      result = [[constraintsDict objectForKey: @"value"] integerValue];
+                    }
+                }
+              else
+                {
+                  if (result > [[constraintsDict objectForKey: @"value"] integerValue])
+                    {
+                      result = [[constraintsDict objectForKey: @"value"] integerValue];
+                    }
+                }
+            }
+          [negativeTraits setObject:
+            [[DSANegativeTrait alloc] initTrait: field
+                                        onLevel: result]
+                             forKey: field];
+        }    
+    }
   return negativeTraits;
 }
+
+- (NSInteger) resolveStaticAttackBaseValueFromParameters: (NSDictionary *) parameters
+{
+  if ([self.character isKindOfClass: [DSACharacterHero class]])
+    {
+      return 0;
+    }
+  else
+    {
+      NSString *experienceLevel = parameters[@"experienceLevel"];
+      NSString *archetype = parameters[@"archetype"];
+      NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+      NSLog(@"DSANPCGenerationController generateAttackBaseValue selectedLevel: %@", experienceLevel);
+      NSArray *atDefinition = [[[charConstraints objectForKey: @"Erfahrungsstufen"] 
+                                                 objectForKey: experienceLevel] 
+                                                 objectForKey: @"AT"];
+      NSLog(@"DSANPCGenerationController generateAttackBaseValue atDefinition: %@", atDefinition);                                                  
+      if (!atDefinition)
+        {
+          atDefinition = [charConstraints objectForKey: @"AT"];
+        }
+      NSLog(@"DSANPCGenerationController generateAttackBaseValue atDefinition: %@", atDefinition);
+
+      if (!atDefinition)
+        {
+          return 0;
+        }
+      return [[atDefinition objectAtIndex: 0] integerValue];
+    }
+}
+
+- (NSInteger) resolveStaticParryBaseValueFromParameters: (NSDictionary *) parameters
+{
+  if ([self.character isKindOfClass: [DSACharacterHero class]])
+    {
+      return 0;
+    }
+  else
+    {
+      NSString *experienceLevel = parameters[@"experienceLevel"];
+      NSString *archetype = parameters[@"archetype"];
+      NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+      NSLog(@"DSANPCGenerationController generateParryBaseValue selectedLevel: %@", experienceLevel);
+      NSArray *paDefinition = [[[charConstraints objectForKey: @"Erfahrungsstufen"] 
+                                                    objectForKey: experienceLevel] 
+                                                    objectForKey: @"PA"];
+      NSLog(@"DSANPCGenerationController generateParryBaseValue paDefinition: %@", paDefinition);                                                  
+      if (!paDefinition)
+        {
+          paDefinition = [charConstraints objectForKey: @"PA"];
+        }
+      NSLog(@"DSANPCGenerationController generateParryBaseValue paDefinition: %@", paDefinition);
+
+      if (!paDefinition)
+        {
+          return 0;
+        }
+      return [[paDefinition objectAtIndex: 0] integerValue];
+    }
+}
+
+- (NSInteger) resolveArmorBaseValueFromParameters: (NSDictionary *) parameters
+{
+  if ([self.character isKindOfClass: [DSACharacterHero class]])
+    {
+      return 0;
+    }
+  else
+    {
+      NSString *archetype = parameters[@"archetype"];
+      NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+      NSInteger armorBaseValue = [[charConstraints objectForKey: @"RS"] integerValue];
+
+      return armorBaseValue;
+    }
+}
+
 
 - (NSMutableDictionary *) resolveTalentsFromParameters:(NSDictionary *)parameters {
   NSMutableDictionary *talentsDict = parameters[@"talents"];
@@ -2663,6 +2830,57 @@
   //NSLog(@"THE NEW TALENTS: newTalents %@", newTalents);
   return newTalents;
 }
+/*
+- (void) addTalentsToCharacter: (DSACharacterNpc *) character
+{
+    // handle talents
+  NSDictionary *talents = [[NSDictionary alloc] init];
+  talents = [Utils getTalentsForCharacter: character];
+  NSMutableDictionary *newTalents = [[NSMutableDictionary alloc] init];
+  for (NSString *category in talents)
+    {
+      if ([category isEqualTo: @"Kampftechniken"])
+        {   
+          for (NSString *subCategory in [talents objectForKey: category])
+            {
+              for (NSString *t in [[talents objectForKey: category] objectForKey: subCategory])
+                {
+                   NSLog(@"dealing with talent in if clause for loop: %@", t);
+                   NSDictionary *tDict = [[[talents objectForKey: category] objectForKey: subCategory] objectForKey: t];
+                   DSAFightingTalent *talent = [[DSAFightingTalent alloc] initTalent: t
+                                                                       inSubCategory: subCategory
+                                                                          ofCategory: category
+                                                                             onLevel: [[tDict objectForKey: @"Startwert"] integerValue]
+                                                              withMaxTriesPerLevelUp: [[tDict objectForKey: @"Versuche"] integerValue]
+                                                                   withMaxUpPerLevel: [[tDict objectForKey: @"Steigern"] integerValue]
+                                                                     withLevelUpCost: 1];
+                  NSLog(@"DSACharacterGenerationController: initialized talent: %@", talent);                                                                     
+                  [newTalents setObject: talent forKey: t];
+                }
+            }
+        }
+      else
+        {
+          for (NSString *t in [talents objectForKey: category])
+            {
+              //NSLog(@"dealing with talent in else clause for loop: %@", t);
+              NSDictionary *tDict = [[talents objectForKey: category] objectForKey: t];                             
+              DSAOtherTalent *talent = [[DSAOtherTalent alloc] initTalent: t
+                                                               ofCategory: category
+                                                                  onLevel: [[tDict objectForKey: @"Startwert"] integerValue]
+                                                                 withTest: [tDict objectForKey: @"Probe"]
+                                                   withMaxTriesPerLevelUp: [[tDict objectForKey: @"Versuche"] integerValue]
+                                                        withMaxUpPerLevel: [[tDict objectForKey: @"Steigern"] integerValue]
+                                                          withLevelUpCost: 1];
+              //NSLog(@"DSACharacterGenerationController: initialized talent: %@", talent);
+              [newTalents setObject: talent forKey: t];
+            }
+        }        
+    }
+  //NSLog(@"THE NEW TALENTS: newTalents %@", newTalents);
+  character.talents = newTalents;
+}
+*/
 
 - (NSMutableDictionary *) resolveSpellsFromParameters:(NSDictionary *)parameters {
   NSMutableDictionary *spellsDict = parameters[@"spells"];

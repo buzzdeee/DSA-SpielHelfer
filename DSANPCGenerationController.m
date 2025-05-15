@@ -103,6 +103,8 @@
   NSString *selectedArchetype = [[self.popupTypes selectedItem] title];
   NSString *selectedSubtype = [[self.popupSubtypes selectedItem] title];
   NSString *selectedOrigin = [[self.popupOrigins selectedItem] title];
+  NSString *selectedExperienceLevel = [[self.popupLevel selectedItem] title];
+  
   NSLog(@"DSANPCGenerationController selectedOrigin: %@", selectedOrigin);
 
   [characterParameters setObject: selectedArchetype forKey: @"archetype"];
@@ -113,6 +115,7 @@
 
   [characterParameters setObject: [NSNumber numberWithBool: YES] forKey: @"isNPC"];      // we only create characters here
   [characterParameters setObject: selectedOrigin forKey: @"origin"];
+  [characterParameters setObject: selectedExperienceLevel forKey: @"experienceLevel"];
 
   DSACharacterNpc *newCharacter = [generator generateCharacterWithParameters: characterParameters];
   
@@ -142,36 +145,36 @@
   // newCharacter.name = [self generateNameForGender: newCharacter.sex];
   //newCharacter.height = [self generateHeight: charConstraints];
   //newCharacter.weight = [self generateWeight: charConstraints];
-  newCharacter.staticAttackBaseValue = [self generateAttackBaseValue: charConstraints];
-  newCharacter.staticParryBaseValue = [self generateParryBaseValue: charConstraints];
-  newCharacter.armorBaseValue = [self generateArmorBaseValue: charConstraints];
+  //newCharacter.staticAttackBaseValue = [self generateAttackBaseValue: charConstraints];
+  //newCharacter.staticParryBaseValue = [self generateParryBaseValue: charConstraints];
+  //newCharacter.armorBaseValue = [self generateArmorBaseValue: charConstraints];
   // newCharacter.isMagic = [[charConstraints objectForKey: @"isMagic"] boolValue];
   
-  newCharacter.positiveTraits = [self generatePositiveTraits: charConstraints];
-  NSMutableDictionary *deepCopyPositiveTraits = [NSMutableDictionary dictionary];
-  for (NSString *key in newCharacter.positiveTraits)
-    {
-      DSAPositiveTrait *value = newCharacter.positiveTraits[key];
-      deepCopyPositiveTraits[key] = [value copy];
-    }
-  newCharacter.currentPositiveTraits = [deepCopyPositiveTraits mutableCopy];
+  //newCharacter.positiveTraits = [self generatePositiveTraits: charConstraints];
+  //NSMutableDictionary *deepCopyPositiveTraits = [NSMutableDictionary dictionary];
+  //for (NSString *key in newCharacter.positiveTraits)
+  //  {
+  //    DSAPositiveTrait *value = newCharacter.positiveTraits[key];
+  //    deepCopyPositiveTraits[key] = [value copy];
+  //  }
+  //newCharacter.currentPositiveTraits = [deepCopyPositiveTraits mutableCopy];
 
-  newCharacter.negativeTraits = [self generateNegativeTraits: charConstraints];
-  NSMutableDictionary *deepCopyNegativeTraits = [NSMutableDictionary dictionary];
-  for (NSString *key in newCharacter.negativeTraits)
-    {
-      DSANegativeTrait *value = newCharacter.negativeTraits[key];
-      deepCopyNegativeTraits[key] = [value copy];
-    }
-  newCharacter.currentNegativeTraits = [deepCopyNegativeTraits mutableCopy];  
-  newCharacter.portraitName = [self generatePortraitName: charConstraints forGender: newCharacter.sex ofSubtype: selectedSubtype];
+  //newCharacter.negativeTraits = [self generateNegativeTraits: charConstraints];
+  //NSMutableDictionary *deepCopyNegativeTraits = [NSMutableDictionary dictionary];
+  //for (NSString *key in newCharacter.negativeTraits)
+  //  {
+  //    DSANegativeTrait *value = newCharacter.negativeTraits[key];
+  //    deepCopyNegativeTraits[key] = [value copy];
+  //  }
+  //newCharacter.currentNegativeTraits = [deepCopyNegativeTraits mutableCopy];  
+  // newCharacter.portraitName = [self generatePortraitName: charConstraints forGender: newCharacter.sex ofSubtype: selectedSubtype];
   
-  [self addTalentsToCharacter: newCharacter];
-  if (newCharacter.isMagic)
-    {
-      [self addSpellsToCharacter: newCharacter];
-      [Utils applySpellmodificatorsToCharacter: newCharacter];
-    }
+  // [self addTalentsToCharacter: newCharacter];
+//  if (newCharacter.isMagic)
+//    {
+//      [self addSpellsToCharacter: newCharacter];
+//      [Utils applySpellmodificatorsToCharacter: newCharacter];
+//    }
   
   [self apply: @"Herkunft" to: newCharacter using: charConstraints];
   [self apply: @"Subtypen" to: newCharacter using: charConstraints];
@@ -180,7 +183,7 @@
   
   NSLog(@"DSANPCGenerationController: newCharacter: %@", newCharacter);
 }
-
+/*
 - (NSString *) generatePortraitName: (NSDictionary *) charConstraints forGender: (NSString *) gender ofSubtype: (NSString *) subtype
 {
   NSArray *portraitNames = [[[[charConstraints objectForKey: @"Subtypen"]
@@ -314,7 +317,7 @@
 
   return armorBaseValue;
 }
-
+*/
 /*
 - (NSInteger) generateMagicResistance: (NSDictionary *) charConstraints
 {
@@ -620,7 +623,7 @@
       character.staticParryBaseValue = [character staticParryBaseValue] + parryBaseValueModificator;
     }    
 }
-
+/*
 - (void) addTalentsToCharacter: (DSACharacterNpc *) character
 {
     // handle talents
@@ -727,7 +730,7 @@
       NSLog(@"DSANPCGenerationController: addSpellsToCharacter: not applying any archetype related spell modificators");        
     }
 }
-
+*/
 - (void) addEquipmentToCharacter: (DSACharacterNpc *) character using: (NSDictionary *) charConstraints
 {
   NSString *origin = character.origin;

@@ -411,6 +411,8 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   [coder encodeBool:self.isBlessedOne forKey:@"isBlessedOne"];    
   [coder encodeInteger:self.mrBonus forKey:@"mrBonus"];
   [coder encodeInteger:self.armorBaseValue forKey:@"armorBaseValue"];
+  [coder encodeInteger:self.staticAttackBaseValue forKey:@"staticAttackBaseValue"];
+  [coder encodeInteger:self.staticParryBaseValue forKey:@"staticParryBaseValue"];
   [coder encodeInteger:self.adventurePoints forKey:@"adventurePoints"];
   [coder encodeObject:self.origin forKey:@"origin"];
   [coder encodeObject:self.mageAcademy forKey:@"mageAcademy"];
@@ -436,7 +438,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   [coder encodeObject:self.positiveTraits forKey:@"positiveTraits"];
   [coder encodeObject:self.negativeTraits forKey:@"negativeTraits"];
   [coder encodeObject:self.currentPositiveTraits forKey:@"currentPositiveTraits"];
-  [coder encodeObject:self.currentNegativeTraits forKey:@"currentNegativeTraits"];  
+  [coder encodeObject:self.currentNegativeTraits forKey:@"currentNegativeTraits"]; 
   [coder encodeObject:self.inventory forKey:@"inventory"];
   [coder encodeObject:self.bodyParts forKey:@"bodyParts"];
   [coder encodeObject:self.talents forKey:@"talents"];
@@ -479,6 +481,8 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.currentKarmaPoints = [coder decodeIntegerForKey:@"currentKarmaPoints"];   
       self.mrBonus = [coder decodeIntegerForKey:@"mrBonus"];
       self.armorBaseValue = [coder decodeIntegerForKey:@"armorBaseValue"];
+      self.staticAttackBaseValue = [coder decodeIntegerForKey:@"staticAttackBaseValue"];               
+      self.staticParryBaseValue = [coder decodeIntegerForKey:@"staticParryBaseValue"];
       self.isNPC = [coder decodeBoolForKey:@"isNPC"];
       self.isMagic = [coder decodeBoolForKey:@"isMagic"];
       self.isMagicalDabbler = [coder decodeBoolForKey:@"isMagicalDabbler"];      
@@ -3729,26 +3733,6 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   if (self)
     {
       self.isNPC = YES;
-    }
-  return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder
-{
-  [super encodeWithCoder: coder];
-        
-  [coder encodeInteger:self.staticAttackBaseValue forKey:@"staticAttackBaseValue"];
-  [coder encodeInteger:self.staticParryBaseValue forKey:@"staticParryBaseValue"];
-
-}
-
-- (instancetype)initWithCoder:(NSCoder *)coder
-{
-  self = [super initWithCoder: coder];
-  if (self)
-    {
-      self.staticAttackBaseValue = [coder decodeIntegerForKey:@"staticAttachBaseValue"];               
-      self.staticParryBaseValue = [coder decodeIntegerForKey:@"staticParryBaseValue"];
     }
   return self;
 }

@@ -127,6 +127,10 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 @property (readonly, assign) NSInteger parryBaseValue;
 @property (readonly, assign) NSInteger rangedCombatBaseValue;
 
+// those static values used for simpler NPC types, with less calculations...
+@property (nonatomic, assign) NSInteger staticAttackBaseValue;
+@property (nonatomic, assign) NSInteger staticParryBaseValue;
+
 @property (nonatomic, strong) DSALocation *currentLocation;
 
 + (instancetype)characterWithType:(NSString *)type;     // create a character of given arche-(type)
@@ -406,8 +410,6 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 // End of DSACharacterHeroBlessedSwafnir
 
 @interface DSACharacterNpc : DSACharacter
-@property (nonatomic, assign) NSInteger staticAttackBaseValue;
-@property (nonatomic, assign) NSInteger staticParryBaseValue;
 @end
 // End of DSACharacterNpc
 
