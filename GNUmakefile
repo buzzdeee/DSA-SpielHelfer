@@ -49,6 +49,7 @@ Resources/DSACastRitual.gorm \
 Resources/DSACharacterDead.gorm \
 Resources/DSAAdventureGeneration.gorm \
 Resources/DSANPCGenerator.gorm \
+Resources/DSABattleMap.gorm \
 Resources/Character_1.png \
 Resources/Character_10.png \
 Resources/Character_100.png \
@@ -5529,7 +5530,10 @@ DSALocations.h \
 DSAAdventureGenerationController.h \
 DSANPCGenerationController.h \
 DSASpellSharisadDance.h \
-DSACharacterGenerator.h
+DSACharacterGenerator.h \
+DSAAreaMap.h \
+DSABattleMapView.h \
+DSABattleWindowController.h
 
 #
 # Objective-C Class files
@@ -5594,7 +5598,10 @@ DSALocations.m \
 DSAAdventureGenerationController.m \
 DSANPCGenerationController.m \
 DSASpellSharisadDance.m \
-DSACharacterGenerator.m
+DSACharacterGenerator.m \
+DSAAreaMap.m \
+DSABattleMapView.m \
+DSABattleWindowController.m
 
 #
 # Other sources

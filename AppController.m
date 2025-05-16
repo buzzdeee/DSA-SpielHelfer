@@ -23,6 +23,7 @@
 #import "DSAEquipmentListViewController.h"
 #import "DSANameGenerationController.h"
 #import "DSALocations.h"
+#import "DSABattleWindowController.h"
 
 @implementation AppController
 
@@ -74,6 +75,16 @@
     
   // Show the window
   [self.mapViewController showWindow:self];
+}
+
+- (IBAction)newBattle:(id)sender
+{
+  NSLog(@"AppController newBattle called!!!");
+  // Initialize and retain the DSAMapViewController
+  self.battleViewController = [[DSABattleWindowController alloc] init];
+    
+  // Show the window
+  [self.battleViewController showWindow:self];
 }
 
 - (IBAction)showEquipmentList:(id)sender

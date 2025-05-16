@@ -83,6 +83,13 @@ static NSObject *syncObject = nil; // A synchronization object
   return self.documentTypeToModelMap[typeName];  
 }
 
+- (NSArray<DSAAdventureDocument *> *)allAdventureDocuments {
+    return [[self documents] filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(NSDocument *doc, NSDictionary *bindings) {
+        return [doc isKindOfClass:[DSAAdventureDocument class]];
+    }]];
+}
+
+
 -(IBAction)levelUpBaseValues: (id)sender
 {
   NSLog(@"DSADocumentController levelUpBaseValues called!");

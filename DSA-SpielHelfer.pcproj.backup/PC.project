@@ -72,7 +72,10 @@
 	"DSAAdventureGenerationController.m",
 	"DSANPCGenerationController.m",
 	"DSASpellSharisadDance.m",
-	"DSACharacterGenerator.m"
+	"DSACharacterGenerator.m",
+	"DSAAreaMap.m",
+	"DSABattleMapView.m",
+	"DSABattleWindowController.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -141,7 +144,10 @@
 	"DSAAdventureGenerationController.h",
 	"DSANPCGenerationController.h",
 	"DSASpellSharisadDance.h",
-	"DSACharacterGenerator.h"
+	"DSACharacterGenerator.h",
+	"DSAAreaMap.h",
+	"DSABattleMapView.h",
+	"DSABattleWindowController.h"
     );
     IMAGES = (
 	"Character_1.png",
@@ -5538,7 +5544,8 @@
 	"DSACastRitual.gorm",
 	"DSACharacterDead.gorm",
 	"DSAAdventureGeneration.gorm",
-	"DSANPCGenerator.gorm"
+	"DSANPCGenerator.gorm",
+	"DSABattleMap.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (

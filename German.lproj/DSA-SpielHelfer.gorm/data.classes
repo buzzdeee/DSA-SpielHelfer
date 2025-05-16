@@ -14,7 +14,8 @@
 	    "castSpell:",
 	    "showNameGenerator:",
 	    "newAdventureGeneration:",
-	    "newNPCGeneration:"
+	    "newNPCGeneration:",
+	    "newBattle:"
 	);
 	Outlets = (
 	);
@@ -110,9 +111,10 @@
 	    "closePanel:",
 	    "levelUp:",
 	    "levelUpBaseValues:",
-	    "newNPCGeneration:",
+	    "newBattle:",
 	    "newAdventureGeneration:",
 	    "newCharacterGeneration:",
+	    "newNPCGeneration:",
 	    "openMap:",
 	    "orderFrontFontPanel:",
 	    "pauseGameClock:",

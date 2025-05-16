@@ -27,6 +27,7 @@
 #import "Utils.h"
 #import "DSAAventurianCalendar.h"
 #import "DSANameGenerator.h"
+#import "DSAInventoryManager.h"
 #import "DSATrait.h"
 #import "DSASpellWitchCurse.h"
 #import "DSASpellDruidRitual.h"
@@ -127,17 +128,31 @@
   self.character.spells = [self resolveSpellsFromParameters: parameters];
 
   [Utils applySpellmodificatorsToCharacter: self.character];  
-  
-  if (![[parameters objectForKey: @"isNPC"] boolValue])
-    {   
-            
-  for (NSString *modificator in @[ @"Goettergeschenke", @"Herkunft", @"Kriegerakademie", @"Magierakademie", @"Schamanenmodifikatoren"])
+
+  if ([self.character isKindOfClass: [DSACharacterHero class]])
     {
-      [self apply: modificator toCharacter: self.character];
+      for (NSString *modificator in @[ @"Goettergeschenke", @"Herkunft", @"Kriegerakademie", @"Magierakademie", @"Schamanenmodifikatoren"])
+        {
+          [self apply: modificator toCharacter: self.character];
+        }
+    }
+  else
+    {
+      for (NSString *modificator in @[ @"Herkunft", @"Subtypen"])
+        {
+          [self apply: modificator toNpc: self.character usingParameters: parameters];
+        }      
     }
   [self makeCharacterAMagicalDabblerFromParameters: parameters];
-  [self addEquipmentToCharacter];
-} // end of if !isNPC
+
+  if ([self.character isKindOfClass: [DSACharacterHero class]])  
+    {
+      [self addEquipmentToCharacter];
+    }
+  else
+    {
+      [self addEquipmentToNpcFromParameters: parameters];
+    }
   return self.character;
 }
 
@@ -3402,6 +3417,72 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
     }    
 }
 
+- (void) apply: (NSString *)modificator toNpc: (DSACharacter *) character usingParameters: (NSDictionary *) parameters
+{
+  NSString *charProperty;
+  if ([modificator isEqualToString: @"Herkunft"])
+    {
+      charProperty = @"origin";
+    }
+  else if ([modificator isEqualToString: @"Subtypen"])
+    {
+      charProperty = @"archetype";
+    }
+  else
+    {
+      NSLog(@"DSANPCgenerationController apply: to: using: got unknown modificator: %@", modificator);
+      return;
+    }
+  NSString *archetype = parameters[@"archetype"];
+  NSDictionary  *charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+  NSDictionary *modificators = [[charConstraints objectForKey: modificator]
+                                                 objectForKey: [character valueForKey: charProperty]];
+                                                 
+  NSLog(@"DSANPCgenerationController apply: to: using: got these modificators: %@", modificators);
+  
+  if (!modificators)
+    {
+      NSLog(@"DSACharacterGenerator apply: %@ toNpc, no modificators, nothing to modify.", modificator);
+      return;
+    }
+  
+  for (NSString *field in @[ @"MU", @"IN", @"GE", @"KK", @"KL", @"CH", @"FF" ])
+    {
+      NSInteger value = 0;
+      value = [[modificators objectForKey: field] integerValue];
+      if (value != 0)
+        {
+           DSAPositiveTrait *trait = [[character valueForKey: @"positiveTraits"]
+                                                objectForKey: field];
+           trait.level = [trait level] + value;
+           trait = [[character valueForKey: @"currentPositiveTraits"]
+                              objectForKey: field];
+           trait.level = [trait level] + value;           
+        }
+        
+    }
+  // other character properties that might be "different"
+  // "RS" a.k.a. armorBaseValue
+  NSInteger armorBaseValueModificator = 0;
+  armorBaseValueModificator = [[modificators objectForKey: @"RS"] integerValue];
+  if (armorBaseValueModificator != 0)
+    {
+      character.armorBaseValue = character.armorBaseValue + armorBaseValueModificator;
+    }
+  NSInteger attackBaseValueModificator = 0;
+  attackBaseValueModificator = [[modificators objectForKey: @"AT"] integerValue];
+  if (attackBaseValueModificator != 0)
+    {
+      character.staticAttackBaseValue = [character staticAttackBaseValue] + attackBaseValueModificator;
+    }
+  NSInteger parryBaseValueModificator = 0;
+  parryBaseValueModificator = [[modificators objectForKey: @"PA"] integerValue];
+  if (parryBaseValueModificator != 0)
+    {
+      character.staticParryBaseValue = [character staticParryBaseValue] + parryBaseValueModificator;
+    }    
+}
+
 - (void) addEquipmentToCharacter
 {
 
@@ -3444,6 +3525,54 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
   NSLog(@"THE INVENTORY: %@", character.inventory);
 }
 
+- (void) addEquipmentToNpcFromParameters: (NSDictionary *) parameters
+{
+  NSString *origin = parameters[@"origin"];
+  NSString *archetype = parameters[@"archetype"];
+  NSDictionary  *charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getNpcTypesDict] objectForKey: archetype]];
+  DSAInventoryManager *inventoryManager = [DSAInventoryManager sharedManager];
+  NSLog(@"DSANPCGenerationController addEquipmentToCharacter selectedOrigin: %@", origin);
+  NSArray *weaponArray = [[[charConstraints objectForKey: @"Herkunft"] 
+                                            objectForKey: origin] 
+                                            objectForKey: @"Waffen"];
+  NSLog(@"DSANPCGenerationController addEquipmentToCharacter weaponArray: %@", weaponArray);                                                  
+  if (! weaponArray)
+    {
+      weaponArray = [charConstraints objectForKey: @"Waffen"];
+    }
+  NSLog(@"DSANPCGenerationController addEquipmentToCharacter weaponArray: %@", weaponArray);
+  
+  NSUInteger randomIndex = arc4random_uniform((uint32_t) [weaponArray count]);
+  NSString *weaponName = [weaponArray objectAtIndex: randomIndex];
+  DSAObject *weapon = [[DSAObject alloc] initWithName: weaponName forOwner: nil];
+  
+  NSLog(@"DSANPCGenerationController addEquipmentToNpc weapon: %@", weapon);
+  
+  [inventoryManager equipCharacter: self.character
+                        withObject: weapon
+                        ofQuantity: 1
+                        toBodyPart: @"rightHand"
+                          slotType: DSASlotTypeGeneral];
+   if ([weapon isMemberOfClass:[DSAObjectWeaponLongRange class]])
+     {
+       NSArray *ammoArray = [(DSAObjectWeaponLongRange *)weapon ammunition];
+
+       if (ammoArray != nil && [ammoArray count] > 0)
+         {
+           randomIndex = arc4random_uniform((uint32_t) [ammoArray count]);
+           NSString *ammoName = [ammoArray objectAtIndex: randomIndex];
+           DSAObject *ammo = [[DSAObject alloc] initWithName: ammoName forOwner: nil];
+           [inventoryManager equipCharacter: self.character
+                                 withObject: ammo
+                                 ofQuantity: 20
+                                 toBodyPart: @"leftHand"
+                                   slotType: DSASlotTypeGeneral];
+         }
+     }
+  
+}
+
+
 -(void) makeCharacterAMagicalDabblerFromParameters: (NSDictionary *)parameters
 {
   NSLog(@"DSACharacterGenerator makeCharacterAMagicalDabblerFromParameters called");
@@ -3452,6 +3581,7 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
   BOOL isMagicalDabbler = [[magicalDabblerInfo objectForKey: @"isMagicalDabbler"] boolValue];
   if (! isMagicalDabbler)
     {
+      NSLog(@"DSACharacterGenerator makeCharacterAMagicalDabblerFromParameters no magicalDabblerInfo, exiting");
       return;
     }
   NSArray *spells = [magicalDabblerInfo objectForKey: @"spells"];

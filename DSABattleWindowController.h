@@ -1,11 +1,11 @@
 /*
    Project: DSA-SpielHelfer
 
-   Copyright (C) 2024 Free Software Foundation
+   Copyright (C) 2025 Free Software Foundation
 
    Author: Sebastian Reitenbach
 
-   Created: 2024-09-07 23:26:58 +0200 by sebastia
+   Created: 2025-05-16 21:48:28 +0200 by sebastia
 
    This application is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,28 +22,15 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
-#ifndef _DSADOCUMENTCONTROLLER_H_
-#define _DSADOCUMENTCONTROLLER_H_
+#ifndef _DSABATTLEWINDOWCONTROLLER_H_
+#define _DSABATTLEWINDOWCONTROLLER_H_
 
 #import <AppKit/AppKit.h>
+@class DSABattleMapView;
 
-@class DSAAdventureDocument;
-
-@interface DSADocumentController : NSDocumentController
-{
-
-}
-
-// used to keep track, which window controller class belongs to which Document Type name
-@property (nonatomic, strong) NSDictionary<NSString *, Class> *documentTypeToWindowControllerMap;
-// used to keep track, which model class belongs to each type of document
-@property (nonatomic, strong) NSDictionary<NSString *, Class> *documentTypeToModelMap;
-
-- (Class)windowControllerClassForDocumentType:(NSString *)typeName;
-
-- (NSArray<DSAAdventureDocument *> *)allAdventureDocuments;
-
+@interface DSABattleWindowController : NSWindowController
+@property (nonatomic, retain) IBOutlet DSABattleMapView *battleMapView;
 @end
 
-#endif // _DSADOCUMENTCONTROLLER_H_
+#endif // _DSABATTLEWINDOWCONTROLLER_H_
 
