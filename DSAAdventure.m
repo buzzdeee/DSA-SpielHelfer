@@ -41,7 +41,6 @@
         [_gameClock startClock];
         NSLog(@"DSAAdventure init after starting clock");
         _currentLocation = [[DSALocation alloc] init];
-        
     }
     NSLog(@"DSAAdventure init: returning self: %@", self);
     return self;
@@ -81,6 +80,8 @@
       _currentLocation = [coder decodeObjectForKey:@"currentLocation"];
       
       _characterFilePaths = [coder decodeObjectForKey:@"characterFilePaths"] ?: [NSMutableArray array];
+      NSLog(@"DSAAdventure initWithCoder, going to start gameClock");
+      [self.gameClock startClock];
     }
   return self;
 }

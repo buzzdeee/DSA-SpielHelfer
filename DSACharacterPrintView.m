@@ -101,6 +101,7 @@
 - (void)drawContentForPage:(NSUInteger)page inRect:(NSRect)rect
 {
   NSString *methodName;
+  NSLog(@"DSACharacterPrintView drawContentForPage: %@", [NSNumber numberWithInteger: page]);
   if (page == 1)
     {
       methodName = @"drawBasicsPageWithRect:";
@@ -148,6 +149,7 @@
       NSLog(@"self does not respond to the method %@", methodName);
     }
   // Draw page number at the bottom
+  NSLog(@"DSACharacterPrintView drawContentForPage: before drawing drawPageSeparator");
   [self drawPageSeparator:page withWidth: rect.size.width - MARGIN];
 }
 
@@ -175,16 +177,19 @@
   CGFloat tableY = titleY + 10; // Position for the table below the title
 
   // Draw the title
+  NSLog(@"drawBasicsPageWithRect: goging to draw title");
   [self drawTitleAtY:titleY withTitle: _(@"Charakterbogen")];
 
   // Draw the table
+  NSLog(@"drawBasicsPageWithRect: goging to draw drawBasicCharacterInfoTableStartingAtY");
   CGFloat basicInfoTableBottomY = [self drawBasicCharacterInfoTableStartingAtY:tableY withWidth: pageWidth];
   [self drawLineAtY: basicInfoTableBottomY overPageWidth: pageWidth];
-
+  NSLog(@"drawBasicsPageWithRect: goging to draw drawTraitsInfoTableStartingAtY");
   CGFloat traitsTableBottomY = [self drawTraitsInfoTableStartingAtY: basicInfoTableBottomY + 30 ];
-   
+  NSLog(@"drawBasicsPageWithRect: goging to draw drawPortraitAtY");
   [self drawPortraitAtY:basicInfoTableBottomY + 30 withHeight:(traitsTableBottomY - basicInfoTableBottomY - 20)];
   [self drawLineAtY: traitsTableBottomY overPageWidth: pageWidth];
+  NSLog(@"drawBasicsPageWithRect: at the very end");
 }
 
 - (void) drawTalentsPageWithRect: (NSRect)dirtyRect
@@ -390,7 +395,7 @@
                };
                [title drawInRect:titleRect withAttributes:titleAttributes];
 
-               NSString *propertyString = [NSString stringWithFormat: @"%lu", (unsigned long)[spell level]];
+               NSString *propertyString = [[NSNumber numberWithInteger: [spell level]] stringValue];
                NSDictionary *propertyAttributes = @{
                  NSFontAttributeName: [NSFont systemFontOfSize:cellFontSize],
                  NSForegroundColorAttributeName: fontColor
@@ -655,177 +660,6 @@
     }
 }
 
-- (void) FASDFFdrawBiography:(CGFloat)y {
-    CGFloat cellHeight = 12;         // Height for headers
-    CGFloat cellFontSize = 10;       // Font size for content text
-    CGFloat tableWidth = self.bounds.size.width;
-    CGFloat maxY = [self paperHeightForPage] * self.currentPage;
-    CGFloat lineSpacing = 0.0;       // Additional line spacing for readability
-
-    NSFont *font = [NSFont systemFontOfSize:cellFontSize];
-
-    // Create paragraph style with bullet indentation
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    CGFloat bulletIndent = 10.0; // Indent for bullets
-    CGFloat textIndent = 20.0;   // Indent for wrapped lines to align with text
-
-    [paragraphStyle setFirstLineHeadIndent:bulletIndent];
-    [paragraphStyle setHeadIndent:textIndent];
-    [paragraphStyle setLineSpacing:lineSpacing];
-
-    // Create attributes for the text with the paragraph style
-    NSDictionary *attributes = @{
-        NSFontAttributeName: font,
-        NSParagraphStyleAttributeName: paragraphStyle,
-        NSForegroundColorAttributeName: [NSColor blackColor]
-    };
-
-    // Define each section with title and content
-    NSArray *sections = @[
-        @{ @"title": _(@"Geburt"), @"content": [self birthContent] },
-        @{ @"title": _(@"Kindheit"), @"content": [self childhoodContent] },
-        @{ @"title": _(@"Jugend"), @"content": [self youthContent] }
-    ];
-
-    for (NSDictionary *section in sections) {
-        NSString *title = section[@"title"];
-        NSString *content = section[@"content"];
-
-        // Draw section header
-        NSRect headerRect = NSMakeRect(0, y, tableWidth, cellHeight);
-        [self drawCategoryHeaderInRect:headerRect withTitle:title];
-        y += 2 * (cellHeight + lineSpacing);
-
-        // Draw section content using NSTextStorage, NSTextContainer, and NSLayoutManager for proper wrapping
-        NSTextStorage *textStorage = [[NSTextStorage alloc] initWithString:content attributes:attributes];
-        NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(tableWidth, maxY - y)];
-        textContainer.lineFragmentPadding = 0; // No padding around the lines
-
-        NSLayoutManager *layoutManager = [[NSLayoutManager alloc] init];
-        [layoutManager addTextContainer:textContainer];
-        [textStorage addLayoutManager:layoutManager];
-
-        NSUInteger glyphIndex = 0;
-        while (glyphIndex < layoutManager.numberOfGlyphs && y < maxY) {
-            NSRange glyphRange;
-            NSRect lineRect = [layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex effectiveRange:&glyphRange];
-
-            // Adjust line rect to the correct vertical position
-            lineRect.origin.y = y;
-            y += lineRect.size.height + lineSpacing;
-
-            // Ensure the content does not exceed the page height
-            if (y < maxY) {
-                [layoutManager drawGlyphsForGlyphRange:glyphRange atPoint:lineRect.origin];
-            }
-            glyphIndex = NSMaxRange(glyphRange);
-        }
-    }
-}
-
-
-- (void) YUCKdrawBiography:(CGFloat)y {
-    CGFloat cellHeight = 12;         // Adjusted height for headers
-    CGFloat cellFontSize = 10;       // Font size for content text
-    CGFloat tableWidth = self.bounds.size.width;
-    CGFloat maxY = [self paperHeightForPage] * self.currentPage;
-    CGFloat lineSpacing = 4.0;       // Additional line spacing for readability
-
-    NSFont *font = [NSFont systemFontOfSize:cellFontSize];
-
-    // Create paragraph style with bullet indentation
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    CGFloat bulletIndent = 10.0; // Indent for bullets
-    CGFloat textIndent = 20.0;   // Indent for wrapped lines to align with text
-
-    [paragraphStyle setFirstLineHeadIndent:bulletIndent];
-    [paragraphStyle setHeadIndent:textIndent];
-    [paragraphStyle setLineSpacing:lineSpacing];
-
-    // Create attributes for the text with the paragraph style
-    NSDictionary *attributes = @{
-        NSFontAttributeName: font,
-        NSParagraphStyleAttributeName: paragraphStyle,
-        NSForegroundColorAttributeName: [NSColor blackColor]
-    };
-
-    // Draw each section header and content
-    NSArray *sections = @[
-        @{ @"title": _(@"Geburt"), @"content": [self birthContent] },
-        @{ @"title": _(@"Kindheit"), @"content": [self childhoodContent] },
-        @{ @"title": _(@"Jugend"), @"content": [self youthContent] }
-    ];
-
-    for (NSDictionary *section in sections) {
-        NSString *title = section[@"title"];
-        NSString *content = section[@"content"];
-
-        // Draw section header
-        NSRect headerRect = NSMakeRect(0, y, tableWidth, cellHeight);
-        [self drawCategoryHeaderInRect:headerRect withTitle:title];
-        y += 2* (cellHeight + lineSpacing);
-
-        // Draw section content
-        if (y + cellHeight < maxY) {
-            NSAttributedString *attrContent = [[NSAttributedString alloc] initWithString:content attributes:attributes];
-            NSRect textRect = NSMakeRect(0, y, tableWidth, attrContent.size.height);
-            [attrContent drawInRect:textRect];
-            y += attrContent.size.height + lineSpacing;
-        }
-    }
-}
-
-- (void) ABXdrawBiography:(CGFloat)y {
-    CGFloat cellHeight = 12;         // Adjusted height for headers
-    CGFloat cellFontSize = 10;       // Font size for content text
-    CGFloat tableWidth = self.bounds.size.width;
-    CGFloat maxY = [self paperHeightForPage] * self.currentPage;
-    CGFloat lineSpacing = 4.0;       // Additional line spacing for readability
-
-    NSFont *font = [NSFont systemFontOfSize:cellFontSize];
-
-    // Create paragraph style with bullet indentation
-    NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    CGFloat bulletIndent = 10.0; // Indent for bullets
-    CGFloat textIndent = 20.0;   // Indent for wrapped lines to align with text
-
-    [paragraphStyle setFirstLineHeadIndent:bulletIndent];
-    [paragraphStyle setHeadIndent:textIndent];
-    [paragraphStyle setLineSpacing:lineSpacing];
-
-    // Create attributes for the text with the paragraph style
-    NSDictionary *attributes = @{
-        NSFontAttributeName: font,
-        NSParagraphStyleAttributeName: paragraphStyle,
-        NSForegroundColorAttributeName: [NSColor blackColor]
-    };
-
-    // Draw each section header and content
-    NSArray *sections = @[
-        @{ @"title": _(@"Geburt"), @"content": [self birthContent] },
-        @{ @"title": _(@"Kindheit"), @"content": [self childhoodContent] },
-        @{ @"title": _(@"Jugend"), @"content": [self youthContent] }
-    ];
-
-    for (NSDictionary *section in sections) {
-        NSString *title = section[@"title"];
-        NSString *content = section[@"content"];
-
-        // Draw section header
-        NSRect headerRect = NSMakeRect(0, y, tableWidth, cellHeight);
-        [self drawCategoryHeaderInRect:headerRect withTitle:title];
-        y += 2* (cellHeight + lineSpacing);
-
-        // Draw section content
-        if (y + cellHeight < maxY) {
-            NSAttributedString *attrContent = [[NSAttributedString alloc] initWithString:content attributes:attributes];
-            NSRect textRect = NSMakeRect(0, y, tableWidth, attrContent.size.height);
-            [attrContent drawInRect:textRect];
-            y += attrContent.size.height + lineSpacing;
-        }
-    }
-}
-
 // Method to retrieve birth-related content as a bulleted string
 - (NSString *)birthContent {
     return [NSString stringWithFormat:@"• %@\n• %@\n• %@\n• %@",
@@ -852,18 +686,6 @@
     }
     return [youthBullets copy];
 }
-
-- (void) XXXdrawBiography: (CGFloat)y
-{
-  // CGFloat margin = 10.0; // Example margin
-  CGFloat cellHeight = 12; // Height for less space between rows
-  CGFloat tableWidth = self.bounds.size.width; // Total width of the table area
-  
-  NSRect headerRect = NSMakeRect(0, y, tableWidth, cellHeight);                   
-  [self drawCategoryHeaderInRect: headerRect withTitle: _(@"Geburt")];
-    
-}
-
 
 - (void) drawTalentsAtY: (CGFloat)y 
 {
@@ -1102,14 +924,23 @@ for (NSInteger column = 0; column < [titles count] * 2; column++) {
         [title drawInRect:cellRect withAttributes:titleAttributes];
     } else {
         // Odd column index, draw property
-        NSString *propertyString = [properties objectAtIndex: column / 2];
+        NSLog(@"drawing positive traits header");
+        NSString *propertyString;
+        if ([[properties objectAtIndex: column / 2] isKindOfClass: [NSNumber class]])
+          {
+            propertyString = [[properties objectAtIndex: column / 2] stringValue];
+          }
+        else
+          {
+            propertyString = [properties objectAtIndex: column / 2];
+          }
         NSDictionary *propertyAttributes = @{
             NSFontAttributeName: [NSFont systemFontOfSize:cellFontSize],
             NSForegroundColorAttributeName: [NSColor blackColor]
         };
         
         NSSize textSize = [propertyString sizeWithAttributes:propertyAttributes];
-
+        NSLog(@"drawing positive traits header, after size With Attributes");
         // Draw the property text right-aligned
         CGFloat propertyX = NSMinX(cellRect) + (cellWidth - textSize.width) - 10;
         [propertyString drawAtPoint:NSMakePoint(propertyX, y + cellHeight) withAttributes:propertyAttributes];       
@@ -1266,11 +1097,20 @@ for (NSInteger column = 0; column < [titles count] * 2; column++) {
         // Draw property (even columns) - right aligned
         NSRect propertyRect1 = NSMakeRect(5 + firstColumnWidth, currentRowY, secondColumnWidth, cellHeight);
         NSDictionary *attributes = @{NSFontAttributeName: [NSFont systemFontOfSize:cellFontSize], NSForegroundColorAttributeName: [NSColor blackColor]};
-        NSString *propertyString = properties[row];
+        NSString *propertyString;
+        if ([properties[row] isKindOfClass: [NSNumber class]])
+          {
+            propertyString = [properties[row] stringValue];
+          }
+        else
+          {
+            propertyString = properties[row];
+          }
 
         // Calculate the size of the string
+        NSLog(@"drawTraitsInfoTableStartingAtY drawing row A attributes: %@, propertyString: %@, properties: %@, row: %@", attributes, propertyString, properties, [NSNumber numberWithInteger: row]);
         NSSize textSize = [propertyString sizeWithAttributes:attributes];
-
+        NSLog(@"drawTraitsInfoTableStartingAtY drawing row A");
         // Draw the property text right-aligned
         CGFloat propertyX = NSMinX(propertyRect1) + (secondColumnWidth - textSize.width);
         [propertyString drawAtPoint:NSMakePoint(propertyX, currentRowY) withAttributes:attributes];
@@ -1282,7 +1122,17 @@ for (NSInteger column = 0; column < [titles count] * 2; column++) {
 
         // Draw second property (even columns) - right aligned
         NSRect propertyRect2 = NSMakeRect(3 * 5 + firstColumnWidth + secondColumnWidth + thirdColumnWidth, currentRowY, fourthColumnWidth, cellHeight);
-        NSString *secondPropertyString = secondProperties[row];
+        NSLog(@"second column: class: %@", [secondProperties[row] class]);
+        NSString *secondPropertyString;
+        if ([secondProperties[row] isKindOfClass: [NSNumber class]])
+          {
+            secondPropertyString = [secondProperties[row] stringValue];
+          }
+        else
+          {
+            secondPropertyString = secondProperties[row];
+          }        
+        NSLog(@"drawTraitsInfoTableStartingAtY drawing row B");
         NSSize secondTextSize = [secondPropertyString sizeWithAttributes:attributes];
         CGFloat secondPropertyX = NSMinX(propertyRect2) + (fourthColumnWidth - secondTextSize.width);
         [secondPropertyString drawAtPoint:NSMakePoint(secondPropertyX, currentRowY) withAttributes:attributes];
@@ -1294,8 +1144,19 @@ for (NSInteger column = 0; column < [titles count] * 2; column++) {
 
         // Draw third property (even columns) - right aligned
         NSRect propertyRect3 = NSMakeRect(5 * 5 + firstColumnWidth + secondColumnWidth + thirdColumnWidth + fourthColumnWidth + fifthColumnWidth, currentRowY, sixthColumnWidth, cellHeight);
-        NSString *thirdPropertyString = thirdProperties[row];
+        NSLog(@"third column: class: %@", [properties[row] class]);
+        NSString *thirdPropertyString;
+        if ([thirdProperties[row] isKindOfClass: [NSNumber class]])
+          {
+            thirdPropertyString = [thirdProperties[row] stringValue];
+          }       
+        else
+          {
+            thirdPropertyString = thirdProperties[row];
+          } 
+        NSLog(@"drawTraitsInfoTableStartingAtY drawing row C");
         NSSize thirdTextSize = [thirdPropertyString sizeWithAttributes:attributes];
+        NSLog(@"drawTraitsInfoTableStartingAtY drawing row C C");
         CGFloat thirdPropertyX = NSMinX(propertyRect3) + (sixthColumnWidth - thirdTextSize.width);
         [thirdPropertyString drawAtPoint:NSMakePoint(thirdPropertyX, currentRowY) withAttributes:attributes];
     }

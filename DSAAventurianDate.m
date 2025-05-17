@@ -91,7 +91,7 @@ static const DSAAventurianWeekday ANCHOR_WEEKDAY = Praiostag;
 
   [coder encodeObject:@(self.year) forKey:@"year"];
   [coder encodeObject:@(self.month) forKey:@"month"];
-  [coder encodeObject:@(self.year) forKey:@"day"];
+  [coder encodeObject:@(self.day) forKey:@"day"];
   [coder encodeObject:@(self.month) forKey:@"hour"];
   [coder encodeObject:self.hourName forKey:@"hourName"];
   [coder encodeObject:self.weekdayName forKey:@"weekdayName"];

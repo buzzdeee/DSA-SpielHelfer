@@ -836,7 +836,7 @@
   return [[DSAAventurianDate alloc] initWithYear: year
                                            month: [DSAAventurianCalendar monthForString: monthName]
                                              day: day
-                                            hour: [Utils rollDice: @"1W24"] - 1];         // for now, everyone is born at 5 am in the morning
+                                            hour: [Utils rollDice: @"1W24"] - 1];
 }
 
 - (NSString *)resolveGodFromParameters:(NSDictionary *)parameters {
