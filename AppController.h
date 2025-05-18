@@ -20,6 +20,7 @@
 @class DSAEquipmentListViewController;
 @class DSANameGenerationController;
 @class DSABattleWindowController;
+@class DSALocalMapViewController;
 
 @interface AppController : NSObject <NSComboBoxDataSource, NSComboBoxDelegate>
 
@@ -32,6 +33,7 @@
 @property (nonatomic, strong) DSABattleWindowController *battleViewController; // Retain the map view controller
 @property (nonatomic, strong) DSAEquipmentListViewController *equipmentListViewController; // Retain the equipment view controller
 @property (nonatomic, strong) DSANameGenerationController *nameGenerationController; // Retain the equipment view controller
+@property (nonatomic, strong) DSALocalMapViewController *localMapViewController;  // retain the local map view controller
 @property (nonatomic, weak) IBOutlet NSMenuItem *levelUpMenuItem;
 
 

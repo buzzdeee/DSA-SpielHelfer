@@ -53,6 +53,7 @@ Resources/DSACharacterDead.gorm \
 Resources/DSAAdventureGeneration.gorm \
 Resources/DSANPCGenerator.gorm \
 Resources/DSABattleMap.gorm \
+Resources/DSALocalMapView.gorm \
 Resources/Character_1.png \
 Resources/Character_10.png \
 Resources/Character_100.png \
@@ -5457,7 +5458,8 @@ Resources/Strassen.geojson \
 Resources/location_to_road.json \
 Resources/road_intersections.geojson \
 Resources/routes.geojson \
-Resources/NPC.json 
+Resources/NPC.json \
+Resources/Karten.json 
 
 
 #
@@ -5526,7 +5528,9 @@ DSASpellSharisadDance.h \
 DSACharacterGenerator.h \
 DSAAreaMap.h \
 DSABattleMapView.h \
-DSABattleWindowController.h
+DSABattleWindowController.h \
+DSALocalMapViewController.h \
+DSALocalMapView.h
 
 #
 # Objective-C Class files
@@ -5594,7 +5598,9 @@ DSASpellSharisadDance.m \
 DSACharacterGenerator.m \
 DSAAreaMap.m \
 DSABattleMapView.m \
-DSABattleWindowController.m
+DSABattleWindowController.m \
+DSALocalMapViewController.m \
+DSALocalMapView.m
 
 #
 # Other sources

@@ -54,6 +54,7 @@ static NSMutableDictionary *shamanRitualsDict;
 static NSMutableDictionary *sharisadDancesDict;
 static NSMutableDictionary *blessedLiturgiesDict;
 static NSMutableDictionary *namesDict;
+static NSMutableDictionary *mapsDict;
 
 + (instancetype)sharedInstance
 {
@@ -293,7 +294,16 @@ static NSMutableDictionary *namesDict;
           if (e)
             {
                NSLog(@"Error loading JSON: %@", e.localizedDescription);
-            }                                                           
+            }   
+          filePath = [[NSBundle mainBundle] pathForResource:@"Karten" ofType:@"json"];                         
+          mapsDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];   
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }                                                                     
         }
     }
   return sharedInstance;
@@ -1073,6 +1083,18 @@ static NSMutableDictionary *namesDict;
   return sortedOrigins;  
 }
 // end of origins dict related methods
+
+// maps dict related methods
++ (NSDictionary *) getMapsDict
+{
+  return mapsDict;
+}
+
++ (NSArray *) getMapForLocation: (NSString *) location ofCategory: (NSString *) category
+{
+  return [[mapsDict objectForKey: category] objectForKey: location];
+}
+// end of maps dict related methods
 
 // gods dict related methods
 + (NSDictionary *) getGodsDict

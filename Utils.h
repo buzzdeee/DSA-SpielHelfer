@@ -113,6 +113,9 @@ typedef NS_ENUM(NSUInteger, DSASeverityLevel) {
 + (NSDictionary *) getOriginsDict;
 + (NSArray *) getOriginsForArchetype: (NSString *) archetype;
 
++ (NSDictionary *) getMapsDict;
++ (NSArray *) getMapForLocation: (NSString *) location ofCategory: (NSString *) category;
+
 + (NSDictionary *) getGodsDict;
 
 + (NSDictionary *) getMageAcademiesDict;

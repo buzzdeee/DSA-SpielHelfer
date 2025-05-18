@@ -24,6 +24,7 @@
 #import "DSANameGenerationController.h"
 #import "DSALocations.h"
 #import "DSABattleWindowController.h"
+#import "DSALocalMapViewController.h"
 
 @implementation AppController
 
@@ -105,6 +106,16 @@
     
   // Show the window
   [self.nameGenerationController showWindow:self];
+}
+
+- (IBAction)showLocalMaps:(id)sender
+{
+  NSLog(@"AppController showLocalMaps called!!!");
+  // Initialize and retain the DSANameGenerationController
+  self.localMapViewController = [[DSALocalMapViewController alloc] init];
+    
+  // Show the window
+  [self.localMapViewController showWindow:self];
 }
 
 #pragma mark Character Generation

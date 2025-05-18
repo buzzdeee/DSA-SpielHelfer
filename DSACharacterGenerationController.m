@@ -539,6 +539,10 @@
             }            
         }
     }
+  else
+    {
+      [traitsField setBackgroundColor: [NSColor whiteColor]];
+    }
 }
 
 - (void) enableFinishButtonIfPossible
@@ -772,11 +776,13 @@ NSLog(@"popupCategorySelected called!");
 
 - (IBAction) popupMagicDabblerSelected: (id)sender
 {
+  NSLog(@"DSACharacterGenerationController popupMagicDabblerSelected archetype: %@", [[self.popupArchetypes selectedItem] title]);
   [self updateTraitsConstraints];
 }
 
 - (IBAction) popupProfessionSelected: (id)sender
 { 
+  NSLog(@"DSACharacterGenerationController popupProfessionSelected archetype: %@", [[self.popupArchetypes selectedItem] title]);
   [self updateTraitsConstraints]; 
 }
 
@@ -785,7 +791,7 @@ NSLog(@"popupCategorySelected called!");
 - (void) updateTraitsConstraints {
   // start with the basic archetype constraints
   NSDictionary *charConstraints = [NSDictionary dictionaryWithDictionary: [[Utils getArchetypesDict] objectForKey: [[self.popupArchetypes selectedItem] title]]];
-
+  NSLog(@"DSACharacterGenerationController updateTraitsConstraints archetype: %@", [[self.popupArchetypes selectedItem] title]);
   NSDictionary *traitsDict = [NSDictionary dictionaryWithDictionary: [charConstraints objectForKey: @"Eigenschaften"]];      
   for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK", 
                              @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
@@ -838,6 +844,11 @@ NSLog(@"popupCategorySelected called!");
             }             
         }
     }
+  for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK", 
+                            @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
+    {
+       [self setBackgroundColorForTraitsField: field];              
+   }     
 }
 
 - (IBAction) popupMageAcademySelected: (id)sender

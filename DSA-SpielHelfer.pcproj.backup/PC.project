@@ -79,7 +79,9 @@
 	"DSACharacterGenerator.m",
 	"DSAAreaMap.m",
 	"DSABattleMapView.m",
-	"DSABattleWindowController.m"
+	"DSABattleWindowController.m",
+	"DSALocalMapViewController.m",
+	"DSALocalMapView.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -151,7 +153,9 @@
 	"DSACharacterGenerator.h",
 	"DSAAreaMap.h",
 	"DSABattleMapView.h",
-	"DSABattleWindowController.h"
+	"DSABattleWindowController.h",
+	"DSALocalMapViewController.h",
+	"DSALocalMapView.h"
     );
     IMAGES = (
 	"Character_1.png",
@@ -5549,7 +5553,8 @@
 	"DSACharacterDead.gorm",
 	"DSAAdventureGeneration.gorm",
 	"DSANPCGenerator.gorm",
-	"DSABattleMap.gorm"
+	"DSABattleMap.gorm",
+	"DSALocalMapView.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (
@@ -5599,7 +5604,8 @@
 	"location_to_road.json",
 	"road_intersections.geojson",
 	"routes.geojson",
-	"NPC.json"
+	"NPC.json",
+	"Karten.json"
     );
     "OTHER_SOURCES" = (
 	"DSA-SpielHelfer_main.m"

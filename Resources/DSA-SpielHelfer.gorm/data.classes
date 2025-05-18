@@ -15,7 +15,8 @@
 	    "showNameGenerator:",
 	    "newAdventureGeneration:",
 	    "newNPCGeneration:",
-	    "newBattle:"
+	    "newBattle:",
+	    "showLocalMaps:"
 	);
 	Outlets = (
 	);
@@ -111,8 +112,9 @@
 	    "closePanel:",
 	    "levelUp:",
 	    "levelUpBaseValues:",
-	    "newBattle:",
+	    "showLocalMaps:",
 	    "newAdventureGeneration:",
+	    "newBattle:",
 	    "newCharacterGeneration:",
 	    "newNPCGeneration:",
 	    "openMap:",
