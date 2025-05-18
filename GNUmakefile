@@ -33,6 +33,9 @@ GNUSTEP_INSTALLATION_DOMAIN = USER
 # Resource files
 #
 DSA-SpielHelfer_RESOURCE_FILES = \
+Resources/DSA-SpielHelfer.gorm \
+Resources/CharacterGeneration.gorm \
+Resources/DSACharacter.gorm \
 Resources/DSACharacterLevelUp.gorm \
 Resources/DSAAdventurePoints.gorm \
 Resources/DSACharacterGenerationMagicalDabbler.gorm \
@@ -5455,16 +5458,6 @@ Resources/location_to_road.json \
 Resources/road_intersections.geojson \
 Resources/routes.geojson \
 Resources/NPC.json 
-
-
-#
-# Localization
-#
-DSA-SpielHelfer_LANGUAGES = German English
-DSA-SpielHelfer_LOCALIZED_RESOURCE_FILES = \
-DSA-SpielHelfer.gorm \
-CharacterGeneration.gorm \
-DSACharacter.gorm 
 
 
 #

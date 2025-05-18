@@ -2,6 +2,10 @@
     APPLICATIONICON = "Logo-Fanprojekt.png";
     "APP_DOCUMENT_BASED" = YES;
     "APP_TYPE" = GORM;
+    "BUILDER_ARGS" = (
+	"-j",
+	4
+    );
     "BUILDER_TARGETS" = (
 	all,
 	install,
@@ -5554,9 +5558,6 @@
     );
     LINKEROPTIONS = "";
     "LOCALIZED_RESOURCES" = (
-	"DSA-SpielHelfer.gorm",
-	"CharacterGeneration.gorm",
-	"DSACharacter.gorm"
     );
     MAININTERFACE = "DSA-SpielHelfer.gorm";
     MAKEFILEDIR = "$(GNUSTEP_MAKEFILES)";
