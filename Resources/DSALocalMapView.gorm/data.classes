@@ -9,8 +9,8 @@
     };
     DSALocalMapViewController = {
 	Actions = (
-	    "popupCategoryClicked:",
-	    "popupNameClicked:",
+	    "popupCategoriesClicked:",
+	    "popupNamesClicked:",
 	    "popupLevelClicked:"
 	);
 	Outlets = (
@@ -23,8 +23,8 @@
     };
     FirstResponder = {
 	Actions = (
-	    "popupCategoryClicked:",
-	    "popupNameClicked:",
+	    "popupCategoriesClicked:",
+	    "popupNamesClicked:",
 	    "popupLevelClicked:"
 	);
 	Super = NSObject;

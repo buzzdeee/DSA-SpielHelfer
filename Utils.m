@@ -1090,9 +1090,26 @@ static NSMutableDictionary *mapsDict;
   return mapsDict;
 }
 
-+ (NSArray *) getMapForLocation: (NSString *) location ofCategory: (NSString *) category
++ (NSArray *) getMapCategories
 {
-  return [[mapsDict objectForKey: category] objectForKey: location];
+  return [mapsDict allKeys];
+}
+
++ (NSArray *) getMapNamesOfCategory: (NSString *) category
+{
+  return [[mapsDict objectForKey: category] allKeys];
+}
+
++ (NSArray *) getMapLevelsOfMap: (NSString *) map ofCategory: (NSString *) category
+{
+  NSLog(@"Utils: getMapLevelsOfMap: %@ ofCategory: %@", map, category);
+  return [[[mapsDict objectForKey: category] objectForKey: map] objectForKey: @"Levels"];
+}
+
++ (NSArray *) getMapForLocation: (NSString *) location ofCategory: (NSString *) category level: (NSString *) level
+{
+  NSLog(@"getMapForLocation: (NSString *) location ofCategory: (NSString *) category level: called");
+  return [[[[mapsDict objectForKey: category] objectForKey: location] objectForKey: @"LevelDetails"] objectForKey: level];
 }
 // end of maps dict related methods
 

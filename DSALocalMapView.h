@@ -28,7 +28,9 @@
 #import <AppKit/AppKit.h>
 
 @interface DSALocalMapView : NSView
-
+@property (nonatomic, strong) NSArray<NSArray<NSDictionary *> *> *mapArray;
+- (void)setMapArray:(NSArray<NSArray<NSDictionary *> *> *)mapArray;
+//- (void) showMap: (NSString *) map ofCategory: (NSString *) category level: (NSString *) level;
 @end
 
 #endif // _DSALOCALMAPVIEW_H_
