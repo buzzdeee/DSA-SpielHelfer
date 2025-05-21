@@ -89,6 +89,11 @@
     if ([type isEqualToString:@"Haus"]) return [NSColor brownColor];
     if ([type isEqualToString:@"Krämer"]) return [NSColor lightGrayColor];
     if ([type isEqualToString:@"Heiler"]) return [NSColor purpleColor];
+    if ([type isEqualToString:@"Schmied"]) return [NSColor colorWithCalibratedRed:0.0
+                                                                            green:0.39
+                                                                             blue:0.0
+                                                                            alpha:1.0];
+    if ([type isEqualToString:@"Tempel"]) return [NSColor magentaColor];    
     if ([type isEqualToString:@"Taverne"]) return [NSColor orangeColor];
     if ([type isEqualToString:@"Herberge"]) return [NSColor cyanColor];
     return [NSColor blackColor]; // Default für unbekannte Tiles
@@ -156,7 +161,15 @@
     if ([type isEqualToString:@"Heiler"]) {
         NSString *npc = tile[@"npc"] ?: @"(unbekannt)";
         return [NSString stringWithFormat:@"Heiler: %@", npc];
-    }       
+    }
+    if ([type isEqualToString:@"Schmied"]) {
+        NSString *npc = tile[@"npc"] ?: @"(unbekannt)";
+        return [NSString stringWithFormat:@"Schmied: %@", npc];
+    }
+    if ([type isEqualToString:@"Tempel"]) {
+        NSString *god = tile[@"Gott"] ?: @"(unbekannt)";
+        return [NSString stringWithFormat:@"%@ Tempel", god];
+    }                
     if ([type isEqualToString:@"Wegweiser"]) {
         NSArray *destinations = tile[@"destinations"];
         if (destinations.count > 0) {

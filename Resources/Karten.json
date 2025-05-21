@@ -102,6 +102,110 @@
         ]
       }
     },
+    "Rybon": {
+      "Tempel": [ "Travia" ],
+      "Levels": ["0"],
+      "LevelDetails": {
+        "0": [
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Wasser" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Weg" }, { "type": "Wegweiser", "destinations": [ "Thoss" ] }, { "type": "Weg" }, { "type": "Wasser" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "S" }, { "type": "Wasser" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Haus", "door": "S" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Wasser" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Wasser" },
+            { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Herberge", "name": "Am Hafen", "door": "O" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
+            { "type": "Weg" }, { "type": "Gras" }
+          ], 
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Wasser" },
+            { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" }, { "type": "Schmied", "door": "S", "npc": "Brin Bolter" },
+            { "type": "Weg" }, { "type": "Gras" }
+          ],  
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" },
+            { "type": "Tempel", "door": "N", "Gott": "Travia" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Wasser" },
+            { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Wasser" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" },
+            { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Wasser" }, { "type": "Wasser" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "N" }, { "type": "Weg" },
+            { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Wasser" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Wasser" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }
+          ],  
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Wasser" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }
+          ],  
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Wasser" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Wegweiser", "destinations": [ "Daspota" ] }, { "type": "Weg" }, { "type": "Wasser" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Wasser" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }
+          ]
+        ]
+      }                                                                                                                                               
+    },   
     "Thoss": {
       "Levels": ["0"],
       "LevelDetails": {
@@ -219,4 +323,4 @@
       }
     }
   }
-}  
+}
