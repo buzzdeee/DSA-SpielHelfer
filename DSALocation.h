@@ -44,6 +44,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger detailX; // X coord within the detailed map
 @property (nonatomic, assign) NSInteger detailY; // Y coord within the detailed map
 @property (nonatomic, assign) NSInteger dungeonLevel; // If inside a dungeon, track depth
+// below information taken from Karten.json
+@property (nonatomic, strong) NSDictionary *locationMap;
+
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 - (BOOL)isInDetailedLocation;

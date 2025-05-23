@@ -24,6 +24,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DSALocations.h"
+#import "Utils.h"
 
 @implementation DSALocations
 
@@ -62,7 +63,7 @@
 
     NSData *data = [NSData dataWithContentsOfFile:path];
     NSError *error = nil;
-    NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+    NSArray *locationsArray = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
 
     if (error) {
         NSLog(@"Error parsing Orte.json: %@", error.localizedDescription);
@@ -70,7 +71,15 @@
     }
 
     @synchronized (self) {
-        for (NSDictionary *dict in jsonArray) {
+        for (NSDictionary *locationDict in locationsArray) {
+            NSMutableDictionary *dict = [locationDict mutableCopy];
+            NSString *locationName = dict[@"name"];
+            
+            NSDictionary *mapDict = [Utils getMapWithName: locationName];
+            if (mapDict)
+              {
+                [dict setObject: mapDict forKey: @"locationMap"];
+              }
             DSALocation *location = [[DSALocation alloc] initWithDictionary:dict];
             [self.locations addObject:location];
         }
@@ -98,6 +107,17 @@
     NSMutableArray *names = [NSMutableArray array];
     for (DSALocation *location in self.locations) {
         [names addObject:location.name];
+    }
+    return [names copy];
+}
+
+- (NSArray<NSString *> *)locationNamesWithTemples {
+    NSMutableArray *names = [NSMutableArray array];
+    for (DSALocation *location in self.locations) {
+        if (location.locationMap && [[location.locationMap objectForKey: @"Tempel"] count] > 0)
+          {
+            [names addObject:location.name];
+          }
     }
     return [names copy];
 }

@@ -1100,6 +1100,19 @@ static NSMutableDictionary *mapsDict;
   return [[mapsDict objectForKey: category] allKeys];
 }
 
++ (NSDictionary *) getMapWithName: (NSString *) name
+{
+  for (NSString *mapCategory in [mapsDict allKeys])
+    {
+      NSDictionary *map = [[mapsDict objectForKey: mapCategory] objectForKey: name];
+      if (map)
+        {
+          return map;
+        }
+    }
+  return nil;
+}
+
 + (NSArray *) getMapLevelsOfMap: (NSString *) map ofCategory: (NSString *) category
 {
   NSLog(@"Utils: getMapLevelsOfMap: %@ ofCategory: %@", map, category);

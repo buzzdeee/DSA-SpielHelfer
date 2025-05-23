@@ -85,9 +85,11 @@
     if ([type isEqualToString:@"Gras"]) return [NSColor greenColor];
     if ([type isEqualToString:@"Weg"]) return [NSColor darkGrayColor];
     if ([type isEqualToString:@"Wasser"]) return [NSColor blueColor];
-    if ([type isEqualToString:@"Wegweiser"]) return [NSColor redColor];        
+    if ([type isEqualToString:@"Wegweiser"]) return [NSColor redColor];
+    if ([type isEqualToString:@"Hafen"]) return [NSColor redColor];       
     if ([type isEqualToString:@"Haus"]) return [NSColor brownColor];
     if ([type isEqualToString:@"Krämer"]) return [NSColor lightGrayColor];
+    if ([type isEqualToString:@"Waffenhändler"]) return [NSColor lightGrayColor];
     if ([type isEqualToString:@"Heiler"]) return [NSColor purpleColor];
     if ([type isEqualToString:@"Schmied"]) return [NSColor colorWithCalibratedRed:0.0
                                                                             green:0.39
@@ -146,6 +148,10 @@
         NSString *npc = tile[@"npc"] ?: @"(unbekannt)";
         return [NSString stringWithFormat:@"Krämer: %@", npc];
     }
+    if ([type isEqualToString:@"Waffenhändler"]) {
+        NSString *npc = tile[@"npc"] ?: @"(unbekannt)";
+        return [NSString stringWithFormat:@"Waffenhändler: %@", npc];
+    }    
     if ([type isEqualToString:@"Haus"]) {
         NSString *npc = tile[@"npc"] ?: nil;
         return npc ? [NSString stringWithFormat:@"Haus: %@", npc] : nil;
@@ -176,6 +182,12 @@
             return [NSString stringWithFormat:@"Wegweiser nach: %@", [destinations componentsJoinedByString:@", "]];
         }
     }
+    if ([type isEqualToString:@"Hafen"]) {
+        NSArray *destinations = tile[@"destinations"];
+        if (destinations.count > 0) {
+            return [NSString stringWithFormat:@"Hafen nach: %@", [destinations componentsJoinedByString:@", "]];
+        }
+    }    
     return nil;
 }
 

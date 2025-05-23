@@ -38,11 +38,13 @@
 }
 
 - (void) startAdventureGeneration:(id)sender {
-    //NSLog(@"DSAAdventureGenerationController: startAdventureGeneration called");
+    NSLog(@"DSAAdventureGenerationController: startAdventureGeneration called");
 
     // Load available locations
     DSALocations *locations = [DSALocations sharedInstance];
-    self.locationsArray = [locations locationNames];
+    NSLog(@"DSAAdventureGenerationController startAdventureGeneration before getting location names");
+    self.locationsArray = [locations locationNamesWithTemples];
+    NSLog(@"DSAAdventureGenerationController startAdventureGeneration after getting location names");    
     self.filteredLocations = self.locationsArray;
 
     // OK & Cancel buttons

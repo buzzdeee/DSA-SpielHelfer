@@ -69,6 +69,7 @@ dungeon.dungeonLevel = 1;
         _detailX = -1; // Default: not in a sublocation
         _detailY = -1;
         _dungeonLevel = 0;
+        _locationMap = dict[@"locationMap"];
     }
     return self;
 }
@@ -98,6 +99,7 @@ dungeon.dungeonLevel = 1;
     [coder encodeObject:self.shortinfo forKey:@"shortinfo"];
     [coder encodeObject:self.plaininfo forKey:@"plaininfo"];
     [coder encodeObject:self.htmlinfo forKey:@"htmlinfo"];
+    [coder encodeObject:self.locationMap forKey:@"locationMap"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -111,9 +113,9 @@ dungeon.dungeonLevel = 1;
         _shortinfo = [coder decodeObjectForKey:@"shortinfo"];
         _plaininfo = [coder decodeObjectForKey:@"plaininfo"];
         _htmlinfo = [coder decodeObjectForKey:@"htmlinfo"];
+        _locationMap = [coder decodeObjectForKey:@"locationMap"];
     }
     return self;
 }
-
 
 @end

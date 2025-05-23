@@ -38,7 +38,8 @@
 - (void)addLocation:(DSALocation *)location;
 - (void)removeLocationWithName:(NSString *)name;
 
-- (NSArray<NSString *> *)locationNames;
+- (NSArray<NSString *> *)locationNames;                  // list of all location names
+- (NSArray<NSString *> *)locationNamesWithTemples;       // list of all locations that have temples
 
 - (DSALocation *)locationWithName:(NSString *)name;
 - (NSString *) htmlInfoForLocationWithName: (NSString *) name;

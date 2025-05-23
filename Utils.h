@@ -116,6 +116,7 @@ typedef NS_ENUM(NSUInteger, DSASeverityLevel) {
 + (NSDictionary *) getMapsDict;
 + (NSArray *) getMapCategories;
 + (NSArray *) getMapNamesOfCategory: (NSString *) category;
++ (NSDictionary *) getMapWithName: (NSString *) name;
 + (NSArray *) getMapLevelsOfMap: (NSString *) map ofCategory: (NSString *) category;
 + (NSArray *) getMapForLocation: (NSString *) location ofCategory: (NSString *) category level: (NSString *) level;
 
