@@ -23,8 +23,8 @@
 */
 
 #import "DSALocalMapViewController.h"
-#import "Utils.h"
 #import "DSALocalMapView.h"
+#import "DSALocations.h"
 
 @implementation DSALocalMapViewController
 - (instancetype)init
@@ -32,17 +32,12 @@
   self = [super initWithWindowNibName:@"DSALocalMapView"];
   if (self)
     {
-  [self.popupCategories removeAllItems];
-  //[self.popupCategories addItemWithTitle: _(@"Kategorie wählen")];
-  [self.popupCategories addItemsWithTitles: [Utils getMapCategories]];      
+      [self.popupCategories removeAllItems];
+      DSALocations *sharedLocations = [DSALocations sharedInstance];
+      [self.popupCategories addItemsWithTitles: [sharedLocations getLocalLocationCategories]];      
     }
   return self;
 }
-/*
-+ (NSArray *) getMapCategories;
-+ (NSArray *) getMapsNamesOfCategory: (NSString) *category;
-+ (NSArray *) getMapLevelsOfMap: (NSString *) map ofCategory: (NSString *) category;
-*/
 
 - (void)awakeFromNib
 {
@@ -53,9 +48,10 @@
 
 - (void) initializePopups
 {
+  DSALocations *sharedLocations = [DSALocations sharedInstance];
   [self.popupCategories removeAllItems];
   [self.popupCategories addItemWithTitle: _(@"Kategorie wählen")];
-  [self.popupCategories addItemsWithTitles: [Utils getMapCategories]];
+  [self.popupCategories addItemsWithTitles: [sharedLocations getLocalLocationCategories]];
   [self.popupNames removeAllItems];
   [self.popupNames addItemWithTitle: _(@"Karte wählen")];
   [self.popupNames setEnabled: NO];
@@ -73,7 +69,8 @@
     }
   else
     {
-      [self.popupNames addItemsWithTitles: [Utils getMapNamesOfCategory: [[self.popupCategories selectedItem] title]]];
+      DSALocations *sharedLocations = [DSALocations sharedInstance];
+      [self.popupNames addItemsWithTitles: [sharedLocations getLocalLocationNamesOfCategory: [[self.popupCategories selectedItem] title]]];
       [self.popupNames setEnabled: YES];
       [self.popupLevel removeAllItems];
       [self.popupLevel addItemWithTitle: _(@"Level wählen")];
@@ -92,12 +89,11 @@
     }
   else
     {
-      //[self.popupNames addItemsWithTitles: [Utils getMapNamesOfCategory: [[self.popupCategories selectedItem] title]]];
-      //[self.popupNames setEnabled: YES];
+      DSALocations *sharedLocations = [DSALocations sharedInstance];
       [self.popupLevel removeAllItems];
       [self.popupLevel addItemWithTitle: _(@"Level wählen")];
       NSLog(@"DSALocalMapViewController popupNamesClicked going to get levels");
-      NSArray *levels = [Utils getMapLevelsOfMap: [[self.popupNames selectedItem] title] ofCategory: [[self.popupCategories selectedItem] title]];
+      NSArray *levels = [sharedLocations getLocalLocationMapLevelsOfMap: [[self.popupNames selectedItem] title]];
       NSLog(@"DSALocalMapViewController popupNamesClicked levels: %@", levels);
       [self.popupLevel addItemsWithTitles: levels];
       [self.popupLevel setEnabled: YES];
@@ -113,12 +109,10 @@
     }
   else
     {
-/*      [self.localMapView showMap: [[self.popupNames selectedItem] title] 
-                      ofCategory: [[self.popupCategories selectedItem] title] 
-                           level: [[self.popupLevel selectedItem] title]]; */
-      [self.localMapView setMapArray: [Utils getMapForLocation:[[self.popupNames selectedItem] title] 
-                                                    ofCategory:[[self.popupCategories selectedItem] title] 
-                                                         level:[[self.popupLevel selectedItem] title]]];
+      DSALocations *sharedLocations = [DSALocations sharedInstance];                           
+      DSALocalMapLevel *mapLevel = [sharedLocations getLocalLocationMapWithName: [[self.popupNames selectedItem] title]
+                                                                        ofLevel: [[[self.popupLevel selectedItem] title] integerValue]];
+      [self.localMapView setMapArray: mapLevel.mapTiles];                     
       [self.localMapView setFrameSize:[self.localMapView intrinsicContentSize]];                                                         
     }
 

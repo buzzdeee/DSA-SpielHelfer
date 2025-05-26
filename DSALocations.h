@@ -36,12 +36,17 @@
 
 - (void)loadLocationsFromJSON;
 - (void)addLocation:(DSALocation *)location;
-- (void)removeLocationWithName:(NSString *)name;
+- (void)removeLocationWithName:(NSString *)name ofType: (NSString *) type;        // type may be "global" or "local"
 
 - (NSArray<NSString *> *)locationNames;                  // list of all location names
-- (NSArray<NSString *> *)locationNamesWithTemples;       // list of all locations that have temples
+- (NSArray<NSString *> *)locationNamesWithTemples;       // list of all (local) locations that have temples
 
-- (DSALocation *)locationWithName:(NSString *)name;
+- (DSALocation *)locationWithName:(NSString *)name ofType: (NSString *) type;
+- (DSALocalMapLocation *)locationWithName:(NSString *)name ofLocalLocationType: (NSString *) type;
+- (NSArray<NSString *> *)getLocalLocationCategories;
+- (NSArray<NSString *> *)getLocalLocationNamesOfCategory: (NSString *) category;
+- (NSArray<NSString *> *)getLocalLocationMapLevelsOfMap: (NSString *) mapName;
+- (DSALocalMapLevel *)getLocalLocationMapWithName: (NSString *) mapName ofLevel: (NSInteger) level;
 - (NSString *) htmlInfoForLocationWithName: (NSString *) name;
 - (NSString *) plainInfoForLocationWithName: (NSString *) name;
 - (NSArray<NSString *> *)locationNamesOfType:(NSString *)type;

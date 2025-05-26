@@ -29,28 +29,88 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DSALocation : NSObject <NSCoding>
+@interface DSALocalMapTile: NSObject <NSCoding>
+@property (nonatomic, assign) NSInteger x;
+@property (nonatomic, assign) NSInteger y;
+@property (nonatomic, strong) NSString *type;
+@property (nonatomic, assign) BOOL walkable;
 
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
+
+@end
+
+@interface DSALocalMapTileWater: DSALocalMapTile <NSCoding>
+@end
+
+@interface DSALocalMapTileStreet: DSALocalMapTile <NSCoding>
+@end
+
+@interface DSALocalMapTileGreen: DSALocalMapTile <NSCoding>
+@end
+
+@interface DSALocalMapTileRoute: DSALocalMapTile <NSCoding>
+@property (nonatomic, strong) NSArray *destinations;
+@end
+
+@interface DSALocalMapTileBuilding: DSALocalMapTile <NSCoding>
+@property (nonatomic, strong) NSString *door;            // NSWE
+@property (nonatomic, strong) NSString *npc;             // for the time being, just the name, in the future may be DSACharacter...
+@end
+
+@interface DSALocalMapTileBuildingTemple: DSALocalMapTileBuilding <NSCoding>
+@property (nonatomic, strong) NSString *god;            // Travia, Boron, etc.
+@end
+
+@interface DSALocalMapTileBuildingShop: DSALocalMapTileBuilding <NSCoding>
+@end
+
+@interface DSALocalMapTileBuildingInn: DSALocalMapTileBuilding <NSCoding>  // Taverne, Herberge, etc.
+@property (nonatomic, strong) NSString *name;
+@end
+
+@interface DSALocalMapTileBuildingHealer: DSALocalMapTileBuilding <NSCoding>
+@end
+
+@interface DSALocalMapTileBuildingSmith: DSALocalMapTileBuilding <NSCoding>
+@end
+
+@interface DSALocalMapLevel: NSObject <NSCoding>
+@property (nonatomic, assign) NSInteger level;          // map levels, 0 is earth level
+@property (nonatomic, strong) NSArray<NSArray<DSALocalMapTile *> *> *mapTiles;
+- (instancetype)initWithDictionary: (NSDictionary *) dict;
+@end
+
+@interface DSALocalMap: NSObject <NSCoding>
+@property (nonatomic, strong) NSArray<DSALocalMapLevel *> *mapLevels;
+- (instancetype)initWithDictionary: (NSDictionary *) levelsDict;
+- (instancetype)initWithMapLevels: (NSArray<DSALocalMapLevel *> *) mapLevels;
+@end
+
+@interface DSALocation : NSObject <NSCoding>
 @property (nonatomic, strong, nullable) NSString *name; // Name of the location (nullable if traveling)
 @property (nonatomic, assign) NSInteger x; // X coordinate on the main map
 @property (nonatomic, assign) NSInteger y; // Y coordinate on the main map
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
+- (NSString *)fullDescription;
+
+@end
+
+@interface DSAGlobalMapLocation : DSALocation <NSCoding>
 @property (nonatomic, strong) NSString *type; // City, village, dungeon, etc.
 @property (nonatomic, strong) NSString *region; // Region code
 @property (nonatomic, strong) NSString *htmlinfo;
 @property (nonatomic, strong) NSString *shortinfo;
 @property (nonatomic, strong) NSString *plaininfo;
-@property (nonatomic, strong, nullable) DSALocation *parentLocation; // Parent (if inside a detailed location)
-@property (nonatomic, strong, nullable) NSMutableArray<DSALocation *> *sublocations; // Detailed sublocations
-@property (nonatomic, assign) NSInteger detailX; // X coord within the detailed map
-@property (nonatomic, assign) NSInteger detailY; // Y coord within the detailed map
-@property (nonatomic, assign) NSInteger dungeonLevel; // If inside a dungeon, track depth
-// below information taken from Karten.json
-@property (nonatomic, strong) NSDictionary *locationMap;
+@end
 
+@interface DSALocalMapLocation : DSALocation <NSCoding>
+@property (nonatomic, strong) DSAGlobalMapLocation *globalLocation;  // every local map location is somewhere on the map, so there's a corresponding global location
+@property (nonatomic, strong) NSString *localLocationType;
+@property (nonatomic, strong) DSALocalMap *locationMap;
+@property (nonatomic, assign) NSInteger level;
 
-- (instancetype)initWithDictionary:(NSDictionary *)dict;
-- (BOOL)isInDetailedLocation;
-- (NSString *)fullDescription;
+- (BOOL) hasTileOfType: (NSString *) tileType;
 
 @end
 

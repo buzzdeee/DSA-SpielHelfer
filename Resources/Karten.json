@@ -1,6 +1,7 @@
 {
-  "Ortspläne": {
+  "Ortsplan": {
     "Ala": {
+      "globalLocation": "Ala",
       "Levels": ["0"],
       "LevelDetails": {
         "0": [
@@ -31,7 +32,7 @@
           [
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" },
-            { "type": "Weg" }, { "type": "Krämer", "door": "S", "npc": "Marada Garsvirsdottir", "walkable": true },
+            { "type": "Weg" }, { "type": "Krämer", "door": "S", "npc": "Marada Garsvirsdottir" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Wegweiser", "destinations": [ "Thoss", "Tjanset" ] },
             { "type": "Weg" }, { "type": "Gras" }
@@ -103,6 +104,7 @@
       }
     },
     "Orvil": {
+      "globalLocation": "Orvil",
       "Tempel": [ "Travia" ],
       "Levels": ["0"],
       "LevelDetails": {
@@ -116,7 +118,7 @@
           ],
           [
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Wegweiser", "destinations": [ "Ala" ] },
-            { "type": "Weg" }, { "type": "Heiler", "door": "S", "npc": "Bjarnilda", "walkable": true }, { "type": "Haus", "door": "S" }, { "type": "Haus", "door": "S" },
+            { "type": "Weg" }, { "type": "Heiler", "door": "S", "npc": "Bjarnilda" }, { "type": "Haus", "door": "S" }, { "type": "Haus", "door": "S" },
             { "type": "Weg" }, { "type": "Wegweiser", "destinations": [ "Ottarje" ] }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Haus", "door": "S"}, { "type": "Weg" }, { "type": "Gras" }, { "type": "Gras" },
             { "type": "Gras" }
@@ -131,7 +133,7 @@
           [
             { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "S" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" },
-            { "type": "Weg" }, { "type": "Weg" }, { "type": "Krämer", "door": "S", "npc": "Starkad Swafnansson", "walkable": true }, { "type": "Haus", "door": "O" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Krämer", "door": "S", "npc": "Starkad Swafnansson" }, { "type": "Haus", "door": "O" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Gras" },
             { "type": "Gras" }
           ],
@@ -151,8 +153,8 @@
           ],
           [
             { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "N" }, { "type": "Hafen", "destinations": [ "Rovik" ] },
-            { "type": "Weg" }, { "type": "Waffenhändler", "door": "N", "npc": "Liskolf Angason", "walkable": true }, { "type": "Weg" }, { "type": "Weg" },
-            { "type": "Haus", "door": "N" }, { "type": "Krämer", "door": "N", "npc": "Arve Feuerkopf", "walkable": true }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Waffenhändler", "door": "N", "npc": "Liskolf Angason" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Haus", "door": "N" }, { "type": "Krämer", "door": "N", "npc": "Arve Feuerkopf" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "S" }, { "type": "Haus", "door": "S" },
             { "type": "Weg" }
           ],
@@ -193,7 +195,7 @@
           ],
           [
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
-            { "type": "Haus", "door": "N" }, { "type": "Heiler", "door": "N", "npc": "Eirik der Hjallander", "walkable": true }, { "type": "Haus", "door": "N" }, { "type": "Herberge", "name": "Roviksfjord", "door": "N" },
+            { "type": "Haus", "door": "N" }, { "type": "Heiler", "door": "N", "npc": "Eirik der Hjallander" }, { "type": "Haus", "door": "N" }, { "type": "Herberge", "name": "Roviksfjord", "door": "N" },
             { "type": "Haus", "door": "N" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
             { "type": "Gras" }
@@ -209,6 +211,7 @@
       }
     },    
     "Rybon": {
+      "globalLocation": "Rybon",
       "Tempel": [ "Travia" ],
       "Levels": ["0"],
       "LevelDetails": {
@@ -313,6 +316,7 @@
       }                                                                                                                                               
     },   
     "Thoss": {
+      "globalLocation": "Thoss",
       "Levels": ["0"],
       "LevelDetails": {
         "0": [
@@ -385,7 +389,7 @@
           ],           
           [
             { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" },
-            { "type": "Krämer", "door": "N", "npc": "Yngvar Malmstein", "walkable": true }, { "type": "Weg" }, { "type": "Haus", "door": "N" }, { "type": "Heiler", "door": "N", "npc": "Herdi Grimason", "walkable": true },
+            { "type": "Krämer", "door": "N", "npc": "Yngvar Malmstein" }, { "type": "Weg" }, { "type": "Haus", "door": "N" }, { "type": "Heiler", "door": "N", "npc": "Herdi Grimason" },
             { "type": "Haus", "door": "N" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Gras" }
           ],

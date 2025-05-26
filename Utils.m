@@ -54,7 +54,6 @@ static NSMutableDictionary *shamanRitualsDict;
 static NSMutableDictionary *sharisadDancesDict;
 static NSMutableDictionary *blessedLiturgiesDict;
 static NSMutableDictionary *namesDict;
-static NSMutableDictionary *mapsDict;
 
 + (instancetype)sharedInstance
 {
@@ -294,16 +293,7 @@ static NSMutableDictionary *mapsDict;
           if (e)
             {
                NSLog(@"Error loading JSON: %@", e.localizedDescription);
-            }   
-          filePath = [[NSBundle mainBundle] pathForResource:@"Karten" ofType:@"json"];                         
-          mapsDict = [NSJSONSerialization 
-            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
-                   options: NSJSONReadingMutableContainers
-                     error: &e];   
-          if (e)
-            {
-               NSLog(@"Error loading JSON: %@", e.localizedDescription);
-            }                                                                     
+            }                                                                 
         }
     }
   return sharedInstance;
@@ -1083,48 +1073,6 @@ static NSMutableDictionary *mapsDict;
   return sortedOrigins;  
 }
 // end of origins dict related methods
-
-// maps dict related methods
-+ (NSDictionary *) getMapsDict
-{
-  return mapsDict;
-}
-
-+ (NSArray *) getMapCategories
-{
-  return [mapsDict allKeys];
-}
-
-+ (NSArray *) getMapNamesOfCategory: (NSString *) category
-{
-  return [[mapsDict objectForKey: category] allKeys];
-}
-
-+ (NSDictionary *) getMapWithName: (NSString *) name
-{
-  for (NSString *mapCategory in [mapsDict allKeys])
-    {
-      NSDictionary *map = [[mapsDict objectForKey: mapCategory] objectForKey: name];
-      if (map)
-        {
-          return map;
-        }
-    }
-  return nil;
-}
-
-+ (NSArray *) getMapLevelsOfMap: (NSString *) map ofCategory: (NSString *) category
-{
-  NSLog(@"Utils: getMapLevelsOfMap: %@ ofCategory: %@", map, category);
-  return [[[mapsDict objectForKey: category] objectForKey: map] objectForKey: @"Levels"];
-}
-
-+ (NSArray *) getMapForLocation: (NSString *) location ofCategory: (NSString *) category level: (NSString *) level
-{
-  NSLog(@"getMapForLocation: (NSString *) location ofCategory: (NSString *) category level: called");
-  return [[[[mapsDict objectForKey: category] objectForKey: location] objectForKey: @"LevelDetails"] objectForKey: level];
-}
-// end of maps dict related methods
 
 // gods dict related methods
 + (NSDictionary *) getGodsDict

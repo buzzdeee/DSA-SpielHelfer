@@ -225,17 +225,54 @@
 
     if (newDocument) {
         if (selectedLocation) {
-            newDocument.model.currentLocation = [locations locationWithName:selectedLocation];
+            newDocument.model.currentLocation = [locations locationWithName:selectedLocation ofType: @"local"];
+            if ([newDocument.model.currentLocation isMemberOfClass: [DSALocalMapLocation class]])
+              {
+                DSALocation *currentLocation = newDocument.model.currentLocation;
+                NSLog(@"AppController: createNewAdventureDocument: currentLocation before getting starting temple location: %@", currentLocation);
+                DSALocalMapTile *startingTempleTile = [self getLocalMapTileOfStartingTempleForLocation: [(DSALocalMapLocation *)currentLocation locationMap]];
+                NSLog(@"AppController: createNewAdventureDocument: starting Temple Tile: %@", startingTempleTile);
+                newDocument.model.currentLocation.x = startingTempleTile.x;
+                newDocument.model.currentLocation.y = startingTempleTile.y;
+              }
         }
         [docController addDocument:newDocument];
         [newDocument makeWindowControllers];
         [newDocument showWindows];
         [newDocument updateChangeCount:NSChangeDone];
     }
-
+    NSLog(@"AppController createNewAdventureDocument: newDocument.model: %@", newDocument.model);
     if (error) {
         NSLog(@"Error creating Document: %@", error);
     }
+}
+
+- (DSALocalMapTile *) getLocalMapTileOfStartingTempleForLocation: (DSALocalMap *) localMap
+{
+  for (NSString *god in @[@"Praios", @"Rondra", @"Efferd", @"Travia", @"Boron", @"Hesinde", @"Firun", @"Tsa", @"Phex", @"Peraine", @"Ingerimm", @"Rahja"])
+    {
+      NSLog(@"AppController getLocalMapTileOfStartingTempleForLocation: checking god %@", god);
+      for (DSALocalMapLevel *mapLevel in localMap.mapLevels)
+        {
+          NSLog(@"AppController getLocalMapTileOfStartingTempleForLocation: checking map level %@", mapLevel);
+          NSArray *mapTiles = mapLevel.mapTiles;
+          for (NSArray *mapRow in mapTiles)
+            {
+              for (DSALocalMapTile *tile in mapRow)
+                {
+                  NSLog(@"AppController getLocalMapTileOfStartingTempleForLocation: checking map tile of type %@", tile.type);
+                  if ([tile.type isEqualToString: @"Tempel"])
+                    {
+                      if ([[(DSALocalMapTileBuildingTemple *)tile god] isEqualToString: god])
+                        {
+                          return tile;
+                        }
+                    }
+                }
+            }
+        }
+    }
+  return nil;
 }
 
 @end

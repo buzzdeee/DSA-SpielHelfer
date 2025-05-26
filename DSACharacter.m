@@ -267,8 +267,6 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     return NSModalResponseCancel;
 }
 
-
-
 - (NSString *)description
 {
   NSMutableString *descriptionString = [NSMutableString stringWithFormat:@"%@:\n", [self class]];

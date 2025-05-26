@@ -33,24 +33,15 @@ extern NSString * const DSACharacterHighlightedNotification;
 }
 
 - (void)dealloc {
-@autoreleasepool {
+//@autoreleasepool {
     NSLog(@"DSAAdventureWindowController is being deallocated.");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     NSLog(@"removing observer of DSAAdventureDocument!");
     [(DSAAdventureDocument *)self.document removeObserver:self forKeyPath:@"selectedCharacterDocument"];  
-/*    [self.clockAnimationView removeFromSuperview];
-    [self.clockAnimationView.gameClock.gameTimer invalidate];
-    self.clockAnimationView.gameClock.gameTimer = nil;
-    [self.clockAnimationView.updateTimer invalidate];
-    self.clockAnimationView.updateTimer = nil;    
-[self.clockAnimationView removeFromSuperview];
-    self.clockAnimationView = nil;
-    
-    
-  */  
+  
     NSLog(@"DSAAdventureWindowController finished with dealloc");  
-}
+//}
 }
 
 - (void)close {
@@ -59,8 +50,6 @@ extern NSString * const DSACharacterHighlightedNotification;
     [self.clockAnimationView removeFromSuperview];  // Manually remove the view
     self.clockAnimationView = nil;  // Set the reference to nil
 }
-
-
 
 - (void)windowWillClose:(NSNotification *)notification {
     // Remove observer before window closes
@@ -131,12 +120,12 @@ extern NSString * const DSACharacterHighlightedNotification;
     self.imageLogo.image = image;    
     [self.imageLogo setImageScaling:NSImageScaleAxesIndependently];
     CGFloat width = self.imageHorizontalRuler0.frame.size.width;
-CGFloat height = self.imageHorizontalRuler0.frame.size.height;
-NSLog(@"imageHorizontalRuler0 dimensions: %.2f x %.2f", width, height);
-width = self.imageVerticalRuler0.frame.size.width;
-height = self.imageVerticalRuler0.frame.size.height;
-NSLog(@"imageVerticalRuler0 dimensions: %.2f x %.2f", width, height);
-   
+    CGFloat height = self.imageHorizontalRuler0.frame.size.height;
+    NSLog(@"imageHorizontalRuler0 dimensions: %.2f x %.2f", width, height);
+    width = self.imageVerticalRuler0.frame.size.width;
+    height = self.imageVerticalRuler0.frame.size.height;
+    NSLog(@"imageVerticalRuler0 dimensions: %.2f x %.2f", width, height);
+    [self updateMainImageView];
     [self updatePartyPortraits]; 
 }
 
@@ -173,6 +162,46 @@ NSLog(@"imageVerticalRuler0 dimensions: %.2f x %.2f", width, height);
             imageView.characterDocument = nil;
             imageView.toolTip = @"";
         }
+    }
+}
+
+- (void)updateMainImageView
+{
+  DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
+  DSALocation *currentLocation = adventureDoc.model.currentLocation;
+  if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
+    {
+      DSALocalMapLocation *localMapLocation = (DSALocalMapLocation *)currentLocation;
+      NSInteger x = localMapLocation.x;
+      NSInteger y = localMapLocation.y;
+      NSInteger mapLevel = localMapLocation.level;
+      DSALocalMap *locationMap = localMapLocation.locationMap;
+      
+      DSALocalMapLevel *currentMapLevel;
+      for (DSALocalMapLevel *currentLevel in locationMap.mapLevels)
+        {
+           if (mapLevel == currentLevel.level)
+             {
+               currentMapLevel = currentLevel;
+               break;
+             }
+        }
+      DSALocalMapTile *currentTile = [[currentMapLevel.mapTiles objectAtIndex: y] objectAtIndex: x];
+      NSLog(@"DSAAdventureWindowController updateMainImageView found currentTile: %@", currentTile);
+      NSString *god;
+      if ([currentTile isMemberOfClass: [DSALocalMapTileBuildingTemple class]])
+        {
+          god = [(DSALocalMapTileBuildingTemple *) currentTile god];
+        }
+     NSString *imageName = [NSString stringWithFormat:@"%@_Tempel_1.webp", god];
+
+     NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:nil];
+     if (imagePath) {
+          NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
+          [self.imageMain setImage:image];
+      } else {
+          NSLog(@"Image not found: %@", imageName);
+      }      
     }
 }
 

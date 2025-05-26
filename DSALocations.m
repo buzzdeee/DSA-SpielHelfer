@@ -24,14 +24,24 @@
 
 #import <Foundation/Foundation.h>
 #import "DSALocations.h"
-#import "Utils.h"
 
 @implementation DSALocations
+static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
 
 + (instancetype)sharedInstance {
     static DSALocations *sharedInstance = nil;
     static NSObject *lock = nil;
 
+    // also update DSALocation in case of updates here...
+    @synchronized(self) {
+        if (! locationTypeToClassMap) {
+            locationTypeToClassMap = @{
+                _(@"global"): [DSAGlobalMapLocation class],
+                _(@"local"): [DSALocalMapLocation class],
+            };
+        }
+    }
+    
     if (!lock) {
         lock = [[NSObject alloc] init];
     }
@@ -73,17 +83,45 @@
     @synchronized (self) {
         for (NSDictionary *locationDict in locationsArray) {
             NSMutableDictionary *dict = [locationDict mutableCopy];
-            NSString *locationName = dict[@"name"];
+            [dict setObject: @"global" forKey: @"locationType"];
             
-            NSDictionary *mapDict = [Utils getMapWithName: locationName];
-            if (mapDict)
-              {
-                [dict setObject: mapDict forKey: @"locationMap"];
-              }
             DSALocation *location = [[DSALocation alloc] initWithDictionary:dict];
             [self.locations addObject:location];
         }
     }
+
+//    NSDictionary *mapsDict = [Utils getMapsDict];
+    NSLog(@"DSALocations: loadLocationsFromJSON : Adding local location maps to locations now");
+
+    path = [[NSBundle mainBundle] pathForResource:@"Karten" ofType:@"json"];                         
+    NSDictionary *mapsDict = [NSJSONSerialization 
+      JSONObjectWithData: [NSData dataWithContentsOfFile: path]
+            options: NSJSONReadingMutableContainers
+              error: &error];   
+    if (error)
+      {
+         NSLog(@"Error loading JSON: %@", error.localizedDescription);
+      }
+          
+    @synchronized (self) {
+        for (NSString *mapCategory in [mapsDict allKeys]) {
+            //NSLog(@"DSALocations: loadLocationsFromJSON : going through map category: %@", mapCategory);
+            for (NSString *mapName in [[mapsDict objectForKey: mapCategory] allKeys])
+              {
+                //NSLog(@"DSALocations: loadLocationsFromJSON : checking map name: %@", mapName);
+                NSMutableDictionary *dict = [[[mapsDict objectForKey: mapCategory] objectForKey: mapName] mutableCopy];
+                //NSLog(@"DSALocations: loadLocationsFromJSON dict is of class: %@", [dict class]);
+                //NSLog(@"DSALocations: loadLocationsFromJSON dict before adding locationType: %@", dict);
+                [dict setObject: @"local" forKey: @"locationType"];
+                [dict setObject: mapName forKey: @"name"];
+                [dict setObject: mapCategory forKey: @"localLocationType"];
+                NSLog(@"DSALocations: loadLocationsFromJSON : before creating location");
+                DSALocation *location = [[DSALocation alloc] initWithDictionary:dict];
+                NSLog(@"DSALocations: loadLocationsFromJSON the LOCATION: %@", location);
+                [self.locations addObject:location];
+              }
+        }
+    }    
 }
 
 - (void)addLocation:(DSALocation *)location {
@@ -94,9 +132,9 @@
     }
 }
 
-- (void)removeLocationWithName:(NSString *)name {
+- (void)removeLocationWithName:(NSString *)name ofType: (NSString *) type{
     @synchronized (self) {
-        DSALocation *locationToRemove = [self locationWithName:name];
+        DSALocation *locationToRemove = [self locationWithName:name ofType: type];
         if (locationToRemove) {
             [self.locations removeObject:locationToRemove];
         }
@@ -113,19 +151,25 @@
 
 - (NSArray<NSString *> *)locationNamesWithTemples {
     NSMutableArray *names = [NSMutableArray array];
-    for (DSALocation *location in self.locations) {
-        if (location.locationMap && [[location.locationMap objectForKey: @"Tempel"] count] > 0)
+    NSLog(@"DSALocations locationNamesWithTemples called:");
+    for (DSALocation *location in self.locations)
+      {
+        if ([location isKindOfClass: [DSALocalMapLocation class]])
           {
-            [names addObject:location.name];
+             NSLog(@"DSALocations locationNamesWithTemples checking: %@", location.name);
+             if ([(DSALocalMapLocation *)location hasTileOfType: @"Tempel"])
+               {
+                  [names addObject:location.name];
+               }
           }
-    }
+      }
     return [names copy];
 }
 
-- (DSALocation *)locationWithName:(NSString *)name {
+- (DSALocation *)locationWithName:(NSString *)name ofType: (NSString *) type {
     @synchronized (self) {
         for (DSALocation *location in self.locations) {
-            if ([location.name isEqualToString:name]) {
+            if ([location isKindOfClass: [locationTypeToClassMap objectForKey: type]] && [location.name isEqualToString:name]) {
                 return location;
             }
         }
@@ -133,11 +177,93 @@
     return nil; // Not found
 }
 
+- (DSALocalMapLocation *)locationWithName:(NSString *)name ofLocalLocationType: (NSString *) type
+{
+    @synchronized (self) {
+        for (DSALocation *location in self.locations) {
+            if ([location isKindOfClass: [DSALocalMapLocation class]] &&
+                [location.name isEqualToString: name] && 
+                [[(DSALocalMapLocation *)location localLocationType] isEqualToString:type])
+                  {
+                    return (DSALocalMapLocation *)location;
+                  }
+        }
+    }
+    return nil; // Not found  
+}
+
+- (NSArray<NSString *> *)getLocalLocationCategories
+{
+    NSMutableArray *locationTypes = [[NSMutableArray alloc] init];
+    NSMutableSet *seenTypes = [[NSMutableSet alloc] init];
+
+    @synchronized (self) {
+        for (DSALocation *location in self.locations) {
+            if ([location isKindOfClass:[DSALocalMapLocation class]]) {
+                NSString *type = [(DSALocalMapLocation *)location localLocationType];
+                if (![seenTypes containsObject:type]) {
+                    [seenTypes addObject:type];
+                    [locationTypes addObject:type];
+                }
+            }
+        }
+    }
+
+    return locationTypes;
+}
+
+- (NSArray<NSString *> *)getLocalLocationNamesOfCategory: (NSString *) category
+{
+    NSMutableArray *localLocationNames = [[NSMutableArray alloc] init];
+    @synchronized (self) {
+        for (DSALocation *location in self.locations) {
+            if ([location isKindOfClass:[DSALocalMapLocation class]] && [[(DSALocalMapLocation *)location localLocationType] isEqualToString: category]) {
+                [localLocationNames addObject:location.name];
+            }
+        }
+    }
+    return localLocationNames;  
+}
+
+- (NSArray<NSString *> *)getLocalLocationMapLevelsOfMap: (NSString *) mapName
+{
+    NSMutableArray *mapLevels = [[NSMutableArray alloc] init];
+    @synchronized (self) {
+        for (DSALocation *location in self.locations) {
+            if ([location isKindOfClass:[DSALocalMapLocation class]] && [location.name isEqualToString: mapName]) {
+                for (DSALocalMapLevel *level in [[(DSALocalMapLocation *) location locationMap] mapLevels])
+                  {
+                    [mapLevels addObject: [NSString stringWithFormat: @"%lu", (unsigned long)level.level]];
+                  }
+            }
+        }
+    }
+    return mapLevels;
+}
+
+- (DSALocalMapLevel *)getLocalLocationMapWithName: (NSString *) mapName ofLevel: (NSInteger) level
+{
+    @synchronized (self) {
+        for (DSALocation *location in self.locations) {
+            if ([location isKindOfClass:[DSALocalMapLocation class]] && [location.name isEqualToString: mapName]) {
+                for (DSALocalMapLevel *mapLevel in [[(DSALocalMapLocation *) location locationMap] mapLevels])
+                  {
+                    if (mapLevel.level == level)
+                      {
+                        return mapLevel;
+                      }
+                  }
+            }
+        }
+    }
+  return nil;
+}
+
 - (NSString *)htmlInfoForLocationWithName:(NSString *)name {
     @synchronized (self) {
         for (DSALocation *location in self.locations) {
-            if ([location.name isEqualToString:name]) {
-                return location.htmlinfo;
+            if ([location isKindOfClass: [DSAGlobalMapLocation class]] && [location.name isEqualToString:name]) {
+                return [(DSAGlobalMapLocation *)location htmlinfo];
             }
         }
     }
@@ -147,8 +273,8 @@
 - (NSString *)plainInfoForLocationWithName:(NSString *)name {
     @synchronized (self) {
         for (DSALocation *location in self.locations) {
-            if ([location.name isEqualToString:name]) {
-                return location.plaininfo;
+            if ([location isKindOfClass: [DSAGlobalMapLocation class]] && [location.name isEqualToString:name]) {
+                return [(DSAGlobalMapLocation *)location plaininfo];
             }
         }
     }
@@ -160,8 +286,8 @@
 
     @synchronized (self) {
         for (DSALocation *location in self.locations) {
-            if ([location.type isEqualToString:type]) {
-                [results addObject:location.name];
+            if ([location isKindOfClass: [DSAGlobalMapLocation class]] &&  [[(DSAGlobalMapLocation *)location type] isEqualToString:type]) {
+                [results addObject:[(DSAGlobalMapLocation *)location name]];
             }
         }
     }
@@ -174,8 +300,8 @@
 
     @synchronized (self) {
         for (DSALocation *location in self.locations) {
-            if ([types containsObject:location.type]) {
-                [results addObject:location.name];
+            if ([location isKindOfClass: [DSAGlobalMapLocation class]] &&  [types containsObject:[(DSAGlobalMapLocation *)location type]]) {
+                [results addObject:[(DSAGlobalMapLocation *)location name]];
             }
         }
     }
@@ -188,7 +314,7 @@
 
     @synchronized (self) {
         for (DSALocation *location in self.locations) {
-            if ([types containsObject:location.type] && [location.name containsString:match]) {
+            if ([types containsObject:[(DSAGlobalMapLocation *)location type]] && [[(DSAGlobalMapLocation *)location name] containsString:match]) {
                 [results addObject:location.name];
             }
         }

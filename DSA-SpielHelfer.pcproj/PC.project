@@ -5529,7 +5529,19 @@
 	"Zyklop_2-32x32.webp",
 	"Zyklop_2-512x512.webp",
 	"Zyklop_2-64x64.webp",
-	"Zyklop_2.webp"
+	"Zyklop_2.webp",
+	"Travia_Tempel_1-128x128.webp",
+	"Travia_Tempel_1-256x256.webp",
+	"Travia_Tempel_1-32x32.webp",
+	"Travia_Tempel_1-512x512.webp",
+	"Travia_Tempel_1-64x64.webp",
+	"Travia_Tempel_1.webp",
+	"Travia_Tempel_2-128x128.webp",
+	"Travia_Tempel_2-256x256.webp",
+	"Travia_Tempel_2-32x32.webp",
+	"Travia_Tempel_2-512x512.webp",
+	"Travia_Tempel_2-64x64.webp",
+	"Travia_Tempel_2.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;

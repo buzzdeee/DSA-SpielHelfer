@@ -23,14 +23,19 @@
 */
 
 #import "DSALocalMapView.h"
-#import "Utils.h"
+#import "DSALocations.h"
+//#import "Utils.h"
 
 @implementation DSALocalMapView
 
-- (void)setMapArray:(NSArray<NSArray<NSDictionary *> *> *)mapArray {
+- (void)setMapArray:(NSArray<NSArray<DSALocalMapTile *> *> *)mapArray {
     _mapArray = mapArray;
+    NSLog(@"DSALocalMapView setMapArray after setting mapArray");
     [self updateTooltips];
+    NSLog(@"DSALocalMapView setMapArray after setting tooltips");
     [self setNeedsDisplay:YES]; // Neuzeichnen erzwingen
+    NSLog(@"DSALocalMapView setMapArray after setNeedsDisplay");
+    
 }
 
 - (NSSize)intrinsicContentSize {
@@ -46,17 +51,19 @@
     NSInteger rows = self.mapArray.count;
     if (rows == 0) return;
 
-    NSInteger cols = self.mapArray[0].count;
-
     // Optional: Antialiasing ausschalten für pixelgenaue Kanten
     [[NSGraphicsContext currentContext] setShouldAntialias:NO];
 
     for (NSInteger y = 0; y < rows; y++) {
         NSArray *row = self.mapArray[y];
         for (NSInteger x = 0; x < row.count; x++) {
-            NSDictionary *tile = row[x];
-            NSString *type = tile[@"type"];
-            NSString *door = tile[@"door"];
+            DSALocalMapTile *tile = row[x];
+            NSString *type = tile.type;
+            NSString *door;
+            if ([tile isKindOfClass: [DSALocalMapTileBuilding class]])
+              {
+                door = [(DSALocalMapTileBuilding *)tile door];
+              }
 
             NSColor *color = [self colorForTileType:type];
             NSRect tileRect = NSMakeRect(x * tileSize, (rows - 1 - y) * tileSize, tileSize, tileSize);
@@ -130,8 +137,10 @@
 
     for (NSInteger y = 0; y < rows; y++) {
         NSArray *row = self.mapArray[y];
+        NSLog(@"DSALocalMapView updateToolTips y %@", [NSNumber numberWithInteger: y]);
         for (NSInteger x = 0; x < row.count; x++) {
-            NSDictionary *tile = row[x];
+            NSLog(@"DSALocalMapView updateToolTips x %@", [NSNumber numberWithInteger: x]);
+            DSALocalMapTile *tile = row[x];
             NSString *tooltip = [self tooltipForTile:tile];
             if (tooltip) {
                 // Y-Koordinaten beachten, da y = 0 oben ist!
@@ -142,48 +151,48 @@
     }
 }
 
-- (NSString *)tooltipForTile:(NSDictionary *)tile {
-    NSString *type = tile[@"type"];
+- (NSString *)tooltipForTile:(DSALocalMapTile *)tile {
+    NSString *type = tile.type;
     if ([type isEqualToString:@"Krämer"]) {
-        NSString *npc = tile[@"npc"] ?: @"(unbekannt)";
+        NSString *npc = [(DSALocalMapTileBuildingShop*)tile npc] ?: @"(unbekannt)";
         return [NSString stringWithFormat:@"Krämer: %@", npc];
     }
     if ([type isEqualToString:@"Waffenhändler"]) {
-        NSString *npc = tile[@"npc"] ?: @"(unbekannt)";
+        NSString *npc = [(DSALocalMapTileBuildingShop*)tile npc] ?: @"(unbekannt)";
         return [NSString stringWithFormat:@"Waffenhändler: %@", npc];
     }    
     if ([type isEqualToString:@"Haus"]) {
-        NSString *npc = tile[@"npc"] ?: nil;
+        NSString *npc = [(DSALocalMapTileBuildingHealer*)tile npc] ?: nil;
         return npc ? [NSString stringWithFormat:@"Haus: %@", npc] : nil;
     }    
     if ([type isEqualToString:@"Herberge"]) {
-        NSString *name = tile[@"name"] ?: @"(unbenannt)";
+        NSString *name = [(DSALocalMapTileBuildingInn*)tile name] ?: @"(unbenannt)";
         return [NSString stringWithFormat:@"Herberge: %@", name];
     }
     if ([type isEqualToString:@"Taverne"]) {
-        NSString *name = tile[@"name"] ?: @"(unbenannt)";
+        NSString *name = [(DSALocalMapTileBuildingInn*)tile name] ?: @"(unbenannt)";
         return [NSString stringWithFormat:@"Taverne: %@", name];
     }
     if ([type isEqualToString:@"Heiler"]) {
-        NSString *npc = tile[@"npc"] ?: @"(unbekannt)";
+        NSString *npc = [(DSALocalMapTileBuildingHealer*)tile npc] ?: @"(unbekannt)";
         return [NSString stringWithFormat:@"Heiler: %@", npc];
     }
     if ([type isEqualToString:@"Schmied"]) {
-        NSString *npc = tile[@"npc"] ?: @"(unbekannt)";
+        NSString *npc = [(DSALocalMapTileBuildingSmith*)tile npc] ?: @"(unbekannt)";
         return [NSString stringWithFormat:@"Schmied: %@", npc];
     }
     if ([type isEqualToString:@"Tempel"]) {
-        NSString *god = tile[@"Gott"] ?: @"(unbekannt)";
+        NSString *god = [(DSALocalMapTileBuildingTemple*)tile god] ?: @"(unbekannt)";
         return [NSString stringWithFormat:@"%@ Tempel", god];
     }                
     if ([type isEqualToString:@"Wegweiser"]) {
-        NSArray *destinations = tile[@"destinations"];
+        NSArray *destinations = [(DSALocalMapTileRoute*)tile destinations];
         if (destinations.count > 0) {
             return [NSString stringWithFormat:@"Wegweiser nach: %@", [destinations componentsJoinedByString:@", "]];
         }
     }
     if ([type isEqualToString:@"Hafen"]) {
-        NSArray *destinations = tile[@"destinations"];
+        NSArray *destinations = [(DSALocalMapTileRoute*)tile destinations];
         if (destinations.count > 0) {
             return [NSString stringWithFormat:@"Hafen nach: %@", [destinations componentsJoinedByString:@", "]];
         }
