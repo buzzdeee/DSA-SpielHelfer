@@ -10,7 +10,9 @@
 #import "DSAAdventureClock.h"
 #import "DSAClockAnimationView.h"
 #import "DSAAdventure.h"
+#import "DSAAdventureGroup.h"
 #import "Utils.h"
+#import "DSAActionIcon.h"
 
 extern NSString * const DSACharacterHighlightedNotification;
 
@@ -126,7 +128,14 @@ extern NSString * const DSACharacterHighlightedNotification;
     height = self.imageVerticalRuler0.frame.size.height;
     NSLog(@"imageVerticalRuler0 dimensions: %.2f x %.2f", width, height);
     [self updateMainImageView];
-    [self updatePartyPortraits]; 
+    [self updatePartyPortraits];
+    
+    self.imageActionIcon0.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"group_add-128x128" ofType:@"webp"]];
+    self.imageActionIcon0.actionType = @"addCharacter";
+    self.imageActionIcon0.clickOnlyMode = YES;
+    self.imageActionIcon0.toolTip = _(@"Charakter hinzufügen");
+
+    
 }
 
 - (void)updatePartyPortraits {
@@ -168,7 +177,7 @@ extern NSString * const DSACharacterHighlightedNotification;
 - (void)updateMainImageView
 {
   DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
-  DSALocation *currentLocation = adventureDoc.model.currentLocation;
+  DSALocation *currentLocation = adventureDoc.model.activeGroup.location;
   if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
     {
       DSALocalMapLocation *localMapLocation = (DSALocalMapLocation *)currentLocation;

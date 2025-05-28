@@ -25,6 +25,7 @@
 #import "DSALocations.h"
 #import "DSABattleWindowController.h"
 #import "DSALocalMapViewController.h"
+#import "DSAAdventureGroup.h"
 
 @implementation AppController
 
@@ -215,6 +216,7 @@
     [self.adventureGenController startAdventureGeneration:sender];
 }
 
+/*
 - (void)createNewAdventureDocument:(NSString *) selectedLocation {
     NSError *error = nil;
     DSADocumentController *docController = [DSADocumentController sharedDocumentController];
@@ -241,6 +243,51 @@
         [newDocument showWindows];
         [newDocument updateChangeCount:NSChangeDone];
     }
+    NSLog(@"AppController createNewAdventureDocument: newDocument.model: %@", newDocument.model);
+    if (error) {
+        NSLog(@"Error creating Document: %@", error);
+    }
+}
+*/
+- (void)createNewAdventureDocument:(NSString *)selectedLocation {
+    NSError *error = nil;
+    DSADocumentController *docController = [DSADocumentController sharedDocumentController];
+    NSLog(@"AppController createNewAdventureDocument! calling makeUntitledDocumentOfType....");
+    
+    DSAAdventureDocument *newDocument = [docController makeUntitledDocumentOfType:@"DSAAdventure" error:&error];
+    DSALocations *locations = [DSALocations sharedInstance];
+
+    if (newDocument) {
+        // Neue leere Gruppe erstellen
+        DSAAdventureGroup *initialGroup = [[DSAAdventureGroup alloc] init];
+        
+        if (selectedLocation) {
+            DSALocation *location = [locations locationWithName:selectedLocation ofType:@"local"];
+            
+            if ([location isMemberOfClass:[DSALocalMapLocation class]]) {
+                DSALocalMapLocation *localLocation = (DSALocalMapLocation *)location;
+                DSALocalMapTile *startingTempleTile = [self getLocalMapTileOfStartingTempleForLocation:localLocation.locationMap];
+                
+                NSLog(@"AppController: starting temple tile: %@", startingTempleTile);
+                
+                location.x = startingTempleTile.x;
+                location.y = startingTempleTile.y;
+            }
+            
+            // Setze Location in der ersten Gruppe
+            initialGroup.location = location;
+        }
+
+        // Setze die Gruppenliste mit einer aktiven (leeren) Gruppe
+        newDocument.model.groups = [NSMutableArray arrayWithObject:initialGroup];
+
+        // Dokument öffnen
+        [docController addDocument:newDocument];
+        [newDocument makeWindowControllers];
+        [newDocument showWindows];
+        [newDocument updateChangeCount:NSChangeDone];
+    }
+
     NSLog(@"AppController createNewAdventureDocument: newDocument.model: %@", newDocument.model);
     if (error) {
         NSLog(@"Error creating Document: %@", error);

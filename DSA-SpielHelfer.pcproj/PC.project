@@ -81,7 +81,8 @@
 	"DSABattleMapView.m",
 	"DSABattleWindowController.m",
 	"DSALocalMapViewController.m",
-	"DSALocalMapView.m"
+	"DSALocalMapView.m",
+	"DSAAdventureGroup.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -155,7 +156,8 @@
 	"DSABattleMapView.h",
 	"DSABattleWindowController.h",
 	"DSALocalMapViewController.h",
-	"DSALocalMapView.h"
+	"DSALocalMapView.h",
+	"DSAAdventureGroup.h"
     );
     IMAGES = (
 	"Character_1.png",
@@ -5541,7 +5543,49 @@
 	"Travia_Tempel_2-32x32.webp",
 	"Travia_Tempel_2-512x512.webp",
 	"Travia_Tempel_2-64x64.webp",
-	"Travia_Tempel_2.webp"
+	"Travia_Tempel_2.webp",
+	"group_join-128x128.webp",
+	"group_join-256x256.webp",
+	"group_join-32x32.webp",
+	"group_join-512x512.webp",
+	"group_join-64x64.webp",
+	"group_join.webp",
+	"group_next-128x128.webp",
+	"group_next-256x256.webp",
+	"group_next-32x32.webp",
+	"group_next-512x512.webp",
+	"group_next-64x64.webp",
+	"group_next.webp",
+	"group_split-128x128.webp",
+	"group_split-256x256.webp",
+	"group_split-32x32.webp",
+	"group_split-512x512.webp",
+	"group_split-64x64.webp",
+	"group_split.webp",
+	"group_add-128x128.webp",
+	"group_add-256x256.webp",
+	"group_add-32x32.webp",
+	"group_add-512x512.webp",
+	"group_add-64x64.webp",
+	"group_add.webp",
+	"group_remove-128x128.webp",
+	"group_remove-256x256.webp",
+	"group_remove-32x32.webp",
+	"group_remove-512x512.webp",
+	"group_remove-64x64.webp",
+	"group_remove.webp",
+	"leave-128x128.webp",
+	"leave-256x256.webp",
+	"leave-32x32.webp",
+	"leave-512x512.webp",
+	"leave-64x64.webp",
+	"leave.webp",
+	"speak-128x128.webp",
+	"speak-256x256.webp",
+	"speak-32x32.webp",
+	"speak-512x512.webp",
+	"speak-64x64.webp",
+	"speak.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;

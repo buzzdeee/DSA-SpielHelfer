@@ -28,6 +28,8 @@
 #import "DSAAdventureWindowController.h"
 #import "DSAAdventure.h"
 #import "Utils.h"
+#import "DSAAdventureClock.h"
+#import "DSAAdventureGroup.h"
 
 extern NSString * const DSACharacterHighlightedNotification;
 
@@ -262,35 +264,6 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
     }
 }
 
-/*
-- (void)addCharacterFromURL:(NSURL *)characterURL {
-    NSURL *baseDirURL = [Utils characterStorageDirectory];
-    NSLog(@"DSAAdventureDocument addCharacterFromURL: baseDirURL.path: %@", baseDirURL.path);
-    NSString *relativePath = [characterURL.path stringByReplacingOccurrencesOfString:baseDirURL.path withString:@""];
-    NSLog(@"DSAAdventureDocument addCharacterFromURL: relativePath: %@", relativePath);
-    // Ensure the relative path does not start with a "/"
-    if ([relativePath hasPrefix:@"/"]) {
-        relativePath = [relativePath substringFromIndex:1];
-    }
-
-    if (![self.model.characterFilePaths containsObject:relativePath]) {
-        [self.model.characterFilePaths addObject:relativePath];
-
-        // Open the character document
-        [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:characterURL
-                                                                              display:NO
-                                                                    completionHandler:^(NSDocument *document, BOOL wasOpened, NSError *error) {
-            if (!error && [document isKindOfClass:[DSACharacterDocument class]]) {
-                [self.characterDocuments addObject:(DSACharacterDocument *)document];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
-            }
-        }];
-    }
-    
-    NSLog(@"DSAAdventureDocument addCharacterFromURL, self.model: %@", self.model);
-}
-*/
-
 - (void)addCharacterFromURL:(NSURL *)characterURL {
     NSURL *baseDirURL = [Utils characterStorageDirectory];
     NSString *relativePath = [characterURL.path stringByReplacingOccurrencesOfString:baseDirURL.path withString:@""];
@@ -309,16 +282,16 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
                 DSACharacterDocument *characterDoc = (DSACharacterDocument *)document;
                 DSACharacter *character = characterDoc.model;
 
-                // Assign character to the default subgroup (by modelID)
-                if (self.model.subGroups.count == 0) {
-                    [self.model.subGroups addObject:[NSMutableArray array]];
-                }
-                
-                NSMutableArray<NSUUID *> *mainGroup = self.model.subGroups.firstObject;
-                if (![mainGroup containsObject:character.modelID]) {
-                    [mainGroup addObject:character.modelID];
+                if (self.model.groups.count == 0) {
+                   DSAAdventureGroup *initialGroup = [[DSAAdventureGroup alloc] init];
+                   [self.model.groups addObject:initialGroup];
                 }
 
+                NSMutableArray<NSUUID *> *members = self.model.activeGroup.partyMembers;
+                if (![members containsObject:character.modelID]) {
+                   [members addObject:character.modelID];
+                }                
+                
                 // Track document separately
                 [self.characterDocuments addObject:characterDoc];
 

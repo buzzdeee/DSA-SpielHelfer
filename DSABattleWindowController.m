@@ -28,6 +28,7 @@
 #import "DSADocumentController.h"
 #import "DSAAdventureDocument.h"
 #import "DSAAdventure.h"
+#import "DSAAdventureGroup.h"
 
 @implementation DSABattleWindowController
 
@@ -69,12 +70,12 @@
 
 - (NSArray<DSACharacter *> *)charactersFromAdventure {
     NSMutableArray<DSACharacter *> *characters = [NSMutableArray array];
-    DSAAdventureDocument *adventureDoc = [[[DSADocumentController sharedDocumentController] allAdventureDocuments] objectAtIndex: 0]; // There shouldn't be more than one open...
+/*    DSAAdventureDocument *adventureDoc = [[[DSADocumentController sharedDocumentController] allAdventureDocuments] objectAtIndex: 0]; // There shouldn't be more than one open...
     NSLog(@"DSABattleWindowController charactersFromAdventure: adventureDoc: %@", adventureDoc);
     
     DSAAdventure *adventure = adventureDoc.model;
     NSLog(@"DSABattleWindowController charactersFromAdventure: adventure: %@", adventure);
-    for (NSUUID *modelID in [adventure.subGroups objectAtIndex: 0]) {
+    for (NSUUID *modelID in [adventure.activeGroup.partyMembers objectAtIndex: 0]) {
         NSLog(@"DSABattleWindowController charactersFromAdventure: modelID %@", modelID);
         DSACharacter *character = [DSACharacter characterWithModelID:modelID];
         if (character) {
@@ -83,7 +84,7 @@
             NSLog(@"[DSABattleWindowController] Character with model ID %@ not found in registry", modelID);
         }
     }
-
+*/
     return [characters copy];
 }
 /*

@@ -6,6 +6,7 @@
 #import <AppKit/AppKit.h>
 @class DSACharacterPortraitView;
 @class DSAClockAnimationView;
+@class DSAActionIcon;
 
 @interface DSAAdventureWindowController : NSWindowController <NSWindowDelegate>
 @property (weak) IBOutlet NSTextField *fieldLogs;
@@ -24,15 +25,15 @@
 @property (weak) IBOutlet NSImageView * imageMain;
 @property (weak) IBOutlet NSImageView * imageLogo;
 @property (weak) IBOutlet DSAClockAnimationView *clockAnimationView;
-@property (weak) IBOutlet NSImageView * imageActionIcon0;
-@property (weak) IBOutlet NSImageView * imageActionIcon1;
-@property (weak) IBOutlet NSImageView * imageActionIcon2;
-@property (weak) IBOutlet NSImageView * imageActionIcon3;
-@property (weak) IBOutlet NSImageView * imageActionIcon4;
-@property (weak) IBOutlet NSImageView * imageActionIcon5;
-@property (weak) IBOutlet NSImageView * imageActionIcon6;
-@property (weak) IBOutlet NSImageView * imageActionIcon7;
-@property (weak) IBOutlet NSImageView * imageActionIcon8;
+@property (weak) IBOutlet DSAActionIcon * imageActionIcon0;
+@property (weak) IBOutlet DSAActionIcon * imageActionIcon1;
+@property (weak) IBOutlet DSAActionIcon * imageActionIcon2;
+@property (weak) IBOutlet DSAActionIcon * imageActionIcon3;
+@property (weak) IBOutlet DSAActionIcon * imageActionIcon4;
+@property (weak) IBOutlet DSAActionIcon * imageActionIcon5;
+@property (weak) IBOutlet DSAActionIcon * imageActionIcon6;
+@property (weak) IBOutlet DSAActionIcon * imageActionIcon7;
+@property (weak) IBOutlet DSAActionIcon * imageActionIcon8;
 @property (weak) IBOutlet NSImageView * imageHorizontalRuler0;
 @property (weak) IBOutlet NSImageView * imageHorizontalRuler1;
 @property (weak) IBOutlet NSImageView * imageVerticalRuler0;

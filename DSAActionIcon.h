@@ -31,6 +31,7 @@
 
 @interface DSAActionIcon : NSImageView <DSAItemInspectionControllerDelegate>
 
+@property (nonatomic, assign) BOOL clickOnlyMode;  // Default NO
 @property (nonatomic, strong) NSString *actionType;  // This can store values like "eye", "mouth", "trash"
 @property (strong, nonatomic) DSAItemInspectionController *inspectionController;  // to keep a reference to item inspection window
 

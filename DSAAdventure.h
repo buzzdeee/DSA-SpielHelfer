@@ -27,27 +27,35 @@
 
 #import <Foundation/Foundation.h>
 #import "DSACharacter.h"
-#import "DSAAdventureClock.h"
 #import "DSAWeather.h"
 #import "DSALocation.h"
 
+
+@class DSAAdventureClock;
+@class DSAAdventureGroup;
+
 @interface DSAAdventure : NSObject
 
-@property (nonatomic, strong) NSMutableArray<NSUUID *> *partyMembers; // Party of characters
-@property (nonatomic, strong) NSMutableArray<NSUUID *> *partyNPCs; // NPC party members
-@property (nonatomic, strong) NSMutableArray<NSMutableArray<NSUUID *> *> *subGroups;
+@property (nonatomic, strong) NSMutableArray<DSAAdventureGroup *> *groups; // index 0 = aktiv
+// Convenience Accessor
+@property (nonatomic, readonly) DSAAdventureGroup *activeGroup;
+
+
+//@property (nonatomic, strong) NSMutableArray<NSUUID *> *partyMembers; // Party of characters
+//@property (nonatomic, strong) NSMutableArray<NSUUID *> *partyNPCs; // NPC party members
+//@property (nonatomic, strong) NSMutableArray<NSMutableArray<NSUUID *> *> *subGroups;
 
 
 @property (nonatomic, strong) DSAAdventureClock *gameClock; // In-game time
 @property (nonatomic, strong) DSAWeather *gameWeather; // the current weather
-@property (nonatomic, strong) DSALocation *currentLocation; // the current location
+//@property (nonatomic, strong) DSALocation *currentLocation; // the current location
 
 @property (strong) NSMutableArray<NSString *> *characterFilePaths;
 
-//- (void)addCharacterToParty:(DSACharacter *)character;
-//- (void)removeCharacterFromParty:(DSACharacter *)character;
-//- (void)addNPCToParty:(DSACharacter *)character;
-//- (void)removeNPCFromParty:(DSACharacter *)character;
+- (DSAAdventureGroup *)activeGroup;
+- (void)switchToGroupAtIndex:(NSUInteger)index;
+- (void)addCharacterToActiveGroup:(NSUUID *)characterUUID;
+- (void)removeCharacterFromActiveGroup:(NSUUID *)characterUUID;
 
 @end
 #endif // _DSAADVENTURE_H_

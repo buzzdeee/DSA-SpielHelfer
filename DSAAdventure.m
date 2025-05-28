@@ -23,14 +23,14 @@
 */
 
 #import "DSAAdventure.h"
+#import "DSAAdventureClock.h"
+#import "DSAAdventureGroup.h"
 
 @implementation DSAAdventure
 
 - (instancetype)init {
     if (self = [super init]) {
-        _partyMembers = [NSMutableArray array];
-        _partyNPCs = [NSMutableArray array];
-        _subGroups = [NSMutableArray array];
+        _groups = [NSMutableArray array];
         NSLog(@"DSAAdventure init before _gameClock");
         _gameClock = [[DSAAdventureClock alloc] init];
         NSLog(@"DSAAdventure init after _gameClock: %@", _gameClock.currentDate);        
@@ -40,7 +40,6 @@
         NSLog(@"DSAAdventure init after _characterFilePaths");
         [_gameClock startClock];
         NSLog(@"DSAAdventure init after starting clock");
-        _currentLocation = [[DSALocation alloc] init];
     }
     NSLog(@"DSAAdventure init: returning self: %@", self);
     return self;
@@ -56,12 +55,9 @@
 - (void) encodeWithCoder:(NSCoder *)coder
 {
   NSLog(@"DSAAdventure encodeWithCoder called!");
-  [coder encodeObject:self.partyMembers forKey:@"partyMembers"];
-  [coder encodeObject:self.partyNPCs forKey:@"partyNPCs"];
-  [coder encodeObject:self.subGroups forKey:@"subGroups"];
+  [coder encodeObject:self.groups forKey:@"groups"];
   [coder encodeObject:self.gameClock forKey:@"gameClock"];
   [coder encodeObject:self.gameWeather forKey:@"gameWeather"];
-  [coder encodeObject:self.currentLocation forKey:@"currentLocation"];
   
   [coder encodeObject:self.characterFilePaths forKey:@"characterFilePaths"];
  }
@@ -72,18 +68,40 @@
   self = [super init];
   if (self)
     {
-      _partyMembers = [coder decodeObjectForKey:@"partyMembers"];
-      _partyNPCs = [coder decodeObjectForKey:@"partyNPCs"];
-      _subGroups = [coder decodeObjectForKey:@"subGroups"];
+      _groups = [coder decodeObjectForKey:@"groups"];
       _gameClock = [coder decodeObjectForKey:@"gameClock"];
       _gameWeather = [coder decodeObjectForKey:@"gameWeather"];
-      _currentLocation = [coder decodeObjectForKey:@"currentLocation"];
       
       _characterFilePaths = [coder decodeObjectForKey:@"characterFilePaths"] ?: [NSMutableArray array];
       NSLog(@"DSAAdventure initWithCoder, going to start gameClock");
       [self.gameClock startClock];
     }
   return self;
+}
+
+- (DSAAdventureGroup *)activeGroup {
+    return self.groups.firstObject;
+}
+
+- (void)switchToGroupAtIndex:(NSUInteger)index {
+    if (index < self.groups.count && index != 0) {
+        [self.groups exchangeObjectAtIndex:0 withObjectAtIndex:index];
+    }
+}
+
+- (void)addCharacterToActiveGroup:(NSUUID *)characterUUID {
+    if (characterUUID && ![self.activeGroup.partyMembers containsObject:characterUUID]) {
+        [self.activeGroup.partyMembers addObject:characterUUID];
+    }
+}
+
+- (void)removeCharacterFromActiveGroup:(NSUUID *)characterUUID {
+    [self.activeGroup.partyMembers removeObject:characterUUID];
+    
+    // Optional: leere Gruppen löschen?
+    if (self.activeGroup.partyMembers.count == 0) {
+        [self.groups removeObjectAtIndex:0];
+    }
 }
 
 /*

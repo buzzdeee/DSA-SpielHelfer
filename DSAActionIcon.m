@@ -27,6 +27,7 @@
 #import "DSAInventoryManager.h"
 #import "Utils.h"
 #import "DSATalent.h"
+#import "DSAAdventureDocument.h"
 
 @implementation DSAActionIcon
 
@@ -34,14 +35,39 @@
     self = [super init];
     if (self) {
         // Set up any initial properties or behaviors for the action icons
+        _clickOnlyMode = NO;
 
     }
     return self;
 }
 
+- (BOOL)acceptsFirstMouse:(NSEvent *)event {
+    return YES;
+}
+
+- (void)mouseDown:(NSEvent *)event {
+    NSLog(@"DSAClickActionIcon clicked: %@", self.actionType);
+
+    if ([self.actionType isEqualToString:@"addCharacter"]) {
+        [self handleAddCharacter];
+/*    } else if ([self.actionType isEqualToString:@"removeCharacter"]) {
+        [self handleRemoveCharacter];
+    } else if ([self.actionType isEqualToString:@"splitGroup"]) {
+        [self handleSplitGroup];
+    } else if ([self.actionType isEqualToString:@"mergeGroup"]) {
+        [self handleMergeGroup];
+    } else if ([self.actionType isEqualToString:@"speak"]) {
+        [self handleSpeak];
+    } else if ([self.actionType isEqualToString:@"leaveLocation"]) {
+        [self handleLeaveLocation]; */
+    } else {
+        NSLog(@"Unhandled action: %@", self.actionType);
+    }
+}
 
 // This method will be called when the dragged item enters the area of this icon
 - (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender {
+    if (self.clickOnlyMode) return NSDragOperationNone;
     NSLog(@"DSAActionIcon: draggingEntered");
 
     // Get the pasteboard content (dragged item info)
@@ -149,6 +175,35 @@
     return NO;
 }
 
+#pragma mark - Action Handlers
+
+- (void)handleAddCharacter {
+    NSWindowController *windowController = self.window.windowController;
+    DSAAdventureDocument * adventureDoc = (DSAAdventureDocument *)windowController.document;
+    [adventureDoc addCharacterFromFile];
+    // [[DSACharacterManager sharedManager] presentCharacterCreationDialog];
+}
+/*
+- (void)handleRemoveCharacter {
+    [[DSACharacterManager sharedManager] removeSelectedCharacter];
+}
+
+- (void)handleSplitGroup {
+    [[DSAGroupManager sharedManager] splitCurrentGroup];
+}
+
+- (void)handleMergeGroup {
+    [[DSAGroupManager sharedManager] mergeAllGroups];
+}
+
+- (void)handleSpeak {
+    [[DSAInteractionManager sharedManager] presentDialogueUI];
+}
+
+- (void)handleLeaveLocation {
+    [[DSALocationManager sharedManager] moveCharacterOutOfLocation];
+}
+*/
 
 // Show a short popup with information about the item
 - (void)showPopupForItem:(id)item {

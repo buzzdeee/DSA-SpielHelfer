@@ -5438,6 +5438,48 @@ Resources/Travia_Tempel_2-32x32.webp \
 Resources/Travia_Tempel_2-512x512.webp \
 Resources/Travia_Tempel_2-64x64.webp \
 Resources/Travia_Tempel_2.webp \
+Resources/group_join-128x128.webp \
+Resources/group_join-256x256.webp \
+Resources/group_join-32x32.webp \
+Resources/group_join-512x512.webp \
+Resources/group_join-64x64.webp \
+Resources/group_join.webp \
+Resources/group_next-128x128.webp \
+Resources/group_next-256x256.webp \
+Resources/group_next-32x32.webp \
+Resources/group_next-512x512.webp \
+Resources/group_next-64x64.webp \
+Resources/group_next.webp \
+Resources/group_split-128x128.webp \
+Resources/group_split-256x256.webp \
+Resources/group_split-32x32.webp \
+Resources/group_split-512x512.webp \
+Resources/group_split-64x64.webp \
+Resources/group_split.webp \
+Resources/group_add-128x128.webp \
+Resources/group_add-256x256.webp \
+Resources/group_add-32x32.webp \
+Resources/group_add-512x512.webp \
+Resources/group_add-64x64.webp \
+Resources/group_add.webp \
+Resources/group_remove-128x128.webp \
+Resources/group_remove-256x256.webp \
+Resources/group_remove-32x32.webp \
+Resources/group_remove-512x512.webp \
+Resources/group_remove-64x64.webp \
+Resources/group_remove.webp \
+Resources/leave-128x128.webp \
+Resources/leave-256x256.webp \
+Resources/leave-32x32.webp \
+Resources/leave-512x512.webp \
+Resources/leave-64x64.webp \
+Resources/leave.webp \
+Resources/speak-128x128.webp \
+Resources/speak-256x256.webp \
+Resources/speak-32x32.webp \
+Resources/speak-512x512.webp \
+Resources/speak-64x64.webp \
+Resources/speak.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \
@@ -5542,7 +5584,8 @@ DSAAreaMap.h \
 DSABattleMapView.h \
 DSABattleWindowController.h \
 DSALocalMapViewController.h \
-DSALocalMapView.h
+DSALocalMapView.h \
+DSAAdventureGroup.h
 
 #
 # Objective-C Class files
@@ -5612,7 +5655,8 @@ DSAAreaMap.m \
 DSABattleMapView.m \
 DSABattleWindowController.m \
 DSALocalMapViewController.m \
-DSALocalMapView.m
+DSALocalMapView.m \
+DSAAdventureGroup.m
 
 #
 # Other sources
