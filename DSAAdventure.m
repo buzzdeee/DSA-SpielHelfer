@@ -36,7 +36,7 @@
         NSLog(@"DSAAdventure init after _gameClock: %@", _gameClock.currentDate);        
         _gameWeather = [[DSAWeather alloc] init];
         NSLog(@"DSAAdventure init after _gameWeather: %@", _gameWeather);
-        _characterFilePaths = [[NSMutableArray alloc] init];
+        _characterFilePaths = [[NSMutableDictionary alloc] init];
         NSLog(@"DSAAdventure init after _characterFilePaths");
         [_gameClock startClock];
         NSLog(@"DSAAdventure init after starting clock");
@@ -86,17 +86,26 @@
 - (void)switchToGroupAtIndex:(NSUInteger)index {
     if (index < self.groups.count && index != 0) {
         [self.groups exchangeObjectAtIndex:0 withObjectAtIndex:index];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
     }
 }
 
 - (void)addCharacterToActiveGroup:(NSUUID *)characterUUID {
     if (characterUUID && ![self.activeGroup.partyMembers containsObject:characterUUID]) {
         [self.activeGroup.partyMembers addObject:characterUUID];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
     }
 }
 
 - (void)removeCharacterFromActiveGroup:(NSUUID *)characterUUID {
+    NSLog(@"DSAAdventure removeCharacterFromActiveGroup: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX %@", [characterUUID UUIDString]);
     [self.activeGroup.partyMembers removeObject:characterUUID];
+    [self.characterFilePaths removeObjectForKey: [characterUUID UUIDString]];
+    NSLog(@"DSAAdventure removeCharacterFromActiveGroup after removal %@", self.activeGroup.partyMembers);
+    for (NSUUID *uuid in self.activeGroup.partyMembers)
+      {
+    NSLog(@"DSAAdventure removeCharacterFromActiveGroup after removal %@", [uuid UUIDString]);      
+      }
     
     // Optional: leere Gruppen löschen?
     if (self.activeGroup.partyMembers.count == 0) {
@@ -104,31 +113,6 @@
     }
 }
 
-/*
-- (void)addCharacterToParty:(DSACharacter *)character {
-    if ([self.partyMembers count] < 6) {
-      if (![self.partyMembers containsObject:character]) {
-          [self.partyMembers addObject:character];
-      }
-    }
-}
-
-- (void)removeCharacterFromParty:(DSACharacter *)character {
-    [self.partyMembers removeObject:character];
-}
-
-- (void)addNPCToParty:(DSACharacter *)character {
-    if ([self.partyNPCs count] < 3) {
-      if (![self.partyNPCs containsObject:character]) {
-          [self.partyNPCs addObject:character];
-      }
-    }
-}
-
-- (void)removeNPCFromParty:(DSACharacter *)character {
-    [self.partyNPCs removeObject:character];
-}
-*/
 - (NSString *)description
 {
   NSMutableString *descriptionString = [NSMutableString stringWithFormat:@"%@:\n", [self class]];

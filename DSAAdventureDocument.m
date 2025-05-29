@@ -252,6 +252,24 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
 }
 
 
+- (void)removeCharacterDocumentForCharacter:(DSACharacter *)character {
+    DSACharacterDocument *docToRemove = nil;
+
+    for (DSACharacterDocument *doc in self.characterDocuments) {
+        if ([doc.model.modelID isEqual:character.modelID]) {
+            docToRemove = doc;
+            break;
+        }
+    }
+
+    if (docToRemove) {
+        [self.characterDocuments removeObject:docToRemove];
+        NSLog(@"Removed DSACharacterDocument for character %@", character.name);
+    } else {
+        NSLog(@"No character document found for character %@", character.name);
+    }
+}
+
 - (void)addCharacterFromFile {
     NSOpenPanel *openPanel = [NSOpenPanel openPanel];
     openPanel.allowedFileTypes = @[@"dsac"]; // Using DSACharacter here doesn't work, have to use the file type...
@@ -260,6 +278,7 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
 
     if ([openPanel runModal] == NSModalResponseOK) {
         NSURL *characterURL = openPanel.URL;
+        NSLog(@"DSAAdventureDocument addCharacterFromFile: characterURL : %@", characterURL);
         [self addCharacterFromURL:characterURL];
     }
 }
@@ -267,11 +286,58 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
 - (void)addCharacterFromURL:(NSURL *)characterURL {
     NSURL *baseDirURL = [Utils characterStorageDirectory];
     NSString *relativePath = [characterURL.path stringByReplacingOccurrencesOfString:baseDirURL.path withString:@""];
-    
     if ([relativePath hasPrefix:@"/"]) {
         relativePath = [relativePath substringFromIndex:1];
     }
 
+    // Step 1: Open the character document first (we need UUID to check)
+    [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:characterURL
+                                                                           display:NO
+                                                                 completionHandler:^(NSDocument *document, BOOL wasOpened, NSError *error) {
+        if (!error && [document isKindOfClass:[DSACharacterDocument class]]) {
+            DSACharacterDocument *characterDoc = (DSACharacterDocument *)document;
+            DSACharacter *character = characterDoc.model;
+            NSString *uuidString = character.modelID.UUIDString;
+
+            // Step 2: Check if this character is already tracked
+            if (self.model.characterFilePaths[uuidString] != nil) {
+                NSLog(@"Character %@ already added to adventure.", uuidString);
+                return;
+            }
+
+            // Step 3: Store relative path in dictionary
+            self.model.characterFilePaths[uuidString] = relativePath;
+
+            // Step 4: Ensure group exists
+            if (self.model.groups.count == 0) {
+                DSAAdventureGroup *initialGroup = [[DSAAdventureGroup alloc] init];
+                [self.model.groups addObject:initialGroup];
+            }
+
+            // Step 5: Add character to group if not already present
+            NSMutableArray<NSUUID *> *members = self.model.activeGroup.partyMembers;
+            if (![members containsObject:character.modelID]) {
+                [members addObject:character.modelID];
+            }
+
+            // Step 6: Track document separately
+            [self.characterDocuments addObject:characterDoc];
+
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
+        } else {
+            NSLog(@"Failed to open character at %@: %@", characterURL, error);
+        }
+    }];
+}
+/*
+- (void)addCharacterFromURL:(NSURL *)characterURL {
+    NSURL *baseDirURL = [Utils characterStorageDirectory];
+    NSString *relativePath = [characterURL.path stringByReplacingOccurrencesOfString:baseDirURL.path withString:@""];
+    
+    if ([relativePath hasPrefix:@"/"]) {
+        relativePath = [relativePath substringFromIndex:1];
+    }
+    NSLog(@"DSAAdventureDocument: addCharacterFromURL : checking for: relativePath %@", relativePath);
     if (![self.model.characterFilePaths containsObject:relativePath]) {
         [self.model.characterFilePaths addObject:relativePath];
 
@@ -300,7 +366,7 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
         }];
     }
 }
-
+*/
 - (void)loadCharacterDocuments {
     self.characterDocuments = [NSMutableArray array];
     NSString *baseDir = [[Utils characterStorageDirectory] path];

@@ -54,6 +54,7 @@ Resources/DSAAdventureGeneration.gorm \
 Resources/DSANPCGenerator.gorm \
 Resources/DSABattleMap.gorm \
 Resources/DSALocalMapView.gorm \
+Resources/DSACharacterSelectionWindow.gorm \
 Resources/Character_1.png \
 Resources/Character_10.png \
 Resources/Character_100.png \
@@ -5585,7 +5586,8 @@ DSABattleMapView.h \
 DSABattleWindowController.h \
 DSALocalMapViewController.h \
 DSALocalMapView.h \
-DSAAdventureGroup.h
+DSAAdventureGroup.h \
+DSACharacterSelectionWindowController.h
 
 #
 # Objective-C Class files
@@ -5656,7 +5658,8 @@ DSABattleMapView.m \
 DSABattleWindowController.m \
 DSALocalMapViewController.m \
 DSALocalMapView.m \
-DSAAdventureGroup.m
+DSAAdventureGroup.m \
+DSACharacterSelectionWindowController.m
 
 #
 # Other sources

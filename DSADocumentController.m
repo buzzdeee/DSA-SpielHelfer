@@ -251,6 +251,7 @@ static NSObject *syncObject = nil; // A synchronization object
   
   if ([activeDocument isMemberOfClass:[DSAAdventureDocument class]])
     {
+      NSLog(@"DSADocumentController addCharacterToAdventure active Document is DSAAdventureDocument!");
       DSAAdventureDocument *activeAdventure = (DSAAdventureDocument *) activeDocument;
       [activeAdventure addCharacterFromFile];
     }

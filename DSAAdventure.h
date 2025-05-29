@@ -50,7 +50,7 @@
 @property (nonatomic, strong) DSAWeather *gameWeather; // the current weather
 //@property (nonatomic, strong) DSALocation *currentLocation; // the current location
 
-@property (strong) NSMutableArray<NSString *> *characterFilePaths;
+@property (strong) NSMutableDictionary<NSString *, NSString *> *characterFilePaths;
 
 - (DSAAdventureGroup *)activeGroup;
 - (void)switchToGroupAtIndex:(NSUInteger)index;

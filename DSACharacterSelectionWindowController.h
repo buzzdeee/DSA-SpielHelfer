@@ -5,7 +5,7 @@
 
    Author: Sebastian Reitenbach
 
-   Created: 2025-01-01 23:39:02 +0100 by sebastia
+   Created: 2025-05-29 16:16:03 +0200 by sebastia
 
    This application is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,30 +22,23 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
-#ifndef _DSAADVENTUREDOCUMENT_H_
-#define _DSAADVENTUREDOCUMENT_H_
+#ifndef _DSACHARACTERSELECTIONWINDOWCONTROLLER_H_
+#define _DSACHARACTERSELECTIONWINDOWCONTROLLER_H_
 
 #import <AppKit/AppKit.h>
 
-@class DSAAdventure;
 @class DSACharacter;
-@class DSACharacterDocument;
 
-@interface DSAAdventureDocument : NSDocument
-@property (nonatomic, strong) DSAAdventure *model;
-@property (nonatomic) BOOL windowControllersCreated;
+@interface DSACharacterSelectionWindowController : NSWindowController
 
-@property (strong) NSMutableArray<DSACharacterDocument *> *characterDocuments;
-@property (nonatomic, strong) DSACharacterDocument *selectedCharacterDocument;
+@property (nonatomic, copy) void (^completionHandler)(DSACharacter *selectedCharacter);
+@property (nonatomic, strong) NSArray<DSACharacter *> *characters;  // Set before showing
 
-- (void)addCharacterFromFile;
-- (void)removeCharacterDocumentForCharacter:(DSACharacter *)character;
-- (void)pauseGameClock;
-- (void)startGameClock;
-- (void)advanceGameTimeByMinutes: (NSUInteger) minutes;
-- (void)advanceGameTimeByHours: (NSUInteger) hours;
-- (void)advanceGameTimeByDays: (NSUInteger) days;
+@property (weak) IBOutlet NSPopUpButton *popupCharacters;
+@property (weak) IBOutlet NSButton *buttonCancel;
+@property (weak) IBOutlet NSButton *buttonRemove;
+
 @end
 
-#endif // _DSAADVENTUREDOCUMENT_H_
+#endif // _DSACHARACTERSELECTIONWINDOWCONTROLLER_H_
 

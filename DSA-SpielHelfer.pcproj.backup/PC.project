@@ -82,7 +82,8 @@
 	"DSABattleWindowController.m",
 	"DSALocalMapViewController.m",
 	"DSALocalMapView.m",
-	"DSAAdventureGroup.m"
+	"DSAAdventureGroup.m",
+	"DSACharacterSelectionWindowController.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -157,7 +158,8 @@
 	"DSABattleWindowController.h",
 	"DSALocalMapViewController.h",
 	"DSALocalMapView.h",
-	"DSAAdventureGroup.h"
+	"DSAAdventureGroup.h",
+	"DSACharacterSelectionWindowController.h"
     );
     IMAGES = (
 	"Character_1.png",
@@ -5610,7 +5612,8 @@
 	"DSAAdventureGeneration.gorm",
 	"DSANPCGenerator.gorm",
 	"DSABattleMap.gorm",
-	"DSALocalMapView.gorm"
+	"DSALocalMapView.gorm",
+	"DSACharacterSelectionWindow.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (

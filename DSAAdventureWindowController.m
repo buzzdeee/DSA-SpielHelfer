@@ -134,6 +134,10 @@ extern NSString * const DSACharacterHighlightedNotification;
     self.imageActionIcon0.actionType = @"addCharacter";
     self.imageActionIcon0.clickOnlyMode = YES;
     self.imageActionIcon0.toolTip = _(@"Charakter hinzufügen");
+    self.imageActionIcon1.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"group_remove-128x128" ofType:@"webp"]];
+    self.imageActionIcon1.actionType = @"removeCharacter";
+    self.imageActionIcon1.clickOnlyMode = YES;
+    self.imageActionIcon1.toolTip = _(@"Charakter entlassen");    
 
     
 }

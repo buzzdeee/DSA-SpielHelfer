@@ -128,9 +128,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         // Just look up the character by modelID (NSUUID key)
         DSACharacter *character = characterRegistry[modelID];
         if (character) {
-            NSLog(@"Found matching modelID: %@", modelID);
+            NSLog(@"Found matching modelID: %@", [modelID UUIDString]);
         } else {
-            NSLog(@"Character with modelID: %@ not found", modelID);
+            NSLog(@"Character with modelID: %@ not found", [modelID UUIDString]);
         }
         return character;
     }
@@ -463,10 +463,11 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       if (!characterRegistry[_modelID]) {
           characterRegistry[_modelID] = self; // Register the character
       } else {
-          NSLog(@"Warning: modelID %@ already exists!", _modelID);
+          NSLog(@"DSACharacter initWithCoder: Warning: modelID %@ already exists!", _modelID);
       }      
+      NSLog(@"DSACharacter initWithcoder: registered modelID: %@", [_modelID UUIDString]);
+      
       self.portraitName = [coder decodeObjectForKey:@"portraitName"];
-      NSLog(@"after decoding portrait name");
       self.name = [coder decodeObjectForKey:@"name"];
       self.title = [coder decodeObjectForKey:@"title"];
       self.archetype = [coder decodeObjectForKey:@"archetype"];

@@ -27,7 +27,11 @@
 #import "DSAInventoryManager.h"
 #import "Utils.h"
 #import "DSATalent.h"
+#import "DSAAdventure.h"
 #import "DSAAdventureDocument.h"
+#import "DSAAdventureWindowController.h"
+#import "DSAAdventureGroup.h"
+#import "DSACharacterSelectionWindowController.h"
 
 @implementation DSAActionIcon
 
@@ -46,13 +50,13 @@
 }
 
 - (void)mouseDown:(NSEvent *)event {
-    NSLog(@"DSAClickActionIcon clicked: %@", self.actionType);
+    NSLog(@"DSAActionIcon clicked: %@", self.actionType);
 
     if ([self.actionType isEqualToString:@"addCharacter"]) {
         [self handleAddCharacter];
-/*    } else if ([self.actionType isEqualToString:@"removeCharacter"]) {
+    } else if ([self.actionType isEqualToString:@"removeCharacter"]) {
         [self handleRemoveCharacter];
-    } else if ([self.actionType isEqualToString:@"splitGroup"]) {
+/*    } else if ([self.actionType isEqualToString:@"splitGroup"]) {
         [self handleSplitGroup];
     } else if ([self.actionType isEqualToString:@"mergeGroup"]) {
         [self handleMergeGroup];
@@ -183,11 +187,69 @@
     [adventureDoc addCharacterFromFile];
     // [[DSACharacterManager sharedManager] presentCharacterCreationDialog];
 }
+
+
+- (void)handleRemoveCharacter {
+    NSLog(@"DSAActionIcon handleRemoveCharacter called");
+    // Step 1: Get access to the model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"Invalid window controller class");
+        return;
+    }
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *group = adventure.activeGroup;
+
+    if (group.partyMembers.count == 0) {
+        NSBeep();
+        NSLog(@"No characters in the group to remove.");
+        return;
+    }
+
+    // Step 2: Present the character selection sheet
+    DSACharacterSelectionWindowController *selector =
+        [[DSACharacterSelectionWindowController alloc] initWithWindowNibName:@"DSACharacterSelectionWindow"];
+    
+    NSMutableArray *characters = [[NSMutableArray alloc] init];
+    for (NSUUID *uuid in group.partyMembers)
+      {
+        DSACharacter *character = [DSACharacter characterWithModelID: uuid];
+        NSLog(@"DSAActionIcon handleRemoveCharacter: Added character %@ for modelID: %@", character.name, character.modelID);
+        [characters addObject:[DSACharacter characterWithModelID: uuid]];
+      }
+        
+    selector.characters = characters;
+    
+    //__weak typeof(self) weakSelf = self;
+    selector.completionHandler = ^(DSACharacter *selectedCharacter) {
+        if (selectedCharacter) {
+            NSLog(@"Removing character: %@", selectedCharacter.name);
+            [adventure removeCharacterFromActiveGroup:selectedCharacter.modelID];
+            [document removeCharacterDocumentForCharacter:selectedCharacter];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
+/*            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGroupChangedNotification"
+                                                                object:group
+                                                              userInfo:@{@"removedCharacter": selectedCharacter}]; */
+        }
+    };
+
+    [windowController.window beginSheet:selector.window completionHandler:nil];
+}
 /*
 - (void)handleRemoveCharacter {
-    [[DSACharacterManager sharedManager] removeSelectedCharacter];
+    NSWindowController *windowController = self.window.windowController;
+    DSAAdventureDocument * adventureDoc = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = adventureDoc.model;
+    
+    [adventure removeCharacter];
+    
+    [adventureDoc addCharacterFromFile];
+    // [[DSACharacterManager sharedManager] removeSelectedCharacter];
 }
+*/
 
+/*
 - (void)handleSplitGroup {
     [[DSAGroupManager sharedManager] splitCurrentGroup];
 }

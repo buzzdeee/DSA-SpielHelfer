@@ -1,0 +1,24 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSACharacterSelectionWindowController = {
+	Actions = (
+	    "cancelAction:",
+	    "characterSelectedAction:",
+	    "removeAction:"
+	);
+	Outlets = (
+	    buttonCancel,
+	    buttonRemove,
+	    popupCharacters
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "cancelAction:",
+	    "characterSelectedAction:",
+	    "removeAction:"
+	);
+	Super = NSObject;
+    };
+}
