@@ -15,6 +15,10 @@ for IMAGE in ${IMAGES}; do
                         break
                 fi
         done
+
+        if echo "$IMAGE" | grep -q '^Character_'; then
+		continue_outer_loop="true"
+	fi
         
         # Check the flag to continue the outer loop
         if [ "X${continue_outer_loop}" = "Xtrue" ]; then

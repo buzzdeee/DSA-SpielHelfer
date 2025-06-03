@@ -468,6 +468,12 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       NSLog(@"DSACharacter initWithcoder: registered modelID: %@", [_modelID UUIDString]);
       
       self.portraitName = [coder decodeObjectForKey:@"portraitName"];
+      NSLog(@"DSACharacter portraitName: %@", self.portraitName);
+      // Backward compatibility: convert .png to .webp if needed
+      if ([self.portraitName hasSuffix:@".png"]) {
+          self.portraitName = [[self.portraitName stringByDeletingPathExtension] stringByAppendingPathExtension:@"webp"];
+      }
+            
       self.name = [coder decodeObjectForKey:@"name"];
       self.title = [coder decodeObjectForKey:@"title"];
       self.archetype = [coder decodeObjectForKey:@"archetype"];

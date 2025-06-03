@@ -37,10 +37,11 @@ static NSString * const DSACharacterDragType = @"DSACharacterDragType";
 
 - (void)awakeFromNib {
     [super awakeFromNib];
-    
     // Register this view as a drag destination
     [self registerForDraggedTypes:@[DSACharacterDragType]];
 }
+
+
 
 - (void)mouseDown:(NSEvent *)event {
     if (event.clickCount == 2) {
@@ -236,6 +237,7 @@ static NSString * const DSACharacterDragType = @"DSACharacterDragType";
 }
 
 - (void)highlightTargetView:(BOOL)highlight {
+
     NSColor *highlightColor = highlight ? [NSColor greenColor] : [NSColor clearColor];
 
     // Remove existing highlight view if any
@@ -259,4 +261,44 @@ static NSString * const DSACharacterDragType = @"DSACharacterDragType";
     }
 }
 
+
+// Ugly hack to fade out the character portraits
+// for some reason, setting alphaValue alone doesn't work
+// ChatGPT suggested to use fadeFraction as a separate property instead of 
+// misusing alphaValue as I do here
+- (void)drawRect:(NSRect)dirtyRect {
+    [super drawRect:dirtyRect];
+        NSRect insetRect = NSMakeRect(
+            self.bounds.origin.x + 1,                      // Left inset 1px
+            self.bounds.origin.y + 2,                      // Top inset 1px
+            self.bounds.size.width - (1 + 2),              // width - left(1) - right(2)
+            self.bounds.size.height - (1 + 2)              // height - bottom(1) - top(2)
+        );
+    if (self.image) {
+        [self.image drawInRect:insetRect
+                      fromRect:NSZeroRect
+                     operation: NSCompositeSourceOver
+                      fraction:1.0];
+
+        if (self.alphaValue < 1.0) {
+            [[NSColor colorWithCalibratedWhite:1.0 alpha:(1.0 - self.alphaValue)] set];
+            NSRectFillUsingOperation(insetRect, NSCompositeSourceOver);
+        }
+    }
+}
+
+/*
+- (void)drawRect:(NSRect)dirtyRect {
+    [super drawRect:dirtyRect];
+
+    if (self.image) {
+        [self.image drawInRect:self.bounds
+                      fromRect:NSZeroRect
+                     operation: NSCompositeSourceOver
+                      fraction:self.alphaValue
+                respectFlipped:YES
+                         hints:nil];
+    }
+}
+*/
 @end

@@ -206,15 +206,16 @@ extern NSString * const DSACharacterHighlightedNotification;
             imageView.image = [character portrait]; // Get portrait from model
             for (NSImageRep *rep in imageView.image.representations) {
     if ([rep hasAlpha]) {
-        NSLog(@"Image rep supports alpha.");
-    } else {
-        NSLog(@"Image rep does NOT support alpha.");
+            NSLog(@"Image rep supports alpha.");
+        } else {
+            NSLog(@"Image rep does NOT support alpha.");
+        }
     }
-}
             if ([adventureDoc.model.activeGroup.partyMembers containsObject: character.modelID])
               {
                 NSLog(@"DSAAdventureWindowController handleCharacterChanges: setting alpha value 1.0");
                 imageView.alphaValue = 1.0;
+
                 // imageView.image = [self imageWithAlpha:imageView.image alpha:1.0];
                 [imageView setNeedsDisplay:YES];
               }
@@ -222,6 +223,7 @@ extern NSString * const DSACharacterHighlightedNotification;
               {
                 NSLog(@"DSAAdventureWindowController handleCharacterChanges: setting alpha value 0.4");
                 imageView.alphaValue = 0.4;
+                NSLog(@"imageView alpha = %f view class: %@", imageView.alphaValue, [imageView class]);
                 // imageView.image = [self imageWithAlpha:imageView.image alpha:0.4]; // we'll loose the original colored image, would have to keep the original somewhere :/
                 [imageView setNeedsDisplay:YES];
               }

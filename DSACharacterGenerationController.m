@@ -73,7 +73,7 @@
     // Get all files in the resource directory
     NSArray *allFiles = [fileManager contentsOfDirectoryAtPath:resourcePath error:nil];
     // Regular expression to match "Character_XXXX.png" where XXXX is a number
-    NSString *pattern = @"^Character_\\d*\\.png$";
+    NSString *pattern = @"^Character_\\d*\\.webp$";
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
     
     // Iterate through the files and filter for files that match the pattern
