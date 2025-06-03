@@ -1,0 +1,31 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSACharacterMultiSelectionWindowController = {
+	Actions = (
+	    "cancelAction:",
+	    "characterSwitchToggled:",
+	    "selectAction:"
+	);
+	Outlets = (
+	    buttonSelect,
+	    switchCharacter0,
+	    switchCharacter1,
+	    switchCharacter2,
+	    switchCharacter3,
+	    switchCharacter4,
+	    switchCharacter5,
+	    switchCharacter6,
+	    switchCharacter7,
+	    switchCharacter8
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "cancelAction:",
+	    "characterSwitchToggled:",
+	    "selectAction:"
+	);
+	Super = NSObject;
+    };
+}

@@ -33,6 +33,7 @@
 @interface DSAAdventureGroup : NSObject <NSCoding>
 
 @property (nonatomic, strong) NSMutableArray<NSUUID *> *partyMembers;
+@property (nonatomic, strong) NSMutableArray<NSUUID *> *npcMembers;
 @property (nonatomic, strong) DSALocation *location;
 @property (nonatomic, strong) DSAWeather *weather;
 

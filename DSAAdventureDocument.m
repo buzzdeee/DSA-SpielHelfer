@@ -329,44 +329,7 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
         }
     }];
 }
-/*
-- (void)addCharacterFromURL:(NSURL *)characterURL {
-    NSURL *baseDirURL = [Utils characterStorageDirectory];
-    NSString *relativePath = [characterURL.path stringByReplacingOccurrencesOfString:baseDirURL.path withString:@""];
-    
-    if ([relativePath hasPrefix:@"/"]) {
-        relativePath = [relativePath substringFromIndex:1];
-    }
-    NSLog(@"DSAAdventureDocument: addCharacterFromURL : checking for: relativePath %@", relativePath);
-    if (![self.model.characterFilePaths containsObject:relativePath]) {
-        [self.model.characterFilePaths addObject:relativePath];
 
-        [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:characterURL
-                                                                              display:NO
-                                                                    completionHandler:^(NSDocument *document, BOOL wasOpened, NSError *error) {
-            if (!error && [document isKindOfClass:[DSACharacterDocument class]]) {
-                DSACharacterDocument *characterDoc = (DSACharacterDocument *)document;
-                DSACharacter *character = characterDoc.model;
-
-                if (self.model.groups.count == 0) {
-                   DSAAdventureGroup *initialGroup = [[DSAAdventureGroup alloc] init];
-                   [self.model.groups addObject:initialGroup];
-                }
-
-                NSMutableArray<NSUUID *> *members = self.model.activeGroup.partyMembers;
-                if (![members containsObject:character.modelID]) {
-                   [members addObject:character.modelID];
-                }                
-                
-                // Track document separately
-                [self.characterDocuments addObject:characterDoc];
-
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
-            }
-        }];
-    }
-}
-*/
 - (void)loadCharacterDocuments {
     self.characterDocuments = [NSMutableArray array];
     NSString *baseDir = [[Utils characterStorageDirectory] path];

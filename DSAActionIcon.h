@@ -26,27 +26,45 @@
 #define _DSAACTIONICON_H_
 
 #import <AppKit/AppKit.h>
-#import "DSACharacter.h"
 #import "DSAItemInspectionController.h"
 
-@interface DSAActionIcon : NSImageView <DSAItemInspectionControllerDelegate>
+@class DSACharacter;
 
-@property (nonatomic, assign) BOOL clickOnlyMode;  // Default NO
-@property (nonatomic, strong) NSString *actionType;  // This can store values like "eye", "mouth", "trash"
+@interface DSAActionIcon : NSImageView
+
++ (instancetype)iconWithAction:(NSString *)action andSize: (NSString *)size;
+- (void)updateAppearance;
+@end
+
+@interface DSAActionIconDragTarget: DSAActionIcon
+@end
+@interface DSAActionIconExamine: DSAActionIconDragTarget <DSAItemInspectionControllerDelegate>
 @property (strong, nonatomic) DSAItemInspectionController *inspectionController;  // to keep a reference to item inspection window
+@end
+@interface DSAActionIconConsume: DSAActionIconDragTarget
+@end
+@interface DSAActionIconDispose: DSAActionIconDragTarget
+@end
 
-
-
-- (void)showPopupForItem:(id)item;
-- (void)consumeItem: (DSAObject *)item
-          fromModel: (DSACharacter *)sourceModel
-inventoryIdentifier: (NSString *)sourceInventory
-          slotIndex: (NSInteger)sourceSlotIndex;
-- (void)askToDiscardItem:(DSAObject *)item 
-               fromModel:(DSACharacter *)sourceModel 
-         inventoryIdentifier:(NSString *)sourceInventory 
-                slotIndex:(NSInteger)sourceSlotIndex;
-
+@interface DSAActionIconClickTarget: DSAActionIcon
+@end
+@interface DSAActionIconAddToGroup: DSAActionIconClickTarget
+@end
+@interface DSAActionIconRemoveFromGroup: DSAActionIconClickTarget
+@end
+@interface DSAActionIconSplitGroup: DSAActionIconClickTarget
+@end
+@interface DSAActionIconJoinGroups: DSAActionIconClickTarget
+@end
+@interface DSAActionIconLeave: DSAActionIconClickTarget
+@end
+@interface DSAActionIconChat: DSAActionIconClickTarget
+@end
+@interface DSAActionIconPray: DSAActionIconClickTarget
+@end
+@interface DSAActionIconBuy: DSAActionIconClickTarget
+@end
+@interface DSAActionIconSell: DSAActionIconClickTarget
 @end
 
 #endif // _DSAACTIONICON_H_

@@ -32,54 +32,95 @@
 #import "DSAAdventureWindowController.h"
 #import "DSAAdventureGroup.h"
 #import "DSACharacterSelectionWindowController.h"
+#import "DSACharacterMultiSelectionWindowController.h"
 
 @implementation DSAActionIcon
 
-- (instancetype)init {
-    self = [super init];
-    if (self) {
-        // Set up any initial properties or behaviors for the action icons
-        _clickOnlyMode = NO;
+static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
++ (void)initialize {
+    if (self == [DSAActionIcon class]) {
+        @synchronized(self) {
+            if (!typeToClassMap) {
+                typeToClassMap = @{
+                    _(@"examine"): [DSAActionIconExamine class],
+                    _(@"consume"): [DSAActionIconConsume class],                    
+                    _(@"dispose"): [DSAActionIconDispose class],
+                    _(@"addToGroup"): [DSAActionIconAddToGroup class],
+                    _(@"removeFromGroup"): [DSAActionIconRemoveFromGroup class],
+                    _(@"splitGroup"): [DSAActionIconSplitGroup class],
+                    _(@"joinGroups"): [DSAActionIconJoinGroups class],
+                    _(@"leave"): [DSAActionIconLeave class],
+                    _(@"chat"): [DSAActionIconChat class],
+                    _(@"pray"): [DSAActionIconPray class],
+                    _(@"buy"): [DSAActionIconBuy class],
+                    _(@"sell"): [DSAActionIconSell class],                               
+                };
+            }
+        }
     }
-    return self;
+}
+
++ (instancetype)iconWithAction:(NSString *) action andSize: (NSString *)size
+{
+    Class subclass = [typeToClassMap objectForKey:action];
+    NSLog(@"DSAActionIcon: action: %@ returning class: %@", action, [subclass class]);
+    if (subclass) {
+        NSLog(@"DSAActionIcon: action: %@ returning class: %@", action, [subclass class]);
+        return [[subclass alloc] initWithImageSize: size];
+    }
+    // Handle unknown type
+    return nil;
+}
+
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    NSLog(@"DSAActionIcon: subclasses %@ shall override initWithSize!", [self class]);
+    return nil;
+}
+
+- (BOOL)isActive {
+    // default to active, subclasses might override where applicable
+    return YES;
+}
+
+- (void)updateAppearance {
+    BOOL active = [self isActive];
+    self.alphaValue = active ? 1.0 : 0.4; // Ausgrauen bei Inaktivität
+    self.enabled = active; // falls du NSControl ableitest
+}
+
+
+// To make toolTips show up, otherwise they won't since we replace the view....
+- (void)viewDidMoveToWindow {
+    [super viewDidMoveToWindow];
+
+    if (self.toolTip) {
+        NSString *tip = self.toolTip;
+        self.toolTip = nil;
+        self.toolTip = tip;
+    }
 }
 
 - (BOOL)acceptsFirstMouse:(NSEvent *)event {
     return YES;
 }
+@end
+// End of DSAActionIcon
 
-- (void)mouseDown:(NSEvent *)event {
-    NSLog(@"DSAActionIcon clicked: %@", self.actionType);
-
-    if ([self.actionType isEqualToString:@"addCharacter"]) {
-        [self handleAddCharacter];
-    } else if ([self.actionType isEqualToString:@"removeCharacter"]) {
-        [self handleRemoveCharacter];
-/*    } else if ([self.actionType isEqualToString:@"splitGroup"]) {
-        [self handleSplitGroup];
-    } else if ([self.actionType isEqualToString:@"mergeGroup"]) {
-        [self handleMergeGroup];
-    } else if ([self.actionType isEqualToString:@"speak"]) {
-        [self handleSpeak];
-    } else if ([self.actionType isEqualToString:@"leaveLocation"]) {
-        [self handleLeaveLocation]; */
-    } else {
-        NSLog(@"Unhandled action: %@", self.actionType);
-    }
-}
-
+@implementation DSAActionIconDragTarget
 // This method will be called when the dragged item enters the area of this icon
 - (NSDragOperation)draggingEntered:(id<NSDraggingInfo>)sender {
-    if (self.clickOnlyMode) return NSDragOperationNone;
-    NSLog(@"DSAActionIcon: draggingEntered");
-
+    //NSLog(@"DSAActionIconDragTarget: draggingEntered");
+    if (![self isActive]) {
+        return NSDragOperationNone;
+    }
     // Get the pasteboard content (dragged item info)
     NSPasteboard *pasteboard = [sender draggingPasteboard];
     NSString *draggedItemID = [pasteboard stringForType:NSStringPboardType];
 
     if (draggedItemID == nil) {
-        NSLog(@"No valid draggedItemID found on pasteboard");
+        NSLog(@"DSAActionIconDragTarget draggingEntered: No valid draggedItemID found on pasteboard");
         return NSDragOperationNone;
     }
 
@@ -93,7 +134,7 @@
         // Retrieve the source model using the modelID
         DSACharacter *sourceModel = [DSACharacter characterWithModelID:sourceModelID];
         if (!sourceModel) {
-            NSLog(@"Source model not found for modelID: %@", sourceModelID);
+            NSLog(@"DSAActionIconDragTarget draggingEntered: Source model not found for modelID: %@", sourceModelID);
             return NSDragOperationNone;
         }
 
@@ -102,22 +143,199 @@
                                                                    inventoryIdentifier:sourceInventory
                                                                               slotIndex:sourceSlotIndex];
         if (!draggedItem) {
-            NSLog(@"Dragged item not found in source model's inventory");
+            NSLog(@"DSAActionIconDragTarget draggingEntered: Dragged item not found in source model's inventory");
             return NSDragOperationNone;
         }
 
-        // Only allow the drag if the item can be used with the action type
-        if ([self.actionType isEqualToString:@"eye"] || [self.actionType isEqualToString:@"mouth"] || [self.actionType isEqualToString:@"trash"]) {
-            return NSDragOperationMove;  // Allow the drag to be copied here
-        }
+        return NSDragOperationMove;  // Allow the drag to be copied here
     }
-
     return NSDragOperationNone;  // Reject drag if the item is not compatible
 }
-
 - (BOOL)prepareForDragOperation:(id<NSDraggingInfo>)sender {
-    NSLog(@"DSAActionIcon: prepareForDragOperation");
     return YES;  // Allow the operation to proceed
+}
+
+@end
+
+@implementation DSAActionIconExamine
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"eye-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Dinge ansehen");
+        [self registerForDraggedTypes:@[NSStringPboardType]];
+        [self updateAppearance];
+    }
+    return self;
+}
+
+- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender {
+    // Get the pasteboard content
+    if (![self isActive]) {
+        return NSDragOperationNone;
+    }    
+    NSPasteboard *pasteboard = [sender draggingPasteboard];
+    NSString *draggedItemID = [pasteboard stringForType:NSStringPboardType];
+    
+    if (draggedItemID == nil) {
+        NSLog(@"No valid draggedItemID found on pasteboard");
+        return NO;
+    }
+
+    // Parse the dragged item ID (UUID:inventoryIdentifier:slotIndex)
+    NSArray *components = [draggedItemID componentsSeparatedByString:@":"];
+    if (components.count == 3) {
+        NSUUID *sourceModelID = [[NSUUID alloc] initWithUUIDString: components[0]];
+        NSString *sourceInventory = components[1];
+        NSInteger sourceSlotIndex = [components[2] integerValue];
+
+        // Retrieve the source model using the modelID
+        DSACharacter *sourceModel = [DSACharacter characterWithModelID:sourceModelID];
+        if (!sourceModel) {
+            NSLog(@"Source model not found for modelID: %@", sourceModelID);
+            return NO;
+        }
+        
+        // Retrieve the dragged item from the source model's inventory
+        DSAObject *draggedItem = [[DSAInventoryManager sharedManager] findItemInModel:sourceModel
+                                                                  inventoryIdentifier:sourceInventory
+                                                                            slotIndex:sourceSlotIndex];
+        
+        if (!draggedItem) {
+            NSLog(@"Dragged item not found in source model's inventory");
+            return NO;
+        }
+
+
+        [self showPopupForItem:draggedItem];
+        return YES;
+
+    }
+    
+    return NO;
+}
+
+// Show a short popup with information about the item
+- (void)showPopupForItem:(id)item {
+    NSLog(@"Showing info for item: %@", item);
+    if (!self.inspectionController) {
+        // Lazily initialize the controller if it doesn't already exist
+        self.inspectionController = [[DSAItemInspectionController alloc] initWithWindowNibName:@"DSAItemInspection"];
+        self.inspectionController.delegate = self;
+    }
+    [self.inspectionController inspectItem:item];
+}
+
+- (void)itemInspectionControllerDidClose:(DSAItemInspectionController *)controller {
+    NSLog(@"DSAActionIconExamine: Inspection window closed for controller: %@", controller);
+    [[self.inspectionController window] close];
+    //self.inspectionController = nil; // Release the reference, this is causing the whole DSACharacterWindow to disappear :(
+}
+@end
+// End of DSAActionIconExamine
+
+@implementation DSAActionIconConsume
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"mouth-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Dinge konsumieren");
+        [self registerForDraggedTypes:@[NSStringPboardType]];
+        [self updateAppearance];
+    }
+    return self;
+}
+- (BOOL)performDragOperation:(id<NSDraggingInfo>)sender {
+    // Get the pasteboard content
+    NSPasteboard *pasteboard = [sender draggingPasteboard];
+    NSString *draggedItemID = [pasteboard stringForType:NSStringPboardType];
+    
+    if (draggedItemID == nil) {
+        NSLog(@"No valid draggedItemID found on pasteboard");
+        return NO;
+    }
+
+    // Parse the dragged item ID (UUID:inventoryIdentifier:slotIndex)
+    NSArray *components = [draggedItemID componentsSeparatedByString:@":"];
+    if (components.count == 3) {
+        NSUUID *sourceModelID = [[NSUUID alloc] initWithUUIDString: components[0]];
+        NSString *sourceInventory = components[1];
+        NSInteger sourceSlotIndex = [components[2] integerValue];
+
+        // Retrieve the source model using the modelID
+        DSACharacter *sourceModel = [DSACharacter characterWithModelID:sourceModelID];
+        if (!sourceModel) {
+            NSLog(@"Source model not found for modelID: %@", sourceModelID);
+            return NO;
+        }
+        
+        // Retrieve the dragged item from the source model's inventory
+        DSAObject *draggedItem = [[DSAInventoryManager sharedManager] findItemInModel:sourceModel
+                                                                  inventoryIdentifier:sourceInventory
+                                                                            slotIndex:sourceSlotIndex];
+        
+        if (!draggedItem) {
+            NSLog(@"Dragged item not found in source model's inventory");
+            return NO;
+        }
+
+        [self consumeItem: draggedItem
+                fromModel: sourceModel
+      inventoryIdentifier: sourceInventory
+                slotIndex: sourceSlotIndex];
+        return YES;
+
+    }
+    
+    return NO;
+}
+
+- (void)consumeItem: (DSAObject *)item
+          fromModel: (DSACharacter *)sourceModel
+inventoryIdentifier: (NSString *)sourceInventory
+          slotIndex: (NSInteger)sourceSlotIndex
+{
+    // Implement logic to consume the item
+    NSLog(@"DSAActionItem: Consuming item: %@", item);
+    DSASlot *slot = [[DSAInventoryManager sharedManager] findSlotInModel: sourceModel
+                                                 withInventoryIdentifier: sourceInventory
+                                                                 atIndex: sourceSlotIndex];
+    if (slot == nil)  // slot not found, odd???
+      {
+        return;
+      }
+    BOOL result = [sourceModel consumeItem: item];
+    if (result == YES)
+      {
+        slot.quantity -= 1;
+        if (slot.quantity == 0)
+          {
+            slot.object = nil;
+          }
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAInventoryChangedNotification"
+                                                            object:sourceModel
+                                                          userInfo:@{@"sourceModel": sourceModel}];
+      }
+}
+@end
+// End of DSAActionIconConsume
+
+@implementation DSAActionIconDispose
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"trash-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Dinge wegwerfen");
+        [self registerForDraggedTypes:@[NSStringPboardType]];
+        [self updateAppearance];
+    }
+    return self;
 }
 
 - (BOOL)performDragOperation:(id<NSDraggingInfo>)sender {
@@ -154,159 +372,16 @@
             return NO;
         }
 
-        // Perform actions based on the action type (eye, mouth, or trash)
-        if ([self.actionType isEqualToString:@"eye"]) {
-            // Action for the eye: show item info
-            [self showPopupForItem:draggedItem];
+        // Action for trash: ask to discard the item
+        [self askToDiscardItem:draggedItem 
+                     fromModel:sourceModel 
+           inventoryIdentifier:sourceInventory 
+                     slotIndex:sourceSlotIndex];
             return YES;
-        } else if ([self.actionType isEqualToString:@"mouth"]) {
-            // Action for the mouth: consume item
-            [self consumeItem: draggedItem
-                    fromModel: sourceModel
-          inventoryIdentifier: sourceInventory
-                    slotIndex: sourceSlotIndex];
-            return YES;
-        } else if ([self.actionType isEqualToString:@"trash"]) {
-            // Action for trash: ask to discard the item
-            [self askToDiscardItem:draggedItem 
-                         fromModel:sourceModel 
-               inventoryIdentifier:sourceInventory 
-                         slotIndex:sourceSlotIndex];
-            return YES;
-        }
     }
     
     return NO;
 }
-
-#pragma mark - Action Handlers
-
-- (void)handleAddCharacter {
-    NSWindowController *windowController = self.window.windowController;
-    DSAAdventureDocument * adventureDoc = (DSAAdventureDocument *)windowController.document;
-    [adventureDoc addCharacterFromFile];
-    // [[DSACharacterManager sharedManager] presentCharacterCreationDialog];
-}
-
-
-- (void)handleRemoveCharacter {
-    NSLog(@"DSAActionIcon handleRemoveCharacter called");
-    // Step 1: Get access to the model
-    DSAAdventureWindowController *windowController = self.window.windowController;
-    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
-        NSLog(@"Invalid window controller class");
-        return;
-    }
-    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
-    DSAAdventure *adventure = document.model;
-    DSAAdventureGroup *group = adventure.activeGroup;
-
-    if (group.partyMembers.count == 0) {
-        NSBeep();
-        NSLog(@"No characters in the group to remove.");
-        return;
-    }
-
-    // Step 2: Present the character selection sheet
-    DSACharacterSelectionWindowController *selector =
-        [[DSACharacterSelectionWindowController alloc] initWithWindowNibName:@"DSACharacterSelectionWindow"];
-    
-    NSMutableArray *characters = [[NSMutableArray alloc] init];
-    for (NSUUID *uuid in group.partyMembers)
-      {
-        DSACharacter *character = [DSACharacter characterWithModelID: uuid];
-        NSLog(@"DSAActionIcon handleRemoveCharacter: Added character %@ for modelID: %@", character.name, character.modelID);
-        [characters addObject:[DSACharacter characterWithModelID: uuid]];
-      }
-        
-    selector.characters = characters;
-    
-    //__weak typeof(self) weakSelf = self;
-    selector.completionHandler = ^(DSACharacter *selectedCharacter) {
-        if (selectedCharacter) {
-            NSLog(@"Removing character: %@", selectedCharacter.name);
-            [adventure removeCharacterFromActiveGroup:selectedCharacter.modelID];
-            [document removeCharacterDocumentForCharacter:selectedCharacter];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
-/*            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGroupChangedNotification"
-                                                                object:group
-                                                              userInfo:@{@"removedCharacter": selectedCharacter}]; */
-        }
-    };
-
-    [windowController.window beginSheet:selector.window completionHandler:nil];
-}
-/*
-- (void)handleRemoveCharacter {
-    NSWindowController *windowController = self.window.windowController;
-    DSAAdventureDocument * adventureDoc = (DSAAdventureDocument *)windowController.document;
-    DSAAdventure *adventure = adventureDoc.model;
-    
-    [adventure removeCharacter];
-    
-    [adventureDoc addCharacterFromFile];
-    // [[DSACharacterManager sharedManager] removeSelectedCharacter];
-}
-*/
-
-/*
-- (void)handleSplitGroup {
-    [[DSAGroupManager sharedManager] splitCurrentGroup];
-}
-
-- (void)handleMergeGroup {
-    [[DSAGroupManager sharedManager] mergeAllGroups];
-}
-
-- (void)handleSpeak {
-    [[DSAInteractionManager sharedManager] presentDialogueUI];
-}
-
-- (void)handleLeaveLocation {
-    [[DSALocationManager sharedManager] moveCharacterOutOfLocation];
-}
-*/
-
-// Show a short popup with information about the item
-- (void)showPopupForItem:(id)item {
-    NSLog(@"Showing info for item: %@", item);
-    if (!self.inspectionController) {
-        // Lazily initialize the controller if it doesn't already exist
-        self.inspectionController = [[DSAItemInspectionController alloc] initWithWindowNibName:@"DSAItemInspection"];
-        self.inspectionController.delegate = self;
-    }
-    [self.inspectionController inspectItem:item];
-}
-
-// Consume the item (e.g., eating or using the item)
-- (void)consumeItem: (DSAObject *)item
-          fromModel: (DSACharacter *)sourceModel
-inventoryIdentifier: (NSString *)sourceInventory
-          slotIndex: (NSInteger)sourceSlotIndex
-{
-    // Implement logic to consume the item
-    NSLog(@"DSAActionItem: Consuming item: %@", item);
-    DSASlot *slot = [[DSAInventoryManager sharedManager] findSlotInModel: sourceModel
-                                                 withInventoryIdentifier: sourceInventory
-                                                                 atIndex: sourceSlotIndex];
-    if (slot == nil)  // slot not found, odd???
-      {
-        return;
-      }
-    BOOL result = [sourceModel consumeItem: item];
-    if (result == YES)
-      {
-        slot.quantity -= 1;
-        if (slot.quantity == 0)
-          {
-            slot.object = nil;
-          }
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAInventoryChangedNotification"
-                                                            object:sourceModel
-                                                          userInfo:@{@"sourceModel": sourceModel}];
-      }
-}
-
 - (void)askToDiscardItem:(DSAObject *)item 
                fromModel:(DSACharacter *)sourceModel 
      inventoryIdentifier:(NSString *)sourceInventory 
@@ -342,10 +417,231 @@ inventoryIdentifier: (NSString *)sourceInventory
         NSLog(@"Item was kept.");
     }
 }
+@end
 
-- (void)itemInspectionControllerDidClose:(DSAItemInspectionController *)controller {
-    NSLog(@"Inspection window closed for controller: %@", controller);
-    [[self.inspectionController window] close];
-    // self.inspectionController = nil; // Release the reference, this is causing the whole DSACharacterWindow to disappear :(
+@implementation DSAActionIconClickTarget
+- (void)mouseDown:(NSEvent *)event {
+    if (![self isActive]) {
+        return; // Ignorieren, wenn inaktiv
+    }
+    [self handleEvent];
 }
+- (void)handleEvent {
+  NSLog(@"DSAActionIconClickTarget handleEvent: subclasses (%@) are supposed to overwrite", [self class]);
+}
+@end
+
+@implementation DSAActionIconAddToGroup
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"group_add-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Character in die Gruppe aufnehmen");
+        [self updateAppearance];
+    }
+    return self;
+}
+
+- (BOOL)isActive {
+    DSAAdventureWindowController *windowController = self.window.windowController;
+
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    NSArray *groups = adventure.groups;    
+    NSInteger count = 0;
+    for (DSAAdventureGroup *group in groups)
+      {
+        count += [group.partyMembers count];
+      }
+    if (count < 6)
+      {
+        return YES;
+      }
+    else
+      {
+        return NO;
+      }
+}
+
+- (void)handleEvent {
+    NSWindowController *windowController = self.window.windowController;
+    DSAAdventureDocument * adventureDoc = (DSAAdventureDocument *)windowController.document;
+    [adventureDoc addCharacterFromFile];
+    // [[DSACharacterManager sharedManager] presentCharacterCreationDialog];
+}
+@end
+// End of DSAActionIconAddToGroup
+@implementation DSAActionIconRemoveFromGroup
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"group_remove-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Character entlassen");
+        [self updateAppearance];
+    }
+    return self;
+}
+
+- (BOOL)isActive {
+    DSAAdventureWindowController *windowController = self.window.windowController;
+
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *group = adventure.activeGroup;    
+    if ([group.partyMembers count] > 0)
+      {
+        return YES;
+      }
+    else
+      {
+        return NO;
+      }
+}
+
+- (void)handleEvent {
+    NSLog(@"DSAActionIcon handleRemoveCharacter called");
+    // Step 1: Get access to the model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"Invalid window controller class");
+        return;
+    }
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *group = adventure.activeGroup;
+
+    if (group.partyMembers.count == 0) {
+        NSBeep();
+        NSLog(@"No characters in the group to remove.");
+        return;
+    }
+
+    // Step 2: Present the character selection sheet
+    DSACharacterSelectionWindowController *selector =
+        [[DSACharacterSelectionWindowController alloc] initWithWindowNibName:@"DSACharacterSelectionWindow"];
+    
+    NSMutableArray *characters = [[NSMutableArray alloc] init];
+    for (NSUUID *uuid in group.partyMembers)
+      {
+        DSACharacter *character = [DSACharacter characterWithModelID: uuid];
+        NSLog(@"DSAActionIcon handleRemoveCharacter: Added character %@ for modelID: %@", character.name, character.modelID);
+        [characters addObject:[DSACharacter characterWithModelID: uuid]];
+      }
+        
+    selector.characters = characters;
+    
+    selector.completionHandler = ^(DSACharacter *selectedCharacter) {
+        if (selectedCharacter) {
+            NSLog(@"Removing character: %@", selectedCharacter.name);
+            [adventure removeCharacterFromActiveGroup:selectedCharacter.modelID];
+            [document removeCharacterDocumentForCharacter:selectedCharacter];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
+        }
+    };
+
+    [windowController.window beginSheet:selector.window completionHandler:nil];
+}
+@end
+// End of DSAActionIconRemoveFromGroup
+@implementation DSAActionIconSplitGroup
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"group_split-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Gruppe teilen");
+        [self updateAppearance];
+    }
+    return self;
+}
+- (BOOL)isActive {
+    DSAAdventureWindowController *windowController = self.window.windowController;
+
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *group = adventure.activeGroup;    
+    if ([group.partyMembers count] + [group.npcMembers count] > 1)
+      {
+        return YES;
+      }
+    else
+      {
+        return NO;
+      }
+}
+- (void)handleEvent {
+    NSLog(@"DSAActionIconSplitGroup handleEvent called");
+    // Step 1: Get access to the model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"Invalid window controller class");
+        return;
+    }
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *group = adventure.activeGroup;
+
+    if ([group.partyMembers count] + [group.npcMembers count] < 2) {
+        NSBeep();
+        NSLog(@"Not enough characters in the group to split.");
+        return;
+    }
+
+    // Step 2: Present the character selection sheet
+    DSACharacterMultiSelectionWindowController *selector =
+        [[DSACharacterMultiSelectionWindowController alloc] initWithWindowNibName:@"DSACharacterMultiSelectionWindow"];
+    
+    NSMutableArray *characters = [[NSMutableArray alloc] init];
+    for (NSUUID *uuid in group.partyMembers)
+      {
+        DSACharacter *character = [DSACharacter characterWithModelID: uuid];
+        NSLog(@"DSAActionIconSplitGroup handleEvent: Added character %@ for modelID: %@", character.name, character.modelID);
+        [characters addObject:[DSACharacter characterWithModelID: uuid]];
+      }
+    for (NSUUID *uuid in group.npcMembers)
+      {
+        DSACharacter *character = [DSACharacter characterWithModelID: uuid];
+        NSLog(@"DSAActionIconSplitGroup handleEvent: Added npc character %@ for modelID: %@", character.name, character.modelID);
+        [characters addObject:[DSACharacter characterWithModelID: uuid]];
+      }        
+    selector.characters = characters;
+    
+    selector.completionHandler = ^(NSArray *selectedCharacters) {
+        if (selectedCharacters) {
+            // Create new DSAAdventureGroup without members
+            // Copy location
+            // copy weather
+            DSAAdventureGroup *targetGroup = [[DSAAdventureGroup alloc] initWithPartyMembers: nil
+                                                                                    location: [adventure.activeGroup.location copy]
+                                                                                     weather: [adventure.activeGroup.weather copy]];
+            [adventure.groups addObject: targetGroup];
+            for (DSACharacter *character in selectedCharacters)
+              {
+                NSLog(@"DSAActionIconSplitGroup handleEvent completionHandler: moving character: %@", character.name);
+                [adventure moveCharacter:character.modelID toGroup: targetGroup];
+              }
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
+        }
+    };
+
+    [windowController.window beginSheet:selector.window completionHandler:nil];
+}
+@end
+
+@implementation DSAActionIconJoinGroups
+@end
+@implementation DSAActionIconLeave
+@end
+@implementation DSAActionIconChat
+@end
+@implementation DSAActionIconPray
+@end
+@implementation DSAActionIconBuy
+@end
+@implementation DSAActionIconSell
 @end

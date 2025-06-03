@@ -35,7 +35,6 @@ extern NSString * const DSACharacterHighlightedNotification;
 }
 
 - (void)dealloc {
-//@autoreleasepool {
     NSLog(@"DSAAdventureWindowController is being deallocated.");
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
@@ -43,7 +42,6 @@ extern NSString * const DSACharacterHighlightedNotification;
     [(DSAAdventureDocument *)self.document removeObserver:self forKeyPath:@"selectedCharacterDocument"];  
   
     NSLog(@"DSAAdventureWindowController finished with dealloc");  
-//}
 }
 
 - (void)close {
@@ -93,9 +91,13 @@ extern NSString * const DSACharacterHighlightedNotification;
     NSLog(@"DSAAdventureWindowController: awakeFromNib called, Adding observers...");
     
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updatePartyPortraits)
+                                             selector:@selector(handleCharacterChanges)
                                                  name:@"DSAAdventureCharactersUpdated"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateActionIcons)
+                                                 name:@"DSAAdventureLocationUpdated"
+                                               object:nil];                                               
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleLogsMessage:)
                                                  name:@"DSACharacterEventLog"
@@ -128,21 +130,52 @@ extern NSString * const DSACharacterHighlightedNotification;
     height = self.imageVerticalRuler0.frame.size.height;
     NSLog(@"imageVerticalRuler0 dimensions: %.2f x %.2f", width, height);
     [self updateMainImageView];
-    [self updatePartyPortraits];
-    
-    self.imageActionIcon0.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"group_add-128x128" ofType:@"webp"]];
-    self.imageActionIcon0.actionType = @"addCharacter";
-    self.imageActionIcon0.clickOnlyMode = YES;
-    self.imageActionIcon0.toolTip = _(@"Charakter hinzufügen");
-    self.imageActionIcon1.image = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"group_remove-128x128" ofType:@"webp"]];
-    self.imageActionIcon1.actionType = @"removeCharacter";
-    self.imageActionIcon1.clickOnlyMode = YES;
-    self.imageActionIcon1.toolTip = _(@"Charakter entlassen");    
-
-    
+    [self handleCharacterChanges];
+    [self setupActionIcons];
+     
 }
 
-- (void)updatePartyPortraits {
+- (void) setupActionIcons
+{
+    NSLog(@"DSAAdventureWindowController updateActionIcons called!!!!");
+
+    DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"addToGroup" andSize:@"128x128"];
+    [self replaceView:self.imageActionIcon0 withView:newIcon];
+    self.imageActionIcon0 = newIcon;
+    
+    newIcon = [DSAActionIcon iconWithAction:@"removeFromGroup" andSize:@"128x128"];
+    [self replaceView:self.imageActionIcon1 withView:newIcon];
+    self.imageActionIcon1 = newIcon;
+    
+    newIcon = [DSAActionIcon iconWithAction:@"splitGroup" andSize:@"128x128"];
+    [self replaceView:self.imageActionIcon2 withView:newIcon];
+    self.imageActionIcon2 = newIcon;    
+}
+
+- (void) updateActionIcons
+{
+    NSLog(@"DSAAdventureWindowController updateActionIcons called!!!!");
+
+    [self.imageActionIcon0 updateAppearance];
+    [self.imageActionIcon1 updateAppearance];
+    [self.imageActionIcon2 updateAppearance];
+    [self.imageActionIcon3 updateAppearance];
+    [self.imageActionIcon4 updateAppearance];
+    [self.imageActionIcon5 updateAppearance];
+    [self.imageActionIcon6 updateAppearance];
+    [self.imageActionIcon7 updateAppearance];                            
+    [self.imageActionIcon8 updateAppearance];    
+}
+
+- (void)replaceView:(NSView *)oldView withView:(NSView *)newView {
+    NSView *superview = oldView.superview;
+    NSRect frame = oldView.frame;
+    newView.frame = frame;
+    [oldView removeFromSuperview];
+    [superview addSubview:newView positioned:NSWindowAbove relativeTo:nil];
+}
+
+- (void) handleCharacterChanges {
     // Ensure we have a valid adventure document
     NSLog(@"DSAAdventureWindowController updatePartyPortraits called!!!");
     DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
@@ -162,20 +195,60 @@ extern NSString * const DSACharacterHighlightedNotification;
     
     // Loop through up to 6 characters and assign portraits
     for (NSInteger i = 0; i < imageViews.count; i++) {
+        NSLog(@"DSAAdventureWindowController handleCharacterChanges in the for loop");
         DSACharacterPortraitView *imageView = imageViews[i];
 
         if (i < characters.count) {
+            NSLog(@"DSAAdventureWindowController handleCharacterChanges in main if in for loop");
             DSACharacterDocument *charDoc = characters[i];
             DSACharacter *character = charDoc.model;
             imageView.characterDocument = charDoc;
             imageView.image = [character portrait]; // Get portrait from model
+            for (NSImageRep *rep in imageView.image.representations) {
+    if ([rep hasAlpha]) {
+        NSLog(@"Image rep supports alpha.");
+    } else {
+        NSLog(@"Image rep does NOT support alpha.");
+    }
+}
+            if ([adventureDoc.model.activeGroup.partyMembers containsObject: character.modelID])
+              {
+                NSLog(@"DSAAdventureWindowController handleCharacterChanges: setting alpha value 1.0");
+                imageView.alphaValue = 1.0;
+                // imageView.image = [self imageWithAlpha:imageView.image alpha:1.0];
+                [imageView setNeedsDisplay:YES];
+              }
+            else
+              {
+                NSLog(@"DSAAdventureWindowController handleCharacterChanges: setting alpha value 0.4");
+                imageView.alphaValue = 0.4;
+                // imageView.image = [self imageWithAlpha:imageView.image alpha:0.4]; // we'll loose the original colored image, would have to keep the original somewhere :/
+                [imageView setNeedsDisplay:YES];
+              }
             imageView.toolTip = [imageView toolTip];
         } else {
+            NSLog(@"DSAAdventureWindowController handleCharacterChanges in main else in for loop");
             imageView.image = nil; // Clear unused slots
             imageView.characterDocument = nil;
             imageView.toolTip = @"";
         }
     }
+    [self updateActionIcons];
+}
+
+// using below method, we'd loose the original image, can't easily restore it like when using alphaValue :/
+// we'd have to store the original image somewhere, and restore/replace it...
+- (NSImage *)imageWithAlpha:(NSImage *)image alpha:(CGFloat)alpha {
+    if (!image || alpha >= 1.0) return image;
+
+    NSImage *fadedImage = [[NSImage alloc] initWithSize:image.size];
+    [fadedImage lockFocus];
+    [image drawAtPoint:NSZeroPoint
+              fromRect:NSMakeRect(0, 0, image.size.width, image.size.height)
+             operation:NSCompositeSourceOver
+              fraction:alpha];
+    [fadedImage unlockFocus];
+    return fadedImage;
 }
 
 - (void)updateMainImageView

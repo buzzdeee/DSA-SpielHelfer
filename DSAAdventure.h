@@ -56,6 +56,7 @@
 - (void)switchToGroupAtIndex:(NSUInteger)index;
 - (void)addCharacterToActiveGroup:(NSUUID *)characterUUID;
 - (void)removeCharacterFromActiveGroup:(NSUUID *)characterUUID;
+- (void)moveCharacter: (NSUUID *) characterUUID toGroup: (DSAAdventureGroup *) targetGroup;  // move from active group
 
 @end
 #endif // _DSAADVENTURE_H_

@@ -168,7 +168,8 @@ static NSString * const DSACharacterDragType = @"DSACharacterDragType";
             adventureDoc.characterDocuments = characters;
 
             // Refresh UI
-            [windowController updatePartyPortraits];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
+            //[windowController handleCharacterChanges]; // replaced with above
 
             return YES;
         }

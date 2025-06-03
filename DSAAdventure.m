@@ -97,6 +97,21 @@
     }
 }
 
+- (void)moveCharacter: (NSUUID *) characterUUID toGroup: (DSAAdventureGroup *) targetGroup
+{
+
+    NSLog(@"DSAAdventure moveCharacter: %@", characterUUID);
+    if (characterUUID && [self.activeGroup.partyMembers containsObject:characterUUID]) {
+        [self.activeGroup.partyMembers removeObject:characterUUID];
+        [targetGroup.partyMembers addObject: characterUUID];
+    }
+    if (characterUUID && [self.activeGroup.npcMembers containsObject:characterUUID]) {
+        [self.activeGroup.npcMembers removeObject:characterUUID];
+        [targetGroup.npcMembers addObject: characterUUID];
+    }    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
+}
+
 - (void)removeCharacterFromActiveGroup:(NSUUID *)characterUUID {
     NSLog(@"DSAAdventure removeCharacterFromActiveGroup: XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX %@", [characterUUID UUIDString]);
     [self.activeGroup.partyMembers removeObject:characterUUID];

@@ -405,24 +405,20 @@
     DSACharacterDocument *document = (DSACharacterDocument *)self.document;
     NSLog(@"DSACharacterWindowController populateInventory called");
 
-    NSString *imagePath = [[NSBundle mainBundle] pathForResource:@"eye-64x64" ofType:@"webp"];
-    NSImage *image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
-    self.imageEye.image = image;
-    self.imageEye.actionType = @"eye";
-    self.imageEye.toolTip = _(@"Dinge ansehen");
-    [self.imageEye registerForDraggedTypes:@[NSStringPboardType]];
-    imagePath = [[NSBundle mainBundle] pathForResource:@"mouth-64x64" ofType:@"webp"];
-    image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
-    self.imageMouth.image = image;
-    self.imageMouth.actionType = @"mouth";
-    self.imageMouth.toolTip = _(@"Dinge konsumieren");
-    [self.imageMouth registerForDraggedTypes:@[NSStringPboardType]];
-    imagePath = [[NSBundle mainBundle] pathForResource:@"trash-64x64" ofType:@"webp"];
-    image = imagePath ? [[NSImage alloc] initWithContentsOfFile:imagePath] : nil;
-    self.imageTrash.image = image;
-    self.imageTrash.actionType = @"trash";
-    self.imageTrash.toolTip = _(@"Dinge wegwerfen"); 
-    [self.imageTrash registerForDraggedTypes:@[NSStringPboardType]];   
+    DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"examine" andSize:@"64x64"];
+    [self replaceView:self.imageEye withView:newIcon];
+    self.imageEye = newIcon;    
+
+    newIcon = [DSAActionIcon iconWithAction:@"consume" andSize:@"64x64"];
+    [self replaceView:self.imageMouth withView:newIcon];
+    self.imageMouth = newIcon;        
+    
+    newIcon = [DSAActionIcon iconWithAction:@"dispose" andSize:@"64x64"];
+    [self replaceView:self.imageTrash withView:newIcon];
+    self.imageTrash = newIcon;    
+    
+    NSString *imagePath;
+    NSImage *image;
     NSLog(@"after eye and mouth and trash");
     if ([document.model.sex isEqualToString: _(@"männlich")])
       {
@@ -460,19 +456,16 @@
                                               startingSlotCounter:bodySlotCounter];
     }
   [self updateCharacterStateView];
-//  [self.viewCharacterStatus setNeedsDisplay:YES];  
-//  [self.viewCharacterStatus displayIfNeeded];
-/*   
-  DSACharacterStatusView *statusView = [[DSACharacterStatusView alloc] initWithFrame:NSMakeRect(0, 0, 200, 30)];
-  NSLog(@"SETTING THE CHARACTER");
-  [statusView setCharacter: document.model];
-  self.viewCharacterStatus = statusView;
-  NSLog(@"AFTER SETTING THE CHARACTER");  
-  [self.viewCharacterStatus setNeedsDisplay:YES];  
-  [self.viewCharacterStatus displayIfNeeded];
-  */      
-    // NSLog(@"DSACharacterWindowController populateInvenotry: after body part inventories: bodySlotCounter: %@", @(bodySlotCounter));
 }
+
+- (void)replaceView:(NSView *)oldView withView:(NSView *)newView {
+    NSView *superview = oldView.superview;
+    NSRect frame = oldView.frame;
+    newView.frame = frame;
+    [oldView removeFromSuperview];
+    [superview addSubview:newView positioned:NSWindowAbove relativeTo:nil];
+}
+
 
 - (void)updateCharacterStateView {
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;

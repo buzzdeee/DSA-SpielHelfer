@@ -38,7 +38,7 @@
 @property (weak) IBOutlet NSImageView * imageHorizontalRuler1;
 @property (weak) IBOutlet NSImageView * imageVerticalRuler0;
 
-- (void) updatePartyPortraits;
+//- (void) handleCharacterChanges;
 
 @end
 

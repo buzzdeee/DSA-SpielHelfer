@@ -32,6 +32,7 @@
     self = [super init];
     if (self) {
         _partyMembers = [NSMutableArray array];
+        _npcMembers = [NSMutableArray array];
         _location = nil;
         _weather = nil;
     }
@@ -54,6 +55,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.partyMembers forKey:@"partyMembers"];
+    [coder encodeObject:self.npcMembers forKey:@"npcMembers"];
     [coder encodeObject:self.location forKey:@"location"];
     [coder encodeObject:self.weather forKey:@"weather"];
 }
@@ -62,6 +64,7 @@
     self = [super init];
     if (self) {
         _partyMembers = [coder decodeObjectForKey:@"partyMembers"];
+        _npcMembers = [coder decodeObjectForKey:@"npcMembers"];
         _location = [coder decodeObjectForKey:@"location"];
         _weather = [coder decodeObjectForKey:@"weather"];
     }
