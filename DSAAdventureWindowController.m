@@ -150,6 +150,14 @@ extern NSString * const DSACharacterHighlightedNotification;
     newIcon = [DSAActionIcon iconWithAction:@"splitGroup" andSize:@"128x128"];
     [self replaceView:self.imageActionIcon2 withView:newIcon];
     self.imageActionIcon2 = newIcon;    
+    
+    newIcon = [DSAActionIcon iconWithAction:@"joinGroups" andSize:@"128x128"];
+    [self replaceView:self.imageActionIcon3 withView:newIcon];
+    self.imageActionIcon3 = newIcon;
+    
+    newIcon = [DSAActionIcon iconWithAction:@"switchActiveGroup" andSize:@"128x128"];
+    [self replaceView:self.imageActionIcon4 withView:newIcon];
+    self.imageActionIcon4 = newIcon;     
 }
 
 - (void) updateActionIcons

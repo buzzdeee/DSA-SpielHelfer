@@ -105,7 +105,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface DSALocalMapLocation : DSALocation <NSCoding>
-@property (nonatomic, strong) DSAGlobalMapLocation *globalLocation;  // every local map location is somewhere on the map, so there's a corresponding global location
+@property (nonatomic, strong) NSString *globalLocationName;  // every local map location is somewhere on the map, so there's a corresponding global location
 @property (nonatomic, strong) NSString *localLocationType;
 @property (nonatomic, strong) DSALocalMap *locationMap;
 @property (nonatomic, assign) NSInteger level;

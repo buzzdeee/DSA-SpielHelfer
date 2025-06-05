@@ -56,6 +56,8 @@
 @end
 @interface DSAActionIconJoinGroups: DSAActionIconClickTarget
 @end
+@interface DSAActionIconSwitchActiveGroup: DSAActionIconClickTarget
+@end
 @interface DSAActionIconLeave: DSAActionIconClickTarget
 @end
 @interface DSAActionIconChat: DSAActionIconClickTarget

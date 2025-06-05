@@ -93,8 +93,10 @@
 - (void)addCharacterToActiveGroup:(NSUUID *)characterUUID {
     if (characterUUID && ![self.activeGroup.partyMembers containsObject:characterUUID]) {
         [self.activeGroup.partyMembers addObject:characterUUID];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
+        NSLog(@"DSAAdventure addCharacterToActiveGroup: after adding UUID");
+        //[[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
     }
+        NSLog(@"DSAAdventure addCharacterToActiveGroup: after adding UUID at the very end!");    
 }
 
 - (void)moveCharacter: (NSUUID *) characterUUID toGroup: (DSAAdventureGroup *) targetGroup
@@ -103,10 +105,18 @@
     NSLog(@"DSAAdventure moveCharacter: %@", characterUUID);
     if (characterUUID && [self.activeGroup.partyMembers containsObject:characterUUID]) {
         [self.activeGroup.partyMembers removeObject:characterUUID];
+        if (!targetGroup.partyMembers)
+          {
+            targetGroup.partyMembers = [NSMutableArray array];
+          }
         [targetGroup.partyMembers addObject: characterUUID];
     }
     if (characterUUID && [self.activeGroup.npcMembers containsObject:characterUUID]) {
         [self.activeGroup.npcMembers removeObject:characterUUID];
+        if (!targetGroup.npcMembers)
+          {
+            targetGroup.npcMembers = [NSMutableArray array];
+          }        
         [targetGroup.npcMembers addObject: characterUUID];
     }    
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];

@@ -917,7 +917,7 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
         self.x = [dict[@"x"] integerValue];
         self.y = [dict[@"y"] integerValue];
         self.level = dict[@"level"] ? [dict[@"level"] integerValue] : 0;
-        _globalLocation = dict[@"globalLocation"];
+        _globalLocationName = dict[@"globalLocation"];
         _localLocationType = dict[@"localLocationType"];
         _locationMap = [[DSALocalMap alloc] initWithDictionary: dict[@"LevelDetails"]]; 
     }
@@ -955,7 +955,7 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
 - (void)encodeWithCoder:(NSCoder *)coder {
     [super encodeWithCoder: coder];
     [coder encodeInteger:self.level forKey:@"level"];
-    [coder encodeObject:self.globalLocation forKey:@"globalLocation"];
+    [coder encodeObject:self.globalLocationName forKey:@"globalLocationName"];
     [coder encodeObject:self.localLocationType forKey:@"localLocationType"];
     [coder encodeObject:self.locationMap forKey:@"locationMap"];
 }
@@ -964,7 +964,7 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
     self = [super initWithCoder: coder];
     if (self) {
         _level = [coder decodeIntegerForKey: @"level"];
-        _globalLocation = [coder decodeObjectForKey: @"globalLocation"];
+        _globalLocationName = [coder decodeObjectForKey: @"globalLocationName"];
         _localLocationType = [coder decodeObjectForKey: @"localLocationType"];
         _locationMap = [coder decodeObjectForKey:@"locationMap"];
     }

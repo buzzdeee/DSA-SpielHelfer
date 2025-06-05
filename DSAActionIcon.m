@@ -50,6 +50,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                     _(@"removeFromGroup"): [DSAActionIconRemoveFromGroup class],
                     _(@"splitGroup"): [DSAActionIconSplitGroup class],
                     _(@"joinGroups"): [DSAActionIconJoinGroups class],
+                    _(@"switchActiveGroup"): [DSAActionIconSwitchActiveGroup class],                    
                     _(@"leave"): [DSAActionIconLeave class],
                     _(@"chat"): [DSAActionIconChat class],
                     _(@"pray"): [DSAActionIconPray class],
@@ -616,7 +617,7 @@ inventoryIdentifier: (NSString *)sourceInventory
             // Create new DSAAdventureGroup without members
             // Copy location
             // copy weather
-            DSAAdventureGroup *targetGroup = [[DSAAdventureGroup alloc] initWithPartyMembers: nil
+            DSAAdventureGroup *targetGroup = [[DSAAdventureGroup alloc] initWithPartyMembers: [NSMutableArray array]
                                                                                     location: [adventure.activeGroup.location copy]
                                                                                      weather: [adventure.activeGroup.weather copy]];
             [adventure.groups addObject: targetGroup];
@@ -634,6 +635,183 @@ inventoryIdentifier: (NSString *)sourceInventory
 @end
 
 @implementation DSAActionIconJoinGroups
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"group_join-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Gruppen vereinen");
+        [self updateAppearance];
+    }
+    return self;
+}
+- (BOOL)isActive {
+    DSAAdventureWindowController *windowController = self.window.windowController;
+
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSALocation *activeGroupLocation = activeGroup.location;
+    
+    //NSLog(@"DSAActionIconJoinGroups isActive activeGroup location: %@", activeGroupLocation);
+    
+    for (DSAAdventureGroup *group in adventure.groups)
+      {
+        if ([activeGroup isEqualTo: group])
+          {
+            NSLog(@"DSAActionIconJoinGroups isActive compared against active Group, continuing");
+            continue;
+          }
+        NSLog(@"DSAActionIconJoinGroups isActive comparing aginst some other group");
+        if ([activeGroupLocation isKindOfClass: [DSAGlobalMapLocation class]] &&
+            [group.location isKindOfClass: [DSAGlobalMapLocation class]])
+           {
+             NSLog(@"DSAActionIconJoinGroups isActive both groups are on global map locations!");
+             if (activeGroupLocation.x == group.location.x &&
+                 activeGroupLocation.y == group.location.y)
+                {
+                  return YES;
+                }
+           }
+         else if ([activeGroupLocation isKindOfClass: [DSALocalMapLocation class]] &&
+                  [group.location isKindOfClass: [DSALocalMapLocation class]])
+           {
+             NSLog(@"DSAActionIconJoinGroups isActive both groups are on local map locations!");
+             DSALocalMapLocation *agl = (DSALocalMapLocation *) activeGroupLocation;
+             DSALocalMapLocation *gl = (DSALocalMapLocation *)[group location];
+             //NSLog(@"DSAActionIconJoinGroups isActive agl name: %@, gl name: %@", agl.globalLocation.name, gl.globalLocation.name);
+             //NSLog(@"DSAActionIconJoinGroups isActive agl: %@, gl: %@", agl.name, gl.name);
+             NSLog(@"DSAActionIconJoinGroup handleEvent agl name class: %@ %@", [agl.globalLocationName class], agl.globalLocationName);  
+             NSLog(@"DSAActionIconJoinGroup handleEvent gl name class: %@ %@", [gl.globalLocationName class], gl.globalLocationName);              
+             if (agl.x == gl.x &&
+                 agl.y == gl.y &&
+                 agl.level == gl.level &&
+                 [agl.globalLocationName isEqualToString: gl.globalLocationName])
+                {
+                  NSLog(@"DSAActionIconJoinGroups isActive both groups are on THE SAME local map locations X/Y/Level values!");
+                  return YES;
+                }
+           }
+      }
+    return NO;
+}
+- (void)handleEvent {
+    NSLog(@"DSAActionIconJoinGroup handleEvent called");
+    // Step 1: Get access to the model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"Invalid window controller class");
+        return;
+    }
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSALocation *activeGroupLocation = activeGroup.location;
+    DSAAdventureGroup *otherGroup;
+    
+    NSInteger groupIndex = 0;
+    for (DSAAdventureGroup *group in adventure.groups)
+      {
+        if ([activeGroup isEqualTo: group])
+          {
+            groupIndex++;
+            continue;
+          }
+        if ([activeGroupLocation isKindOfClass: [DSAGlobalMapLocation class]] &&
+            [group.location isKindOfClass: [DSAGlobalMapLocation class]])
+           {
+             if (activeGroupLocation.x == group.location.x &&
+                 activeGroupLocation.y == group.location.y)
+                {
+                  otherGroup = group;
+                  break;
+                }
+           }
+         else if ([activeGroupLocation isKindOfClass: [DSALocalMapLocation class]] &&
+                  [group.location isKindOfClass: [DSALocalMapLocation class]])
+           {
+             DSALocalMapLocation *agl = (DSALocalMapLocation *) activeGroupLocation;
+             DSALocalMapLocation *gl = (DSALocalMapLocation *)[group location];  
+             NSLog(@"DSAActionIconJoinGroup handleEvent agl name class: %@ %@", [agl.globalLocationName class], agl.globalLocationName);  
+             NSLog(@"DSAActionIconJoinGroup handleEvent gl name class: %@ %@", [gl.globalLocationName class], gl.globalLocationName);         
+             if (agl.x == gl.x &&
+                 agl.y == gl.y &&
+                 agl.level == gl.level &&
+                 [agl.globalLocationName isEqualToString: gl.globalLocationName])
+                {
+                  otherGroup = group;
+                  break;
+                }
+           }
+         groupIndex++;
+      }    
+
+    NSLog(@"DSAActionIconJoinGroup handleEvent active group: %@ members: %ld", activeGroup, [activeGroup.partyMembers count]);
+    NSLog(@"DSAActionIconJoinGroup handleEvent other group: %@ members: %ld", otherGroup, [otherGroup.partyMembers count]);
+    if (otherGroup)
+      {
+        NSLog(@"SAActionIconJoinGroup handleEvent active group UUIDs: %@", activeGroup.partyMembers);
+        NSLog(@"SAActionIconJoinGroup handleEvent other group UUIDs: %@", otherGroup.partyMembers);
+        for (NSUUID *uuid in otherGroup.partyMembers)
+          {
+            NSLog(@"DSAActionIconJoinGroup handleEvent other group adding character UUID to activeGroup: %@", uuid);
+            [adventure addCharacterToActiveGroup: uuid];
+            NSLog(@"DSAActionIconJoinGroup handleEvent other group AFTER adding character UUID to activeGroup: %@", uuid);
+          }
+        NSLog(@"DSAActionIconJoinGroup handleEvent adventure groups count: %ld removing group at index: %ld", [adventure.groups count], groupIndex); 
+        [adventure.groups removeObjectAtIndex: groupIndex];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
+      }
+    NSLog(@"DSAActionIconJoinGroup handleEvent active group: %@ members: %ld", activeGroup, [activeGroup.partyMembers count]);
+    NSLog(@"DSAActionIconJoinGroup handleEvent adventure groups count: %ld", [adventure.groups count]);      
+}
+@end
+// End of DSAActionIconJoinGroups
+
+@implementation DSAActionIconSwitchActiveGroup
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"group_next-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Gruppe wechseln");
+        [self updateAppearance];
+    }
+    return self;
+}
+- (BOOL)isActive {
+    DSAAdventureWindowController *windowController = self.window.windowController;
+
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    
+    //NSLog(@"DSAActionIconJoinGroups isActive activeGroup location: %@", activeGroupLocation);
+    if ([adventure.groups count] > 1)
+      {
+        return YES;
+      }
+    return NO;
+}
+- (void)handleEvent {
+    NSLog(@"DSAActionIconSwitchactiveGroup handleEvent called");
+    // Step 1: Get access to the model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"Invalid window controller class");
+        return;
+    }
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    
+    if ([adventure.groups count] > 1) {
+        DSAAdventureGroup *firstGroup = adventure.groups[0];
+        [adventure.groups removeObjectAtIndex:0];
+        [adventure.groups addObject:firstGroup];
+    }    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];     
+}
 @end
 @implementation DSAActionIconLeave
 @end
