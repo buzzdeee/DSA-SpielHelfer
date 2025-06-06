@@ -5482,6 +5482,48 @@ Resources/Character_96.webp \
 Resources/Character_97.webp \
 Resources/Character_98.webp \
 Resources/Character_99.webp \
+Resources/map_icon-128x128.webp \
+Resources/map_icon-256x256.webp \
+Resources/map_icon-32x32.webp \
+Resources/map_icon-512x512.webp \
+Resources/map_icon-64x64.webp \
+Resources/map_icon.webp \
+Resources/TH_Dorf_1-128x128.webp \
+Resources/TH_Dorf_1-256x256.webp \
+Resources/TH_Dorf_1-32x32.webp \
+Resources/TH_Dorf_1-512x512.webp \
+Resources/TH_Dorf_1-64x64.webp \
+Resources/TH_Dorf_1.webp \
+Resources/TH_Dorf_2-128x128.webp \
+Resources/TH_Dorf_2-256x256.webp \
+Resources/TH_Dorf_2-32x32.webp \
+Resources/TH_Dorf_2-512x512.webp \
+Resources/TH_Dorf_2-64x64.webp \
+Resources/TH_Dorf_2.webp \
+Resources/TH_Kleinstadt_1-128x128.webp \
+Resources/TH_Kleinstadt_1-256x256.webp \
+Resources/TH_Kleinstadt_1-32x32.webp \
+Resources/TH_Kleinstadt_1-512x512.webp \
+Resources/TH_Kleinstadt_1-64x64.webp \
+Resources/TH_Kleinstadt_1.webp \
+Resources/TH_Kleinstadt_2-128x128.webp \
+Resources/TH_Kleinstadt_2-256x256.webp \
+Resources/TH_Kleinstadt_2-32x32.webp \
+Resources/TH_Kleinstadt_2-512x512.webp \
+Resources/TH_Kleinstadt_2-64x64.webp \
+Resources/TH_Kleinstadt_2.webp \
+Resources/TH_Stadt_1-128x128.webp \
+Resources/TH_Stadt_1-256x256.webp \
+Resources/TH_Stadt_1-32x32.webp \
+Resources/TH_Stadt_1-512x512.webp \
+Resources/TH_Stadt_1-64x64.webp \
+Resources/TH_Stadt_1.webp \
+Resources/TH_Stadt_2-128x128.webp \
+Resources/TH_Stadt_2-256x256.webp \
+Resources/TH_Stadt_2-32x32.webp \
+Resources/TH_Stadt_2-512x512.webp \
+Resources/TH_Stadt_2-64x64.webp \
+Resources/TH_Stadt_2.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \
@@ -5589,7 +5631,8 @@ DSALocalMapViewController.h \
 DSALocalMapView.h \
 DSAAdventureGroup.h \
 DSACharacterSelectionWindowController.h \
-DSACharacterMultiSelectionWindowController.h
+DSACharacterMultiSelectionWindowController.h \
+DSAMapCoordinate.h
 
 #
 # Objective-C Class files
@@ -5662,7 +5705,8 @@ DSALocalMapViewController.m \
 DSALocalMapView.m \
 DSAAdventureGroup.m \
 DSACharacterSelectionWindowController.m \
-DSACharacterMultiSelectionWindowController.m
+DSACharacterMultiSelectionWindowController.m \
+DSAMapCoordinate.m
 
 #
 # Other sources

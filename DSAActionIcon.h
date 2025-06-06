@@ -68,6 +68,8 @@
 @end
 @interface DSAActionIconSell: DSAActionIconClickTarget
 @end
+@interface DSAActionIconMap: DSAActionIconClickTarget
+@end
 
 #endif // _DSAACTIONICON_H_
 

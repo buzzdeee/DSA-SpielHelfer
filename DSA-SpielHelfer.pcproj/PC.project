@@ -84,7 +84,8 @@
 	"DSALocalMapView.m",
 	"DSAAdventureGroup.m",
 	"DSACharacterSelectionWindowController.m",
-	"DSACharacterMultiSelectionWindowController.m"
+	"DSACharacterMultiSelectionWindowController.m",
+	"DSAMapCoordinate.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -161,7 +162,8 @@
 	"DSALocalMapView.h",
 	"DSAAdventureGroup.h",
 	"DSACharacterSelectionWindowController.h",
-	"DSACharacterMultiSelectionWindowController.h"
+	"DSACharacterMultiSelectionWindowController.h",
+	"DSAMapCoordinate.h"
     );
     IMAGES = (
 	"Aventurien.jpg",
@@ -5589,7 +5591,49 @@
 	"Character_96.webp",
 	"Character_97.webp",
 	"Character_98.webp",
-	"Character_99.webp"
+	"Character_99.webp",
+	"map_icon-128x128.webp",
+	"map_icon-256x256.webp",
+	"map_icon-32x32.webp",
+	"map_icon-512x512.webp",
+	"map_icon-64x64.webp",
+	"map_icon.webp",
+	"TH_Dorf_1-128x128.webp",
+	"TH_Dorf_1-256x256.webp",
+	"TH_Dorf_1-32x32.webp",
+	"TH_Dorf_1-512x512.webp",
+	"TH_Dorf_1-64x64.webp",
+	"TH_Dorf_1.webp",
+	"TH_Dorf_2-128x128.webp",
+	"TH_Dorf_2-256x256.webp",
+	"TH_Dorf_2-32x32.webp",
+	"TH_Dorf_2-512x512.webp",
+	"TH_Dorf_2-64x64.webp",
+	"TH_Dorf_2.webp",
+	"TH_Kleinstadt_1-128x128.webp",
+	"TH_Kleinstadt_1-256x256.webp",
+	"TH_Kleinstadt_1-32x32.webp",
+	"TH_Kleinstadt_1-512x512.webp",
+	"TH_Kleinstadt_1-64x64.webp",
+	"TH_Kleinstadt_1.webp",
+	"TH_Kleinstadt_2-128x128.webp",
+	"TH_Kleinstadt_2-256x256.webp",
+	"TH_Kleinstadt_2-32x32.webp",
+	"TH_Kleinstadt_2-512x512.webp",
+	"TH_Kleinstadt_2-64x64.webp",
+	"TH_Kleinstadt_2.webp",
+	"TH_Stadt_1-128x128.webp",
+	"TH_Stadt_1-256x256.webp",
+	"TH_Stadt_1-32x32.webp",
+	"TH_Stadt_1-512x512.webp",
+	"TH_Stadt_1-64x64.webp",
+	"TH_Stadt_1.webp",
+	"TH_Stadt_2-128x128.webp",
+	"TH_Stadt_2-256x256.webp",
+	"TH_Stadt_2-32x32.webp",
+	"TH_Stadt_2-512x512.webp",
+	"TH_Stadt_2-64x64.webp",
+	"TH_Stadt_2.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;

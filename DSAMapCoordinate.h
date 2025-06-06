@@ -5,7 +5,7 @@
 
    Author: Sebastian Reitenbach
 
-   Created: 2025-05-27 20:53:36 +0200 by sebastia
+   Created: 2025-06-06 09:12:53 +0200 by sebastia
 
    This application is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,28 +22,27 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
-#ifndef _DSAADVENTUREGROUP_H_
-#define _DSAADVENTUREGROUP_H_
+#ifndef _DSAMAPCOORDINATE_H_
+#define _DSAMAPCOORDINATE_H_
 
 #import <Foundation/Foundation.h>
-#import "DSALocation.h"
 
-@class DSAPosition;
-@class DSAWeather;
+@interface DSAMapCoordinate : NSObject <NSCopying, NSSecureCoding>
 
-@interface DSAAdventureGroup : NSObject <NSCoding>
+@property (nonatomic, assign) NSInteger x;
+@property (nonatomic, assign) NSInteger y;
+@property (nonatomic, assign) NSInteger level;
 
-@property (nonatomic, strong) NSMutableArray<NSUUID *> *partyMembers;
-@property (nonatomic, strong) NSMutableArray<NSUUID *> *npcMembers;
-@property (nonatomic, strong) DSAPosition *position;
-@property (nonatomic, assign) DSADirection headingDirection;
-@property (nonatomic, strong) DSAWeather *weather;
++ (instancetype)coordinateWithX:(NSInteger)x y:(NSInteger)y level:(NSInteger)level;
+- (instancetype)initWithX:(NSInteger)x y:(NSInteger)y level:(NSInteger)level;
 
-- (instancetype)initWithPartyMembers:(NSArray<NSUUID *> *)members
-                            position:(DSAPosition *)position
-                             weather:(DSAWeather *)weather;
+- (BOOL)isEqualToMapCoordinate:(DSAMapCoordinate *)other;
 
-@end                             
+- (NSInteger)manhattanDistanceTo:(DSAMapCoordinate *)other;
+- (CGFloat)euclideanDistanceTo:(DSAMapCoordinate *)other;
+- (NSInteger)chebyshevDistanceTo:(DSAMapCoordinate *)other;
 
-#endif // _DSAADVENTUREGROUP_H_
+@end
+
+#endif // _DSAMAPCOORDINATE_H_
 

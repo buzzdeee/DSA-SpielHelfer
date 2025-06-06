@@ -13,6 +13,8 @@
 #import "DSAAdventureGroup.h"
 #import "Utils.h"
 #import "DSAActionIcon.h"
+#import "DSALocation.h"
+#import "DSALocations.h"
 
 extern NSString * const DSACharacterHighlightedNotification;
 
@@ -158,6 +160,14 @@ extern NSString * const DSACharacterHighlightedNotification;
     newIcon = [DSAActionIcon iconWithAction:@"switchActiveGroup" andSize:@"128x128"];
     [self replaceView:self.imageActionIcon4 withView:newIcon];
     self.imageActionIcon4 = newIcon;     
+    
+    newIcon = [DSAActionIcon iconWithAction:@"leave" andSize:@"128x128"];
+    [self replaceView:self.imageActionIcon8 withView:newIcon];
+    self.imageActionIcon8 = newIcon;    
+    
+    newIcon = [DSAActionIcon iconWithAction:@"map" andSize:@"128x128"];
+    [self replaceView:self.imageActionIcon7 withView:newIcon];
+    self.imageActionIcon7 = newIcon;    
 }
 
 - (void) updateActionIcons
@@ -173,6 +183,7 @@ extern NSString * const DSACharacterHighlightedNotification;
     [self.imageActionIcon6 updateAppearance];
     [self.imageActionIcon7 updateAppearance];                            
     [self.imageActionIcon8 updateAppearance];    
+    [self updateMainImageView];
 }
 
 - (void)replaceView:(NSView *)oldView withView:(NSView *)newView {
@@ -264,32 +275,30 @@ extern NSString * const DSACharacterHighlightedNotification;
 - (void)updateMainImageView
 {
   DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
-  DSALocation *currentLocation = adventureDoc.model.activeGroup.location;
-  if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
+  DSAPosition *currentPosition = adventureDoc.model.activeGroup.position;
+  DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
+  DSALocation *globalLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.globalLocationName ofType: @"global"];
+  if (currentLocation)
     {
       DSALocalMapLocation *localMapLocation = (DSALocalMapLocation *)currentLocation;
-      NSInteger x = localMapLocation.x;
-      NSInteger y = localMapLocation.y;
-      NSInteger mapLevel = localMapLocation.level;
-      DSALocalMap *locationMap = localMapLocation.locationMap;
+      DSALocalMapTile *currentTile = [localMapLocation tileAtCoordinate: currentPosition.mapCoordinate];
       
-      DSALocalMapLevel *currentMapLevel;
-      for (DSALocalMapLevel *currentLevel in locationMap.mapLevels)
-        {
-           if (mapLevel == currentLevel.level)
-             {
-               currentMapLevel = currentLevel;
-               break;
-             }
-        }
-      DSALocalMapTile *currentTile = [[currentMapLevel.mapTiles objectAtIndex: y] objectAtIndex: x];
       NSLog(@"DSAAdventureWindowController updateMainImageView found currentTile: %@", currentTile);
       NSString *god;
+      NSString *imageName;
       if ([currentTile isMemberOfClass: [DSALocalMapTileBuildingTemple class]])
         {
           god = [(DSALocalMapTileBuildingTemple *) currentTile god];
+          imageName = [NSString stringWithFormat:@"%@_Tempel_1.webp", god];
         }
-     NSString *imageName = [NSString stringWithFormat:@"%@_Tempel_1.webp", god];
+      else if ([currentTile isMemberOfClass: [DSALocalMapTileStreet class]] ||
+               [currentTile isMemberOfClass: [DSALocalMapTileGreen class]])
+        {
+          DSAGlobalMapLocation *gl = (DSAGlobalMapLocation *) globalLocation;
+          NSString *region = gl.region;
+          NSString *type = gl.type;
+          imageName = [NSString stringWithFormat:@"%@_%@_1.webp", region, type];
+        }
 
      NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:nil];
      if (imagePath) {

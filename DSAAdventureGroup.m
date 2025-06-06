@@ -33,19 +33,19 @@
     if (self) {
         _partyMembers = [NSMutableArray array];
         _npcMembers = [NSMutableArray array];
-        _location = nil;
+        _position = nil;
         _weather = nil;
     }
     return self;
 }
 
 - (instancetype)initWithPartyMembers:(NSArray<NSUUID *> *)members
-                            location:(DSALocation *)location
+                            position:(DSAPosition *)position
                              weather:(DSAWeather *)weather {
     self = [super init];
     if (self) {
         _partyMembers = [members mutableCopy];
-        _location = location;
+        _position = position;
         _weather = weather;
     }
     return self;
@@ -56,7 +56,7 @@
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.partyMembers forKey:@"partyMembers"];
     [coder encodeObject:self.npcMembers forKey:@"npcMembers"];
-    [coder encodeObject:self.location forKey:@"location"];
+    [coder encodeObject:self.position forKey:@"position"];
     [coder encodeObject:self.weather forKey:@"weather"];
 }
 
@@ -65,7 +65,7 @@
     if (self) {
         _partyMembers = [coder decodeObjectForKey:@"partyMembers"];
         _npcMembers = [coder decodeObjectForKey:@"npcMembers"];
-        _location = [coder decodeObjectForKey:@"location"];
+        _position = [coder decodeObjectForKey:@"position"];
         _weather = [coder decodeObjectForKey:@"weather"];
     }
     return self;

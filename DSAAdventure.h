@@ -28,8 +28,6 @@
 #import <Foundation/Foundation.h>
 #import "DSACharacter.h"
 #import "DSAWeather.h"
-#import "DSALocation.h"
-
 
 @class DSAAdventureClock;
 @class DSAAdventureGroup;
@@ -40,15 +38,8 @@
 // Convenience Accessor
 @property (nonatomic, readonly) DSAAdventureGroup *activeGroup;
 
-
-//@property (nonatomic, strong) NSMutableArray<NSUUID *> *partyMembers; // Party of characters
-//@property (nonatomic, strong) NSMutableArray<NSUUID *> *partyNPCs; // NPC party members
-//@property (nonatomic, strong) NSMutableArray<NSMutableArray<NSUUID *> *> *subGroups;
-
-
 @property (nonatomic, strong) DSAAdventureClock *gameClock; // In-game time
 @property (nonatomic, strong) DSAWeather *gameWeather; // the current weather
-//@property (nonatomic, strong) DSALocation *currentLocation; // the current location
 
 @property (strong) NSMutableDictionary<NSString *, NSString *> *characterFilePaths;
 

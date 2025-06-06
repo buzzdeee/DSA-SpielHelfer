@@ -39,7 +39,7 @@
           ],
           [
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
-            { "type": "Haus", "door": "O" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "S" },
+            { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "S" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Gras" }, { "type": "Gras" }
           ],
@@ -52,7 +52,7 @@
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
           ],
           [
-            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "O" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "E" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
@@ -126,26 +126,26 @@
           [
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "S" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
-            { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Haus", "door": "O" },
+            { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Haus", "door": "E" },
             { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Gras" },
             { "type": "Gras" }
           ],  
           [
             { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "S" }, { "type": "Weg" },
-            { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" },
-            { "type": "Weg" }, { "type": "Weg" }, { "type": "Krämer", "door": "S", "npc": "Starkad Swafnansson" }, { "type": "Haus", "door": "O" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "E" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Krämer", "door": "S", "npc": "Starkad Swafnansson" }, { "type": "Haus", "door": "E" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Gras" },
             { "type": "Gras" }
           ],
           [
-            { "type": "Gras" }, { "type": "Haus", "door": "O" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Gras" }, { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Haus", "door": "S" }, { "type": "Tempel", "door": "S", "Gott": "Travia" }, { "type": "Haus", "door": "S" },
-            { "type": "Herberge", "name": "Bei Jadra", "door": "O" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Taverne", "name": "Doppelbrand", "door": "S" },
+            { "type": "Herberge", "name": "Bei Jadra", "door": "E" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Taverne", "name": "Doppelbrand", "door": "S" },
             { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Gras" },
             { "type": "Gras" }
           ],
           [
-            { "type": "Gras" }, { "type": "Haus", "door": "O" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Gras" }, { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Gras" },
@@ -180,14 +180,14 @@
             { "type": "Gras" }
           ],
           [
-            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Haus", "door": "O" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Haus", "door": "E" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Gras" }, { "type": "Gras" },
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
             { "type": "Gras" }
           ],
           [
-            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Haus", "door": "O" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Haus", "door": "E" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Gras" }, { "type": "Gras" },
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
@@ -241,27 +241,27 @@
             { "type": "Gras" }, { "type": "Gras" }
           ],
           [
-            { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" },
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "E" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Wasser" },
             { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Gras" }
           ],
           [
-            { "type": "Gras" }, { "type": "Weg" }, { "type": "Herberge", "name": "Am Hafen", "door": "O" }, { "type": "Weg" },
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Herberge", "name": "Am Hafen", "door": "E" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
-            { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
+            { "type": "Weg" }, { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
             { "type": "Weg" }, { "type": "Gras" }
           ], 
           [
-            { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" },
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "E" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Wasser" },
-            { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" }, { "type": "Schmied", "door": "S", "npc": "Brin Bolter" },
+            { "type": "Weg" }, { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Schmied", "door": "S", "npc": "Brin Bolter" },
             { "type": "Weg" }, { "type": "Gras" }
           ],  
           [
-            { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" },
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "E" }, { "type": "Weg" },
             { "type": "Tempel", "door": "N", "Gott": "Travia" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Wasser" },
-            { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Gras" }
           ],
           [
@@ -271,7 +271,7 @@
             { "type": "Gras" }, { "type": "Gras" }
           ],
           [
-            { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" },
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "E" }, { "type": "Weg" },
             { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Wasser" }, { "type": "Wasser" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "N" }, { "type": "Weg" },
             { "type": "Gras" }, { "type": "Gras" }
@@ -341,7 +341,7 @@
           [
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Weg" },
-            { "type": "Haus", "door": "O" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
+            { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
             { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" }
           ],
           [
@@ -359,24 +359,24 @@
           ],
           [
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
-            { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" },
             { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" }
           ],          
           [
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" },
-            { "type": "Haus", "door": "S" }, { "type": "Haus", "door": "O", "npc": "Yasma Thinmarsdotter" }, { "type": "Weg" }, { "type": "Weg" }, 
+            { "type": "Haus", "door": "S" }, { "type": "Haus", "door": "E", "npc": "Yasma Thinmarsdotter" }, { "type": "Weg" }, { "type": "Weg" }, 
             { "type": "Herberge", "name": "Zum lustigen Eber", "door": "S" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
             { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" }
           ],
           [
-            { "type": "Gras" }, { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "O" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "E" },
             { "type": "Weg" }, { "type": "Taverne", "name": "Lachssprung", "door": "S" }, { "type": "Weg" }, { "type": "Weg" }, 
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Taverne", "name": "Thossel-Schänke", "door": "W" }, 
             { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" }
           ],                     
           [
-            { "type": "Gras" }, { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "O" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "E" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, 
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" }, 
             { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" }
@@ -388,14 +388,14 @@
             { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" }
           ],           
           [
-            { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "O" }, { "type": "Weg" },
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "E" }, { "type": "Weg" },
             { "type": "Krämer", "door": "N", "npc": "Yngvar Malmstein" }, { "type": "Weg" }, { "type": "Haus", "door": "N" }, { "type": "Heiler", "door": "N", "npc": "Herdi Grimason" },
             { "type": "Haus", "door": "N" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Gras" }
           ],
           [
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
-            { "type": "Haus", "door": "O" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, 
+            { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, 
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, 
             { "type": "Weg" }, { "type": "Wasser" }, { "type": "Gras" }
           ], 

@@ -23,6 +23,34 @@
 */
 
 #import "DSALocation.h"
+#import "DSAMapCoordinate.h"
+
+@implementation DSADirectionHelper
++ (DSADirection)directionFromString:(NSString *)directionString {
+    NSString *input = [directionString uppercaseString];
+
+    if ([input isEqualToString:@"N"] || [input isEqualToString:@"NORTH"]) {
+        return DSADirectionNorth;
+    } else if ([input isEqualToString:@"E"] || [input isEqualToString:@"EAST"]) {
+        return DSADirectionEast;
+    } else if ([input isEqualToString:@"S"] || [input isEqualToString:@"SOUTH"]) {
+        return DSADirectionSouth;
+    } else if ([input isEqualToString:@"W"] || [input isEqualToString:@"WEST"]) {
+        return DSADirectionWest;
+    } else if ([input isEqualToString:@"NE"] || [input isEqualToString:@"NORTHEAST"]) {
+        return DSADirectionNortheast;
+    } else if ([input isEqualToString:@"SE"] || [input isEqualToString:@"SOUTHEAST"]) {
+        return DSADirectionSoutheast;
+    } else if ([input isEqualToString:@"SW"] || [input isEqualToString:@"SOUTHWEST"]) {
+        return DSADirectionSouthwest;
+    } else if ([input isEqualToString:@"NW"] || [input isEqualToString:@"NORTHWEST"]) {
+        return DSADirectionNorthwest;
+    } else {
+        NSLog(@"Unknown direction string: %@", directionString);
+        return DSADirectionNorth; // or some default/fallback
+    }
+}
+@end
 
 @implementation DSALocalMapTile: NSObject
 static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
@@ -177,8 +205,7 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
 #pragma mark - NSCoding
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.type forKey:@"type"];
-    [coder encodeInteger:self.x forKey:@"x"];
-    [coder encodeInteger:self.y forKey:@"y"];
+    [coder encodeObject:self.tileCoordinate forKey:@"tileCoordinate"];
     [coder encodeBool:self.walkable forKey:@"walkable"];
 }
 
@@ -186,9 +213,8 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
     self = [super init];
     if (self) {
         _type = [coder decodeObjectForKey:@"type"];
-        _x = [coder decodeIntegerForKey:@"x"];
-        _y = [coder decodeIntegerForKey:@"y"];
-        _y = [coder decodeBoolForKey:@"walkable"];
+        _tileCoordinate = [coder decodeObjectForKey:@"tileCoordinate"];
+        _walkable = [coder decodeBoolForKey:@"walkable"];
     }
     return self;
 }
@@ -199,8 +225,9 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
     self = [super init];
     if (self) {
         self.type = dict[@"type"];
-        self.x = [dict[@"x"] integerValue];
-        self.y = [dict[@"y"] integerValue];
+        self.tileCoordinate = [DSAMapCoordinate coordinateWithX: [dict[@"x"] integerValue]
+                                                              y: [dict[@"y"] integerValue]
+                                                          level: dict[@"level"] ? [dict[@"level"] integerValue] : 0];
         self.walkable = NO;
     }
     return self;
@@ -212,8 +239,9 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
     self = [super init];
     if (self) {
         self.type = dict[@"type"];
-        self.x = [dict[@"x"] integerValue];
-        self.y = [dict[@"y"] integerValue];
+        self.tileCoordinate = [DSAMapCoordinate coordinateWithX: [dict[@"x"] integerValue]
+                                                              y: [dict[@"y"] integerValue]
+                                                          level: dict[@"level"] ? [dict[@"level"] integerValue] : 0];
         self.walkable = YES;
     }
     return self;
@@ -225,8 +253,9 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
     self = [super init];
     if (self) {
         self.type = dict[@"type"];
-        self.x = [dict[@"x"] integerValue];
-        self.y = [dict[@"y"] integerValue];
+        self.tileCoordinate = [DSAMapCoordinate coordinateWithX: [dict[@"x"] integerValue]
+                                                              y: [dict[@"y"] integerValue]
+                                                          level: dict[@"level"] ? [dict[@"level"] integerValue] : 0];
         self.walkable = YES;
     }
     return self;
@@ -238,8 +267,9 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
     self = [super init];
     if (self) {
         self.type = dict[@"type"];
-        self.x = [dict[@"x"] integerValue];
-        self.y = [dict[@"y"] integerValue];
+        self.tileCoordinate = [DSAMapCoordinate coordinateWithX: [dict[@"x"] integerValue]
+                                                              y: [dict[@"y"] integerValue]
+                                                          level: dict[@"level"] ? [dict[@"level"] integerValue] : 0];
         self.destinations = dict[@"destinations"];
         self.walkable = YES;
     }
@@ -266,10 +296,11 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
     self = [super init];
     if (self) {
         self.type = dict[@"type"];
-        self.x = [dict[@"x"] integerValue];
-        self.y = [dict[@"y"] integerValue];
+        self.tileCoordinate = [DSAMapCoordinate coordinateWithX: [dict[@"x"] integerValue]
+                                                              y: [dict[@"y"] integerValue]
+                                                          level: dict[@"level"] ? [dict[@"level"] integerValue] : 0];
         self.walkable = YES;
-        _door = dict[@"door"];
+        _door = [DSADirectionHelper directionFromString: dict[@"door"]];
         _npc = dict[@"npc"];
     }
     return self;
@@ -278,14 +309,14 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
 
 - (void)encodeWithCoder:(NSCoder *)coder {
     [super encodeWithCoder: coder];
-    [coder encodeObject:self.door forKey:@"door"];
+    [coder encodeInteger:self.door forKey:@"door"];
     [coder encodeObject:self.npc forKey:@"npc"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder: coder];
     if (self) {
-        _door = [coder decodeObjectForKey: @"door"];
+        _door = [coder decodeIntegerForKey: @"door"];
         _npc = [coder decodeObjectForKey:@"npc"];
     }
     return self;
@@ -297,10 +328,11 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
     self = [super init];
     if (self) {
         self.type = dict[@"type"];
-        self.x = [dict[@"x"] integerValue];
-        self.y = [dict[@"y"] integerValue];
+        self.tileCoordinate = [DSAMapCoordinate coordinateWithX: [dict[@"x"] integerValue]
+                                                              y: [dict[@"y"] integerValue]
+                                                          level: dict[@"level"] ? [dict[@"level"] integerValue] : 0];
         self.walkable = YES;
-        self.door = dict[@"door"];
+        self.door = [DSADirectionHelper directionFromString: dict[@"door"]];
         self.npc = dict[@"npc"];
         _god = dict[@"Gott"];
     }
@@ -329,10 +361,11 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
     self = [super init];
     if (self) {
         self.type = dict[@"type"];
-        self.x = [dict[@"x"] integerValue];
-        self.y = [dict[@"y"] integerValue];
+        self.tileCoordinate = [DSAMapCoordinate coordinateWithX: [dict[@"x"] integerValue]
+                                                              y: [dict[@"y"] integerValue]
+                                                          level: dict[@"level"] ? [dict[@"level"] integerValue] : 0];
         self.walkable = YES;
-        self.door = dict[@"door"];
+        self.door = [DSADirectionHelper directionFromString: dict[@"door"]];
         self.npc = dict[@"npc"];
         _name = dict[@"name"];
     }
@@ -385,8 +418,9 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
           for (NSDictionary *tileDict in row)
             {
               DSALocalMapTile *tile = [[DSALocalMapTile alloc]initWithDictionary: tileDict];
-              tile.x = columnCounter;
-              tile.y = rowCounter;
+              tile.tileCoordinate = [DSAMapCoordinate coordinateWithX: columnCounter
+                                                                    y: rowCounter
+                                                                level: _level];              
               NSLog(@"DSALocalMapLevel initWithDictionary: got tile: %@", tile);
               [mutableRow addObject: tile];
               columnCounter++;
@@ -398,6 +432,17 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
       NSLog(@"DSALocalMapLevel initWithDictionary: returning self: %@", self);
     }
     return self;
+}
+
+- (DSALocalMapTile *) tileAtCoordinate: (DSAMapCoordinate *) coordinate
+{
+  if (coordinate.level != self.level)
+    {
+      return nil;  // we're wrong here...
+    }
+  
+  return [[_mapTiles objectAtIndex: coordinate.y]
+                     objectAtIndex: coordinate.x];   
 }
 
 - (NSString *)description
@@ -725,7 +770,13 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
 
 - (NSString *)fullDescription
 {
-  NSLog(@"DSALocation subclasses should override this method!");
+  NSLog(@"DSALocation subclasses should override fullDescription!");
+  return nil;
+}
+
+- (DSALocalMapTile *) tileAtCoordinate: (DSAMapCoordinate *) coordinate
+{
+  NSLog(@"DSALocation subclasses should override tileAtCoordinate!");
   return nil;
 }
 
@@ -845,16 +896,14 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
 #pragma mark - NSCoding
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.name forKey:@"name"];
-    [coder encodeInteger:self.x forKey:@"x"];
-    [coder encodeInteger:self.y forKey:@"y"];
+    [coder encodeObject:self.mapCoordinate forKey:@"mapCoordinate"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super init];
     if (self) {
         _name = [coder decodeObjectForKey:@"name"];
-        _x = [coder decodeIntegerForKey:@"x"];
-        _y = [coder decodeIntegerForKey:@"y"];
+        _mapCoordinate = [coder decodeObjectForKey:@"mapCoordinate"];
     }
     return self;
 }
@@ -867,8 +916,9 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
     self = [super init];
     if (self) {
         self.name = dict[@"name"];
-        self.x = [dict[@"x"] integerValue];
-        self.y = [dict[@"y"] integerValue];    
+        self.mapCoordinate = [DSAMapCoordinate coordinateWithX: [dict[@"x"] integerValue]
+                                                             y: [dict[@"y"] integerValue]
+                                                         level: dict[@"level"] ? [dict[@"level"] integerValue] : 0];                                        
         _type = dict[@"type"];
         _region = dict[@"region"];
         _htmlinfo = dict[@"htmlinfo"];
@@ -879,8 +929,13 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
 }
 
 - (NSString *)fullDescription {
-    return [NSString stringWithFormat:@"%@ at (%ld, %ld) - %@", 
-            self.name ?: @"Unknown Location", (long)self.x, (long)self.y, self.type];
+    return [NSString stringWithFormat:@"%@ at %@ - %@", 
+            self.name ?: @"Unknown Location", self.mapCoordinate, self.type];
+}
+
+- (DSALocalMapTile *) tileAtCoordinate: (DSAMapCoordinate *) coordinate
+{
+  return nil;  // we don't have map tiles at global level...
 }
 
 #pragma mark - NSCoding
@@ -914,9 +969,9 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
     self = [super init];
     if (self) {
         self.name = dict[@"name"];
-        self.x = [dict[@"x"] integerValue];
-        self.y = [dict[@"y"] integerValue];
-        self.level = dict[@"level"] ? [dict[@"level"] integerValue] : 0;
+        self.mapCoordinate = [DSAMapCoordinate coordinateWithX: [dict[@"x"] integerValue]
+                                                             y: [dict[@"y"] integerValue]
+                                                         level: dict[@"level"] ? [dict[@"level"] integerValue] : 0];
         _globalLocationName = dict[@"globalLocation"];
         _localLocationType = dict[@"localLocationType"];
         _locationMap = [[DSALocalMap alloc] initWithDictionary: dict[@"LevelDetails"]]; 
@@ -925,8 +980,8 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
 }
 
 - (NSString *)fullDescription {
-    return [NSString stringWithFormat:@"%@ at (%ld, %ld)", 
-            self.name ?: @"Unknown Location", (long)self.x, (long)self.y];
+    return [NSString stringWithFormat:@"%@ at %@", 
+            self.name ?: @"Unknown Location", self.mapCoordinate];
 }
 
 - (BOOL) hasTileOfType: (NSString *) tileType
@@ -951,10 +1006,22 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
   return NO;  
 }
 
+- (DSALocalMapTile *) tileAtCoordinate: (DSAMapCoordinate *) coordinate
+{
+  for (DSALocalMapLevel *level in self.locationMap.mapLevels)
+    {
+      //NSLog(@"DSALocation tileAtCoordinate checking level: %@", level);
+      if (level.level == coordinate.level)
+        {
+          return [level tileAtCoordinate: coordinate];
+        }
+    }
+  return nil;
+}
+
 #pragma mark - NSCoding
 - (void)encodeWithCoder:(NSCoder *)coder {
     [super encodeWithCoder: coder];
-    [coder encodeInteger:self.level forKey:@"level"];
     [coder encodeObject:self.globalLocationName forKey:@"globalLocationName"];
     [coder encodeObject:self.localLocationType forKey:@"localLocationType"];
     [coder encodeObject:self.locationMap forKey:@"locationMap"];
@@ -963,7 +1030,6 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder: coder];
     if (self) {
-        _level = [coder decodeIntegerForKey: @"level"];
         _globalLocationName = [coder decodeObjectForKey: @"globalLocationName"];
         _localLocationType = [coder decodeObjectForKey: @"localLocationType"];
         _locationMap = [coder decodeObjectForKey:@"locationMap"];
@@ -972,3 +1038,125 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
 }
 @end
 // End of DSALocalMapLocation
+
+@implementation DSAPosition
+
+#pragma mark - Init
+
++ (instancetype)positionWithMapCoordinate:(DSAMapCoordinate *)coordinate
+                       globalLocationName:(NSString *)globalLocationName
+                        localLocationName:(NSString *)localLocationName
+{
+    return [[self alloc] initWithMapCoordinate:coordinate
+                             globalLocationName:globalLocationName
+                              localLocationName:localLocationName];
+}
+
+- (instancetype)initWithMapCoordinate:(DSAMapCoordinate *)coordinate
+                   globalLocationName:(NSString *)globalLocationName
+                    localLocationName:(NSString *)localLocationName {
+    self = [super init];
+    if (self) {
+        _mapCoordinate = coordinate;
+        _globalLocationName = [globalLocationName copy];
+        _localLocationName = [localLocationName copy];
+    }
+    return self;
+}
+
+- (DSAPosition *)positionByMovingInDirection:(DSADirection)direction steps:(NSInteger)steps {
+    NSInteger dx = 0;
+    NSInteger dy = 0;
+
+    switch (direction) {
+        case DSADirectionNorth:
+            dy = -steps;
+            break;
+        case DSADirectionSouth:
+            dy = steps;
+            break;
+        case DSADirectionEast:
+            dx = steps;
+            break;
+        case DSADirectionWest:
+            dx = -steps;
+            break;
+        default:
+            NSLog(@"DSAPosition: Invalid direction %ld", (long)direction);
+            return nil;
+    }
+
+    DSAMapCoordinate *newCoord = [[DSAMapCoordinate alloc] initWithX:self.mapCoordinate.x + dx
+                                                                  y:self.mapCoordinate.y + dy
+                                                              level:self.mapCoordinate.level];
+
+    return [DSAPosition positionWithMapCoordinate:newCoord
+                               globalLocationName:self.globalLocationName
+                                localLocationName:self.localLocationName];
+}
+
+
+#pragma mark - Equality
+
+- (BOOL)isEqual:(id)object {
+    if (self == object) return YES;
+    if (![object isKindOfClass:[DSAPosition class]]) return NO;
+    return [self isEqualToPosition:(DSAPosition *)object];
+}
+
+- (BOOL)isEqualToPosition:(DSAPosition *)other {
+    if (!other) return NO;
+
+    BOOL coordinatesEqual = (!self.mapCoordinate && !other.mapCoordinate) ||
+                            [self.mapCoordinate isEqual:other.mapCoordinate];
+
+    BOOL globalEqual = (!self.globalLocationName && !other.globalLocationName) ||
+                       [self.globalLocationName isEqualToString:other.globalLocationName];
+
+    BOOL localEqual = (!self.localLocationName && !other.localLocationName) ||
+                      [self.localLocationName isEqualToString:other.localLocationName];
+
+    return coordinatesEqual && globalEqual && localEqual;
+}
+
+- (NSUInteger)hash {
+    return self.mapCoordinate.hash ^
+           self.globalLocationName.hash ^
+           self.localLocationName.hash;
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+    return [[DSAPosition allocWithZone:zone] initWithMapCoordinate:[self.mapCoordinate copy]
+                                                globalLocationName:[self.globalLocationName copy]
+                                                 localLocationName:[self.localLocationName copy]];
+}
+
+#pragma mark - NSSecureCoding
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:self.mapCoordinate forKey:@"mapCoordinate"];
+    [coder encodeObject:self.globalLocationName forKey:@"globalLocationName"];
+    [coder encodeObject:self.localLocationName forKey:@"localLocationName"];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)decoder {
+    DSAMapCoordinate *coord = [decoder decodeObjectOfClass:[DSAMapCoordinate class] forKey:@"mapCoordinate"];
+    NSString *globalName = [decoder decodeObjectOfClass:[NSString class] forKey:@"globalLocationName"];
+    NSString *localName = [decoder decodeObjectOfClass:[NSString class] forKey:@"localLocationName"];
+    return [self initWithMapCoordinate:coord globalLocationName:globalName localLocationName:localName];
+}
+
+#pragma mark - Description
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"<DSAPosition coordinate:%@ global:%@ local:%@>",
+            self.mapCoordinate, self.globalLocationName, self.localLocationName];
+}
+
+@end

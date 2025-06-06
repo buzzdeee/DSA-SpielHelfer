@@ -26,6 +26,7 @@
 #import "DSABattleWindowController.h"
 #import "DSALocalMapViewController.h"
 #import "DSAAdventureGroup.h"
+#import "DSAMapCoordinate.h"
 
 @implementation AppController
 
@@ -260,7 +261,7 @@
     if (newDocument) {
         // Neue leere Gruppe erstellen
         DSAAdventureGroup *initialGroup = [[DSAAdventureGroup alloc] init];
-        
+        DSAPosition *startingPosition;
         if (selectedLocation) {
             DSALocation *location = [locations locationWithName:selectedLocation ofType:@"local"];
             
@@ -270,12 +271,15 @@
                 
                 NSLog(@"AppController: starting temple tile: %@", startingTempleTile);
                 
-                location.x = startingTempleTile.x;
-                location.y = startingTempleTile.y;
+                location.mapCoordinate = startingTempleTile.tileCoordinate;
+                
+                startingPosition = [DSAPosition positionWithMapCoordinate: startingTempleTile.tileCoordinate
+                                                       globalLocationName: localLocation.globalLocationName
+                                                        localLocationName: localLocation.name];
             }
             
             // Setze Location in der ersten Gruppe
-            initialGroup.location = location;
+            initialGroup.position = startingPosition;
         }
 
         // Setze die Gruppenliste mit einer aktiven (leeren) Gruppe

@@ -27,11 +27,43 @@
 
 #import <Foundation/Foundation.h>
 
+@class DSAMapCoordinate;
+
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, DSADirection) {
+    DSADirectionNorth,
+    DSADirectionEast,
+    DSADirectionSouth,
+    DSADirectionWest,
+    DSADirectionNortheast,
+    DSADirectionSoutheast,
+    DSADirectionSouthwest,
+    DSADirectionNorthwest,
+    DSADirectionInvalid
+};
+
+NS_INLINE NSString * DSADirectionToString(DSADirection direction) {
+    switch (direction) {
+        case DSADirectionNorth:     return @"Nord";
+        case DSADirectionEast:      return @"Ost";
+        case DSADirectionSouth:     return @"Süd";
+        case DSADirectionWest:      return @"West";
+        case DSADirectionNortheast: return @"Nordost";
+        case DSADirectionSoutheast: return @"Südost";
+        case DSADirectionSouthwest: return @"Südwest";
+        case DSADirectionNorthwest: return @"Nordwest";
+        default:                    return @"Unbekannt";
+    }
+}
+
+/// Reverse mapping (string → enum)
+@interface DSADirectionHelper : NSObject
++ (DSADirection)directionFromString:(NSString *)string;
+@end
+
 @interface DSALocalMapTile: NSObject <NSCoding>
-@property (nonatomic, assign) NSInteger x;
-@property (nonatomic, assign) NSInteger y;
+@property (nonatomic, strong) DSAMapCoordinate *tileCoordinate;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, assign) BOOL walkable;
 
@@ -53,7 +85,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface DSALocalMapTileBuilding: DSALocalMapTile <NSCoding>
-@property (nonatomic, strong) NSString *door;            // NSWE
+@property (nonatomic, assign) DSADirection door;         // NSWE
 @property (nonatomic, strong) NSString *npc;             // for the time being, just the name, in the future may be DSACharacter...
 @end
 
@@ -78,6 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger level;          // map levels, 0 is earth level
 @property (nonatomic, strong) NSArray<NSArray<DSALocalMapTile *> *> *mapTiles;
 - (instancetype)initWithDictionary: (NSDictionary *) dict;
+- (DSALocalMapTile *) tileAtCoordinate: (DSAMapCoordinate *) coordinate;
 @end
 
 @interface DSALocalMap: NSObject <NSCoding>
@@ -88,12 +121,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DSALocation : NSObject <NSCoding>
 @property (nonatomic, strong, nullable) NSString *name; // Name of the location (nullable if traveling)
-@property (nonatomic, assign) NSInteger x; // X coordinate on the main map
-@property (nonatomic, assign) NSInteger y; // Y coordinate on the main map
+@property (nonatomic, strong) DSAMapCoordinate *mapCoordinate;
 
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 - (NSString *)fullDescription;
-
+- (DSALocalMapTile *) tileAtCoordinate: (DSAMapCoordinate *) coordinate;
 @end
 
 @interface DSAGlobalMapLocation : DSALocation <NSCoding>
@@ -108,9 +140,28 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *globalLocationName;  // every local map location is somewhere on the map, so there's a corresponding global location
 @property (nonatomic, strong) NSString *localLocationType;
 @property (nonatomic, strong) DSALocalMap *locationMap;
-@property (nonatomic, assign) NSInteger level;
+
 
 - (BOOL) hasTileOfType: (NSString *) tileType;
+@end
+
+@interface DSAPosition : NSObject <NSCopying, NSCoding>
+@property (nonatomic, strong) DSAMapCoordinate *mapCoordinate;
+@property (nonatomic, strong) NSString *globalLocationName;  // to refer to DSAGlobalMapLocation info
+@property (nonatomic, strong) NSString *localLocationName;   // to refer to DSALocalMapLocation info
+
++ (instancetype)positionWithMapCoordinate:(DSAMapCoordinate *)coordinate
+                       globalLocationName:(NSString *)globalLocationName
+                        localLocationName:(NSString *)localLocationName;
+
+
+- (instancetype)initWithMapCoordinate:(DSAMapCoordinate *)coordinate
+                   globalLocationName:(NSString *)globalLocationName
+                    localLocationName:(NSString *)localLocationName;
+
+- (BOOL)isEqualToPosition:(DSAPosition *)other;
+
+- (DSAPosition *)positionByMovingInDirection:(DSADirection)direction steps:(NSInteger)steps;
 
 @end
 

@@ -59,7 +59,7 @@
         for (NSInteger x = 0; x < row.count; x++) {
             DSALocalMapTile *tile = row[x];
             NSString *type = tile.type;
-            NSString *door;
+            DSADirection door = DSADirectionInvalid;
             if ([tile isKindOfClass: [DSALocalMapTileBuilding class]])
               {
                 door = [(DSALocalMapTileBuilding *)tile door];
@@ -81,7 +81,7 @@
             [strokePath stroke];
 
             // Tür zeichnen
-            if (door) {
+            if (door != DSADirectionInvalid) {
                 [self drawDoorInRect:tileRect direction:door];
             }
         }
@@ -108,17 +108,17 @@
     return [NSColor blackColor]; // Default für unbekannte Tiles
 }
 
-- (void)drawDoorInRect:(NSRect)rect direction:(NSString *)dir {
+- (void)drawDoorInRect:(NSRect)rect direction:(DSADirection)dir {
     CGFloat size = 6.0;
     NSRect doorRect;
 
-    if ([dir isEqualToString:@"N"]) {
+    if (dir == DSADirectionNorth) {
         doorRect = NSMakeRect(NSMidX(rect) - size / 2, NSMaxY(rect) - size, size, size);
-    } else if ([dir isEqualToString:@"S"]) {
+    } else if (dir == DSADirectionSouth) {
         doorRect = NSMakeRect(NSMidX(rect) - size / 2, NSMinY(rect), size, size);
-    } else if ([dir isEqualToString:@"W"]) {
+    } else if (dir == DSADirectionWest) {
         doorRect = NSMakeRect(NSMinX(rect), NSMidY(rect) - size / 2, size, size);
-    } else if ([dir isEqualToString:@"O"]) {
+    } else if (dir == DSADirectionEast) {
         doorRect = NSMakeRect(NSMaxX(rect) - size, NSMidY(rect) - size / 2, size, size);
     } else {
         return; // Ungültige Richtung

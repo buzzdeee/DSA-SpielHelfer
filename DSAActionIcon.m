@@ -33,6 +33,9 @@
 #import "DSAAdventureGroup.h"
 #import "DSACharacterSelectionWindowController.h"
 #import "DSACharacterMultiSelectionWindowController.h"
+#import "DSAMapCoordinate.h"
+#import "DSALocation.h"
+#import "DSALocations.h"
 
 @implementation DSAActionIcon
 
@@ -55,7 +58,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                     _(@"chat"): [DSAActionIconChat class],
                     _(@"pray"): [DSAActionIconPray class],
                     _(@"buy"): [DSAActionIconBuy class],
-                    _(@"sell"): [DSAActionIconSell class],                               
+                    _(@"sell"): [DSAActionIconSell class],
+                    _(@"map"): [DSAActionIconMap class],                             
                 };
             }
         }
@@ -618,7 +622,7 @@ inventoryIdentifier: (NSString *)sourceInventory
             // Copy location
             // copy weather
             DSAAdventureGroup *targetGroup = [[DSAAdventureGroup alloc] initWithPartyMembers: [NSMutableArray array]
-                                                                                    location: [adventure.activeGroup.location copy]
+                                                                                    position: [adventure.activeGroup.position copy]
                                                                                      weather: [adventure.activeGroup.weather copy]];
             [adventure.groups addObject: targetGroup];
             for (DSACharacter *character in selectedCharacters)
@@ -652,7 +656,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
     DSAAdventure *adventure = document.model;
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
-    DSALocation *activeGroupLocation = activeGroup.location;
+    DSAPosition *activeGroupPosition = activeGroup.position;
     
     //NSLog(@"DSAActionIconJoinGroups isActive activeGroup location: %@", activeGroupLocation);
     
@@ -664,34 +668,9 @@ inventoryIdentifier: (NSString *)sourceInventory
             continue;
           }
         NSLog(@"DSAActionIconJoinGroups isActive comparing aginst some other group");
-        if ([activeGroupLocation isKindOfClass: [DSAGlobalMapLocation class]] &&
-            [group.location isKindOfClass: [DSAGlobalMapLocation class]])
+        if ([activeGroupPosition isEqual: group.position])
            {
-             NSLog(@"DSAActionIconJoinGroups isActive both groups are on global map locations!");
-             if (activeGroupLocation.x == group.location.x &&
-                 activeGroupLocation.y == group.location.y)
-                {
-                  return YES;
-                }
-           }
-         else if ([activeGroupLocation isKindOfClass: [DSALocalMapLocation class]] &&
-                  [group.location isKindOfClass: [DSALocalMapLocation class]])
-           {
-             NSLog(@"DSAActionIconJoinGroups isActive both groups are on local map locations!");
-             DSALocalMapLocation *agl = (DSALocalMapLocation *) activeGroupLocation;
-             DSALocalMapLocation *gl = (DSALocalMapLocation *)[group location];
-             //NSLog(@"DSAActionIconJoinGroups isActive agl name: %@, gl name: %@", agl.globalLocation.name, gl.globalLocation.name);
-             //NSLog(@"DSAActionIconJoinGroups isActive agl: %@, gl: %@", agl.name, gl.name);
-             NSLog(@"DSAActionIconJoinGroup handleEvent agl name class: %@ %@", [agl.globalLocationName class], agl.globalLocationName);  
-             NSLog(@"DSAActionIconJoinGroup handleEvent gl name class: %@ %@", [gl.globalLocationName class], gl.globalLocationName);              
-             if (agl.x == gl.x &&
-                 agl.y == gl.y &&
-                 agl.level == gl.level &&
-                 [agl.globalLocationName isEqualToString: gl.globalLocationName])
-                {
-                  NSLog(@"DSAActionIconJoinGroups isActive both groups are on THE SAME local map locations X/Y/Level values!");
-                  return YES;
-                }
+              return YES;
            }
       }
     return NO;
@@ -707,7 +686,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
     DSAAdventure *adventure = document.model;
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
-    DSALocation *activeGroupLocation = activeGroup.location;
+    DSAPosition *activeGroupPosition = activeGroup.position;
     DSAAdventureGroup *otherGroup;
     
     NSInteger groupIndex = 0;
@@ -718,31 +697,11 @@ inventoryIdentifier: (NSString *)sourceInventory
             groupIndex++;
             continue;
           }
-        if ([activeGroupLocation isKindOfClass: [DSAGlobalMapLocation class]] &&
-            [group.location isKindOfClass: [DSAGlobalMapLocation class]])
+        if ([activeGroupPosition isEqual: group.position])
            {
-             if (activeGroupLocation.x == group.location.x &&
-                 activeGroupLocation.y == group.location.y)
-                {
-                  otherGroup = group;
-                  break;
-                }
-           }
-         else if ([activeGroupLocation isKindOfClass: [DSALocalMapLocation class]] &&
-                  [group.location isKindOfClass: [DSALocalMapLocation class]])
-           {
-             DSALocalMapLocation *agl = (DSALocalMapLocation *) activeGroupLocation;
-             DSALocalMapLocation *gl = (DSALocalMapLocation *)[group location];  
-             NSLog(@"DSAActionIconJoinGroup handleEvent agl name class: %@ %@", [agl.globalLocationName class], agl.globalLocationName);  
-             NSLog(@"DSAActionIconJoinGroup handleEvent gl name class: %@ %@", [gl.globalLocationName class], gl.globalLocationName);         
-             if (agl.x == gl.x &&
-                 agl.y == gl.y &&
-                 agl.level == gl.level &&
-                 [agl.globalLocationName isEqualToString: gl.globalLocationName])
-                {
-                  otherGroup = group;
-                  break;
-                }
+
+              otherGroup = group;
+              break;
            }
          groupIndex++;
       }    
@@ -814,6 +773,64 @@ inventoryIdentifier: (NSString *)sourceInventory
 }
 @end
 @implementation DSAActionIconLeave
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"leave-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Gebäude verlassen");
+        [self updateAppearance];
+    }
+    return self;
+}
+- (BOOL)isActive {
+    DSAAdventureWindowController *windowController = self.window.windowController;
+
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
+        
+    if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
+      {
+        DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;
+        DSALocalMapTile *currentTile = [lml tileAtCoordinate: currentPosition.mapCoordinate];
+        if ([currentTile isKindOfClass: [DSALocalMapTileBuilding class]])
+          {
+            return YES;
+          }
+      }
+    return NO;
+}
+
+- (void)handleEvent {
+    NSLog(@"DSAActionIconLeave handleEvent called");
+    // Step 1: Get access to the model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"Invalid window controller class");
+        return;
+    }
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
+    
+    DSALocalMapTile *currentTile = [currentLocation tileAtCoordinate: currentPosition.mapCoordinate];
+    
+    NSLog(@"DSAActionIconLeave handleEvent currentTile: %@", currentTile);
+    if ([currentTile isKindOfClass: [DSALocalMapTileBuilding class]])
+      {
+        DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding*)currentTile;
+        DSADirection direction = buildingTile.door;
+        activeGroup.position = nil;
+        activeGroup.position = [currentPosition positionByMovingInDirection: direction steps: 1];
+      }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];     
+}
 @end
 @implementation DSAActionIconChat
 @end
@@ -822,4 +839,43 @@ inventoryIdentifier: (NSString *)sourceInventory
 @implementation DSAActionIconBuy
 @end
 @implementation DSAActionIconSell
+@end
+@implementation DSAActionIconMap
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"map_icon-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Karte");
+        [self updateAppearance];
+    }
+    return self;
+}
+- (BOOL)isActive {
+    DSAAdventureWindowController *windowController = self.window.windowController;
+
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
+        
+    if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
+      {
+        DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;
+        DSALocalMapTile *currentTile = [lml tileAtCoordinate: currentPosition.mapCoordinate];
+        if ([currentTile isKindOfClass: [DSALocalMapTileStreet class]] || 
+            [currentTile isKindOfClass: [DSALocalMapTileGreen class]])
+          {
+            return YES;
+          }
+      }
+    return NO;
+}
+
+- (void)handleEvent {
+    NSLog(@"DSAActionIconMap handleEvent called");
+    
+}
 @end
