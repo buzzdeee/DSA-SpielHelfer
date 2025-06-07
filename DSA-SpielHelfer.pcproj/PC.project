@@ -5660,7 +5660,8 @@
 	"DSABattleMap.gorm",
 	"DSALocalMapView.gorm",
 	"DSACharacterSelectionWindow.gorm",
-	"DSACharacterMultiSelectionWindow.gorm"
+	"DSACharacterMultiSelectionWindow.gorm",
+	"DSALocalMapView_Adventure.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (

@@ -114,7 +114,7 @@
 {
   NSLog(@"AppController showLocalMaps called!!!");
   // Initialize and retain the DSANameGenerationController
-  self.localMapViewController = [[DSALocalMapViewController alloc] init];
+  self.localMapViewController = [[DSALocalMapViewController alloc] initWithMode: DSALocalMapViewModeGameMaster adventure: nil];
     
   // Show the window
   [self.localMapViewController showWindow:self];

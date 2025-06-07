@@ -36,6 +36,7 @@
 #import "DSAMapCoordinate.h"
 #import "DSALocation.h"
 #import "DSALocations.h"
+#import "DSALocalMapViewController.h"
 
 @implementation DSAActionIcon
 
@@ -877,5 +878,11 @@ inventoryIdentifier: (NSString *)sourceInventory
 - (void)handleEvent {
     NSLog(@"DSAActionIconMap handleEvent called");
     
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    
+    windowController.adventureMapViewController = [[DSALocalMapViewController alloc] initWithMode: DSALocalMapViewModeAdventure adventure: adventure];
+    [windowController.adventureMapViewController showWindow:self];
 }
 @end

@@ -26,12 +26,23 @@
 #define _DSALOCALMAPVIEW_H_
 
 #import <AppKit/AppKit.h>
+#import "DSALocation.h"
 @class DSALocalMapTile;
+@class DSAAdventure;
 
 @interface DSALocalMapView : NSView
 @property (nonatomic, strong) NSArray<NSArray<DSALocalMapTile *> *> *mapArray;
 - (void)setMapArray:(NSArray<NSArray<DSALocalMapTile *> *> *)mapArray;
 @end
+
+@interface DSALocalMapViewAdventure : DSALocalMapView
+@property (nonatomic, strong) DSAPosition *groupPosition;
+@property (nonatomic, assign) DSADirection groupHeading;
+@property (nonatomic, strong) DSAAdventure *adventure;
+
+- (void)setGroupPosition:(DSAPosition *)position heading:(DSADirection)heading;
+@end
+
 
 #endif // _DSALOCALMAPVIEW_H_
 

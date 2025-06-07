@@ -26,13 +26,27 @@
 #define _DSALOCALMAPVIEWCONTROLLER_H_
 
 #import <AppKit/AppKit.h>
+@class DSAAdventure;
 @class DSALocalMapView;
+@class DSALocalMapViewAdventure;
+
+typedef NS_ENUM(NSInteger, DSALocalMapViewMode) {
+    DSALocalMapViewModeGameMaster,
+    DSALocalMapViewModeAdventure
+};
 
 @interface DSALocalMapViewController : NSWindowController
+@property (nonatomic, assign) DSALocalMapViewMode viewMode;
 @property (nonatomic, retain) IBOutlet DSALocalMapView *localMapView;
+@property (nonatomic, strong) IBOutlet DSALocalMapViewAdventure *adventureMapView;
 @property (nonatomic, retain) IBOutlet NSPopUpButton *popupCategories;
 @property (nonatomic, retain) IBOutlet NSPopUpButton *popupNames;
 @property (nonatomic, retain) IBOutlet NSPopUpButton *popupLevel;
+
+@property (nonatomic, strong) DSAAdventure *adventure;
+
+- (instancetype)initWithMode:(DSALocalMapViewMode)mode adventure:(DSAAdventure *)adventure;
+
 @end
 
 #endif // _DSALOCALMAPVIEWCONTROLLER_H_

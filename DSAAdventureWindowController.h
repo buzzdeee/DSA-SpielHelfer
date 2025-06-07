@@ -7,6 +7,7 @@
 @class DSACharacterPortraitView;
 @class DSAClockAnimationView;
 @class DSAActionIcon;
+@class DSALocalMapViewController;
 
 @interface DSAAdventureWindowController : NSWindowController <NSWindowDelegate>
 @property (weak) IBOutlet NSTextField *fieldLogs;
@@ -39,6 +40,8 @@
 @property (weak) IBOutlet NSImageView * imageVerticalRuler0;
 
 //- (void) handleCharacterChanges;
+
+@property (strong) DSALocalMapViewController *adventureMapViewController;
 
 @end
 

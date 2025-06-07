@@ -1,0 +1,33 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSALocalMapViewAdventure = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSView;
+    };
+    DSALocalMapViewController = {
+	Actions = (
+	    "popupCategoryClicked:",
+	    "popupNameClicked:",
+	    "popupLevelClicked:"
+	);
+	Outlets = (
+	    localMapView,
+	    popupCategories,
+	    popupLevel,
+	    popupNames,
+	    adventureMapView
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "popupCategoryClicked:",
+	    "popupNameClicked:",
+	    "popupLevelClicked:"
+	);
+	Super = NSObject;
+    };
+}

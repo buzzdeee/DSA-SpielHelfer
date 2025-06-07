@@ -56,6 +56,7 @@ Resources/DSABattleMap.gorm \
 Resources/DSALocalMapView.gorm \
 Resources/DSACharacterSelectionWindow.gorm \
 Resources/DSACharacterMultiSelectionWindow.gorm \
+Resources/DSALocalMapView_Adventure.gorm \
 Resources/Aventurien.jpg \
 Resources/Dolch.webp \
 Resources/Jagdmesser-firnelfisch.webp \

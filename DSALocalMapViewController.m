@@ -25,8 +25,12 @@
 #import "DSALocalMapViewController.h"
 #import "DSALocalMapView.h"
 #import "DSALocations.h"
+#import "DSAMapCoordinate.h"
+#import "DSAAdventure.h"
+#import "DSAAdventureGroup.h"
 
 @implementation DSALocalMapViewController
+/*
 - (instancetype)init
 {
   self = [super initWithWindowNibName:@"DSALocalMapView"];
@@ -38,15 +42,51 @@
     }
   return self;
 }
+*/
+- (instancetype)initWithMode:(DSALocalMapViewMode)mode adventure:(DSAAdventure *)adventure {
+    NSString *nibName = (mode == DSALocalMapViewModeGameMaster)
+        ? @"DSALocalMapView"
+        : @"DSALocalMapView_Adventure";
 
-- (void)awakeFromNib
-{
+    self = [super initWithWindowNibName:nibName];
+    if (self) {
+        _viewMode = mode;
+        _adventure = adventure;
+    }
+    NSLog(@"DSALocalMapViewController initWithMode called, returning self: %@", self);
+    return self;
+}
+/*
+- (void) awakeFromNib {
+    [super windowDidLoad];
+    NSLog(@"DSALocalMapViewController awakeFromNib called!");
+    switch (self.viewMode) {
+        case DSALocalMapViewModeGameMaster:
+            [self setupGameMasterMode];
+            break;
 
-  NSLog(@"DSALocalMapViewController awakeFromNib called");
-  [self initializePopups];
+        case DSALocalMapViewModeAdventure:
+            [self setupAdventureMode];
+            break;
+    }
+}
+*/
+- (void)windowDidLoad {
+    [super windowDidLoad];
+    NSLog(@"DSALocalMapViewController windowDidLoad called!");
+    switch (self.viewMode) {
+        case DSALocalMapViewModeGameMaster:
+            [self setupGameMasterMode];
+            break;
+
+        case DSALocalMapViewModeAdventure:
+            [self setupAdventureMode];
+            break;
+    }
 }
 
-- (void) initializePopups
+#pragma mark - Game Master Mode
+- (void) setupGameMasterMode
 {
   DSALocations *sharedLocations = [DSALocations sharedInstance];
   [self.popupCategories removeAllItems];
@@ -65,7 +105,7 @@
   NSLog(@"DSALocalMapViewController popupCategoriesClicked");
   if ([[[self.popupCategories selectedItem] title] isEqualToString: _(@"Kategorie wählen")])
     {
-      [self initializePopups];
+      [self setupGameMasterMode];
     }
   else
     {
@@ -117,4 +157,26 @@
     }
 
 }
+
+#pragma mark - Adventure Mode
+
+- (void) setupAdventureMode
+{
+  NSLog(@"DSALocalMapViewController setupAdventureMode called!");
+  DSAPosition *currentPosition = self.adventure.activeGroup.position;
+  DSADirection heading = self.adventure.activeGroup.headingDirection;
+  NSString *localLocationName = currentPosition.localLocationName;
+  NSInteger level = currentPosition.mapCoordinate.level;
+  
+  DSALocations *sharedLocations = [DSALocations sharedInstance];
+  DSALocalMapLevel *mapLevel = [sharedLocations getLocalLocationMapWithName: localLocationName
+                                                                    ofLevel: level];
+                                                                    
+  [self.adventureMapView setMapArray: mapLevel.mapTiles];
+  [self.adventureMapView setFrameSize:[self.adventureMapView intrinsicContentSize]];
+  [self.adventureMapView setGroupPosition: currentPosition heading: heading];
+  self.adventureMapView.adventure = self.adventure;
+  [self.window makeFirstResponder:self.adventureMapView];
+}
+
 @end

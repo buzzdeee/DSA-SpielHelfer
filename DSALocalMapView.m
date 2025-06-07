@@ -24,7 +24,12 @@
 
 #import "DSALocalMapView.h"
 #import "DSALocations.h"
-//#import "Utils.h"
+#import "DSALocation.h"
+#import "DSAMapCoordinate.h"
+#import "DSAAdventure.h"
+#import "DSAAdventureGroup.h"
+
+#define TILE_SIZE 32.0
 
 @implementation DSALocalMapView
 
@@ -41,13 +46,13 @@
 - (NSSize)intrinsicContentSize {
     NSInteger rows = self.mapArray.count;
     NSInteger cols = (rows > 0) ? [self.mapArray[0] count] : 0;
-    return NSMakeSize(cols * 32.0, rows * 32.0);
+    return NSMakeSize(cols * TILE_SIZE, rows * TILE_SIZE);
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
 
-    CGFloat tileSize = 32.0;
+    CGFloat tileSize = TILE_SIZE;
     NSInteger rows = self.mapArray.count;
     if (rows == 0) return;
 
@@ -132,7 +137,7 @@
 - (void)updateTooltips {
     [self removeAllToolTips];
 
-    CGFloat tileSize = 32.0;
+    CGFloat tileSize = TILE_SIZE;
     NSInteger rows = self.mapArray.count;
 
     for (NSInteger y = 0; y < rows; y++) {
@@ -198,6 +203,161 @@
         }
     }    
     return nil;
+}
+@end
+// End of DSALocalMapView
+
+@implementation DSALocalMapViewAdventure
+
+- (BOOL)acceptsFirstResponder {
+    return YES;
+}
+
+- (void)viewDidMoveToWindow {
+    [super viewDidMoveToWindow];
+    [[self window] makeFirstResponder:self];
+}
+
+- (void)drawRect:(NSRect)dirtyRect {
+    [super drawRect:dirtyRect]; // ruft drawRect aus DSALocalMapView auf
+
+    if (!self.groupPosition) return;
+
+    DSAMapCoordinate *coord = self.groupPosition.mapCoordinate;
+    NSInteger x = coord.x;
+    NSInteger y = coord.y;
+
+    CGFloat tileSize = TILE_SIZE;
+    NSInteger tilesY = self.mapArray.count;
+
+    NSRect markerRect = NSMakeRect(x * tileSize + tileSize / 4.0,
+                                   (tilesY - 1 - y) * tileSize + tileSize / 4.0,
+                                   tileSize / 2.0,
+                                   tileSize / 2.0);
+
+    [[NSColor systemRedColor] set];
+    NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:markerRect];
+    [circle fill];
+
+    // Richtungspfeil
+    NSPoint center = NSMakePoint(NSMidX(markerRect), NSMidY(markerRect));
+    CGFloat arrowLength = tileSize / 2.0;
+    NSPoint tip = center;
+
+    switch (self.groupHeading) {
+        case DSADirectionNorth:     tip.y += arrowLength; break;
+        case DSADirectionSouth:     tip.y -= arrowLength; break;
+        case DSADirectionEast:      tip.x += arrowLength; break;
+        case DSADirectionWest:      tip.x -= arrowLength; break;
+        case DSADirectionNortheast: tip.x += arrowLength * 0.7; tip.y += arrowLength * 0.7; break;
+        case DSADirectionSoutheast: tip.x += arrowLength * 0.7; tip.y -= arrowLength * 0.7; break;
+        case DSADirectionSouthwest: tip.x -= arrowLength * 0.7; tip.y -= arrowLength * 0.7; break;
+        case DSADirectionNorthwest: tip.x -= arrowLength * 0.7; tip.y += arrowLength * 0.7; break;
+        default: break;
+    }
+
+    [[NSColor blackColor] setStroke];
+    NSBezierPath *arrow = [NSBezierPath bezierPath];
+    [arrow moveToPoint:center];
+    [arrow lineToPoint:tip];
+    [arrow setLineWidth:2.0];
+    [arrow stroke];
+}
+
+- (void)setGroupPosition:(DSAPosition *)position heading:(DSADirection)heading {
+    NSLog(@"DSALocalMapViewAdventure setGroupPosition called!");
+    self.groupPosition = position;
+    self.groupHeading = heading;
+    [self setNeedsDisplay:YES];
+}
+
+- (void)keyDown:(NSEvent *)event {
+    NSString *chars = [event charactersIgnoringModifiers];
+    if (chars.length == 0) return;
+
+    unichar keyChar = [chars characterAtIndex:0];
+
+    DSADirection direction = DSADirectionInvalid;
+    switch (keyChar) {
+        case NSUpArrowFunctionKey:    direction = DSADirectionNorth; break;
+        case NSDownArrowFunctionKey:  direction = DSADirectionSouth; break;
+        case NSLeftArrowFunctionKey:  direction = DSADirectionWest;  break;
+        case NSRightArrowFunctionKey: direction = DSADirectionEast;  break;
+    }
+
+    if (direction != DSADirectionInvalid) {
+        [self moveGroupInDirection:direction];
+    } else {
+        [super keyDown:event];
+    }
+}
+
+- (void)moveGroupInDirection:(DSADirection)direction {
+    DSAPosition *current = self.adventure.activeGroup.position;
+    DSAPosition *newPosition = [current positionByMovingInDirection:direction steps:1];
+
+    // Get current and target tiles
+    DSALocalMapTile *fromTile = [self tileAtPosition:current];
+    DSALocalMapTile *toTile = [self tileAtPosition:newPosition];
+
+    // Check if destination is walkable
+    if (!toTile.walkable) {
+        NSBeep();
+        return;
+    }
+
+    // EXITING a building?
+    if ([fromTile isKindOfClass:[DSALocalMapTileBuilding class]]) {
+        DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding *)fromTile;
+        if (direction != buildingTile.door) {
+            NSLog(@"Cannot exit building facing %@ by moving %@",
+                  DSADirectionToString(buildingTile.door),
+                  DSADirectionToString(direction));
+            NSBeep();
+            return;
+        }
+    }
+
+    // ENTERING a building?
+    if ([toTile isKindOfClass:[DSALocalMapTileBuilding class]]) {
+        DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding *)toTile;
+        DSADirection requiredApproach = [self oppositeDirection:buildingTile.door];
+        if (direction != requiredApproach) {
+            NSLog(@"Cannot enter building with door %@ by moving %@ (required: %@)",
+                  DSADirectionToString(buildingTile.door),
+                  DSADirectionToString(direction),
+                  DSADirectionToString(requiredApproach));
+            NSBeep();
+            return;
+        }
+    }
+
+    // Move group
+    self.adventure.activeGroup.position = newPosition;
+    [self setGroupPosition:newPosition];
+    [self setNeedsDisplay:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];
+}
+
+- (DSALocalMapTile *)tileAtPosition:(DSAPosition *)position {
+    DSALocations *locations = [DSALocations sharedInstance];
+    DSALocalMapLevel *level = [locations getLocalLocationMapWithName:position.localLocationName
+                                                             ofLevel:position.mapCoordinate.level];
+    return [level tileAtCoordinate:position.mapCoordinate];
+}
+
+- (DSADirection)oppositeDirection:(DSADirection)direction {
+    switch (direction) {
+        case DSADirectionNorth: return DSADirectionSouth;
+        case DSADirectionSouth: return DSADirectionNorth;
+        case DSADirectionEast:  return DSADirectionWest;
+        case DSADirectionWest:  return DSADirectionEast;
+        case DSADirectionNortheast: return DSADirectionSouthwest;
+        case DSADirectionSoutheast: return DSADirectionNorthwest;
+        case DSADirectionSouthwest: return DSADirectionNortheast;
+        case DSADirectionNorthwest: return DSADirectionSoutheast;
+        default: return DSADirectionInvalid;
+    }
 }
 
 @end
