@@ -134,6 +134,7 @@ extern NSString * const DSACharacterHighlightedNotification;
     [self updateMainImageView];
     [self handleCharacterChanges];
     [self setupActionIcons];
+    [self updateActionIcons];
      
 }
 
@@ -199,7 +200,7 @@ extern NSString * const DSACharacterHighlightedNotification;
     NSLog(@"DSAAdventureWindowController updatePartyPortraits called!!!");
     DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
     if (!adventureDoc) return;
-    NSLog(@"DSAAdventureWindowController updatePartyPortraits before the NSArray imageViews!!!");
+    //NSLog(@"DSAAdventureWindowController updatePartyPortraits before the NSArray imageViews!!!");
     NSArray *imageViews = @[
         self.imagePartyMember0,
         self.imagePartyMember1,
@@ -210,45 +211,29 @@ extern NSString * const DSACharacterHighlightedNotification;
     ];
 
     NSArray *characters = adventureDoc.characterDocuments;
-    NSLog(@"DSAAdventureWindowController updatePartyPortraits for the characters: %@!!!", characters);
     
     // Loop through up to 6 characters and assign portraits
     for (NSInteger i = 0; i < imageViews.count; i++) {
-        NSLog(@"DSAAdventureWindowController handleCharacterChanges in the for loop");
         DSACharacterPortraitView *imageView = imageViews[i];
 
         if (i < characters.count) {
-            NSLog(@"DSAAdventureWindowController handleCharacterChanges in main if in for loop");
             DSACharacterDocument *charDoc = characters[i];
             DSACharacter *character = charDoc.model;
             imageView.characterDocument = charDoc;
             imageView.image = [character portrait]; // Get portrait from model
-            for (NSImageRep *rep in imageView.image.representations) {
-    if ([rep hasAlpha]) {
-            NSLog(@"Image rep supports alpha.");
-        } else {
-            NSLog(@"Image rep does NOT support alpha.");
-        }
-    }
             if ([adventureDoc.model.activeGroup.partyMembers containsObject: character.modelID])
               {
-                NSLog(@"DSAAdventureWindowController handleCharacterChanges: setting alpha value 1.0");
                 imageView.alphaValue = 1.0;
 
-                // imageView.image = [self imageWithAlpha:imageView.image alpha:1.0];
                 [imageView setNeedsDisplay:YES];
               }
             else
               {
-                NSLog(@"DSAAdventureWindowController handleCharacterChanges: setting alpha value 0.4");
                 imageView.alphaValue = 0.4;
-                NSLog(@"imageView alpha = %f view class: %@", imageView.alphaValue, [imageView class]);
-                // imageView.image = [self imageWithAlpha:imageView.image alpha:0.4]; // we'll loose the original colored image, would have to keep the original somewhere :/
                 [imageView setNeedsDisplay:YES];
               }
             imageView.toolTip = [imageView toolTip];
         } else {
-            NSLog(@"DSAAdventureWindowController handleCharacterChanges in main else in for loop");
             imageView.image = nil; // Clear unused slots
             imageView.characterDocument = nil;
             imageView.toolTip = @"";
@@ -257,56 +242,82 @@ extern NSString * const DSACharacterHighlightedNotification;
     [self updateActionIcons];
 }
 
-// using below method, we'd loose the original image, can't easily restore it like when using alphaValue :/
-// we'd have to store the original image somewhere, and restore/replace it...
-- (NSImage *)imageWithAlpha:(NSImage *)image alpha:(CGFloat)alpha {
-    if (!image || alpha >= 1.0) return image;
-
-    NSImage *fadedImage = [[NSImage alloc] initWithSize:image.size];
-    [fadedImage lockFocus];
-    [image drawAtPoint:NSZeroPoint
-              fromRect:NSMakeRect(0, 0, image.size.width, image.size.height)
-             operation:NSCompositeSourceOver
-              fraction:alpha];
-    [fadedImage unlockFocus];
-    return fadedImage;
-}
-
 - (void)updateMainImageView
 {
-  DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
-  DSAPosition *currentPosition = adventureDoc.model.activeGroup.position;
-  DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
-  DSALocation *globalLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.globalLocationName ofType: @"global"];
-  if (currentLocation)
-    {
-      DSALocalMapLocation *localMapLocation = (DSALocalMapLocation *)currentLocation;
-      DSALocalMapTile *currentTile = [localMapLocation tileAtCoordinate: currentPosition.mapCoordinate];
-      
-      NSLog(@"DSAAdventureWindowController updateMainImageView found currentTile: %@", currentTile);
-      NSString *god;
-      NSString *imageName;
-      if ([currentTile isMemberOfClass: [DSALocalMapTileBuildingTemple class]])
-        {
-          god = [(DSALocalMapTileBuildingTemple *) currentTile god];
-          imageName = [NSString stringWithFormat:@"%@_Tempel_1.webp", god];
-        }
-      else if ([currentTile isMemberOfClass: [DSALocalMapTileStreet class]] ||
-               [currentTile isMemberOfClass: [DSALocalMapTileGreen class]])
-        {
-          DSAGlobalMapLocation *gl = (DSAGlobalMapLocation *) globalLocation;
-          NSString *region = gl.region;
-          NSString *type = gl.type;
-          imageName = [NSString stringWithFormat:@"%@_%@_1.webp", region, type];
-        }
+    DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
+    DSAPosition *currentPosition = adventureDoc.model.activeGroup.position;
+    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType:@"local"];
+    DSALocation *globalLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.globalLocationName ofType:@"global"];
+    NSLog(@"DSAAdventureWindowController updateMainImageView called!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    if (!currentLocation || !globalLocation) {
+        NSLog(@"Fehlende Location-Daten");
+        return;
+    }
 
-     NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:nil];
-     if (imagePath) {
-          NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
-          [self.imageMain setImage:image];
-      } else {
-          NSLog(@"Image not found: %@", imageName);
-      }      
+    DSALocalMapLocation *localMapLocation = (DSALocalMapLocation *)currentLocation;
+    DSALocalMapTile *currentTile = [localMapLocation tileAtCoordinate:currentPosition.mapCoordinate];
+    
+    NSString *selectedKey = nil;
+    NSString *seed;
+    // 📌 1. Tempel (nach Gott benannt)
+    if ([currentTile isMemberOfClass:[DSALocalMapTileBuildingTemple class]]) {
+        NSString *god = [(DSALocalMapTileBuildingTemple *)currentTile god];
+        selectedKey = [NSString stringWithFormat:@"%@_Tempel", god];
+        NSLog(@"DSAAdventureWindowController updateMainImageView selectedKey: %@", selectedKey);
+        seed = currentPosition.description;
+    // 📌 2. Gebäude mit Typ (Herberge, Taverne etc.)
+    } else if ([currentTile isKindOfClass:[DSALocalMapTileBuilding class]] ||
+               [currentTile isKindOfClass:[DSALocalMapTileRoute class]]) {
+        NSString *buildingType = [(DSALocalMapTileBuilding *)currentTile type];
+        
+        // 👉 Umlaute ersetzen
+        NSDictionary *replacements = @{ @"ä": @"ae", @"ö": @"oe", @"ü": @"ue",
+                                        @"Ä": @"Ae", @"Ö": @"Oe", @"Ü": @"Ue" };
+        for (NSString *key in replacements) {
+            buildingType = [buildingType stringByReplacingOccurrencesOfString:key withString:replacements[key]];
+        }
+        NSLog(@"DSAAdventureWindowController updateMainImageView buildingType: %@", buildingType);
+        DSAGlobalMapLocation *gl = (DSAGlobalMapLocation *)globalLocation;
+        NSString *regionType = [NSString stringWithFormat:@"%@_%@", gl.region, buildingType];
+        NSLog(@"DSAAdventureWindowController updateMainImageView regionType: %@", regionType);
+        // Erst Region_Type, dann nur Type
+        if ([Utils getImagesIndexDict][regionType]) {
+            selectedKey = regionType;
+        } else if ([Utils getImagesIndexDict][buildingType]) {
+            selectedKey = buildingType;
+        }
+        NSLog(@"DSAAdventureWindowController updateMainImageView selectedKey: %@", selectedKey);
+        seed = currentPosition.description;
+    // 📌 3. Straßen oder Grünflächen
+    } else if ([currentTile isMemberOfClass:[DSALocalMapTileStreet class]] ||
+               [currentTile isMemberOfClass:[DSALocalMapTileGreen class]]) {       
+        DSAGlobalMapLocation *gl = (DSAGlobalMapLocation *)globalLocation;
+        NSString *regionType = [NSString stringWithFormat:@"%@_%@", gl.region, gl.type];
+        seed = currentPosition.localLocationName;
+        if ([Utils getImagesIndexDict][regionType]) {
+            selectedKey = regionType;
+        } else if ([Utils getImagesIndexDict][gl.type]) {
+            selectedKey = gl.type;
+        }
+    }
+
+    // 🔀 Pseudo-zufällige Auswahl nach DSAPosition
+    //NSString *seed = currentPosition.description;
+    NSString *imageName = [Utils randomImageNameForKey:selectedKey
+                                        withSizeSuffix: nil
+                                            seedString:seed];
+
+    // 🖼️ Bild laden und anzeigen
+    if (imageName) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:nil];
+        if (imagePath) {
+            NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
+            [self.imageMain setImage:image];
+        } else {
+            NSLog(@"Bild nicht gefunden im Bundle: %@", imageName);
+        }
+    } else {
+        NSLog(@"Keine passenden Bilder gefunden für Key: %@", selectedKey);
     }
 }
 

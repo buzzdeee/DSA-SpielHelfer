@@ -30,19 +30,7 @@
 #import "DSAAdventureGroup.h"
 
 @implementation DSALocalMapViewController
-/*
-- (instancetype)init
-{
-  self = [super initWithWindowNibName:@"DSALocalMapView"];
-  if (self)
-    {
-      [self.popupCategories removeAllItems];
-      DSALocations *sharedLocations = [DSALocations sharedInstance];
-      [self.popupCategories addItemsWithTitles: [sharedLocations getLocalLocationCategories]];      
-    }
-  return self;
-}
-*/
+
 - (instancetype)initWithMode:(DSALocalMapViewMode)mode adventure:(DSAAdventure *)adventure {
     NSString *nibName = (mode == DSALocalMapViewModeGameMaster)
         ? @"DSALocalMapView"
@@ -56,21 +44,12 @@
     NSLog(@"DSALocalMapViewController initWithMode called, returning self: %@", self);
     return self;
 }
-/*
-- (void) awakeFromNib {
-    [super windowDidLoad];
-    NSLog(@"DSALocalMapViewController awakeFromNib called!");
-    switch (self.viewMode) {
-        case DSALocalMapViewModeGameMaster:
-            [self setupGameMasterMode];
-            break;
 
-        case DSALocalMapViewModeAdventure:
-            [self setupAdventureMode];
-            break;
-    }
+- (void)dealloc {
+    NSLog(@"DSALocalMapViewController is being deallocated.");
+    [[NSNotificationCenter defaultCenter] removeObserver:self]; 
 }
-*/
+
 - (void)windowDidLoad {
     [super windowDidLoad];
     NSLog(@"DSALocalMapViewController windowDidLoad called!");
@@ -81,6 +60,14 @@
 
         case DSALocalMapViewModeAdventure:
             [self setupAdventureMode];
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                         selector:@selector(redrawMap)
+                                             name:@"DSAAdventureCharactersUpdated"
+                                           object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                         selector:@selector(redrawMap)
+                                             name:@"DSAAdventureLocationUpdated"
+                                           object:nil];                                           
             break;
     }
 }
@@ -160,6 +147,12 @@
 
 #pragma mark - Adventure Mode
 
+- (void) redrawMap
+{
+  NSLog(@"DSALocalMapViewController redrawMap called!!!!");
+  [self.adventureMapView setNeedsDisplay:YES];
+}
+
 - (void) setupAdventureMode
 {
   NSLog(@"DSALocalMapViewController setupAdventureMode called!");
@@ -176,6 +169,7 @@
   [self.adventureMapView setFrameSize:[self.adventureMapView intrinsicContentSize]];
   [self.adventureMapView setGroupPosition: currentPosition heading: heading];
   self.adventureMapView.adventure = self.adventure;
+  [self.adventureMapView discoverVisibleTilesAroundPosition:currentPosition];
   [self.window makeFirstResponder:self.adventureMapView];
 }
 

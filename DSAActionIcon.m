@@ -860,12 +860,14 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAAdventure *adventure = document.model;
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
     DSAPosition *currentPosition = activeGroup.position;
+    NSLog(@"DSAActionIconMap isActive currentPosition: %@", currentPosition);
     DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
-        
+    NSLog(@"DSAActionIconMap isActive currentLocation: %@, %@", [currentLocation class], currentLocation.name);   
     if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
       {
         DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;
         DSALocalMapTile *currentTile = [lml tileAtCoordinate: currentPosition.mapCoordinate];
+        NSLog(@"DSAActionIconMap isActive currentLocation: %@", currentTile);
         if ([currentTile isKindOfClass: [DSALocalMapTileStreet class]] || 
             [currentTile isKindOfClass: [DSALocalMapTileGreen class]])
           {

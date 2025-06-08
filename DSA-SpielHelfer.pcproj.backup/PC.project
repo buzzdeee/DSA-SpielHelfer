@@ -5633,7 +5633,43 @@
 	"TH_Stadt_2-32x32.webp",
 	"TH_Stadt_2-512x512.webp",
 	"TH_Stadt_2-64x64.webp",
-	"TH_Stadt_2.webp"
+	"TH_Stadt_2.webp",
+	"TH_Herberge_1-128x128.webp",
+	"TH_Herberge_1-256x256.webp",
+	"TH_Herberge_1-32x32.webp",
+	"TH_Herberge_1-512x512.webp",
+	"TH_Herberge_1-64x64.webp",
+	"TH_Herberge_1.webp",
+	"TH_Herberge_2-128x128.webp",
+	"TH_Herberge_2-256x256.webp",
+	"TH_Herberge_2-32x32.webp",
+	"TH_Herberge_2-512x512.webp",
+	"TH_Herberge_2-64x64.webp",
+	"TH_Herberge_2.webp",
+	"TH_Taverne_1-128x128.webp",
+	"TH_Taverne_1-256x256.webp",
+	"TH_Taverne_1-32x32.webp",
+	"TH_Taverne_1-512x512.webp",
+	"TH_Taverne_1-64x64.webp",
+	"TH_Taverne_1.webp",
+	"TH_Taverne_2-128x128.webp",
+	"TH_Taverne_2-256x256.webp",
+	"TH_Taverne_2-32x32.webp",
+	"TH_Taverne_2-512x512.webp",
+	"TH_Taverne_2-64x64.webp",
+	"TH_Taverne_2.webp",
+	"Waffenhaendler_1-128x128.webp",
+	"Waffenhaendler_1-256x256.webp",
+	"Waffenhaendler_1-32x32.webp",
+	"Waffenhaendler_1-512x512.webp",
+	"Waffenhaendler_1-64x64.webp",
+	"Waffenhaendler_1.webp",
+	"Waffenhaendler_2-128x128.webp",
+	"Waffenhaendler_2-256x256.webp",
+	"Waffenhaendler_2-32x32.webp",
+	"Waffenhaendler_2-512x512.webp",
+	"Waffenhaendler_2-64x64.webp",
+	"Waffenhaendler_2.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;
@@ -5712,7 +5748,8 @@
 	"road_intersections.geojson",
 	"routes.geojson",
 	"NPC.json",
-	"Karten.json"
+	"Karten.json",
+	"image_index.json"
     );
     "OTHER_SOURCES" = (
 	"DSA-SpielHelfer_main.m"

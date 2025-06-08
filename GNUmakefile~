@@ -5525,6 +5525,42 @@ Resources/TH_Stadt_2-32x32.webp \
 Resources/TH_Stadt_2-512x512.webp \
 Resources/TH_Stadt_2-64x64.webp \
 Resources/TH_Stadt_2.webp \
+Resources/TH_Herberge_1-128x128.webp \
+Resources/TH_Herberge_1-256x256.webp \
+Resources/TH_Herberge_1-32x32.webp \
+Resources/TH_Herberge_1-512x512.webp \
+Resources/TH_Herberge_1-64x64.webp \
+Resources/TH_Herberge_1.webp \
+Resources/TH_Herberge_2-128x128.webp \
+Resources/TH_Herberge_2-256x256.webp \
+Resources/TH_Herberge_2-32x32.webp \
+Resources/TH_Herberge_2-512x512.webp \
+Resources/TH_Herberge_2-64x64.webp \
+Resources/TH_Herberge_2.webp \
+Resources/TH_Taverne_1-128x128.webp \
+Resources/TH_Taverne_1-256x256.webp \
+Resources/TH_Taverne_1-32x32.webp \
+Resources/TH_Taverne_1-512x512.webp \
+Resources/TH_Taverne_1-64x64.webp \
+Resources/TH_Taverne_1.webp \
+Resources/TH_Taverne_2-128x128.webp \
+Resources/TH_Taverne_2-256x256.webp \
+Resources/TH_Taverne_2-32x32.webp \
+Resources/TH_Taverne_2-512x512.webp \
+Resources/TH_Taverne_2-64x64.webp \
+Resources/TH_Taverne_2.webp \
+Resources/Waffenhaendler_1-128x128.webp \
+Resources/Waffenhaendler_1-256x256.webp \
+Resources/Waffenhaendler_1-32x32.webp \
+Resources/Waffenhaendler_1-512x512.webp \
+Resources/Waffenhaendler_1-64x64.webp \
+Resources/Waffenhaendler_1.webp \
+Resources/Waffenhaendler_2-128x128.webp \
+Resources/Waffenhaendler_2-256x256.webp \
+Resources/Waffenhaendler_2-32x32.webp \
+Resources/Waffenhaendler_2-512x512.webp \
+Resources/Waffenhaendler_2-64x64.webp \
+Resources/Waffenhaendler_2.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \
@@ -5558,7 +5594,8 @@ Resources/location_to_road.json \
 Resources/road_intersections.geojson \
 Resources/routes.geojson \
 Resources/NPC.json \
-Resources/Karten.json 
+Resources/Karten.json \
+Resources/image_index.json 
 
 
 #

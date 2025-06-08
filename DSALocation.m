@@ -414,14 +414,14 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
         {
           NSMutableArray *mutableRow = [[NSMutableArray alloc] init];
           NSInteger columnCounter = 0;
-          NSLog(@"DSALocalMapLevel initWithDictionary: row: %@", [NSNumber numberWithInteger: rowCounter]);
+          //NSLog(@"DSALocalMapLevel initWithDictionary: row: %@", [NSNumber numberWithInteger: rowCounter]);
           for (NSDictionary *tileDict in row)
             {
               DSALocalMapTile *tile = [[DSALocalMapTile alloc]initWithDictionary: tileDict];
               tile.tileCoordinate = [DSAMapCoordinate coordinateWithX: columnCounter
                                                                     y: rowCounter
                                                                 level: _level];              
-              NSLog(@"DSALocalMapLevel initWithDictionary: got tile: %@", tile);
+              //NSLog(@"DSALocalMapLevel initWithDictionary: got tile: %@", tile);
               [mutableRow addObject: tile];
               columnCounter++;
             }
@@ -429,7 +429,7 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
           rowCounter++;
         }
       _mapTiles = [mapArray copy];
-      NSLog(@"DSALocalMapLevel initWithDictionary: returning self: %@", self);
+      //NSLog(@"DSALocalMapLevel initWithDictionary: returning self: %@", self);
     }
     return self;
 }
@@ -595,22 +595,22 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
 - (instancetype)initWithDictionary: (NSDictionary *) levelsDict {
     self = [super init];
     if (self) {
-      NSLog(@"DSALocalMap: initWithDictionary levelsDict: %@", levelsDict);
+      //NSLog(@"DSALocalMap: initWithDictionary levelsDict: %@", levelsDict);
       NSMutableArray *levelArray = [[NSMutableArray alloc] init];
       for (NSString *level in [levelsDict allKeys])
         {
-          NSLog(@"DSALocalMap: initWithDictionary level: %@", level);
+          //NSLog(@"DSALocalMap: initWithDictionary level: %@", level);
           NSArray *levelMatrix = [levelsDict objectForKey: level];
           NSMutableDictionary *levelDict = [[NSMutableDictionary alloc] init];
           [levelDict setObject: level forKey: @"level"];
           [levelDict setObject: levelMatrix forKey: @"levelMap"];
-          NSLog(@"DSALocalMap: initWithDictionary levelMatrix: %@", levelMatrix);
+          //NSLog(@"DSALocalMap: initWithDictionary levelMatrix: %@", levelMatrix);
           DSALocalMapLevel *mapLevel = [[DSALocalMapLevel alloc] initWithDictionary: levelDict];
           //mapLevel.level = [level integerValue];
           [levelArray addObject: mapLevel];
         }
       _mapLevels = [levelArray copy];
-      NSLog(@"DSALocalMap: initWithDictionary _mapLevels: %@", _mapLevels);
+      //NSLog(@"DSALocalMap: initWithDictionary _mapLevels: %@", _mapLevels);
     }
     return self;
 }
@@ -986,11 +986,11 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
 
 - (BOOL) hasTileOfType: (NSString *) tileType
 {
-  NSLog(@"DSALocalMapLocation hasTileOfType: %@", tileType);
-  NSLog(@"DSALocalMapLocation hasTileOfType: looking at all levels in self.locationMap: %@", self.locationMap);
+  //NSLog(@"DSALocalMapLocation hasTileOfType: %@", tileType);
+  //NSLog(@"DSALocalMapLocation hasTileOfType: looking at all levels in self.locationMap: %@", self.locationMap);
   for (DSALocalMapLevel *level in self.locationMap.mapLevels)
     {
-      NSLog(@"DSALocation hasTileOfType checking level: %@", level);
+      //NSLog(@"DSALocation hasTileOfType checking level: %@", level);
       NSArray *mapArray = level.mapTiles;
       for (NSArray *mapRow in mapArray)
         {

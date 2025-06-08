@@ -41,6 +41,7 @@
 @property (nonatomic, strong) DSAAdventure *adventure;
 
 - (void)setGroupPosition:(DSAPosition *)position heading:(DSADirection)heading;
+- (void)discoverVisibleTilesAroundPosition:(DSAPosition *)position;
 @end
 
 

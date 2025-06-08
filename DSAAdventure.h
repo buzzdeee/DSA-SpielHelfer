@@ -31,10 +31,13 @@
 
 @class DSAAdventureClock;
 @class DSAAdventureGroup;
+@class DSAMapCoordinate;
 
 @interface DSAAdventure : NSObject
 
 @property (nonatomic, strong) NSMutableArray<DSAAdventureGroup *> *groups; // index 0 = aktiv
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSMutableSet<DSAMapCoordinate *> *> *discoveredCoordinates;
+
 // Convenience Accessor
 @property (nonatomic, readonly) DSAAdventureGroup *activeGroup;
 
@@ -47,7 +50,10 @@
 - (void)switchToGroupAtIndex:(NSUInteger)index;
 - (void)addCharacterToActiveGroup:(NSUUID *)characterUUID;
 - (void)removeCharacterFromActiveGroup:(NSUUID *)characterUUID;
+
 - (void)moveCharacter: (NSUUID *) characterUUID toGroup: (DSAAdventureGroup *) targetGroup;  // move from active group
+- (void)discoverCoordinate:(DSAMapCoordinate *)coord forLocation:(NSString *)location;
+- (BOOL)isCoordinateDiscovered:(DSAMapCoordinate *)coord forLocation:(NSString *)location;
 
 @end
 #endif // _DSAADVENTURE_H_

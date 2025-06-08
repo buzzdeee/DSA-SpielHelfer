@@ -219,8 +219,58 @@
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect]; // ruft drawRect aus DSALocalMapView auf
+    // Erst die Standardkarte zeichnen (inkl. aller Tiles)
+    [super drawRect:dirtyRect];
 
+    NSInteger tileSize = TILE_SIZE;
+    NSInteger tilesY = self.mapArray.count;
+    NSInteger tilesX = (tilesY > 0) ? [self.mapArray[0] count] : 0;
+
+    NSString *locationName = self.adventure.activeGroup.position.localLocationName;
+    NSInteger level = self.adventure.activeGroup.position.mapCoordinate.level;
+    NSMutableSet *discovered = self.adventure.discoveredCoordinates[locationName];
+
+    for (NSInteger y = 0; y < tilesY; y++) {
+        NSArray *row = self.mapArray[y];
+        for (NSInteger x = 0; x < tilesX; x++) {
+            DSAMapCoordinate *coord = [[DSAMapCoordinate alloc] initWithX:x y:y level:level];
+            if (![discovered containsObject:coord]) {
+                // Nicht entdeckt → Schwarz übermalen
+                NSRect tileRect = NSMakeRect(x * tileSize,
+                                             (tilesY - 1 - y) * tileSize,
+                                             tileSize, tileSize);
+                [[NSColor blackColor] setFill];
+                NSRectFillUsingOperation(tileRect, NSCompositeSourceOver);
+            }
+        }
+    }
+
+    // Andere Gruppen auf gleicher Karte → Roter Punkt
+    for (DSAAdventureGroup *group in self.adventure.groups) {
+        if (group == self.adventure.activeGroup) continue;
+
+        DSAPosition *pos = group.position;
+        if (![pos.localLocationName isEqualToString:locationName]) continue;
+        if (pos.mapCoordinate.level != level) continue;
+
+        NSInteger x = pos.mapCoordinate.x;
+        NSInteger y = pos.mapCoordinate.y;
+        NSPoint center = NSMakePoint(x * tileSize + tileSize / 2.0,
+                                     (tilesY - 1 - y) * tileSize + tileSize / 2.0);
+        CGFloat radius = tileSize * 0.2;
+
+        NSRect circleRect = NSMakeRect(center.x - radius, center.y - radius,
+                                       radius * 2, radius * 2);
+
+        [[NSColor systemRedColor] setFill];
+        [[NSBezierPath bezierPathWithOvalInRect:circleRect] fill];
+    }    
+    
+    // Danach Marker und Pfeil wie gewohnt (optional):
+    [self drawGroupMarker];
+}
+
+- (void)drawGroupMarker {
     if (!self.groupPosition) return;
 
     DSAMapCoordinate *coord = self.groupPosition.mapCoordinate;
@@ -238,7 +288,7 @@
     [[NSColor systemRedColor] set];
     NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:markerRect];
     [circle fill];
-
+/*
     // Richtungspfeil
     NSPoint center = NSMakePoint(NSMidX(markerRect), NSMidY(markerRect));
     CGFloat arrowLength = tileSize / 2.0;
@@ -261,7 +311,24 @@
     [arrow moveToPoint:center];
     [arrow lineToPoint:tip];
     [arrow setLineWidth:2.0];
-    [arrow stroke];
+    [arrow stroke]; */
+}
+
+- (void)discoverVisibleTilesAroundPosition:(DSAPosition *)position {
+    DSAAdventure *adventure = self.adventure;
+    if (!adventure) return;
+
+    DSAMapCoordinate *center = position.mapCoordinate;
+    NSString *mapName = position.localLocationName;
+
+    for (NSInteger dx = -1; dx <= 1; dx++) {
+        for (NSInteger dy = -1; dy <= 1; dy++) {
+            DSAMapCoordinate *coord = [[DSAMapCoordinate alloc] initWithX:center.x + dx
+                                                                          y:center.y + dy
+                                                                      level:center.level];
+            [adventure discoverCoordinate:coord forLocation:mapName];
+        }
+    }
 }
 
 - (void)setGroupPosition:(DSAPosition *)position heading:(DSADirection)heading {
@@ -296,6 +363,11 @@
     DSAPosition *current = self.adventure.activeGroup.position;
     DSAPosition *newPosition = [current positionByMovingInDirection:direction steps:1];
 
+//[self setGroupPosition:newPosition];
+[self discoverVisibleTilesAroundPosition:newPosition];
+//[self setNeedsDisplay:YES];
+    
+    
     // Get current and target tiles
     DSALocalMapTile *fromTile = [self tileAtPosition:current];
     DSALocalMapTile *toTile = [self tileAtPosition:newPosition];

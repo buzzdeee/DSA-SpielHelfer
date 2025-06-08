@@ -54,6 +54,7 @@ static NSMutableDictionary *shamanRitualsDict;
 static NSMutableDictionary *sharisadDancesDict;
 static NSMutableDictionary *blessedLiturgiesDict;
 static NSMutableDictionary *namesDict;
+static NSMutableDictionary *imagesIndexDict;
 
 + (instancetype)sharedInstance
 {
@@ -293,7 +294,16 @@ static NSMutableDictionary *namesDict;
           if (e)
             {
                NSLog(@"Error loading JSON: %@", e.localizedDescription);
-            }                                                                 
+            }
+          filePath = [[NSBundle mainBundle] pathForResource:@"image_index" ofType:@"json"];                         
+          imagesIndexDict = [NSJSONSerialization 
+            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                   options: NSJSONReadingMutableContainers
+                     error: &e];   
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }                                                                           
         }
     }
   return sharedInstance;
@@ -1606,5 +1616,67 @@ static NSMutableDictionary *namesDict;
     
     return customDirectory;
 }
+
+// image indices dict related methods
++ (NSDictionary *) getImagesIndexDict
+{
+  return imagesIndexDict;
+}
+
++ (NSArray<NSString *> *)filteredImageNames:(NSArray<NSString *> *)allNames withSizeSuffix:(NSString *)sizeSuffix {
+    if (!sizeSuffix || sizeSuffix.length == 0) {
+        // Falls kein Suffix angegeben wurde, gib alle ohne -WxH zurück
+        NSRegularExpression *sizeRegex = [NSRegularExpression regularExpressionWithPattern:@"-\\d+x\\d+\\." options:0 error:nil];
+        NSMutableArray<NSString *> *result = [NSMutableArray array];
+        
+        for (NSString *name in allNames) {
+            NSRange match = [sizeRegex rangeOfFirstMatchInString:name options:0 range:NSMakeRange(0, name.length)];
+            if (match.location == NSNotFound) {
+                [result addObject:name];
+            }
+        }
+        return result;
+    } else {
+        // Suche nach genau dieser Größe, z. B. -512x512
+        NSString *pattern = [NSString stringWithFormat:@"-%@\\.", sizeSuffix];
+        NSRegularExpression *exactSizeRegex = [NSRegularExpression regularExpressionWithPattern:pattern options:0 error:nil];
+        NSMutableArray<NSString *> *result = [NSMutableArray array];
+        
+        for (NSString *name in allNames) {
+            NSRange match = [exactSizeRegex rangeOfFirstMatchInString:name options:0 range:NSMakeRange(0, name.length)];
+            if (match.location != NSNotFound) {
+                [result addObject:name];
+            }
+        }
+        return result;
+    }
+}
+
++ (NSString *)randomImageNameForKey:(NSString *)key
+                     withSizeSuffix:(NSString *)sizeSuffix
+                         seedString:(NSString *)seedString
+{
+    NSDictionary *index = [self getImagesIndexDict];
+    NSArray<NSString *> *candidates = index[key];
+    if (!candidates || candidates.count == 0) {
+        return nil;
+    }
+
+    // Filtern nach Größe
+    NSArray<NSString *> *filtered = [self filteredImageNames:candidates withSizeSuffix:sizeSuffix];
+    if (filtered.count == 0) {
+        // Fallback: alles ohne Größenfilter
+        filtered = [self filteredImageNames:candidates withSizeSuffix:nil];
+        if (filtered.count == 0) {
+            return nil;
+        }
+    }
+
+    // Pseudozufällige Auswahl, abhängig vom seedString (z.B. Position, Tile, etc.)
+    NSUInteger seed = [seedString hash];
+    NSUInteger indexInList = seed % filtered.count;
+    return filtered[indexInList];
+}
+
 
 @end

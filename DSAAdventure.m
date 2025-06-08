@@ -31,6 +31,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         _groups = [NSMutableArray array];
+        _discoveredCoordinates = [NSMutableDictionary dictionary];
         NSLog(@"DSAAdventure init before _gameClock");
         _gameClock = [[DSAAdventureClock alloc] init];
         NSLog(@"DSAAdventure init after _gameClock: %@", _gameClock.currentDate);        
@@ -56,6 +57,7 @@
 {
   NSLog(@"DSAAdventure encodeWithCoder called!");
   [coder encodeObject:self.groups forKey:@"groups"];
+  [coder encodeObject:self.discoveredCoordinates forKey:@"discoveredCoordinates"];
   [coder encodeObject:self.gameClock forKey:@"gameClock"];
   [coder encodeObject:self.gameWeather forKey:@"gameWeather"];
   
@@ -69,6 +71,7 @@
   if (self)
     {
       _groups = [coder decodeObjectForKey:@"groups"];
+      _discoveredCoordinates = [coder decodeObjectForKey:@"discoveredCoordinates"];
       _gameClock = [coder decodeObjectForKey:@"gameClock"];
       _gameWeather = [coder decodeObjectForKey:@"gameWeather"];
       
@@ -76,6 +79,8 @@
       NSLog(@"DSAAdventure initWithCoder, going to start gameClock");
       [self.gameClock startClock];
     }
+  NSLog(@"DSAAdventure loaded groups: %@ and characterFilePaths: %@", _groups, _characterFilePaths);
+  [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
   return self;
 }
 
@@ -136,6 +141,19 @@
     if (self.activeGroup.partyMembers.count == 0) {
         [self.groups removeObjectAtIndex:0];
     }
+}
+
+- (void)discoverCoordinate:(DSAMapCoordinate *)coord forLocation:(NSString *)location {
+    NSMutableSet *discoveredSet = self.discoveredCoordinates[location];
+    if (!discoveredSet) {
+        discoveredSet = [NSMutableSet set];
+        self.discoveredCoordinates[location] = discoveredSet;
+    }
+    [discoveredSet addObject:coord];
+}
+
+- (BOOL)isCoordinateDiscovered:(DSAMapCoordinate *)coord forLocation:(NSString *)location {
+    return [self.discoveredCoordinates[location] containsObject:coord];
 }
 
 - (NSString *)description

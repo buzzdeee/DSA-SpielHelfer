@@ -131,6 +131,10 @@ typedef NS_ENUM(NSUInteger, DSASeverityLevel) {
 + (NSURL *)characterStorageDirectory;
 + (NSURL *)adventureStorageDirectory;
 
++ (NSDictionary *) getImagesIndexDict;
++ (NSString *)randomImageNameForKey:(NSString *)key
+                     withSizeSuffix:(NSString *)sizeSuffix
+                         seedString:(NSString *)seedString;
 @end
 
 #endif // _UTILS_H_

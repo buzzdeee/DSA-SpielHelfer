@@ -117,7 +117,7 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
                 [dict setObject: mapCategory forKey: @"localLocationType"];
                 NSLog(@"DSALocations: loadLocationsFromJSON : before creating location");
                 DSALocation *location = [[DSALocation alloc] initWithDictionary:dict];
-                NSLog(@"DSALocations: loadLocationsFromJSON the LOCATION: %@", location);
+                //NSLog(@"DSALocations: loadLocationsFromJSON the LOCATION: %@", location);
                 [self.locations addObject:location];
               }
         }

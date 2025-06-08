@@ -154,7 +154,7 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
 {
-  NSLog(@"DSACharacterDocument readFromData called...");
+  NSLog(@"DSAAdventureDocument readFromData called...");
   // Unarchive the model from the data
   self.model = [NSKeyedUnarchiver unarchivedObjectOfClass:[DSAAdventure class] fromData:data error:outError];
     
@@ -169,7 +169,7 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
 
 - (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError **)outError
 { 
-  NSLog(@"DSACharacterDocument readFromURL called...");  
+  NSLog(@"DSAAdventureDocument readFromURL called...");  
   // Load data from file
   NSData *data = [NSData dataWithContentsOfURL:url];
   if (!data)
@@ -334,16 +334,16 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
     self.characterDocuments = [NSMutableArray array];
     NSString *baseDir = [[Utils characterStorageDirectory] path];
 
-    NSLog(@"DSAAdventureDocument loadCharacterDocuments self.model: %@", self.model);
-    for (NSString *relativePath in self.model.characterFilePaths) {
+    NSLog(@"DSAAdventureDocument loadCharacterDocuments self.model: %@", self.model.characterFilePaths);
+    for (NSString *relativePath in [self.model.characterFilePaths allValues]) {
         NSString *fullPath = [baseDir stringByAppendingPathComponent:relativePath];
+        NSLog(@"DSAAdventureDocument loadCharacterDocuments: fullPath: %@", fullPath);
         NSURL *characterURL = [NSURL fileURLWithPath:fullPath];
         [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:characterURL
                                                                               display:NO
                                                                     completionHandler:^(NSDocument *document, BOOL wasOpened, NSError *error) {
             if (!error && [document isKindOfClass:[DSACharacterDocument class]]) {
                 [self.characterDocuments addObject:(DSACharacterDocument *)document];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
             }
         }];
     }

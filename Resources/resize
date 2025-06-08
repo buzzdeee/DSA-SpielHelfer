@@ -47,3 +47,4 @@ for IMAGE in ${IMAGES}; do
         done
 done
 
+./create_image_index.py
