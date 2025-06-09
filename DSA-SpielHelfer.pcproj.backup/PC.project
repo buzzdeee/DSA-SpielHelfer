@@ -85,7 +85,9 @@
 	"DSAAdventureGroup.m",
 	"DSACharacterSelectionWindowController.m",
 	"DSACharacterMultiSelectionWindowController.m",
-	"DSAMapCoordinate.m"
+	"DSAMapCoordinate.m",
+	"DSAShopViewController.m",
+	"DSAShopItemButton.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -163,7 +165,9 @@
 	"DSAAdventureGroup.h",
 	"DSACharacterSelectionWindowController.h",
 	"DSACharacterMultiSelectionWindowController.h",
-	"DSAMapCoordinate.h"
+	"DSAMapCoordinate.h",
+	"DSAShopViewController.h",
+	"DSAShopItemButton.h"
     );
     IMAGES = (
 	"Aventurien.jpg",
@@ -5669,7 +5673,61 @@
 	"Waffenhaendler_2-32x32.webp",
 	"Waffenhaendler_2-512x512.webp",
 	"Waffenhaendler_2-64x64.webp",
-	"Waffenhaendler_2.webp"
+	"Waffenhaendler_2.webp",
+	"TH_Haus_1-128x128.webp",
+	"TH_Haus_1-256x256.webp",
+	"TH_Haus_1-32x32.webp",
+	"TH_Haus_1-512x512.webp",
+	"TH_Haus_1-64x64.webp",
+	"TH_Haus_1.webp",
+	"TH_Haus_2-128x128.webp",
+	"TH_Haus_2-256x256.webp",
+	"TH_Haus_2-32x32.webp",
+	"TH_Haus_2-512x512.webp",
+	"TH_Haus_2-64x64.webp",
+	"TH_Haus_2.webp",
+	"TH_Heiler_1-128x128.webp",
+	"TH_Heiler_1-256x256.webp",
+	"TH_Heiler_1-32x32.webp",
+	"TH_Heiler_1-512x512.webp",
+	"TH_Heiler_1-64x64.webp",
+	"TH_Heiler_1.webp",
+	"TH_Heiler_2-128x128.webp",
+	"TH_Heiler_2-256x256.webp",
+	"TH_Heiler_2-32x32.webp",
+	"TH_Heiler_2-512x512.webp",
+	"TH_Heiler_2-64x64.webp",
+	"TH_Heiler_2.webp",
+	"TH_Heiler_3-128x128.webp",
+	"TH_Heiler_3-256x256.webp",
+	"TH_Heiler_3-32x32.webp",
+	"TH_Heiler_3-512x512.webp",
+	"TH_Heiler_3-64x64.webp",
+	"TH_Heiler_3.webp",
+	"TH_Kraemer_1-128x128.webp",
+	"TH_Kraemer_1-256x256.webp",
+	"TH_Kraemer_1-32x32.webp",
+	"TH_Kraemer_1-512x512.webp",
+	"TH_Kraemer_1-64x64.webp",
+	"TH_Kraemer_1.webp",
+	"TH_Kraemer_2-128x128.webp",
+	"TH_Kraemer_2-256x256.webp",
+	"TH_Kraemer_2-32x32.webp",
+	"TH_Kraemer_2-512x512.webp",
+	"TH_Kraemer_2-64x64.webp",
+	"TH_Kraemer_2.webp",
+	"TH_Kraeuterhaendler_1-128x128.webp",
+	"TH_Kraeuterhaendler_1-256x256.webp",
+	"TH_Kraeuterhaendler_1-32x32.webp",
+	"TH_Kraeuterhaendler_1-512x512.webp",
+	"TH_Kraeuterhaendler_1-64x64.webp",
+	"TH_Kraeuterhaendler_1.webp",
+	"TH_Kraeuterhaendler_2-128x128.webp",
+	"TH_Kraeuterhaendler_2-256x256.webp",
+	"TH_Kraeuterhaendler_2-32x32.webp",
+	"TH_Kraeuterhaendler_2-512x512.webp",
+	"TH_Kraeuterhaendler_2-64x64.webp",
+	"TH_Kraeuterhaendler_2.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;
@@ -5697,7 +5755,8 @@
 	"DSALocalMapView.gorm",
 	"DSACharacterSelectionWindow.gorm",
 	"DSACharacterMultiSelectionWindow.gorm",
-	"DSALocalMapView_Adventure.gorm"
+	"DSALocalMapView_Adventure.gorm",
+	"DSAShopView.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (

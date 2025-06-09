@@ -1,0 +1,49 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSAShopItemButton = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSButton;
+    };
+    DSAShopItemsView = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSView;
+    };
+    DSAShopViewController = {
+	Actions = (
+	    "buttonConfirm:",
+	    "buttonNextItems:",
+	    "buttonPreviousItems:"
+	);
+	Outlets = (
+	    buttonConfirm,
+	    buttonNext,
+	    buttonPrevious,
+	    fieldSum,
+	    buttonItem0,
+	    buttonItem1,
+	    buttonItem2,
+	    buttonItem3,
+	    buttonItem4,
+	    buttonItem5,
+	    buttonItem6,
+	    buttonItem7,
+	    buttonItem8,
+	    buttonItem9
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "buttonConfirm:",
+	    "buttonNextItems:",
+	    "buttonPreviousItems:"
+	);
+	Super = NSObject;
+    };
+}

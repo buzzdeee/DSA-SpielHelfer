@@ -421,6 +421,36 @@
     "Waffenhaendler_2-64x64.webp",
     "Waffenhaendler_2-512x512.webp"
   ],
+  "TH_Kraemer": [
+    "TH_Kraemer_2.webp",
+    "TH_Kraemer_1.webp",
+    "TH_Kraemer_1-32x32.webp",
+    "TH_Kraemer_1-64x64.webp",
+    "TH_Kraemer_1-512x512.webp",
+    "TH_Kraemer_2-32x32.webp",
+    "TH_Kraemer_2-64x64.webp",
+    "TH_Kraemer_2-512x512.webp"
+  ],
+  "TH_Haus": [
+    "TH_Haus_1-32x32.webp",
+    "TH_Haus_1-64x64.webp",
+    "TH_Haus_1-512x512.webp",
+    "TH_Haus_2-32x32.webp",
+    "TH_Haus_1.webp",
+    "TH_Haus_2-64x64.webp",
+    "TH_Haus_2-512x512.webp",
+    "TH_Haus_2.webp"
+  ],
+  "TH_Kraeuterhaendler": [
+    "TH_Kraeuterhaendler_1.webp",
+    "TH_Kraeuterhaendler_2.webp",
+    "TH_Kraeuterhaendler_1-32x32.webp",
+    "TH_Kraeuterhaendler_1-64x64.webp",
+    "TH_Kraeuterhaendler_1-512x512.webp",
+    "TH_Kraeuterhaendler_2-32x32.webp",
+    "TH_Kraeuterhaendler_2-64x64.webp",
+    "TH_Kraeuterhaendler_2-512x512.webp"
+  ],
   "Ferkina_male": [
     "Ferkina_male_1.webp",
     "Ferkina_male_2.webp",
@@ -4052,5 +4082,19 @@
     "Character_97.webp",
     "Character_98.webp",
     "Character_99.webp"
+  ],
+  "TH_Heiler": [
+    "TH_Heiler_3.webp",
+    "TH_Heiler_1-32x32.webp",
+    "TH_Heiler_1-64x64.webp",
+    "TH_Heiler_1-512x512.webp",
+    "TH_Heiler_2-32x32.webp",
+    "TH_Heiler_2-64x64.webp",
+    "TH_Heiler_1.webp",
+    "TH_Heiler_2.webp",
+    "TH_Heiler_2-512x512.webp",
+    "TH_Heiler_3-32x32.webp",
+    "TH_Heiler_3-64x64.webp",
+    "TH_Heiler_3-512x512.webp"
   ]
 }

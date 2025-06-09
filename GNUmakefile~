@@ -57,6 +57,7 @@ Resources/DSALocalMapView.gorm \
 Resources/DSACharacterSelectionWindow.gorm \
 Resources/DSACharacterMultiSelectionWindow.gorm \
 Resources/DSALocalMapView_Adventure.gorm \
+Resources/DSAShopView.gorm \
 Resources/Aventurien.jpg \
 Resources/Dolch.webp \
 Resources/Jagdmesser-firnelfisch.webp \
@@ -5561,6 +5562,60 @@ Resources/Waffenhaendler_2-32x32.webp \
 Resources/Waffenhaendler_2-512x512.webp \
 Resources/Waffenhaendler_2-64x64.webp \
 Resources/Waffenhaendler_2.webp \
+Resources/TH_Haus_1-128x128.webp \
+Resources/TH_Haus_1-256x256.webp \
+Resources/TH_Haus_1-32x32.webp \
+Resources/TH_Haus_1-512x512.webp \
+Resources/TH_Haus_1-64x64.webp \
+Resources/TH_Haus_1.webp \
+Resources/TH_Haus_2-128x128.webp \
+Resources/TH_Haus_2-256x256.webp \
+Resources/TH_Haus_2-32x32.webp \
+Resources/TH_Haus_2-512x512.webp \
+Resources/TH_Haus_2-64x64.webp \
+Resources/TH_Haus_2.webp \
+Resources/TH_Heiler_1-128x128.webp \
+Resources/TH_Heiler_1-256x256.webp \
+Resources/TH_Heiler_1-32x32.webp \
+Resources/TH_Heiler_1-512x512.webp \
+Resources/TH_Heiler_1-64x64.webp \
+Resources/TH_Heiler_1.webp \
+Resources/TH_Heiler_2-128x128.webp \
+Resources/TH_Heiler_2-256x256.webp \
+Resources/TH_Heiler_2-32x32.webp \
+Resources/TH_Heiler_2-512x512.webp \
+Resources/TH_Heiler_2-64x64.webp \
+Resources/TH_Heiler_2.webp \
+Resources/TH_Heiler_3-128x128.webp \
+Resources/TH_Heiler_3-256x256.webp \
+Resources/TH_Heiler_3-32x32.webp \
+Resources/TH_Heiler_3-512x512.webp \
+Resources/TH_Heiler_3-64x64.webp \
+Resources/TH_Heiler_3.webp \
+Resources/TH_Kraemer_1-128x128.webp \
+Resources/TH_Kraemer_1-256x256.webp \
+Resources/TH_Kraemer_1-32x32.webp \
+Resources/TH_Kraemer_1-512x512.webp \
+Resources/TH_Kraemer_1-64x64.webp \
+Resources/TH_Kraemer_1.webp \
+Resources/TH_Kraemer_2-128x128.webp \
+Resources/TH_Kraemer_2-256x256.webp \
+Resources/TH_Kraemer_2-32x32.webp \
+Resources/TH_Kraemer_2-512x512.webp \
+Resources/TH_Kraemer_2-64x64.webp \
+Resources/TH_Kraemer_2.webp \
+Resources/TH_Kraeuterhaendler_1-128x128.webp \
+Resources/TH_Kraeuterhaendler_1-256x256.webp \
+Resources/TH_Kraeuterhaendler_1-32x32.webp \
+Resources/TH_Kraeuterhaendler_1-512x512.webp \
+Resources/TH_Kraeuterhaendler_1-64x64.webp \
+Resources/TH_Kraeuterhaendler_1.webp \
+Resources/TH_Kraeuterhaendler_2-128x128.webp \
+Resources/TH_Kraeuterhaendler_2-256x256.webp \
+Resources/TH_Kraeuterhaendler_2-32x32.webp \
+Resources/TH_Kraeuterhaendler_2-512x512.webp \
+Resources/TH_Kraeuterhaendler_2-64x64.webp \
+Resources/TH_Kraeuterhaendler_2.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \
@@ -5670,7 +5725,9 @@ DSALocalMapView.h \
 DSAAdventureGroup.h \
 DSACharacterSelectionWindowController.h \
 DSACharacterMultiSelectionWindowController.h \
-DSAMapCoordinate.h
+DSAMapCoordinate.h \
+DSAShopViewController.h \
+DSAShopItemButton.h
 
 #
 # Objective-C Class files
@@ -5744,7 +5801,9 @@ DSALocalMapView.m \
 DSAAdventureGroup.m \
 DSACharacterSelectionWindowController.m \
 DSACharacterMultiSelectionWindowController.m \
-DSAMapCoordinate.m
+DSAMapCoordinate.m \
+DSAShopViewController.m \
+DSAShopItemButton.m
 
 #
 # Other sources
