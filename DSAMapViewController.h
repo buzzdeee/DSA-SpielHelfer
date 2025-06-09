@@ -27,7 +27,6 @@
 
 // DSAMapViewController.h
 #import <AppKit/AppKit.h>
-#import <WebKit/WebKit.h>
 #import "DSAPannableScrollView.h"
 #import "DSAListSelectorPopoverViewController.h"
 #import "DSARoutePlanner.h"
