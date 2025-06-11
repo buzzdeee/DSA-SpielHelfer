@@ -37,6 +37,8 @@
 #import "DSALocation.h"
 #import "DSALocations.h"
 #import "DSALocalMapViewController.h"
+#import "DSAShopViewController.h"
+#import "DSAShoppingCart.h"
 
 @implementation DSAActionIcon
 
@@ -838,6 +840,90 @@ inventoryIdentifier: (NSString *)sourceInventory
 @implementation DSAActionIconPray
 @end
 @implementation DSAActionIconBuy
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"buy_icon-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Kaufen");
+        [self updateAppearance];
+    }
+    return self;
+}
+- (BOOL)isActive {
+    DSAAdventureWindowController *windowController = self.window.windowController;
+
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    NSLog(@"DSAActionIconBuy isActive currentPosition: %@", currentPosition);
+    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
+    NSLog(@"DSAActionIconBuy isActive currentLocation: %@, %@", [currentLocation class], currentLocation.name);   
+    if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
+      {
+        DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;
+        DSALocalMapTile *currentTile = [lml tileAtCoordinate: currentPosition.mapCoordinate];
+        NSLog(@"DSAActionIconBuy isActive currentLocation: %@", currentTile);
+        if ([currentTile isKindOfClass: [DSALocalMapTileBuildingShop class]])
+          {
+            return YES;
+          }
+      }
+    return NO;
+}
+
+- (void)handleEventYUCK {
+    NSLog(@"DSAActionIcon handleRemoveCharacter called");
+    // Step 1: Get access to the model
+DSAShopViewController *selector = [[DSAShopViewController alloc] initWithWindowNibName:@"DSAShopView"];
+NSWindow *window = selector.window;
+
+if (!window) {
+    NSLog(@"FEHLER: Shop-Window ist nil – wurde vermutlich nicht korrekt aus der Nib geladen.");
+    return;
+}
+
+[window setLevel:NSModalPanelWindowLevel];
+[window makeKeyAndOrderFront:nil];
+}
+
+- (void)handleEvent {
+    NSLog(@"DSAActionIconBuy handleEvent called");
+    // Step 1: Get access to the model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"Invalid window controller class");
+        return;
+    }
+    
+    // Step 2: Present the shop view sheet
+    DSAShopViewController *selector =
+        [[DSAShopViewController alloc] initWithWindowNibName:@"DSAShopView"];
+    selector.mode = DSAShopModeBuy;
+    selector.allItems = [[Utils getDSAObjectsDict] allValues];    
+    NSLog(@"DSAActionIconBuy handleEvent: selector.window = %@", selector.window);
+
+    selector.completionHandler = ^(DSAShoppingCart *shoppingCart) {
+        NSLog(@"DSAActionIconBuy handleEvent: completionHandler aufgerufen mit: %@", shoppingCart);
+        if (shoppingCart) {
+            NSLog(@"DSAActionIcon sheet completion handler called.... ");
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
+        }
+    };
+    windowController.shopViewController = selector;
+    [windowController.shopViewController showWindow:self];
+    NSWindow *shopWindow = windowController.window;
+    NSLog(@"DSAActionIconBuy handleEvent: shopWindow = %@", shopWindow);
+    
+    [shopWindow setReleasedWhenClosed:NO]; // <-- wichtig!
+//[shopWindow setLevel:NSModalPanelWindowLevel];
+[shopWindow makeKeyAndOrderFront:nil];
+    
+    //[windowController.window beginSheet:selector.window completionHandler:nil];
+}
+
 @end
 @implementation DSAActionIconSell
 @end

@@ -162,6 +162,14 @@ extern NSString * const DSACharacterHighlightedNotification;
     [self replaceView:self.imageActionIcon4 withView:newIcon];
     self.imageActionIcon4 = newIcon;     
     
+    newIcon = [DSAActionIcon iconWithAction:@"buy" andSize:@"128x128"];
+    [self replaceView:self.imageActionIcon5 withView:newIcon];
+    self.imageActionIcon5 = newIcon;
+        
+    newIcon = [DSAActionIcon iconWithAction:@"map" andSize:@"128x128"];
+    [self replaceView:self.imageActionIcon7 withView:newIcon];
+    self.imageActionIcon7 = newIcon;
+        
     newIcon = [DSAActionIcon iconWithAction:@"leave" andSize:@"128x128"];
     [self replaceView:self.imageActionIcon8 withView:newIcon];
     self.imageActionIcon8 = newIcon;    

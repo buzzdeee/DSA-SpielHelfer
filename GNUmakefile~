@@ -5616,6 +5616,12 @@ Resources/TH_Kraeuterhaendler_2-32x32.webp \
 Resources/TH_Kraeuterhaendler_2-512x512.webp \
 Resources/TH_Kraeuterhaendler_2-64x64.webp \
 Resources/TH_Kraeuterhaendler_2.webp \
+Resources/buy_icon-128x128.webp \
+Resources/buy_icon-256x256.webp \
+Resources/buy_icon-32x32.webp \
+Resources/buy_icon-512x512.webp \
+Resources/buy_icon-64x64.webp \
+Resources/buy_icon.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \
@@ -5727,7 +5733,8 @@ DSACharacterSelectionWindowController.h \
 DSACharacterMultiSelectionWindowController.h \
 DSAMapCoordinate.h \
 DSAShopViewController.h \
-DSAShopItemButton.h
+DSAShopItemButton.h \
+DSAShoppingCart.h
 
 #
 # Objective-C Class files
@@ -5803,7 +5810,8 @@ DSACharacterSelectionWindowController.m \
 DSACharacterMultiSelectionWindowController.m \
 DSAMapCoordinate.m \
 DSAShopViewController.m \
-DSAShopItemButton.m
+DSAShopItemButton.m \
+DSAShoppingCart.m
 
 #
 # Other sources

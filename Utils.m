@@ -1169,7 +1169,7 @@ static NSMutableDictionary *imagesIndexDict;
 // end of blessed liturgies related methods
 
 // DSAObject related methods
-+ (NSDictionary *) getDSAObjectsDict
++ (NSDictionary<NSString *, DSAObject *> *) getDSAObjectsDict
 {
   return objectsDict;
 }

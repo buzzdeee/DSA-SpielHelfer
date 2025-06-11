@@ -24,11 +24,13 @@
 
 #import "DSAShopViewController.h"
 #import "DSAShopItemButton.h"
+#import "DSAShoppingCart.h"
 #import "DSAObject.h"
 
 @implementation DSAShopViewController
 
 - (void)windowDidLoad {
+    NSLog(@"DSAShopViewController windowDidLoad called, window: %@", self.window);
     [super windowDidLoad];
 
     self.itemsPerPage = 10;
@@ -45,22 +47,28 @@
 }
 
 - (void)updatePage {
+    NSLog(@"DSAShopViewController updatePage called!!!");
     NSInteger startIndex = self.currentPage * self.itemsPerPage;
+    NSLog(@"DSAShopViewController updatePage start index: %@", [NSNumber numberWithInteger: startIndex]);
     NSInteger endIndex = MIN(startIndex + self.itemsPerPage, self.allItems.count);
+    NSLog(@"DSAShopViewController updatePage end index: %@", [NSNumber numberWithInteger: endIndex]);    
     NSArray<DSAObject *> *itemsToShow = [self.allItems subarrayWithRange:NSMakeRange(startIndex, endIndex - startIndex)];
 
     NSArray<DSAShopItemButton *> *buttons = [self visibleButtons];
-
+    NSLog(@"DSAShopViewController updatePage before for loop");
     for (NSInteger i = 0; i < buttons.count; i++) {
         DSAShopItemButton *button = buttons[i];
-
+        NSLog(@"DSAShopViewController updatePage in for loop itemsToShow.count: %@", [NSNumber numberWithInteger: itemsToShow.count]);
         if (i < itemsToShow.count) {
             DSAObject *item = itemsToShow[i];
             [button setHidden:NO];
             button.object = item;
             button.cartCount = 0;
+            NSLog(@"DSAShopViewController updatePage in for before update Display of the button");
             [button updateDisplay]; // Methode in DSAShopItemButton
+            NSLog(@"DSAShopViewController updatePage in for after update Display of the button");
         } else {
+            NSLog(@"DSAShopViewController updatePage in for in else");
             [button setHidden:YES];
             button.object = nil;
             button.cartCount = 0;
@@ -69,11 +77,14 @@
 
     self.buttonPrevious.enabled = (self.currentPage > 0);
     self.buttonNext.enabled = ((self.currentPage + 1) * self.itemsPerPage < self.allItems.count);
-
+    NSLog(@"DSAShopViewController updatePage before updateSum");
     [self updateSum];
+    //[self showWindow:self.window];
+    NSLog(@"DSAShopViewController updatePage at the very end");
 }
 
 - (void)updateSum {
+    NSLog(@"DSAShopViewController updateSum called!!!");
     NSInteger sum = 0;
 
     for (DSAShopItemButton *button in [self visibleButtons]) {
@@ -84,14 +95,16 @@
     }
 
     self.fieldSum.stringValue = [NSString stringWithFormat:@"%ld", (long)sum];
+    NSLog(@"DSAShopViewController updateSum at the end");
 }
 
-- (NSInteger)priceForObject:(DSAObject *)object {
+- (float)priceForObject:(DSAObject *)object {
+    NSLog(@"DSAShopViewController updatePage called!!!");
     float price = object.price;
-    if (self.mode == ShopModeBuy) {
-        return (NSInteger)roundf(price);
+    if (self.mode == DSAShopModeBuy) {
+        return price;
     } else {
-        return (NSInteger)roundf(price * 0.2f);
+        return price * 0.2f;   // 20% of normal price is selling price
     }
 }
 
@@ -110,33 +123,28 @@
 }
 
 - (IBAction)buttonConfirmClicked:(id)sender {
-    NSInteger sum = 0;
 
+    DSAShoppingCart *shoppingCart = [[DSAShoppingCart alloc] init];
+
+    NSLog(@"DSAShopViewController buttonConfirmClicked called!!!");
     for (DSAShopItemButton *button in [self visibleButtons]) {
         if (button.object && button.cartCount > 0) {
-            NSInteger unitPrice = [self priceForObject:button.object];
-            NSInteger itemSum = unitPrice * button.cartCount;
-            sum += itemSum;
-
-            if (self.mode == ShopModeBuy) {
-                // Füge Items zum Inventar hinzu
-                // Ziehe Gold ab
-            } else {
-                // Entferne Items vom Inventar
-                // Füge Gold hinzu
-            }
-
-            button.cartCount = 0;
-            [button updateDisplay];
+            float unitPrice = [self priceForObject:button.object];
+            [shoppingCart addObject: button.object count: button.cartCount price: unitPrice];
         }
     }
 
-    [self updateSum];
+    [self updateSum];  // this may be superfluous, as we're going to close sheet anyways right?
+//    if (self.completionHandler) {
+//        self.completionHandler(shoppingCart);  // ⬅️ invoke handler before closing sheet
+//    }    
+//    [NSApp endSheet:self.window];
 }
 
 #pragma mark - Extern aufrufbar von Buttons
 
 - (void)shopItemButtonDidUpdateCart {
+    NSLog(@"DSAShopViewController shopItemButtonDidUpdateCart called!!!");
     [self updateSum];
 }
 

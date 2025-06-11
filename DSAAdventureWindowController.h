@@ -8,6 +8,7 @@
 @class DSAClockAnimationView;
 @class DSAActionIcon;
 @class DSALocalMapViewController;
+@class DSAShopViewController;
 
 @interface DSAAdventureWindowController : NSWindowController <NSWindowDelegate>
 @property (weak) IBOutlet NSTextField *fieldLogs;
@@ -42,6 +43,7 @@
 //- (void) handleCharacterChanges;
 
 @property (strong) DSALocalMapViewController *adventureMapViewController;
+@property (strong) DSAShopViewController *shopViewController;
 
 @end
 

@@ -77,7 +77,7 @@
 - (void)updateDisplay {
     // Hier kannst du z.B. den Button-Titel setzen:
     if (self.object) {
-        self.title = [NSString stringWithFormat:@"%@ x%ld", self.object.name, (long)self.cartCount];
+        self.title = @"X"; // [NSString stringWithFormat:@"%@ x%ld", self.object.name, (long)self.cartCount];
     } else {
         self.title = @"";
     }
@@ -88,7 +88,7 @@
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
 
-    if (self.object.icon) {
+/*    if (self.object.icon) {
         NSImage *iconImage = [NSImage imageNamed:self.object.icon];
         [iconImage drawInRect:self.bounds];
     }
@@ -96,6 +96,6 @@
     if (self.isHovered) {
         [[NSColor colorWithCalibratedWhite:0 alpha:0.1] set];
         NSRectFillUsingOperation(self.bounds, NSCompositeSourceOver);
-    }
+    } */
 }
 @end

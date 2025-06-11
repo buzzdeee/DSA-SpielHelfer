@@ -87,7 +87,8 @@
 	"DSACharacterMultiSelectionWindowController.m",
 	"DSAMapCoordinate.m",
 	"DSAShopViewController.m",
-	"DSAShopItemButton.m"
+	"DSAShopItemButton.m",
+	"DSAShoppingCart.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -167,7 +168,8 @@
 	"DSACharacterMultiSelectionWindowController.h",
 	"DSAMapCoordinate.h",
 	"DSAShopViewController.h",
-	"DSAShopItemButton.h"
+	"DSAShopItemButton.h",
+	"DSAShoppingCart.h"
     );
     IMAGES = (
 	"Aventurien.jpg",
@@ -5727,7 +5729,13 @@
 	"TH_Kraeuterhaendler_2-32x32.webp",
 	"TH_Kraeuterhaendler_2-512x512.webp",
 	"TH_Kraeuterhaendler_2-64x64.webp",
-	"TH_Kraeuterhaendler_2.webp"
+	"TH_Kraeuterhaendler_2.webp",
+	"buy_icon-128x128.webp",
+	"buy_icon-256x256.webp",
+	"buy_icon-32x32.webp",
+	"buy_icon-512x512.webp",
+	"buy_icon-64x64.webp",
+	"buy_icon.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;

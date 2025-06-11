@@ -2,8 +2,8 @@
   "Magier": {
     "Typkategorie": [ "Mensch", "Magiebegabt" ],
     "Images": {
-      "männlich": [ "Character_76.png", "Character_77.png", "Character_78.png", "Character_79.png" ],
-      "weiblich": [ "Character_80.png", "Character_81.png", "Character_82.png", "Character_83.png" ]
+      "männlich": [ "Character_76.webp", "Character_77.webp", "Character_78.webp", "Character_79.webp" ],
+      "weiblich": [ "Character_80.webp", "Character_81.webp", "Character_82.webp", "Character_83.webp" ]
     },    
     "Eigenschaften": {
       "KL": "13+",
@@ -728,7 +728,7 @@
   "Sharisad": {
     "Typkategorie": [ "Mensch", "Magiebegabt" ],
     "Images": {
-      "weiblich": [ "Character_104.png", "Character_105.png", "Character_106.png" ]
+      "weiblich": [ "Character_104.webp", "Character_105.webp", "Character_106.webp" ]
     },    
     "Eigenschaften": {
       "CH": "13+",
@@ -778,8 +778,8 @@
   "Angroschpriester": {
     "Typkategorie": [ "Zwerg" ],
     "Images": {
-      "männlich": [ "Character_27.png", "Character_28.png", "Character_29.png", "Character_34.png", "Character_35.png", "Character_36.png" ],
-      "weiblich": [ "Character_30.png", "Character_31.png", "Character_33.png" ]
+      "männlich": [ "Character_27.webp", "Character_28.webp", "Character_29.webp", "Character_34.webp", "Character_35.webp", "Character_36.webp" ],
+      "weiblich": [ "Character_30.webp", "Character_31.webp", "Character_33.webp" ]
     },    
     "Eigenschaften": {
       "MU": "12+",
@@ -1156,8 +1156,8 @@
   "Auelf": {
     "Typkategorie": [ "Elf", "Magiebegabt" ],
     "Images": {
-      "männlich": [ "Character_12.png", "Character_20.png", "Character_21.png", "Character_22.png", "Character_23.png" ],
-      "weiblich": [ "Character_16.png", "Character_17.png", "Character_18.png", "Character_19.png", "Character_32.png" ]
+      "männlich": [ "Character_12.webp", "Character_20.webp", "Character_21.webp", "Character_22.webp", "Character_23.webp" ],
+      "weiblich": [ "Character_16.webp", "Character_17.webp", "Character_18.webp", "Character_19.webp", "Character_32.webp" ]
     },     
     "Eigenschaften": {
       "IN": "13+",
@@ -1221,8 +1221,8 @@
   "Firnelf": {
     "Typkategorie": [ "Elf", "Magiebegabt" ],
     "Images": {
-      "männlich": [ "Character_4.png", "Character_5.png", "Character_6.png", "Character_7.png" ],
-      "weiblich": [ "Character_1.png", "Character_2.png", "Character_3.png" ]
+      "männlich": [ "Character_4.webp", "Character_5.webp", "Character_6.webp", "Character_7.webp" ],
+      "weiblich": [ "Character_1.webp", "Character_2.webp", "Character_3.webp" ]
     },    
     "Eigenschaften": {
       "IN": "13+",
@@ -1272,8 +1272,8 @@
   "Waldelf": {
     "Typkategorie": [ "Elf", "Magiebegabt" ],
     "Images": {
-      "männlich": [ "Character_11.png", "Character_13.png", "Character_14.png", "Character_15.png", "Character_69.png", "Character_70.png", "Character_71.png", "Character_72.png" ],
-      "weiblich": [ "Character_8.png", "Character_9.png", "Character_10.png", "Character_73.png", "Character_74.png", "Character_75.png" ]
+      "männlich": [ "Character_11.webp", "Character_13.webp", "Character_14.webp", "Character_15.webp", "Character_69.webp", "Character_70.webp", "Character_71.webp", "Character_72.webp" ],
+      "weiblich": [ "Character_8.webp", "Character_9.webp", "Character_10.webp", "Character_73.webp", "Character_74.webp", "Character_75.webp" ]
     },    
     "Eigenschaften": {
       "IN": "13+",
@@ -1382,7 +1382,7 @@
   "Amazone": {
     "Typkategorie": [ "Mensch" ],
     "Images": {
-      "weiblich": [ "Character_58.png", "Character_59.png", "Character_60.png", "Character_61.png", "Character_66.png", "Character_67.png", "Character_68.png" ]
+      "weiblich": [ "Character_58.webp", "Character_59.webp", "Character_60.webp", "Character_61.webp", "Character_66.webp", "Character_67.webp", "Character_68.webp" ]
     },    
     "Eigenschaften": {
       "MU": "13+",
@@ -1486,7 +1486,7 @@
   "Gaukler": {
     "Typkategorie": [ "Mensch" ],
     "Images": {
-      "männlich": [ "Character_37.png", "Character_38.png", "Character_39.png" ],
+      "männlich": [ "Character_37.webp", "Character_38.webp", "Character_39.webp" ],
       "weiblich": [ ]
     },    
     "Magiedilettant": true,
@@ -1687,8 +1687,8 @@
   "Krieger": {
     "Typkategorie": [ "Mensch" ],
     "Images": {
-      "männlich": [ "Character_62.png", "Character_63.png", "Character_64.png", "Character_65.png" ],
-      "weiblich": [ "Character_58.png", "Character_59.png", "Character_60.png", "Character_61.png", "Character_66.png", "Character_67.png", "Character_68.png" ]
+      "männlich": [ "Character_62.webp", "Character_63.webp", "Character_64.webp", "Character_65.webp" ],
+      "weiblich": [ "Character_58.webp", "Character_59.webp", "Character_60.webp", "Character_61.webp", "Character_66.webp", "Character_67.webp", "Character_68.webp" ]
     },    
     "Eigenschaften": {
       "MU": "12+",
@@ -1762,8 +1762,8 @@
   "Medicus": {
     "Typkategorie": [ "Mensch" ],
     "Images": {
-      "männlich": [ "Character_40.png", "Character_41.png", "Character_42.png", "Character_43.png", "Character_48.png", "Character_49.png", "Character_50.png", "Character_51.png" ],
-      "weiblich": [ "Character_44.png", "Character_45.png", "Character_46.png", "Character_47.png" ]
+      "männlich": [ "Character_40.webp", "Character_41.webp", "Character_42.webp", "Character_43.webp", "Character_48.webp", "Character_49.webp", "Character_50.webp", "Character_51.webp" ],
+      "weiblich": [ "Character_44.webp", "Character_45.webp", "Character_46.webp", "Character_47.webp" ]
     },    
     "Magiedilettant": true,    
     "Eigenschaften": {
@@ -1837,8 +1837,8 @@
   "Moha": {
     "Typkategorie": [ "Mensch" ],
     "Images": {
-      "männlich": [ "Character_84.png", "Character_85.png", "Character_86.png", "Character_87.png", "Character_88.png" ],
-      "weiblich": [ "Character_89.png", "Character_90.png", "Character_91.png" ]
+      "männlich": [ "Character_84.webp", "Character_85.webp", "Character_86.webp", "Character_87.webp", "Character_88.webp" ],
+      "weiblich": [ "Character_89.webp", "Character_90.webp", "Character_91.webp" ]
     },    
     "Eigenschaften": {
       "CH": "12+",
@@ -1891,7 +1891,7 @@
   "Nivese": {
     "Typkategorie": [ "Mensch" ],
     "Images": {
-      "männlich": [ "Character_92.png", "Character_95.png", "Character_94.png", "Character_93.png" ],
+      "männlich": [ "Character_92.webp", "Character_95.webp", "Character_94.webp", "Character_93.webp" ],
       "weiblich": [ ]
     },    
     "Eigenschaften": {
@@ -1984,8 +1984,8 @@
   "Novadi": {
     "Typkategorie": [ "Mensch" ],
     "Images": {
-      "männlich": [ "Character_96.png", "Character_97.png", "Character_99.png" ],
-      "weiblich": [ "Character_98.png", "Character_100.png", "Character_101.png", "Character_102.png", "Character_103.png" ]
+      "männlich": [ "Character_96.webp", "Character_97.webp", "Character_99.webp" ],
+      "weiblich": [ "Character_98.webp", "Character_100.webp", "Character_101.webp", "Character_102.webp", "Character_103.webp" ]
     },
     "Magiedilettant": true,    
     "Eigenschaften": {
@@ -2299,8 +2299,8 @@
   "Skalde": {
     "Typkategorie": [ "Mensch" ],
     "Images": {
-      "männlich": [ "Character_52.png", "Character_53.png", "Character_54.png" ],
-      "weiblich": [ "Character_55.png", "Character_56.png", "Character_57.png" ]
+      "männlich": [ "Character_52.webp", "Character_53.webp", "Character_54.webp" ],
+      "weiblich": [ "Character_55.webp", "Character_56.webp", "Character_57.webp" ]
     },    
     "Magiedilettant": true,    
     "Eigenschaften": {
@@ -2373,8 +2373,8 @@
   "Barde": {
     "Typkategorie": [ "Mensch"],
     "Images": {
-      "männlich": [ "Character_52.png", "Character_53.png", "Character_54.png" ],
-      "weiblich": [ "Character_55.png", "Character_56.png", "Character_57.png" ]
+      "männlich": [ "Character_52.webp", "Character_53.webp", "Character_54.webp" ],
+      "weiblich": [ "Character_55.webp", "Character_56.webp", "Character_57.webp" ]
     },    
     "Magiedilettant": true,    
     "Eigenschaften": {
@@ -2436,8 +2436,8 @@
   "Praiosgeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
     "Images": {
-      "männlich": [ "Character_24.png", "Character_26.png" ],
-      "weiblich": [ "Character_25.png" ]
+      "männlich": [ "Character_24.webp", "Character_26.webp" ],
+      "weiblich": [ "Character_25.webp" ]
     },    
     "Eigenschaften": {
       "MU": "13+",
@@ -2497,8 +2497,8 @@
   "Rondrageweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
     "Images": {
-      "männlich": [ "Character_24.png", "Character_26.png" ],
-      "weiblich": [ "Character_25.png" ]
+      "männlich": [ "Character_24.webp", "Character_26.webp" ],
+      "weiblich": [ "Character_25.webp" ]
     },    
     "Eigenschaften": {
       "MU": "12+",
@@ -2558,8 +2558,8 @@
   "Efferdgeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
     "Images": {
-      "männlich": [ "Character_24.png", "Character_26.png" ],
-      "weiblich": [ "Character_25.png" ]
+      "männlich": [ "Character_24.webp", "Character_26.webp" ],
+      "weiblich": [ "Character_25.webp" ]
     },    
     "Eigenschaften": {
       "KL": "12+",
@@ -2619,8 +2619,8 @@
   "Traviageweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
     "Images": {
-      "männlich": [ "Character_24.png", "Character_26.png" ],
-      "weiblich": [ "Character_25.png" ]
+      "männlich": [ "Character_24.webp", "Character_26.webp" ],
+      "weiblich": [ "Character_25.webp" ]
     },    
     "Eigenschaften": {
       "KL": "12+",
@@ -2680,8 +2680,8 @@
   "Borongeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
     "Images": {
-      "männlich": [ "Character_24.png", "Character_26.png" ],
-      "weiblich": [ "Character_25.png" ]
+      "männlich": [ "Character_24.webp", "Character_26.webp" ],
+      "weiblich": [ "Character_25.webp" ]
     },    
     "Eigenschaften": {
       "MU": "11+",
@@ -2741,8 +2741,8 @@
   "Hesindegeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
     "Images": {
-      "männlich": [ "Character_24.png", "Character_26.png" ],
-      "weiblich": [ "Character_25.png" ]
+      "männlich": [ "Character_24.webp", "Character_26.webp" ],
+      "weiblich": [ "Character_25.webp" ]
     },    
     "Eigenschaften": {
       "KL": "13+",
@@ -2802,8 +2802,8 @@
   "Firungeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
     "Images": {
-      "männlich": [ "Character_24.png", "Character_26.png" ],
-      "weiblich": [ "Character_25.png" ]
+      "männlich": [ "Character_24.webp", "Character_26.webp" ],
+      "weiblich": [ "Character_25.webp" ]
     },    
     "Eigenschaften": {
       "MU": "12+",
@@ -2863,8 +2863,8 @@
   "Tsageweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
     "Images": {
-      "männlich": [ "Character_24.png", "Character_26.png" ],
-      "weiblich": [ "Character_25.png" ]
+      "männlich": [ "Character_24.webp", "Character_26.webp" ],
+      "weiblich": [ "Character_25.webp" ]
     },    
     "Eigenschaften": {
       "IN": "12+",
@@ -2924,8 +2924,8 @@
   "Phexgeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
     "Images": {
-      "männlich": [ "Character_24.png", "Character_26.png" ],
-      "weiblich": [ "Character_25.png" ]
+      "männlich": [ "Character_24.webp", "Character_26.webp" ],
+      "weiblich": [ "Character_25.webp" ]
     },    
     "Eigenschaften": {
       "KL": "12+",
@@ -2985,8 +2985,8 @@
   "Perainegeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
     "Images": {
-      "männlich": [ "Character_24.png", "Character_26.png" ],
-      "weiblich": [ "Character_25.png" ]
+      "männlich": [ "Character_24.webp", "Character_26.webp" ],
+      "weiblich": [ "Character_25.webp" ]
     },    
     "Eigenschaften": {
       "KL": "12+",
@@ -3046,8 +3046,8 @@
   "Ingerimmgeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
     "Images": {
-      "männlich": [ "Character_24.png", "Character_26.png" ],
-      "weiblich": [ "Character_25.png" ]
+      "männlich": [ "Character_24.webp", "Character_26.webp" ],
+      "weiblich": [ "Character_25.webp" ]
     },    
     "Eigenschaften": {
       "KL": "12+",
@@ -3107,8 +3107,8 @@
   "Rahjageweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
     "Images": {
-      "männlich": [ "Character_24.png", "Character_26.png" ],
-      "weiblich": [ "Character_25.png" ]
+      "männlich": [ "Character_24.webp", "Character_26.webp" ],
+      "weiblich": [ "Character_25.webp" ]
     },    
     "Eigenschaften": {
       "IN": "11+",
@@ -3168,8 +3168,8 @@
   "Swafnirgeweihter": {
     "Typkategorie": [ "Mensch", "Geweihter" ],
     "Images": {
-      "männlich": [ "Character_24.png", "Character_26.png" ],
-      "weiblich": [ "Character_25.png" ]
+      "männlich": [ "Character_24.webp", "Character_26.webp" ],
+      "weiblich": [ "Character_25.webp" ]
     },    
     "Eigenschaften": {
       "MU": "13+",

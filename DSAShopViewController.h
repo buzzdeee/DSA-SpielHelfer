@@ -29,15 +29,18 @@
 
 @class DSAObject;
 @class DSAShopItemButton;
+@class DSAShoppingCart;
 
-typedef NS_ENUM(NSUInteger, ShopMode) {
-    ShopModeBuy,
-    ShopModeSell
+typedef NS_ENUM(NSUInteger, DSAShopMode) {
+    DSAShopModeBuy,
+    DSAShopModeSell
 };
 
 @interface DSAShopViewController : NSWindowController
 
-@property (nonatomic, assign) ShopMode mode;
+@property (nonatomic, copy) void (^completionHandler)(DSAShoppingCart *shoppingCart);
+
+@property (nonatomic, assign) DSAShopMode mode;
 @property (nonatomic, strong) NSArray<DSAObject *> *allItems;
 @property (nonatomic, weak) DSAShopItemButton *buttonItem0;
 @property (nonatomic, weak) DSAShopItemButton *buttonItem1;

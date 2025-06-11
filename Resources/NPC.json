@@ -166,32 +166,32 @@
       "Auelf": {
         "Herkunft": [ "Salamandersteine" ],
         "Images": {
-          "männlich": [ "Character_12.png", "Character_20.png", "Character_21.png", "Character_22.png", "Character_23.png" ],
-          "weiblich": [ "Character_16.png", "Character_17.png", "Character_18.png", "Character_19.png", "Character_32.png" ]
+          "männlich": [ "Character_12..webp", "Character_20..webp", "Character_21..webp", "Character_22..webp", "Character_23..webp" ],
+          "weiblich": [ "Character_16..webp", "Character_17..webp", "Character_18..webp", "Character_19..webp", "Character_32..webp" ]
         },        
         "KL": "1"
       },
       "Steppenelf": {
         "Herkunft": [ "Grüne Ebene" ],
         "Images": {
-          "männlich": [ "Character_12.png", "Character_20.png", "Character_21.png", "Character_22.png", "Character_23.png" ],
-          "weiblich": [ "Character_16.png", "Character_17.png", "Character_18.png", "Character_19.png", "Character_32.png" ]
+          "männlich": [ "Character_12..webp", "Character_20..webp", "Character_21..webp", "Character_22..webp", "Character_23..webp" ],
+          "weiblich": [ "Character_16..webp", "Character_17..webp", "Character_18..webp", "Character_19..webp", "Character_32..webp" ]
         },        
         "KL": "1"
       },
       "Waldelf": {
         "Herkunft": [ "Salamanderwälder" ],
         "Images": {
-          "männlich": [ "Character_11.png", "Character_13.png", "Character_14.png", "Character_15.png", "Character_69.png", "Character_70.png", "Character_71.png", "Character_72.png" ],
-          "weiblich": [ "Character_8.png", "Character_9.png", "Character_10.png", "Character_73.png", "Character_74.png", "Character_75.png" ]
+          "männlich": [ "Character_11..webp", "Character_13..webp", "Character_14..webp", "Character_15..webp", "Character_69..webp", "Character_70..webp", "Character_71..webp", "Character_72..webp" ],
+          "weiblich": [ "Character_8..webp", "Character_9..webp", "Character_10..webp", "Character_73..webp", "Character_74..webp", "Character_75..webp" ]
         },        
         "GE": "1"
       },
       "Firnelf": {
         "Herkunft": [ "Hoher Norden" ],
         "Images": {
-          "männlich": [ "Character_4.png", "Character_5.png", "Character_6.png", "Character_7.png" ],
-          "weiblich": [ "Character_1.png", "Character_2.png", "Character_3.png" ]
+          "männlich": [ "Character_4..webp", "Character_5..webp", "Character_6..webp", "Character_7..webp" ],
+          "weiblich": [ "Character_1..webp", "Character_2..webp", "Character_3..webp" ]
         },        
         "IN": "1"
       }

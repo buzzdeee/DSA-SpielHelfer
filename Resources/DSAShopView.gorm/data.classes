@@ -7,13 +7,6 @@
 	);
 	Super = NSButton;
     };
-    DSAShopItemsView = {
-	Actions = (
-	);
-	Outlets = (
-	);
-	Super = NSView;
-    };
     DSAShopViewController = {
 	Actions = (
 	    "buttonConfirm:",
