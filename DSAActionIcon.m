@@ -874,21 +874,6 @@ inventoryIdentifier: (NSString *)sourceInventory
     return NO;
 }
 
-- (void)handleEventYUCK {
-    NSLog(@"DSAActionIcon handleRemoveCharacter called");
-    // Step 1: Get access to the model
-DSAShopViewController *selector = [[DSAShopViewController alloc] initWithWindowNibName:@"DSAShopView"];
-NSWindow *window = selector.window;
-
-if (!window) {
-    NSLog(@"FEHLER: Shop-Window ist nil – wurde vermutlich nicht korrekt aus der Nib geladen.");
-    return;
-}
-
-[window setLevel:NSModalPanelWindowLevel];
-[window makeKeyAndOrderFront:nil];
-}
-
 - (void)handleEvent {
     NSLog(@"DSAActionIconBuy handleEvent called");
     // Step 1: Get access to the model
@@ -897,14 +882,30 @@ if (!window) {
         NSLog(@"Invalid window controller class");
         return;
     }
-    
+
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];    
+    NSString *shopType;
+    if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
+      {
+        DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;
+        DSALocalMapTile *currentTile = [lml tileAtCoordinate: currentPosition.mapCoordinate];
+        NSLog(@"DSAActionIconBuy isActive currentLocation: %@", currentTile);
+        if ([currentTile isKindOfClass: [DSALocalMapTileBuildingShop class]])
+          {
+            shopType = currentTile.type;
+          }
+      }
+    NSLog(@"DSAActionIconBuy handleEvent shopType: %@", shopType);
     // Step 2: Present the shop view sheet
     DSAShopViewController *selector =
         [[DSAShopViewController alloc] initWithWindowNibName:@"DSAShopView"];
     selector.mode = DSAShopModeBuy;
-    selector.allItems = [[Utils getDSAObjectsDict] allValues];    
-    NSLog(@"DSAActionIconBuy handleEvent: selector.window = %@", selector.window);
-
+    selector.allItems = [Utils getAllDSAObjectsForShop: shopType];    
+    NSLog(@"DSAActionIconBuy handleEvent allItems count: %@", [NSNumber numberWithInteger: [selector.allItems count]]);
     selector.completionHandler = ^(DSAShoppingCart *shoppingCart) {
         NSLog(@"DSAActionIconBuy handleEvent: completionHandler aufgerufen mit: %@", shoppingCart);
         if (shoppingCart) {
@@ -913,15 +914,8 @@ if (!window) {
         }
     };
     windowController.shopViewController = selector;
-    [windowController.shopViewController showWindow:self];
-    NSWindow *shopWindow = windowController.window;
-    NSLog(@"DSAActionIconBuy handleEvent: shopWindow = %@", shopWindow);
     
-    [shopWindow setReleasedWhenClosed:NO]; // <-- wichtig!
-//[shopWindow setLevel:NSModalPanelWindowLevel];
-[shopWindow makeKeyAndOrderFront:nil];
-    
-    //[windowController.window beginSheet:selector.window completionHandler:nil];
+    [windowController.window beginSheet:selector.window completionHandler:nil];
 }
 
 @end

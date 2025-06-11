@@ -27,7 +27,8 @@
 	    buttonItem6,
 	    buttonItem7,
 	    buttonItem8,
-	    buttonItem9
+	    buttonItem9,
+	    fieldCount
 	);
 	Super = NSWindowController;
     };

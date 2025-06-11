@@ -23,6 +23,7 @@
 */
 
 #import "DSAShopItemButton.h"
+#import "DSAShoppingCart.h"
 #import "DSAObject.h"
 
 @implementation DSAShopItemButton {
@@ -38,6 +39,29 @@
                                   owner:self
                                userData:nil
                            assumeInside:NO];
+}
+
+- (void)setObject:(DSAObject *)object {
+    _object = object;
+
+    NSMutableArray<NSString *> *tooltipLines = [NSMutableArray array];
+
+    if (object.name.length > 0) {
+        [tooltipLines addObject:object.name];
+    }
+
+    if (object.price > 0) {
+        [tooltipLines addObject:[NSString stringWithFormat:@"Preis: %.2f Silber", object.price]];
+    }
+
+    if (object.weight > 0) {
+        [tooltipLines addObject:[NSString stringWithFormat:@"Gewicht: %.2f Unzen", object.weight]];
+    }
+
+    NSString *tooltipText = [tooltipLines componentsJoinedByString:@"\n"];
+    [self setToolTip:tooltipText.length > 0 ? tooltipText : nil];
+
+    [self setNeedsDisplay:YES];
 }
 
 // Method below may or may not be superfluous, or even erroneous???
@@ -59,43 +83,129 @@
 }
 
 - (void)mouseDown:(NSEvent *)event {
-    if (event.type == NSEventTypeRightMouseDown || (event.modifierFlags & NSEventModifierFlagControl)) {
-        // Custom context menu?
-        [self showContextMenuAtPoint:[self convertPoint:event.locationInWindow fromView:nil]];
-    } else {
-        [super mouseDown:event];
-    }
+    [super mouseDown:event];
+    // Warenkorb hinzufügen
+    [self.shoppingCart addObject:self.object count:1 price:self.object.price ?: 0];
+    NSLog(@"%@ hinzugefügt – Count: %ld", self.object.name, (long)[self.shoppingCart countForObject:self.object]);
+    [self setNeedsDisplay:YES];
 }
 
-- (void)showContextMenuAtPoint:(NSPoint)point {
-    NSMenu *menu = [[NSMenu alloc] initWithTitle:@""];
-    [menu addItemWithTitle:@"Kaufen" action:@selector(buy:) keyEquivalent:@""];
-    [menu addItemWithTitle:@"Details anzeigen" action:@selector(showDetails:) keyEquivalent:@""];
-    [NSMenu popUpContextMenu:menu withEvent:[NSApp currentEvent] forView:self];
-}
-
-- (void)updateDisplay {
-    // Hier kannst du z.B. den Button-Titel setzen:
-    if (self.object) {
-        self.title = @"X"; // [NSString stringWithFormat:@"%@ x%ld", self.object.name, (long)self.cartCount];
+- (void)rightMouseDown:(NSEvent *)event {
+    if ([self.shoppingCart countForObject:self.object] > 0) {
+        [self.shoppingCart removeObject:self.object count:1];
+        NSLog(@"%@ entfernt – Count: %ld", self.object.name, (long)[self.shoppingCart countForObject:self.object]);
+        [self setNeedsDisplay:YES];
     } else {
-        self.title = @"";
+        NSLog(@"%@ ist nicht im Warenkorb", self.object.name);
     }
     [self setNeedsDisplay:YES];
 }
 
-// Optional: Eigene Darstellung
+- (void)updateDisplay {
+    [self updateQuantityLabel];
+    [self setNeedsDisplay:YES];
+}
+
+- (void)updateQuantityLabel {
+    NSTextField *quantityLabel = [self viewWithTag:999];
+    if (!quantityLabel) {
+        quantityLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(1, 1, 30, 19)];
+        quantityLabel.editable = NO;
+        quantityLabel.bordered = NO;
+        quantityLabel.bezeled = NO;
+        quantityLabel.focusRingType = NSFocusRingTypeNone;
+        quantityLabel.backgroundColor = [NSColor blackColor];
+        quantityLabel.drawsBackground = YES;
+        quantityLabel.textColor = [NSColor redColor];
+        quantityLabel.font = [NSFont boldSystemFontOfSize:12];
+        quantityLabel.alignment = NSTextAlignmentLeft;
+        quantityLabel.tag = 999;
+        [self addSubview:quantityLabel];
+    }
+
+    NSInteger cartCount = [self.shoppingCart countForObject:self.object];
+    if (cartCount > 0) {
+        NSString *quantityString = [NSString stringWithFormat:@"%ld", (long)cartCount];
+        quantityLabel.stringValue = quantityString;
+        quantityLabel.hidden = NO;
+
+        NSDictionary *attributes = @{NSFontAttributeName: quantityLabel.font};
+        NSSize textSize = [quantityString sizeWithAttributes:attributes];
+        quantityLabel.frame = NSMakeRect(1, 1, textSize.width, textSize.height);
+    } else {
+        quantityLabel.hidden = YES;
+    }
+}
+/*
+- (void)updateQuantityLabel {
+    NSTextField *quantityLabel = [self viewWithTag:999];
+    if (!quantityLabel) {
+        // Create the quantity label if it doesn't exist
+        quantityLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(1, 1, 30, 19)];
+        quantityLabel.editable = NO;
+        quantityLabel.bordered = NO;
+        quantityLabel.bezeled = NO;
+        quantityLabel.focusRingType = NSFocusRingTypeNone;
+        quantityLabel.backgroundColor = [NSColor blackColor];
+        quantityLabel.drawsBackground = YES;
+        quantityLabel.textColor = [NSColor redColor];
+        quantityLabel.font = [NSFont boldSystemFontOfSize:12]; // Smaller font for body slots
+        quantityLabel.alignment = NSTextAlignmentLeft;
+        quantityLabel.tag = 999; // Unique tag to identify this label
+        [self addSubview:quantityLabel];
+    }
+
+    if (self.cartCount > 0) {
+        // Update the label with the current quantity
+        NSString *quantityString = [NSString stringWithFormat:@"%ld", (long)self.cartCount];
+        quantityLabel.stringValue = quantityString;
+        quantityLabel.hidden = NO;
+
+        // Calculate the size of the text and adjust the label's frame
+        NSDictionary *attributes = @{NSFontAttributeName: quantityLabel.font};
+        NSSize textSize = [quantityString sizeWithAttributes:attributes];
+        quantityLabel.frame = NSMakeRect(1, 1, textSize.width, textSize.height);
+    } else {
+        // Hide the label if the quantity is 0
+        quantityLabel.hidden = YES;
+    }
+}
+*/
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
+    // NSLog(@"DSAShopItemButton drawRect self.object: %@ %@", [self.object class], self.object);
+    
+    if (self.object.icon) {
+        NSImage *iconImage = [NSImage imageNamed:[NSString stringWithFormat: @"%@-128x128", self.object.icon]];
 
-/*    if (self.object.icon) {
-        NSImage *iconImage = [NSImage imageNamed:self.object.icon];
-        [iconImage drawInRect:self.bounds];
+        if (iconImage) {
+            NSRect imageRect = self.bounds;
+
+            // Save current graphics state
+            [[NSGraphicsContext currentContext] saveGraphicsState];
+
+            // Flip context vertically
+            NSAffineTransform *transform = [NSAffineTransform transform];
+            [transform translateXBy:0 yBy:NSHeight(imageRect)];
+            [transform scaleXBy:1.0 yBy:-1.0];
+            [transform concat];
+
+            // Draw flipped image
+            [iconImage drawInRect:imageRect
+                         fromRect:NSZeroRect
+                        operation: NSCompositeSourceOver
+                         fraction:1.0];
+
+            // Restore original graphics state
+            [[NSGraphicsContext currentContext] restoreGraphicsState];
+        }
     }
 
     if (self.isHovered) {
         [[NSColor colorWithCalibratedWhite:0 alpha:0.1] set];
         NSRectFillUsingOperation(self.bounds, NSCompositeSourceOver);
-    } */
+    }
+    [self updateQuantityLabel];
 }
+
 @end

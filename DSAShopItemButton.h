@@ -28,10 +28,12 @@
 #import <AppKit/AppKit.h>
 
 @class DSAObject;
+@class DSAShoppingCart;
 
 @interface DSAShopItemButton : NSButton
 @property (nonatomic, strong) DSAObject *object;
-@property (nonatomic, assign) NSInteger cartCount;
+@property (nonatomic, weak) DSAShoppingCart *shoppingCart;
+
 @property (nonatomic, assign) BOOL isHovered;
 
 - (void)updateDisplay;

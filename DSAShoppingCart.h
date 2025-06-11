@@ -40,8 +40,15 @@
 // Add copies of the object to the cart (count times), with given price
 - (void)addObject:(DSAObject *)object count:(NSInteger)count price:(float)price;
 
+- (void)removeObject:(DSAObject *)object count:(NSInteger)count;
+
+// returns count of a specific object in the shopping cart
+- (NSInteger)countForObject:(DSAObject *)object;
+
 // Calculate total price of all items in cart
 - (float)totalSum;
+
+- (NSInteger)countAllObjects;
 
 // Clear the entire cart
 - (void)clearCart;

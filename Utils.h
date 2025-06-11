@@ -53,9 +53,11 @@ typedef NS_ENUM(NSUInteger, DSASeverityLevel) {
 + (NSDictionary *) parseConstraint: (NSString *) constraintDefinition;
 + (NSInteger) rollDice: (NSString *) diceDefinition;
 
-+ (NSDictionary<NSString *, DSAObject *> *) getDSAObjectsDict;
++ (NSDictionary<NSString *, NSDictionary *> *) getDSAObjectsDict;
 + (NSDictionary *) getDSAObjectInfoByName: (NSString *) name;
 + (DSASlotType)slotTypeFromString:(NSString *)slotTypeString;
++ (NSArray<DSAObject *> *) getAllDSAObjectsForShop: (NSString *) shopType;
+
 + (NSString *)formatTPEntfernung:(NSDictionary *)tpEntfernung;
 
 + (NSDictionary *) getNamesDict;

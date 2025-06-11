@@ -1169,9 +1169,92 @@ static NSMutableDictionary *imagesIndexDict;
 // end of blessed liturgies related methods
 
 // DSAObject related methods
-+ (NSDictionary<NSString *, DSAObject *> *) getDSAObjectsDict
++ (NSDictionary<NSString *, NSDictionary *> *) getDSAObjectsDict
 {
   return objectsDict;
+}
+
++ (void)collectDSAObjectsFromCategory:(id)categoryContent
+                            intoArray:(NSMutableArray<DSAObject *> *)objectsArr
+                             forOwner:(id)owner
+{
+    if ([categoryContent isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dict = (NSDictionary *)categoryContent;
+
+        for (NSString *key in dict) {
+            id value = dict[key];
+
+            if ([value isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *subDict = (NSDictionary *)value;
+
+                // Prüfen, ob subDict „flach“ ist (also ein Objekt sein könnte)
+                BOOL isObjectLeaf = YES;
+                for (id innerValue in [subDict allValues]) {
+                    if ([innerValue isKindOfClass:[NSDictionary class]]) {
+                        isObjectLeaf = NO;
+                        break;
+                    }
+                }
+
+                if (isObjectLeaf) {
+                    // Wir haben ein tatsächliches Objekt – key ist der Name
+                    NSMutableDictionary *mutableObject = [subDict mutableCopy];
+                    mutableObject[@"name"] = key;
+
+                    DSAObject *object = [[DSAObject alloc] initWithObjectInfo:mutableObject
+                                                                     forOwner:owner];
+                    [objectsArr addObject:object];
+                } else {
+                    // Noch eine tiefere Kategorie – weiter rekursiv suchen
+                    [self collectDSAObjectsFromCategory:value
+                                               intoArray:objectsArr
+                                                forOwner:owner];
+                }
+            }
+        }
+    }
+}
+
++ (NSArray<DSAObject *> *)getAllDSAObjectsForShop:(NSString *)shopType
+{
+    NSDictionary *allObjectsDict = [Utils getDSAObjectsDict];
+    NSMutableArray *objectsArr = [[NSMutableArray alloc] init];
+
+    NSArray<NSString *> *kraemerCategories = @[
+        @"Behälter", @"Beleuchtung", @"Kleidung und Schuhwerk",
+        @"Koch- und Essgeschirr", @"Körperpflege", @"Musikinstrumente",
+        @"Nahrungs- und Genußmittel", @"Schmuck",
+        @"Schreibwaren, Feinmechanik, Optik", @"Seile, Netze, Ketten",
+        @"Sonstiger Reisebedarf", @"Spielzeug, Dekoration und Luxusartikel",
+        @"Tierbedarf", @"Werkzeug"
+    ];
+
+    NSArray<NSString *> *waffenCategories = @[
+        @"Munition", @"Rüstzeug", @"Waffen", @"Waffenzubehör"
+    ];
+
+    NSArray<NSString *> *relevantCategories = nil;
+
+    if ([shopType isEqualToString:@"Krämer"]) {
+        relevantCategories = kraemerCategories;
+    } else if ([shopType isEqualToString:@"Waffenhändler"]) {
+        relevantCategories = waffenCategories;
+    } else {
+        NSLog(@"Utils getAllDSAObjectsForShop: unknown shop type: %@", shopType);
+        return @[];
+    }
+
+    for (NSString *category in relevantCategories) {
+        id categoryContent = allObjectsDict[category];
+        if (categoryContent) {
+            // NSLog(@"Utils getAllDSAObjectsForShop: processing category %@", category);
+            [self collectDSAObjectsFromCategory:categoryContent
+                                       intoArray:objectsArr
+                                        forOwner:nil];
+        }
+    }
+
+    return objectsArr;
 }
 
 + (void)enrichEquipmentData:(NSMutableDictionary *)data withParentKeys:(NSArray<NSString *> *)parentKeys {

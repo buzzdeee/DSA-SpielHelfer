@@ -34,8 +34,9 @@
     }
     return self;
 }
-
+/*
 - (void)addObject:(DSAObject *)object count:(NSInteger)count price:(float)price {
+    NSLog(@"DSAShoppingCart addObject: %@", object.name);
     if (!object || count <= 0) return;
 
     NSString *key = object.name;
@@ -52,6 +53,72 @@
     };
 
     self.cartContents[key] = entry;
+}
+*/
+- (void)addObject:(DSAObject *)object count:(NSInteger)count price:(float)price {
+    NSLog(@"DSAShoppingCart addObject: %@", object.name);
+    if (!object || count <= 0) return;
+
+    NSString *key = object.name;
+    if (!key) return;
+
+    NSDictionary *existingEntry = self.cartContents[key];
+
+    if (existingEntry) {
+        NSMutableArray *existingItems = existingEntry[@"items"];
+        for (NSInteger i = 0; i < count; i++) {
+            [existingItems addObject:[object copy]];
+        }
+        // Preis nicht überschreiben – oder optional aktualisieren?
+    } else {
+        NSMutableArray *items = [NSMutableArray array];
+        for (NSInteger i = 0; i < count; i++) {
+            [items addObject:[object copy]];
+        }
+
+        NSMutableDictionary *entry = [@{
+            @"items": items,
+            @"price": @(price)
+        } mutableCopy];
+
+        self.cartContents[key] = entry;
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAShoppingCartUpdated" object:self];
+}
+
+- (void)removeObject:(DSAObject *)object count:(NSInteger)count {
+    if (!object || count <= 0) return;
+    
+    NSString *key = object.name;
+    //NSMutableDictionary *entry = self.cartContents[key];
+    NSDictionary *entry = self.cartContents[key];
+    if (!entry) return;
+
+    NSMutableArray *items = entry[@"items"];
+    if (items.count <= count) {
+        [self.cartContents removeObjectForKey:key];
+    } else {
+        NSRange range = NSMakeRange(0, count);
+        [items removeObjectsInRange:range];
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAShoppingCartUpdated" object:self];
+}
+
+
+- (NSInteger)countForObject:(DSAObject *)object {
+    if (!object || !object.name) return 0;
+    NSDictionary *entry = self.cartContents[object.name];
+    return [entry[@"items"] count];
+}
+
+- (NSInteger)countAllObjects {
+    NSInteger count = 0;
+    for (NSDictionary *entry in [self.cartContents allValues])
+      {
+        NSLog(@"DSAShoppingCart countAllObjects: entry: %@", entry);
+        count += [[entry objectForKey: @"items"] count];
+      }
+    return count;
 }
 
 - (float)totalSum {

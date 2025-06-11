@@ -40,6 +40,8 @@ typedef NS_ENUM(NSUInteger, DSAShopMode) {
 
 @property (nonatomic, copy) void (^completionHandler)(DSAShoppingCart *shoppingCart);
 
+@property (nonatomic, strong) DSAShoppingCart *shoppingCart;
+
 @property (nonatomic, assign) DSAShopMode mode;
 @property (nonatomic, strong) NSArray<DSAObject *> *allItems;
 @property (nonatomic, weak) DSAShopItemButton *buttonItem0;
@@ -57,6 +59,7 @@ typedef NS_ENUM(NSUInteger, DSAShopMode) {
 
 @property (nonatomic, weak) IBOutlet NSButton *buttonPrevious;
 @property (nonatomic, weak) IBOutlet NSButton *buttonNext;
+@property (nonatomic, weak) IBOutlet NSTextField *fieldCount;
 @property (nonatomic, weak) IBOutlet NSTextField *fieldSum;
 @property (nonatomic, weak) IBOutlet NSButton *buttonConfirm;
 
