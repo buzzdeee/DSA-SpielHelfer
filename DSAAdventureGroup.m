@@ -25,6 +25,9 @@
 #import "DSAAdventureGroup.h"
 #import "DSALocation.h"
 #import "DSAWeather.h"
+#import "DSACharacter.h"
+#import "DSAWallet.h"
+#import "DSAInventoryManager.h"
 
 @implementation DSAAdventureGroup
 
@@ -70,6 +73,140 @@
     }
     return self;
 }
+
+
+- (float)totalWealthOfGroup
+{
+    float total = 0.0;
+
+    for (NSUUID *modelID in self.partyMembers) {
+        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
+        if (character.wallet) {
+            total += [character.wallet total];
+        }
+    }
+    for (NSUUID *modelID in self.npcMembers) {
+        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
+        if (character.wallet) {
+            total += [character.wallet total];
+        }
+    }    
+
+    return total;
+}
+
+// evenly pay in a shop or wherever else have to pay
+- (void)subtractSilber:(float)silber
+{
+    if (silber <= 0.0) return;
+
+    // 1. Collect all group members (party + npc) with wallets
+    NSMutableArray<DSACharacter *> *members = [NSMutableArray array];
+
+    for (NSUUID *modelID in self.partyMembers) {
+        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
+        if (character.wallet) [members addObject:character];
+    }
+    for (NSUUID *modelID in self.npcMembers) {
+        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
+        if (character.wallet) [members addObject:character];
+    }
+
+    NSUInteger remainingCount = members.count;
+    if (remainingCount == 0) return;
+
+    float remainingAmount = silber;
+    NSMutableSet<DSACharacter *> *completed = [NSMutableSet set];
+
+    while (remainingAmount > 0.0 && remainingCount > 0) {
+        float share = remainingAmount / remainingCount;
+
+        BOOL anyonePaid = NO;
+
+        for (DSACharacter *character in members) {
+            if ([completed containsObject:character]) continue;
+
+            float available = [character.wallet total];
+
+            if (available >= share) {
+                [character.wallet subtractSilber:share];
+                remainingAmount -= share;
+                anyonePaid = YES;
+            } else {
+                [character.wallet subtractSilber:available];
+                remainingAmount -= available;
+                [completed addObject:character];
+                remainingCount--;
+                anyonePaid = YES;
+            }
+
+            if (remainingAmount <= 0.01) break; // avoid float precision leftovers
+        }
+
+        if (!anyonePaid) break; // no one can pay anything more
+    }
+}
+
+- (void)distributeItems:(DSAObject *)item count:(NSInteger)count
+{
+    if (!item || count <= 0) return;
+
+    // 1. Gather group members with inventories
+    NSMutableArray<DSACharacter *> *members = [NSMutableArray array];
+    for (NSUUID *modelID in self.partyMembers) {
+        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
+        if (character.inventory) [members addObject:character];
+    }
+    for (NSUUID *modelID in self.npcMembers) {
+        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
+        if (character.inventory) [members addObject:character];
+    }
+
+    if (members.count == 0) return;
+
+    NSInteger remaining = count;
+
+    // 2. Try bulk add first
+    for (DSACharacter *character in members) {
+        NSInteger added = [character.inventory addObject:item quantity:remaining];
+        if (added == remaining)
+          {
+            [[[DSAInventoryManager alloc] init] postDSAInventoryChangedNotificationForSourceModel: character targetModel: character];
+            return; // Done
+          }
+        if (added > 0) {
+            [[[DSAInventoryManager alloc] init] postDSAInventoryChangedNotificationForSourceModel: character targetModel: character];
+            remaining -= added;
+        }
+    }
+
+    // 3. Fallback: one-by-one
+    for (DSACharacter *character in members)
+      {
+        if (remaining <= 0) break;
+        while (remaining > 0)
+          {
+            NSInteger added = [character.inventory addObject:item quantity:1];
+            if (added == 1)
+              {
+                remaining -= 1;
+                if (remaining == 0)
+                  {
+                    break;  // nothing more to distribute
+                  }
+              }
+            else  // character inventory is full
+              {
+                break;
+              }
+          }
+        [[[DSAInventoryManager alloc] init] postDSAInventoryChangedNotificationForSourceModel: character targetModel: character];
+      }
+    if (remaining > 0) {
+        NSLog(@"⚠️ Could not distribute %ld of item %@", (long)remaining, item.name);
+    }
+}
+
 
 - (NSString *)description
 {

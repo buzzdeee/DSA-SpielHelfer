@@ -5,7 +5,7 @@
 
    Author: Sebastian Reitenbach
 
-   Created: 2025-06-09 22:49:05 +0200 by sebastia
+   Created: 2025-06-14 21:19:06 +0200 by sebastia
 
    This application is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,24 +22,19 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
-#ifndef _DSASHOPITEMBUTTON_H_
-#define _DSASHOPITEMBUTTON_H_
+#import "DSAConversationController.h"
 
-#import <AppKit/AppKit.h>
+@implementation DSAConversationController
 
-@class DSAObject;
-@class DSAShoppingCart;
+- (IBAction)buttonConfirmClicked:(id)sender {
+    NSLog(@"DSAConversationController buttonConfirmClicked");
 
-@interface DSAShopItemButton : NSButton
-@property (nonatomic, strong) DSAObject *object;
-@property (nonatomic, weak) DSAShoppingCart *shoppingCart;
-@property (nonatomic, assign) float maxSilber;
-
-@property (nonatomic, assign) BOOL isHovered;
-
-- (void)updateDisplay;
+    BOOL result = YES;
+    if (self.completionHandler) {
+        self.completionHandler(result);  // ⬅️ invoke handler before closing sheet
+    }    
+    [NSApp endSheet:self.window];
+    [self.window orderOut:nil];
+}
 
 @end
-
-#endif // _DSASHOPITEMBUTTON_H_
-

@@ -27,12 +27,13 @@
 
 #import <Foundation/Foundation.h>
 @class DSACharacterHero;
+@class DSAWallet;
 
 @interface DSACharacterViewModel : NSObject <NSCopying>
 
 @property (nonatomic, strong) DSACharacterHero *model;
 
-@property (nonatomic, strong) NSDictionary *money;
+@property (nonatomic, strong) DSAWallet *wallet;
 @property (nonatomic, strong) NSDictionary *positiveTraits;
 @property (nonatomic, strong) NSDictionary *currentPositiveTraits;
 @property (nonatomic, strong) NSDictionary *negativeTraits;
@@ -45,7 +46,7 @@
 @property (nonatomic, assign) NSInteger karmaPoints;
 @property (nonatomic, assign) NSInteger currentKarmaPoints;
 
-@property (nonatomic, copy) NSString *formattedMoney;
+@property (nonatomic, copy) NSString *formattedWallet;
 @property (nonatomic, copy) NSString *formattedLifePoints;
 @property (nonatomic, copy) NSString *formattedAstralEnergy;
 @property (nonatomic, copy) NSString *formattedKarmaPoints;

@@ -63,7 +63,7 @@
 
     NSLog(@"DSACharacterWindowController: removing observers");
     for (id object in self.observedKeyPaths) {
-        NSLog(@"DSACharacterWindowController: remove observer for object: %@", object);
+        //NSLog(@"DSACharacterWindowController: remove observer for object: %@", object);
         NSSet<NSString *> *keyPaths = [self.observedKeyPaths objectForKey:object];
         NSLog(@"DSACharacterWindowController: remove observer for keyPaths %@", keyPaths);
         for (NSString *keyPath in keyPaths) {
@@ -76,6 +76,9 @@
         }
     } 
     NSLog(@"DSACharacterWindowController: here at the end of dealloc");
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    document.windowControllersCreated = NO;
+    NSLog(@"DSACharacterWindowController: here at the VERY end of dealloc: %@", [NSNumber numberWithBool: document.windowControllersCreated]);
 }
 
 
@@ -324,9 +327,9 @@
   viewModel.model = model;  // Pass the entire model to the viewModel
   [self.fieldMoney bind:NSValueBinding
                toObject:viewModel
-            withKeyPath:@"formattedMoney"
+            withKeyPath:@"formattedWallet"
                 options:nil];
-  [self addObserverForObject: viewModel keyPath: @"formattedMoney"];
+  [self addObserverForObject: viewModel keyPath: @"formattedWallet"];
   [self.fieldLifePoints bind:NSValueBinding
                     toObject:viewModel
                  withKeyPath:@"formattedLifePoints"
@@ -2787,7 +2790,7 @@
 }
 
 - (void)closePanel:(id)sender {
-
+    NSLog(@"DSACharacterWindowController closePanel called!");
     [[sender window] close];
 }
 

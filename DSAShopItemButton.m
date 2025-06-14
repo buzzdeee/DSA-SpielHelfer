@@ -85,6 +85,12 @@
 - (void)mouseDown:(NSEvent *)event {
     [super mouseDown:event];
     // Warenkorb hinzufügen
+    if (self.shoppingCart.totalSum + self.object.price > self.maxSilber)
+      {
+        NSLog(@"Can't add item to shopping cart, not enough money.");
+        return;
+      }
+    
     [self.shoppingCart addObject:self.object count:1 price:self.object.price ?: 0];
     NSLog(@"%@ hinzugefügt – Count: %ld", self.object.name, (long)[self.shoppingCart countForObject:self.object]);
     [self setNeedsDisplay:YES];
@@ -136,41 +142,7 @@
         quantityLabel.hidden = YES;
     }
 }
-/*
-- (void)updateQuantityLabel {
-    NSTextField *quantityLabel = [self viewWithTag:999];
-    if (!quantityLabel) {
-        // Create the quantity label if it doesn't exist
-        quantityLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(1, 1, 30, 19)];
-        quantityLabel.editable = NO;
-        quantityLabel.bordered = NO;
-        quantityLabel.bezeled = NO;
-        quantityLabel.focusRingType = NSFocusRingTypeNone;
-        quantityLabel.backgroundColor = [NSColor blackColor];
-        quantityLabel.drawsBackground = YES;
-        quantityLabel.textColor = [NSColor redColor];
-        quantityLabel.font = [NSFont boldSystemFontOfSize:12]; // Smaller font for body slots
-        quantityLabel.alignment = NSTextAlignmentLeft;
-        quantityLabel.tag = 999; // Unique tag to identify this label
-        [self addSubview:quantityLabel];
-    }
 
-    if (self.cartCount > 0) {
-        // Update the label with the current quantity
-        NSString *quantityString = [NSString stringWithFormat:@"%ld", (long)self.cartCount];
-        quantityLabel.stringValue = quantityString;
-        quantityLabel.hidden = NO;
-
-        // Calculate the size of the text and adjust the label's frame
-        NSDictionary *attributes = @{NSFontAttributeName: quantityLabel.font};
-        NSSize textSize = [quantityString sizeWithAttributes:attributes];
-        quantityLabel.frame = NSMakeRect(1, 1, textSize.width, textSize.height);
-    } else {
-        // Hide the label if the quantity is 0
-        quantityLabel.hidden = YES;
-    }
-}
-*/
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
     // NSLog(@"DSAShopItemButton drawRect self.object: %@ %@", [self.object class], self.object);

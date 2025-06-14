@@ -39,6 +39,9 @@
 #import "DSALocalMapViewController.h"
 #import "DSAShopViewController.h"
 #import "DSAShoppingCart.h"
+#import "DSAShopBargainController.h"
+#import "DSAWallet.h"
+#import "DSAConversationController.h"
 
 @implementation DSAActionIcon
 
@@ -904,21 +907,80 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAShopViewController *selector =
         [[DSAShopViewController alloc] initWithWindowNibName:@"DSAShopView"];
     selector.mode = DSAShopModeBuy;
+    selector.maxSilber = [activeGroup totalWealthOfGroup];
     selector.allItems = [Utils getAllDSAObjectsForShop: shopType];    
     NSLog(@"DSAActionIconBuy handleEvent allItems count: %@", [NSNumber numberWithInteger: [selector.allItems count]]);
+    __block DSAShoppingCart *localShoppingCart;
     selector.completionHandler = ^(DSAShoppingCart *shoppingCart) {
         NSLog(@"DSAActionIconBuy handleEvent: completionHandler aufgerufen mit: %@", shoppingCart);
         if (shoppingCart) {
             NSLog(@"DSAActionIcon sheet completion handler called.... ");
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
-        }
+            if ([shoppingCart countAllObjects] == 0)
+              {
+                return;
+              }
+            localShoppingCart = shoppingCart;
+            
+          }
+        else
+          {
+            return;
+          }
+       
     };
     windowController.shopViewController = selector;
     
     [windowController.window beginSheet:selector.window completionHandler:nil];
+    if ([localShoppingCart countAllObjects] == 0)
+      {
+        return;
+      }
+    
+    DSAShopBargainController *bargainSelector =
+        [[DSAShopBargainController alloc] initWithWindowNibName:@"DSAShopBargain"];
+    bargainSelector.mode = DSAShopModeBuy;
+    bargainSelector.shoppingCart = localShoppingCart;
+    bargainSelector.activeGroup = activeGroup;
+    __block float finalPercent = 0;
+    __block NSString *finalComment;
+    __block float finalPrice;
+    bargainSelector.completionHandler = ^(BOOL result) {
+        finalPercent = [bargainSelector.fieldPercentValue.stringValue floatValue];
+        finalComment = bargainSelector.fieldBargainResult.stringValue;    
+      if (result)
+        {
+          finalPrice = localShoppingCart.totalSum - (localShoppingCart.totalSum * finalPercent / 100);
+        }
+      else
+        {
+          finalPrice = localShoppingCart.totalSum;
+        }
+    };
+    [windowController.window beginSheet:bargainSelector.window completionHandler:nil];
+    NSLog(@"DSAActionIconBuy handleEvent: final percent is %.2f, finalComment: %@", finalPercent, finalComment);
+    
+    // float finalPrice = localShoppingCart.totalSum - (localShoppingCart.totalSum * finalPercent / 100);
+    
+    [activeGroup subtractSilber: finalPrice];
+    for (NSDictionary *cartItem in [localShoppingCart.cartContents allValues])
+      {
+        [activeGroup distributeItems:[[cartItem objectForKey: @"items"] objectAtIndex: 0] count: [[cartItem objectForKey: @"items"] count]];
+      }
+      
+    DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName: @"DSAConversationTextOnly"];
+    [conversationSelector window];  // trigger loading .gorm file
+    conversationSelector.fieldText.stringValue = [NSString stringWithFormat: @"Finaler Preis: %.2f. %@", finalPrice, finalComment];
+    NSLog(@"DSAActionIcon, handleEvent: conversationSelector.fieldText.stringValue %@", conversationSelector.fieldText.stringValue);
+    conversationSelector.completionHandler = ^(BOOL result) {
+      if (result)
+        {
+           NSLog(@"DSAActionIcon, handleEvent: finally, shopping finished");
+        }
+    };
+    [windowController.window beginSheet: conversationSelector.window completionHandler:nil];   
 }
-
 @end
+
 @implementation DSAActionIconSell
 @end
 @implementation DSAActionIconMap

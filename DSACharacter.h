@@ -38,6 +38,7 @@
 @class DSASpellResult;
 @class DSARegenerationResult;
 @class DSALocation;
+@class DSAWallet;
 
 typedef NS_ENUM(NSUInteger, DSACharacterState)
 {
@@ -82,7 +83,7 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 @property (nonatomic, copy) NSString *legitimation;
 @property (nonatomic, copy) NSArray *childhoodEvents;
 @property (nonatomic, copy) NSArray *youthEvents;
-@property (nonatomic, copy) NSMutableDictionary *money;
+@property (nonatomic, copy) DSAWallet *wallet;
 @property (nonatomic, copy) NSMutableDictionary<NSString *, DSAPositiveTrait *> *positiveTraits;
 @property (nonatomic, copy) NSMutableDictionary<NSString *, DSANegativeTrait *> *negativeTraits;
 @property (nonatomic, copy) NSMutableDictionary<NSString *, DSAPositiveTrait *> *currentPositiveTraits;

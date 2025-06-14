@@ -474,6 +474,10 @@
             } else {
                 if ([slot.object isKindOfClass: [DSAObjectContainer class]])
                   {
+                    if (slot.object == item)  // can't drag a container into itself ;)
+                      {
+                        return NO;
+                      }
                     NSLog(@"DSAInventoryManager isItem: compatibleWithSlot: forModel: Multi-slot might be dropped into DSAObjectContainer, or not ;).");
                     return [self isItem: item compatibleWithSlot: slot];
                   }
@@ -508,6 +512,10 @@
 
 
 - (BOOL)isItem:(DSAObject *)item compatibleWithSlot:(DSASlot *)slot {
+    if (slot.object != nil && slot.object == item)  // shall not be able to drop onto myself
+      {
+        return NO;
+      }
     if (slot.object != nil &&
         [slot.object.useWith containsObject: item.name])
       {

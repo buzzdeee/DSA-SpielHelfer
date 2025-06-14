@@ -38,6 +38,7 @@
 #import "DSASpellSharisadDance.h"
 #import "DSASpellElvenSong.h"
 #import "DSALiturgy.h"
+#import "DSAWallet.h"
 
 @implementation DSACharacterGenerator
 
@@ -93,7 +94,7 @@
   
   self.character.parents = [self resolveParentsFromParameters: parameters];
   self.character.siblings = [self resolveSiblingsFromParameters: parameters];
-  self.character.money = [self resolveWealthFromParameters: parameters];
+  self.character.wallet = [self resolveWealthFromParameters: parameters];
 
   self.character.birthPlace = [self resolveBirthplaceFromParameters: parameters];
   self.character.birthEvent = [self resolveBirthEventFromParameters: parameters];
@@ -990,38 +991,36 @@
 
 /* generates initial wealth/money, as described in "Mit Mantel, Schwert
    und Zauberstab" S. 61 */
-- (NSMutableDictionary *)resolveWealthFromParameters:(NSDictionary *)parameters {   
-   NSMutableDictionary *money = [NSMutableDictionary dictionaryWithDictionary: @{@"K": [NSNumber numberWithInt: 0], 
-                                                                                 @"H": [NSNumber numberWithInt: 0], 
-                                                                                 @"S": [NSNumber numberWithInt: 0], 
-                                                                                 @"D": [NSNumber numberWithInt: 0]}];
+- (DSAWallet *)resolveWealthFromParameters:(NSDictionary *)parameters {   
+   DSAWallet *wallet = [[DSAWallet alloc] init];
+   
    NSString *socialStatus = self.character.socialStatus;
                                                                                                                                                                   
    if ([socialStatus isEqualTo: @"unfrei"])
      {
-       [money setObject: @([Utils rollDice: @"1W6"]) forKey: @"S"];
+       wallet.silber = [Utils rollDice: @"1W6"];
      }
    else if ([socialStatus isEqualTo: @"arm"])
      {
-       [money setObject: @([Utils rollDice: @"1W6"]) forKey: @"D"];
+       wallet.dukaten = [Utils rollDice: @"1W6"];
      }
    else if ([socialStatus isEqualTo: @"mittelständisch"])
      {
-       [money setObject: @([Utils rollDice: @"3W6"]) forKey: @"D"];
+       wallet.dukaten = [Utils rollDice: @"3W6"];
      }
    else if ([socialStatus isEqualTo: @"reich"])
      {
-       [money setObject: [NSNumber numberWithInteger: [Utils rollDice: @"2W20"] + 20] forKey: @"D"];
+       wallet.dukaten = [Utils rollDice: @"2W20"] + 20;
      }
    else if ([socialStatus isEqualTo: @"adelig"] || [socialStatus isEqualTo: @"niederer Adel"] || [socialStatus isEqualTo: @"Hochadel"] || [socialStatus isEqualTo: @"unbekannt"]) // "unbekannt" can be quite rich, or poor 
      {
-       [money setObject: @([Utils rollDice: @"3W20"]) forKey: @"D"];
+       wallet.dukaten = [Utils rollDice: @"3W20"];
      }
    else
      {
        NSLog(@"DSACharacterGenerationController: generateWealth: don't know how to handle socialStatus: %@", socialStatus);
      }
-  return money;
+  return wallet;
 }
 
 // loosely following "Vom Leben in Aventurien", S. 34

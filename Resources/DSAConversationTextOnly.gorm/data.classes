@@ -1,0 +1,19 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSAConversationController = {
+	Actions = (
+	    "buttonConfirmClicked:"
+	);
+	Outlets = (
+	    buttonConfirm,
+	    fieldText
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "buttonConfirmClicked:"
+	);
+	Super = NSObject;
+    };
+}

@@ -200,38 +200,25 @@
 
 - (NSInteger)addObject:(DSAObject *)object quantity:(NSInteger)quantity {
     NSInteger totalAdded = 0;
-/*
-    // Try to add to existing compatible slots first
-    for (DSASlot *slot in self.slots) {
-        NSLog(@"DSAInventory: adding object: %@", object.name);
-        if ([slot.object isCompatibleWithObject:object]) {
-            if ([slot.object isKindOfClass: [DSAObjectContainer class]])
-              {
-                DSASlot *slot = [[DSASlot alloc] init];
-                slot.maxItemsPerSlot = quantity;
-                slot.object = object;
-                [[DSAInventoryManager sharedManager] transferItemFromSlot: slot
-                                                                  inModel: nil
-                                                              toContainer: slot.object
-                                                                  inModel: nil];
-              }
-            NSLog(@"DSAInventory slot.object %@ is comatible with object: %@", slot.object.name, object.name);
-            NSInteger added = [slot addObject:object quantity:quantity];
-            totalAdded += added;
-            quantity -= added;
-            if (quantity <= 0) {
-                return totalAdded; // All items added
-            }
-        }
-    }
-*/
-    // Add to empty slots if any items remain
+
     for (DSASlot *slot in self.slots) {
         if (slot.object == nil && [self isAllowedObject:object inSlot:slot]) {
             NSLog(@"DSAInventory: adding to empty slot %@", object.name);
-            NSInteger added = [slot addObject:object quantity:quantity];
+
+            NSInteger amountToAdd = 0;
+
+            if (object.canShareSlot) {
+                // Add as many as possible in one slot
+                amountToAdd = quantity;
+            } else {
+                // Only one item per slot
+                amountToAdd = MIN(quantity, 1);
+            }
+
+            NSInteger added = [slot addObject:object quantity:amountToAdd];
             totalAdded += added;
             quantity -= added;
+
             if (quantity <= 0) {
                 return totalAdded; // All items added
             }
@@ -240,7 +227,6 @@
 
     return totalAdded; // Return the total number of items added
 }
-
 
 - (BOOL)isAllowedObject:(DSAObject *)object inSlot:(DSASlot *)slot {
     NSLog(@"DSAInventory: Testing object slot type: %@ vs. slot.slotType: %ld", object.validSlotTypes, slot.slotType);

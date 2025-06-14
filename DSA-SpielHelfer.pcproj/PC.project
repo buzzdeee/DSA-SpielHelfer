@@ -88,7 +88,10 @@
 	"DSAMapCoordinate.m",
 	"DSAShopViewController.m",
 	"DSAShopItemButton.m",
-	"DSAShoppingCart.m"
+	"DSAShoppingCart.m",
+	"DSAShopBargainController.m",
+	"DSAWallet.m",
+	"DSAConversationController.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -169,7 +172,10 @@
 	"DSAMapCoordinate.h",
 	"DSAShopViewController.h",
 	"DSAShopItemButton.h",
-	"DSAShoppingCart.h"
+	"DSAShoppingCart.h",
+	"DSAShopBargainController.h",
+	"DSAWallet.h",
+	"DSAConversationController.h"
     );
     IMAGES = (
 	"Aventurien.jpg",
@@ -5764,7 +5770,9 @@
 	"DSACharacterSelectionWindow.gorm",
 	"DSACharacterMultiSelectionWindow.gorm",
 	"DSALocalMapView_Adventure.gorm",
-	"DSAShopView.gorm"
+	"DSAShopView.gorm",
+	"DSAShopBargain.gorm",
+	"DSAConversationTextOnly.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (

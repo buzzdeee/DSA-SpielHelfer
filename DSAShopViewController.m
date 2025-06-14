@@ -73,6 +73,7 @@
             DSAObject *item = itemsToShow[i];
             [button setHidden:NO];
             button.object = item;
+            button.maxSilber = self.maxSilber;
             button.shoppingCart = self.shoppingCart;
             //button.cartCount = 0;
             NSLog(@"DSAShopViewController updatePage in for before update Display of the button");

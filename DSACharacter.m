@@ -34,6 +34,7 @@
 #import "DSARegenerationResult.h"
 #import "DSAInventoryManager.h"
 #import "DSALocation.h"
+#import "DSAWallet.h"
 
 
 @implementation DSACharacter
@@ -236,6 +237,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 
 - (void)dealloc
 {
+    NSLog(@"DSACharacter dealloc called");
     @synchronized([DSACharacter class]) {
         [characterRegistry removeObjectForKey:_modelID];
         NSLog(@"Character with modelID %@ removed from registry.", _modelID);
@@ -432,7 +434,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   [coder encodeObject:self.legitimation forKey:@"legitimation"];
   [coder encodeObject:self.childhoodEvents forKey:@"childhoodEvents"];
   [coder encodeObject:self.youthEvents forKey:@"youthEvents"];
-  [coder encodeObject:self.money forKey:@"money"];
+  [coder encodeObject:self.wallet forKey:@"wallet"];
   [coder encodeObject:self.positiveTraits forKey:@"positiveTraits"];
   [coder encodeObject:self.negativeTraits forKey:@"negativeTraits"];
   [coder encodeObject:self.currentPositiveTraits forKey:@"currentPositiveTraits"];
@@ -513,7 +515,24 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.legitimation = [coder decodeObjectForKey:@"legitimation"];
       self.childhoodEvents = [coder decodeObjectForKey:@"childhoodEvents"];
       self.youthEvents = [coder decodeObjectForKey:@"youthEvents"];
-      self.money = [coder decodeObjectForKey:@"money"];
+      self.wallet = [coder decodeObjectForKey:@"wallet"];
+      // first try to load the wallet value
+      if ([coder containsValueForKey:@"wallet"]) {
+          _wallet = [coder decodeObjectOfClass:[DSAWallet class] forKey:@"wallet"];
+      }
+      // Fallback: try old money NSDictionary and convert to wallet
+      else if ([coder containsValueForKey:@"money"]) {
+          NSDictionary *oldMoney = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"money"];
+          _wallet = [[DSAWallet alloc] init];
+          _wallet.kreuzer = [oldMoney[@"K"] integerValue];
+          _wallet.heller  = [oldMoney[@"H"] integerValue];
+          _wallet.silber  = [oldMoney[@"S"] integerValue];
+          _wallet.dukaten = [oldMoney[@"D"] integerValue];
+          [_wallet normalize];
+      } else {
+          // No money or wallet?
+          _wallet = [[DSAWallet alloc] init];
+      }      
       self.positiveTraits = [coder decodeObjectForKey:@"positiveTraits"];
       self.negativeTraits = [coder decodeObjectForKey:@"negativeTraits"];
       self.currentPositiveTraits = [coder decodeObjectForKey:@"currentPositiveTraits"];

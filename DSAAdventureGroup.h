@@ -30,6 +30,7 @@
 
 @class DSAPosition;
 @class DSAWeather;
+@class DSAObject;
 
 @interface DSAAdventureGroup : NSObject <NSCoding>
 
@@ -43,6 +44,9 @@
                             position:(DSAPosition *)position
                              weather:(DSAWeather *)weather;
 
+- (float)totalWealthOfGroup;
+- (void)subtractSilber:(float)silber;  // evenly pay in a shop or Inn ...
+- (void)distributeItems:(DSAObject*)item count: (NSInteger) count; // distributes found or bought items
 @end                             
 
 #endif // _DSAADVENTUREGROUP_H_

@@ -24,6 +24,7 @@
 
 #import "DSACharacterViewModel.h"
 #import "DSACharacter.h"
+#import "DSAWallet.h"
 
 @implementation DSACharacterViewModel
 
@@ -36,10 +37,10 @@
         [_model removeObserver:self forKeyPath:@"currentAstralEnergy"];
         [_model removeObserver:self forKeyPath:@"karmaPoints"];
         [_model removeObserver:self forKeyPath:@"currentKarmaPoints"];
-        [_model removeObserver:self forKeyPath:@"money.D"];                
-        [_model removeObserver:self forKeyPath:@"money.S"];
-        [_model removeObserver:self forKeyPath:@"money.K"];
-        [_model removeObserver:self forKeyPath:@"money.H"];        
+        [_model removeObserver:self forKeyPath:@"wallet.dukaten"];                
+        [_model removeObserver:self forKeyPath:@"wallet.silber"];
+        [_model removeObserver:self forKeyPath:@"wallet.kreuzer"];
+        [_model removeObserver:self forKeyPath:@"wallet.heller"];        
         _model = model;
         
         // Add observers for the new model
@@ -49,10 +50,10 @@
         [_model addObserver:self forKeyPath:@"currentAstralEnergy" options:NSKeyValueObservingOptionNew context:NULL];
         [_model addObserver:self forKeyPath:@"karmaPoints" options:NSKeyValueObservingOptionNew context:NULL];
         [_model addObserver:self forKeyPath:@"currentKarmaPoints" options:NSKeyValueObservingOptionNew context:NULL];
-        [_model addObserver:self forKeyPath:@"money.D" options:NSKeyValueObservingOptionNew context:NULL];
-        [_model addObserver:self forKeyPath:@"money.S" options:NSKeyValueObservingOptionNew context:NULL];
-        [_model addObserver:self forKeyPath:@"money.H" options:NSKeyValueObservingOptionNew context:NULL];
-        [_model addObserver:self forKeyPath:@"money.K" options:NSKeyValueObservingOptionNew context:NULL];
+        [_model addObserver:self forKeyPath:@"wallet.dukaten" options:NSKeyValueObservingOptionNew context:NULL];
+        [_model addObserver:self forKeyPath:@"wallet.silber" options:NSKeyValueObservingOptionNew context:NULL];
+        [_model addObserver:self forKeyPath:@"wallet.heller" options:NSKeyValueObservingOptionNew context:NULL];
+        [_model addObserver:self forKeyPath:@"wallet.kreuzer" options:NSKeyValueObservingOptionNew context:NULL];
         
         for (NSString *trait in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
           {
@@ -67,9 +68,9 @@
           }
                                                  
         // Synchronize the ViewModel's properties with the model's properties
-        
-        self.money = _model.money;
-        [self updateFormattedMoney];
+        NSLog(@"DSACharacterViewModel: setModel: _model.wallet: %@", _model.wallet);
+        self.wallet = _model.wallet;
+        [self updateFormattedWallet];
         
         self.lifePoints = _model.lifePoints;
         self.currentLifePoints = _model.currentLifePoints;     
@@ -122,16 +123,20 @@
 }
 
 
-- (void)updateFormattedMoney
+- (void)updateFormattedWallet
 {
-  // NSLog(@"updateFormattedMoney %@", self.money);
-  NSString *formattedString = [NSString stringWithFormat:@"%@D %@S %@H %@K",
-                               self.money[@"D"] ?: @0,
-                               self.money[@"S"] ?: @0,
-                               self.money[@"H"] ?: @0,
-                               self.money[@"K"] ?: @0];
-  // NSLog(@"updateFormattedMoney %@", self.money);                               
-  self.formattedMoney = formattedString;
+  NSLog(@"DSACharacterViewModel updateFormattedWallet BEFORE %@", self.wallet);
+  if (!self.wallet) {
+      self.formattedWallet = @"-";
+      return;
+  }  
+  NSString *formattedString = [NSString stringWithFormat:@"%ldD %ldS %ldH %ldK",
+                               (long)self.wallet.dukaten,
+                               (long)self.wallet.silber,
+                               (long)self.wallet.heller,
+                               (long)self.wallet.kreuzer];
+  NSLog(@"DSACharacterViewModel: updateFormattedWallet AFTER %@", self.wallet);                               
+  self.formattedWallet = formattedString;
 }
 
 - (void)updateFormattedLifePoints {
@@ -166,9 +171,9 @@
                        context:(void *)context
 {
   // NSLog(@"DSACharacterViewModel observeValueForKeyPath: %@", keyPath);
-  if ([keyPath hasPrefix:@"money."])
+  if ([keyPath hasPrefix:@"wallet."])
     {
-      [self updateFormattedMoney];
+      [self updateFormattedWallet];
     }
         
   if ([keyPath isEqualToString:@"lifePoints"])
@@ -231,10 +236,10 @@
 
 - (void)dealloc
 {
-  [_model removeObserver:self forKeyPath:@"money.D"];
-  [_model removeObserver:self forKeyPath:@"money.S"];
-  [_model removeObserver:self forKeyPath:@"money.H"];
-  [_model removeObserver:self forKeyPath:@"money.K"];
+  [_model removeObserver:self forKeyPath:@"wallet.dukaten"];
+  [_model removeObserver:self forKeyPath:@"wallet.silber"];
+  [_model removeObserver:self forKeyPath:@"wallet.heller"];
+  [_model removeObserver:self forKeyPath:@"wallet.kreuzer"];
     
   [_model removeObserver:self forKeyPath:@"lifePoints"];
   [_model removeObserver:self forKeyPath:@"currentLifePoints"];

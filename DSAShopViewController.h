@@ -41,6 +41,7 @@ typedef NS_ENUM(NSUInteger, DSAShopMode) {
 @property (nonatomic, copy) void (^completionHandler)(DSAShoppingCart *shoppingCart);
 
 @property (nonatomic, strong) DSAShoppingCart *shoppingCart;
+@property (nonatomic, assign) float maxSilber;
 
 @property (nonatomic, assign) DSAShopMode mode;
 @property (nonatomic, strong) NSArray<DSAObject *> *allItems;

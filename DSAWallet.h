@@ -5,7 +5,7 @@
 
    Author: Sebastian Reitenbach
 
-   Created: 2025-06-09 22:49:05 +0200 by sebastia
+   Created: 2025-06-13 21:27:58 +0200 by sebastia
 
    This application is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,24 +22,28 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
-#ifndef _DSASHOPITEMBUTTON_H_
-#define _DSASHOPITEMBUTTON_H_
+#ifndef _DSAWALLET_H_
+#define _DSAWALLET_H_
 
-#import <AppKit/AppKit.h>
+#import <Foundation/Foundation.h>
 
-@class DSAObject;
-@class DSAShoppingCart;
+@interface DSAWallet : NSObject <NSCoding, NSCopying>
 
-@interface DSAShopItemButton : NSButton
-@property (nonatomic, strong) DSAObject *object;
-@property (nonatomic, weak) DSAShoppingCart *shoppingCart;
-@property (nonatomic, assign) float maxSilber;
+@property (nonatomic, assign) NSInteger dukaten;   // D
+@property (nonatomic, assign) NSInteger silber;    // S
+@property (nonatomic, assign) NSInteger heller;    // H
+@property (nonatomic, assign) NSInteger kreuzer;   // K
 
-@property (nonatomic, assign) BOOL isHovered;
+// add/subtract money in Silber
+- (void)addSilber:(float)silber;
+- (void)subtractSilber:(float)silber;
 
-- (void)updateDisplay;
+// total in Silber
+- (float)total;
+
+// ensures to not have two digits in money values below Dukaten
+- (void)normalize;
 
 @end
-
-#endif // _DSASHOPITEMBUTTON_H_
+#endif // _DSAWALLET_H_
 

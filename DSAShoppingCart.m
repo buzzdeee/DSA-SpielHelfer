@@ -34,27 +34,7 @@
     }
     return self;
 }
-/*
-- (void)addObject:(DSAObject *)object count:(NSInteger)count price:(float)price {
-    NSLog(@"DSAShoppingCart addObject: %@", object.name);
-    if (!object || count <= 0) return;
 
-    NSString *key = object.name;
-    if (!key) return;
-
-    NSMutableArray *items = [NSMutableArray array];
-    for (NSInteger i = 0; i < count; i++) {
-        [items addObject:[object copy]]; // Defensive: use copy
-    }
-
-    NSDictionary *entry = @{
-        @"items": items,
-        @"price": @(price)
-    };
-
-    self.cartContents[key] = entry;
-}
-*/
 - (void)addObject:(DSAObject *)object count:(NSInteger)count price:(float)price {
     NSLog(@"DSAShoppingCart addObject: %@", object.name);
     if (!object || count <= 0) return;

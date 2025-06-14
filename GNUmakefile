@@ -58,6 +58,8 @@ Resources/DSACharacterSelectionWindow.gorm \
 Resources/DSACharacterMultiSelectionWindow.gorm \
 Resources/DSALocalMapView_Adventure.gorm \
 Resources/DSAShopView.gorm \
+Resources/DSAShopBargain.gorm \
+Resources/DSAConversationTextOnly.gorm \
 Resources/Aventurien.jpg \
 Resources/Dolch.webp \
 Resources/Jagdmesser-firnelfisch.webp \
@@ -5734,7 +5736,10 @@ DSACharacterMultiSelectionWindowController.h \
 DSAMapCoordinate.h \
 DSAShopViewController.h \
 DSAShopItemButton.h \
-DSAShoppingCart.h
+DSAShoppingCart.h \
+DSAShopBargainController.h \
+DSAWallet.h \
+DSAConversationController.h
 
 #
 # Objective-C Class files
@@ -5811,7 +5816,10 @@ DSACharacterMultiSelectionWindowController.m \
 DSAMapCoordinate.m \
 DSAShopViewController.m \
 DSAShopItemButton.m \
-DSAShoppingCart.m
+DSAShoppingCart.m \
+DSAShopBargainController.m \
+DSAWallet.m \
+DSAConversationController.m
 
 #
 # Other sources

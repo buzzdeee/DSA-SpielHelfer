@@ -45,6 +45,7 @@ static NSString * const DSACharacterDragType = @"DSACharacterDragType";
 
 - (void)mouseDown:(NSEvent *)event {
     if (event.clickCount == 2) {
+        NSLog(@"DSACharacterPortraitView doubleClick characterDocument: %@", [self.characterDocument class]);
         if (self.characterDocument) {
             [self.characterDocument showCharacterWindow];
         }

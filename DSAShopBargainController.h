@@ -5,7 +5,7 @@
 
    Author: Sebastian Reitenbach
 
-   Created: 2025-06-09 22:49:05 +0200 by sebastia
+   Created: 2025-06-12 21:42:00 +0200 by sebastia
 
    This application is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,24 +22,32 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
-#ifndef _DSASHOPITEMBUTTON_H_
-#define _DSASHOPITEMBUTTON_H_
+#ifndef _DSASHOPBARGAINCONTROLLER_H_
+#define _DSASHOPBARGAINCONTROLLER_H_
 
 #import <AppKit/AppKit.h>
+#import "DSAShopViewController.h"
 
-@class DSAObject;
+@class DSAAdventureGroup;
 @class DSAShoppingCart;
 
-@interface DSAShopItemButton : NSButton
-@property (nonatomic, strong) DSAObject *object;
+@interface DSAShopBargainController : NSWindowController
+
+@property (nonatomic, copy) void (^completionHandler)(BOOL result);
+@property (nonatomic, assign) DSAShopMode mode;
 @property (nonatomic, weak) DSAShoppingCart *shoppingCart;
-@property (nonatomic, assign) float maxSilber;
 
-@property (nonatomic, assign) BOOL isHovered;
+@property (nonatomic, weak) IBOutlet NSPopUpButton *popupCharacter;
+@property (nonatomic, weak) IBOutlet NSSlider *sliderPercent;
+@property (nonatomic, weak) IBOutlet NSTextField *fieldPercentValue;
+@property (nonatomic, weak) IBOutlet NSTextField *fieldBargainResult;
+@property (nonatomic, weak) IBOutlet NSButton *buttonConfirm;
 
-- (void)updateDisplay;
+// max three rounds ...
+@property (nonatomic, assign) NSInteger bargainRound;
+@property (nonatomic, weak) DSAAdventureGroup *activeGroup;
 
 @end
 
-#endif // _DSASHOPITEMBUTTON_H_
+#endif // _DSASHOPBARGAINCONTROLLER_H_
 

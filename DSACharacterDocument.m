@@ -64,30 +64,37 @@
 // we don't want the windows to pop up on startup
 - (void)makeWindowControllers
 { 
-  if (self.windowControllersCreated)
+  NSLog(@"DSACharacterDocument makeWindowControllers");
+  if (self.windowControllersCreated && [self.windowControllers count] > 0)
     {
       NSLog(@"DSACharacterDocument: windowControllers already created");
       return; // Don't create again
     }
-    self.windowControllersCreated = YES;
+    
   
   if (![self.model isMemberOfClass:[DSACharacter class]])
     {
-      NSLog(@"DSACharacterDocument makeWindowControllers skipped window creation on load");
+      NSLog(@"DSACharacterDocument makeWindowControllers skipped window creation on load, but now GOING TO CREATE WINDOW Controller");
       DSACharacterWindowController *windowController = [[DSACharacterWindowController alloc] initWithWindowNibName:[self windowNibName]];
       [self addWindowController:windowController];
+      self.windowControllersCreated = YES;
     }
   else
     {
-      NSLog(@"DSACharacterDocument makeWindowControllers called, and it was DSACharacter class" );
+      NSLog(@"DSACharacterDocument makeWindowControllers called, and it was DSACharacter class, NOT creating window Controller" );
     }
 }
 
 - (void)showCharacterWindow {
-    if (!self.windowControllersCreated) {
+    NSLog(@"DSACharacterDocument showCharacterWindow: %@ %@", [NSNumber numberWithBool: self.windowControllersCreated], [NSNumber numberWithInteger: [self.windowControllers count]]);
+    if (!self.windowControllersCreated || [self.windowControllers count] == 0) {
+        NSLog(@"DSACharacterDocument showCharacterWindow BEFORE makeWindowControllers");
         [self makeWindowControllers]; // Manually create window controllers if not already created
+        NSLog(@"DSACharacterDocument showCharacterWindow AFTER makeWindowControllers");
     }
+    NSLog(@"DSACharacterDocument showCharacterWindow BEFORE showWindows");
     [self showWindows]; // Show the window only when explicitly requested
+    NSLog(@"DSACharacterDocument showCharacterWindow AFTER showWindows");
 }
 
 - (BOOL)isMainWindow:(NSWindow *)window {
