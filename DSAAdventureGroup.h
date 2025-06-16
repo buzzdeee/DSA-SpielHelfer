@@ -31,11 +31,14 @@
 @class DSAPosition;
 @class DSAWeather;
 @class DSAObject;
+@class DSASlot;
+@class DSACharacter;
 
 @interface DSAAdventureGroup : NSObject <NSCoding>
 
 @property (nonatomic, strong) NSMutableArray<NSUUID *> *partyMembers;
 @property (nonatomic, strong) NSMutableArray<NSUUID *> *npcMembers;
+@property (nonatomic, readonly) NSArray<NSUUID *> *allMembers;
 @property (nonatomic, strong) DSAPosition *position;
 @property (nonatomic, assign) DSADirection headingDirection;
 @property (nonatomic, strong) DSAWeather *weather;
@@ -46,7 +49,11 @@
 
 - (float)totalWealthOfGroup;
 - (void)subtractSilber:(float)silber;  // evenly pay in a shop or Inn ...
+- (void)addSilber:(float)silber;       // evenly distribute after sell in shop, or find after fight...
+- (DSACharacter *)findOwnerOfInventorySlot:(DSASlot *)slot; 
 - (void)distributeItems:(DSAObject*)item count: (NSInteger) count; // distributes found or bought items
+- (NSArray<DSASlot *> *)getAllDSASlotsForShop:(NSString *)shopType;  // all inventory slots containing items that can be traded in the given shop type
+
 @end                             
 
 #endif // _DSAADVENTUREGROUP_H_

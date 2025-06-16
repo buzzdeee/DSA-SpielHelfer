@@ -70,10 +70,13 @@ typedef NS_ENUM(NSUInteger, DSASlotType) {
 
 @interface DSASlot : NSObject <NSCoding, NSCopying>
 
+@property (nonatomic, strong) NSUUID *slotID;       // UUID to eas tracking the slot
 @property (nonatomic, assign) DSASlotType slotType; // Define what this slot can hold
 @property (nonatomic, strong) DSAObject *object;    // a DSAobject in the slot
 @property (nonatomic, assign) NSInteger quantity;   // how many objects share the slot
 @property (nonatomic, assign) NSInteger maxItemsPerSlot;  // if a object is in a slot, that can share a single slot, limit to this maximum number
+
++ (DSASlot *)slotWithSlotID:(NSUUID *)slotID;
 
 - (NSInteger)addObject:(DSAObject *)object quantity:(NSInteger)quantity;
 - (NSInteger)removeObjectWithQuantity: (NSInteger)quantityToRemove;

@@ -110,6 +110,7 @@ NS_ASSUME_NONNULL_BEGIN
                    
 - (DSASlot *)findOccupiedBodySlotOfType:(DSASlotType)slotType inModel:(DSACharacter *)model;
 - (DSASlot *)findFreeBodySlotOfType:(NSInteger)slotType inModel:(DSACharacter *)model;
+- (BOOL) isSlotWithID: (NSString *) slotID inModel: (DSACharacter *) model;
 - (BOOL)areBodySlotsAvailableForItem:(DSAObject *)item inModel:(DSACharacter *)model;
 - (BOOL)isItem:(DSAObject *)item compatibleWithSlot:(DSASlot *)slot forModel:(DSACharacter *)model;
 - (BOOL)isItem:(DSAObject *)item compatibleWithSlot:(DSASlot *)slot;         

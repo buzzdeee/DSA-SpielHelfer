@@ -30,6 +30,7 @@
 @class DSAObject;
 @class DSAShopItemButton;
 @class DSAShoppingCart;
+@class DSASlot;
 
 typedef NS_ENUM(NSUInteger, DSAShopMode) {
     DSAShopModeBuy,
@@ -44,7 +45,8 @@ typedef NS_ENUM(NSUInteger, DSAShopMode) {
 @property (nonatomic, assign) float maxSilber;
 
 @property (nonatomic, assign) DSAShopMode mode;
-@property (nonatomic, strong) NSArray<DSAObject *> *allItems;
+@property (nonatomic, strong) NSArray<DSAObject *> *allItems;        // used in DSAShopModeBuy
+@property (nonatomic, strong) NSArray<DSASlot *> *allSlots;          // used in DSAShopModeSell
 @property (nonatomic, weak) DSAShopItemButton *buttonItem0;
 @property (nonatomic, weak) DSAShopItemButton *buttonItem1;
 @property (nonatomic, weak) DSAShopItemButton *buttonItem2;

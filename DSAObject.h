@@ -117,6 +117,8 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
                 withOwnerUUID: (NSUUID *) ownerUUID            
                   withRegions: (NSArray *) regions;
 
+- (BOOL)isEmpty;    // checks if container itself it empty or not                  
+                  
 @end
 // End of DSAObjectContainer
 

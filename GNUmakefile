@@ -5624,6 +5624,12 @@ Resources/buy_icon-32x32.webp \
 Resources/buy_icon-512x512.webp \
 Resources/buy_icon-64x64.webp \
 Resources/buy_icon.webp \
+Resources/sell_icon-128x128.webp \
+Resources/sell_icon-256x256.webp \
+Resources/sell_icon-32x32.webp \
+Resources/sell_icon-512x512.webp \
+Resources/sell_icon-64x64.webp \
+Resources/sell_icon.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \

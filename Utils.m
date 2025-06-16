@@ -26,6 +26,32 @@
 #import "DSASlot.h"
 #import "NSMutableDictionary+Extras.h"
 
+
+NSArray<NSString *> *DSAShopGeneralStoreCategories(void) {
+    static NSArray<NSString *> *categories = nil;
+    if (categories == nil) {
+        categories = [[NSArray alloc] initWithObjects:
+            @"Behälter", @"Beleuchtung", @"Kleidung und Schuhwerk",
+            @"Koch- und Essgeschirr", @"Körperpflege", @"Musikinstrumente",
+            @"Nahrungs- und Genußmittel", @"Schmuck",
+            @"Schreibwaren, Feinmechanik, Optik", @"Seile, Netze, Ketten",
+            @"Sonstiger Reisebedarf", @"Spielzeug, Dekoration und Luxusartikel",
+            @"Tierbedarf", @"Werkzeug",
+            nil];
+    }
+    return categories;
+}
+
+NSArray<NSString *> *DSAShopWeaponStoreCategories(void) {
+    static NSArray<NSString *> *categories = nil;
+    if (categories == nil) {
+        categories = [[NSArray alloc] initWithObjects:
+            @"Munition", @"Rüstzeug", @"Waffen", @"Waffenzubehör",
+            nil];
+    }
+    return categories;
+}
+
 @implementation Utils
 
 static Utils *sharedInstance = nil;
@@ -55,6 +81,8 @@ static NSMutableDictionary *sharisadDancesDict;
 static NSMutableDictionary *blessedLiturgiesDict;
 static NSMutableDictionary *namesDict;
 static NSMutableDictionary *imagesIndexDict;
+
+
 
 + (instancetype)sharedInstance
 {
@@ -1220,25 +1248,12 @@ static NSMutableDictionary *imagesIndexDict;
     NSDictionary *allObjectsDict = [Utils getDSAObjectsDict];
     NSMutableArray *objectsArr = [[NSMutableArray alloc] init];
 
-    NSArray<NSString *> *kraemerCategories = @[
-        @"Behälter", @"Beleuchtung", @"Kleidung und Schuhwerk",
-        @"Koch- und Essgeschirr", @"Körperpflege", @"Musikinstrumente",
-        @"Nahrungs- und Genußmittel", @"Schmuck",
-        @"Schreibwaren, Feinmechanik, Optik", @"Seile, Netze, Ketten",
-        @"Sonstiger Reisebedarf", @"Spielzeug, Dekoration und Luxusartikel",
-        @"Tierbedarf", @"Werkzeug"
-    ];
-
-    NSArray<NSString *> *waffenCategories = @[
-        @"Munition", @"Rüstzeug", @"Waffen", @"Waffenzubehör"
-    ];
-
     NSArray<NSString *> *relevantCategories = nil;
 
     if ([shopType isEqualToString:@"Krämer"]) {
-        relevantCategories = kraemerCategories;
+        relevantCategories = DSAShopGeneralStoreCategories();
     } else if ([shopType isEqualToString:@"Waffenhändler"]) {
-        relevantCategories = waffenCategories;
+        relevantCategories = DSAShopWeaponStoreCategories();
     } else {
         NSLog(@"Utils getAllDSAObjectsForShop: unknown shop type: %@", shopType);
         return @[];

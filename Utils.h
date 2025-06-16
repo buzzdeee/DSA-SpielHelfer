@@ -43,6 +43,10 @@ typedef NS_ENUM(NSUInteger, DSASeverityLevel) {
     DSASeverityLevelSevere
 };
 
+NSArray<NSString *> *DSAShopGeneralStoreCategories(void);
+NSArray<NSString *> *DSAShopWeaponStoreCategories(void);
+
+
 @interface Utils : NSObject
 
 + (instancetype)sharedInstance;

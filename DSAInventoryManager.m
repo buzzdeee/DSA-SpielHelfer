@@ -901,4 +901,28 @@
     return nil; // No free slot of the required type found
 }
 
+- (BOOL) isSlotWithID: (NSString *) slotID inModel: (DSACharacter *) model
+{
+  for (DSASlot *slot in model.inventory.slots)
+    {
+      if ([[slot.slotID UUIDString] isEqualToString: slotID])
+        {
+          return YES;
+        }
+    }
+  for (NSString *propertyName in model.bodyParts.inventoryPropertyNames)
+    {
+      DSAInventory *inventory = [model.bodyParts valueForKey:propertyName];
+      for (DSASlot *slot in inventory.slots)
+        {
+          // Check if the slot matches the type and is empty
+          if ([[slot.slotID UUIDString] isEqualToString: slotID])
+            {
+              return YES;
+            }
+        }
+    }
+  return NO;
+}
+
 @end

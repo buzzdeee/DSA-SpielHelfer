@@ -24,6 +24,7 @@
 
 #import "DSAShoppingCart.h"
 #import "DSAObject.h"
+#import "DSASlot.h"
 
 @implementation DSAShoppingCart
 
@@ -35,13 +36,22 @@
     return self;
 }
 
-- (void)addObject:(DSAObject *)object count:(NSInteger)count price:(float)price {
+- (void)addObject:(DSAObject *)object count:(NSInteger)count price:(float)price slot: (NSString *) slotID {
     NSLog(@"DSAShoppingCart addObject: %@", object.name);
     if (!object || count <= 0) return;
 
-    NSString *key = object.name;
+    NSString *key;
+    NSLog(@"DSAShoppingCart addObject slotID: %@ Shop Mode: %ld", slotID, self.mode);
+    if (self.mode == DSAShopModeBuy)
+      {
+        key = object.name;
+      }
+    else
+      {
+        key = [NSString stringWithFormat: @"%@|%@", object.name, slotID];
+      }
     if (!key) return;
-
+    NSLog(@"DSAShoppingCart addObject key: %@", key);
     NSDictionary *existingEntry = self.cartContents[key];
 
     if (existingEntry) {
@@ -49,27 +59,34 @@
         for (NSInteger i = 0; i < count; i++) {
             [existingItems addObject:[object copy]];
         }
-        // Preis nicht überschreiben – oder optional aktualisieren?
     } else {
         NSMutableArray *items = [NSMutableArray array];
         for (NSInteger i = 0; i < count; i++) {
             [items addObject:[object copy]];
         }
-
         NSMutableDictionary *entry = [@{
-            @"items": items,
-            @"price": @(price)
-        } mutableCopy];
+                                         @"items": items,
+                                         @"price": @(price),
+                                       } mutableCopy];
 
         self.cartContents[key] = entry;
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAShoppingCartUpdated" object:self];
 }
 
-- (void)removeObject:(DSAObject *)object count:(NSInteger)count {
+- (void)removeObject:(DSAObject *)object count:(NSInteger)count slot: (NSString *) slotID {
     if (!object || count <= 0) return;
     
-    NSString *key = object.name;
+    NSString *key;
+    if (self.mode == DSAShopModeBuy)
+      {
+        key = object.name;
+      }
+    else
+      {
+        key = [NSString stringWithFormat: @"%@|%@", object.name, slotID];
+      }
+    NSLog(@"DSAShoppingCart removeObject key: %@", key);
     //NSMutableDictionary *entry = self.cartContents[key];
     NSDictionary *entry = self.cartContents[key];
     if (!entry) return;
@@ -85,9 +102,18 @@
 }
 
 
-- (NSInteger)countForObject:(DSAObject *)object {
+- (NSInteger)countForObject:(DSAObject *)object andSlotID: (NSString *) uuid {
     if (!object || !object.name) return 0;
-    NSDictionary *entry = self.cartContents[object.name];
+    NSString *key;
+    if (uuid)
+      {
+        key = [NSString stringWithFormat: @"%@|%@", object.name, uuid];
+      }
+    else
+      {
+        key = object.name;
+      }
+    NSDictionary *entry = self.cartContents[key];
     return [entry[@"items"] count];
 }
 

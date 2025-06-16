@@ -28,6 +28,7 @@
 #import "DSACharacter.h"
 #import "DSAWallet.h"
 #import "DSAInventoryManager.h"
+#import "Utils.h"
 
 @implementation DSAAdventureGroup
 
@@ -52,6 +53,12 @@
         _weather = weather;
     }
     return self;
+}
+
+- (NSArray<NSUUID *> *) allMembers
+{
+  NSArray<NSUUID *> *allMembers = [self.partyMembers arrayByAddingObjectsFromArray:self.npcMembers];
+  return allMembers;
 }
 
 #pragma mark - NSCoding
@@ -147,6 +154,43 @@
     }
 }
 
+// evenly distribute money (e.g. loot or reward)
+- (void)addSilber:(float)silber
+{
+    if (silber <= 0.0) return;
+
+    // 1. Collect all group members (party + npc) with wallets
+    NSMutableArray<DSACharacter *> *members = [NSMutableArray array];
+
+    for (NSUUID *modelID in self.partyMembers) {
+        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
+        if (character.wallet) [members addObject:character];
+    }
+    for (NSUUID *modelID in self.npcMembers) {
+        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
+        if (character.wallet) [members addObject:character];
+    }
+
+    NSUInteger memberCount = members.count;
+    if (memberCount == 0) return;
+
+    // 2. Divide evenly
+    float share = silber / memberCount;
+    float distributed = 0.0;
+
+    for (DSACharacter *character in members) {
+        [character.wallet addSilber:share];
+        distributed += share;
+    }
+
+    // 3. Handle rounding error by giving the remaining silver to the first character
+    float roundingError = silber - distributed;
+    if (fabs(roundingError) > 0.01 && members.count > 0) {
+        DSACharacter *first = members[0];
+        [first.wallet addSilber:roundingError];
+    }
+}
+
 - (void)distributeItems:(DSAObject *)item count:(NSInteger)count
 {
     if (!item || count <= 0) return;
@@ -207,6 +251,67 @@
     }
 }
 
+- (NSArray<DSASlot *> *)getAllDSASlotsForShop:(NSString *)shopType {
+    NSMutableArray<DSASlot *> *result = [NSMutableArray array];
+    
+    NSArray<NSString *> *categories = nil;
+    if ([shopType isEqualToString:@"Krämer"]) {
+        categories = DSAShopGeneralStoreCategories();
+    } else if ([shopType isEqualToString:@"Waffenhändler"]) {
+        categories = DSAShopWeaponStoreCategories();
+    } else {
+        return @[];
+    }
+    
+    NSArray<NSUUID *> *allMembers = [[self partyMembers] arrayByAddingObjectsFromArray:[self npcMembers]];
+    
+    for (NSUUID *uuid in allMembers) {
+        DSACharacter *character = [DSACharacter characterWithModelID:uuid];
+        if (!character) continue;
+        
+        DSAInventory *inventory = character.inventory;
+        if (!inventory) continue;
+        
+        for (DSASlot *slot in inventory.slots) {
+            DSAObject *object = slot.object;
+            if (!object) continue;
+            
+            // Kategorie-Prüfung
+            if (![categories containsObject:object.category]) {
+                continue;
+            }
+            
+            // Container-Prüfung
+            if ([object isKindOfClass:[DSAObjectContainer class]]) {
+                DSAObjectContainer *container = (DSAObjectContainer *)object;
+                if (![container isEmpty]) {
+                    continue; // Container ist nicht leer
+                }
+            }
+            
+            [result addObject:slot];
+        }
+    }
+    
+    return result;
+}
+
+- (DSACharacter *)findOwnerOfInventorySlot:(DSASlot *)slot {
+    if (!slot) return nil;
+
+    NSArray<NSUUID *> *allMembers = [self.partyMembers arrayByAddingObjectsFromArray:self.npcMembers];
+    
+    for (NSUUID *uuid in allMembers) {
+        DSACharacter *character = [DSACharacter characterWithModelID:uuid];
+        if (!character || !character.inventory) continue;
+
+        if ([character.inventory.slots containsObject:slot]) {
+            return character; // Slot gefunden
+        }
+    }
+
+    return nil; // Kein Besitzer gefunden
+}
 
 - (NSString *)description
 {

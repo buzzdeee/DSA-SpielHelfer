@@ -5741,7 +5741,13 @@
 	"buy_icon-32x32.webp",
 	"buy_icon-512x512.webp",
 	"buy_icon-64x64.webp",
-	"buy_icon.webp"
+	"buy_icon.webp",
+	"sell_icon-128x128.webp",
+	"sell_icon-256x256.webp",
+	"sell_icon-32x32.webp",
+	"sell_icon-512x512.webp",
+	"sell_icon-64x64.webp",
+	"sell_icon.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;

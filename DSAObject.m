@@ -656,6 +656,15 @@
   return self;
 }
 
+- (BOOL)isEmpty {
+    for (DSASlot *slot in self.slots) {
+        if (slot.object != nil) {
+            return NO;
+        }
+    }
+    return YES;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder: coder];
     if (self)

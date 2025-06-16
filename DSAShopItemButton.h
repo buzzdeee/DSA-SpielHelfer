@@ -26,15 +26,17 @@
 #define _DSASHOPITEMBUTTON_H_
 
 #import <AppKit/AppKit.h>
-
+#import "DSAShopViewController.h"
 @class DSAObject;
 @class DSAShoppingCart;
 
 @interface DSAShopItemButton : NSButton
-@property (nonatomic, strong) DSAObject *object;
+@property (nonatomic, strong) DSAObject *object;             
+@property (nonatomic, assign) NSInteger quantity;            // only used in DSAShopModeBuy
+@property (nonatomic, strong) NSString *slotID;              // only used in DSAShopModeBuy
 @property (nonatomic, weak) DSAShoppingCart *shoppingCart;
-@property (nonatomic, assign) float maxSilber;
-
+@property (nonatomic, assign) float maxSilber;               // only used in DSAShopModeSell
+@property (nonatomic, assign) DSAShopMode mode;
 @property (nonatomic, assign) BOOL isHovered;
 
 - (void)updateDisplay;

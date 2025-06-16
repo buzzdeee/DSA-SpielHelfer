@@ -26,7 +26,7 @@
 #define _DSASHOPPINGCART_H_
 
 #import <Foundation/Foundation.h>
-
+#import "DSAShopViewController.h"
 @class DSAObject;
 
 @interface DSAShoppingCart : NSObject
@@ -36,14 +36,15 @@
 //   - "items": NSArray<DSAObject *> *
 //   - "price": NSNumber * (float value)
 @property (nonatomic, strong, readonly) NSMutableDictionary<NSString *, NSDictionary *> *cartContents;
+@property (nonatomic, assign) DSAShopMode mode;
 
 // Add copies of the object to the cart (count times), with given price
-- (void)addObject:(DSAObject *)object count:(NSInteger)count price:(float)price;
+- (void)addObject:(DSAObject *)object count:(NSInteger)count price:(float)price slot:(NSString *)slotID;
 
-- (void)removeObject:(DSAObject *)object count:(NSInteger)count;
+- (void)removeObject:(DSAObject *)object count:(NSInteger)count slot:(NSString *) slotID;
 
 // returns count of a specific object in the shopping cart
-- (NSInteger)countForObject:(DSAObject *)object;
+- (NSInteger)countForObject:(DSAObject *)object andSlotID: (NSString *) uuid;
 
 // Calculate total price of all items in cart
 - (float)totalSum;

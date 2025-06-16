@@ -138,9 +138,344 @@ extern NSString * const DSACharacterHighlightedNotification;
      
 }
 
+- (DSAActionIcon *)clearActionIcon:(DSAActionIcon *)oldIcon {
+    NSRect frame = oldIcon.frame;
+    DSAActionIcon *emptyIcon = [[DSAActionIcon alloc] initWithFrame:frame];
+    [emptyIcon setImageFrameStyle:NSImageFramePhoto];
+    [self replaceView:oldIcon withView:emptyIcon];
+    
+    return emptyIcon;
+}
+
 - (void) setupActionIcons
 {
-    NSLog(@"DSAAdventureWindowController updateActionIcons called!!!!");
+  DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
+  DSAAdventure *adventure = adventureDoc.model;
+  DSAAdventureGroup *activeGroup = adventure.activeGroup;
+  DSAPosition *currentPosition = activeGroup.position;
+  DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
+  if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
+    {
+      DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;
+      DSALocalMapTile *currentTile = [lml tileAtCoordinate: currentPosition.mapCoordinate];
+      if ([currentTile isKindOfClass: [DSALocalMapTileBuildingShop class]])
+        {
+          if ([self.imageActionIcon0 isKindOfClass: [DSAActionIconChat class]])
+            {
+              [self.imageActionIcon0 updateAppearance];
+            }
+          else
+            {
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"chat" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon0 withView:newIcon];
+              self.imageActionIcon0 = newIcon;
+              [self.imageActionIcon0 updateAppearance];
+            }
+          if ([self.imageActionIcon1 isKindOfClass: [DSAActionIconBuy class]])
+            {
+              [self.imageActionIcon1 updateAppearance];
+            }
+          else
+            {          
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"buy" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon1 withView:newIcon];
+              self.imageActionIcon1 = newIcon;
+            }
+
+          if ([self.imageActionIcon2 isKindOfClass: [DSAActionIconSell class]])
+            {
+              [self.imageActionIcon2 updateAppearance];
+            }
+          else
+            {                     
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"sell" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon2 withView:newIcon];
+              self.imageActionIcon2 = newIcon;
+              [self.imageActionIcon2 updateAppearance];
+            }
+          self.imageActionIcon3 = [self clearActionIcon:self.imageActionIcon3];
+          self.imageActionIcon4 = [self clearActionIcon:self.imageActionIcon4];
+          self.imageActionIcon5 = [self clearActionIcon:self.imageActionIcon5];
+          if ([self.imageActionIcon6 isKindOfClass: [DSAActionIconSwitchActiveGroup class]])
+            {
+              [self.imageActionIcon6 updateAppearance];
+            }
+          else
+            {            
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"switchActiveGroup" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon6 withView:newIcon];
+              self.imageActionIcon6 = newIcon;
+              [self.imageActionIcon6 updateAppearance];
+            }
+          self.imageActionIcon7 = [self clearActionIcon:self.imageActionIcon7];
+          if ([self.imageActionIcon8 isKindOfClass: [DSAActionIconLeave class]])
+            {
+              [self.imageActionIcon8 updateAppearance];
+            }
+          else
+            {                     
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"leave" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon8 withView:newIcon];
+              self.imageActionIcon8 = newIcon;  
+              [self.imageActionIcon8 updateAppearance];                           
+            }
+        }
+      else if ([currentTile isKindOfClass: [DSALocalMapTileBuildingInn class]])
+        {
+          if ([self.imageActionIcon0 isKindOfClass: [DSAActionIconChat class]])
+            {
+              [self.imageActionIcon0 updateAppearance];
+            }
+          else
+            {         
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"chat" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon0 withView:newIcon];
+              self.imageActionIcon0 = newIcon;
+              [self.imageActionIcon0 updateAppearance];
+            }
+          self.imageActionIcon1 = [self clearActionIcon:self.imageActionIcon1];  
+          self.imageActionIcon2 = [self clearActionIcon:self.imageActionIcon2];
+          self.imageActionIcon3 = [self clearActionIcon:self.imageActionIcon3];
+          self.imageActionIcon4 = [self clearActionIcon:self.imageActionIcon4];
+          self.imageActionIcon5 = [self clearActionIcon:self.imageActionIcon5];
+          if ([self.imageActionIcon6 isKindOfClass: [DSAActionIconSwitchActiveGroup class]])
+            {
+              [self.imageActionIcon6 updateAppearance];
+            }
+          else
+            {             
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"switchActiveGroup" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon6 withView:newIcon];
+              self.imageActionIcon6 = newIcon;
+              [self.imageActionIcon6 updateAppearance];          
+            }
+          self.imageActionIcon7 = [self clearActionIcon:self.imageActionIcon7];
+          if ([self.imageActionIcon8 isKindOfClass: [DSAActionIconLeave class]])
+            {
+              [self.imageActionIcon8 updateAppearance];
+            }
+          else
+            {             
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"leave" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon8 withView:newIcon];
+              self.imageActionIcon8 = newIcon; 
+              [self.imageActionIcon8 updateAppearance];                            
+            }
+        }
+      else if ([currentTile isKindOfClass: [DSALocalMapTileBuildingHealer class]])
+        {
+          if ([self.imageActionIcon0 isKindOfClass: [DSAActionIconChat class]])
+            {
+              [self.imageActionIcon0 updateAppearance];
+            }
+          else
+            {         
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"chat" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon0 withView:newIcon];
+              self.imageActionIcon0 = newIcon;
+              [self.imageActionIcon0 updateAppearance];
+            }
+          self.imageActionIcon1 = [self clearActionIcon:self.imageActionIcon1];  
+          self.imageActionIcon2 = [self clearActionIcon:self.imageActionIcon2];
+          self.imageActionIcon3 = [self clearActionIcon:self.imageActionIcon3];
+          self.imageActionIcon4 = [self clearActionIcon:self.imageActionIcon4];
+          self.imageActionIcon5 = [self clearActionIcon:self.imageActionIcon5];
+          if ([self.imageActionIcon6 isKindOfClass: [DSAActionIconSwitchActiveGroup class]])
+            {
+              [self.imageActionIcon6 updateAppearance];
+            }
+          else
+            {            
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"switchActiveGroup" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon6 withView:newIcon];
+              self.imageActionIcon6 = newIcon;
+              [self.imageActionIcon6 updateAppearance];
+            }
+          self.imageActionIcon7 = [self clearActionIcon:self.imageActionIcon7];
+          if ([self.imageActionIcon8 isKindOfClass: [DSAActionIconLeave class]])
+            {
+              [self.imageActionIcon8 updateAppearance];
+            }
+          else
+            {                    
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"leave" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon8 withView:newIcon];
+              self.imageActionIcon8 = newIcon;
+              [self.imageActionIcon8 updateAppearance];                            
+            }
+        }
+      else if ([currentTile isKindOfClass: [DSALocalMapTileBuildingSmith class]])
+        {
+          if ([self.imageActionIcon0 isKindOfClass: [DSAActionIconChat class]])
+            {
+              [self.imageActionIcon0 updateAppearance];
+            }
+          else
+            {         
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"chat" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon0 withView:newIcon];
+              self.imageActionIcon0 = newIcon;
+              [self.imageActionIcon0 updateAppearance];
+            }
+          self.imageActionIcon1 = [self clearActionIcon:self.imageActionIcon1];  
+          self.imageActionIcon2 = [self clearActionIcon:self.imageActionIcon2];
+          self.imageActionIcon3 = [self clearActionIcon:self.imageActionIcon3];
+          self.imageActionIcon4 = [self clearActionIcon:self.imageActionIcon4];
+          self.imageActionIcon5 = [self clearActionIcon:self.imageActionIcon5];       
+          if ([self.imageActionIcon6 isKindOfClass: [DSAActionIconSwitchActiveGroup class]])
+            {
+              [self.imageActionIcon6 updateAppearance];
+            }
+          else
+            {            
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"switchActiveGroup" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon6 withView:newIcon];
+              self.imageActionIcon6 = newIcon;
+              [self.imageActionIcon6 updateAppearance];
+            }
+          self.imageActionIcon7 = [self clearActionIcon:self.imageActionIcon7];
+          if ([self.imageActionIcon8 isKindOfClass: [DSAActionIconLeave class]])
+            {
+              [self.imageActionIcon8 updateAppearance];
+            }
+          else
+            {                    
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"leave" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon8 withView:newIcon];
+              self.imageActionIcon8 = newIcon;
+              [self.imageActionIcon8 updateAppearance];                             
+            }
+        }
+      else if ([currentTile isKindOfClass: [DSALocalMapTileBuildingTemple class]])
+        {
+          if ([self.imageActionIcon0 isKindOfClass: [DSAActionIconChat class]])
+            {
+              [self.imageActionIcon0 updateAppearance];
+            }
+          else
+            {         
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"chat" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon0 withView:newIcon];
+              self.imageActionIcon0 = newIcon;
+              [self.imageActionIcon0 updateAppearance];
+            }
+
+          if ([self.imageActionIcon1 isKindOfClass: [DSAActionIconAddToGroup class]])
+            {
+              [self.imageActionIcon1 updateAppearance];
+            }
+          else
+            {                       
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"addToGroup" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon1 withView:newIcon];
+              self.imageActionIcon1 = newIcon;
+              [self.imageActionIcon1 updateAppearance];
+            }
+
+          if ([self.imageActionIcon2 isKindOfClass: [DSAActionIconRemoveFromGroup class]])
+            {
+              [self.imageActionIcon2 updateAppearance];
+            }
+          else
+            {                 
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"removeFromGroup" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon2 withView:newIcon];
+              self.imageActionIcon2 = newIcon;
+              [self.imageActionIcon2 updateAppearance];          
+            }
+          self.imageActionIcon3 = [self clearActionIcon:self.imageActionIcon3];
+          self.imageActionIcon4 = [self clearActionIcon:self.imageActionIcon4];
+          self.imageActionIcon5 = [self clearActionIcon:self.imageActionIcon5]; 
+          if ([self.imageActionIcon6 isKindOfClass: [DSAActionIconSwitchActiveGroup class]])
+            {
+              [self.imageActionIcon6 updateAppearance];
+            }
+          else
+            {            
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"switchActiveGroup" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon6 withView:newIcon];
+              self.imageActionIcon6 = newIcon;
+              [self.imageActionIcon6 updateAppearance];
+            }          
+          self.imageActionIcon7 = [self clearActionIcon:self.imageActionIcon7];
+          if ([self.imageActionIcon8 isKindOfClass: [DSAActionIconLeave class]])
+            {
+              [self.imageActionIcon8 updateAppearance];
+            }
+          else
+            {                    
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"leave" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon8 withView:newIcon];
+              self.imageActionIcon8 = newIcon;
+              [self.imageActionIcon8 updateAppearance];                             
+            }                             
+        }
+      else if ([currentTile isMemberOfClass: [DSALocalMapTileStreet class]] || 
+               [currentTile isMemberOfClass: [DSALocalMapTileGreen class]])
+        {
+          if ([self.imageActionIcon0 isKindOfClass: [DSAActionIconSplitGroup class]])
+            {
+              [self.imageActionIcon0 updateAppearance];
+            }
+          else
+            {         
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"splitGroup" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon0 withView:newIcon];
+              self.imageActionIcon0 = newIcon;
+              [self.imageActionIcon0 updateAppearance];    
+            }
+
+          if ([self.imageActionIcon1 isKindOfClass: [DSAActionIconJoinGroups class]])
+            {
+              [self.imageActionIcon1 updateAppearance];
+            }
+          else
+            {                
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"joinGroups" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon1 withView:newIcon];
+              self.imageActionIcon1 = newIcon;
+              [self.imageActionIcon1 updateAppearance];
+            }
+          self.imageActionIcon2 = [self clearActionIcon:self.imageActionIcon2];  
+          self.imageActionIcon3 = [self clearActionIcon:self.imageActionIcon3];
+          self.imageActionIcon4 = [self clearActionIcon:self.imageActionIcon4];
+          self.imageActionIcon5 = [self clearActionIcon:self.imageActionIcon5];
+          if ([self.imageActionIcon6 isKindOfClass: [DSAActionIconSwitchActiveGroup class]])
+            {
+              [self.imageActionIcon6 updateAppearance];
+            }
+          else
+            {            
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"switchActiveGroup" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon6 withView:newIcon];
+              self.imageActionIcon6 = newIcon;
+              [self.imageActionIcon6 updateAppearance];
+            }          
+          
+          if ([self.imageActionIcon7 isKindOfClass: [DSAActionIconSwitchActiveGroup class]])
+            {
+              [self.imageActionIcon7 updateAppearance];
+            }
+          else
+            {             
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"map" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon7 withView:newIcon];
+              self.imageActionIcon7 = newIcon; 
+              [self.imageActionIcon7 updateAppearance];                                               
+            }
+          self.imageActionIcon8 = [self clearActionIcon:self.imageActionIcon8];
+        }               
+    }
+  else
+    {
+      NSLog(@"DSAAdventureWindowController setupActionIcons for global locations not yet defined!!!");
+    }
+  
+}
+
+- (void) setupActionIconsXXX
+{
+    NSLog(@"DSAAdventureWindowController setupActionIcons called!!!!");
 
     DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"addToGroup" andSize:@"128x128"];
     [self replaceView:self.imageActionIcon0 withView:newIcon];
@@ -166,24 +501,25 @@ extern NSString * const DSACharacterHighlightedNotification;
     [self replaceView:self.imageActionIcon5 withView:newIcon];
     self.imageActionIcon5 = newIcon;
         
+    newIcon = [DSAActionIcon iconWithAction:@"sell" andSize:@"128x128"];
+    [self replaceView:self.imageActionIcon6 withView:newIcon];
+    self.imageActionIcon6 = newIcon;
+        
     newIcon = [DSAActionIcon iconWithAction:@"map" andSize:@"128x128"];
     [self replaceView:self.imageActionIcon7 withView:newIcon];
     self.imageActionIcon7 = newIcon;
         
     newIcon = [DSAActionIcon iconWithAction:@"leave" andSize:@"128x128"];
     [self replaceView:self.imageActionIcon8 withView:newIcon];
-    self.imageActionIcon8 = newIcon;    
-    
-    newIcon = [DSAActionIcon iconWithAction:@"map" andSize:@"128x128"];
-    [self replaceView:self.imageActionIcon7 withView:newIcon];
-    self.imageActionIcon7 = newIcon;    
+    self.imageActionIcon8 = newIcon;       
 }
 
 - (void) updateActionIcons
 {
     NSLog(@"DSAAdventureWindowController updateActionIcons called!!!!");
-
-    [self.imageActionIcon0 updateAppearance];
+    [self setupActionIcons];
+    
+/*    [self.imageActionIcon0 updateAppearance];
     [self.imageActionIcon1 updateAppearance];
     [self.imageActionIcon2 updateAppearance];
     [self.imageActionIcon3 updateAppearance];
@@ -191,7 +527,7 @@ extern NSString * const DSACharacterHighlightedNotification;
     [self.imageActionIcon5 updateAppearance];
     [self.imageActionIcon6 updateAppearance];
     [self.imageActionIcon7 updateAppearance];                            
-    [self.imageActionIcon8 updateAppearance];    
+    [self.imageActionIcon8 updateAppearance];    */
     [self updateMainImageView];
 }
 

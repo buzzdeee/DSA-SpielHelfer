@@ -26,11 +26,74 @@
 
 @implementation DSASlot
 
+static NSMutableDictionary<NSUUID *, DSASlot *> *slotRegistry = nil;
+
++ (DSASlot *)slotWithSlotID:(NSUUID *)slotID {
+    @synchronized(slotRegistry) {
+        // Just look up the slot by slotID (NSUUID key)
+        DSASlot *slot = slotRegistry[slotID];
+        if (slot) {
+            NSLog(@"Found matching slotID: %@", [slotID UUIDString]);
+        } else {
+            NSLog(@"Slot with slotID: %@ not found", [slotID UUIDString]);
+        }
+        return slot;
+    }
+}
+
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        // Generate a unique UUID for modelID
+        @synchronized([DSASlot class]) {
+            if (!slotRegistry) {
+                slotRegistry = [NSMutableDictionary dictionary];
+            }
+            if (_slotID == nil)
+              {
+                _slotID = [NSUUID UUID]; // Use NSUUID for a truly unique ID
+                NSLog(@"Generated slotID: %@", _slotID);
+              }
+
+            if (!slotRegistry[_slotID]) {
+                slotRegistry[_slotID] = self; // Register the character
+            } else {
+                NSLog(@"Warning: slotID %@ already exists!", _slotID);
+            }
+        }
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    NSLog(@"DSACharacter dealloc called");
+    @synchronized([DSASlot class]) {
+        [slotRegistry removeObjectForKey:_slotID];
+        NSLog(@"Slot with slotID %@ removed from registry.", _slotID);
+    }
+}
+
 - (instancetype)initWithCoder:(NSCoder *)coder
 {
   self = [super init];
   if (self)
     {
+      @synchronized([DSASlot class]) {
+          if (!slotRegistry) {
+              slotRegistry = [NSMutableDictionary dictionary];
+          }
+          if (_slotID == nil)
+            {
+              _slotID = [NSUUID UUID]; // Use NSUUID for a truly unique ID
+              NSLog(@"Generated slotID: %@", _slotID);
+            }
+           if (!slotRegistry[_slotID]) {
+              slotRegistry[_slotID] = self; // Register the character
+          } else {
+              NSLog(@"Warning: slotID %@ already exists!", _slotID);
+          }
+      }    
       self.object = [coder decodeObjectForKey:@"object"];
       self.quantity = [coder decodeIntegerForKey:@"quantity"];
       self.slotType = [coder decodeIntegerForKey:@"slotType"];
@@ -41,6 +104,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
+  //[coder encodeObject:self.slotID forKey:@"slotID"];   // we don't need this, regenerating slots on initWithCoder
   [coder encodeObject:self.object forKey:@"object"];
   [coder encodeInteger:self.quantity forKey:@"quantity"];
   [coder encodeInteger:self.slotType forKey:@"slotType"];

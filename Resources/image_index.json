@@ -12,12 +12,12 @@
   "Addiermaschine": [
     "Addiermaschine_1-32x32.webp",
     "Addiermaschine_1-512x512.webp",
+    "Addiermaschine_1-64x64.webp",
     "Addiermaschine_1.webp",
     "Addiermaschine_2-32x32.webp",
     "Addiermaschine_2-512x512.webp",
     "Addiermaschine_2-64x64.webp",
-    "Addiermaschine_2.webp",
-    "Addiermaschine_1-64x64.webp"
+    "Addiermaschine_2.webp"
   ],
   "Ahle": [
     "Ahle_1.webp",
@@ -28,16 +28,6 @@
     "Ahle_2-512x512.webp",
     "Ahle_2-64x64.webp",
     "Ahle_2.webp"
-  ],
-  "Amulett_Messing": [
-    "Amulett_Messing_1-32x32.webp",
-    "Amulett_Messing_1-512x512.webp",
-    "Amulett_Messing_1-64x64.webp",
-    "Amulett_Messing_1.webp",
-    "Amulett_Messing_2-32x32.webp",
-    "Amulett_Messing_2-512x512.webp",
-    "Amulett_Messing_2-64x64.webp",
-    "Amulett_Messing_2.webp"
   ],
   "Amulett_Bronze": [
     "Amulett_Bronze_1-32x32.webp",
@@ -59,6 +49,16 @@
     "Amulett_Gold_2-64x64.webp",
     "Amulett_Gold_2.webp"
   ],
+  "Amulett_Messing": [
+    "Amulett_Messing_1-32x32.webp",
+    "Amulett_Messing_1-512x512.webp",
+    "Amulett_Messing_1-64x64.webp",
+    "Amulett_Messing_1.webp",
+    "Amulett_Messing_2-32x32.webp",
+    "Amulett_Messing_2-512x512.webp",
+    "Amulett_Messing_2-64x64.webp",
+    "Amulett_Messing_2.webp"
+  ],
   "Amulett_Silber": [
     "Amulett_Silber_1-32x32.webp",
     "Amulett_Silber_1-512x512.webp",
@@ -76,16 +76,6 @@
     "Amulett_Silber_4-512x512.webp",
     "Amulett_Silber_4-64x64.webp",
     "Amulett_Silber_4.webp"
-  ],
-  "Armreif_Gold": [
-    "Armreif_Gold_2-64x64.webp",
-    "Armreif_Gold_1-32x32.webp",
-    "Armreif_Gold_1-512x512.webp",
-    "Armreif_Gold_1-64x64.webp",
-    "Armreif_Gold_1.webp",
-    "Armreif_Gold_2-32x32.webp",
-    "Armreif_Gold_2-512x512.webp",
-    "Armreif_Gold_2.webp"
   ],
   "Angelhaken": [
     "Angelhaken_1-32x32.webp",
@@ -124,6 +114,16 @@
     "Armreif_Bronze_2-512x512.webp",
     "Armreif_Bronze_2-64x64.webp",
     "Armreif_Bronze_2.webp"
+  ],
+  "Armreif_Gold": [
+    "Armreif_Gold_1-32x32.webp",
+    "Armreif_Gold_1-512x512.webp",
+    "Armreif_Gold_1-64x64.webp",
+    "Armreif_Gold_1.webp",
+    "Armreif_Gold_2-32x32.webp",
+    "Armreif_Gold_2-512x512.webp",
+    "Armreif_Gold_2-64x64.webp",
+    "Armreif_Gold_2.webp"
   ],
   "Armreif_Messing": [
     "Armreif_Messing_1-32x32.webp",
@@ -270,16 +270,6 @@
     "Bolzentasche_Leder_2-512x512.webp",
     "Bolzentasche_Leder_2-64x64.webp",
     "Bolzentasche_Leder_2.webp"
-  ],
-  "Echsische_Axt": [
-    "Echsische_Axt_1-512x512.webp",
-    "Echsische_Axt_1.webp",
-    "Echsische_Axt_2.webp",
-    "Echsische_Axt_1-32x32.webp",
-    "Echsische_Axt_1-64x64.webp",
-    "Echsische_Axt_2-32x32.webp",
-    "Echsische_Axt_2-64x64.webp",
-    "Echsische_Axt_2-512x512.webp"
   ],
   "Bolzentasche_Stoff": [
     "Bolzentasche_Stoff_1-32x32.webp",
@@ -431,29 +421,35 @@
     "Waffenhaendler_2-64x64.webp",
     "Waffenhaendler_2-512x512.webp"
   ],
+  "TH_Kraemer": [
+    "TH_Kraemer_2.webp",
+    "TH_Kraemer_1.webp",
+    "TH_Kraemer_1-32x32.webp",
+    "TH_Kraemer_1-64x64.webp",
+    "TH_Kraemer_1-512x512.webp",
+    "TH_Kraemer_2-32x32.webp",
+    "TH_Kraemer_2-64x64.webp",
+    "TH_Kraemer_2-512x512.webp"
+  ],
   "TH_Haus": [
-    "TH_Haus_2-32x32.webp",
-    "TH_Haus_2-512x512.webp",
-    "TH_Haus_2-64x64.webp",
     "TH_Haus_1-32x32.webp",
-    "TH_Haus_1-512x512.webp",
     "TH_Haus_1-64x64.webp",
+    "TH_Haus_1-512x512.webp",
+    "TH_Haus_2-32x32.webp",
     "TH_Haus_1.webp",
+    "TH_Haus_2-64x64.webp",
+    "TH_Haus_2-512x512.webp",
     "TH_Haus_2.webp"
   ],
-  "TH_Heiler": [
-    "TH_Heiler_1-32x32.webp",
-    "TH_Heiler_1-512x512.webp",
-    "TH_Heiler_1-64x64.webp",
-    "TH_Heiler_1.webp",
-    "TH_Heiler_2-32x32.webp",
-    "TH_Heiler_2-512x512.webp",
-    "TH_Heiler_2-64x64.webp",
-    "TH_Heiler_2.webp",
-    "TH_Heiler_3-32x32.webp",
-    "TH_Heiler_3-512x512.webp",
-    "TH_Heiler_3-64x64.webp",
-    "TH_Heiler_3.webp"
+  "TH_Kraeuterhaendler": [
+    "TH_Kraeuterhaendler_1.webp",
+    "TH_Kraeuterhaendler_2.webp",
+    "TH_Kraeuterhaendler_1-32x32.webp",
+    "TH_Kraeuterhaendler_1-64x64.webp",
+    "TH_Kraeuterhaendler_1-512x512.webp",
+    "TH_Kraeuterhaendler_2-32x32.webp",
+    "TH_Kraeuterhaendler_2-64x64.webp",
+    "TH_Kraeuterhaendler_2-512x512.webp"
   ],
   "Ferkina_male": [
     "Ferkina_male_1.webp",
@@ -471,13 +467,13 @@
   ],
   "Dolchscheide": [
     "Dolchscheide_1.webp",
-    "Dolchscheide_2.webp",
     "Dolchscheide_1-32x32.webp",
     "Dolchscheide_1-512x512.webp",
     "Dolchscheide_1-64x64.webp",
     "Dolchscheide_2-32x32.webp",
     "Dolchscheide_2-512x512.webp",
-    "Dolchscheide_2-64x64.webp"
+    "Dolchscheide_2-64x64.webp",
+    "Dolchscheide_2.webp"
   ],
   "Drehleier": [
     "Drehleier_1-32x32.webp",
@@ -536,10 +532,10 @@
     "Fanfare_2-64x64.webp"
   ],
   "Eimer_Leder": [
-    "Eimer_Leder_1.webp",
     "Eimer_Leder_1-32x32.webp",
     "Eimer_Leder_1-512x512.webp",
     "Eimer_Leder_1-64x64.webp",
+    "Eimer_Leder_1.webp",
     "Eimer_Leder_2-32x32.webp",
     "Eimer_Leder_2-512x512.webp",
     "Eimer_Leder_2-64x64.webp",
@@ -547,19 +543,13 @@
   ],
   "Eisenpfanne_gross": [
     "Eisenpfanne_gross_1-32x32.webp",
+    "Eisenpfanne_gross_1-512x512.webp",
     "Eisenpfanne_gross_1-64x64.webp",
     "Eisenpfanne_gross_1.webp",
     "Eisenpfanne_gross_2-32x32.webp",
     "Eisenpfanne_gross_2-512x512.webp",
     "Eisenpfanne_gross_2-64x64.webp",
-    "Eisenpfanne_gross_2.webp",
-    "Eisenpfanne_gross_1-512x512.webp"
-  ],
-  "Eisentopf": [
-    "Eisentopf_1-32x32.webp",
-    "Eisentopf_1-512x512.webp",
-    "Eisentopf_1-64x64.webp",
-    "Eisentopf_1.webp"
+    "Eisenpfanne_gross_2.webp"
   ],
   "Eisenpfanne_klein": [
     "Eisenpfanne_klein_1-32x32.webp",
@@ -571,15 +561,11 @@
     "Eisenpfanne_klein_2-64x64.webp",
     "Eisenpfanne_klein_2.webp"
   ],
-  "Hanfseil_verstaerkt": [
-    "Hanfseil_verstaerkt_1-32x32.webp",
-    "Hanfseil_verstaerkt_1-512x512.webp",
-    "Hanfseil_verstaerkt_1-64x64.webp",
-    "Hanfseil_verstaerkt_1.webp",
-    "Hanfseil_verstaerkt_2-32x32.webp",
-    "Hanfseil_verstaerkt_2-512x512.webp",
-    "Hanfseil_verstaerkt_2-64x64.webp",
-    "Hanfseil_verstaerkt_2.webp"
+  "Eisentopf": [
+    "Eisentopf_1-32x32.webp",
+    "Eisentopf_1-512x512.webp",
+    "Eisentopf_1-64x64.webp",
+    "Eisentopf_1.webp"
   ],
   "Eispickel": [
     "Eispickel_1-32x32.webp",
@@ -608,30 +594,30 @@
     "Essbesteck_Silber_2.webp"
   ],
   "Essbesteck_Zinn": [
-    "Essbesteck_Zinn_1.webp",
     "Essbesteck_Zinn_1-32x32.webp",
     "Essbesteck_Zinn_1-512x512.webp",
     "Essbesteck_Zinn_1-64x64.webp",
+    "Essbesteck_Zinn_1.webp",
     "Essbesteck_Zinn_2.webp",
     "Essbesteck_Zinn_2-32x32.webp",
     "Essbesteck_Zinn_2-512x512.webp",
     "Essbesteck_Zinn_2-64x64.webp"
   ],
   "Fadenzirkel": [
-    "Fadenzirkel_1.webp",
     "Fadenzirkel_1-32x32.webp",
     "Fadenzirkel_1-512x512.webp",
     "Fadenzirkel_1-64x64.webp",
+    "Fadenzirkel_1.webp",
     "Fadenzirkel_2.webp",
     "Fadenzirkel_2-32x32.webp",
     "Fadenzirkel_2-512x512.webp",
     "Fadenzirkel_2-64x64.webp"
   ],
   "Falkenhaube": [
-    "Falkenhaube_1.webp",
     "Falkenhaube_1-32x32.webp",
     "Falkenhaube_1-512x512.webp",
     "Falkenhaube_1-64x64.webp",
+    "Falkenhaube_1.webp",
     "Falkenhaube_2-32x32.webp",
     "Falkenhaube_2-512x512.webp",
     "Falkenhaube_2-64x64.webp",
@@ -648,10 +634,10 @@
     "Falknerhandschuh_2.webp"
   ],
   "Federmesser": [
-    "Federmesser_1.webp",
     "Federmesser_1-32x32.webp",
     "Federmesser_1-512x512.webp",
     "Federmesser_1-64x64.webp",
+    "Federmesser_1.webp",
     "Federmesser_2-32x32.webp",
     "Federmesser_2-512x512.webp",
     "Federmesser_2-64x64.webp",
@@ -742,10 +728,10 @@
     "Fischernetz_1-512x512.webp",
     "Fischernetz_1-64x64.webp",
     "Fischernetz_1.webp",
-    "Fischernetz_2.webp",
     "Fischernetz_2-32x32.webp",
     "Fischernetz_2-512x512.webp",
-    "Fischernetz_2-64x64.webp"
+    "Fischernetz_2-64x64.webp",
+    "Fischernetz_2.webp"
   ],
   "Fischernetz_gross": [
     "Fischernetz_gross_1-32x32.webp",
@@ -767,16 +753,6 @@
     "Fleisch_2-512x512.webp",
     "Fleisch_2-64x64.webp"
   ],
-  "Flaschenzug": [
-    "Flaschenzug_1.webp",
-    "Flaschenzug_2.webp",
-    "Flaschenzug_1-32x32.webp",
-    "Flaschenzug_1-512x512.webp",
-    "Flaschenzug_1-64x64.webp",
-    "Flaschenzug_2-32x32.webp",
-    "Flaschenzug_2-512x512.webp",
-    "Flaschenzug_2-64x64.webp"
-  ],
   "Flasche_irden": [
     "Flasche_irden_1-32x32.webp",
     "Flasche_irden_1-512x512.webp",
@@ -797,15 +773,25 @@
     "Flasche_klein_2-64x64.webp",
     "Flasche_klein_2.webp"
   ],
+  "Flaschenzug": [
+    "Flaschenzug_1.webp",
+    "Flaschenzug_1-32x32.webp",
+    "Flaschenzug_1-512x512.webp",
+    "Flaschenzug_1-64x64.webp",
+    "Flaschenzug_2-32x32.webp",
+    "Flaschenzug_2-512x512.webp",
+    "Flaschenzug_2-64x64.webp",
+    "Flaschenzug_2.webp"
+  ],
   "Fuchsschwanz": [
     "Fuchsschwanz_1.webp",
-    "Fuchsschwanz_2.webp",
     "Fuchsschwanz_1-32x32.webp",
     "Fuchsschwanz_1-512x512.webp",
     "Fuchsschwanz_1-64x64.webp",
     "Fuchsschwanz_2-32x32.webp",
     "Fuchsschwanz_2-512x512.webp",
-    "Fuchsschwanz_2-64x64.webp"
+    "Fuchsschwanz_2-64x64.webp",
+    "Fuchsschwanz_2.webp"
   ],
   "Fleischerbeil": [
     "Fleischerbeil_1-32x32.webp",
@@ -838,10 +824,10 @@
     "Geldbeutel_2.webp"
   ],
   "Gemuese": [
-    "Gemuese_1.webp",
     "Gemuese_1-32x32.webp",
     "Gemuese_1-512x512.webp",
     "Gemuese_1-64x64.webp",
+    "Gemuese_1.webp",
     "Gemuese_2-32x32.webp",
     "Gemuese_2-512x512.webp",
     "Gemuese_2-64x64.webp",
@@ -944,8 +930,8 @@
     "Halskette_Bronze_1.webp",
     "Halskette_Bronze_2-32x32.webp",
     "Halskette_Bronze_2-512x512.webp",
-    "Halskette_Bronze_2.webp",
-    "Halskette_Bronze_2-64x64.webp"
+    "Halskette_Bronze_2-64x64.webp",
+    "Halskette_Bronze_2.webp"
   ],
   "Halskette_Gold": [
     "Halskette_Gold_1-32x32.webp",
@@ -978,24 +964,24 @@
     "Hammer_2.webp"
   ],
   "Hanfseil": [
-    "Hanfseil_1.webp",
     "Hanfseil_1-32x32.webp",
     "Hanfseil_1-512x512.webp",
     "Hanfseil_1-64x64.webp",
+    "Hanfseil_1.webp",
     "Hanfseil_2-32x32.webp",
     "Hanfseil_2-512x512.webp",
     "Hanfseil_2-64x64.webp",
     "Hanfseil_2.webp"
   ],
-  "Leim": [
-    "Leim_1.webp",
-    "Leim_2.webp",
-    "Leim_1-32x32.webp",
-    "Leim_1-512x512.webp",
-    "Leim_1-64x64.webp",
-    "Leim_2-32x32.webp",
-    "Leim_2-512x512.webp",
-    "Leim_2-64x64.webp"
+  "Hanfseil_verstaerkt": [
+    "Hanfseil_verstaerkt_1-32x32.webp",
+    "Hanfseil_verstaerkt_1-512x512.webp",
+    "Hanfseil_verstaerkt_1-64x64.webp",
+    "Hanfseil_verstaerkt_1.webp",
+    "Hanfseil_verstaerkt_2-32x32.webp",
+    "Hanfseil_verstaerkt_2-512x512.webp",
+    "Hanfseil_verstaerkt_2-64x64.webp",
+    "Hanfseil_verstaerkt_2.webp"
   ],
   "Hemd_Bausch": [
     "Hemd_Bausch_1-32x32.webp",
@@ -1048,10 +1034,10 @@
     "Hobel_2.webp"
   ],
   "Himmelsfernrohr": [
-    "Himmelsfernrohr_1.webp",
     "Himmelsfernrohr_1-32x32.webp",
     "Himmelsfernrohr_1-512x512.webp",
     "Himmelsfernrohr_1-64x64.webp",
+    "Himmelsfernrohr_1.webp",
     "Himmelsfernrohr_2-32x32.webp",
     "Himmelsfernrohr_2-512x512.webp",
     "Himmelsfernrohr_2-64x64.webp",
@@ -1140,8 +1126,8 @@
   "Holzschild_verstaerkt": [
     "Holzschild_verstaerkt_1-32x32.webp",
     "Holzschild_verstaerkt_1-512x512.webp",
-    "Holzschild_verstaerkt_1.webp",
     "Holzschild_verstaerkt_1-64x64.webp",
+    "Holzschild_verstaerkt_1.webp",
     "Holzschild_verstaerkt_2-32x32.webp",
     "Holzschild_verstaerkt_2-512x512.webp",
     "Holzschild_verstaerkt_2-64x64.webp",
@@ -1227,16 +1213,6 @@
     "Hueftkoecher_2-512x512.webp",
     "Hueftkoecher_2-64x64.webp"
   ],
-  "Jacke_Brokat": [
-    "Jacke_Brokat_1.webp",
-    "Jacke_Brokat_1-32x32.webp",
-    "Jacke_Brokat_1-512x512.webp",
-    "Jacke_Brokat_1-64x64.webp",
-    "Jacke_Brokat_2-32x32.webp",
-    "Jacke_Brokat_2-512x512.webp",
-    "Jacke_Brokat_2-64x64.webp",
-    "Jacke_Brokat_2.webp"
-  ],
   "Huelsenfruechte": [
     "Huelsenfruechte_1-32x32.webp",
     "Huelsenfruechte_1-512x512.webp",
@@ -1256,6 +1232,26 @@
     "Hylailer_Dreikreuz_2-512x512.webp",
     "Hylailer_Dreikreuz_2-64x64.webp",
     "Hylailer_Dreikreuz_2.webp"
+  ],
+  "Leim": [
+    "Leim_1.webp",
+    "Leim_2.webp",
+    "Leim_1-32x32.webp",
+    "Leim_1-512x512.webp",
+    "Leim_1-64x64.webp",
+    "Leim_2-32x32.webp",
+    "Leim_2-512x512.webp",
+    "Leim_2-64x64.webp"
+  ],
+  "Jacke_Brokat": [
+    "Jacke_Brokat_1-32x32.webp",
+    "Jacke_Brokat_1-512x512.webp",
+    "Jacke_Brokat_1-64x64.webp",
+    "Jacke_Brokat_1.webp",
+    "Jacke_Brokat_2-32x32.webp",
+    "Jacke_Brokat_2-512x512.webp",
+    "Jacke_Brokat_2-64x64.webp",
+    "Jacke_Brokat_2.webp"
   ],
   "Jacke_Leder": [
     "Jacke_Leder_1-32x32.webp",
@@ -1297,16 +1293,6 @@
     "Jacke_Wolle_2-64x64.webp",
     "Jacke_Wolle_2.webp"
   ],
-  "Lupe": [
-    "Lupe_1.webp",
-    "Lupe_2.webp",
-    "Lupe_1-32x32.webp",
-    "Lupe_1-512x512.webp",
-    "Lupe_1-64x64.webp",
-    "Lupe_2-32x32.webp",
-    "Lupe_2-512x512.webp",
-    "Lupe_2-64x64.webp"
-  ],
   "Jonglierbaelle": [
     "Jonglierbaelle_1-32x32.webp",
     "Jonglierbaelle_1-512x512.webp",
@@ -1316,16 +1302,6 @@
     "Jonglierbaelle_2-512x512.webp",
     "Jonglierbaelle_2-64x64.webp",
     "Jonglierbaelle_2.webp"
-  ],
-  "Kakao": [
-    "Kakao_1.webp",
-    "Kakao_1-32x32.webp",
-    "Kakao_1-512x512.webp",
-    "Kakao_1-64x64.webp",
-    "Kakao_2-32x32.webp",
-    "Kakao_2-512x512.webp",
-    "Kakao_2-64x64.webp",
-    "Kakao_2.webp"
   ],
   "Jonglierkeulen": [
     "Jonglierkeulen_1-32x32.webp",
@@ -1337,15 +1313,25 @@
     "Jonglierkeulen_2-64x64.webp",
     "Jonglierkeulen_2.webp"
   ],
+  "Kakao": [
+    "Kakao_1-32x32.webp",
+    "Kakao_1-512x512.webp",
+    "Kakao_1-64x64.webp",
+    "Kakao_1.webp",
+    "Kakao_2-32x32.webp",
+    "Kakao_2-512x512.webp",
+    "Kakao_2-64x64.webp",
+    "Kakao_2.webp"
+  ],
   "Kaleidoskop": [
     "Kaleidoskop_1.webp",
-    "Kaleidoskop_2.webp",
     "Kaleidoskop_1-32x32.webp",
     "Kaleidoskop_1-512x512.webp",
     "Kaleidoskop_1-64x64.webp",
     "Kaleidoskop_2-32x32.webp",
     "Kaleidoskop_2-512x512.webp",
-    "Kaleidoskop_2-64x64.webp"
+    "Kaleidoskop_2-64x64.webp",
+    "Kaleidoskop_2.webp"
   ],
   "Kapuzenumhang": [
     "Kapuzenumhang_1-32x32.webp",
@@ -1385,8 +1371,8 @@
   ],
   "Kessel": [
     "Kessel_1-32x32.webp",
-    "Kessel_1-64x64.webp",
     "Kessel_1-512x512.webp",
+    "Kessel_1-64x64.webp",
     "Kessel_1.webp",
     "Kessel_2-32x32.webp",
     "Kessel_2-512x512.webp",
@@ -1489,16 +1475,6 @@
     "Kraeuterbranntwein_2-64x64.webp",
     "Kraeuterbranntwein_2.webp"
   ],
-  "Oelgemaelde_Leinwand": [
-    "Oelgemaelde_Leinwand_2-32x32.webp",
-    "Oelgemaelde_Leinwand_1-32x32.webp",
-    "Oelgemaelde_Leinwand_1-512x512.webp",
-    "Oelgemaelde_Leinwand_1-64x64.webp",
-    "Oelgemaelde_Leinwand_1.webp",
-    "Oelgemaelde_Leinwand_2.webp",
-    "Oelgemaelde_Leinwand_2-512x512.webp",
-    "Oelgemaelde_Leinwand_2-64x64.webp"
-  ],
   "Kraeuterhaendler": [
     "Kraeuterhaendler_1-32x32.webp",
     "Kraeuterhaendler_1-512x512.webp",
@@ -1508,6 +1484,16 @@
     "Kraeuterhaendler_2-512x512.webp",
     "Kraeuterhaendler_2-64x64.webp",
     "Kraeuterhaendler_2.webp"
+  ],
+  "Lupe": [
+    "Lupe_1.webp",
+    "Lupe_2.webp",
+    "Lupe_1-32x32.webp",
+    "Lupe_1-512x512.webp",
+    "Lupe_1-64x64.webp",
+    "Lupe_2-32x32.webp",
+    "Lupe_2-512x512.webp",
+    "Lupe_2-64x64.webp"
   ],
   "Kristallbrille_dunkel": [
     "Kristallbrille_dunkel_1-32x32.webp",
@@ -1529,16 +1515,6 @@
     "Kristallkugel_2-64x64.webp",
     "Kristallkugel_2.webp"
   ],
-  "Kummet": [
-    "Kummet_1.webp",
-    "Kummet_1-32x32.webp",
-    "Kummet_1-512x512.webp",
-    "Kummet_1-64x64.webp",
-    "Kummet_2-32x32.webp",
-    "Kummet_2-512x512.webp",
-    "Kummet_2-64x64.webp",
-    "Kummet_2.webp"
-  ],
   "Kristallpokal": [
     "Kristallpokal_1-32x32.webp",
     "Kristallpokal_1-512x512.webp",
@@ -1548,6 +1524,16 @@
     "Kristallpokal_2-512x512.webp",
     "Kristallpokal_2-64x64.webp",
     "Kristallpokal_2.webp"
+  ],
+  "Kummet": [
+    "Kummet_1-32x32.webp",
+    "Kummet_1-512x512.webp",
+    "Kummet_1-64x64.webp",
+    "Kummet_1.webp",
+    "Kummet_2-32x32.webp",
+    "Kummet_2-512x512.webp",
+    "Kummet_2-64x64.webp",
+    "Kummet_2.webp"
   ],
   "Kupferkessel": [
     "Kupferkessel_1-32x32.webp",
@@ -1821,16 +1807,6 @@
     "Naegel_2-64x64.webp",
     "Naegel_2.webp"
   ],
-  "Obst": [
-    "Obst_1.webp",
-    "Obst_1-32x32.webp",
-    "Obst_1-512x512.webp",
-    "Obst_1-64x64.webp",
-    "Obst_2.webp",
-    "Obst_2-32x32.webp",
-    "Obst_2-512x512.webp",
-    "Obst_2-64x64.webp"
-  ],
   "Nachthemd_Seide": [
     "Nachthemd_Seide_1-32x32.webp",
     "Nachthemd_Seide_1-512x512.webp",
@@ -1881,9 +1857,19 @@
   ],
   "Nasenring_Silber": [
     "Nasenring_Silber_1-32x32.webp",
-    "Nasenring_Silber_1.webp",
     "Nasenring_Silber_1-512x512.webp",
-    "Nasenring_Silber_1-64x64.webp"
+    "Nasenring_Silber_1-64x64.webp",
+    "Nasenring_Silber_1.webp"
+  ],
+  "Obst": [
+    "Obst_1-32x32.webp",
+    "Obst_1-512x512.webp",
+    "Obst_1-64x64.webp",
+    "Obst_1.webp",
+    "Obst_2.webp",
+    "Obst_2-32x32.webp",
+    "Obst_2-512x512.webp",
+    "Obst_2-64x64.webp"
   ],
   "Oelgemaelde_Holz": [
     "Oelgemaelde_Holz_1-32x32.webp",
@@ -1894,6 +1880,16 @@
     "Oelgemaelde_Holz_2-512x512.webp",
     "Oelgemaelde_Holz_2-64x64.webp",
     "Oelgemaelde_Holz_2.webp"
+  ],
+  "Oelgemaelde_Leinwand": [
+    "Oelgemaelde_Leinwand_1-32x32.webp",
+    "Oelgemaelde_Leinwand_1-512x512.webp",
+    "Oelgemaelde_Leinwand_1-64x64.webp",
+    "Oelgemaelde_Leinwand_1.webp",
+    "Oelgemaelde_Leinwand_2-32x32.webp",
+    "Oelgemaelde_Leinwand_2-512x512.webp",
+    "Oelgemaelde_Leinwand_2-64x64.webp",
+    "Oelgemaelde_Leinwand_2.webp"
   ],
   "Oellampe": [
     "Oellampe_1-32x32.webp",
@@ -1915,16 +1911,6 @@
     "Ohrringe_Bronze_2.webp",
     "Ohrringe_Bronze_2-64x64.webp"
   ],
-  "Parfum": [
-    "Parfum_1.webp",
-    "Parfum_2.webp",
-    "Parfum_1-32x32.webp",
-    "Parfum_1-512x512.webp",
-    "Parfum_1-64x64.webp",
-    "Parfum_2-32x32.webp",
-    "Parfum_2-512x512.webp",
-    "Parfum_2-64x64.webp"
-  ],
   "Ohrringe_Gold": [
     "Ohrringe_Gold_1-32x32.webp",
     "Ohrringe_Gold_1-512x512.webp",
@@ -1934,6 +1920,16 @@
     "Ohrringe_Gold_2-512x512.webp",
     "Ohrringe_Gold_2-64x64.webp",
     "Ohrringe_Gold_2.webp"
+  ],
+  "Parfum": [
+    "Parfum_1.webp",
+    "Parfum_1-32x32.webp",
+    "Parfum_1-512x512.webp",
+    "Parfum_1-64x64.webp",
+    "Parfum_2-32x32.webp",
+    "Parfum_2-512x512.webp",
+    "Parfum_2-64x64.webp",
+    "Parfum_2.webp"
   ],
   "Ohrringe_Messing": [
     "Ohrringe_Messing_1-32x32.webp",
@@ -1997,8 +1993,8 @@
     "Pergament_1-64x64.webp",
     "Pergament_1.webp",
     "Pergament_2-32x32.webp",
-    "Pergament_2-64x64.webp",
     "Pergament_2-512x512.webp",
+    "Pergament_2-64x64.webp",
     "Pergament_2.webp"
   ],
   "Prisma": [
@@ -2054,8 +2050,8 @@
   "Pluderhose_Bausch": [
     "Pluderhose_Bausch_1-32x32.webp",
     "Pluderhose_Bausch_1-64x64.webp",
-    "Pluderhose_Bausch_1.webp",
     "Pluderhose_Bausch_1-512x512.webp",
+    "Pluderhose_Bausch_1.webp",
     "Pluderhose_Bausch_2-32x32.webp",
     "Pluderhose_Bausch_2-512x512.webp",
     "Pluderhose_Bausch_2-64x64.webp",
@@ -2112,10 +2108,10 @@
     "Praios_Tempel_2.webp"
   ],
   "Quadrant": [
-    "Quadrant_1.webp",
     "Quadrant_1-32x32.webp",
     "Quadrant_1-512x512.webp",
     "Quadrant_1-64x64.webp",
+    "Quadrant_1.webp",
     "Quadrant_2-32x32.webp",
     "Quadrant_2-512x512.webp",
     "Quadrant_2-64x64.webp",
@@ -2244,12 +2240,12 @@
   "Sack_gross": [
     "Sack_gross_1.webp",
     "Sack_gross_1-32x32.webp",
-    "Sack_gross_2.webp",
     "Sack_gross_1-512x512.webp",
     "Sack_gross_1-64x64.webp",
     "Sack_gross_2-32x32.webp",
     "Sack_gross_2-512x512.webp",
-    "Sack_gross_2-64x64.webp"
+    "Sack_gross_2-64x64.webp",
+    "Sack_gross_2.webp"
   ],
   "Sack_klein": [
     "Sack_klein_1-32x32.webp",
@@ -2282,10 +2278,10 @@
     "Sandalen_2-64x64.webp"
   ],
   "Sattel": [
-    "Sattel_1.webp",
     "Sattel_1-32x32.webp",
     "Sattel_1-512x512.webp",
     "Sattel_1-64x64.webp",
+    "Sattel_1.webp",
     "Sattel_2-32x32.webp",
     "Sattel_2-512x512.webp",
     "Sattel_2-64x64.webp",
@@ -2306,10 +2302,10 @@
     "Schiefertafel_1-512x512.webp",
     "Schiefertafel_1-64x64.webp",
     "Schiefertafel_1.webp",
-    "Schiefertafel_2.webp",
     "Schiefertafel_2-32x32.webp",
     "Schiefertafel_2-512x512.webp",
-    "Schiefertafel_2-64x64.webp"
+    "Schiefertafel_2-64x64.webp",
+    "Schiefertafel_2.webp"
   ],
   "Schlafsack": [
     "Schlafsack_1.webp",
@@ -2327,8 +2323,8 @@
     "Schiffskompass_1-64x64.webp",
     "Schiffskompass_1.webp",
     "Schiffskompass_2-32x32.webp",
-    "Schiffskompass_2-64x64.webp",
     "Schiffskompass_2-512x512.webp",
+    "Schiffskompass_2-64x64.webp",
     "Schiffskompass_2.webp"
   ],
   "Schmied": [
@@ -2421,16 +2417,6 @@
     "Schuereisen_2-64x64.webp",
     "Schuereisen_2.webp"
   ],
-  "Schwamm": [
-    "Schwamm_1.webp",
-    "Schwamm_1-32x32.webp",
-    "Schwamm_1-512x512.webp",
-    "Schwamm_1-64x64.webp",
-    "Schwamm_2-32x32.webp",
-    "Schwamm_2-512x512.webp",
-    "Schwamm_2-64x64.webp",
-    "Schwamm_2.webp"
-  ],
   "Schuhladen": [
     "Schuhladen_1-32x32.webp",
     "Schuhladen_1-512x512.webp",
@@ -2450,6 +2436,16 @@
     "Schultergurt_2.webp",
     "Schultergurt_2-512x512.webp",
     "Schultergurt_2-64x64.webp"
+  ],
+  "Schwamm": [
+    "Schwamm_1-32x32.webp",
+    "Schwamm_1-512x512.webp",
+    "Schwamm_1-64x64.webp",
+    "Schwamm_1.webp",
+    "Schwamm_2-32x32.webp",
+    "Schwamm_2-512x512.webp",
+    "Schwamm_2-64x64.webp",
+    "Schwamm_2.webp"
   ],
   "Schwere_Kette": [
     "Schwere_Kette_1.webp",
@@ -2505,16 +2501,6 @@
     "Schwertguertel_verstaerkt_1-64x64.webp",
     "Schwertguertel_verstaerkt_1.webp"
   ],
-  "Vogelkaefig_gross": [
-    "Vogelkaefig_gross_1-512x512.webp",
-    "Vogelkaefig_gross_1-32x32.webp",
-    "Vogelkaefig_gross_1-64x64.webp",
-    "Vogelkaefig_gross_1.webp",
-    "Vogelkaefig_gross_2-32x32.webp",
-    "Vogelkaefig_gross_2-512x512.webp",
-    "Vogelkaefig_gross_2-64x64.webp",
-    "Vogelkaefig_gross_2.webp"
-  ],
   "Schwertscheide": [
     "Schwertscheide_1-32x32.webp",
     "Schwertscheide_1-512x512.webp",
@@ -2550,10 +2536,10 @@
     "Senkblei_1-512x512.webp",
     "Senkblei_1-64x64.webp",
     "Senkblei_1.webp",
-    "Senkblei_2.webp",
     "Senkblei_2-32x32.webp",
     "Senkblei_2-512x512.webp",
-    "Senkblei_2-64x64.webp"
+    "Senkblei_2-64x64.webp",
+    "Senkblei_2.webp"
   ],
   "Sense": [
     "Sense_1-32x32.webp",
@@ -2749,8 +2735,8 @@
   ],
   "Statuette_Gold": [
     "Statuette_Gold_1-32x32.webp",
-    "Statuette_Gold_1-64x64.webp",
     "Statuette_Gold_1-512x512.webp",
+    "Statuette_Gold_1-64x64.webp",
     "Statuette_Gold_1.webp",
     "Statuette_Gold_2-32x32.webp",
     "Statuette_Gold_2-512x512.webp",
@@ -2812,10 +2798,10 @@
     "Statuette_Zinn_1-512x512.webp",
     "Statuette_Zinn_1-64x64.webp",
     "Statuette_Zinn_1.webp",
-    "Statuette_Zinn_2.webp",
     "Statuette_Zinn_2-32x32.webp",
     "Statuette_Zinn_2-512x512.webp",
-    "Statuette_Zinn_2-64x64.webp"
+    "Statuette_Zinn_2-64x64.webp",
+    "Statuette_Zinn_2.webp"
   ],
   "Steckenpferd": [
     "Steckenpferd_1-32x32.webp",
@@ -2919,16 +2905,6 @@
     "Stulpenstiefel_2-64x64.webp",
     "Stulpenstiefel_2.webp"
   ],
-  "Tagebuch": [
-    "Tagebuch_1.webp",
-    "Tagebuch_1-32x32.webp",
-    "Tagebuch_1-512x512.webp",
-    "Tagebuch_1-64x64.webp",
-    "Tagebuch_2-32x32.webp",
-    "Tagebuch_2-512x512.webp",
-    "Tagebuch_2-64x64.webp",
-    "Tagebuch_2.webp"
-  ],
   "Stundenglas": [
     "Stundenglas_1-32x32.webp",
     "Stundenglas_1-512x512.webp",
@@ -2965,6 +2941,16 @@
     "Suedweiser_2-64x64.webp",
     "Suedweiser_2.webp"
   ],
+  "Tabakdose_Silber": [
+    "Tabakdose_Silber_1-32x32.webp",
+    "Tabakdose_Silber_1-512x512.webp",
+    "Tabakdose_Silber_1-64x64.webp",
+    "Tabakdose_Silber_1.webp",
+    "Tabakdose_Silber_2-32x32.webp",
+    "Tabakdose_Silber_2-512x512.webp",
+    "Tabakdose_Silber_2-64x64.webp",
+    "Tabakdose_Silber_2.webp"
+  ],
   "Tau": [
     "Tau_1.webp",
     "Tau_1-32x32.webp",
@@ -2975,15 +2961,15 @@
     "Tau_2-64x64.webp",
     "Tau_2.webp"
   ],
-  "Tabakdose_Silber": [
-    "Tabakdose_Silber_1-32x32.webp",
-    "Tabakdose_Silber_1-512x512.webp",
-    "Tabakdose_Silber_1-64x64.webp",
-    "Tabakdose_Silber_1.webp",
-    "Tabakdose_Silber_2-32x32.webp",
-    "Tabakdose_Silber_2-512x512.webp",
-    "Tabakdose_Silber_2-64x64.webp",
-    "Tabakdose_Silber_2.webp"
+  "Tagebuch": [
+    "Tagebuch_1-32x32.webp",
+    "Tagebuch_1-512x512.webp",
+    "Tagebuch_1-64x64.webp",
+    "Tagebuch_1.webp",
+    "Tagebuch_2-32x32.webp",
+    "Tagebuch_2-512x512.webp",
+    "Tagebuch_2-64x64.webp",
+    "Tagebuch_2.webp"
   ],
   "Taverne": [
     "Taverne_1-32x32.webp",
@@ -3015,16 +3001,6 @@
     "Teerjacke_2-64x64.webp",
     "Teerjacke_2.webp"
   ],
-  "Tinte": [
-    "Tinte_1.webp",
-    "Tinte_1-32x32.webp",
-    "Tinte_1-512x512.webp",
-    "Tinte_1-64x64.webp",
-    "Tinte_2-32x32.webp",
-    "Tinte_2-512x512.webp",
-    "Tinte_2-64x64.webp",
-    "Tinte_2.webp"
-  ],
   "Teller_Holz": [
     "Teller_Holz_1-32x32.webp",
     "Teller_Holz_1-512x512.webp",
@@ -3054,6 +3030,16 @@
     "Tiefer_Teller_2-512x512.webp",
     "Tiefer_Teller_2-64x64.webp",
     "Tiefer_Teller_2.webp"
+  ],
+  "Tinte": [
+    "Tinte_1-32x32.webp",
+    "Tinte_1-512x512.webp",
+    "Tinte_1-64x64.webp",
+    "Tinte_1.webp",
+    "Tinte_2-32x32.webp",
+    "Tinte_2-512x512.webp",
+    "Tinte_2-64x64.webp",
+    "Tinte_2.webp"
   ],
   "Tonkrug": [
     "Tonkrug_1-32x32.webp",
@@ -3087,13 +3073,13 @@
   ],
   "Tragnetz": [
     "Tragnetz_1.webp",
-    "Tragnetz_2.webp",
     "Tragnetz_1-32x32.webp",
     "Tragnetz_1-512x512.webp",
     "Tragnetz_1-64x64.webp",
     "Tragnetz_2-32x32.webp",
     "Tragnetz_2-512x512.webp",
-    "Tragnetz_2-64x64.webp"
+    "Tragnetz_2-64x64.webp",
+    "Tragnetz_2.webp"
   ],
   "Transportkiste": [
     "Transportkiste_1-32x32.webp",
@@ -3106,10 +3092,10 @@
     "Transportkiste_2.webp"
   ],
   "Trinkbecher_Holz": [
-    "Trinkbecher_Holz_1.webp",
     "Trinkbecher_Holz_1-32x32.webp",
     "Trinkbecher_Holz_1-512x512.webp",
     "Trinkbecher_Holz_1-64x64.webp",
+    "Trinkbecher_Holz_1.webp",
     "Trinkbecher_Holz_2-32x32.webp",
     "Trinkbecher_Holz_2-512x512.webp",
     "Trinkbecher_Holz_2-64x64.webp",
@@ -3138,8 +3124,8 @@
   "Trinkglas": [
     "Trinkglas_1-32x32.webp",
     "Trinkglas_1-512x512.webp",
-    "Trinkglas_1.webp",
     "Trinkglas_1-64x64.webp",
+    "Trinkglas_1.webp",
     "Trinkglas_2-32x32.webp",
     "Trinkglas_2-512x512.webp",
     "Trinkglas_2-64x64.webp",
@@ -3181,16 +3167,6 @@
     "Tuchbeutel_2-64x64.webp",
     "Tuchbeutel_2.webp"
   ],
-  "Tusche": [
-    "Tusche_1.webp",
-    "Tusche_1-32x32.webp",
-    "Tusche_1-512x512.webp",
-    "Tusche_1-64x64.webp",
-    "Tusche_2-32x32.webp",
-    "Tusche_2-512x512.webp",
-    "Tusche_2-64x64.webp",
-    "Tusche_2.webp"
-  ],
   "Tunika_Leinen": [
     "Tunika_Leinen_1-32x32.webp",
     "Tunika_Leinen_1-512x512.webp",
@@ -3200,6 +3176,16 @@
     "Tunika_Leinen_2-512x512.webp",
     "Tunika_Leinen_2-64x64.webp",
     "Tunika_Leinen_2.webp"
+  ],
+  "Tusche": [
+    "Tusche_1-32x32.webp",
+    "Tusche_1-512x512.webp",
+    "Tusche_1-64x64.webp",
+    "Tusche_1.webp",
+    "Tusche_2-32x32.webp",
+    "Tusche_2-512x512.webp",
+    "Tusche_2-64x64.webp",
+    "Tusche_2.webp"
   ],
   "Waldsee": [
     "Waldsee_1.webp",
@@ -3245,6 +3231,16 @@
     "Unterwaesche_3-64x64.webp",
     "Unterwaesche_3.webp"
   ],
+  "Vogelkaefig_gross": [
+    "Vogelkaefig_gross_1-32x32.webp",
+    "Vogelkaefig_gross_1-512x512.webp",
+    "Vogelkaefig_gross_1-64x64.webp",
+    "Vogelkaefig_gross_1.webp",
+    "Vogelkaefig_gross_2-32x32.webp",
+    "Vogelkaefig_gross_2-512x512.webp",
+    "Vogelkaefig_gross_2-64x64.webp",
+    "Vogelkaefig_gross_2.webp"
+  ],
   "Vogelkaefig_klein": [
     "Vogelkaefig_klein_1-32x32.webp",
     "Vogelkaefig_klein_1-512x512.webp",
@@ -3254,16 +3250,6 @@
     "Vogelkaefig_klein_2-512x512.webp",
     "Vogelkaefig_klein_2-64x64.webp",
     "Vogelkaefig_klein_2.webp"
-  ],
-  "Zunderdose_wasserdicht": [
-    "Zunderdose_wasserdicht_2-32x32.webp",
-    "Zunderdose_wasserdicht_1-32x32.webp",
-    "Zunderdose_wasserdicht_1-512x512.webp",
-    "Zunderdose_wasserdicht_1-64x64.webp",
-    "Zunderdose_wasserdicht_1.webp",
-    "Zunderdose_wasserdicht_2-512x512.webp",
-    "Zunderdose_wasserdicht_2-64x64.webp",
-    "Zunderdose_wasserdicht_2.webp"
   ],
   "Vorschlaghammer": [
     "Vorschlaghammer_1-32x32.webp",
@@ -3300,10 +3286,10 @@
     "Waffenpflegeutensilien_1-512x512.webp",
     "Waffenpflegeutensilien_1-64x64.webp",
     "Waffenpflegeutensilien_1.webp",
-    "Waffenpflegeutensilien_2.webp",
     "Waffenpflegeutensilien_2-32x32.webp",
     "Waffenpflegeutensilien_2-512x512.webp",
-    "Waffenpflegeutensilien_2-64x64.webp"
+    "Waffenpflegeutensilien_2-64x64.webp",
+    "Waffenpflegeutensilien_2.webp"
   ],
   "Wahrsagerin": [
     "Wahrsagerin_1-32x32.webp",
@@ -3367,13 +3353,13 @@
   ],
   "Wimpel": [
     "Wimpel_1.webp",
-    "Wimpel_2.webp",
     "Wimpel_1-32x32.webp",
     "Wimpel_1-512x512.webp",
     "Wimpel_1-64x64.webp",
     "Wimpel_2-32x32.webp",
     "Wimpel_2-512x512.webp",
-    "Wimpel_2-64x64.webp"
+    "Wimpel_2-64x64.webp",
+    "Wimpel_2.webp"
   ],
   "Weaponshop": [
     "Weaponshop_1-32x32.webp",
@@ -3460,10 +3446,10 @@
     "Wolldecke_1-512x512.webp",
     "Wolldecke_1-64x64.webp",
     "Wolldecke_1.webp",
-    "Wolldecke_2.webp",
     "Wolldecke_2-32x32.webp",
     "Wolldecke_2-512x512.webp",
-    "Wolldecke_2-64x64.webp"
+    "Wolldecke_2-64x64.webp",
+    "Wolldecke_2.webp"
   ],
   "Wollmuetze": [
     "Wollmuetze_1-32x32.webp",
@@ -3476,17 +3462,17 @@
     "Wollmuetze_2.webp"
   ],
   "Wollstruempfe": [
-    "Wollstruempfe_1.webp",
     "Wollstruempfe_1-32x32.webp",
     "Wollstruempfe_1-512x512.webp",
     "Wollstruempfe_1-64x64.webp",
+    "Wollstruempfe_1.webp",
     "Wollstruempfe_2-32x32.webp",
     "Wollstruempfe_2-512x512.webp",
     "Wollstruempfe_2-64x64.webp",
     "Wollstruempfe_2.webp",
     "Wollstruempfe_3-32x32.webp",
-    "Wollstruempfe_3-64x64.webp",
     "Wollstruempfe_3-512x512.webp",
+    "Wollstruempfe_3-64x64.webp",
     "Wollstruempfe_3.webp"
   ],
   "Wuerfel": [
@@ -3657,11 +3643,21 @@
     "Zinsspindel_2-64x64.webp",
     "Zinsspindel_2.webp"
   ],
+  "Zunderdose_wasserdicht": [
+    "Zunderdose_wasserdicht_1-32x32.webp",
+    "Zunderdose_wasserdicht_1-512x512.webp",
+    "Zunderdose_wasserdicht_1-64x64.webp",
+    "Zunderdose_wasserdicht_1.webp",
+    "Zunderdose_wasserdicht_2-32x32.webp",
+    "Zunderdose_wasserdicht_2-512x512.webp",
+    "Zunderdose_wasserdicht_2-64x64.webp",
+    "Zunderdose_wasserdicht_2.webp"
+  ],
   "Zunderkaestchen": [
-    "Zunderkaestchen_1.webp",
     "Zunderkaestchen_1-32x32.webp",
     "Zunderkaestchen_1-512x512.webp",
     "Zunderkaestchen_1-64x64.webp",
+    "Zunderkaestchen_1.webp",
     "Zunderkaestchen_2-32x32.webp",
     "Zunderkaestchen_2-512x512.webp",
     "Zunderkaestchen_2-64x64.webp",
@@ -3678,10 +3674,10 @@
     "Zwergenposaune_2.webp"
   ],
   "tot": [
-    "tot_1.webp",
     "tot_1-32x32.webp",
     "tot_1-512x512.webp",
     "tot_1-64x64.webp",
+    "tot_1.webp",
     "tot_2-32x32.webp",
     "tot_2-512x512.webp",
     "tot_2-64x64.webp",
@@ -3690,11 +3686,11 @@
   "Achaz": [
     "Achaz_1-32x32.webp",
     "Achaz_1-64x64.webp",
-    "Achaz_1.webp",
     "Achaz_1-512x512.webp",
     "Achaz_2-32x32.webp",
     "Achaz_2-64x64.webp",
     "Achaz_2-512x512.webp",
+    "Achaz_1.webp",
     "Achaz_2.webp"
   ],
   "Affenmensch": [
@@ -3737,16 +3733,6 @@
     "Zilit_2-64x64.webp",
     "Zilit_2-512x512.webp"
   ],
-  "Speer": [
-    "Speer_2.webp",
-    "Speer_1.webp",
-    "Speer_1-32x32.webp",
-    "Speer_1-64x64.webp",
-    "Speer_1-512x512.webp",
-    "Speer_2-32x32.webp",
-    "Speer_2-64x64.webp",
-    "Speer_2-512x512.webp"
-  ],
   "Holzspeer": [
     "Holzspeer_2.webp",
     "Holzspeer_1.webp",
@@ -3756,6 +3742,16 @@
     "Holzspeer_2-32x32.webp",
     "Holzspeer_2-64x64.webp",
     "Holzspeer_2-512x512.webp"
+  ],
+  "Speer": [
+    "Speer_2.webp",
+    "Speer_1.webp",
+    "Speer_1-32x32.webp",
+    "Speer_1-64x64.webp",
+    "Speer_1-512x512.webp",
+    "Speer_2-32x32.webp",
+    "Speer_2-64x64.webp",
+    "Speer_2-512x512.webp"
   ],
   "Jagdspiess_elfisch": [
     "Jagdspiess_elfisch_2.webp",
@@ -3792,6 +3788,16 @@
     "Schleuder_1-32x32.webp",
     "Schleuder_1-64x64.webp",
     "Schleuder_1-512x512.webp"
+  ],
+  "Echsische_Axt": [
+    "Echsische_Axt_1.webp",
+    "Echsische_Axt_2.webp",
+    "Echsische_Axt_1-32x32.webp",
+    "Echsische_Axt_1-64x64.webp",
+    "Echsische_Axt_1-512x512.webp",
+    "Echsische_Axt_2-32x32.webp",
+    "Echsische_Axt_2-64x64.webp",
+    "Echsische_Axt_2-512x512.webp"
   ],
   "Keule": [
     "Keule_2.webp",
@@ -3849,16 +3855,6 @@
     "Kobold_2-64x64.webp",
     "Kobold_2-512x512.webp"
   ],
-  "Yeti": [
-    "Yeti_1.webp",
-    "Yeti_2.webp",
-    "Yeti_1-32x32.webp",
-    "Yeti_1-64x64.webp",
-    "Yeti_1-512x512.webp",
-    "Yeti_2-32x32.webp",
-    "Yeti_2-64x64.webp",
-    "Yeti_2-512x512.webp"
-  ],
   "Goblin_female": [
     "Goblin_female_2.webp",
     "Goblin_female_1-32x32.webp",
@@ -3889,13 +3885,23 @@
     "Goblin_male_2.webp",
     "Goblin_male_2-512x512.webp"
   ],
+  "Yeti": [
+    "Yeti_1.webp",
+    "Yeti_2.webp",
+    "Yeti_1-32x32.webp",
+    "Yeti_1-64x64.webp",
+    "Yeti_1-512x512.webp",
+    "Yeti_2-32x32.webp",
+    "Yeti_2-64x64.webp",
+    "Yeti_2-512x512.webp"
+  ],
   "Oger_male": [
     "Oger_male_2.webp",
     "Oger_male_1.webp",
     "Oger_male_1-32x32.webp",
     "Oger_male_1-64x64.webp",
-    "Oger_male_2-32x32.webp",
     "Oger_male_1-512x512.webp",
+    "Oger_male_2-32x32.webp",
     "Oger_male_2-64x64.webp",
     "Oger_male_2-512x512.webp"
   ],
@@ -3909,16 +3915,6 @@
     "Oger_female_2-512x512.webp",
     "Oger_female_1.webp"
   ],
-  "Ork_male": [
-    "Ork_male_1.webp",
-    "Ork_male_1-32x32.webp",
-    "Ork_male_1-64x64.webp",
-    "Ork_male_1-512x512.webp",
-    "Ork_male_2-32x32.webp",
-    "Ork_male_2-64x64.webp",
-    "Ork_male_2-512x512.webp",
-    "Ork_male_2.webp"
-  ],
   "Ork_female": [
     "Ork_female_2.webp",
     "Ork_female_1-32x32.webp",
@@ -3928,6 +3924,16 @@
     "Ork_female_2-64x64.webp",
     "Ork_female_2-512x512.webp",
     "Ork_female_1.webp"
+  ],
+  "Ork_male": [
+    "Ork_male_1-32x32.webp",
+    "Ork_male_1-64x64.webp",
+    "Ork_male_1-512x512.webp",
+    "Ork_male_1.webp",
+    "Ork_male_2-32x32.webp",
+    "Ork_male_2-64x64.webp",
+    "Ork_male_2-512x512.webp",
+    "Ork_male_2.webp"
   ],
   "Riese": [
     "Riese_1.webp",
@@ -4077,24 +4083,18 @@
     "Character_98.webp",
     "Character_99.webp"
   ],
-  "TH_Kraemer": [
-    "TH_Kraemer_1-32x32.webp",
-    "TH_Kraemer_1-512x512.webp",
-    "TH_Kraemer_1-64x64.webp",
-    "TH_Kraemer_1.webp",
-    "TH_Kraemer_2-32x32.webp",
-    "TH_Kraemer_2-512x512.webp",
-    "TH_Kraemer_2-64x64.webp",
-    "TH_Kraemer_2.webp"
-  ],
-  "TH_Kraeuterhaendler": [
-    "TH_Kraeuterhaendler_1-32x32.webp",
-    "TH_Kraeuterhaendler_1-512x512.webp",
-    "TH_Kraeuterhaendler_1.webp",
-    "TH_Kraeuterhaendler_1-64x64.webp",
-    "TH_Kraeuterhaendler_2-32x32.webp",
-    "TH_Kraeuterhaendler_2-512x512.webp",
-    "TH_Kraeuterhaendler_2-64x64.webp",
-    "TH_Kraeuterhaendler_2.webp"
+  "TH_Heiler": [
+    "TH_Heiler_3.webp",
+    "TH_Heiler_1-32x32.webp",
+    "TH_Heiler_1-64x64.webp",
+    "TH_Heiler_1-512x512.webp",
+    "TH_Heiler_2-32x32.webp",
+    "TH_Heiler_2-64x64.webp",
+    "TH_Heiler_1.webp",
+    "TH_Heiler_2.webp",
+    "TH_Heiler_2-512x512.webp",
+    "TH_Heiler_3-32x32.webp",
+    "TH_Heiler_3-64x64.webp",
+    "TH_Heiler_3-512x512.webp"
   ]
 }

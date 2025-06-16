@@ -51,7 +51,8 @@
     }
 
     if (object.price > 0) {
-        [tooltipLines addObject:[NSString stringWithFormat:@"Preis: %.2f Silber", object.price]];
+        float price = [self priceForObject: object];
+        [tooltipLines addObject:[NSString stringWithFormat:@"Preis: %.2f Silber", price]];
     }
 
     if (object.weight > 0) {
@@ -62,6 +63,16 @@
     [self setToolTip:tooltipText.length > 0 ? tooltipText : nil];
 
     [self setNeedsDisplay:YES];
+}
+
+- (float)priceForObject:(DSAObject *)object {
+    NSLog(@"DSAShopViewController updatePage called!!!");
+    float price = object.price;
+    if (self.mode == DSAShopModeBuy) {
+        return price;
+    } else {
+        return price * 0.2f;   // 20% of normal price is selling price
+    }
 }
 
 // Method below may or may not be superfluous, or even erroneous???
@@ -84,22 +95,48 @@
 
 - (void)mouseDown:(NSEvent *)event {
     [super mouseDown:event];
-    // Warenkorb hinzufügen
-    if (self.shoppingCart.totalSum + self.object.price > self.maxSilber)
+    NSLog(@"DSAShopItemButton mouseDown detected, current button.mode = %ld BUY MODE: %ld", (long)self.mode, DSAShopModeBuy);
+    [self addToShoppingCart];
+}
+
+- (void)rightMouseDown:(NSEvent *)event {
+    [super rightMouseDown:event];
+
+    [self removeFromShoppingCart];
+
+}
+
+-(void)addToShoppingCart
+{
+    if (self.mode == DSAShopModeSell && self.quantity == 0)
+      {
+        NSLog(@"Can't add more items to shopping cart, no more available.");
+        return;
+      }
+    if (self.mode == DSAShopModeBuy && self.shoppingCart.totalSum + self.object.price > self.maxSilber)
       {
         NSLog(@"Can't add item to shopping cart, not enough money.");
         return;
       }
-    
-    [self.shoppingCart addObject:self.object count:1 price:self.object.price ?: 0];
-    NSLog(@"%@ hinzugefügt – Count: %ld", self.object.name, (long)[self.shoppingCart countForObject:self.object]);
+    float price = [self priceForObject: self.object];
+    [self.shoppingCart addObject:self.object count:1 price: price ?: 0 slot: self.slotID];
+    if (self.mode == DSAShopModeSell)
+      {
+        self.quantity -= 1;
+      }
+    NSLog(@"%@ hinzugefügt – Count: %ld", self.object.name, (long)[self.shoppingCart countForObject:self.object andSlotID: self.slotID]);
     [self setNeedsDisplay:YES];
 }
 
-- (void)rightMouseDown:(NSEvent *)event {
-    if ([self.shoppingCart countForObject:self.object] > 0) {
-        [self.shoppingCart removeObject:self.object count:1];
-        NSLog(@"%@ entfernt – Count: %ld", self.object.name, (long)[self.shoppingCart countForObject:self.object]);
+-(void)removeFromShoppingCart
+{
+    if ([self.shoppingCart countForObject:self.object andSlotID: self.slotID] > 0) {
+        [self.shoppingCart removeObject:self.object count:1 slot: self.slotID];
+        if (self.mode == DSAShopModeSell)
+          {
+            self.quantity += 1;
+          }        
+        NSLog(@"%@ entfernt – Count: %ld", self.object.name, (long)[self.shoppingCart countForObject:self.object andSlotID: self.slotID]);
         [self setNeedsDisplay:YES];
     } else {
         NSLog(@"%@ ist nicht im Warenkorb", self.object.name);
@@ -129,7 +166,7 @@
         [self addSubview:quantityLabel];
     }
 
-    NSInteger cartCount = [self.shoppingCart countForObject:self.object];
+    NSInteger cartCount = [self.shoppingCart countForObject:self.object andSlotID: self.slotID];
     if (cartCount > 0) {
         NSString *quantityString = [NSString stringWithFormat:@"%ld", (long)cartCount];
         quantityLabel.stringValue = quantityString;
