@@ -46,6 +46,20 @@
     }    
 }
 
+/*
+2025-06-20 20:06:44.506 DSA-SpielHelfer[19354:2307198498888] DSAAdventure encodeWithCoder called, saved gameClock: DSAAdventureClock:
+currentDate = DSAAventurianDate:
+year = 1030
+month = 1
+day = 5
+hour = 9
+minute = 19
+hourName = Peraine
+weekdayName = Feuertag
+monthName = Praios
+*/
+
+
 - (void)startClock {
     NSLog(@"DSAAdventureClock startClock called");
     if (!self.gameTimer) {
@@ -179,5 +193,45 @@
     }
     return @"Unbekannt";
 }
+
+
+- (NSString *)description
+{
+  NSMutableString *descriptionString = [NSMutableString stringWithFormat:@"%@:\n", [self class]];
+
+  // Start from the current class
+  Class currentClass = [self class];
+
+  // Loop through the class hierarchy
+  while (currentClass && currentClass != [NSObject class])
+    {
+      // Get the list of properties for the current class
+      unsigned int propertyCount;
+      objc_property_t *properties = class_copyPropertyList(currentClass, &propertyCount);
+
+      // Iterate through all properties of the current class
+      for (unsigned int i = 0; i < propertyCount; i++)
+        {
+          objc_property_t property = properties[i];
+          const char *propertyName = property_getName(property);
+          NSString *key = [NSString stringWithUTF8String:propertyName];
+            
+          // Get the value of the property using KVC (Key-Value Coding)
+          id value = [self valueForKey:key];
+
+          // Append the property and its value to the description string
+          [descriptionString appendFormat:@"%@ = %@\n", key, value];
+        }
+
+      // Free the property list since it's a C array
+      free(properties);
+
+      // Move to the superclass
+      currentClass = [currentClass superclass];
+    }
+
+  return descriptionString;
+}
+
 
 @end

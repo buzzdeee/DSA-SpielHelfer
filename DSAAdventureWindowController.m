@@ -222,6 +222,8 @@ extern NSString * const DSACharacterHighlightedNotification;
         }
       else if ([currentTile isKindOfClass: [DSALocalMapTileBuildingInn class]])
         {
+          NSString *tileType = [(DSALocalMapTileBuildingInn*)currentTile type];
+          NSLog(@"DSAAdventureWindowController setupActionIcons: currentPosition: %@", currentPosition);
           if ([self.imageActionIcon0 isKindOfClass: [DSAActionIconChat class]])
             {
               [self.imageActionIcon0 updateAppearance];
@@ -233,11 +235,93 @@ extern NSString * const DSACharacterHighlightedNotification;
               self.imageActionIcon0 = newIcon;
               [self.imageActionIcon0 updateAppearance];
             }
-          self.imageActionIcon1 = [self clearActionIcon:self.imageActionIcon1];  
-          self.imageActionIcon2 = [self clearActionIcon:self.imageActionIcon2];
-          self.imageActionIcon3 = [self clearActionIcon:self.imageActionIcon3];
-          self.imageActionIcon4 = [self clearActionIcon:self.imageActionIcon4];
-          self.imageActionIcon5 = [self clearActionIcon:self.imageActionIcon5];
+          if ([tileType isEqualToString: @"Herberge"] ||
+              [tileType isEqualToString: @"Herberge und Taverne"])
+            {
+              if ([self.imageActionIcon1 isKindOfClass: [DSAActionIconRoom class]])
+                {
+                  [self.imageActionIcon1 updateAppearance];
+                }
+              else
+                {             
+                  DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"rentRoom" andSize:@"128x128"];
+                  [self replaceView:self.imageActionIcon1 withView:newIcon];
+                  self.imageActionIcon1 = newIcon;
+                  [self.imageActionIcon1 updateAppearance];          
+                }            
+            }
+          else
+            {
+              self.imageActionIcon1 = [self clearActionIcon:self.imageActionIcon1];
+            }
+          if ([self.imageActionIcon2 isKindOfClass: [DSAActionIconMeal class]])
+            {
+              [self.imageActionIcon2 updateAppearance];
+            }
+          else
+            {             
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"orderMeal" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon2 withView:newIcon];
+              self.imageActionIcon2 = newIcon;
+              [self.imageActionIcon2 updateAppearance];          
+            }
+            
+          if (([tileType isEqualToString: @"Herberge"] ||
+              [tileType isEqualToString: @"Herberge und Taverne"]) &&
+              [currentPosition.room isEqualToString: @"room"])
+            {
+              if ([self.imageActionIcon3 isKindOfClass: [DSAActionIconSleep class]])
+                {
+                  [self.imageActionIcon3 updateAppearance];
+                }
+              else
+                {             
+                  DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"sleep" andSize:@"128x128"];
+                  [self replaceView:self.imageActionIcon3 withView:newIcon];
+                  self.imageActionIcon3 = newIcon;
+                  [self.imageActionIcon3 updateAppearance];          
+                }            
+            }
+          else
+            {
+              self.imageActionIcon3 = [self clearActionIcon:self.imageActionIcon3];
+            }
+          if ((([tileType isEqualToString: @"Herberge"] ||
+              [tileType isEqualToString: @"Herberge und Taverne"]) &&
+              [currentPosition.room isEqualToString: @"room"]) ||
+              [tileType isEqualToString: @"Taverne"] ||
+              ([tileType isEqualToString: @"Herberge und Taverne"] && 
+              [currentPosition.room isEqualToString: @"tavern"]))
+            {
+              if ([self.imageActionIcon4 isKindOfClass: [DSAActionIconTalent class]])
+                {
+                  [self.imageActionIcon4 updateAppearance];
+                }
+              else
+                {             
+                  DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"useTalent" andSize:@"128x128"];
+                  [self replaceView:self.imageActionIcon4 withView:newIcon];
+                  self.imageActionIcon4 = newIcon;
+                  [self.imageActionIcon4 updateAppearance];          
+                }
+              if ([self.imageActionIcon5 isKindOfClass: [DSAActionIconMagic class]])
+                {
+                  [self.imageActionIcon5 updateAppearance];
+                }
+              else
+                {             
+                  DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"useMagic" andSize:@"128x128"];
+                  [self replaceView:self.imageActionIcon5 withView:newIcon];
+                  self.imageActionIcon5 = newIcon;
+                  [self.imageActionIcon5 updateAppearance];          
+                }                          
+            }
+          else
+            {
+              self.imageActionIcon4 = [self clearActionIcon:self.imageActionIcon4];
+              self.imageActionIcon5 = [self clearActionIcon:self.imageActionIcon5];
+            }            
+     
           if ([self.imageActionIcon6 isKindOfClass: [DSAActionIconSwitchActiveGroup class]])
             {
               [self.imageActionIcon6 updateAppearance];
@@ -366,25 +450,47 @@ extern NSString * const DSACharacterHighlightedNotification;
             }
           else
             {                       
-              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"addToGroup" andSize:@"128x128"];
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"donate" andSize:@"128x128"];
               [self replaceView:self.imageActionIcon1 withView:newIcon];
               self.imageActionIcon1 = newIcon;
               [self.imageActionIcon1 updateAppearance];
             }
-
-          if ([self.imageActionIcon2 isKindOfClass: [DSAActionIconRemoveFromGroup class]])
+              
+          if ([self.imageActionIcon2 isKindOfClass: [DSAActionIconAddToGroup class]])
             {
               [self.imageActionIcon2 updateAppearance];
             }
           else
-            {                 
-              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"removeFromGroup" andSize:@"128x128"];
+            {                       
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"pray" andSize:@"128x128"];
               [self replaceView:self.imageActionIcon2 withView:newIcon];
               self.imageActionIcon2 = newIcon;
-              [self.imageActionIcon2 updateAppearance];          
+              [self.imageActionIcon2 updateAppearance];
             }
-          self.imageActionIcon3 = [self clearActionIcon:self.imageActionIcon3];
-          self.imageActionIcon4 = [self clearActionIcon:self.imageActionIcon4];
+                                  
+          if ([self.imageActionIcon3 isKindOfClass: [DSAActionIconAddToGroup class]])
+            {
+              [self.imageActionIcon3 updateAppearance];
+            }
+          else
+            {                       
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"addToGroup" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon3 withView:newIcon];
+              self.imageActionIcon3 = newIcon;
+              [self.imageActionIcon3 updateAppearance];
+            }
+
+          if ([self.imageActionIcon4 isKindOfClass: [DSAActionIconRemoveFromGroup class]])
+            {
+              [self.imageActionIcon4 updateAppearance];
+            }
+          else
+            {                 
+              DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"removeFromGroup" andSize:@"128x128"];
+              [self replaceView:self.imageActionIcon4 withView:newIcon];
+              self.imageActionIcon4 = newIcon;
+              [self.imageActionIcon4 updateAppearance];          
+            }
           self.imageActionIcon5 = [self clearActionIcon:self.imageActionIcon5]; 
           if ([self.imageActionIcon6 isKindOfClass: [DSAActionIconSwitchActiveGroup class]])
             {

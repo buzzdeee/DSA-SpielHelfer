@@ -25,6 +25,7 @@
 #import "DSAAdventure.h"
 #import "DSAAdventureClock.h"
 #import "DSAAdventureGroup.h"
+#import "DSAGod.h"
 
 @implementation DSAAdventure
 
@@ -34,6 +35,20 @@
         _discoveredCoordinates = [NSMutableDictionary dictionary];
         NSLog(@"DSAAdventure init before _gameClock");
         _gameClock = [[DSAAdventureClock alloc] init];
+        
+        _gods = [self initializeGods];
+        NSMutableDictionary *byType = [NSMutableDictionary dictionary];
+        NSMutableDictionary *byName = [NSMutableDictionary dictionary];
+
+        for (DSAGod *god in _gods) {
+            byType[@(god.godType)] = god;
+            if (god.name) {
+                byName[god.name] = god;
+            }
+        }
+        _godsByType = [byType copy];
+        _godsByName = [byName copy];        
+        
         NSLog(@"DSAAdventure init after _gameClock: %@", _gameClock.currentDate);        
         _gameWeather = [[DSAWeather alloc] init];
         NSLog(@"DSAAdventure init after _gameWeather: %@", _gameWeather);
@@ -41,9 +56,21 @@
         NSLog(@"DSAAdventure init after _characterFilePaths");
         [_gameClock startClock];
         NSLog(@"DSAAdventure init after starting clock");
+        
     }
     NSLog(@"DSAAdventure init: returning self: %@", self);
     return self;
+}
+
+- (NSArray<DSAGod *> *)initializeGods {
+  NSMutableArray *gods = [NSMutableArray array];
+  for (NSInteger i = 1; i < DSAGodTypeLast; i++) {
+      DSAGod *god = [DSAGod godWithType:(DSAGodType)i];
+      if (god) {
+          [gods addObject:god];
+      }
+  }
+  return gods;
 }
 
 - (void)dealloc
@@ -59,6 +86,8 @@
   [coder encodeObject:self.groups forKey:@"groups"];
   [coder encodeObject:self.discoveredCoordinates forKey:@"discoveredCoordinates"];
   [coder encodeObject:self.gameClock forKey:@"gameClock"];
+  [coder encodeObject:self.gods forKey:@"gods"];
+  NSLog(@"DSAAdventure encodeWithCoder called, saved gameClock: %@", self.gameClock);
   [coder encodeObject:self.gameWeather forKey:@"gameWeather"];
   
   [coder encodeObject:self.characterFilePaths forKey:@"characterFilePaths"];
@@ -73,6 +102,20 @@
       _groups = [coder decodeObjectForKey:@"groups"];
       _discoveredCoordinates = [coder decodeObjectForKey:@"discoveredCoordinates"];
       _gameClock = [coder decodeObjectForKey:@"gameClock"];
+      // load the gods, and build up the lookup caches
+      _gods = [coder decodeObjectForKey:@"gods"];
+      NSMutableDictionary *byType = [NSMutableDictionary dictionary];
+      NSMutableDictionary *byName = [NSMutableDictionary dictionary];      
+      for (DSAGod *god in _gods) {
+          byType[@(god.godType)] = god;
+          if (god.name) {
+              byName[god.name] = god;
+          }
+      }
+      _godsByType = [byType copy];
+      _godsByName = [byName copy];
+      
+      NSLog(@"DSAAdventure initWithCoder called, loaded _gameClock: %@", _gameClock);
       _gameWeather = [coder decodeObjectForKey:@"gameWeather"];
       
       _characterFilePaths = [coder decodeObjectForKey:@"characterFilePaths"] ?: [NSMutableArray array];

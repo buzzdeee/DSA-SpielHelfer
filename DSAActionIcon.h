@@ -64,9 +64,21 @@
 @end
 @interface DSAActionIconPray: DSAActionIconClickTarget
 @end
+@interface DSAActionIconDonate: DSAActionIconClickTarget
+@end
 @interface DSAActionIconBuy: DSAActionIconClickTarget
 @end
 @interface DSAActionIconSell: DSAActionIconClickTarget
+@end
+@interface DSAActionIconRoom: DSAActionIconClickTarget
+@end
+@interface DSAActionIconSleep: DSAActionIconClickTarget
+@end
+@interface DSAActionIconTalent: DSAActionIconClickTarget
+@end
+@interface DSAActionIconMagic: DSAActionIconClickTarget
+@end
+@interface DSAActionIconMeal: DSAActionIconClickTarget
 @end
 @interface DSAActionIconMap: DSAActionIconClickTarget
 @end

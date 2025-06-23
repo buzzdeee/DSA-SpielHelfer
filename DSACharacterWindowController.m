@@ -768,7 +768,10 @@
         NSArray *filteredTalents = [sortedFightingTalents filteredArrayUsingPredicate:predicate];
         
         // Call the helper method to add the tab for this category
-        [self addTabForCategory:category inSubTabView:subTabView withItems:filteredTalents];
+        [self addTabForCategory:category 
+                   inSubTabView:subTabView 
+                      withItems:filteredTalents 
+             currentItemsByName: model.currentTalents];
      }
 
    // Set the subTabView for item 2
@@ -816,7 +819,10 @@
         NSArray *filteredTalents = [sortedOtherTalents filteredArrayUsingPredicate:predicate];
         
         // Call the helper method to add the tab for this category
-        [self addTabForCategory:category inSubTabView:subTabView withItems:filteredTalents];
+        [self addTabForCategory:category 
+                   inSubTabView:subTabView 
+                      withItems:filteredTalents
+             currentItemsByName:model.currentTalents];
      }
     
    // Set the subTabView for the current tab
@@ -870,7 +876,10 @@
         NSArray *filteredProfessions = [sortedProfessions filteredArrayUsingPredicate:predicate];
         
         // Call the helper method to add the tab for this category
-        [self addTabForCategory:category inSubTabView:subTabView withItems:filteredProfessions];
+        [self addTabForCategory:category 
+                   inSubTabView:subTabView 
+                      withItems:filteredProfessions
+             currentItemsByName:model.currentProfessions];
      }
   
    // Set the subTabView for the current tab
@@ -936,7 +945,10 @@
                   return [evaluatedObject.category isEqualToString:category];
                }];
              NSArray *filteredSpells = [sortedSpells filteredArrayUsingPredicate:predicate];
-             [self addTabForCategory:category inSubTabView:subTabView withItems:filteredSpells];
+             [self addTabForCategory:category 
+                        inSubTabView:subTabView 
+                           withItems:filteredSpells
+                  currentItemsByName:model.currentSpells];
           }
      }
     
@@ -944,7 +956,9 @@
    NSArray *sortedBeschwoerungCategories = [beschwoerungCategories sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
    NSArray *sortedVerwandlungCategories = [verwandlungCategories sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
 
+   
    // Create grouped tabs for "Beschwörung" and "Verwandlung"
+   // no need to hand over model.currentSpells to addGroupedTabWithTitle, it picks them up themselves.
    if (sortedBeschwoerungCategories.count > 0)
      {
         [self addGroupedTabWithTitle:@"Beschwörung" categories:sortedBeschwoerungCategories inSubTabView:subTabView withSpells:sortedSpells];
@@ -1010,7 +1024,10 @@
         NSArray *filteredSpecials = [sortedSpecials filteredArrayUsingPredicate:predicate];
         
         // Add the filtered talents under the corresponding category
-        [self addTabForCategory:category inSubTabView:subTabView withItems:filteredSpecials];
+        [self addTabForCategory:category 
+                   inSubTabView:subTabView 
+                      withItems:filteredSpecials
+             currentItemsByName:model.currentSpecials];
      }
   
    // Set the subTabView for the current tab
@@ -1156,8 +1173,138 @@
 
 #pragma mark - Helper Methods
 
+- (void)addTabForCategory:(NSString *)category
+             inSubTabView:(NSTabView *)subTabView
+                withItems:(NSArray<DSAOtherTalent *> *)items
+       currentItemsByName:(NSDictionary<NSString *, NSObject *> *)currentItems
+{
+  NSLog(@"addTabForCategory %@", category);
+  NSTabViewItem *innerTabItem = [[NSTabViewItem alloc] initWithIdentifier:category];
+  innerTabItem.label = category;
+  
+  NSFlippedView *innerView = [[NSFlippedView alloc] initWithFrame:subTabView.bounds];
+  [innerView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];
+
+  NSInteger Offset = 0;
+
+  for (DSAOtherTalent *item in items) {
+    NSString *categoryToCheck = nil;
+    NSColor *fontColor = [NSColor blackColor];
+
+    if ([item isKindOfClass:[DSAFightingTalent class]]) {
+      categoryToCheck = [(DSAFightingTalent *)item subCategory];
+    } else if ([item isKindOfClass:[DSAOtherTalent class]]) {
+      categoryToCheck = [(DSAOtherTalent *)item category];
+    } else if ([item isKindOfClass:[DSAProfession class]]) {
+      categoryToCheck = [(DSAProfession *)item category];
+    } else if ([item isKindOfClass:[DSASpecialTalent class]]) {
+      categoryToCheck = [(DSASpecialTalent *)item category];
+    } else if ([item isKindOfClass:[DSALiturgy class]]) {
+      categoryToCheck = [(DSALiturgy *)item category];
+    } else if ([item isKindOfClass:[DSASpell class]]) {
+      categoryToCheck = [(DSASpell *)item category];
+      fontColor = [(DSASpell *)item isActiveSpell] ? [NSColor blackColor] : [NSColor redColor];
+    } else {
+      NSLog(@"Unknown item class: %@", [item class]);
+      continue;
+    }
+
+    if (![categoryToCheck isEqualToString:category]) continue;
+
+    Offset += 22;
+
+    // NAME FIELD
+    NSRect fieldRect = NSMakeRect(10, Offset, 400, 20);
+    NSTextField *itemField = [[NSTextField alloc] initWithFrame:fieldRect];
+    [itemField setIdentifier:[NSString stringWithFormat:@"itemField%@", item]];
+    [itemField setSelectable:NO];
+    [itemField setEditable:NO];
+    [itemField setBordered:NO];
+    [itemField setBezeled:NO];
+    [itemField setBackgroundColor:[NSColor lightGrayColor]];
+    [itemField setTextColor:fontColor];
+
+    if ([item isKindOfClass:[DSAFightingTalent class]]) {
+      [itemField setStringValue:[NSString stringWithFormat:@"%@ (%ld)", item.name, (long)item.maxUpPerLevel]];
+    } else if ([item isKindOfClass:[DSASpecialTalent class]]) {
+      DSASpecialTalent *special = (DSASpecialTalent *)item;
+      if ([special test]) {
+        [itemField setStringValue:[NSString stringWithFormat:@"%@ (%@)", special.name, [special.test componentsJoinedByString:@"/"]]];
+      } else {
+        [itemField setStringValue:special.name];
+      }
+    } else if ([item isKindOfClass:[DSALiturgy class]]) {
+      [itemField setStringValue:item.name];
+    } else {
+      [itemField setStringValue:[NSString stringWithFormat:@"%@ (%@) (%ld)",
+                                 item.name,
+                                 [item.test componentsJoinedByString:@"/"],
+                                 (long)item.maxUpPerLevel]];
+    }
+
+    NSFont *boldFont = [NSFont boldSystemFontOfSize:[NSFont systemFontSize]];
+    [itemField setFont:boldFont];
+    [innerView addSubview:itemField];
+
+    // VALUE FIELD
+    if (!([item isKindOfClass:[DSASpecialTalent class]] || [item isKindOfClass:[DSALiturgy class]])) {
+      NSRect fieldValueRect = NSMakeRect(420, Offset, 30, 20);
+      NSTextField *itemFieldValue = [[NSTextField alloc] initWithFrame:fieldValueRect];
+      [itemFieldValue setIdentifier:[NSString stringWithFormat:@"itemFieldValue%@", item]];
+      [itemFieldValue setSelectable:NO];
+      [itemFieldValue setEditable:NO];
+      [itemFieldValue setBordered:NO];
+      [itemFieldValue setBezeled:NO];
+      [itemFieldValue setBackgroundColor:[NSColor lightGrayColor]];
+
+      // Level vergleichen: current vs. base
+      NSInteger baseLevel = item.level;
+      NSObject *currentItemObj = currentItems[item.name];
+      NSInteger currentLevel = baseLevel;
+
+      if ([currentItemObj respondsToSelector:@selector(level)]) {
+        currentLevel = [(id)currentItemObj level];
+      }
+
+      NSColor *valueColor = [NSColor blackColor];
+      if (currentLevel > baseLevel) {
+        valueColor = [NSColor systemGreenColor];
+      } else if (currentLevel < baseLevel) {
+        valueColor = [NSColor systemRedColor];
+      }
+
+      [itemFieldValue setTextColor:valueColor];
+
+      NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+      [paragraphStyle setAlignment:NSTextAlignmentRight];
+
+      NSDictionary *attributes = @{NSParagraphStyleAttributeName: paragraphStyle};
+      NSString *levelString = [NSString stringWithFormat:@"%ld", (long)currentLevel];
+
+      NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:levelString attributes:attributes];
+      [itemFieldValue setAttributedStringValue:attrString];
+
+      [innerView addSubview:itemFieldValue];
+    }
+
+    // Optionale Bindings für DSASpell beobachten
+    if ([item isKindOfClass:[DSASpell class]]) {
+      DSASpell *spellItem = (DSASpell *)item;
+      [self.spellItemFieldMap setObject:itemField forKey:spellItem.name];
+      [self addObserverForObject:spellItem keyPath:@"isActiveSpell"];
+    }
+  }
+
+  [innerTabItem setView:innerView];
+  [subTabView addTabViewItem:innerTabItem];
+}
+
+
 // Helper method to add an individual tab for a category
-- (void)addTabForCategory:(NSString *)category inSubTabView:(NSTabView *)subTabView withItems:(NSArray *)items
+- (void)XXXXXaddTabForCategory:(NSString *)category 
+             inSubTabView:(NSTabView *)subTabView 
+                withItems:(NSArray *)items 
+       currentItemsByName: (NSDictionary<NSString *, NSObject *> *)currentItems
 {
   NSLog(@"addTabForCategory %@", category);
   NSTabViewItem *innerTabItem = [[NSTabViewItem alloc] initWithIdentifier:category];
@@ -1306,8 +1453,13 @@
 
 
 // Helper method to add a grouped tab for categories that start with "Beschwörung" or "Verwandlung"
-- (void)addGroupedTabWithTitle:(NSString *)title categories:(NSArray *)categories inSubTabView:(NSTabView *)subTabView withSpells:(NSArray *)spells
+- (void)addGroupedTabWithTitle:(NSString *)title 
+                    categories:(NSArray *)categories 
+                  inSubTabView:(NSTabView *)subTabView 
+                    withSpells:(NSArray *)spells
 {
+    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+    DSACharacterHero *model = (DSACharacterHero *)document.model;
     NSTabViewItem *groupTabItem = [[NSTabViewItem alloc] initWithIdentifier:title];
     groupTabItem.label = title;
     
@@ -1320,7 +1472,10 @@
     // Add individual tabs for each sub-category inside the grouped tab
     for (NSString *category in categories)
     {
-        [self addTabForCategory:category inSubTabView:groupedSubTabView withItems:spells];
+        [self addTabForCategory:category 
+                   inSubTabView:groupedSubTabView 
+                      withItems:spells
+             currentItemsByName:model.currentSpells];
     }
     
     // Set the grouped sub-tab view as the view for the groupTabItem
@@ -2327,22 +2482,6 @@
 
 // end of character regeneration related methods
 
-// energies manager related methods
-/*
-@property (nonatomic, strong) IBOutlet NSPanel *manageTempEnergiesPanel;
-@property (weak) IBOutlet NSTextField *fieldTempEnergiesAE;
-@property (weak) IBOutlet NSTextField *fieldTempEnergiesKE;
-@property (weak) IBOutlet NSTextField *fieldTempEnergiesLE;
-@property (weak) IBOutlet NSSlider    *sliderTempEnergiesHunger;
-@property (weak) IBOutlet NSSlider    *sliderTempEnergiesThirst;
-@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesWounded;
-@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesSick;
-@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesDrunk;
-@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesPoisoned;
-@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesDead;
-@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesUnconscious;
-@property (weak) IBOutlet NSPopUpButton *popupTempEnergiesSpellbound;
-*/
 -(void)showEnergiesManagerPanel: (id)sender
 {
   NSLog(@"DSACharacterWindowController showEnergiesManagerPanel called!");

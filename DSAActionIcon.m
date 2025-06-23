@@ -42,6 +42,10 @@
 #import "DSAShopBargainController.h"
 #import "DSAWallet.h"
 #import "DSAConversationController.h"
+#import "DSADonationViewController.h"
+#import "DSAInnRentRoomViewController.h"
+#import "DSAGod.h"
+#import "DSAAdventureClock.h"
 
 @implementation DSAActionIcon
 
@@ -63,8 +67,14 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                     _(@"leave"): [DSAActionIconLeave class],
                     _(@"chat"): [DSAActionIconChat class],
                     _(@"pray"): [DSAActionIconPray class],
+                    _(@"donate"): [DSAActionIconDonate class],
                     _(@"buy"): [DSAActionIconBuy class],
                     _(@"sell"): [DSAActionIconSell class],
+                    _(@"rentRoom"): [DSAActionIconRoom class],
+                    _(@"sleep"): [DSAActionIconSleep class],
+                    _(@"useTalent"): [DSAActionIconTalent class],
+                    _(@"useMagic"): [DSAActionIconMagic class],
+                    _(@"orderMeal"): [DSAActionIconMeal class],
                     _(@"map"): [DSAActionIconMap class],                             
                 };
             }
@@ -839,8 +849,192 @@ inventoryIdentifier: (NSString *)sourceInventory
 }
 @end
 @implementation DSAActionIconChat
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"speak-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Unterhalten");
+        [self updateAppearance];
+    }
+    return self;
+}
 @end
 @implementation DSAActionIconPray
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"pray-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Göttliches Wunder erbitten");
+        [self updateAppearance];
+    }
+    return self;
+}
+- (BOOL)isActive {
+    DSAAdventureWindowController *windowController = self.window.windowController;
+
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    if ([activeGroup.allMembers count] > 0)
+      {
+        return YES;
+      }
+    return NO;
+}
+
+- (void)handleEvent {
+    NSLog(@"DSAActionIconPray handleEvent called");
+    
+    // Step 1: Get access to the model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"Invalid window controller class");
+        return;
+    }
+
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    NSLog(@"DSAActionIconPray handleEvent currentPosition: %@", currentPosition);
+    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
+    NSLog(@"DSAActionIconPray handleEvent currentLocation: %@, %@", [currentLocation class], currentLocation.name);
+    NSString *godName;
+    if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
+      {
+        DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;
+        DSALocalMapTile *currentTile = [lml tileAtCoordinate: currentPosition.mapCoordinate];
+        NSLog(@"DSAActionIconPray handleEvent currentLocation: %@", currentTile);
+        if ([currentTile isKindOfClass: [DSALocalMapTileBuildingTemple class]])
+          {
+            godName = [(DSALocalMapTileBuildingTemple*)currentTile god];
+          }
+      }
+    DSAGod *god = adventure.godsByName[godName];
+    DSAMiracleResult *miracleResult;
+    BOOL result = [god requestMiracleWithFame: god.reputation
+                                     forGroup: activeGroup
+                                       atDate: adventure.gameClock.currentDate
+                                       result: &miracleResult];
+    NSString *resultString;
+    if (result)
+      {
+        resultString = [NSString stringWithFormat: @"Eure Bitten wurden von %@ erhört: %@", godName, miracleResult.effectDescription];
+      }
+    else
+      {
+        resultString = [NSString stringWithFormat: @"Eure Bitten wurden von %@ nicht erhört.", godName];
+      }
+    [god decreaseReputationBy: 1];
+    
+    
+    DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName: @"DSAConversationTextOnly"];
+    [conversationSelector window];  // trigger loading .gorm file
+    conversationSelector.fieldText.stringValue = resultString;
+    NSLog(@"DSAActionIconDonate, handleEvent: conversationSelector.fieldText.stringValue %@", conversationSelector.fieldText.stringValue);
+    conversationSelector.completionHandler = ^(BOOL result) {
+      if (result)
+        {
+           NSLog(@"DSAActionIconDonate, handleEvent: finally, praying finished");
+        }
+    };
+    [windowController.window beginSheet: conversationSelector.window completionHandler:nil];  
+}
+@end
+@implementation DSAActionIconDonate
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"donate-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Spenden");
+        [self updateAppearance];
+    }
+    return self;
+}
+- (BOOL)isActive {
+    DSAAdventureWindowController *windowController = self.window.windowController;
+
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    if ([activeGroup.allMembers count] > 0)
+      {
+        return YES;
+      }
+    return NO;
+}
+- (void)handleEvent {
+    NSLog(@"DSAActionIconBuy handleEvent called");
+    
+    // Step 1: Get access to the model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"Invalid window controller class");
+        return;
+    }
+
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    NSLog(@"DSAActionIconDonate handleEvent currentPosition: %@", currentPosition);
+    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];    
+
+    // Step 2: Present the shop view sheet
+    DSADonationViewController *selector =
+        [[DSADonationViewController alloc] initWithWindowNibName:@"DSADonation"];
+    selector.activeGroup = activeGroup;
+    __block BOOL donationResult;
+    __block float donatedSilver;
+    selector.completionHandler = ^(BOOL result) {
+        if (result) {
+            NSLog(@"DSAActionDonate sheet completion handler called.... ");
+            donationResult = result;
+            donatedSilver = [[selector.fieldFinalSilver stringValue] floatValue];
+          }
+       
+    };
+    
+    [windowController.window beginSheet:selector.window completionHandler:nil];
+    if (!donationResult)
+      {
+        return;
+      }
+    [activeGroup subtractSilber: donatedSilver];
+    NSString *godName;
+    if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
+      {
+        DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;
+        DSALocalMapTile *currentTile = [lml tileAtCoordinate: currentPosition.mapCoordinate];
+        NSLog(@"DSAActionIconPray handleEvent currentLocation: %@", currentTile);
+        if ([currentTile isKindOfClass: [DSALocalMapTileBuildingTemple class]])
+          {
+            godName = [(DSALocalMapTileBuildingTemple*)currentTile god];
+          }
+      }
+    DSAGod *god = adventure.godsByName[godName];
+    [god increaseReputationBy: roundf(donatedSilver)];
+    
+    NSLog(@"DSAActionIconDonate handleEvent current reputation: %@", [NSNumber numberWithInteger: god.reputation]);
+          
+    DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName: @"DSAConversationTextOnly"];
+    [conversationSelector window];  // trigger loading .gorm file
+    conversationSelector.fieldText.stringValue = @"Der Geweihte an der Opferschale bedankt sich für eure großzügige Spende.";
+    NSLog(@"DSAActionIconDonate, handleEvent: conversationSelector.fieldText.stringValue %@", conversationSelector.fieldText.stringValue);
+    conversationSelector.completionHandler = ^(BOOL result) {
+      if (result)
+        {
+           NSLog(@"DSAActionIconDonate, handleEvent: finally, donation finished");
+        }
+    };
+    [windowController.window beginSheet: conversationSelector.window completionHandler:nil];  
+}
 @end
 @implementation DSAActionIconBuy
 - (instancetype)initWithImageSize: (NSString *)size
@@ -1113,7 +1307,7 @@ inventoryIdentifier: (NSString *)sourceInventory
            NSLog(@"DSAActionIconSell, handleEvent: invalid key: %@", key);
         }
         DSASlot *slot = [DSASlot slotWithSlotID: [[NSUUID alloc] initWithUUIDString:slotID]];
-        NSInteger remainder = [slot removeObjectWithQuantity: quantity];
+        __unused NSInteger remainder = [slot removeObjectWithQuantity: quantity];
         NSLog(@"DSAActionIconSell handleEvent going to enumerate model IDs");
         for (NSUUID *modelID in [activeGroup allMembers])
           {
@@ -1142,6 +1336,122 @@ inventoryIdentifier: (NSString *)sourceInventory
     [windowController.window beginSheet: conversationSelector.window completionHandler:nil];   
 }
 @end
+
+@implementation DSAActionIconRoom
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"rent_a_room-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Zimmer");
+        [self updateAppearance];
+    }
+    return self;
+}
+- (void)handleEvent {
+    NSLog(@"DSAActionIconRoom handleEvent called");
+    
+    // Step 1: Get access to the model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"Invalid window controller class");
+        return;
+    }
+
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+
+    // Step 2: Present the shop view sheet
+    DSAInnRentRoomViewController *selector =
+        [[DSAInnRentRoomViewController alloc] initWithWindowNibName:@"DSAInnRentRoom"];
+    selector.activeGroup = activeGroup;
+    __block BOOL rentResult = NO;
+    __block NSInteger nights;
+    __block NSString *roomType;
+    selector.completionHandler = ^(BOOL result) {
+        if (result) {
+            NSLog(@"DSAActionIconRoom sheet completion handler called.... ");
+            rentResult = result;
+            nights = round([selector.sliderNights doubleValue]);
+            roomType = [[selector.popupRooms selectedItem] title];
+          }
+       
+    };
+    
+    [windowController.window beginSheet:selector.window completionHandler:nil];
+    if (!rentResult)
+      {
+        return;
+      }
+      
+    DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName: @"DSAConversationTextOnly"];
+    [conversationSelector window];  // trigger loading .gorm file
+    conversationSelector.fieldText.stringValue = @"Ihr werdet herzlich willkommen geheißen.";
+    NSLog(@"DSAActionIconDonate, handleEvent: conversationSelector.fieldText.stringValue %@", conversationSelector.fieldText.stringValue);
+    conversationSelector.completionHandler = ^(BOOL result) {
+      if (result)
+        {
+           NSLog(@"DSAActionIconRoom, handleEvent: finally, renting finished");
+        }
+    };
+    [windowController.window beginSheet: conversationSelector.window completionHandler:nil];  
+}
+@end
+@implementation DSAActionIconSleep
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"go_to_sleep-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Schlafen");
+        [self updateAppearance];
+    }
+    return self;
+}
+@end
+@implementation DSAActionIconTalent
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"use_talent-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Talent anwenden");
+        [self updateAppearance];
+    }
+    return self;
+}
+@end
+@implementation DSAActionIconMagic
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"use_magic-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Magie anwenden");
+        [self updateAppearance];
+    }
+    return self;
+}
+@end
+@implementation DSAActionIconMeal
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"order_meal-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Essen");
+        [self updateAppearance];
+    }
+    return self;
+}
+@end
+
 @implementation DSAActionIconMap
 - (instancetype)initWithImageSize: (NSString *)size
 {

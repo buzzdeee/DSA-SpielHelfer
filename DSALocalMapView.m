@@ -231,7 +231,7 @@
     NSMutableSet *discovered = self.adventure.discoveredCoordinates[locationName];
 
     for (NSInteger y = 0; y < tilesY; y++) {
-        NSArray *row = self.mapArray[y];
+        //NSArray *row = self.mapArray[y];
         for (NSInteger x = 0; x < tilesX; x++) {
             DSAMapCoordinate *coord = [[DSAMapCoordinate alloc] initWithX:x y:y level:level];
             if (![discovered containsObject:coord]) {
@@ -363,9 +363,8 @@
     DSAPosition *current = self.adventure.activeGroup.position;
     DSAPosition *newPosition = [current positionByMovingInDirection:direction steps:1];
 
-//[self setGroupPosition:newPosition];
-[self discoverVisibleTilesAroundPosition:newPosition];
-//[self setNeedsDisplay:YES];
+    [self discoverVisibleTilesAroundPosition:newPosition];
+
     
     
     // Get current and target tiles
@@ -406,6 +405,19 @@
 
     // Move group
     self.adventure.activeGroup.position = newPosition;
+    if ([toTile isMemberOfClass:[DSALocalMapTileBuildingInn class]])
+      {
+        NSString *inType = [toTile type];
+        if ([inType isEqualToString: @"Herberge"] || 
+            [inType isEqualToString: @"Herberge mit Taverne"])
+           {
+              self.adventure.activeGroup.position.room = @"reception";
+           }
+      }
+    else
+      {
+        self.adventure.activeGroup.position.room = nil;
+      }
     [self setGroupPosition:newPosition];
     [self setNeedsDisplay:YES];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];

@@ -29,6 +29,7 @@
 #import "DSAWallet.h"
 #import "DSAInventoryManager.h"
 #import "Utils.h"
+#import "DSAGod.h"
 
 @implementation DSAAdventureGroup
 
@@ -61,6 +62,17 @@
   return allMembers;
 }
 
+- (NSArray<DSACharacter *> *) allCharacters
+{
+    NSMutableArray<DSACharacter *> *characters = [NSMutableArray array];
+
+    for (NSUUID *modelID in [self allMembers]) {
+        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
+        [characters addObject: character];
+    }
+    return characters;
+}
+
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)coder {
@@ -81,23 +93,13 @@
     return self;
 }
 
-
-- (float)totalWealthOfGroup
+- (float) totalWealthOfGroup
 {
     float total = 0.0;
 
-    for (NSUUID *modelID in self.partyMembers) {
-        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
-        if (character.wallet) {
-            total += [character.wallet total];
-        }
+    for (DSACharacter *character in [self allCharacters]) {
+        total += [character.wallet total];
     }
-    for (NSUUID *modelID in self.npcMembers) {
-        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
-        if (character.wallet) {
-            total += [character.wallet total];
-        }
-    }    
 
     return total;
 }
@@ -108,16 +110,7 @@
     if (silber <= 0.0) return;
 
     // 1. Collect all group members (party + npc) with wallets
-    NSMutableArray<DSACharacter *> *members = [NSMutableArray array];
-
-    for (NSUUID *modelID in self.partyMembers) {
-        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
-        if (character.wallet) [members addObject:character];
-    }
-    for (NSUUID *modelID in self.npcMembers) {
-        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
-        if (character.wallet) [members addObject:character];
-    }
+    NSArray<DSACharacter *> *members = [self allCharacters];
 
     NSUInteger remainingCount = members.count;
     if (remainingCount == 0) return;
@@ -159,17 +152,8 @@
 {
     if (silber <= 0.0) return;
 
-    // 1. Collect all group members (party + npc) with wallets
-    NSMutableArray<DSACharacter *> *members = [NSMutableArray array];
-
-    for (NSUUID *modelID in self.partyMembers) {
-        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
-        if (character.wallet) [members addObject:character];
-    }
-    for (NSUUID *modelID in self.npcMembers) {
-        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
-        if (character.wallet) [members addObject:character];
-    }
+    // 1. Collect all group members (party + npc)
+    NSArray<DSACharacter *> *members = [self allCharacters];
 
     NSUInteger memberCount = members.count;
     if (memberCount == 0) return;
@@ -313,6 +297,54 @@
     return nil; // Kein Besitzer gefunden
 }
 
+- (BOOL)hasCharacterWithoutUniqueMiracle:(NSString *)miracleKey {
+    for (DSACharacter *character in [self allCharacters]) {
+        if (![character.receivedUniqueMiracles containsObject:miracleKey]) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+- (NSArray<DSACharacter *> *)charactersWithoutUniqueMiracle:(NSString *)miracleKey {
+    NSMutableArray<DSACharacter *> *result = [NSMutableArray array];
+    for (DSACharacter *character in [self allCharacters]) {
+        if (![character.receivedUniqueMiracles containsObject:miracleKey]) {
+            [result addObject:character];
+        }
+    }
+    return [result copy];
+}
+
+- (BOOL)hasMageInGroup
+{
+    for (DSACharacter *character in [self allCharacters]) {
+        if ([character isMemberOfClass: [DSACharacterHeroHumanMage class]])
+          {
+            return YES;
+          }
+    }
+    return NO;
+}
+
+- (void)applyMiracle:(DSAMiracleResult *)miracleResult {
+    if ([miracleResult.target isEqualToString:@"group"]) {
+        for (DSACharacter *character in self.allCharacters) {
+            [character applyMiracleEffect:miracleResult];
+        }
+    } else if ([miracleResult.target isEqualToString:@"individual"]) {
+        for (DSACharacter *character in self.allCharacters) {
+            if ([character applyMiracleEffect:miracleResult]) {
+                break;
+            }
+        }
+    }
+}
+
+// THIS DESCRIPTION is special here, skipping over read-only properties
+// DUE TO allCharacters property, this: [DSACharacter characterWithModelID:modelID]
+// is not working when loading saved games from file...
+
 - (NSString *)description
 {
   NSMutableString *descriptionString = [NSMutableString stringWithFormat:@"%@:\n", [self class]];
@@ -334,6 +366,16 @@
           const char *propertyName = property_getName(property);
           NSString *key = [NSString stringWithUTF8String:propertyName];
             
+          // Get the property attributes
+          const char *attributes = property_getAttributes(property);
+          NSString *attributesString = [NSString stringWithUTF8String:attributes];
+          // Check if the property is readonly by looking for the "R" attribute
+          if ([attributesString containsString:@",R"])
+            {
+              // This is a readonly property, skip copying it
+              continue;
+            }          
+          
           // Get the value of the property using KVC (Key-Value Coding)
           id value = [self valueForKey:key];
 

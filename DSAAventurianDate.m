@@ -40,17 +40,26 @@ static const DSAAventurianWeekday ANCHOR_WEEKDAY = Praiostag;
         _day = day;
         _hour = hour;
         _minute = 0;
-        NSLog(@"DSAAventurianDate before hour");
-        _hourName = [self hourNameForHour:hour];
-        NSLog(@"DSAAventurianDate before weekdayName");
-        _weekdayName = [self weekdayForAventurianDateWithYear: _year
-                                                        month: _month
-                                                          day: _day];
-        NSLog(@"DSAAventurianDate before monthName: %lu", _month);                                                          
-        _monthName = [self monthNameForMonth: month];
     }
     NSLog(@"DSAAventurianDate : initWithYear returning self: %@", self);
     return self;
+}
+
+- (NSString *) hourName
+{
+  return [self hourNameForHour:self.hour];
+}
+
+- (NSString *) weekdayName
+{
+  return [self weekdayForAventurianDateWithYear: self.year
+                                          month: self.month
+                                            day: self.day];
+}
+
+- (NSString *) monthName
+{
+  return [self monthNameForMonth: self.month];
 }
 
 // Convert hour to hour name based on the Aventurian calendar
@@ -85,6 +94,64 @@ static const DSAAventurianWeekday ANCHOR_WEEKDAY = Praiostag;
     return weekdays[weekdayIndex];
 }
 
+- (NSUInteger) daysInMonth: (DSAAventurianMonth) month
+{
+  switch (month) {
+    case DSAAventurianMonthNamenlos: return 5;
+    default: return 30;
+  }
+}
+
+- (nullable DSAAventurianDate *)dateByAddingYears:(NSInteger)years
+                                             days:(NSInteger)days
+                                            hours:(NSInteger)hours
+                                          minutes:(NSInteger)minutes
+{
+
+    // bail out, in case of negative values...
+    if (years < 0 || days < 0 || hours < 0 || minutes < 0) {
+        NSLog(@"DSAAventurianDate dateByAddingYears ... Error: negative values are not supported.");
+        return nil; // or maybe return self to keep the current date?
+    }
+
+    // Lokale Kopien zur Bearbeitung
+    NSInteger newYear = self.year + years;
+    NSUInteger newDay = self.day + days;
+    NSUInteger newHour = self.hour + hours;
+    NSUInteger newMinute = self.minute + minutes;
+    DSAAventurianMonth newMonth = self.month;
+
+    // Minuten -> Stunden
+    if (newMinute >= 60) {
+        newHour += newMinute / 60;
+        newMinute = newMinute % 60;
+    }
+
+    // Stunden -> Tage
+    if (newHour >= 24) {
+        newDay += newHour / 24;
+        newHour = newHour % 24;
+    }
+
+    // Tage -> Monate (vereinfacht, je nach Monat unterschiedlich viele Tage)
+    while (newDay > [self daysInMonth:newMonth]) {
+        newDay -= [self daysInMonth:newMonth];
+        newMonth += 1;
+        if (newMonth > DSAAventurianMonthNamenlos) {
+            newMonth = 1;
+            newYear += 1;
+        }
+    }
+
+    DSAAventurianDate *newDate = [[DSAAventurianDate alloc] init];
+    newDate.year = newYear;
+    newDate.month = newMonth;
+    newDate.day = newDay;
+    newDate.hour = newHour;
+    newDate.minute = newMinute;
+
+    return newDate;
+}
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
@@ -92,10 +159,9 @@ static const DSAAventurianWeekday ANCHOR_WEEKDAY = Praiostag;
   [coder encodeObject:@(self.year) forKey:@"year"];
   [coder encodeObject:@(self.month) forKey:@"month"];
   [coder encodeObject:@(self.day) forKey:@"day"];
-  [coder encodeObject:@(self.month) forKey:@"hour"];
-  [coder encodeObject:self.hourName forKey:@"hourName"];
-  [coder encodeObject:self.weekdayName forKey:@"weekdayName"];
-  [coder encodeObject:self.monthName forKey:@"monthName"];
+  [coder encodeObject:@(self.hour) forKey:@"hour"];
+  [coder encodeObject:@(self.minute) forKey:@"minute"];
+  NSLog(@"DSAAventurianDate encodeWithCoder encoded: year %ld month %ld day %ld hour %ld minute %ld", self.year, self.month, self.day, self.hour, self.minute);
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder
@@ -107,12 +173,80 @@ static const DSAAventurianWeekday ANCHOR_WEEKDAY = Praiostag;
       self.month = [[coder decodeObjectForKey:@"month"] integerValue];
       self.day = [[coder decodeObjectForKey:@"day"] integerValue];
       self.hour = [[coder decodeObjectForKey:@"hour"] integerValue];
-      self.hourName = [coder decodeObjectForKey:@"hourName"];
-      self.weekdayName = [coder decodeObjectForKey:@"weekdayName"];
-      self.monthName = [coder decodeObjectForKey:@"monthName"];
-
+      self.minute = [[coder decodeObjectForKey:@"minute"] integerValue];
+      NSLog(@"DSAAventurianDate initWithCoder inited: year %ld month %ld day %ld hour %ld minute %ld", self.year, self.month, self.day, self.hour, self.minute);
     }
   return self;
+}
+
+- (BOOL)isEqual:(id)object {
+    if (self == object) {
+        return YES;
+    }
+
+    if (![object isKindOfClass:[DSAAventurianDate class]]) {
+        return NO;
+    }
+
+    DSAAventurianDate *otherDate = (DSAAventurianDate *)object;
+
+    return self.year == otherDate.year &&
+           self.month == otherDate.month &&
+           self.day == otherDate.day &&
+           self.hour == otherDate.hour &&
+           self.minute == otherDate.minute;
+}
+
+- (NSUInteger)hash {
+    NSUInteger hash = 17;
+    hash = hash * 31 + self.year;
+    hash = hash * 31 + self.month;
+    hash = hash * 31 + self.day;
+    hash = hash * 31 + self.hour;
+    hash = hash * 31 + self.minute;
+    return hash;
+}
+
+- (NSComparisonResult)compare:(DSAAventurianDate *)otherDate {
+    if (self.year != otherDate.year) {
+        return (self.year < otherDate.year) ? NSOrderedAscending : NSOrderedDescending;
+    }
+    if (self.month != otherDate.month) {
+        return (self.month < otherDate.month) ? NSOrderedAscending : NSOrderedDescending;
+    }
+    if (self.day != otherDate.day) {
+        return (self.day < otherDate.day) ? NSOrderedAscending : NSOrderedDescending;
+    }
+    if (self.hour != otherDate.hour) {
+        return (self.hour < otherDate.hour) ? NSOrderedAscending : NSOrderedDescending;
+    }
+    if (self.minute != otherDate.minute) {
+        return (self.minute < otherDate.minute) ? NSOrderedAscending : NSOrderedDescending;
+    }
+
+    return NSOrderedSame;
+}
+
+- (BOOL)isEarlierThanDate:(DSAAventurianDate *)otherDate {
+    return [self compare:otherDate] == NSOrderedAscending;
+}
+
+- (BOOL)isLaterThanDate:(DSAAventurianDate *)otherDate {
+    return [self compare:otherDate] == NSOrderedDescending;
+}
+
+- (BOOL)isBetweenDate:(DSAAventurianDate *)startDate andDate:(DSAAventurianDate *)endDate {
+    NSComparisonResult startToEnd = [startDate compare:endDate];
+    
+    if (startToEnd == NSOrderedSame) {
+        return [self compare:startDate] == NSOrderedSame;
+    } else if (startToEnd == NSOrderedAscending) {
+        return ([self compare:startDate] != NSOrderedAscending &&
+                [self compare:endDate] != NSOrderedDescending);
+    } else { // startDate is after endDate
+        return ([self compare:endDate] != NSOrderedAscending &&
+                [self compare:startDate] != NSOrderedDescending);
+    }
 }
 
 - (NSString *)description
@@ -155,78 +289,19 @@ static const DSAAventurianWeekday ANCHOR_WEEKDAY = Praiostag;
 
 // Ignores readonly variables with the assumption
 // they are all calculated
-- (id)copyWithZone:(NSZone *)zone
-{
-  // Create a new instance of the class
-  DSAAventurianDate *copy = [[[self class] allocWithZone:zone] init];
 
-  Class currentClass = [self class];
-  while (currentClass != [NSObject class])
-    {  // Loop through class hierarchy
-      // Get a list of all properties for this class
-      unsigned int propertyCount;
-      objc_property_t *properties = class_copyPropertyList(currentClass, &propertyCount);
-        
-      // Iterate over each property
-      for (unsigned int i = 0; i < propertyCount; i++)
-        {
-          objc_property_t property = properties[i];
-          // Get the property name
-          const char *propertyName = property_getName(property);
-          NSString *key = [NSString stringWithUTF8String:propertyName];
-
-          // Get the property attributes
-          const char *attributes = property_getAttributes(property);
-          NSString *attributesString = [NSString stringWithUTF8String:attributes];
-          // Check if the property is readonly by looking for the "R" attribute
-          if ([attributesString containsString:@",R"])
-            {
-              // This is a readonly property, skip copying it
-              continue;
-            }
-            
-          // Get the value of the property for the current object
-          id value = [self valueForKey:key];
-
-          if (value)
-            {
-              // Handle arrays specifically
-              if ([value isKindOfClass:[NSArray class]])
-                {
-                  // Create a mutable array to copy the elements
-                  NSMutableArray *copiedArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)value count]];
-                  for (id item in (NSArray *)value)
-                    {
-                      if ([item conformsToProtocol:@protocol(NSCopying)])
-                        {
-                          [copiedArray addObject:[item copyWithZone:zone]];
-                        } else {
-                          [copiedArray addObject:item]; // Fallback to shallow copy
-                        }
-                    }
-                  [copy setValue:[NSArray arrayWithArray:copiedArray] forKey:key];
-                }
-              // Check if the property conforms to NSCopying
-              else if ([value conformsToProtocol:@protocol(NSCopying)])
-                {
-                  [copy setValue:[value copyWithZone:zone] forKey:key];
-                }
-              else
-                {
-                    // Just assign the reference (shallow copy)
-                    [copy setValue:value forKey:key];
-                }
-            }
-        }
-
-      // Free the property list memory
-      free(properties);
-        
-      // Move to superclass
-      currentClass = [currentClass superclass];
-    }    
-  return copy;
+- (id)copyWithZone:(NSZone *)zone {
+    DSAAventurianDate *copy = [[[self class] allocWithZone:zone] init];
+    if (copy) {
+        copy.year = self.year;
+        copy.month = self.month;
+        copy.day = self.day;
+        copy.hour = self.hour;
+        copy.minute = self.minute;
+        // hourName, weekdayName, and monthName are readonly computed properties
+        // so they don't need to be copied explicitly
+    }
+    return copy;
 }
-
 
 @end

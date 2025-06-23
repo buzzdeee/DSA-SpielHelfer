@@ -60,6 +60,8 @@ Resources/DSALocalMapView_Adventure.gorm \
 Resources/DSAShopView.gorm \
 Resources/DSAShopBargain.gorm \
 Resources/DSAConversationTextOnly.gorm \
+Resources/DSADonation.gorm \
+Resources/DSAInnRentRoom.gorm \
 Resources/Aventurien.jpg \
 Resources/Dolch.webp \
 Resources/Jagdmesser-firnelfisch.webp \
@@ -5630,6 +5632,66 @@ Resources/sell_icon-32x32.webp \
 Resources/sell_icon-512x512.webp \
 Resources/sell_icon-64x64.webp \
 Resources/sell_icon.webp \
+Resources/camp_icon-128x128.webp \
+Resources/camp_icon-256x256.webp \
+Resources/camp_icon-32x32.webp \
+Resources/camp_icon-512x512.webp \
+Resources/camp_icon-64x64.webp \
+Resources/camp_icon.webp \
+Resources/donate-128x128.webp \
+Resources/donate-256x256.webp \
+Resources/donate-32x32.webp \
+Resources/donate-512x512.webp \
+Resources/donate-64x64.webp \
+Resources/donate.webp \
+Resources/go_to_sleep-128x128.webp \
+Resources/go_to_sleep-256x256.webp \
+Resources/go_to_sleep-32x32.webp \
+Resources/go_to_sleep-512x512.webp \
+Resources/go_to_sleep-64x64.webp \
+Resources/go_to_sleep.webp \
+Resources/hunt_icon-128x128.webp \
+Resources/hunt_icon-256x256.webp \
+Resources/hunt_icon-32x32.webp \
+Resources/hunt_icon-512x512.webp \
+Resources/hunt_icon-64x64.webp \
+Resources/hunt_icon.webp \
+Resources/order_meal-128x128.webp \
+Resources/order_meal-256x256.webp \
+Resources/order_meal-32x32.webp \
+Resources/order_meal-512x512.webp \
+Resources/order_meal-64x64.webp \
+Resources/order_meal.webp \
+Resources/pray-128x128.webp \
+Resources/pray-256x256.webp \
+Resources/pray-32x32.webp \
+Resources/pray-512x512.webp \
+Resources/pray-64x64.webp \
+Resources/pray.webp \
+Resources/rent_a_room-128x128.webp \
+Resources/rent_a_room-256x256.webp \
+Resources/rent_a_room-32x32.webp \
+Resources/rent_a_room-512x512.webp \
+Resources/rent_a_room-64x64.webp \
+Resources/rent_a_room.webp \
+Resources/search_herbs-128x128.webp \
+Resources/search_herbs-256x256.webp \
+Resources/search_herbs-32x32.webp \
+Resources/search_herbs-512x512.webp \
+Resources/search_herbs-64x64.webp \
+Resources/search_herbs.webp \
+Resources/use_magic-128x128.webp \
+Resources/use_magic-256x256.webp \
+Resources/use_magic-32x32.webp \
+Resources/use_magic-512x512.webp \
+Resources/use_magic-64x64.webp \
+Resources/use_magic.webp \
+Resources/use_talent-128x128.webp \
+Resources/use_talent-256x256.webp \
+Resources/use_talent-32x32.webp \
+Resources/use_talent-512x512.webp \
+Resources/use_talent-64x64.webp \
+Resources/use_talent.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \
@@ -5745,7 +5807,10 @@ DSAShopItemButton.h \
 DSAShoppingCart.h \
 DSAShopBargainController.h \
 DSAWallet.h \
-DSAConversationController.h
+DSAConversationController.h \
+DSADonationViewController.h \
+DSAInnRentRoomViewController.h \
+DSAGod.h
 
 #
 # Objective-C Class files
@@ -5825,7 +5890,10 @@ DSAShopItemButton.m \
 DSAShoppingCart.m \
 DSAShopBargainController.m \
 DSAWallet.m \
-DSAConversationController.m
+DSAConversationController.m \
+DSADonationViewController.m \
+DSAInnRentRoomViewController.m \
+DSAGod.m
 
 #
 # Other sources

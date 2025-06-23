@@ -35,7 +35,39 @@
 #import "DSAInventoryManager.h"
 #import "DSALocation.h"
 #import "DSAWallet.h"
+#import "DSAGod.h"
 
+@implementation DSACharacterEffect
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super init];
+    if (self) {
+        _uniqueKey = [coder decodeObjectOfClass:[NSString class] forKey:@"uniqueKey"];
+        _expirationDate = [coder decodeObjectOfClass:[DSAAventurianDate class] forKey:@"expirationDate"];
+        _reversibleChanges = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"reversibleChanges"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:self.uniqueKey forKey:@"uniqueKey"];
+    [coder encodeObject:self.expirationDate forKey:@"expirationDate"];
+    [coder encodeObject:self.reversibleChanges forKey:@"reversibleChanges"];
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    DSACharacterEffect *copy = [[[self class] allocWithZone:zone] init];
+    copy->_uniqueKey = [self.uniqueKey copyWithZone:zone];
+    copy->_expirationDate = [self.expirationDate copyWithZone:zone];
+    copy->_reversibleChanges = [[NSDictionary allocWithZone:zone] initWithDictionary:self.reversibleChanges copyItems:YES];
+    return copy;
+}
+
+@end
 
 @implementation DSACharacter
 
@@ -173,9 +205,15 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         _bodyParts = [[DSABodyParts alloc] init];
         _birthday = [[DSAAventurianDate alloc] init];
         _talents = [[NSMutableDictionary alloc] init];
+        _professions = [[NSMutableDictionary alloc] init];
         _spells = [[NSMutableDictionary alloc] init];
         _specials = [[NSMutableDictionary alloc] init];
-        _appliedSpells = [[NSMutableDictionary alloc] init];
+        _currentTalents = [[NSMutableDictionary alloc] init];
+        _currentProfessions = [[NSMutableDictionary alloc] init];
+        _currentSpells = [[NSMutableDictionary alloc] init];
+        _currentSpecials = [[NSMutableDictionary alloc] init];        
+        _appliedSpells = [[NSMutableDictionary alloc] init];   // to be replaced by below appliedEffects
+        _appliedEffects = [[NSMutableDictionary alloc] init];
         _statesDict = [NSMutableDictionary dictionaryWithDictionary: @{ @(DSACharacterStateWounded): @(DSASeverityLevelNone),
                                                                         @(DSACharacterStateSick): @(DSASeverityLevelNone),
                                                                         @(DSACharacterStatePoisoned): @(DSASeverityLevelNone),
@@ -187,6 +225,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                                                                         @(DSACharacterStateThirst): @(DSASeverityLevelMild),
                                                                       }
                       ];
+        _receivedUniqueMiracles = [NSMutableSet set];
     }
     return self;
 }
@@ -288,8 +327,8 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         {
           objc_property_t property = properties[i];
           const char *propertyName = property_getName(property);
-          NSString *key = [NSString stringWithUTF8String:propertyName];
-            
+          NSString *key = [NSString stringWithUTF8String:propertyName];          
+                      
           // Get the value of the property using KVC (Key-Value Coding)
           id value = [self valueForKey:key];
 
@@ -410,6 +449,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   [coder encodeBool:self.isMagicalDabbler forKey:@"isMagicalDabbler"]; 
   [coder encodeBool:self.isBlessedOne forKey:@"isBlessedOne"];    
   [coder encodeInteger:self.mrBonus forKey:@"mrBonus"];
+  [coder encodeInteger:self.currentMrBonus forKey:@"currentMrBonus"];
   [coder encodeInteger:self.armorBaseValue forKey:@"armorBaseValue"];
   [coder encodeInteger:self.staticAttackBaseValue forKey:@"staticAttackBaseValue"];
   [coder encodeInteger:self.staticParryBaseValue forKey:@"staticParryBaseValue"];
@@ -442,9 +482,13 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   [coder encodeObject:self.inventory forKey:@"inventory"];
   [coder encodeObject:self.bodyParts forKey:@"bodyParts"];
   [coder encodeObject:self.talents forKey:@"talents"];
+  [coder encodeObject:self.currentTalents forKey:@"currentTalents"];
   [coder encodeObject:self.professions forKey:@"professions"];
+  [coder encodeObject:self.currentProfessions forKey:@"currentProfessions"];
   [coder encodeObject:self.spells forKey:@"spells"];
+  [coder encodeObject:self.currentSpells forKey:@"currentSpells"];
   [coder encodeObject:self.specials forKey:@"specials"];
+  [coder encodeObject:self.currentSpecials forKey:@"currentSpecials"];
   [coder encodeInteger:self.firstLevelUpTalentTriesPenalty forKey:@"firstLevelUpTalentTriesPenalty"];  
   [coder encodeInteger:self.maxLevelUpTalentsTries forKey:@"maxLevelUpTalentsTries"];
   [coder encodeInteger:self.maxLevelUpSpellsTries forKey:@"maxLevelUpSpellsTries"];
@@ -452,8 +496,10 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   [coder encodeInteger:self.maxLevelUpSpellsTriesTmp forKey:@"maxLevelUpSpellsTriesTmp"];  
   [coder encodeInteger:self.maxLevelUpVariableTries forKey:@"maxLevelUpVariableTries"];  
   [coder encodeObject:self.appliedSpells forKey:@"appliedSpells"];
+  [coder encodeObject:self.appliedEffects forKey:@"appliedEffects"];
   [coder encodeObject:self.statesDict forKey:@"statesDict"];
   [coder encodeObject:self.currentLocation forKey:@"currentLocation"];
+  [coder encodeObject:self.receivedUniqueMiracles forKey:@"receivedUniqueMiracles"];
  }
 
 - (instancetype)initWithCoder:(NSCoder *)coder
@@ -487,6 +533,11 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.currentAstralEnergy = [coder decodeIntegerForKey:@"currentAstralEnergy"];
       self.currentKarmaPoints = [coder decodeIntegerForKey:@"currentKarmaPoints"];   
       self.mrBonus = [coder decodeIntegerForKey:@"mrBonus"];
+      if ([coder containsValueForKey:@"currentMrBonus"]) {
+        self.currentMrBonus = [coder decodeIntegerForKey:@"currentMrBonus"];
+      } else {
+        self.currentMrBonus = self.mrBonus; // Fallback für alte Versionen
+      }
       self.armorBaseValue = [coder decodeIntegerForKey:@"armorBaseValue"];
       self.staticAttackBaseValue = [coder decodeIntegerForKey:@"staticAttackBaseValue"];               
       self.staticParryBaseValue = [coder decodeIntegerForKey:@"staticParryBaseValue"];
@@ -540,9 +591,39 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.inventory = [coder decodeObjectForKey:@"inventory"];
       self.bodyParts = [coder decodeObjectForKey:@"bodyParts"];
       self.talents = [coder decodeObjectForKey:@"talents"];
+      self.currentTalents = [coder decodeObjectForKey: @"currentTalents"];
+      if (!self.currentTalents)
+        {
+          self.currentTalents = [self deepCopyDictionary:self.talents usingBlock:^id(id obj) {
+            return [(DSATalent *)obj copy];
+          }];
+        } 
       self.professions = [coder decodeObjectForKey:@"professions"];
+      self.currentProfessions = [coder decodeObjectForKey: @"currentProfessions"];
+      if (!self.currentProfessions)
+        {
+          self.currentProfessions = [self deepCopyDictionary:self.professions usingBlock:^id(id obj) {
+            return [(DSAProfession *)obj copy];
+          }];
+        }      
       self.spells = [coder decodeObjectForKey:@"spells"];
+      self.currentSpells = [coder decodeObjectForKey: @"currentSpells"];
+      if (!self.currentSpells)
+        {
+          self.currentSpells = [self deepCopyDictionary:self.spells usingBlock:^id(id obj) {
+            return [(DSASpell *)obj copy];
+          }];
+        }  
       self.specials = [coder decodeObjectForKey:@"specials"];
+      // The most specials are subclasses of DSASpell, but there's also DSALiturgy, which COULD? break here
+      // in case of backward compatibility. BUT up to now, we don't yet have Liturgies we could have saved ;)
+      self.currentSpecials = [coder decodeObjectForKey: @"currentSpecials"];
+      if (!self.currentSpecials)
+        {
+          self.currentSpecials = [self deepCopyDictionary:self.specials usingBlock:^id(id obj) {
+            return [(DSASpell *)obj copy];
+          }];
+        }
       self.firstLevelUpTalentTriesPenalty = [coder decodeIntegerForKey:@"firstLevelUpTalentTriesPenalty"];            
       self.maxLevelUpTalentsTries = [coder decodeIntegerForKey:@"maxLevelUpTalentsTries"];
       self.maxLevelUpSpellsTries = [coder decodeIntegerForKey:@"maxLevelUpSpellsTries"];
@@ -550,11 +631,25 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.maxLevelUpSpellsTriesTmp = [coder decodeIntegerForKey:@"maxLevelUpSpellsTriesTmp"];      
       self.maxLevelUpVariableTries = [coder decodeIntegerForKey:@"maxLevelUpVariableTries"];       
       self.appliedSpells = [coder decodeObjectForKey:@"appliedSpells"];
+      self.appliedEffects = [coder decodeObjectForKey:@"appliedEffects"];
       self.statesDict = [coder decodeObjectForKey:@"statesDict"];
       self.currentLocation = [coder decodeObjectForKey:@"currentLocation"];
+      self.receivedUniqueMiracles = [coder decodeObjectForKey:@"receivedUniqueMiracles"];
     }
   return self;
 }
+
+
+- (NSMutableDictionary<NSString *, id> *)deepCopyDictionary:(NSDictionary<NSString *, id> *)dict
+                                                 usingBlock:(id (^)(id obj))copyBlock {
+    NSMutableDictionary *copy = [NSMutableDictionary dictionary];
+    for (NSString *key in dict) {
+        id obj = dict[key];
+        copy[key] = copyBlock(obj);
+    }
+    return copy;
+}
+
 
 
 // helper function to produce a string based on siblings.
@@ -856,7 +951,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   retVal = floor(([[self.currentPositiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
                  [[self.currentPositiveTraits valueForKeyPath: @"KL.level"] integerValue] +
                  self.level) / 3) - 2 * [[self.currentNegativeTraits valueForKeyPath: @"AG.level"] integerValue] +
-                 self.mrBonus;
+                 self.currentMrBonus;
   return retVal;
 }
 
@@ -977,113 +1072,106 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 {
   NSLog(@"DSACharacter useTalent called");
   DSATalentResult *talentResult = [[DSATalentResult alloc] init];
-  for (DSAOtherTalent *talent in [self.talents allValues])
+  DSAOtherTalent *talent = self.currentTalents[talentName];
+  NSInteger level = talent.level - penalty;
+  NSInteger initialLevel = level;
+  NSMutableArray *resultsArr = [[NSMutableArray alloc] init];
+  NSInteger oneCounter = 0;
+  NSInteger twentyCounter = 0;
+  BOOL earlyFailure = NO;
+  NSInteger counter = 0;
+  for (NSString *trait in talent.test)
     {
-      if ([talent.name isEqualToString: talentName])
-        {
-          NSInteger level = talent.level - penalty;
-          NSInteger initialLevel = level;
-          NSMutableArray *resultsArr = [[NSMutableArray alloc] init];
-          NSInteger oneCounter = 0;
-          NSInteger twentyCounter = 0;
-          BOOL earlyFailure = NO;
-          NSInteger counter = 0;
-          for (NSString *trait in talent.test)
-            {
-              NSInteger traitLevel = [[self.positiveTraits objectForKey: trait] level];
-              NSInteger result = [Utils rollDice: @"1W20"];
-              [resultsArr addObject: @{ @"trait": trait, @"result": @(result) }];
+      NSInteger traitLevel = [[self.positiveTraits objectForKey: trait] level];
+      NSInteger result = [Utils rollDice: @"1W20"];
+      [resultsArr addObject: @{ @"trait": trait, @"result": @(result) }];
               
-              if (result == 1)
-                {
-                  oneCounter += 1;
-                }
-              else if (result == 20)
-                {
-                  twentyCounter += 1;
-                }
-              if (initialLevel >= 0)
-                {
-                  NSLog(@"%@ initial Level > 0 current Level: %ld", trait, (signed long) level);
-                  if (result <= traitLevel)  // potential failure, but we may have enough talent
-                    {
-                      NSLog(@"result was <= traitLevel");
-
-                    }
-                  else
-                    {
-                      NSLog(@"result was > traitLevel");
-                      level = level - (result - traitLevel);
-                      if (level < 0)
-                        {
-                          earlyFailure = YES;
-                        }                      
-                    }
-                }
-              else  // initialLevel < 0
-                {
-                  NSLog(@"%@ initial Level < 0 current Level: %ld", trait, (signed long) level);
-                  if (result <= traitLevel)
-                    {
-                      NSLog(@"result was <= traitLevel");
-                      level = level + (traitLevel - result);
-                      if (level < 0 && counter == 2)
-                        {
-                          NSLog(@"setting early failure becaue counter == 2");
-                          earlyFailure = YES;
-                        }
-                    }
-                  else
-                    {
-                      NSLog(@"result was > traitLevel");
-                      earlyFailure = YES;
-                    }
-                }
-              counter += 1;
-          
-            }
-          if (oneCounter >= 2)
+      if (result == 1)
+        {
+          oneCounter += 1;
+        }
+      else if (result == 20)
+        {
+          twentyCounter += 1;
+        }
+      if (initialLevel >= 0)
+        {
+          NSLog(@"%@ initial Level > 0 current Level: %ld", trait, (signed long) level);
+          if (result <= traitLevel)  // potential failure, but we may have enough talent
             {
-              if (oneCounter == 2)
-                {
-                   talentResult.result = DSATalentResultAutoSuccess;
-                   talentResult.remainingTalentPoints = level;
-                }
-              else
-                {
-                   talentResult.result = DSATalentResultEpicSuccess;
-                   talentResult.remainingTalentPoints = level;
-                }
-            }
-          else if (twentyCounter >= 2)
-            {
-              if (twentyCounter == 2)
-                {
-                   talentResult.result = DSATalentResultAutoFailure;
-                   talentResult.remainingTalentPoints = level;
-                }
-              else
-                {
-                   talentResult.result = DSATalentResultEpicFailure;
-                   talentResult.remainingTalentPoints = level;
-                }              
+              NSLog(@"result was <= traitLevel");
             }
           else
             {
-              if (earlyFailure == YES)
+              NSLog(@"result was > traitLevel");
+              level = level - (result - traitLevel);
+              if (level < 0)
                 {
-                   talentResult.result = DSATalentResultFailure;
-                   talentResult.remainingTalentPoints = level;                                    
-                }
-              else
+                  earlyFailure = YES;
+                }                      
+            }
+        }
+       else  // initialLevel < 0
+        {
+           NSLog(@"%@ initial Level < 0 current Level: %ld", trait, (signed long) level);
+          if (result <= traitLevel)
+            {
+              NSLog(@"result was <= traitLevel");
+              level = level + (traitLevel - result);
+              if (level < 0 && counter == 2)
                 {
-                   talentResult.result = DSATalentResultSuccess;
-                   talentResult.remainingTalentPoints = level;                
+                   NSLog(@"setting early failure becaue counter == 2");
+                   earlyFailure = YES;
                 }
             }
-          talentResult.diceResults = resultsArr;
+           else
+            {
+              NSLog(@"result was > traitLevel");
+              earlyFailure = YES;
+            }
+        }
+      counter += 1;        
+    }
+  if (oneCounter >= 2)
+    {
+      if (oneCounter == 2)
+        {
+           talentResult.result = DSATalentResultAutoSuccess;
+           talentResult.remainingTalentPoints = level;
+        }
+      else
+        {
+           talentResult.result = DSATalentResultEpicSuccess;
+           talentResult.remainingTalentPoints = level;
         }
     }
+  else if (twentyCounter >= 2)
+    {
+      if (twentyCounter == 2)
+        {
+           talentResult.result = DSATalentResultAutoFailure;
+           talentResult.remainingTalentPoints = level;
+        }
+      else
+       {
+          talentResult.result = DSATalentResultEpicFailure;
+          talentResult.remainingTalentPoints = level;
+       }              
+    }
+  else
+    {
+      if (earlyFailure == YES)
+        {
+           talentResult.result = DSATalentResultFailure;
+           talentResult.remainingTalentPoints = level;                                    
+        }
+      else
+        {
+           talentResult.result = DSATalentResultSuccess;
+           talentResult.remainingTalentPoints = level;                
+        }
+    }
+  talentResult.diceResults = resultsArr;
   
   return talentResult;
 }
@@ -1134,19 +1222,14 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 {
   NSLog(@"DSACharacter castSpell called!!!");
   DSASpellResult *spellResult;
-  for (DSASpell *spell in [self.spells allValues])
-    {
-      if ([spell.name isEqualToString: spellName])
-        {
-           spellResult = [spell castOnTarget: targetCharacter
-                                   ofVariant: (NSString *) variant
-                           ofDurationVariant: (NSString *) durationVariant
-                                  atDistance: distance
-                                 investedASP: investedASP 
-                        spellOriginCharacter: originCharacter
-                       spellCastingCharacter: self];
-        }
-    }
+  DSASpell *spell = self.currentSpells[spellName];
+  spellResult = [spell castOnTarget: targetCharacter
+                          ofVariant: (NSString *) variant
+                  ofDurationVariant: (NSString *) durationVariant
+                         atDistance: distance
+                        investedASP: investedASP 
+               spellOriginCharacter: originCharacter
+              spellCastingCharacter: self];
   return spellResult;
 }          
 // end of casting spells related methods
@@ -1355,7 +1438,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 {
   NSLog(@"DSACharacter castRitual called for ritual name: %@", ritualName);
 
-  DSASpell *spell = [self.specials objectForKey: ritualName];
+  DSASpell *spell = [self.currentSpecials objectForKey: ritualName];
   DSASpellResult *spellResult = [spell castOnTarget: target
                                           ofVariant: variant
                                   ofDurationVariant: durationVariant
@@ -1464,6 +1547,62 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         NSLog(@"DSACharacter updateStatesDictState don't know how to handle state: %@", DSACharacterState);
     }
 }                    
+
+- (BOOL) applyMiracleEffect: (DSAMiracleResult *) miracleResult
+{
+  NSLog(@"DSACharacter applyMiracleEffect called!!!");
+  BOOL applied = NO;
+  switch (miracleResult.type) {
+    case DSAMiracleResultTypeSatiation: {
+      [self updateStatesDictState: [NSNumber numberWithInteger: DSACharacterStateHunger]
+                        withValue: [NSNumber numberWithFloat: 1.0]];
+      [self updateStatesDictState: [NSNumber numberWithInteger: DSACharacterStateThirst]
+                        withValue: [NSNumber numberWithFloat: 1.0]];
+      applied = YES;
+      break;
+    }
+    case DSAMiracleResultTypeHeal: {
+      NSInteger heal = [[miracleResult.statChanges objectForKey: @"LE"] integerValue];
+      if (self.currentLifePoints < self.lifePoints)
+        {
+          self.currentLifePoints = MIN(self.lifePoints, self.currentLifePoints + heal);
+          applied = YES;
+        }
+      break;
+    }
+    case DSAMiracleResultTypeNightPeace: {
+
+      break;
+    }
+    case DSAMiracleResultTypeRevive: {
+      [self updateStatesDictState: [NSNumber numberWithInteger: DSACharacterStateDead]
+                        withValue: [NSNumber numberWithInteger: DSASeverityLevelNone]];
+      self.currentLifePoints = 10;        // all should have more LE than 10
+      applied = YES;
+      break;    
+    }
+    default:
+      NSLog(@"DSACharacter applyMiracleEffect effect %ld not yet implemented", miracleResult.type);
+      break;
+  }
+  return applied;
+}
+
+
+- (void)removeExpiredEffectsAtDate:(DSAAventurianDate *)currentDate {
+    NSArray *allKeys = [self.appliedEffects allKeys];
+    for (NSString *key in allKeys) {
+        DSACharacterEffect *effect = self.appliedEffects[key];
+        if (effect.expirationDate && [effect.expirationDate isEarlierThanDate:currentDate]) {
+            [self removeCharacterEffectForKey:key];
+        }
+    }
+}
+
+- (void)removeCharacterEffectForKey: (NSString *)key
+{
+  NSLog(@"DSACharacter removeCharacterEffectForKey: %@ NOT YET IMPLEMENTED!!!!", key);
+}
 
 - (void) updateStateHungerWithValue: (NSNumber*) value
 {
@@ -2301,7 +2440,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         keyPaths = [NSSet setWithObjects:@"currentPositiveTraits.MU.level", 
                                          @"currentPositiveTraits.KL.level",
                                          @"currentNegativeTraits.AG.level",
-                                         @"mrBonus",
+                                         @"currentMrBonus",
                                          @"level", nil];        
     }                 
   return keyPaths;
@@ -2420,7 +2559,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     {
       self.lifePoints = 30;
       self.currentLifePoints = 30;
-      self.mrBonus = 3;          
+      self.mrBonus = self.currentMrBonus = 3;          
     }
   return self;
 }
@@ -2433,7 +2572,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     { 
-      self.mrBonus = 3;          
+      self.mrBonus = self.currentMrBonus = 3;          
     }
   return self;
 }
@@ -2446,7 +2585,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     { 
-      self.mrBonus = 3;          
+      self.mrBonus = self.currentMrBonus = 3;          
     }
   return self;
 }
@@ -2465,7 +2604,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.currentAstralEnergy = 20;
       self.maxLevelUpTalentsTries = 30;        // most have this as their starting value
       self.maxLevelUpSpellsTries = 20; 
-      self.mrBonus = 1;          
+      self.mrBonus = self.currentMrBonus = 1;          
     }
   return self;
 }
@@ -2487,7 +2626,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.maxLevelUpTalentsTriesTmp = 0;
       self.maxLevelUpSpellsTriesTmp = 0;      
       self.maxLevelUpVariableTries = 0;
-      self.mrBonus = 2;                       // Die Helden des Schwarzen Auges, Regelbuch II S. 40           
+      self.mrBonus = self.currentMrBonus = 2;                       // Die Helden des Schwarzen Auges, Regelbuch II S. 40           
     }
   return self;
 }
@@ -2511,7 +2650,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.maxLevelUpTalentsTriesTmp = 0;
       self.maxLevelUpSpellsTriesTmp = 0;      
       self.maxLevelUpVariableTries = 10;
-      self.mrBonus = 3;                      // Die Magie des schwarzen Auges S. 49
+      self.mrBonus = self.currentMrBonus = 3;                      // Die Magie des schwarzen Auges S. 49
       self.isMagic = YES;
     }
   return self;
@@ -2604,7 +2743,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.currentLifePoints = 30;
       self.currentAstralEnergy = 0;
       self.currentKarmaPoints = 0;
-      self.mrBonus = 0;
+      self.mrBonus = self.currentMrBonus = 0;
     }
   return self;
 }
@@ -2717,7 +2856,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.maxLevelUpTalentsTriesTmp = 25;
       self.maxLevelUpSpellsTriesTmp = 20;      
       self.maxLevelUpVariableTries = 0;
-      self.mrBonus = 2;       
+      self.mrBonus = self.currentMrBonus = 2;       
       self.isMagic = YES;                        
     }
   return self;
@@ -2819,7 +2958,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.maxLevelUpTalentsTriesTmp = 0;
       self.maxLevelUpSpellsTriesTmp = 0;      
       self.maxLevelUpVariableTries = 10;
-      self.mrBonus = 2;                      // Die Magie des schwarzen Auges S. 49
+      self.mrBonus = self.currentMrBonus = 2;                      // Die Magie des schwarzen Auges S. 49
       self.isMagic = YES;
     }
   return self;
@@ -2914,7 +3053,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.maxLevelUpTalentsTriesTmp = 30;
       self.maxLevelUpSpellsTriesTmp = 20;      
       self.maxLevelUpVariableTries = 0;
-      self.mrBonus = 3;          
+      self.mrBonus = self.currentMrBonus = 3;          
       self.isMagic = YES;                     
     }
   return self;
@@ -3011,7 +3150,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.maxLevelUpTalentsTriesTmp = 15;
       self.maxLevelUpSpellsTriesTmp = 40;      
       self.maxLevelUpVariableTries = 10;
-      self.mrBonus = 3;
+      self.mrBonus = self.currentMrBonus = 3;
       self.isMagic = YES;      
     }
   return self;
@@ -3084,7 +3223,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   if (self)
     {
       // see Mit Mantel, Schwert und Zauberstab S. 53
-      self.mrBonus = 1;
+      self.mrBonus = self.currentMrBonus = 1;
     }
   return self;
 }
@@ -3098,7 +3237,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   if (self)
     {
       // as described in Mit Mantel Schwert und Zauberstab S. 43
-      self.mrBonus = -3;      
+      self.mrBonus = self.currentMrBonus = -3;      
     }
   return self;
 }
@@ -3112,7 +3251,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   if (self)
     {
       // see Mit Mantel, Schwert und Zauberstab S. 45
-      self.mrBonus = -1;
+      self.mrBonus = self.currentMrBonus = -1;
     }
   return self;
 }
@@ -3138,7 +3277,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   if (self)
     {
       // as described in "Mit Mantel, Schwert und Zauberstab" S. 55
-      self.mrBonus = 2;
+      self.mrBonus = self.currentMrBonus = 2;
     }
   return self;
 }
@@ -3146,20 +3285,33 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 // End of DSACharacterHeroHumanRogue
 
 @implementation DSACharacterHeroHumanSeafarer
+- (instancetype)init
+{
+  self = [super init];
+  if (self)
+    {
+      // as described in "Mit Mantel, Schwert und Zauberstab" S. 55
+      self.mrBonus = self.currentMrBonus = 0;
+    }
+  return self;
+}
 // mrBonus is dynamic, as described in "Mit Mantel, Schwert und Zauberstab",
 // S. 51
 - (NSInteger) mrBonus
 {
-  NSInteger bonus;
   if (self.level < 5)
     {
-      bonus = -1;
+      return self.mrBonus - 1;
     }
-  else
+  return self.mrBonus;
+}
+- (NSInteger) currentMrBonus
+{
+  if (self.level < 5)
     {
-      bonus = 0;
+      return self.currentMrBonus - 1;
     }
-  return bonus;
+  return self.currentMrBonus;
 }
 @end
 // End of DSACharacterHeroHumanSeafarer
@@ -3177,7 +3329,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.maxLevelUpTalentsTriesTmp = 20;
       self.maxLevelUpSpellsTriesTmp = 10;      
       self.maxLevelUpVariableTries = 10;
-      self.mrBonus = 3;                      // Die Magie des schwarzen Auges S. 40
+      self.mrBonus = self.currentMrBonus = 3;                      // Die Magie des schwarzen Auges S. 40
       self.isMagic = NO;                     // default to NO, but might be switched to YES for some in character generation
     }
   return self;
@@ -3392,6 +3544,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   if (self)
     {
       self.origin = @"Thorwal";
+      self.mrBonus = self.currentMrBonus = 0;
     }
   return self;
 }
@@ -3400,16 +3553,19 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 // Regelbuch II, S. 59
 - (NSInteger) mrBonus
 {
-  NSInteger bonus;
   if (self.level < 5)
     {
-      bonus = -1;
+      return self.mrBonus - 1;
     }
-  else
+  return self.mrBonus;
+}
+- (NSInteger) currentMrBonus
+{
+  if (self.level < 5)
     {
-      bonus = 0;
+      return self.currentMrBonus - 1;
     }
-  return bonus;
+  return self.currentMrBonus;
 }
 @end
 // End of DSACharacterHeroHumanThorwaler
@@ -3434,7 +3590,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.maxLevelUpTalentsTriesTmp = 25;
       self.maxLevelUpSpellsTriesTmp = 30;      
       self.maxLevelUpVariableTries = 0;
-      self.mrBonus = 2;   
+      self.mrBonus = self.currentMrBonus = 2;   
       self.isMagic = YES;                            
     }
   return self;
@@ -3527,7 +3683,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.currentAstralEnergy = 0;
       self.currentKarmaPoints = 24;
       self.isBlessedOne = YES;
-      self.mrBonus = 0;
+      self.mrBonus = self.currentMrBonus = 0;
     }
   return self;
 }
@@ -3562,7 +3718,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     {
-      self.mrBonus = 3; // see "Die Götter des schwarzen Auges" S. 36
+      self.mrBonus = self.currentMrBonus = 3; // see "Die Götter des schwarzen Auges" S. 36
     }
   return self;
 }
@@ -3575,7 +3731,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     {
-      self.mrBonus = 1; // see "Die Götter des schwarzen Auges" S. 42
+      self.mrBonus = self.currentMrBonus = 1; // see "Die Götter des schwarzen Auges" S. 42
     }
   return self;
 }
@@ -3588,7 +3744,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     {
-      self.mrBonus = 1; // see "Die Götter des schwarzen Auges" S. 45
+      self.mrBonus = self.currentMrBonus = 1; // see "Die Götter des schwarzen Auges" S. 45
     }
   return self;
 }
@@ -3601,7 +3757,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     {
-      self.mrBonus = 1; // see "Die Götter des schwarzen Auges" S. 47
+      self.mrBonus = self.currentMrBonus = 1; // see "Die Götter des schwarzen Auges" S. 47
     }
   return self;
 }
@@ -3614,7 +3770,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     {
-      self.mrBonus = 1; // see "Die Götter des schwarzen Auges" S. 52
+      self.mrBonus = self.currentMrBonus = 1; // see "Die Götter des schwarzen Auges" S. 52
     }
   return self;
 }
@@ -3627,7 +3783,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     {
-      self.mrBonus = 2; // see "Die Götter des schwarzen Auges" S. 57
+      self.mrBonus = self.currentMrBonus = 2; // see "Die Götter des schwarzen Auges" S. 57
     }
   return self;
 }
@@ -3640,7 +3796,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     {
-      self.mrBonus = 0; // see "Die Götter des schwarzen Auges" S. 59, nothing specifically mentioned??
+      self.mrBonus = self.currentMrBonus = 0; // see "Die Götter des schwarzen Auges" S. 59, nothing specifically mentioned??
     }
   return self;
 }
@@ -3653,7 +3809,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     {
-      self.mrBonus = 0; // see "Die Götter des schwarzen Auges" S. 61, nothing specifically mentioned??
+      self.mrBonus = self.currentMrBonus = 0; // see "Die Götter des schwarzen Auges" S. 61, nothing specifically mentioned??
     }
   return self;
 }
@@ -3666,7 +3822,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     {
-      self.mrBonus = 1; // see "Die Götter des schwarzen Auges" S. 64
+      self.mrBonus = self.currentMrBonus = 1; // see "Die Götter des schwarzen Auges" S. 64
     }
   return self;
 }
@@ -3679,7 +3835,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     {
-      self.mrBonus = 0; // see "Die Götter des schwarzen Auges" S. 66, nothing specifically mentioned??
+      self.mrBonus = self.currentMrBonus = 0; // see "Die Götter des schwarzen Auges" S. 66, nothing specifically mentioned??
     }
   return self;
 }
@@ -3692,7 +3848,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     {
-      self.mrBonus = 1; // see "Die Götter des schwarzen Auges" S. 69
+      self.mrBonus = self.currentMrBonus = 1; // see "Die Götter des schwarzen Auges" S. 69
     }
   return self;
 }
@@ -3705,7 +3861,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   self = [super init];
   if (self)
     {
-      self.mrBonus = 1; // see "Die Götter des schwarzen Auges" S. 72
+      self.mrBonus = self.currentMrBonus = 1; // see "Die Götter des schwarzen Auges" S. 72
     }
   return self;
 }
@@ -3720,7 +3876,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     {
       self.karmaPoints = 10;           // see "Die Götter des schwarzen Auges" S. 90
       self.currentKarmaPoints = 10;    
-      self.mrBonus = 0;
+      self.mrBonus = self.currentMrBonus = 0;
     }
   return self;
 }
@@ -3763,7 +3919,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 
 // No wild calculations for NPCs, just return the mrBonus value...
 - (NSInteger) magicResistance {
-  return self.mrBonus;
+  return self.currentMrBonus;
 }
 
 - (NSInteger) attackBaseValue {

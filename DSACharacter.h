@@ -39,6 +39,7 @@
 @class DSARegenerationResult;
 @class DSALocation;
 @class DSAWallet;
+@class DSAMiracleResult;
 
 typedef NS_ENUM(NSUInteger, DSACharacterState)
 {
@@ -52,6 +53,16 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
   DSACharacterStateHunger,                  // level of hunger
   DSACharacterStateThirst,                  // level of thirst
 };
+
+NS_ASSUME_NONNULL_BEGIN
+@interface DSACharacterEffect : NSObject <NSCoding, NSCopying>
+
+@property (nonatomic, copy) NSString *uniqueKey;
+@property (nonatomic, strong, nullable) DSAAventurianDate *expirationDate;
+@property (nonatomic, strong) NSDictionary<NSString *, NSNumber *> *reversibleChanges;
+
+@end
+
 
 @interface DSACharacter : NSObject <NSCoding>
 
@@ -99,15 +110,20 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 @property (nonatomic, assign) NSInteger karmaPoints;
 @property (nonatomic, assign) NSInteger currentKarmaPoints;
 @property (nonatomic, assign) NSInteger mrBonus;
+@property (nonatomic, assign) NSInteger currentMrBonus;
 @property (nonatomic, assign) NSInteger armorBaseValue;                  // esp. for different types of NPCs 
 @property (nonatomic, strong, readonly) NSImage *portrait;
 @property (nonatomic, copy) NSString *portraitName;
 @property (nonatomic, strong) DSAInventory *inventory;
 @property (nonatomic, strong) DSABodyParts *bodyParts;
 @property (nonatomic, copy) NSMutableDictionary *talents;
-@property (nonatomic, copy) NSMutableDictionary *professions;
-@property (nonatomic, copy) NSMutableDictionary *spells;
-@property (nonatomic, strong) NSMutableDictionary *specials;
+@property (nonatomic, copy) NSMutableDictionary *currentTalents;
+@property (nonatomic, copy, nullable) NSMutableDictionary *professions;
+@property (nonatomic, copy, nullable) NSMutableDictionary *currentProfessions;
+@property (nonatomic, copy, nullable) NSMutableDictionary *spells;
+@property (nonatomic, copy, nullable) NSMutableDictionary *currentSpells;
+@property (nonatomic, strong, nullable) NSMutableDictionary *specials;
+@property (nonatomic, strong, nullable) NSMutableDictionary *currentSpecials;
 @property (nonatomic, assign) NSInteger firstLevelUpTalentTriesPenalty;  // might have less than usual tries to level up talents to level 1
 @property (nonatomic, assign) NSInteger maxLevelUpTalentsTries;          // how often to try to level up all talents/professions (professions mix in here...)
 @property (nonatomic, assign) NSInteger maxLevelUpSpellsTries;           // how often to try to level up all spells
@@ -116,6 +132,8 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 @property (nonatomic, assign) NSInteger maxLevelUpVariableTries;         // variable tries, that can be added to talent or spell level ups
 @property (nonatomic, strong) NSMutableDictionary<NSString*, DSASpell *> *appliedSpells;  // spells casted onto a character, and having effect on it
 @property (nonatomic, strong) NSMutableDictionary<NSNumber *, NSNumber *> *statesDict;
+
+@property (nonatomic, strong) NSMutableDictionary<NSString *, DSACharacterEffect *> *appliedEffects;
 
 @property (readonly, assign) NSInteger attackBaseValue;
 @property (readonly, assign) NSInteger carryingCapacity;
@@ -127,6 +145,8 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 @property (readonly, assign) NSInteger magicResistance;
 @property (readonly, assign) NSInteger parryBaseValue;
 @property (readonly, assign) NSInteger rangedCombatBaseValue;
+
+@property (nonatomic, strong) NSMutableSet<NSString *> *receivedUniqueMiracles;  // some miracles can only be received once per character
 
 // those static values used for simpler NPC types, with less calculations...
 @property (nonatomic, assign) NSInteger staticAttackBaseValue;
@@ -161,22 +181,26 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 - (void) updateStatesDictState: (NSNumber *) DSACharacterState
                      withValue: (NSNumber *) value;
 
+- (BOOL) applyMiracleEffect: (DSAMiracleResult *) miracleResult;
+- (void)removeExpiredEffectsAtDate:(DSAAventurianDate *)currentDate;
+- (void)removeCharacterEffectForKey: (NSString *)key;
+                     
 - (DSATalentResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty;
 - (DSASpellResult *) castSpell: (NSString *) spellName
-                     ofVariant: (NSString *) variant 
-             ofDurationVariant: (NSString *) durationVariant
+                     ofVariant: (nullable NSString *) variant 
+             ofDurationVariant: (nullable NSString *) durationVariant
                       onTarget: (DSACharacter *) targetCharacter 
                     atDistance: (NSInteger) distance
                    investedASP: (NSInteger) investedASP 
           spellOriginCharacter: (DSACharacter *) originCharacter;
 
 - (DSASpellResult *) castRitual: (NSString *) ritualName 
-                      ofVariant: (NSString *) variant
-              ofDurationVariant: (NSString *) durationVariant
+                      ofVariant: (nullable NSString *) variant
+              ofDurationVariant: (nullable NSString *) durationVariant
                        onTarget: (id) target
                      atDistance: (NSInteger) distance
                     investedASP: (NSInteger) investedASP 
-           spellOriginCharacter: (DSACharacter *) originCharacter;          
+           spellOriginCharacter: (nullable DSACharacter *) originCharacter;          
           
 - (DSARegenerationResult *) regenerateBaseEnergiesForHours: (NSInteger) hours;
 
@@ -188,9 +212,9 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 @end
 
 @interface DSACharacterHero : DSACharacter
-@property (nonatomic, copy) NSMutableDictionary *levelUpTalents;       // used to track talent level up attempts when reching a new level
-@property (nonatomic, copy) NSMutableDictionary *levelUpSpells;        // used to track spell level up attempts when reching a new level
-@property (nonatomic, copy) NSMutableDictionary *levelUpProfessions;   // used to track profession level up attempts when reching a new level
+@property (nonatomic, copy, nullable) NSMutableDictionary *levelUpTalents;       // used to track talent level up attempts when reching a new level
+@property (nonatomic, copy, nullable) NSMutableDictionary *levelUpSpells;        // used to track spell level up attempts when reching a new level
+@property (nonatomic, copy, nullable) NSMutableDictionary *levelUpProfessions;   // used to track profession level up attempts when reching a new level
 @property (nonatomic) BOOL isLevelingUp;                               // keeps track of the fact, if a character is in the phase of leveling up...
 @property (nonatomic, assign) NSInteger tempDeltaLpAe;                   // some characters roll one dice to level up LP and AE, and have to ask user how to distribute, here we temporarily save the result
 
@@ -475,4 +499,4 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
 // End of DSACharacterNpcHumanoidZyklop
 
 #endif // _DSACHARACTER_H_
-
+NS_ASSUME_NONNULL_END

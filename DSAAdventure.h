@@ -32,6 +32,7 @@
 @class DSAAdventureClock;
 @class DSAAdventureGroup;
 @class DSAMapCoordinate;
+@class DSAGod;
 
 @interface DSAAdventure : NSObject
 
@@ -42,7 +43,10 @@
 @property (nonatomic, readonly) DSAAdventureGroup *activeGroup;
 
 @property (nonatomic, strong) DSAAdventureClock *gameClock; // In-game time
-@property (nonatomic, strong) DSAWeather *gameWeather; // the current weather
+@property (nonatomic, strong) DSAWeather *gameWeather;      // the current weather
+@property (nonatomic, strong) NSArray <DSAGod *> *gods;
+@property (nonatomic, strong) NSDictionary<NSNumber *, DSAGod *> *godsByType;
+@property (nonatomic, strong) NSDictionary<NSString *, DSAGod *> *godsByName;
 
 @property (strong) NSMutableDictionary<NSString *, NSString *> *characterFilePaths;
 

@@ -1,0 +1,25 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSAInnRentRoomViewController = {
+	Actions = (
+	    "buttonCancelClicked:",
+	    "buttonRentClicked:",
+	    "sliderValueChanged:"
+	);
+	Outlets = (
+	    popupRooms,
+	    sliderNights,
+	    fieldNights,
+	    buttonRent
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "buttonCancelClicked:",
+	    "buttonRentClicked:",
+	    "sliderValueChanged:"
+	);
+	Super = NSObject;
+    };
+}

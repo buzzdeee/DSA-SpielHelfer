@@ -91,7 +91,10 @@
 	"DSAShoppingCart.m",
 	"DSAShopBargainController.m",
 	"DSAWallet.m",
-	"DSAConversationController.m"
+	"DSAConversationController.m",
+	"DSADonationViewController.m",
+	"DSAInnRentRoomViewController.m",
+	"DSAGod.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -175,7 +178,10 @@
 	"DSAShoppingCart.h",
 	"DSAShopBargainController.h",
 	"DSAWallet.h",
-	"DSAConversationController.h"
+	"DSAConversationController.h",
+	"DSADonationViewController.h",
+	"DSAInnRentRoomViewController.h",
+	"DSAGod.h"
     );
     IMAGES = (
 	"Aventurien.jpg",
@@ -5747,7 +5753,67 @@
 	"sell_icon-32x32.webp",
 	"sell_icon-512x512.webp",
 	"sell_icon-64x64.webp",
-	"sell_icon.webp"
+	"sell_icon.webp",
+	"camp_icon-128x128.webp",
+	"camp_icon-256x256.webp",
+	"camp_icon-32x32.webp",
+	"camp_icon-512x512.webp",
+	"camp_icon-64x64.webp",
+	"camp_icon.webp",
+	"donate-128x128.webp",
+	"donate-256x256.webp",
+	"donate-32x32.webp",
+	"donate-512x512.webp",
+	"donate-64x64.webp",
+	"donate.webp",
+	"go_to_sleep-128x128.webp",
+	"go_to_sleep-256x256.webp",
+	"go_to_sleep-32x32.webp",
+	"go_to_sleep-512x512.webp",
+	"go_to_sleep-64x64.webp",
+	"go_to_sleep.webp",
+	"hunt_icon-128x128.webp",
+	"hunt_icon-256x256.webp",
+	"hunt_icon-32x32.webp",
+	"hunt_icon-512x512.webp",
+	"hunt_icon-64x64.webp",
+	"hunt_icon.webp",
+	"order_meal-128x128.webp",
+	"order_meal-256x256.webp",
+	"order_meal-32x32.webp",
+	"order_meal-512x512.webp",
+	"order_meal-64x64.webp",
+	"order_meal.webp",
+	"pray-128x128.webp",
+	"pray-256x256.webp",
+	"pray-32x32.webp",
+	"pray-512x512.webp",
+	"pray-64x64.webp",
+	"pray.webp",
+	"rent_a_room-128x128.webp",
+	"rent_a_room-256x256.webp",
+	"rent_a_room-32x32.webp",
+	"rent_a_room-512x512.webp",
+	"rent_a_room-64x64.webp",
+	"rent_a_room.webp",
+	"search_herbs-128x128.webp",
+	"search_herbs-256x256.webp",
+	"search_herbs-32x32.webp",
+	"search_herbs-512x512.webp",
+	"search_herbs-64x64.webp",
+	"search_herbs.webp",
+	"use_magic-128x128.webp",
+	"use_magic-256x256.webp",
+	"use_magic-32x32.webp",
+	"use_magic-512x512.webp",
+	"use_magic-64x64.webp",
+	"use_magic.webp",
+	"use_talent-128x128.webp",
+	"use_talent-256x256.webp",
+	"use_talent-32x32.webp",
+	"use_talent-512x512.webp",
+	"use_talent-64x64.webp",
+	"use_talent.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;
@@ -5778,7 +5844,9 @@
 	"DSALocalMapView_Adventure.gorm",
 	"DSAShopView.gorm",
 	"DSAShopBargain.gorm",
-	"DSAConversationTextOnly.gorm"
+	"DSAConversationTextOnly.gorm",
+	"DSADonation.gorm",
+	"DSAInnRentRoom.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (

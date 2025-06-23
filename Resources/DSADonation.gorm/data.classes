@@ -1,0 +1,26 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSADonationViewController = {
+	Actions = (
+	    "buttonCancelClicked:",
+	    "buttonDonateClicked:",
+	    "sliderValueChanged:"
+	);
+	Outlets = (
+	    buttonDonate,
+	    fieldFinalSilver,
+	    fieldMaxSilver,
+	    buttonCancel,
+	    sliderSilver
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "buttonCancelClicked:",
+	    "buttonDonateClicked:",
+	    "sliderValueChanged:"
+	);
+	Super = NSObject;
+    };
+}

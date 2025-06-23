@@ -52,7 +52,8 @@
                                                keyEquivalent: @""];
         [item setRepresentedObject: character];
         [[self.popupCharacter menu] addItem: item];
-      }      
+      }
+    [self.popupCharacter selectItemAtIndex: 0];
 }
 
 - (IBAction)sliderValueChanged:(NSSlider *)sender {

@@ -1046,20 +1046,25 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
 + (instancetype)positionWithMapCoordinate:(DSAMapCoordinate *)coordinate
                        globalLocationName:(NSString *)globalLocationName
                         localLocationName:(NSString *)localLocationName
+                                     room:(NSString *)room
 {
     return [[self alloc] initWithMapCoordinate:coordinate
                              globalLocationName:globalLocationName
-                              localLocationName:localLocationName];
+                              localLocationName:localLocationName
+                                           room:room];
 }
 
 - (instancetype)initWithMapCoordinate:(DSAMapCoordinate *)coordinate
                    globalLocationName:(NSString *)globalLocationName
-                    localLocationName:(NSString *)localLocationName {
+                    localLocationName:(NSString *)localLocationName
+                                 room:(NSString *)room
+{
     self = [super init];
     if (self) {
         _mapCoordinate = coordinate;
         _globalLocationName = [globalLocationName copy];
         _localLocationName = [localLocationName copy];
+        _room = [room copy];
     }
     return self;
 }
@@ -1089,10 +1094,11 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
     DSAMapCoordinate *newCoord = [[DSAMapCoordinate alloc] initWithX:self.mapCoordinate.x + dx
                                                                   y:self.mapCoordinate.y + dy
                                                               level:self.mapCoordinate.level];
-
+    
     return [DSAPosition positionWithMapCoordinate:newCoord
                                globalLocationName:self.globalLocationName
-                                localLocationName:self.localLocationName];
+                                localLocationName:self.localLocationName
+                                             room:self.room];
 }
 
 
@@ -1122,7 +1128,8 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
 - (NSUInteger)hash {
     return self.mapCoordinate.hash ^
            self.globalLocationName.hash ^
-           self.localLocationName.hash;
+           self.localLocationName.hash ^
+           self.room.hash;
 }
 
 #pragma mark - NSCopying
@@ -1130,7 +1137,8 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
 - (id)copyWithZone:(NSZone *)zone {
     return [[DSAPosition allocWithZone:zone] initWithMapCoordinate:[self.mapCoordinate copy]
                                                 globalLocationName:[self.globalLocationName copy]
-                                                 localLocationName:[self.localLocationName copy]];
+                                                 localLocationName:[self.localLocationName copy]
+                                                              room:[self.room copy]];
 }
 
 #pragma mark - NSSecureCoding
@@ -1143,20 +1151,22 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
     [coder encodeObject:self.mapCoordinate forKey:@"mapCoordinate"];
     [coder encodeObject:self.globalLocationName forKey:@"globalLocationName"];
     [coder encodeObject:self.localLocationName forKey:@"localLocationName"];
+    [coder encodeObject:self.room forKey:@"room"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)decoder {
     DSAMapCoordinate *coord = [decoder decodeObjectOfClass:[DSAMapCoordinate class] forKey:@"mapCoordinate"];
     NSString *globalName = [decoder decodeObjectOfClass:[NSString class] forKey:@"globalLocationName"];
     NSString *localName = [decoder decodeObjectOfClass:[NSString class] forKey:@"localLocationName"];
-    return [self initWithMapCoordinate:coord globalLocationName:globalName localLocationName:localName];
+    NSString *room = [decoder decodeObjectOfClass:[NSString class] forKey:@"room"];
+    return [self initWithMapCoordinate:coord globalLocationName:globalName localLocationName:localName room: room];
 }
 
 #pragma mark - Description
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"<DSAPosition coordinate:%@ global:%@ local:%@>",
-            self.mapCoordinate, self.globalLocationName, self.localLocationName];
+    return [NSString stringWithFormat:@"<DSAPosition coordinate:%@ global:%@ local:%@ room:%@>",
+            self.mapCoordinate, self.globalLocationName, self.localLocationName, self.room];
 }
 
 @end

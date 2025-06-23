@@ -96,6 +96,20 @@
     self.updateTimer = nil;
 }
 
+
+/*
+2025-06-20 19:44:19.282 DSA-SpielHelfer[11455:8660732024520] DSAClockAnimationView timerUpdate DSAAventurianDate:
+year = 1030
+month = 1
+day = 6
+hour = 7
+minute = 2
+hourName = Firun
+weekdayName = Erdstag
+monthName = Praios
+*/
+
+
 - (void)updateFromAdventureClock {
     NSLog(@"DSAClockAnimationView updateFromAdventureClock called");
     

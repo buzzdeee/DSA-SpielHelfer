@@ -217,39 +217,6 @@
     [self.adventureGenController startAdventureGeneration:sender];
 }
 
-/*
-- (void)createNewAdventureDocument:(NSString *) selectedLocation {
-    NSError *error = nil;
-    DSADocumentController *docController = [DSADocumentController sharedDocumentController];
-    NSLog(@"AppController createNewAdventureDocument! calling makeUntitledDocumentOfType....");
-    
-    DSAAdventureDocument *newDocument = [docController makeUntitledDocumentOfType:@"DSAAdventure" error:&error];
-    DSALocations *locations = [DSALocations sharedInstance];
-
-    if (newDocument) {
-        if (selectedLocation) {
-            newDocument.model.currentLocation = [locations locationWithName:selectedLocation ofType: @"local"];
-            if ([newDocument.model.currentLocation isMemberOfClass: [DSALocalMapLocation class]])
-              {
-                DSALocation *currentLocation = newDocument.model.currentLocation;
-                NSLog(@"AppController: createNewAdventureDocument: currentLocation before getting starting temple location: %@", currentLocation);
-                DSALocalMapTile *startingTempleTile = [self getLocalMapTileOfStartingTempleForLocation: [(DSALocalMapLocation *)currentLocation locationMap]];
-                NSLog(@"AppController: createNewAdventureDocument: starting Temple Tile: %@", startingTempleTile);
-                newDocument.model.currentLocation.x = startingTempleTile.x;
-                newDocument.model.currentLocation.y = startingTempleTile.y;
-              }
-        }
-        [docController addDocument:newDocument];
-        [newDocument makeWindowControllers];
-        [newDocument showWindows];
-        [newDocument updateChangeCount:NSChangeDone];
-    }
-    NSLog(@"AppController createNewAdventureDocument: newDocument.model: %@", newDocument.model);
-    if (error) {
-        NSLog(@"Error creating Document: %@", error);
-    }
-}
-*/
 - (void)createNewAdventureDocument:(NSString *)selectedLocation {
     NSError *error = nil;
     DSADocumentController *docController = [DSADocumentController sharedDocumentController];
@@ -275,7 +242,8 @@
                 
                 startingPosition = [DSAPosition positionWithMapCoordinate: startingTempleTile.tileCoordinate
                                                        globalLocationName: localLocation.globalLocationName
-                                                        localLocationName: localLocation.name];
+                                                        localLocationName: localLocation.name
+                                                                     room: nil];
             }
             
             // Setze Location in der ersten Gruppe

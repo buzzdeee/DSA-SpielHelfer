@@ -24,6 +24,18 @@ TODO:
  * Schamane (erz dinger...)
  * Erweitere Regeneration (Abhängig von Zustand etc.)
  * Erweitertes Handling der Zustände, Phase, Auswirkungen auf Basiswerte etc.
+ 
+ 
+ABENTEUER:
+ * Tempel:
+   * Götterwunder: http://nlt-wiki.crystals-dsa-foren.de/doku.php/spielhilfen/goetter_und_ihre_wunder
+   * https://www.crystals-dsa-foren.de/showthread.php?tid=11&pid=124840#pid124840
+ * Shop
+   * NPC und Level des feilschen Talents vom NPC beim Feilschen mit einbeziehen
+   * Preise für Waren auf jeweilige Region abstimmen
+     * und nicht immer ist alles überall vorhanden
+   * unterschiedliche Qualitätsklassen von Shops
+
 
 WIP:
  * Magierakademien

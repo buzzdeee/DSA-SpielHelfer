@@ -53,17 +53,18 @@ typedef NS_ENUM(NSUInteger, DSAAventurianWeekday) {
     Wassertag = 6   // Mittwoch
 };
 
+NS_ASSUME_NONNULL_BEGIN
 
-@interface DSAAventurianDate : NSObject <NSCoding>
+@interface DSAAventurianDate : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, assign) NSInteger year;
 @property (nonatomic, assign) DSAAventurianMonth month;
 @property (nonatomic, assign) NSUInteger day;
 @property (nonatomic, assign) NSUInteger hour;
 @property (nonatomic, assign) NSUInteger minute;
-@property (nonatomic, strong) NSString *hourName;
-@property (nonatomic, strong) NSString *weekdayName;
-@property (nonatomic, strong) NSString *monthName;
+@property (nonatomic, readonly) NSString *hourName;
+@property (nonatomic, readonly) NSString *weekdayName;
+@property (nonatomic, readonly) NSString *monthName;
 
 - (instancetype)initWithYear:(NSInteger)year month:(DSAAventurianMonth)month day:(NSUInteger)day hour:(NSUInteger)hour;
 
@@ -71,10 +72,20 @@ typedef NS_ENUM(NSUInteger, DSAAventurianWeekday) {
 - (NSString *)hourNameForHour:(NSUInteger)hour;
 - (NSString *)weekdayForAventurianDateWithYear:(NSInteger)year month:(NSUInteger)month day:(NSUInteger)day;
 
+- (NSUInteger) daysInMonth: (DSAAventurianMonth)month;   // returns the number of days in a given month
+- (nullable DSAAventurianDate *)dateByAddingYears:(NSInteger)years    // calculates and returns a new date in the future
+                                             days:(NSInteger)days
+                                            hours:(NSInteger)hours
+                                          minutes:(NSInteger)minutes;
+
+// Compare dates with each other
+- (BOOL)isEarlierThanDate:(DSAAventurianDate *)otherDate;
+- (BOOL)isLaterThanDate:(DSAAventurianDate *)otherDate;
+- (BOOL)isBetweenDate:(DSAAventurianDate *)startDate andDate:(DSAAventurianDate *)endDate;
 
 @end
 
-
+NS_ASSUME_NONNULL_END
 
 #endif // _DSAAVENTURIANDATE_H_
 
