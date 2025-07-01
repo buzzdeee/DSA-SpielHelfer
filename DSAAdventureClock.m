@@ -46,20 +46,6 @@
     }    
 }
 
-/*
-2025-06-20 20:06:44.506 DSA-SpielHelfer[19354:2307198498888] DSAAdventure encodeWithCoder called, saved gameClock: DSAAdventureClock:
-currentDate = DSAAventurianDate:
-year = 1030
-month = 1
-day = 5
-hour = 9
-minute = 19
-hourName = Peraine
-weekdayName = Feuertag
-monthName = Praios
-*/
-
-
 - (void)startClock {
     NSLog(@"DSAAdventureClock startClock called");
     if (!self.gameTimer) {
@@ -87,6 +73,9 @@ monthName = Praios
 - (void)updateGameTime {
     NSLog(@"DSAAdventureClock updateGameTime called (advance time by 1 minute)");
     [self advanceTimeByMinutes:1]; // Advances 1 minute of game time every 30 real seconds
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameTimeAdvanced"
+                                                        object:self
+                                                      userInfo:@{ @"currentDate": [self.currentDate copy] }];    
 }
 
 - (void)advanceTimeByMinutes:(NSUInteger)minutes {
@@ -99,6 +88,9 @@ monthName = Praios
         self.currentDate.hour -= 24;
         [self advanceTimeByDays:1];
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameTimeAdvanced"
+                                                        object:self
+                                                      userInfo:@{ @"currentDate": [self.currentDate copy] }];    
 }
 
 - (void)advanceTimeByHours:(NSUInteger)hours {
@@ -110,6 +102,9 @@ monthName = Praios
     }
     NSLog(@"DSAAdventureClock advanceTimeByHours hours after: %lu", self.currentDate.hour);
     NSLog(@"DSAAdventureClock currentDate after: %@", self.currentDate);
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameTimeAdvanced"
+                                                        object:self
+                                                      userInfo:@{ @"currentDate": [self.currentDate copy] }];    
 }
 
 - (void)advanceTimeByDays:(NSUInteger)days {
@@ -125,6 +120,9 @@ monthName = Praios
         self.currentDate.year += 1;
         self.currentDate.month = DSAAventurianMonthPraios;
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameTimeAdvanced"
+                                                        object:self
+                                                      userInfo:@{ @"currentDate": [self.currentDate copy] }];    
 }
 
 - (void) encodeWithCoder:(NSCoder *)coder

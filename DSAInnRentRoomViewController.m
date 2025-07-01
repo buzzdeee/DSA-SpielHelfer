@@ -58,4 +58,38 @@
     [NSApp endSheet:self.window];
     [self.window orderOut:nil];
 }
+
+- (NSString *)formattedPrice:(double)silver {
+    int silverCoins = (int)silver;
+    int heller = (int)round((silver - silverCoins) * 10); // 10 Heller = 1 Silber
+
+    if (silverCoins > 0 && heller > 0) {
+        return [NSString stringWithFormat:@"%dS %dH", silverCoins, heller];
+    } else if (silverCoins > 0) {
+        return [NSString stringWithFormat:@"%dS", silverCoins];
+    } else {
+        return [NSString stringWithFormat:@"%dH", heller];
+    }
+}
+
+- (void)setRoomPrices:(NSDictionary<NSString *, NSNumber *> *)roomPrices {
+    _roomPrices = roomPrices;
+
+    [self.popupRooms removeAllItems];
+
+    // Sortiere die Zimmernamen basierend auf dem Preis (aufsteigend)
+    NSArray *sortedKeys = [roomPrices keysSortedByValueUsingComparator:^NSComparisonResult(NSNumber *price1, NSNumber *price2) {
+        return [price1 compare:price2];
+    }];
+
+    NSMutableArray *items = [NSMutableArray array];
+    for (NSString *roomName in sortedKeys) {
+        double price = roomPrices[roomName].doubleValue;
+        NSString *formatted = [self formattedPrice:price];
+        [items addObject:[NSString stringWithFormat:@"%@ %@", roomName, formatted]];
+    }
+
+    [self.popupRooms addItemsWithTitles:items];
+}
+
 @end

@@ -58,6 +58,10 @@
         NSLog(@"DSAAdventure init after starting clock");
         
     }
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleGameTimeAdvancedNotification:)
+                                                 name:@"DSAGameTimeAdvanced"
+                                               object:nil];    
     NSLog(@"DSAAdventure init: returning self: %@", self);
     return self;
 }
@@ -76,7 +80,7 @@
 - (void)dealloc
 {
   NSLog(@"DSAAdventure is being deallocated.");
-  
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
   NSLog(@"DSAAdventure finished dealloc.");  
 }
 
@@ -125,6 +129,16 @@
   NSLog(@"DSAAdventure loaded groups: %@ and characterFilePaths: %@", _groups, _characterFilePaths);
   [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
   return self;
+}
+
+- (void)handleGameTimeAdvancedNotification:(NSNotification *)notification {
+    DSAAventurianDate *currentDate = notification.userInfo[@"currentDate"];
+    
+    for (DSAAdventureGroup *group in self.groups) {
+      for (DSACharacter *character in group.allCharacters) {
+        [character removeExpiredEffectsAtDate:currentDate];
+      }
+    }
 }
 
 - (DSAAdventureGroup *)activeGroup {

@@ -94,7 +94,9 @@
 	"DSAConversationController.m",
 	"DSADonationViewController.m",
 	"DSAInnRentRoomViewController.m",
-	"DSAGod.m"
+	"DSAGod.m",
+	"DSAPricingEngine.m",
+	"DSAOrderMealViewController.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -181,7 +183,9 @@
 	"DSAConversationController.h",
 	"DSADonationViewController.h",
 	"DSAInnRentRoomViewController.h",
-	"DSAGod.h"
+	"DSAGod.h",
+	"DSAPricingEngine.h",
+	"DSAOrderMealViewController.h"
     );
     IMAGES = (
 	"Aventurien.jpg",
@@ -5813,7 +5817,67 @@
 	"use_talent-32x32.webp",
 	"use_talent-512x512.webp",
 	"use_talent-64x64.webp",
-	"use_talent.webp"
+	"use_talent.webp",
+	"Firun_Tempel_1-128x128.webp",
+	"Firun_Tempel_1-256x256.webp",
+	"Firun_Tempel_1-32x32.webp",
+	"Firun_Tempel_1-512x512.webp",
+	"Firun_Tempel_1-64x64.webp",
+	"Firun_Tempel_1.webp",
+	"Firun_Tempel_2-128x128.webp",
+	"Firun_Tempel_2-256x256.webp",
+	"Firun_Tempel_2-32x32.webp",
+	"Firun_Tempel_2-512x512.webp",
+	"Firun_Tempel_2-64x64.webp",
+	"Firun_Tempel_2.webp",
+	"Ingerimm_Tempel_1-128x128.webp",
+	"Ingerimm_Tempel_1-256x256.webp",
+	"Ingerimm_Tempel_1-32x32.webp",
+	"Ingerimm_Tempel_1-512x512.webp",
+	"Ingerimm_Tempel_1-64x64.webp",
+	"Ingerimm_Tempel_1.webp",
+	"Ingerimm_Tempel_2-128x128.webp",
+	"Ingerimm_Tempel_2-256x256.webp",
+	"Ingerimm_Tempel_2-32x32.webp",
+	"Ingerimm_Tempel_2-512x512.webp",
+	"Ingerimm_Tempel_2-64x64.webp",
+	"Ingerimm_Tempel_2.webp",
+	"TH_Herberge_Einzelzimmer_1-128x128.webp",
+	"TH_Herberge_Einzelzimmer_1-256x256.webp",
+	"TH_Herberge_Einzelzimmer_1-32x32.webp",
+	"TH_Herberge_Einzelzimmer_1-512x512.webp",
+	"TH_Herberge_Einzelzimmer_1-64x64.webp",
+	"TH_Herberge_Einzelzimmer_1.webp",
+	"TH_Herberge_Einzelzimmer_2-128x128.webp",
+	"TH_Herberge_Einzelzimmer_2-256x256.webp",
+	"TH_Herberge_Einzelzimmer_2-32x32.webp",
+	"TH_Herberge_Einzelzimmer_2-512x512.webp",
+	"TH_Herberge_Einzelzimmer_2-64x64.webp",
+	"TH_Herberge_Einzelzimmer_2.webp",
+	"TH_Herberge_Schlafsaal_1-128x128.webp",
+	"TH_Herberge_Schlafsaal_1-256x256.webp",
+	"TH_Herberge_Schlafsaal_1-32x32.webp",
+	"TH_Herberge_Schlafsaal_1-512x512.webp",
+	"TH_Herberge_Schlafsaal_1-64x64.webp",
+	"TH_Herberge_Schlafsaal_1.webp",
+	"TH_Herberge_Schlafsaal_2-128x128.webp",
+	"TH_Herberge_Schlafsaal_2-256x256.webp",
+	"TH_Herberge_Schlafsaal_2-32x32.webp",
+	"TH_Herberge_Schlafsaal_2-512x512.webp",
+	"TH_Herberge_Schlafsaal_2-64x64.webp",
+	"TH_Herberge_Schlafsaal_2.webp",
+	"TH_Herberge_Suite_1-128x128.webp",
+	"TH_Herberge_Suite_1-256x256.webp",
+	"TH_Herberge_Suite_1-32x32.webp",
+	"TH_Herberge_Suite_1-512x512.webp",
+	"TH_Herberge_Suite_1-64x64.webp",
+	"TH_Herberge_Suite_1.webp",
+	"TH_Herberge_Suite_2-128x128.webp",
+	"TH_Herberge_Suite_2-256x256.webp",
+	"TH_Herberge_Suite_2-32x32.webp",
+	"TH_Herberge_Suite_2-512x512.webp",
+	"TH_Herberge_Suite_2-64x64.webp",
+	"TH_Herberge_Suite_2.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;
@@ -5846,7 +5910,8 @@
 	"DSAShopBargain.gorm",
 	"DSAConversationTextOnly.gorm",
 	"DSADonation.gorm",
-	"DSAInnRentRoom.gorm"
+	"DSAInnRentRoom.gorm",
+	"DSAMealOrderView.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (

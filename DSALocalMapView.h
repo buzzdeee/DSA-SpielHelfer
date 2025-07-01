@@ -30,6 +30,10 @@
 @class DSALocalMapTile;
 @class DSAAdventure;
 
+extern NSString * const DSALocalMapTileBuildingInnTypeHerberge;
+extern NSString * const DSALocalMapTileBuildingInnTypeHerbergeMitTaverne;
+extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
+
 @interface DSALocalMapView : NSView
 @property (nonatomic, strong) NSArray<NSArray<DSALocalMapTile *> *> *mapArray;
 - (void)setMapArray:(NSArray<NSArray<DSALocalMapTile *> *> *)mapArray;

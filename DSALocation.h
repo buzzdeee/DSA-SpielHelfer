@@ -166,6 +166,8 @@ NS_INLINE NSString * DSADirectionToString(DSADirection direction) {
 
 - (DSAPosition *)positionByMovingInDirection:(DSADirection)direction steps:(NSInteger)steps;
 
+- (NSString *)roomKey;
+
 @end
 
 NS_ASSUME_NONNULL_END

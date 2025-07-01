@@ -62,6 +62,7 @@ Resources/DSAShopBargain.gorm \
 Resources/DSAConversationTextOnly.gorm \
 Resources/DSADonation.gorm \
 Resources/DSAInnRentRoom.gorm \
+Resources/DSAMealOrderView.gorm \
 Resources/Aventurien.jpg \
 Resources/Dolch.webp \
 Resources/Jagdmesser-firnelfisch.webp \
@@ -5692,6 +5693,66 @@ Resources/use_talent-32x32.webp \
 Resources/use_talent-512x512.webp \
 Resources/use_talent-64x64.webp \
 Resources/use_talent.webp \
+Resources/Firun_Tempel_1-128x128.webp \
+Resources/Firun_Tempel_1-256x256.webp \
+Resources/Firun_Tempel_1-32x32.webp \
+Resources/Firun_Tempel_1-512x512.webp \
+Resources/Firun_Tempel_1-64x64.webp \
+Resources/Firun_Tempel_1.webp \
+Resources/Firun_Tempel_2-128x128.webp \
+Resources/Firun_Tempel_2-256x256.webp \
+Resources/Firun_Tempel_2-32x32.webp \
+Resources/Firun_Tempel_2-512x512.webp \
+Resources/Firun_Tempel_2-64x64.webp \
+Resources/Firun_Tempel_2.webp \
+Resources/Ingerimm_Tempel_1-128x128.webp \
+Resources/Ingerimm_Tempel_1-256x256.webp \
+Resources/Ingerimm_Tempel_1-32x32.webp \
+Resources/Ingerimm_Tempel_1-512x512.webp \
+Resources/Ingerimm_Tempel_1-64x64.webp \
+Resources/Ingerimm_Tempel_1.webp \
+Resources/Ingerimm_Tempel_2-128x128.webp \
+Resources/Ingerimm_Tempel_2-256x256.webp \
+Resources/Ingerimm_Tempel_2-32x32.webp \
+Resources/Ingerimm_Tempel_2-512x512.webp \
+Resources/Ingerimm_Tempel_2-64x64.webp \
+Resources/Ingerimm_Tempel_2.webp \
+Resources/TH_Herberge_Einzelzimmer_1-128x128.webp \
+Resources/TH_Herberge_Einzelzimmer_1-256x256.webp \
+Resources/TH_Herberge_Einzelzimmer_1-32x32.webp \
+Resources/TH_Herberge_Einzelzimmer_1-512x512.webp \
+Resources/TH_Herberge_Einzelzimmer_1-64x64.webp \
+Resources/TH_Herberge_Einzelzimmer_1.webp \
+Resources/TH_Herberge_Einzelzimmer_2-128x128.webp \
+Resources/TH_Herberge_Einzelzimmer_2-256x256.webp \
+Resources/TH_Herberge_Einzelzimmer_2-32x32.webp \
+Resources/TH_Herberge_Einzelzimmer_2-512x512.webp \
+Resources/TH_Herberge_Einzelzimmer_2-64x64.webp \
+Resources/TH_Herberge_Einzelzimmer_2.webp \
+Resources/TH_Herberge_Schlafsaal_1-128x128.webp \
+Resources/TH_Herberge_Schlafsaal_1-256x256.webp \
+Resources/TH_Herberge_Schlafsaal_1-32x32.webp \
+Resources/TH_Herberge_Schlafsaal_1-512x512.webp \
+Resources/TH_Herberge_Schlafsaal_1-64x64.webp \
+Resources/TH_Herberge_Schlafsaal_1.webp \
+Resources/TH_Herberge_Schlafsaal_2-128x128.webp \
+Resources/TH_Herberge_Schlafsaal_2-256x256.webp \
+Resources/TH_Herberge_Schlafsaal_2-32x32.webp \
+Resources/TH_Herberge_Schlafsaal_2-512x512.webp \
+Resources/TH_Herberge_Schlafsaal_2-64x64.webp \
+Resources/TH_Herberge_Schlafsaal_2.webp \
+Resources/TH_Herberge_Suite_1-128x128.webp \
+Resources/TH_Herberge_Suite_1-256x256.webp \
+Resources/TH_Herberge_Suite_1-32x32.webp \
+Resources/TH_Herberge_Suite_1-512x512.webp \
+Resources/TH_Herberge_Suite_1-64x64.webp \
+Resources/TH_Herberge_Suite_1.webp \
+Resources/TH_Herberge_Suite_2-128x128.webp \
+Resources/TH_Herberge_Suite_2-256x256.webp \
+Resources/TH_Herberge_Suite_2-32x32.webp \
+Resources/TH_Herberge_Suite_2-512x512.webp \
+Resources/TH_Herberge_Suite_2-64x64.webp \
+Resources/TH_Herberge_Suite_2.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \
@@ -5810,7 +5871,9 @@ DSAWallet.h \
 DSAConversationController.h \
 DSADonationViewController.h \
 DSAInnRentRoomViewController.h \
-DSAGod.h
+DSAGod.h \
+DSAPricingEngine.h \
+DSAOrderMealViewController.h
 
 #
 # Objective-C Class files
@@ -5893,7 +5956,9 @@ DSAWallet.m \
 DSAConversationController.m \
 DSADonationViewController.m \
 DSAInnRentRoomViewController.m \
-DSAGod.m
+DSAGod.m \
+DSAPricingEngine.m \
+DSAOrderMealViewController.m
 
 #
 # Other sources

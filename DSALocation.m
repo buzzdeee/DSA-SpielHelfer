@@ -25,6 +25,11 @@
 #import "DSALocation.h"
 #import "DSAMapCoordinate.h"
 
+NSString * const DSALocalMapTileBuildingInnTypeHerberge = @"Herberge";
+NSString * const DSALocalMapTileBuildingInnTypeHerbergeMitTaverne = @"Herberge mit Taverne";
+NSString * const DSALocalMapTileBuildingInnTypeTaverne = @"Taverne";
+
+
 @implementation DSADirectionHelper
 + (DSADirection)directionFromString:(NSString *)directionString {
     NSString *input = [directionString uppercaseString];
@@ -71,9 +76,9 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
                     _(@"Heiler"): [DSALocalMapTileBuildingHealer class],
                     _(@"Schmied"): [DSALocalMapTileBuildingSmith class],
                     _(@"Tempel"): [DSALocalMapTileBuildingTemple class],
-                    _(@"Taverne"): [DSALocalMapTileBuildingInn class],
-                    _(@"Herberge"): [DSALocalMapTileBuildingInn class],
-                    _(@"Herberge und Taverne"): [DSALocalMapTileBuildingInn class],
+                    _(DSALocalMapTileBuildingInnTypeTaverne): [DSALocalMapTileBuildingInn class],
+                    _(DSALocalMapTileBuildingInnTypeHerberge): [DSALocalMapTileBuildingInn class],
+                    _(DSALocalMapTileBuildingInnTypeHerbergeMitTaverne): [DSALocalMapTileBuildingInn class],
                 };
             }
         }
@@ -1169,4 +1174,16 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
             self.mapCoordinate, self.globalLocationName, self.localLocationName, self.room];
 }
 
+- (NSString *)roomKey
+{
+    DSAMapCoordinate *coord = self.mapCoordinate;
+    NSString *locationName = self.localLocationName ?: @"UnknownLocation";
+
+    NSString *roomKey = [NSString stringWithFormat:@"INN:%@:%ld:%ld:%ld",
+                         locationName,
+                         coord.x,
+                         coord.y,
+                         coord.level];
+    return roomKey;
+}
 @end

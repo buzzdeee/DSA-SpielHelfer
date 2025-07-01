@@ -30,6 +30,10 @@
 
 @class DSACharacter;
 
+extern NSString * const DSALocalMapTileBuildingInnTypeHerberge;
+extern NSString * const DSALocalMapTileBuildingInnTypeHerbergeMitTaverne;
+extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
+
 @interface DSAActionIcon : NSImageView
 
 + (instancetype)iconWithAction:(NSString *)action andSize: (NSString *)size;

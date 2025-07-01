@@ -141,6 +141,13 @@ typedef NS_ENUM(NSInteger, DSAMiracleResultType) {
     DSAMiracleResultTypeNothing
 };
 
+// Praios
+extern NSString * const DSAMiracleKeyPraiosTempMUBoost;
+extern NSString * const DSAMiracleKeyPraiosTempMRBoost;
+
+// Rondra
+extern NSString * const DSAMiracleKeyRondraTempSwordBoost;
+extern NSString * const DSAMiracleKeyRondraTempMagicProtection;
 
 // Rahja
 extern NSString * const DSAMiracleKeyRahjaPermanentTanzenBetören;

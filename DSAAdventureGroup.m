@@ -56,6 +56,11 @@
     return self;
 }
 
+- (NSInteger) membersCount
+{
+  return [self.allMembers count];
+}
+
 - (NSArray<NSUUID *> *) allMembers
 {
   NSArray<NSUUID *> *allMembers = [self.partyMembers arrayByAddingObjectsFromArray:self.npcMembers];
@@ -325,6 +330,19 @@
           }
     }
     return NO;
+}
+
+- (NSInteger) charactersWithBookedRoomOfKey: (NSString *) roomKey
+{
+  NSInteger count = 0;
+  for (DSACharacter *character in self.allCharacters)
+    {
+      if ([character hasAppliedCharacterEffectWithKey: roomKey])
+        {
+          count++;
+        }
+    }
+  return count;
 }
 
 - (void)applyMiracle:(DSAMiracleResult *)miracleResult {

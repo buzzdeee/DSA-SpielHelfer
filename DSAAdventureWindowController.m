@@ -15,14 +15,13 @@
 #import "DSAActionIcon.h"
 #import "DSALocation.h"
 #import "DSALocations.h"
+#import "DSAPricingEngine.h"
 
 extern NSString * const DSACharacterHighlightedNotification;
 
-/*
-@interface DSAAdventureWindowController ()
-@property (nonatomic, strong) NSTimer *dayTimeAnimationUpdateTimer;
-@end
-*/
+extern NSString * const DSALocalMapTileBuildingInnTypeHerberge;
+extern NSString * const DSALocalMapTileBuildingInnTypeHerbergeMitTaverne;
+extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 
 @implementation DSAAdventureWindowController
 
@@ -235,8 +234,8 @@ extern NSString * const DSACharacterHighlightedNotification;
               self.imageActionIcon0 = newIcon;
               [self.imageActionIcon0 updateAppearance];
             }
-          if ([tileType isEqualToString: @"Herberge"] ||
-              [tileType isEqualToString: @"Herberge und Taverne"])
+          if ([tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerberge] ||
+              [tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne])
             {
               if ([self.imageActionIcon1 isKindOfClass: [DSAActionIconRoom class]])
                 {
@@ -266,8 +265,8 @@ extern NSString * const DSACharacterHighlightedNotification;
               [self.imageActionIcon2 updateAppearance];          
             }
             
-          if (([tileType isEqualToString: @"Herberge"] ||
-              [tileType isEqualToString: @"Herberge und Taverne"]) &&
+          if (([tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerberge] ||
+              [tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne]) &&
               [currentPosition.room isEqualToString: @"room"])
             {
               if ([self.imageActionIcon3 isKindOfClass: [DSAActionIconSleep class]])
@@ -286,11 +285,11 @@ extern NSString * const DSACharacterHighlightedNotification;
             {
               self.imageActionIcon3 = [self clearActionIcon:self.imageActionIcon3];
             }
-          if ((([tileType isEqualToString: @"Herberge"] ||
-              [tileType isEqualToString: @"Herberge und Taverne"]) &&
+          if ((([tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerberge] ||
+              [tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne]) &&
               [currentPosition.room isEqualToString: @"room"]) ||
-              [tileType isEqualToString: @"Taverne"] ||
-              ([tileType isEqualToString: @"Herberge und Taverne"] && 
+              [tileType isEqualToString: DSALocalMapTileBuildingInnTypeTaverne] ||
+              ([tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne] && 
               [currentPosition.room isEqualToString: @"tavern"]))
             {
               if ([self.imageActionIcon4 isKindOfClass: [DSAActionIconTalent class]])
@@ -579,61 +578,11 @@ extern NSString * const DSACharacterHighlightedNotification;
   
 }
 
-- (void) setupActionIconsXXX
-{
-    NSLog(@"DSAAdventureWindowController setupActionIcons called!!!!");
-
-    DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"addToGroup" andSize:@"128x128"];
-    [self replaceView:self.imageActionIcon0 withView:newIcon];
-    self.imageActionIcon0 = newIcon;
-    
-    newIcon = [DSAActionIcon iconWithAction:@"removeFromGroup" andSize:@"128x128"];
-    [self replaceView:self.imageActionIcon1 withView:newIcon];
-    self.imageActionIcon1 = newIcon;
-    
-    newIcon = [DSAActionIcon iconWithAction:@"splitGroup" andSize:@"128x128"];
-    [self replaceView:self.imageActionIcon2 withView:newIcon];
-    self.imageActionIcon2 = newIcon;    
-    
-    newIcon = [DSAActionIcon iconWithAction:@"joinGroups" andSize:@"128x128"];
-    [self replaceView:self.imageActionIcon3 withView:newIcon];
-    self.imageActionIcon3 = newIcon;
-    
-    newIcon = [DSAActionIcon iconWithAction:@"switchActiveGroup" andSize:@"128x128"];
-    [self replaceView:self.imageActionIcon4 withView:newIcon];
-    self.imageActionIcon4 = newIcon;     
-    
-    newIcon = [DSAActionIcon iconWithAction:@"buy" andSize:@"128x128"];
-    [self replaceView:self.imageActionIcon5 withView:newIcon];
-    self.imageActionIcon5 = newIcon;
-        
-    newIcon = [DSAActionIcon iconWithAction:@"sell" andSize:@"128x128"];
-    [self replaceView:self.imageActionIcon6 withView:newIcon];
-    self.imageActionIcon6 = newIcon;
-        
-    newIcon = [DSAActionIcon iconWithAction:@"map" andSize:@"128x128"];
-    [self replaceView:self.imageActionIcon7 withView:newIcon];
-    self.imageActionIcon7 = newIcon;
-        
-    newIcon = [DSAActionIcon iconWithAction:@"leave" andSize:@"128x128"];
-    [self replaceView:self.imageActionIcon8 withView:newIcon];
-    self.imageActionIcon8 = newIcon;       
-}
-
 - (void) updateActionIcons
 {
     NSLog(@"DSAAdventureWindowController updateActionIcons called!!!!");
     [self setupActionIcons];
     
-/*    [self.imageActionIcon0 updateAppearance];
-    [self.imageActionIcon1 updateAppearance];
-    [self.imageActionIcon2 updateAppearance];
-    [self.imageActionIcon3 updateAppearance];
-    [self.imageActionIcon4 updateAppearance];
-    [self.imageActionIcon5 updateAppearance];
-    [self.imageActionIcon6 updateAppearance];
-    [self.imageActionIcon7 updateAppearance];                            
-    [self.imageActionIcon8 updateAppearance];    */
     [self updateMainImageView];
 }
 
@@ -695,7 +644,8 @@ extern NSString * const DSACharacterHighlightedNotification;
 - (void)updateMainImageView
 {
     DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
-    DSAPosition *currentPosition = adventureDoc.model.activeGroup.position;
+    DSAAdventureGroup *activeGroup = adventureDoc.model.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
     DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType:@"local"];
     DSALocation *globalLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.globalLocationName ofType:@"global"];
     NSLog(@"DSAAdventureWindowController updateMainImageView called!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -715,7 +665,57 @@ extern NSString * const DSACharacterHighlightedNotification;
         selectedKey = [NSString stringWithFormat:@"%@_Tempel", god];
         NSLog(@"DSAAdventureWindowController updateMainImageView selectedKey: %@", selectedKey);
         seed = currentPosition.description;
-    // 📌 2. Gebäude mit Typ (Herberge, Taverne etc.)
+    // 📌 2. Gebäude mit Typ (Herberge, Taverne etc.), group may be at the reception, up at the room, or in a tavern
+    } else if ([currentTile isKindOfClass: [DSALocalMapTileBuildingInn class]]) {
+        NSString *buildingType = [(DSALocalMapTileBuilding *)currentTile type];
+        NSString *room = currentPosition.room;
+        
+        NSString *roomKey = [currentPosition roomKey];
+        NSLog(@"DSAAdventureWindowController updateMainImageView for DSALocalMapTileBuildingInn buildingType: %@ room: %@, roomKey: %@", buildingType, room, roomKey);
+        DSAGlobalMapLocation *gl = (DSAGlobalMapLocation *)globalLocation;
+        NSString *regionType;
+        NSString *noRegionType;
+        if ([buildingType isEqualToString: @"Taverne"] || [room isEqualToString: @"tavern"])
+          {
+            regionType = [NSString stringWithFormat:@"%@_Taverne", gl.region];
+            noRegionType = @"Taverne";
+          }
+        else if ([room isEqualToString: @"reception"])
+          {
+            regionType = [NSString stringWithFormat:@"%@_Herberge", gl.region];
+            noRegionType = @"Herberge";
+          }
+        else
+          {
+            DSACharacterEffect *appliedRentEffect = [[[activeGroup allCharacters] objectAtIndex: 0] appliedCharacterEffectWithKey: roomKey];
+            DSARoomType roomType = [[[appliedRentEffect.reversibleChanges allValues] objectAtIndex: 0] integerValue];
+            NSString *roomTypeName;
+            switch (roomType) {
+              case DSARoomTypeDormitory: {
+                roomTypeName = @"Schlafsaal";
+                break;
+              }
+              case DSARoomTypeSingle: {
+                roomTypeName = @"Einzelzimmer";
+                break;
+              }
+              case DSARoomTypeSuite: {
+                roomTypeName = @"Suite";
+                break;
+              }
+            }
+            
+            regionType = [NSString stringWithFormat:@"%@_Herberge_%@", gl.region, roomTypeName];
+            noRegionType = [NSString stringWithFormat:@"Herberge_%@", roomTypeName];
+          }
+        NSLog(@"DSAAdventureWindowController updateMainImageView for DSALocalMapTileBuildingInn regionType: %@, noRegionType: %@", regionType, noRegionType);
+        if ([Utils getImagesIndexDict][regionType]) {
+            selectedKey = regionType;
+        } else if ([Utils getImagesIndexDict][buildingType]) {
+            selectedKey = noRegionType;
+        }
+        seed = currentPosition.description;        
+    //  2. other buildings ...
     } else if ([currentTile isKindOfClass:[DSALocalMapTileBuilding class]] ||
                [currentTile isKindOfClass:[DSALocalMapTileRoute class]]) {
         NSString *buildingType = [(DSALocalMapTileBuilding *)currentTile type];

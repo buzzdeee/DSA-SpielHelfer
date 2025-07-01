@@ -108,8 +108,8 @@
                                                                              blue:0.0
                                                                             alpha:1.0];
     if ([type isEqualToString:@"Tempel"]) return [NSColor magentaColor];    
-    if ([type isEqualToString:@"Taverne"]) return [NSColor orangeColor];
-    if ([type isEqualToString:@"Herberge"]) return [NSColor cyanColor];
+    if ([type isEqualToString: DSALocalMapTileBuildingInnTypeTaverne]) return [NSColor orangeColor];
+    if ([type isEqualToString: DSALocalMapTileBuildingInnTypeHerberge]) return [NSColor cyanColor];
     return [NSColor blackColor]; // Default für unbekannte Tiles
 }
 
@@ -170,11 +170,11 @@
         NSString *npc = [(DSALocalMapTileBuildingHealer*)tile npc] ?: nil;
         return npc ? [NSString stringWithFormat:@"Haus: %@", npc] : nil;
     }    
-    if ([type isEqualToString:@"Herberge"]) {
+    if ([type isEqualToString: DSALocalMapTileBuildingInnTypeHerberge]) {
         NSString *name = [(DSALocalMapTileBuildingInn*)tile name] ?: @"(unbenannt)";
         return [NSString stringWithFormat:@"Herberge: %@", name];
     }
-    if ([type isEqualToString:@"Taverne"]) {
+    if ([type isEqualToString: DSALocalMapTileBuildingInnTypeTaverne]) {
         NSString *name = [(DSALocalMapTileBuildingInn*)tile name] ?: @"(unbenannt)";
         return [NSString stringWithFormat:@"Taverne: %@", name];
     }
@@ -408,8 +408,8 @@
     if ([toTile isMemberOfClass:[DSALocalMapTileBuildingInn class]])
       {
         NSString *inType = [toTile type];
-        if ([inType isEqualToString: @"Herberge"] || 
-            [inType isEqualToString: @"Herberge mit Taverne"])
+        if ([inType isEqualToString: DSALocalMapTileBuildingInnTypeHerberge] || 
+            [inType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne])
            {
               self.adventure.activeGroup.position.room = @"reception";
            }

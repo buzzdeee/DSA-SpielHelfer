@@ -40,6 +40,7 @@
 @property (nonatomic, weak) IBOutlet NSButton *buttonRent;
 
 @property (nonatomic, weak) DSAAdventureGroup *activeGroup;
+@property (nonatomic, strong) NSDictionary<NSString *, NSNumber *> *roomPrices;
 
 @end
 

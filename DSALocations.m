@@ -199,7 +199,9 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
 
     @synchronized (self) {
         for (DSALocation *location in self.locations) {
+            NSLog(@"DSALocations getLocalLocationCategories : iterating through location: %@", location.name);
             if ([location isKindOfClass:[DSALocalMapLocation class]]) {
+                NSLog(@"DSALocations getLocalLocationCategories : iterating through location: %@ is DSALocalMapLocation", location.name);
                 NSString *type = [(DSALocalMapLocation *)location localLocationType];
                 if (![seenTypes containsObject:type]) {
                     [seenTypes addObject:type];

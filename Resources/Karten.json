@@ -103,6 +103,141 @@
         ]
       }
     },
+    "Felsteyn": {
+      "globalLocation": "Felsteyn",
+      "Tempel": [ "Firun", "Ingerimm" ],
+      "Levels": ["0"],
+      "LevelDetails": {
+        "0": [
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Heiler", "door": "S", "npc": "Throndax" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Wasser" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Wegweiser", "destinations": [ "Orkanger" ] }, { "type": "Weg" }, { "type": "Haus", "door": "S" }, { "type": "Haus", "door": "S" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Tempel", "door": "W", "Gott": "Ingerimm" }, { "type": "Weg" }, { "type": "Wegweiser", "destinations": [ "Einsiedlersee" ] }, { "type": "Weg" },
+            { "type": "Wasser" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Wasser" },
+            { "type": "Wasser" }
+          ],  
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "E" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Haus", "door": "S" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Wasser" },
+            { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Wasser" },
+            { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Tempel", "door": "E", "Gott": "Firun" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Herberge", "name": "Hjaldors Ruh", "door": "W" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Wasser" }, { "type": "Gras" },
+            { "type": "Gras" }
+          ], 
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "S" },
+            { "type": "Haus", "door": "S" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Wasser" }, { "type": "Gras" },
+            { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Taverne", "name": "Eldgrimas Stube", "door": "W" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Wasser" }, { "type": "Gras" },
+            { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "S" }, { "type": "Haus", "door": "S" },
+            { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Gras" },
+            { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "N" },
+            { "type": "Haus", "door": "N" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }
+          ], 
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Taverne", "name": "Erz und Steyn", "door": "E" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "E" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" },
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "N" }, { "type": "Weg" },
+            { "type": "Krämer", "door": "N", "npc": "Schlauer Masgar" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }
+          ],           
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W", "npc": "Isleif Olgardsson" },
+            { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Wegweiser", "destinations": [ "Oberorken" ] }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Haus", "door": "N" }, { "type": "Weg" }, { "type": "Wasser" },
+            { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Wasser" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Wasser" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }
+          ]
+        ]                                                                                                                                          
+      }
+    },    
     "Orvil": {
       "globalLocation": "Orvil",
       "Tempel": [ "Travia" ],

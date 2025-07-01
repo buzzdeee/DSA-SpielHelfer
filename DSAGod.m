@@ -257,7 +257,7 @@
                                            expirationDate: expirationDate
                                               statChanges:@{@"MU": @1}
                                                    target:@"group"
-                                                uniqueKey:nil];
+                                                uniqueKey:DSAMiracleKeyPraiosTempMUBoost];
         }
         case 6: case 7: {
             DSAAventurianDate *expirationDate = [currentDate dateByAddingYears: 0
@@ -269,7 +269,7 @@
                                            expirationDate: expirationDate
                                               statChanges:@{@"MR": @1}
                                                    target:@"group"
-                                                uniqueKey:nil];
+                                                uniqueKey:DSAMiracleKeyPraiosTempMRBoost];
         }
         case 8:
             return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRemoveCurse
@@ -344,7 +344,7 @@
                                            expirationDate: expirationDate
                                               statChanges:@{@"Schwerter": @1}
                                                    target:@"group"
-                                                uniqueKey:nil];
+                                                uniqueKey:DSAMiracleKeyRondraTempSwordBoost];
         }
         case 6: case 7: {
             DSAAventurianDate *expirationDate = [currentDate dateByAddingYears: 0
@@ -356,7 +356,7 @@
                                            expirationDate: expirationDate
                                               statChanges:@{}
                                                    target:@"group"
-                                                uniqueKey:nil];
+                                                uniqueKey:DSAMiracleKeyRondraTempMagicProtection];
         }
         case 8:
             return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeUpgradeWeaponToMagic
@@ -1272,6 +1272,14 @@
     return DSAGodTypeIfirn;
 }
 @end
+
+// Praios
+NSString * const DSAMiracleKeyPraiosTempMUBoost = @"Praios_Temporary_MU_Boost";
+NSString * const DSAMiracleKeyPraiosTempMRBoost = @"Praios_Temporary_MR_Boost";
+
+// Rondra
+NSString * const DSAMiracleKeyRondraTempSwordBoost = @"Rondra_Temporary_Sword_Boost";
+NSString * const DSAMiracleKeyRondraTempMagicProtection = @"Rondra_Temporary_Magic_Protection";
 
 // Rahja
 NSString * const DSAMiracleKeyRahjaPermanentTanzenBetören = @"Rahja_Permanent_TanzenBetörenPlus2";

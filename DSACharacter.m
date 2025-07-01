@@ -43,6 +43,7 @@
     self = [super init];
     if (self) {
         _uniqueKey = [coder decodeObjectOfClass:[NSString class] forKey:@"uniqueKey"];
+        _effectType = [coder decodeIntegerForKey:@"effectType"];
         _expirationDate = [coder decodeObjectOfClass:[DSAAventurianDate class] forKey:@"expirationDate"];
         _reversibleChanges = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"reversibleChanges"];
     }
@@ -51,6 +52,7 @@
 
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.uniqueKey forKey:@"uniqueKey"];
+    [coder encodeInteger:self.effectType forKey:@"effectType"];
     [coder encodeObject:self.expirationDate forKey:@"expirationDate"];
     [coder encodeObject:self.reversibleChanges forKey:@"reversibleChanges"];
 }
@@ -62,6 +64,7 @@
 - (id)copyWithZone:(NSZone *)zone {
     DSACharacterEffect *copy = [[[self class] allocWithZone:zone] init];
     copy->_uniqueKey = [self.uniqueKey copyWithZone:zone];
+    copy->_effectType = self.effectType;
     copy->_expirationDate = [self.expirationDate copyWithZone:zone];
     copy->_reversibleChanges = [[NSDictionary allocWithZone:zone] initWithDictionary:self.reversibleChanges copyItems:YES];
     return copy;
@@ -632,6 +635,10 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.maxLevelUpVariableTries = [coder decodeIntegerForKey:@"maxLevelUpVariableTries"];       
       self.appliedSpells = [coder decodeObjectForKey:@"appliedSpells"];
       self.appliedEffects = [coder decodeObjectForKey:@"appliedEffects"];
+      if (!self.appliedEffects)
+        {
+          self.appliedEffects = [[NSMutableDictionary alloc] init];
+        }
       self.statesDict = [coder decodeObjectForKey:@"statesDict"];
       self.currentLocation = [coder decodeObjectForKey:@"currentLocation"];
       self.receivedUniqueMiracles = [coder decodeObjectForKey:@"receivedUniqueMiracles"];
@@ -1548,6 +1555,21 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
 }                    
 
+- (BOOL) hasAppliedCharacterEffectWithKey: (NSString *)key
+{
+  return [[self.appliedEffects allKeys] containsObject: key];
+}
+
+- (DSACharacterEffect *) appliedCharacterEffectWithKey: (NSString *) key
+{
+  return [self.appliedEffects objectForKey: key];
+}
+
+- (void)addEffect:(DSACharacterEffect *)effect
+{
+  [self.appliedEffects setObject: effect forKey: effect.uniqueKey];
+}
+
 - (BOOL) applyMiracleEffect: (DSAMiracleResult *) miracleResult
 {
   NSLog(@"DSACharacter applyMiracleEffect called!!!");
@@ -1571,7 +1593,11 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       break;
     }
     case DSAMiracleResultTypeNightPeace: {
-
+      DSACharacterEffect *effect = [[DSACharacterEffect alloc] init];
+      effect.uniqueKey = miracleResult.uniqueKey;
+      effect.effectType = miracleResult.type;
+      effect.expirationDate = miracleResult.expirationDate;
+      [self.appliedEffects setObject: effect forKey: effect.uniqueKey];
       break;
     }
     case DSAMiracleResultTypeRevive: {
@@ -1581,13 +1607,117 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       applied = YES;
       break;    
     }
+    case DSAMiracleResultTypeTraitBoost: {
+      BOOL extendOnly = NO;
+      if (miracleResult.expirationDate)
+        {
+          DSACharacterEffect *effect = [[DSACharacterEffect alloc] init];
+          effect.effectType = miracleResult.type;
+          effect.uniqueKey = miracleResult.uniqueKey;
+          effect.expirationDate = miracleResult.expirationDate;
+          effect.reversibleChanges = miracleResult.statChanges;
+          if ([[self.appliedEffects allKeys] containsObject: miracleResult.uniqueKey])
+            {
+              extendOnly = YES;  // basically only want to extend the expiration date, values are already applied
+            }
+          [self.appliedEffects setObject: effect forKey: effect.uniqueKey];
+        }
+      if (!extendOnly)
+        {
+          for (NSString *key in miracleResult.statChanges)
+            {
+              if (self.currentPositiveTraits[key])
+                {
+                  self.currentPositiveTraits[key].level += [miracleResult.statChanges[key] integerValue];
+                  continue;
+                }
+              else if (self.currentNegativeTraits[key])
+                {
+                  self.currentNegativeTraits[key].level += [miracleResult.statChanges[key] integerValue];
+                  continue;
+                }
+              else
+                {
+                  NSLog(@"DSACharacter applyMiracleEffect DSAMiracleResultTypeTraitBoost Trait %@ not found", key);
+                }
+            }
+        }
+    }
+    case DSAMiracleResultTypeMRBoost: {
+      BOOL extendOnly = NO;
+      if (miracleResult.expirationDate)
+        {
+          DSACharacterEffect *effect = [[DSACharacterEffect alloc] init];
+          effect.effectType = miracleResult.type;
+          effect.uniqueKey = miracleResult.uniqueKey;
+          effect.expirationDate = miracleResult.expirationDate;
+          effect.reversibleChanges = miracleResult.statChanges;
+          if ([[self.appliedEffects allKeys] containsObject: miracleResult.uniqueKey])
+            {
+              extendOnly = YES;  // basically only want to extend the expiration date, values are already applied
+            }          
+          [self.appliedEffects setObject: effect forKey: effect.uniqueKey];
+        }
+      if (!extendOnly)
+        {
+          self.currentMrBonus += [miracleResult.statChanges[@"MR"] integerValue];
+        }
+    }
+    case DSAMiracleResultTypeRemoveCurse: {
+      NSLog(@"DSACharacter applyMiracleEffect of type: DSAMiracleResultTypeRemoveCurse not yet supported, have to support being cursed first (:");
+    }
+    case DSAMiracleResultTypeTalentBoost: {
+      BOOL extendOnly = NO;
+      if (miracleResult.expirationDate)
+        {
+          DSACharacterEffect *effect = [[DSACharacterEffect alloc] init];
+          effect.effectType = miracleResult.type;
+          effect.uniqueKey = miracleResult.uniqueKey;
+          effect.expirationDate = miracleResult.expirationDate;
+          effect.reversibleChanges = miracleResult.statChanges;
+          if ([[self.appliedEffects allKeys] containsObject: miracleResult.uniqueKey])
+            {
+              extendOnly = YES;  // basically only want to extend the expiration date, values are already applied
+            }          
+          [self.appliedEffects setObject: effect forKey: effect.uniqueKey];
+        }
+      if (!extendOnly)
+        {        
+          for (NSString *key in miracleResult.statChanges)
+            {
+              if (self.currentTalents[key])
+                {
+                  DSATalent *talent = self.currentTalents[key];
+                  talent.level += [miracleResult.statChanges[key] integerValue];
+                  continue;
+                }
+              else
+                {
+                  NSLog(@"DSACharacter applyMiracleEffect DSAMiracleResultTypeTalentBoost Talent %@ not found", key);
+                }
+            }
+        }
+    }
+    case DSAMiracleResultTypeMagicProtection: {
+      if (miracleResult.expirationDate)
+        {
+          DSACharacterEffect *effect = [[DSACharacterEffect alloc] init];
+          effect.effectType = miracleResult.type;
+          effect.uniqueKey = miracleResult.uniqueKey;
+          effect.expirationDate = miracleResult.expirationDate;
+          effect.reversibleChanges = miracleResult.statChanges;          
+          [self.appliedEffects setObject: effect forKey: effect.uniqueKey];
+        }
+    }
+    case DSAMiracleResultTypeUpgradeWeaponToMagic: {
+      NSLog(@"DSACharacter applyMiracleEffect DSAMiracleResultTypeUpgradeWeaponToMagic NOT YET IMPLEMENTED!");
+    }             
     default:
       NSLog(@"DSACharacter applyMiracleEffect effect %ld not yet implemented", miracleResult.type);
       break;
   }
   return applied;
 }
-
 
 - (void)removeExpiredEffectsAtDate:(DSAAventurianDate *)currentDate {
     NSArray *allKeys = [self.appliedEffects allKeys];
@@ -1602,6 +1732,55 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 - (void)removeCharacterEffectForKey: (NSString *)key
 {
   NSLog(@"DSACharacter removeCharacterEffectForKey: %@ NOT YET IMPLEMENTED!!!!", key);
+  DSACharacterEffect *effect = self.appliedEffects[key];
+  
+  switch (effect.effectType) {
+    case DSAMiracleResultTypeTraitBoost: {
+      for (NSString *key in effect.reversibleChanges)
+        {
+          if (self.currentPositiveTraits[key])
+            {
+              self.currentPositiveTraits[key].level -= [effect.reversibleChanges[key] integerValue];
+              continue;
+            }
+          else if (self.currentNegativeTraits[key])
+            {
+              self.currentNegativeTraits[key].level -= [effect.reversibleChanges[key] integerValue];
+              continue;
+            }
+          else
+            {
+              NSLog(@"DSACharacter removeCharacterEffectForKey DSAMiracleResultTypeTraitBoost Trait %@ not found", key);
+            }
+        }    
+    }
+    case DSAMiracleResultTypeMRBoost: {
+     self.currentMrBonus -= [effect.reversibleChanges[@"MR"] integerValue];
+    }
+    case DSAMiracleResultTypeTalentBoost: {
+      for (NSString *key in effect.reversibleChanges)
+        {
+          if (self.currentTalents[key])
+            {
+              DSATalent *talent = self.currentTalents[key];
+              talent.level -= [effect.reversibleChanges[key] integerValue];
+              continue;
+            }
+          else
+            {
+              NSLog(@"DSACharacter removeCharacterEffectForKey DSAMiracleResultTypeTalentBoost Talent %@ not found", key);
+            }
+        }
+    }
+    case DSAMiracleResultTypeMagicProtection: {
+     NSLog(@"DSACharacter removeCharacterEffectForKey nothing to do for: DSAMiracleResultTypeMagicProtection besides removing myself");
+    }           
+    default: {
+      NSLog(@"DSACharacter removeCharacterEffectForKey effect %@ not yet implemented", key);
+    }
+  }
+  // finally remove the key and object from the dictionary
+  [self.appliedEffects removeObjectForKey:key];
 }
 
 - (void) updateStateHungerWithValue: (NSNumber*) value

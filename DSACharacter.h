@@ -31,6 +31,7 @@
 #import "DSABodyParts.h"
 #import "DSAAventurianDate.h"
 #import "DSATalent.h"
+#import "DSAGod.h"
 
 @class DSAPositiveTrait;
 @class DSANegativeTrait;
@@ -39,7 +40,6 @@
 @class DSARegenerationResult;
 @class DSALocation;
 @class DSAWallet;
-@class DSAMiracleResult;
 
 typedef NS_ENUM(NSUInteger, DSACharacterState)
 {
@@ -58,6 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DSACharacterEffect : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, copy) NSString *uniqueKey;
+@property (nonatomic, assign) DSAMiracleResultType effectType;
 @property (nonatomic, strong, nullable) DSAAventurianDate *expirationDate;
 @property (nonatomic, strong) NSDictionary<NSString *, NSNumber *> *reversibleChanges;
 
@@ -178,10 +179,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL) consumeItem: (DSAObject *) item;
 
+- (void) updateStateHungerWithValue: (NSNumber*) value;
+- (void) updateStateThirstWithValue: (NSNumber*) value;
 - (void) updateStatesDictState: (NSNumber *) DSACharacterState
                      withValue: (NSNumber *) value;
 
-- (BOOL) applyMiracleEffect: (DSAMiracleResult *) miracleResult;
+- (void)addEffect:(DSACharacterEffect *)effect;                       // To add any type of effect, that doesn't need to apply anything special                     
+- (BOOL) applyMiracleEffect: (DSAMiracleResult *) miracleResult;      // to add miracle effects, which may change some values when applying
+- (BOOL) hasAppliedCharacterEffectWithKey: (NSString *)key;
+- (DSACharacterEffect *) appliedCharacterEffectWithKey: (NSString *) key;
 - (void)removeExpiredEffectsAtDate:(DSAAventurianDate *)currentDate;
 - (void)removeCharacterEffectForKey: (NSString *)key;
                      
@@ -208,6 +214,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Location related methods
 - (void)moveToLocation:(DSALocation *)newLocation;
+
+- (void)removeExpiredEffectsAtDate:(DSAAventurianDate *)currentDate;
 
 @end
 
