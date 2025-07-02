@@ -96,7 +96,8 @@
 	"DSAInnRentRoomViewController.m",
 	"DSAGod.m",
 	"DSAPricingEngine.m",
-	"DSAOrderMealViewController.m"
+	"DSAOrderMealViewController.m",
+	"DSASleepViewController.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -185,7 +186,8 @@
 	"DSAInnRentRoomViewController.h",
 	"DSAGod.h",
 	"DSAPricingEngine.h",
-	"DSAOrderMealViewController.h"
+	"DSAOrderMealViewController.h",
+	"DSASleepViewController.h"
     );
     IMAGES = (
 	"Aventurien.jpg",
@@ -5911,7 +5913,8 @@
 	"DSAConversationTextOnly.gorm",
 	"DSADonation.gorm",
 	"DSAInnRentRoom.gorm",
-	"DSAMealOrderView.gorm"
+	"DSAMealOrderView.gorm",
+	"DSASleepView.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (

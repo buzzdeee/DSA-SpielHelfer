@@ -54,6 +54,17 @@ typedef NS_ENUM(NSUInteger, DSACharacterState)
   DSACharacterStateThirst,                  // level of thirst
 };
 
+typedef NS_ENUM(NSUInteger, DSASleepQuality)
+{
+    DSASleepQualityTerrible,    // z. B. in der Gosse, nass, voller Ungeziefer
+    DSASleepQualityLousy,       // unbequem, laut, kalt – kaum erholsam
+    DSASleepQualityMediocre,    // akzeptabel, aber nicht gut (z. B. Lager ohne Decke)
+    DSASleepQualityNormal,      // Standardherberge oder Feldbett mit Decke
+    DSASleepQualityGood,        // ruhiges Zimmer, gutes Bett, warm, trocken
+    DSASleepQualityExcellent,   // luxuriöse Suite, Duftöle, Federn, evtl. Bonus durch Zauber o.ä.
+    DSASleepQualityUnknown
+};
+
 NS_ASSUME_NONNULL_BEGIN
 @interface DSACharacterEffect : NSObject <NSCoding, NSCopying>
 
@@ -161,6 +172,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSString *) siblingsString;
 
+// sleep, and regenerate
+- (DSARegenerationResult *) sleepForHours: (NSInteger) hours
+                             sleepQuality: (DSASleepQuality) quality;
+
 // Check if the character is able to do anything basic
 - (BOOL) isDeadOrUnconscious;
 
@@ -208,7 +223,8 @@ NS_ASSUME_NONNULL_BEGIN
                     investedASP: (NSInteger) investedASP 
            spellOriginCharacter: (nullable DSACharacter *) originCharacter;          
           
-- (DSARegenerationResult *) regenerateBaseEnergiesForHours: (NSInteger) hours;
+- (DSARegenerationResult *) regenerateBaseEnergiesForHours: (NSInteger) hours
+                                              sleepQuality: (DSASleepQuality) quality;
 
 // - (DSAObject *)findObjectWithName:(NSString *)name;
 

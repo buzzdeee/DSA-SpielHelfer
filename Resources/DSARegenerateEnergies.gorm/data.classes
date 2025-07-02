@@ -7,7 +7,8 @@
 	Outlets = (
 	    fieldRegenerationSleepHours,
 	    fieldRegenerationResult,
-	    regenerationPanel
+	    regenerationPanel,
+	    popupRegenerationSleepQuality
 	);
 	Super = NSWindowController;
     };

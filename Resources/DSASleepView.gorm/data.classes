@@ -1,0 +1,25 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSASleepViewController = {
+	Actions = (
+	    "cancelAction:",
+	    "sleepAction:",
+	    "sliderValueChanged:"
+	);
+	Outlets = (
+	    buttonCancel,
+	    buttonSleep,
+	    sliderHours,
+	    fieldHours
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "cancelAction:",
+	    "sliderValueChanged:",
+	    "sleepAction:"
+	);
+	Super = NSObject;
+    };
+}

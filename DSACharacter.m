@@ -973,6 +973,60 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     return nil; // Return nil if the portraitName or imagePath is invalid
 }
 
+- (DSARegenerationResult *) sleepForHours: (NSInteger) hours
+                             sleepQuality: (DSASleepQuality) quality
+{
+  DSARegenerationResult *result = nil;
+  if (hours >= 8)
+    {
+      if ([self canRegenerate])
+        {
+          result = [self regenerateBaseEnergiesForHours: hours
+                                           sleepQuality: quality];
+          NSString *message = [self regenerationSummaryForResult: result];
+          if (message)
+            {
+              NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
+                                           @"message": message
+                                    };
+              [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                                  object: self
+                                                                userInfo: userInfo];          
+            }
+        }
+    }
+  return result;
+}
+
+- (NSString *)regenerationSummaryForResult:(DSARegenerationResult *)regenResult {
+    if (regenResult.result == DSARegenerationResultFailure) {
+        return [NSString stringWithFormat:@"%@ kann nichts regenerieren.", self.name];
+    }
+    
+    if (regenResult.result != DSARegenerationResultSuccess) {
+        return nil; // oder eine leere Zeichenkette, je nach Bedarf
+    }
+    
+    NSMutableArray<NSString *> *parts = [NSMutableArray array];
+    if (regenResult.regenLE > 0) {
+        [parts addObject:[NSString stringWithFormat:@"%ld LE", (long)regenResult.regenLE]];
+    }
+    if (regenResult.regenAE > 0) {
+        [parts addObject:[NSString stringWithFormat:@"%ld AE", (long)regenResult.regenAE]];
+    }
+    if (regenResult.regenKE > 0) {
+        [parts addObject:[NSString stringWithFormat:@"%ld KE", (long)regenResult.regenKE]];
+    }
+    
+    if (parts.count == 0) {
+        return [NSString stringWithFormat:@"%@ regeneriert nichts.", self.name];
+    }
+
+    NSString *joined = [parts componentsJoinedByString:@", "];
+    return [NSString stringWithFormat:@"%@ regeneriert %@.", self.name, joined];
+}
+
+
 - (BOOL) isDeadOrUnconscious
 {
   if ([[self.statesDict objectForKey: @(DSACharacterStateDead)] integerValue] > 0 ||
@@ -1016,50 +1070,67 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
 }
 
-- (DSARegenerationResult *) regenerateBaseEnergiesForHours: (NSInteger) hours
+- (DSARegenerationResult *)regenerateBaseEnergiesForHours:(NSInteger)hours
+                                             sleepQuality:(DSASleepQuality)quality
 {
-  DSARegenerationResult *result = [[DSARegenerationResult alloc] init];
-  
-  NSInteger regenLE = 0;
-  NSInteger regenKE = 0;
-  NSInteger regenAE = 0;
-  if (hours < 6)
-    {
-      result.regenLE = regenLE;
-      result.regenKE = regenKE;
-      result.regenAE = regenAE;            
-      result.result = DSARegenerationResultTimeTooShort;
-      return result;
-    }
+    DSARegenerationResult *result = [[DSARegenerationResult alloc] init];
     
-  if (self.currentLifePoints < self.lifePoints)
-    {
-      regenLE = [Utils rollDice: @"1W6"];
-      NSInteger diff = self.lifePoints - self.currentLifePoints;
-      regenLE = regenLE >= diff ? diff : regenLE;
-      self.currentLifePoints += regenLE;
-      result.regenLE = regenLE;
+    NSInteger regenLE = 0;
+    NSInteger regenKE = 0;
+    NSInteger regenAE = 0;
+
+    if (hours < 6) {
+        result.regenLE = regenLE;
+        result.regenKE = regenKE;
+        result.regenAE = regenAE;
+        result.result = DSARegenerationResultTimeTooShort;
+        return result;
     }
-  if (self.isMagic && self.currentAstralEnergy < self.astralEnergy)
-    {
-      regenAE = [Utils rollDice: @"1W6"];
-      NSInteger diff = self.astralEnergy - self.currentAstralEnergy;
-      regenAE = regenAE >= diff ? diff : regenAE;
-      self.currentAstralEnergy += regenAE;
-      result.regenAE = regenAE; 
-    }
-  if (self.isBlessedOne && self.currentKarmaPoints < self.karmaPoints)
-    {
-      regenKE = [Utils rollDice: @"1W6"];
-      NSInteger diff = self.karmaPoints - self.currentKarmaPoints;
-      regenKE = regenKE >= diff ? diff : regenKE;
-      self.currentKarmaPoints += regenKE;
-      result.regenKE = regenKE;
-    }
-  
-  result.result = DSARegenerationResultSuccess;
+
+    NSInteger mod = [self regenerationModifierForSleepQuality:quality]; // 🔹 hier
     
-  return result;
+    if (self.currentLifePoints < self.lifePoints) {
+        regenLE = [Utils rollDice:@"1W6"] + mod;
+        regenLE = MAX(regenLE, 0); // nie negativ
+        NSInteger diff = self.lifePoints - self.currentLifePoints;
+        regenLE = MIN(regenLE, diff);
+        self.currentLifePoints += regenLE;
+        result.regenLE = regenLE;
+    }
+
+    if (self.isMagic && self.currentAstralEnergy < self.astralEnergy) {
+        regenAE = [Utils rollDice:@"1W6"] + mod;
+        regenAE = MAX(regenAE, 0);
+        NSInteger diff = self.astralEnergy - self.currentAstralEnergy;
+        regenAE = MIN(regenAE, diff);
+        self.currentAstralEnergy += regenAE;
+        result.regenAE = regenAE;
+    }
+
+    if (self.isBlessedOne && self.currentKarmaPoints < self.karmaPoints) {
+        regenKE = [Utils rollDice:@"1W6"] + mod;
+        regenKE = MAX(regenKE, 0);
+        NSInteger diff = self.karmaPoints - self.currentKarmaPoints;
+        regenKE = MIN(regenKE, diff);
+        self.currentKarmaPoints += regenKE;
+        result.regenKE = regenKE;
+    }
+
+    result.result = DSARegenerationResultSuccess;
+    return result;
+}
+
+- (NSInteger)regenerationModifierForSleepQuality:(DSASleepQuality)quality {
+    switch (quality) {
+        case DSASleepQualityTerrible: return -1;
+        case DSASleepQualityLousy: return 0;
+        case DSASleepQualityMediocre: return 0;
+        case DSASleepQualityNormal: return 1;
+        case DSASleepQualityGood: return 2;
+        case DSASleepQualityExcellent: return 3;
+        case DSASleepQualityUnknown: return 0;
+    }
+    return 0;
 }
 
 // end of character regeneration related methods

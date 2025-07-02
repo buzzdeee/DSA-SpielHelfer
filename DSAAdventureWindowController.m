@@ -703,10 +703,22 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
                 roomTypeName = @"Suite";
                 break;
               }
+              case DSARoomTypeUnknown: {
+                roomTypeName = @"Unknown";
+                break;
+              }              
             }
-            
-            regionType = [NSString stringWithFormat:@"%@_Herberge_%@", gl.region, roomTypeName];
-            noRegionType = [NSString stringWithFormat:@"Herberge_%@", roomTypeName];
+            if (roomType == DSARoomTypeUnknown)
+              {
+                NSLog(@"DSAAdventureWindowController updateMainImageView: unknown DSARoomType!");
+                regionType = [NSString stringWithFormat:@"%@_Herberge", gl.region];
+                noRegionType = @"Herberge";                
+              }
+            else
+              {
+                regionType = [NSString stringWithFormat:@"%@_Herberge_%@", gl.region, roomTypeName];
+                noRegionType = [NSString stringWithFormat:@"Herberge_%@", roomTypeName];
+              }
           }
         NSLog(@"DSAAdventureWindowController updateMainImageView for DSALocalMapTileBuildingInn regionType: %@, noRegionType: %@", regionType, noRegionType);
         if ([Utils getImagesIndexDict][regionType]) {

@@ -2438,6 +2438,9 @@
       [NSBundle loadNibNamed:@"DSARegenerateEnergies" owner:self];
     }
   [self.fieldRegenerationSleepHours setStringValue: @"8"];
+  [self.popupRegenerationSleepQuality removeAllItems];
+  [self.popupRegenerationSleepQuality addItemsWithTitles: @[@"Schlecht", @"Lausig", @"Passt schon", @"Normal", @"Gut", @"Exzellent"]];
+  [self.popupRegenerationSleepQuality selectItemAtIndex: 2];
   [self.fieldRegenerationResult setStringValue: @""];
 
   [self.regenerationPanel makeKeyAndOrderFront:nil];      
@@ -2449,7 +2452,8 @@
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   DSACharacterHero *model = (DSACharacterHero *)document.model;
   
-  DSARegenerationResult *result = [model regenerateBaseEnergiesForHours: [self.fieldRegenerationSleepHours integerValue]];
+  DSARegenerationResult *result = [model regenerateBaseEnergiesForHours: [self.fieldRegenerationSleepHours integerValue]
+                                                           sleepQuality: [self.popupRegenerationSleepQuality indexOfSelectedItem]];
   
   NSMutableString *resultString = [[NSMutableString alloc] init];
   

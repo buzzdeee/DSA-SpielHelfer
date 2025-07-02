@@ -63,6 +63,7 @@ Resources/DSAConversationTextOnly.gorm \
 Resources/DSADonation.gorm \
 Resources/DSAInnRentRoom.gorm \
 Resources/DSAMealOrderView.gorm \
+Resources/DSASleepView.gorm \
 Resources/Aventurien.jpg \
 Resources/Dolch.webp \
 Resources/Jagdmesser-firnelfisch.webp \
@@ -5873,7 +5874,8 @@ DSADonationViewController.h \
 DSAInnRentRoomViewController.h \
 DSAGod.h \
 DSAPricingEngine.h \
-DSAOrderMealViewController.h
+DSAOrderMealViewController.h \
+DSASleepViewController.h
 
 #
 # Objective-C Class files
@@ -5958,7 +5960,8 @@ DSADonationViewController.m \
 DSAInnRentRoomViewController.m \
 DSAGod.m \
 DSAPricingEngine.m \
-DSAOrderMealViewController.m
+DSAOrderMealViewController.m \
+DSASleepViewController.m
 
 #
 # Other sources

@@ -243,6 +243,7 @@
 // for character regeneration
 @property (nonatomic, strong) IBOutlet NSPanel *regenerationPanel;
 @property (weak) IBOutlet NSTextField *fieldRegenerationSleepHours;
+@property (weak) IBOutlet NSPopUpButton *popupRegenerationSleepQuality;
 @property (weak) IBOutlet NSTextField *fieldRegenerationResult;
 
 

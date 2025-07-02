@@ -48,6 +48,7 @@
 #import "DSAAdventureClock.h"
 #import "DSAPricingEngine.h"
 #import "DSAOrderMealViewController.h"
+#import "DSASleepViewController.h"
 
 @implementation DSAActionIcon
 
@@ -1508,6 +1509,7 @@ inventoryIdentifier: (NSString *)sourceInventory
         };
 
         [windowController.window beginSheet:conversationSelector.window completionHandler:nil];
+
     };
 
     [windowController.window beginSheet:selector.window completionHandler:nil];
@@ -1526,7 +1528,100 @@ inventoryIdentifier: (NSString *)sourceInventory
     }
     return self;
 }
+
+- (void)handleEvent {
+    NSLog(@"DSAActionIconSleep handleEvent called");
+
+    // Step 1: Zugriff auf das Model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"Invalid window controller class");
+        return;
+    }
+            
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    
+
+    DSASleepViewController *selector =
+        [[DSASleepViewController alloc] initWithWindowNibName:@"DSASleepView"];
+    [selector window];  // .gorm laden
+
+    __weak typeof(selector) weakSelector = selector;
+    selector.completionHandler = ^(BOOL result) {
+        typeof(selector) strongSelf = weakSelector;
+        if (!strongSelf || !result) {
+            return;
+        }
+
+        NSLog(@"DSAActionIconSleep sheet completion handler called.... ");
+
+        NSInteger sleepHours = [strongSelf.sliderHours integerValue];
+
+        NSLog(@"DSAActionIconSleep handleEvent currentPosition: %@", currentPosition);
+        DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
+        NSLog(@"DSAActionIconSleep handleEvent currentLocation: %@, %@", [currentLocation class], currentLocation.name);
+        DSARoomType roomType = DSARoomTypeUnknown;
+        DSALocalMapTile *currentTile;
+        if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
+          {
+            DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;
+            currentTile = [lml tileAtCoordinate: currentPosition.mapCoordinate];
+            NSLog(@"DSAActionIconSleep handleEvent currentLocation: %@", currentTile);
+            if ([currentTile isKindOfClass: [DSALocalMapTileBuildingInn class]])
+              {
+                DSACharacter *character = [activeGroup.allCharacters objectAtIndex: 0];
+                NSString *roomKey = [activeGroup.position roomKey];
+                DSACharacterEffect *effect = [character.appliedEffects objectForKey: roomKey];
+                roomType = [[[effect.reversibleChanges allValues] objectAtIndex: 0] integerValue];
+              }
+          }
+        DSASleepQuality sleepQuality = DSASleepQualityUnknown;
+        if (roomType != DSARoomTypeUnknown)
+          {
+            switch (roomType) {
+              case DSARoomTypeDormitory: {
+                sleepQuality = DSASleepQualityNormal;
+                break;
+              }
+              case DSARoomTypeSingle: {
+                sleepQuality = DSASleepQualityGood;
+                break;
+              }
+              case DSARoomTypeSuite: {
+                sleepQuality = DSASleepQualityExcellent;
+                break;
+              }
+              case DSARoomTypeUnknown: {
+                sleepQuality = DSASleepQualityUnknown;
+                break;
+              }              
+            }
+          }
+        
+        for (DSACharacter *character in activeGroup.allCharacters) {
+            [character sleepForHours: sleepHours
+                        sleepQuality: sleepQuality];
+        }
+        [adventure.gameClock advanceTimeByHours: sleepHours];
+        // Leave the room and go back to reception, in case we're in a Inn
+        if ([currentTile isKindOfClass:[DSALocalMapTileBuildingInn class]])
+          {
+            DSALocalMapTileBuildingInn *innTile = (DSALocalMapTileBuildingInn*) currentTile;
+            if ([@[DSALocalMapTileBuildingInnTypeHerberge, DSALocalMapTileBuildingInnTypeHerbergeMitTaverne] containsObject:innTile.type] && 
+                [@[@"room", @"tavern"] containsObject: currentPosition.room])
+              {
+                currentPosition.room = @"reception";
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];
+              }
+          }       
+    };
+    [windowController.window beginSheet:selector.window completionHandler:nil];     
+}
 @end
+
 @implementation DSAActionIconTalent
 - (instancetype)initWithImageSize: (NSString *)size
 {
@@ -1640,10 +1735,6 @@ inventoryIdentifier: (NSString *)sourceInventory
         double totalPrice = pricePerPersonPerMeal * activeGroup.allMembers.count;
         NSLog(@"DSAActionIconMeal handleEvent mealType: %@", mealType);
         
-/*        NSLog(@"DSAActionIconMeal handleEvent mealType: %@", mealType);
-        double pricePerPersonPerMeal = [strongSelf.mealPrices[mealType] doubleValue];
-        double totalPrice = pricePerPersonPerMeal * [activeGroup.allMembers count];
-*/
         [activeGroup subtractSilber: totalPrice];
 
         DSAMealQuality mealQuality = [[DSAPricingEngine mealQualityFromName: mealType] integerValue];
@@ -1661,11 +1752,14 @@ inventoryIdentifier: (NSString *)sourceInventory
           case DSAMealQualityFeast: 
             satiation = 1.0;
             break;
+          case DSAMealQualityUnknown:
+            NSLog(@"DSAActionIconMeal handleEvent, got DSAMealQualityUnknown!");
+            satiation = 0.0;
+            break;            
         }
         NSLog(@"DSAActionIconMeal handleEvent satiation: %@", @(satiation));
         for (DSACharacter *character in activeGroup.allCharacters) {
             // Thirst wird immer auf 1.0 gesetzt
-//            character.statesDict[@(DSACharacterStateThirst)] = @(1.0);
             [character updateStateThirstWithValue: @(1.0)];
     
             // Hunger aktualisieren (aber max. 1.0)
@@ -1673,14 +1767,10 @@ inventoryIdentifier: (NSString *)sourceInventory
             float newHunger = hunger + satiation;
             if (newHunger > 1.0f) newHunger = 1.0f;
     
-//            character.statesDict[@(DSACharacterStateHunger)] = @(newHunger);
             [character updateStateHungerWithValue: @(newHunger)];
             
             NSLog(@"DSAActionIconMeal handleEvent oldHunger: %@, newHunger: %@", @(hunger), @(newHunger));
             
-/*            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSACharacterStateChange"
-                                                                object:character
-                                                              userInfo:nil]; */
         }
         [adventure.gameClock advanceTimeByMinutes: 30];
         // Abschlusstext
@@ -1717,105 +1807,6 @@ inventoryIdentifier: (NSString *)sourceInventory
     
 }
 
-/*
-- (void)handleEvent {
-
-    // Step 2: Fenster für Zimmerbuchung anzeigen
-    DSAInnRentRoomViewController *selector =
-        [[DSAInnRentRoomViewController alloc] initWithWindowNibName:@"DSAInnRentRoom"];
-    [selector window];  // .gorm laden
-    selector.activeGroup = activeGroup;
-    NSMutableDictionary *roomPrices = [[NSMutableDictionary alloc] init];
-    NSLog(@"DSAActionIconRoom handleEvent seed: %@", activeGroup.position.description);
-    DSAPricingResult *dormitory = [DSAPricingEngine priceForServiceCategory: DSAServiceCategoryInnRoom
-                                                                    subtype: DSARoomTypeDormitory
-                                                                       seed: activeGroup.position.description];
-    DSAPricingResult *single = [DSAPricingEngine priceForServiceCategory: DSAServiceCategoryInnRoom
-                                                                 subtype: DSARoomTypeSingle
-                                                                    seed: activeGroup.position.description];
-    DSAPricingResult *suite = [DSAPricingEngine priceForServiceCategory: DSAServiceCategoryInnRoom
-                                                                subtype: DSARoomTypeSuite
-                                                                   seed: activeGroup.position.description];                                                                               [roomPrices setObject: [NSNumber numberWithFloat: dormitory.price]
-                   forKey: dormitory.name];
-    [roomPrices setObject: [NSNumber numberWithFloat: single.price]
-                   forKey: single.name];
-    [roomPrices setObject: [NSNumber numberWithFloat: suite.price]
-                   forKey: suite.name];
-    selector.roomPrices = roomPrices;                 
-
-    __block BOOL rentResult = NO;
-    __block NSInteger nights = 0;
-    __block NSString *roomType = nil;
-
-    __weak typeof(selector) weakSelector = selector;
-    selector.completionHandler = ^(BOOL result) {
-        typeof(selector) strongSelf = weakSelector;
-        if (!strongSelf || !result) {
-            return;
-        }
-
-        NSLog(@"DSAActionIconRoom sheet completion handler called.... ");
-
-        rentResult = YES;
-        nights = round([strongSelf.sliderNights doubleValue]);
-
-        NSString *fullRoomTitle = [[strongSelf.popupRooms selectedItem] title];
-        roomType = [[fullRoomTitle componentsSeparatedByString:@" "] firstObject];
-        NSLog(@"DSAActionIconRoom handleEvent roomType: %@", roomType);
-        double pricePerPersonPerNight = [strongSelf.roomPrices[roomType] doubleValue];
-        double totalPrice = pricePerPersonPerNight * nights * membersWithoutRoom;
-
-        [activeGroup subtractSilber: totalPrice];
-
-        DSAAventurianDate *expirationDate =
-            [adventure.gameClock.currentDate dateByAddingYears:0 days:nights hours:0 minutes:0];
-
-        for (DSACharacter *character in activeGroup.allCharacters) {
-            if (![character hasAppliedCharacterEffectWithKey:roomKey]) {
-                DSACharacterEffect *effect = [[DSACharacterEffect alloc] init];
-                effect.uniqueKey = roomKey;
-                effect.effectType = DSAMiracleResultTypeNothing;
-                effect.expirationDate = expirationDate;
-                effect.reversibleChanges = @{ roomType: [DSAPricingEngine roomTypeFromName: roomType] };
-
-                [character addEffect:effect];
-                NSLog(@"DSAActionIconRoom handleEvent added effect: %@", effect);
-            }
-        }
-     
-        // Begrüßungstext inkl. Preis
-        DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName:@"DSAConversationTextOnly"];
-        [conversationSelector window];
-
-        NSString *priceString;
-        if (totalPrice >= 1.0) {
-            int silver = (int)totalPrice;
-            int heller = (int)round((totalPrice - silver) * 10);
-            if (heller > 0)
-                priceString = [NSString stringWithFormat:@"%dS %dH", silver, heller];
-            else
-                priceString = [NSString stringWithFormat:@"%dS", silver];
-        } else {
-            int heller = (int)round(totalPrice * 10);
-            priceString = [NSString stringWithFormat:@"%dH", heller];
-        }
-
-        conversationSelector.fieldText.stringValue = [NSString stringWithFormat:
-            @"Ihr bezahlt %@ für %@ Nächte im %@. Der Wirt bedankt sich, und ihr werdet herzlich willkommen geheißen.",
-            priceString, @(nights), roomType];
-
-        conversationSelector.completionHandler = ^(BOOL result) {
-            if (result) {
-                NSLog(@"DSAActionIconRoom, handleEvent: finally, renting finished");
-            }
-        };
-
-        [windowController.window beginSheet:conversationSelector.window completionHandler:nil];
-    };
-
-    [windowController.window beginSheet:selector.window completionHandler:nil];
-}
-*/
 @end
 
 @implementation DSAActionIconMap

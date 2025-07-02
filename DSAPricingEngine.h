@@ -35,14 +35,16 @@ typedef NS_ENUM(NSInteger, DSAServiceCategory) {
 typedef NS_ENUM(NSInteger, DSARoomType) {
     DSARoomTypeDormitory,
     DSARoomTypeSingle,
-    DSARoomTypeSuite
+    DSARoomTypeSuite,
+    DSARoomTypeUnknown
 };
 
 typedef NS_ENUM(NSInteger, DSAMealQuality) {
     DSAMealQualitySimple,
     DSAMealQualityGood,
     DSAMealQualityFine,
-    DSAMealQualityFeast
+    DSAMealQualityFeast,
+    DSAMealQualityUnknown
 };
 
 NS_ASSUME_NONNULL_BEGIN
