@@ -97,7 +97,15 @@
 	"DSAGod.m",
 	"DSAPricingEngine.m",
 	"DSAOrderMealViewController.m",
-	"DSASleepViewController.m"
+	"DSASleepViewController.m",
+	"DSAHint.m",
+	"DSAHintManager.m",
+	"DSADialogAction.m",
+	"DSADialogOption.m",
+	"DSADialogNode.m",
+	"DSADialog.m",
+	"DSADialogManager.m",
+	"DSAConversationDialogSheetController.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -187,7 +195,15 @@
 	"DSAGod.h",
 	"DSAPricingEngine.h",
 	"DSAOrderMealViewController.h",
-	"DSASleepViewController.h"
+	"DSASleepViewController.h",
+	"DSAHint.h",
+	"DSAHintManager.h",
+	"DSADialogAction.h",
+	"DSADialogOption.h",
+	"DSADialogNode.h",
+	"DSADialog.h",
+	"DSADialogManager.h",
+	"DSAConversationDialogSheetController.h"
     );
     IMAGES = (
 	"Aventurien.jpg",
@@ -5966,7 +5982,9 @@
 	"routes.geojson",
 	"NPC.json",
 	"Karten.json",
-	"image_index.json"
+	"image_index.json",
+	"dialogue_innkeeper.json",
+	"hints_1467_7169_100.json"
     );
     "OTHER_SOURCES" = (
 	"DSA-SpielHelfer_main.m"

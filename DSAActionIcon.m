@@ -49,6 +49,9 @@
 #import "DSAPricingEngine.h"
 #import "DSAOrderMealViewController.h"
 #import "DSASleepViewController.h"
+#import "DSADialogManager.h"
+#import "DSADialog.h"
+#import "DSAConversationDialogSheetController.h"
 
 @implementation DSAActionIcon
 
@@ -887,6 +890,55 @@ inventoryIdentifier: (NSString *)sourceInventory
       }
     return NO;
 }
+- (void)handleEvent {
+    NSLog(@"DSAActionIconChat handleEvent called");
+
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) return;
+
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *position = activeGroup.position;
+
+    DSALocation *location = [[DSALocations sharedInstance] locationWithName:position.localLocationName ofType:@"local"];
+    if (![location isKindOfClass:[DSALocalMapLocation class]]) return;
+
+    DSALocalMapTile *tile = [(DSALocalMapLocation *)location tileAtCoordinate:position.mapCoordinate];
+
+    NSString *dialogNPC = nil;
+    if ([tile isKindOfClass:[DSALocalMapTileBuildingInn class]]) {
+        dialogNPC = @"innkeeper";
+    } else if ([tile isKindOfClass:[DSALocalMapTileBuildingSmith class]]) {
+        dialogNPC = @"smith";
+    } else if ([tile isKindOfClass:[DSALocalMapTileBuildingHealer class]]) {
+        dialogNPC = @"healer";
+    }
+
+    if (!dialogNPC) {
+        NSLog(@"Kein dialogfähiger NPC hier.");
+        return;
+    }
+
+    // Dialog laden
+    DSADialogManager *manager = [[DSADialogManager alloc] init];
+    if (![manager loadDialogFromFile:[NSString stringWithFormat:@"dialogue_%@", dialogNPC]]) {
+        NSLog(@"Dialog konnte nicht geladen werden.");
+        return;
+    }
+
+    manager.currentNodeID = manager.currentDialog.startNodeID;
+
+    // Dialog UI anzeigen als Sheet
+    DSAConversationDialogSheetController *dialogController = [[DSAConversationDialogSheetController alloc] initWithDialogManager:manager];
+
+    // Present dialogController.window as sheet attached to main window
+    [windowController.window beginSheet:dialogController.window completionHandler:^(NSModalResponse returnCode) {
+        // Optional: handle sheet dismissal here
+        NSLog(@"Dialog sheet closed");
+    }];
+}
+
 @end
 @implementation DSAActionIconPray
 - (instancetype)initWithImageSize: (NSString *)size

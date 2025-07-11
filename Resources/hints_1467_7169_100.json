@@ -1,0 +1,15 @@
+[
+  {
+    "id": "hint_03_07_001",
+    "text": "Man sagt, beim Einsiedlersee soll es ein Einhorn geben.",
+    "locationName": "Felsteyn",
+    "range": 100
+  },
+  {
+    "id": "hint_03_07_002",
+    "text": "Wenn Ihr einen guten Heiler sucht, geht zum Throndax in Felsteyn.",
+    "locationName": "Felsteyn",
+    "questID": "quest_mystic_symbols",
+    "range": 100
+  }
+]

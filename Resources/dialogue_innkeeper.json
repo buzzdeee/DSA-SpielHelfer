@@ -1,0 +1,160 @@
+{
+  "npcName": "innkeeper",
+  "startNodeID": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "npcTexts": [
+        "Willkommen in meiner Herberge!",
+        "Guten Tag, Fremder! Was führt dich hierher?",
+        "Schön, dich zu sehen! Brauchst du etwas?"
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Erzähl mir etwas über diese Stadt.",
+            "Was kann man hier unternehmen?",
+            "Gibt es hier etwas Interessantes?"
+          ],
+          "nextNodeID": "info"
+        },
+        {
+          "texts": [
+            "Du hast ein schönes Haus.",
+            "Hier ist es wirklich gemütlich.",
+            "Ich mag deine Herberge!"
+          ],
+          "nextNodeID": "flattery"
+        },
+        {
+          "texts": [
+            "Du siehst müde aus.",
+            "Bist du immer so unfreundlich?",
+            "Hier stinkt es nach altem Bier!"
+          ],
+          "nextNodeID": "rude"
+        },
+        {
+          "texts": [
+            "Ich muss weiter.",
+            "Bis bald.",
+            "Tschüss!"
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "info": {
+      "id": "info",
+      "npcTexts": [
+        "Es gibt eine alte Ruine nördlich von hier.",
+        "Wenn du Abenteuer suchst, frag mal den Schmied.",
+        "Einige sagen, nachts sieht man Lichter im Wald..."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Hast du noch einen Tipp für mich?",
+            "Weißt du etwas Nützliches?",
+            "Gib mir einen guten Rat."
+          ],
+          "nextNodeID": "maybeHint"
+        },
+        {
+          "texts": [
+            "Danke, das hilft mir.",
+            "Interessant, danke dir.",
+            "Ich schau mich mal um."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "flattery": {
+      "id": "flattery",
+      "npcTexts": [
+        "Oh, danke! Solche Gäste mag ich.",
+        "Du hast ein gutes Auge.",
+        "Das hört man gern."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Weißt du etwas, das mir helfen könnte?",
+            "Hast du vielleicht einen Hinweis für mich?",
+            "Gibt’s hier etwas Spannendes?"
+          ],
+          "nextNodeID": "giveHint"
+        },
+        {
+          "texts": [
+            "Mach’s gut.",
+            "Bis dann.",
+            "Ich schau mich mal weiter um."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "rude": {
+      "id": "rude",
+      "npcTexts": [
+        "Was fällt dir ein! Raus hier!",
+        "So redet man nicht mit mir.",
+        "Ich dulde keinen solchen Ton!"
+      ],
+      "playerOptions": []
+    },
+
+    "maybeHint": {
+      "id": "maybeHint",
+      "npcTexts": [
+        "Vielleicht… wenn du nett fragst.",
+        "Tja, das kommt drauf an...",
+        "Warum sollte ich dir helfen?"
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Bitte, ich brauche deine Hilfe.",
+            "Ich wäre dir sehr dankbar.",
+            "Es ist wirklich wichtig."
+          ],
+          "nextNodeID": "giveHint"
+        },
+        {
+          "texts": [
+            "Schon gut, vergiss es.",
+            "Nie mind.",
+            "Ich finde es schon selbst raus."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "giveHint": {
+      "id": "giveHint",
+      "npcTexts": [
+        "Na schön, aber nur weil du nett bist.",
+        "Ich will dir was verraten...",
+        "Hör genau zu:"
+      ],
+      "playerOptions": [],
+      "hintCategory": "location"
+    },
+
+    "end": {
+      "id": "end",
+      "npcTexts": [
+        "Mach’s gut!",
+        "Komm bald wieder.",
+        "Viel Glück, Reisender."
+      ],
+      "playerOptions": []
+    }
+  }
+}

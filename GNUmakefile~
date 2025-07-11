@@ -5788,7 +5788,9 @@ Resources/road_intersections.geojson \
 Resources/routes.geojson \
 Resources/NPC.json \
 Resources/Karten.json \
-Resources/image_index.json 
+Resources/image_index.json \
+Resources/dialogue_innkeeper.json \
+Resources/hints_1467_7169_100.json 
 
 
 #
@@ -5875,7 +5877,15 @@ DSAInnRentRoomViewController.h \
 DSAGod.h \
 DSAPricingEngine.h \
 DSAOrderMealViewController.h \
-DSASleepViewController.h
+DSASleepViewController.h \
+DSAHint.h \
+DSAHintManager.h \
+DSADialogAction.h \
+DSADialogOption.h \
+DSADialogNode.h \
+DSADialog.h \
+DSADialogManager.h \
+DSAConversationDialogSheetController.h
 
 #
 # Objective-C Class files
@@ -5961,7 +5971,15 @@ DSAInnRentRoomViewController.m \
 DSAGod.m \
 DSAPricingEngine.m \
 DSAOrderMealViewController.m \
-DSASleepViewController.m
+DSASleepViewController.m \
+DSAHint.m \
+DSAHintManager.m \
+DSADialogAction.m \
+DSADialogOption.m \
+DSADialogNode.m \
+DSADialog.m \
+DSADialogManager.m \
+DSAConversationDialogSheetController.m
 
 #
 # Other sources
