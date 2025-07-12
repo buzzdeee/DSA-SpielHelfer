@@ -899,31 +899,70 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
     DSAAdventure *adventure = document.model;
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
-    DSAPosition *position = activeGroup.position;
+    DSAPosition *currentPosition = activeGroup.position;
 
-    DSALocation *location = [[DSALocations sharedInstance] locationWithName:position.localLocationName ofType:@"local"];
+    DSALocation *location = [[DSALocations sharedInstance] locationWithName:currentPosition.localLocationName ofType:@"local"];
     if (![location isKindOfClass:[DSALocalMapLocation class]]) return;
 
-    DSALocalMapTile *tile = [(DSALocalMapLocation *)location tileAtCoordinate:position.mapCoordinate];
-
+    DSALocalMapTile *tile = [(DSALocalMapLocation *)location tileAtCoordinate:currentPosition.mapCoordinate];
+ 
     NSString *dialogNPC = nil;
     if ([tile isKindOfClass:[DSALocalMapTileBuildingInn class]]) {
-        dialogNPC = @"innkeeper";
+      if ([tile.type isEqualToString: DSALocalMapTileBuildingInnTypeHerberge])
+        {
+          dialogNPC = @"innkeeper";
+        }
+      else if ([tile.type isEqualToString: DSALocalMapTileBuildingInnTypeTaverne])
+        {
+          dialogNPC = @"tavern";
+        }
+      else  // DSALocalMapTileBuildingInnTypeHerbergeMitTaverne
+        {
+          if ([currentPosition.room isEqualToString: @"reception"])
+            {
+              dialogNPC = @"innkeeper";
+            }
+          else if ([currentPosition.room isEqualToString: @"tavern"])
+            {
+              dialogNPC = @"tavern";
+            }
+        }
+    } else if ([tile isKindOfClass:[DSALocalMapTileBuildingShop class]]) {
+        if ([tile.type isEqualToString:@"Krämer"])
+          {
+            dialogNPC = @"shopkeeper_general";
+          }
+        else if ([tile.type isEqualToString:@"Waffenhändler"])
+          {
+            dialogNPC = @"shopkeeper_weapon";
+          }
+        else if ([tile.type isEqualToString:@"Kräuterhändler"])
+          {
+            dialogNPC = @"shopkeeper_herbs";
+          }
+        else
+          {
+            NSLog(@"DSAActionIconChat handleEvent unbekannter shop Type: %@", tile.type);
+          }
     } else if ([tile isKindOfClass:[DSALocalMapTileBuildingSmith class]]) {
-        dialogNPC = @"smith";
+        dialogNPC = @"blacksmith";
     } else if ([tile isKindOfClass:[DSALocalMapTileBuildingHealer class]]) {
         dialogNPC = @"healer";
+    } else if ([tile isKindOfClass:[DSALocalMapTileBuildingTemple class]]) {
+        dialogNPC = @"temple_priest";
+    } else {
+      NSLog(@"DSAActionIconChat handleEvent: unknown tile, don't know what type of dialogue to use");
     }
-
     if (!dialogNPC) {
-        NSLog(@"Kein dialogfähiger NPC hier.");
+        NSLog(@"DSAActionIconChat handleEvent: no NPC around to talk to?");
         return;
     }
 
     // Dialog laden
     DSADialogManager *manager = [[DSADialogManager alloc] init];
-    if (![manager loadDialogFromFile:[NSString stringWithFormat:@"dialogue_%@", dialogNPC]]) {
-        NSLog(@"Dialog konnte nicht geladen werden.");
+    NSString *dialogFileName = [NSString stringWithFormat:@"dialogue_%@", dialogNPC];
+    if (![manager loadDialogFromFile: dialogFileName]) {
+        NSLog(@"DSAActionIconChat handleEvent: unable to load dialog file: %@", dialogFileName);
         return;
     }
 

@@ -1,0 +1,160 @@
+{
+  "npcName": "innkeeper_tavern",
+  "startNodeID": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "npcTexts": [
+        "Willkommen in der Taverne zum Lahmen Eber! Was darf's sein?",
+        "Setzt euch, Fremde. Bier? Geschichten? Ärger?",
+        "Ihr seht aus, als hättet ihr Durst – oder Fragen."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Was gibt es zu essen und zu trinken?",
+            "Zeig uns die Speisekarte.",
+            "Habt ihr ein gutes Bier im Angebot?"
+          ],
+          "nextNodeID": "menu"
+        },
+        {
+          "texts": [
+            "Was hört man in letzter Zeit so?",
+            "Irgendwelche Neuigkeiten oder Gerüchte?",
+            "Gibt es hier seltsame Vorkommnisse?"
+          ],
+          "nextNodeID": "maybeHint"
+        },
+        {
+          "texts": [
+            "Erzähl uns was über diese Taverne.",
+            "Gehört euch das Lokal schon lange?",
+            "Wie kommt ein Ort wie dieser zu seinem Namen?"
+          ],
+          "nextNodeID": "background"
+        },
+        {
+          "texts": [
+            "Diese Taverne stinkt.",
+            "Du siehst aus wie ein schlechter Koch.",
+            "Ist das Rattenfleisch im Eintopf?"
+          ],
+          "nextNodeID": "rude"
+        }
+      ]
+    },
+
+    "menu": {
+      "id": "menu",
+      "npcTexts": [
+        "Heute gibt's Eintopf vom Wildschwein, frisches Brot und dunkles Bier.",
+        "Ein Krug Bier kostet zwei Heller, das Zimmer oben fünf.",
+        "Ich hab auch Honigwein, wenn ihr's süßer mögt."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Klingt gut, bring uns was.",
+            "Wir nehmen Bier und Eintopf.",
+            "Das nehmen wir."
+          ],
+          "nextNodeID": "end"
+        },
+        {
+          "texts": [
+            "Vielleicht später.",
+            "Wir sehen uns noch um.",
+            "Wir haben keinen Hunger."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "background": {
+      "id": "background",
+      "npcTexts": [
+        "Die Taverne steht hier seit über 50 Jahren. Mein Vater hat sie aufgebaut.",
+        "Der Lahme Eber war wirklich mal ein Eber – jetzt hängt sein Kopf über dem Kamin.",
+        "Ich hab hier alles gesehen: Reisende, Raufbolde, sogar einen Magier, der nie bezahlt hat."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Was war das mit dem Magier?",
+            "Gibt es sonst seltsame Geschichten?",
+            "Klingt spannend. Noch mehr davon?"
+          ],
+          "nextNodeID": "maybeHint"
+        },
+        {
+          "texts": [
+            "Danke für die Geschichte.",
+            "Interessant. Wir trinken jetzt was.",
+            "Erzähl das den nächsten Gästen!"
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "maybeHint": {
+      "id": "maybeHint",
+      "npcTexts": [
+        "Hm… kommt drauf an, wie viel ihr trinken wollt – oder zahlt.",
+        "Ich hab da was gehört, aber das bleibt unter uns.",
+        "Manchmal hört man seltsame Dinge nach Mitternacht…"
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Wir hören zu.",
+            "Na los, erzähl schon.",
+            "Wir sagen es niemandem, versprochen."
+          ],
+          "nextNodeID": "giveHint"
+        },
+        {
+          "texts": [
+            "Schon gut, war nur Neugier.",
+            "Vergesst es.",
+            "Wir müssen weiter."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "giveHint": {
+      "id": "giveHint",
+      "npcTexts": [
+        "Ein Gast hat mir erzählt, dass in der alten Mühle Lichter flackern – aber niemand lebt dort.",
+        "Ein Händler meinte, er habe in den Sümpfen Stimmen gehört, obwohl er allein war.",
+        "Ein zwielichtiger Typ ließ letztens ein blutiges Pergament hier liegen – ich hab’s nicht angerührt."
+      ],
+      "playerOptions": [],
+      "hintCategory": "rumor"
+    },
+
+    "rude": {
+      "id": "rude",
+      "npcTexts": [
+        "Pass auf, was du sagst. Ich schenk ungern Feinden ein.",
+        "Raus hier, bevor ich die Wachen hole!",
+        "Wer beleidigt, kriegt nichts – nicht mal Ärger."
+      ],
+      "playerOptions": []
+    },
+
+    "end": {
+      "id": "end",
+      "npcTexts": [
+        "Na dann – viel Glück da draußen.",
+        "Kommt wieder, wenn ihr Durst habt.",
+        "Die Tür steht euch offen – solange ihr zahlt."
+      ],
+      "playerOptions": []
+    }
+  }
+}

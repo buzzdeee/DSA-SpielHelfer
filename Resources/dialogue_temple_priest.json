@@ -1,0 +1,160 @@
+{
+  "npcName": "priest_temple",
+  "startNodeID": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "npcTexts": [
+        "Seid gegrüßt, Reisende. Möge der Götter Segen mit euch sein.",
+        "Willkommen im Tempel. Was führt euch zu uns?",
+        "Ihr betretet heiligen Boden. Sucht ihr Trost, Rat oder Erlösung?"
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Könnt Ihr uns segnen?",
+            "Wir wünschen göttlichen Beistand.",
+            "Habt Ihr einen Segen für uns?"
+          ],
+          "nextNodeID": "blessing"
+        },
+        {
+          "texts": [
+            "Was ist das für ein Tempel?",
+            "Wem dient dieser Ort?",
+            "Erzählt uns von eurem Glauben."
+          ],
+          "nextNodeID": "faith"
+        },
+        {
+          "texts": [
+            "Habt Ihr in letzter Zeit etwas Ungewöhnliches bemerkt?",
+            "Gibt es Zeichen oder Vorfälle, die euch beunruhigen?",
+            "Wir suchen nach Hinweisen auf das Übernatürliche."
+          ],
+          "nextNodeID": "maybeHint"
+        },
+        {
+          "texts": [
+            "Eure Götter helfen niemandem.",
+            "Gebete bringen nichts.",
+            "Dies ist vergeudete Zeit."
+          ],
+          "nextNodeID": "rude"
+        }
+      ]
+    },
+
+    "blessing": {
+      "id": "blessing",
+      "npcTexts": [
+        "Möge Licht euren Weg erhellen und Schatten fernhalten.",
+        "Ich spreche einen Segen über euch – möge euer Herz standhaft bleiben.",
+        "Die Götter wachen über euch, solange ihr ihren Pfad nicht verlasst."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Habt Dank.",
+            "Das gibt uns Kraft.",
+            "Eure Worte bedeuten uns viel."
+          ],
+          "nextNodeID": "end"
+        },
+        {
+          "texts": [
+            "Was wisst Ihr über diese Gegend?",
+            "Kennt Ihr Geschichten oder Gerüchte?",
+            "Gibt es etwas, das wir wissen sollten?"
+          ],
+          "nextNodeID": "maybeHint"
+        }
+      ]
+    },
+
+    "faith": {
+      "id": "faith",
+      "npcTexts": [
+        "Dies ist ein Tempel der Hesinde, Göttin der Weisheit und Erkenntnis.",
+        "Wir dienen dem Zwölfgötterpantheon – in Achtung vor Ordnung, Maß und Licht.",
+        "Wissen ist die Flamme, die Dunkelheit vertreibt – so glauben wir."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Könnt Ihr uns etwas lehren?",
+            "Habt Ihr Bücher oder Schriften?",
+            "Wir suchen Erkenntnis."
+          ],
+          "nextNodeID": "giveHint"
+        },
+        {
+          "texts": [
+            "Danke für die Erklärung.",
+            "Das hilft uns weiter.",
+            "Wir danken für eure Weisheit."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "maybeHint": {
+      "id": "maybeHint",
+      "npcTexts": [
+        "Manche Zeichen deuten auf Unruhe hin...",
+        "Ich spürte Unheil in letzter Zeit – auch wenn ich es nicht benennen kann.",
+        "Nicht alles lässt sich mit Glauben erklären – aber vieles beginnt mit Fragen."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Bitte, sagt uns mehr.",
+            "Wir wollen helfen.",
+            "Was habt Ihr gesehen oder gehört?"
+          ],
+          "nextNodeID": "giveHint"
+        },
+        {
+          "texts": [
+            "Vielleicht ein andermal.",
+            "Verstehe, wir wollen euch nicht beunruhigen.",
+            "Schon gut, das reicht."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "giveHint": {
+      "id": "giveHint",
+      "npcTexts": [
+        "Ein Novize hörte nachts Stimmen aus dem alten Altarraum – doch er war leer.",
+        "Ein Pilger berichtete von dunklen Schatten im Hain westlich des Tempels.",
+        "In alten Schriften fand ich Hinweise auf ein verborgenes Relikt in dieser Region..."
+      ],
+      "playerOptions": [],
+      "hintCategory": "religion"
+    },
+
+    "rude": {
+      "id": "rude",
+      "npcTexts": [
+        "Wenn ihr ohne Glauben kommt, geht in Frieden – aber stört nicht den Tempel.",
+        "Ich vergebe euch eure Worte – doch ihr solltet euch prüfen.",
+        "Es steht euch frei zu zweifeln, doch beleidigt nicht, was andere heilig nennen."
+      ],
+      "playerOptions": []
+    },
+
+    "end": {
+      "id": "end",
+      "npcTexts": [
+        "Möge euer Weg klar und euer Herz rein bleiben.",
+        "Reist mit Bedacht – und vergesst nicht, was ihr hier gelernt habt.",
+        "Die Götter mögen euch führen, wohin auch immer ihr geht."
+      ],
+      "playerOptions": []
+    }
+  }
+}

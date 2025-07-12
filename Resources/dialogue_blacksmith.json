@@ -1,0 +1,152 @@
+{
+  "npcName": "blacksmith",
+  "startNodeID": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "npcTexts": [
+        "Willkommen in meiner Schmiede. Was braucht ihr?",
+        "Habt ihr etwas zu reparieren oder sucht ihr eine neue Waffe?",
+        "Die Esse ist heiß – kommt zur Sache!"
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Könnt Ihr unsere Ausrüstung reparieren?",
+            "Wir brauchen eine scharfe Klinge.",
+            "Habt Ihr etwas für den Kampf?"
+          ],
+          "nextNodeID": "gear"
+        },
+        {
+          "texts": [
+            "Wie lange arbeitet Ihr schon als Schmied?",
+            "Erzählt uns von eurer Arbeit.",
+            "Ist das hier eine alte Schmiede?"
+          ],
+          "nextNodeID": "background"
+        },
+        {
+          "texts": [
+            "Was hört man so im Dorf?",
+            "Gibt’s Gerüchte oder Neuigkeiten?",
+            "Wisst Ihr etwas, das uns helfen könnte?"
+          ],
+          "nextNodeID": "maybeHint"
+        },
+        {
+          "texts": [
+            "Euer Laden sieht heruntergekommen aus.",
+            "Das hier ist keine richtige Schmiede!",
+            "Riecht nach altem Eisen und schlechtem Bier."
+          ],
+          "nextNodeID": "rude"
+        }
+      ]
+    },
+
+    "gear": {
+      "id": "gear",
+      "npcTexts": [
+        "Ich kann eure Klinge wieder auf Vordermann bringen.",
+        "Rüstung? Kein Problem. Wird wie neu sein.",
+        "Ich habe ein paar gute Stücke im Angebot, wenn ihr zahlen könnt."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Zeigt uns, was Ihr habt.",
+            "Klingt gut, wir schauen mal.",
+            "Wir könnten neue Ausrüstung brauchen."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "background": {
+      "id": "background",
+      "npcTexts": [
+        "Diese Schmiede gehört meiner Familie seit drei Generationen.",
+        "Ich habe unter meinem Vater gelernt, und er unter seinem.",
+        "Die Glut kennt meinen Namen, und das Eisen meinen Willen."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Das klingt beeindruckend.",
+            "Ihr seid ein echter Meister.",
+            "Wisst Ihr auch, was in der Gegend los ist?"
+          ],
+          "nextNodeID": "maybeHint"
+        },
+        {
+          "texts": [
+            "Wir wollten nur mal hören.",
+            "Danke für eure Zeit.",
+            "Dann wollen wir euch nicht weiter stören."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "maybeHint": {
+      "id": "maybeHint",
+      "npcTexts": [
+        "Vielleicht weiß ich was… aber Wissen hat seinen Preis.",
+        "Ich höre Dinge, wenn die Leute reden, während ich hämmer.",
+        "Manchmal erzählt das Eisen mehr, als man denkt."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Bitte, es könnte wichtig sein.",
+            "Ein Hinweis würde uns sehr helfen.",
+            "Wir zahlen mit Respekt – und Münzen, wenn nötig."
+          ],
+          "nextNodeID": "giveHint"
+        },
+        {
+          "texts": [
+            "Ach, vergesst es.",
+            "Wenn Ihr nicht wollt, auch gut.",
+            "Wir fragen jemand anderen."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "giveHint": {
+      "id": "giveHint",
+      "npcTexts": [
+        "Hört gut zu, ich sag das nicht zweimal.",
+        "Ein Freund hat was gesehen – zwischen den Ruinen im Norden.",
+        "Passt auf, wo ihr hintretet. Manches rostet nicht ohne Grund..."
+      ],
+      "playerOptions": [],
+      "hintCategory": "equipment"
+    },
+
+    "rude": {
+      "id": "rude",
+      "npcTexts": [
+        "Verschwindet aus meiner Schmiede, bevor ich den Hammer hole!",
+        "Unhöfliche Kunden sind schlechte Kunden.",
+        "Wenn euch was stinkt, dann verlasst meinen Laden!"
+      ],
+      "playerOptions": []
+    },
+
+    "end": {
+      "id": "end",
+      "npcTexts": [
+        "Kommt wieder, wenn ihr etwas braucht.",
+        "Möge eure Klinge scharf bleiben.",
+        "Passt auf euch auf da draußen."
+      ],
+      "playerOptions": []
+    }
+  }
+}

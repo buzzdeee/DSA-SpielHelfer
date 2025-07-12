@@ -1,0 +1,160 @@
+{
+  "npcName": "shopkeeper_general",
+  "startNodeID": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "npcTexts": [
+        "Willkommen, willkommen! Tretet näher – ich hab alles, was das Herz begehrt!",
+        "Schaut euch um, gute Ware zu fairen Preisen!",
+        "Reisende! Kommt, vielleicht hab ich etwas, das ihr braucht."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Was habt Ihr im Angebot?",
+            "Zeigt uns eure Waren.",
+            "Wir wollen etwas kaufen."
+          ],
+          "nextNodeID": "showGoods"
+        },
+        {
+          "texts": [
+            "Habt Ihr etwas Besonderes?",
+            "Gibt es seltene Waren?",
+            "Etwas für Kenner vielleicht?"
+          ],
+          "nextNodeID": "maybeHint"
+        },
+        {
+          "texts": [
+            "Was hört man so in der Stadt?",
+            "Gibt es Neuigkeiten?",
+            "Erzählt, was sich so tut."
+          ],
+          "nextNodeID": "gossip"
+        },
+        {
+          "texts": [
+            "Eure Preise sind eine Frechheit!",
+            "Das ist doch alles Schund!",
+            "Hier gibt’s ja nur Plunder!"
+          ],
+          "nextNodeID": "rude"
+        }
+      ]
+    },
+
+    "showGoods": {
+      "id": "showGoods",
+      "npcTexts": [
+        "Hier, frisch eingetroffen: feine Seile, Kräuter, sogar eine Phiole mit... etwas Besonderem.",
+        "Ich habe Proviant, Lampenöl, Nadeln, Knöpfe... was braucht ihr?",
+        "Nehmt euch Zeit – Qualität lässt sich nicht überstürzen!"
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Habt Ihr auch Heiltränke oder Karten?",
+            "Etwas Magisches vielleicht?",
+            "Besitzt Ihr Ausrüstung für Abenteurer?"
+          ],
+          "nextNodeID": "maybeHint"
+        },
+        {
+          "texts": [
+            "Danke, das reicht fürs Erste.",
+            "Wir schauen uns später nochmal um.",
+            "Vielleicht kommen wir zurück."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "gossip": {
+      "id": "gossip",
+      "npcTexts": [
+        "Nun, es heißt, dass letzte Woche jemand nachts beim alten Brunnen gesehen wurde...",
+        "Die Wache wirkt nervös – aber sie sagen nichts Genaues.",
+        "Man munkelt, Händler aus dem Süden meiden die Gegend seit ein paar Tagen."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Wisst Ihr Genaueres?",
+            "Habt Ihr Namen gehört?",
+            "Das klingt wichtig."
+          ],
+          "nextNodeID": "giveHint"
+        },
+        {
+          "texts": [
+            "Nur Gerüchte also...",
+            "Schon gut, danke.",
+            "Wir bleiben wachsam."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "maybeHint": {
+      "id": "maybeHint",
+      "npcTexts": [
+        "Hm... für euch? Vielleicht.",
+        "Ich habe gehört, in der Nähe ist etwas im Busch.",
+        "Mit der richtigen Münze gibt's vielleicht auch ein paar Worte mehr."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Wir zahlen gut für gute Infos.",
+            "Na los, wir sind neugierig.",
+            "Sagt schon, was wisst Ihr?"
+          ],
+          "nextNodeID": "giveHint"
+        },
+        {
+          "texts": [
+            "Nein danke, wir gehen lieber.",
+            "Schon gut, behaltet es für euch.",
+            "Vielleicht ein andermal."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "giveHint": {
+      "id": "giveHint",
+      "npcTexts": [
+        "Ein Bote aus dem Umland sprach von merkwürdigen Spuren nahe dem alten Wachhaus.",
+        "Ein altes Relikt soll kürzlich jemand aus einem verlassenen Stall geborgen haben.",
+        "Man erzählt sich, in einem der Kellerhäuser hier soll ein geheimer Gang verborgen sein..."
+      ],
+      "playerOptions": [],
+      "hintCategory": "urban"
+    },
+
+    "rude": {
+      "id": "rude",
+      "npcTexts": [
+        "Ha! Dann geht doch zu meinem Konkurrenten – wenn ihr ihn findet.",
+        "Ich verkaufe keine Höflichkeit – aber ein bisschen Respekt wär nett.",
+        "Wenn ihr euch nur beschweren wollt, könnt ihr gleich wieder rausgehen!"
+      ],
+      "playerOptions": []
+    },
+
+    "end": {
+      "id": "end",
+      "npcTexts": [
+        "Kommt wieder, wenn ihr was braucht!",
+        "Die Tür steht euch offen – solange ihr zahlt.",
+        "Ich hab ständig neue Ware, haltet die Augen offen!"
+      ],
+      "playerOptions": []
+    }
+  }
+}

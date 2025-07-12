@@ -1,0 +1,160 @@
+{
+  "npcName": "herbalist",
+  "startNodeID": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "npcTexts": [
+        "Ah, Besucher... Sucht ihr Heilung? Oder... etwas anderes?",
+        "Die Wälder flüstern viel – und ich höre gut zu.",
+        "Willkommen in meiner Hütte. Kräuter? Salben? Oder ein Gespräch über das, was wächst und vergeht?"
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Was habt Ihr im Angebot?",
+            "Zeigt uns eure Kräuter und Tränke.",
+            "Habt Ihr etwas gegen Wunden oder Fieber?"
+          ],
+          "nextNodeID": "showGoods"
+        },
+        {
+          "texts": [
+            "Kennt Ihr euch mit seltenen Pflanzen aus?",
+            "Wisst Ihr etwas über heilkräftige Gewächse?",
+            "Habt Ihr Tipps für das Sammeln von Kräutern?"
+          ],
+          "nextNodeID": "maybeHint"
+        },
+        {
+          "texts": [
+            "Man sagt, Ihr wisst viel über den Wald.",
+            "Gibt es etwas, worauf wir achten sollten?",
+            "Irgendein Rat für Reisende?"
+          ],
+          "nextNodeID": "advice"
+        },
+        {
+          "texts": [
+            "Hier riecht es seltsam.",
+            "Diese Hütte ist unheimlich.",
+            "Ihr wirkt wie eine Hexe!"
+          ],
+          "nextNodeID": "rude"
+        }
+      ]
+    },
+
+    "showGoods": {
+      "id": "showGoods",
+      "npcTexts": [
+        "Hier – Salbe gegen Entzündungen, getrocknete Ysilleblätter, und ein Schlaftrunk aus Träumekraut.",
+        "Ich habe Wurzeln, die Blut stillen, und Kräuter, die euch wieder aufrichten.",
+        "Seht euch um. Aber vorsichtig – manches wirkt stärker, als man glaubt."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Was ist das da in der blauen Flasche?",
+            "Wächst das alles hier in der Gegend?",
+            "Gibt es gefährliche Pflanzen?"
+          ],
+          "nextNodeID": "maybeHint"
+        },
+        {
+          "texts": [
+            "Danke, das reicht.",
+            "Vielleicht später.",
+            "Wir kommen wieder, wenn wir was brauchen."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "advice": {
+      "id": "advice",
+      "npcTexts": [
+        "Geht nicht bei Dämmerung ins Moor – das Licht trügt.",
+        "Wenn ihr einen Farn mit drei Spitzen findet, rührt ihn nicht an.",
+        "Die Berge flüstern nachts – manchmal antwortet etwas zurück."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Habt Ihr noch mehr solcher Geschichten?",
+            "Das klingt nach einer Warnung...",
+            "Und was hat das mit Kräutern zu tun?"
+          ],
+          "nextNodeID": "maybeHint"
+        },
+        {
+          "texts": [
+            "Klingt mystisch.",
+            "Wir werden vorsichtig sein.",
+            "Danke für den Hinweis."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "maybeHint": {
+      "id": "maybeHint",
+      "npcTexts": [
+        "Vielleicht... wenn ihr mit offenen Augen durch die Welt geht.",
+        "Ein kleiner Hinweis... gut, aber vergesst nicht, die Natur verlangt auch Opfer.",
+        "Ich könnte etwas erzählen – aber seid euch bewusst: Wissen trägt Verantwortung."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Wir sind bereit.",
+            "Sagt uns, was ihr wisst.",
+            "Wir können damit umgehen."
+          ],
+          "nextNodeID": "giveHint"
+        },
+        {
+          "texts": [
+            "Dann nicht.",
+            "Wir kommen ein andermal wieder.",
+            "Lasst gut sein."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "giveHint": {
+      "id": "giveHint",
+      "npcTexts": [
+        "Nordöstlich von hier wächst Alraunblatt – selten, aber kraftvoll.",
+        "Am alten Steinkreis blüht nachts eine Blume, die nur Eingeweihte erkennen.",
+        "Zwischen den Steinen am Bach liegt manchmal Goldhaar – es heilt mehr, als man denkt."
+      ],
+      "playerOptions": [],
+      "hintCategory": "herbal"
+    },
+
+    "rude": {
+      "id": "rude",
+      "npcTexts": [
+        "Solche Worte sind gefährlich – genau wie die Gifte, die ich verkaufen könnte.",
+        "Dann verschwindet – bevor euch ein Fluch trifft.",
+        "Ich helfe nur denen, die den Wald respektieren. Ihr tut das nicht."
+      ],
+      "playerOptions": []
+    },
+
+    "end": {
+      "id": "end",
+      "npcTexts": [
+        "Geht mit Bedacht.",
+        "Die Pflanzen hören mit.",
+        "Möge euer Weg heil bleiben."
+      ],
+      "playerOptions": []
+    }
+  }
+}

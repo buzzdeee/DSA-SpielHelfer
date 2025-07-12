@@ -6,13 +6,13 @@
       "id": "start",
       "npcTexts": [
         "Willkommen in meiner Herberge!",
-        "Guten Tag, Fremder! Was führt dich hierher?",
-        "Schön, dich zu sehen! Brauchst du etwas?"
+        "Guten Tag, Fremde! Was führt euch hierher?",
+        "Schön, euch zu sehen! Brauchst ihr etwas?"
       ],
       "playerOptions": [
         {
           "texts": [
-            "Erzähl mir etwas über diese Stadt.",
+            "Erzähl uns etwas über diese Stadt.",
             "Was kann man hier unternehmen?",
             "Gibt es hier etwas Interessantes?"
           ],
@@ -22,7 +22,7 @@
           "texts": [
             "Du hast ein schönes Haus.",
             "Hier ist es wirklich gemütlich.",
-            "Ich mag deine Herberge!"
+            "Deine Herberge gefällt uns!"
           ],
           "nextNodeID": "flattery"
         },
@@ -36,7 +36,7 @@
         },
         {
           "texts": [
-            "Ich muss weiter.",
+            "Wir müssen weiter.",
             "Bis bald.",
             "Tschüss!"
           ],
@@ -48,24 +48,24 @@
     "info": {
       "id": "info",
       "npcTexts": [
-        "Es gibt eine alte Ruine nördlich von hier.",
-        "Wenn du Abenteuer suchst, frag mal den Schmied.",
-        "Einige sagen, nachts sieht man Lichter im Wald..."
+        "Im Winter kann es hier sehr kalt werden, warme Sachen sind dann von Vorteil.",
+        "Wenn es regnet, ist es hilfreich regenfeste Kleidung zu tragen.",
+        "Auf Reisen ist es immer gut, seinen Trinkschlauch gefüllt, und Proviant dabei zu haben."
       ],
       "playerOptions": [
         {
           "texts": [
-            "Hast du noch einen Tipp für mich?",
+            "Hast du noch einen Tipp für uns?",
             "Weißt du etwas Nützliches?",
-            "Gib mir einen guten Rat."
+            "Gib uns einen guten Rat."
           ],
           "nextNodeID": "maybeHint"
         },
         {
           "texts": [
-            "Danke, das hilft mir.",
+            "Danke, das hilft uns.",
             "Interessant, danke dir.",
-            "Ich schau mich mal um."
+            "Wir werden das beherzigen."
           ],
           "nextNodeID": "end"
         }
@@ -82,8 +82,8 @@
       "playerOptions": [
         {
           "texts": [
-            "Weißt du etwas, das mir helfen könnte?",
-            "Hast du vielleicht einen Hinweis für mich?",
+            "Weißt du etwas, das uns helfen könnte?",
+            "Hast du vielleicht einen Hinweis für uns?",
             "Gibt’s hier etwas Spannendes?"
           ],
           "nextNodeID": "giveHint"
@@ -92,7 +92,7 @@
           "texts": [
             "Mach’s gut.",
             "Bis dann.",
-            "Ich schau mich mal weiter um."
+            "Wir schauen uns mal weiter um."
           ],
           "nextNodeID": "end"
         }
@@ -112,15 +112,15 @@
     "maybeHint": {
       "id": "maybeHint",
       "npcTexts": [
-        "Vielleicht… wenn du nett fragst.",
+        "Vielleicht… wenn ihr nett fragst.",
         "Tja, das kommt drauf an...",
-        "Warum sollte ich dir helfen?"
+        "Warum sollte ich euch helfen?"
       ],
       "playerOptions": [
         {
           "texts": [
-            "Bitte, ich brauche deine Hilfe.",
-            "Ich wäre dir sehr dankbar.",
+            "Bitte, wir brauche deine Hilfe.",
+            "Wir wären dir sehr dankbar.",
             "Es ist wirklich wichtig."
           ],
           "nextNodeID": "giveHint"
@@ -128,8 +128,8 @@
         {
           "texts": [
             "Schon gut, vergiss es.",
-            "Nie mind.",
-            "Ich finde es schon selbst raus."
+            "Never mind.",
+            "Wir finden es schon selbst raus."
           ],
           "nextNodeID": "end"
         }
@@ -139,9 +139,9 @@
     "giveHint": {
       "id": "giveHint",
       "npcTexts": [
-        "Na schön, aber nur weil du nett bist.",
-        "Ich will dir was verraten...",
-        "Hör genau zu:"
+        "Na schön, aber nur weil ihr nett seid.",
+        "Ich will euch was verraten...",
+        "Hört genau zu:"
       ],
       "playerOptions": [],
       "hintCategory": "location"
@@ -150,9 +150,9 @@
     "end": {
       "id": "end",
       "npcTexts": [
-        "Mach’s gut!",
-        "Komm bald wieder.",
-        "Viel Glück, Reisender."
+        "Macht’s gut!",
+        "Kommt bald wieder.",
+        "Viel Glück, Reisende."
       ],
       "playerOptions": []
     }

@@ -5790,7 +5790,14 @@ Resources/NPC.json \
 Resources/Karten.json \
 Resources/image_index.json \
 Resources/dialogue_innkeeper.json \
-Resources/hints_1467_7169_100.json 
+Resources/hints_1467_7169_100.json \
+Resources/dialogue_blacksmith.json \
+Resources/dialogue_healer.json \
+Resources/dialogue_shopkeeper_general.json \
+Resources/dialogue_shopkeeper_herbs.json \
+Resources/dialogue_shopkeeper_weapon.json \
+Resources/dialogue_tavern.json \
+Resources/dialogue_temple_priest.json 
 
 
 #

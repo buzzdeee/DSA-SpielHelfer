@@ -5984,7 +5984,14 @@
 	"Karten.json",
 	"image_index.json",
 	"dialogue_innkeeper.json",
-	"hints_1467_7169_100.json"
+	"hints_1467_7169_100.json",
+	"dialogue_blacksmith.json",
+	"dialogue_healer.json",
+	"dialogue_shopkeeper_general.json",
+	"dialogue_shopkeeper_herbs.json",
+	"dialogue_shopkeeper_weapon.json",
+	"dialogue_tavern.json",
+	"dialogue_temple_priest.json"
     );
     "OTHER_SOURCES" = (
 	"DSA-SpielHelfer_main.m"
