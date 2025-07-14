@@ -73,9 +73,10 @@
 - (void)updateGameTime {
     NSLog(@"DSAAdventureClock updateGameTime called (advance time by 1 minute)");
     [self advanceTimeByMinutes:1]; // Advances 1 minute of game time every 30 real seconds
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameTimeAdvanced"
-                                                        object:self
-                                                      userInfo:@{ @"currentDate": [self.currentDate copy] }];    
+// We do this in advanceTimeByMinutes anyways, right?    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameTimeAdvanced"
+//                                                        object:self
+//                                                      userInfo:@{ @"currentDate": [self.currentDate copy] }];    
 }
 
 - (void)advanceTimeByMinutes:(NSUInteger)minutes {

@@ -31,7 +31,7 @@
 #import "DSABodyParts.h"
 #import "DSAAventurianDate.h"
 #import "DSATalent.h"
-#import "DSAGod.h"
+//#import "DSAGod.h"
 
 @class DSAPositiveTrait;
 @class DSANegativeTrait;
@@ -40,6 +40,7 @@
 @class DSARegenerationResult;
 @class DSALocation;
 @class DSAWallet;
+@class DSAMiracleResult;
 
 typedef NS_ENUM(NSUInteger, DSACharacterState)
 {
@@ -65,16 +66,61 @@ typedef NS_ENUM(NSUInteger, DSASleepQuality)
     DSASleepQualityUnknown
 };
 
+typedef NS_ENUM(NSInteger, DSACharacterEffectType) {
+    DSACharacterEffectTypeTraitBoost,                    // basic traits are boosted
+    DSACharacterEffectTypeTalentBoost,                   // talents are boosted
+    DSACharacterEffectTypeMagicBoost,                    // a spell is boosted, or all spells ???
+    DSACharacterEffectTypeTalentAutoSuccess,             // Auto success for a given talent
+    DSACharacterEffectTypeMRBoost,                       // Magic Resistance boost
+    DSACharacterEffectTypeMagicProtection,               // protection against magic
+    DSACharacterEffectTypeSeaProtection,                 // protection when travelling on the sea
+    DSACharacterEffectTypeRemoveCurse,                   // this removes an applied curse
+    DSACharacterEffectTypeCureDisease,                   // this heals a disease/illness
+    DSACharacterEffectTypeRevive,                        // a character is revived from dead
+    DSACharacterEffectTypeSatiation,                     // thirst and hunger will vanish
+    DSACharacterEffectTypeNoHungerThirst,                // no hunger and thirst for a given amount of time
+    DSACharacterEffectTypeHeal,                          // some LE get restored
+    DSACharacterEffectTypeFullHeal,                      // full LE healing
+    DSACharacterEffectTypeNightPeace,                    // sleep well at night, without attacks
+    DSACharacterEffectTypeProtectionAgainstUndead,       // undeads won't harm
+    DSACharacterEffectTypeFearOfDead,                    // TA goes down
+    DSACharacterEffectTypeWeaponBlessing,                // weapon "healing" ;)
+    DSACharacterEffectTypeUpgradeWeaponToMagic,          // weapon becomes magic
+    DSACharacterEffectTypeEnchantWeapon,                 // weapon becomes magic
+    DSACharacterEffectTypeRepairAndEnchant,              // weapon repaired and magic
+    DSACharacterEffectTypePlaceholder,                   // what's that?
+    DSACharacterEffectTypeRoomBooked,                    // has a room booked in an inn
+    DSACharacterEffectTypeIllness,                       // character is sick/ill 
+    DSACharacterEffectTypeNothing
+};
+
+typedef NS_ENUM(NSUInteger, DSAIllnessStage) {
+  DSAIllnessStageIncubation,
+  DSAIllnessStageActiveUnknown,
+  DSAIllnessStageActiveIdentified,
+  DSAIllnessStageUnderTreatment,
+  DSAIllnessStageChronicInactive,
+  DSAIllnessStageChronicActive
+};
+
 NS_ASSUME_NONNULL_BEGIN
 @interface DSACharacterEffect : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, copy) NSString *uniqueKey;
-@property (nonatomic, assign) DSAMiracleResultType effectType;
+@property (nonatomic, assign) DSACharacterEffectType effectType;
 @property (nonatomic, strong, nullable) DSAAventurianDate *expirationDate;
 @property (nonatomic, strong) NSDictionary<NSString *, NSNumber *> *reversibleChanges;
-
 @end
 
+@interface DSAIllnessEffect : DSACharacterEffect <NSCoding, NSCopying>
+
+@property (nonatomic, strong, nullable) NSDictionary<NSString *, NSDictionary<NSString *, id> *> *dailyDamage;
+@property (nonatomic, strong, nullable) DSAAventurianDate * dailyDamageApplyNextDate;  // when to apply next daily damage
+@property (nonatomic, strong, nullable) NSDictionary<NSString *, NSDictionary<NSString *, id> *> *oneTimeDamage;
+@property (nonatomic, assign) DSAIllnessStage currentStage;
+@property (nonatomic, strong, nullable) NSDictionary<NSString *, NSNumber *> *followUpIllnessChance;  // chance to get sick on a follow-up sickness in %
+
+@end
 
 @interface DSACharacter : NSObject <NSCoding>
 
@@ -148,14 +194,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSMutableDictionary<NSString *, DSACharacterEffect *> *appliedEffects;
 
 @property (readonly, assign) NSInteger attackBaseValue;
+@property (nonatomic, assign) NSInteger attackBaseBaseValue;  // may be changed in case of effects on characters
 @property (readonly, assign) NSInteger carryingCapacity;
 @property (readonly, assign) NSInteger dodge;
 @property (readonly, assign) float encumbrance;         // Behinderung durch Sachen/Rüstung etc.
-@property (readonly, assign) NSInteger endurance;           // Ausdauer
+@property (readonly, assign) NSInteger endurance;       // Ausdauer
+@property (nonatomic, assign) NSInteger enduranceBaseValue;  // usually 0, but can be affected, i.e. become negative due to illness
 @property (readonly, assign) float load;                // Last der mitgeschleppten Gegenstände
 @property (readonly, assign) float armor;
 @property (readonly, assign) NSInteger magicResistance;
 @property (readonly, assign) NSInteger parryBaseValue;
+@property (nonatomic, assign) NSInteger parryBaseBaseValue;    // may be changed in case of effects on characters
 @property (readonly, assign) NSInteger rangedCombatBaseValue;
 
 @property (nonatomic, strong) NSMutableSet<NSString *> *receivedUniqueMiracles;  // some miracles can only be received once per character
@@ -199,7 +248,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (void) updateStatesDictState: (NSNumber *) DSACharacterState
                      withValue: (NSNumber *) value;
 
-- (void)addEffect:(DSACharacterEffect *)effect;                       // To add any type of effect, that doesn't need to apply anything special                     
+- (void)addEffect:(DSACharacterEffect *)effect;                       // To add any type of effect, that doesn't need to apply anything special
+- (BOOL) applyIllnessEffect: (DSAIllnessEffect *) illnessEffect;      // To apply illnesses to characters
+- (BOOL) isIll;                                                       // to test if a character is ill, or not
 - (BOOL) applyMiracleEffect: (DSAMiracleResult *) miracleResult;      // to add miracle effects, which may change some values when applying
 - (BOOL) hasAppliedCharacterEffectWithKey: (NSString *)key;
 - (DSACharacterEffect *) appliedCharacterEffectWithKey: (NSString *) key;

@@ -36,9 +36,9 @@
 #import "DSALocation.h"
 #import "DSAWallet.h"
 #import "DSAGod.h"
+#import "DSAIllness.h"
 
 @implementation DSACharacterEffect
-
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super init];
     if (self) {
@@ -69,7 +69,81 @@
     copy->_reversibleChanges = [[NSDictionary allocWithZone:zone] initWithDictionary:self.reversibleChanges copyItems:YES];
     return copy;
 }
+@end
 
+@implementation DSAIllnessEffect
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+        _currentStage = [coder decodeIntegerForKey:@"currentStage"];    
+        _dailyDamage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"dailyDamage"];
+        _dailyDamageApplyNextDate = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"dailyDamageApplyNextDate"];
+        _oneTimeDamage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"oneTimeDamage"];
+        _followUpIllnessChance = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"followUpIllnessChance"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [super encodeWithCoder:coder];
+    [coder encodeInteger:self.currentStage forKey:@"currentStage"];    
+    [coder encodeObject:_dailyDamage forKey:@"dailyDamage"];
+    [coder encodeObject:_dailyDamageApplyNextDate forKey:@"dailyDamageApplyNextDate"];
+    [coder encodeObject:_oneTimeDamage forKey:@"oneTimeDamage"];
+    [coder encodeObject:_followUpIllnessChance forKey:@"followUpIllnessChance"];
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    DSAIllnessEffect *copy = [super copyWithZone:zone];
+    copy->_currentStage = self.currentStage;    
+    copy->_dailyDamage = [_dailyDamage copyWithZone:zone];
+    copy->_dailyDamageApplyNextDate = [_dailyDamageApplyNextDate copyWithZone:zone];
+    copy->_oneTimeDamage = [_oneTimeDamage copyWithZone:zone];
+    copy->_followUpIllnessChance = [_followUpIllnessChance copyWithZone:zone];
+    return copy;
+}
+
+- (NSString *)description
+{
+  NSMutableString *descriptionString = [NSMutableString stringWithFormat:@"%@:\n", [self class]];
+
+  // Start from the current class
+  Class currentClass = [self class];
+
+  // Loop through the class hierarchy
+  while (currentClass && currentClass != [NSObject class])
+    {
+      // Get the list of properties for the current class
+      unsigned int propertyCount;
+      objc_property_t *properties = class_copyPropertyList(currentClass, &propertyCount);
+
+      // Iterate through all properties of the current class
+      for (unsigned int i = 0; i < propertyCount; i++)
+        {
+          objc_property_t property = properties[i];
+          const char *propertyName = property_getName(property);
+          NSString *key = [NSString stringWithUTF8String:propertyName];          
+                      
+          // Get the value of the property using KVC (Key-Value Coding)
+          id value = [self valueForKey:key];
+
+          // Append the property and its value to the description string
+          [descriptionString appendFormat:@"%@ = %@\n", key, value];
+        }
+
+      // Free the property list since it's a C array
+      free(properties);
+
+      // Move to the superclass
+      currentClass = [currentClass superclass];
+    }
+
+  return descriptionString;
+}
 @end
 
 @implementation DSACharacter
@@ -196,6 +270,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         // Initialize other properties
         _isMagic = NO;
         _armorBaseValue = 0;
+        _enduranceBaseValue = 0;
+        _attackBaseBaseValue = 0;
+        _parryBaseBaseValue = 0;
         _isBlessedOne = NO;
         _isMagicalDabbler = NO;
         _element = nil;
@@ -454,6 +531,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   [coder encodeInteger:self.mrBonus forKey:@"mrBonus"];
   [coder encodeInteger:self.currentMrBonus forKey:@"currentMrBonus"];
   [coder encodeInteger:self.armorBaseValue forKey:@"armorBaseValue"];
+  [coder encodeInteger:self.enduranceBaseValue forKey:@"enduranceBaseValue"];
+  [coder encodeInteger:self.attackBaseBaseValue forKey:@"attackBaseBaseValue"];
+  [coder encodeInteger:self.parryBaseBaseValue forKey:@"parryBaseBaseValue"];  
   [coder encodeInteger:self.staticAttackBaseValue forKey:@"staticAttackBaseValue"];
   [coder encodeInteger:self.staticParryBaseValue forKey:@"staticParryBaseValue"];
   [coder encodeInteger:self.adventurePoints forKey:@"adventurePoints"];
@@ -542,6 +622,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         self.currentMrBonus = self.mrBonus; // Fallback für alte Versionen
       }
       self.armorBaseValue = [coder decodeIntegerForKey:@"armorBaseValue"];
+      self.enduranceBaseValue = [coder decodeIntegerForKey:@"enduranceBaseValue"];
+      self.attackBaseBaseValue = [coder decodeIntegerForKey:@"attackBaseBaseValue"];               
+      self.parryBaseBaseValue = [coder decodeIntegerForKey:@"parryBaseBaseValue"];      
       self.staticAttackBaseValue = [coder decodeIntegerForKey:@"staticAttackBaseValue"];               
       self.staticParryBaseValue = [coder decodeIntegerForKey:@"staticParryBaseValue"];
       self.isNPC = [coder decodeBoolForKey:@"isNPC"];
@@ -898,10 +981,11 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 
 
 /* Calculate Endurance, as described in: Abenteuer Basis Spiel, Regelbuch II, S. 9 */
+// enduranceBaseValue added, due to character effects that may have an effect on endurance, i.e. illnesses
 - (NSInteger) endurance {
   NSInteger retVal;
 
-  retVal = self.lifePoints + [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue];  
+  retVal = self.lifePoints + [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue] + self.enduranceBaseValue;  
   return retVal;
 }
 
@@ -919,7 +1003,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   retVal = round(([[self.currentPositiveTraits valueForKeyPath: @"MU.level"] integerValue] + 
                   [[self.currentPositiveTraits valueForKeyPath: @"GE.level"] integerValue] + 
                   [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 5);
-  return retVal;
+  return retVal + self.attackBaseBaseValue;
 }
 
 
@@ -929,7 +1013,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   retVal = round(([[self.currentPositiveTraits valueForKeyPath: @"IN.level"] integerValue] + 
                   [[self.currentPositiveTraits valueForKeyPath: @"GE.level"] integerValue] + 
                   [[self.currentPositiveTraits valueForKeyPath: @"KK.level"] integerValue]) / 5);
-  return retVal;
+  return retVal + self.parryBaseBaseValue;
 }
 
 
@@ -1641,12 +1725,39 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   [self.appliedEffects setObject: effect forKey: effect.uniqueKey];
 }
 
+- (BOOL) applyIllnessEffect: (DSAIllnessEffect *) illnessEffect
+{
+  NSLog(@"DSACharacter applyIllnessEffect called, illnessEffect: %@", illnessEffect);
+  NSLog(@"DSACharacter applyIllnessEffect appliedEffects BEFORE: %@", self.appliedEffects);
+  [self.appliedEffects setObject: illnessEffect forKey: illnessEffect.uniqueKey];
+  NSLog(@"DSACharacter applyIllnessEffect appliedEffects AFTER: %@", self.appliedEffects);
+  return YES;
+}
+
+- (BOOL) isIll
+{
+  for (DSACharacterEffect *effect in self.appliedEffects)
+    {
+      if (![effect isKindOfClass: [DSAIllnessEffect class]])
+        {
+          continue;
+        }
+      DSAIllnessEffect *illnessEffect = (DSAIllnessEffect *) effect;
+      if (illnessEffect.currentStage == DSAIllnessStageChronicInactive)  // inactive chronic illnesses don't count
+        {
+          continue;
+        }
+      return YES;
+    }
+  return NO;
+}
+
 - (BOOL) applyMiracleEffect: (DSAMiracleResult *) miracleResult
 {
   NSLog(@"DSACharacter applyMiracleEffect called!!!");
   BOOL applied = NO;
   switch (miracleResult.type) {
-    case DSAMiracleResultTypeSatiation: {
+    case DSACharacterEffectTypeSatiation: {
       [self updateStatesDictState: [NSNumber numberWithInteger: DSACharacterStateHunger]
                         withValue: [NSNumber numberWithFloat: 1.0]];
       [self updateStatesDictState: [NSNumber numberWithInteger: DSACharacterStateThirst]
@@ -1654,7 +1765,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       applied = YES;
       break;
     }
-    case DSAMiracleResultTypeHeal: {
+    case DSACharacterEffectTypeHeal: {
       NSInteger heal = [[miracleResult.statChanges objectForKey: @"LE"] integerValue];
       if (self.currentLifePoints < self.lifePoints)
         {
@@ -1663,7 +1774,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         }
       break;
     }
-    case DSAMiracleResultTypeNightPeace: {
+    case DSACharacterEffectTypeNightPeace: {
       DSACharacterEffect *effect = [[DSACharacterEffect alloc] init];
       effect.uniqueKey = miracleResult.uniqueKey;
       effect.effectType = miracleResult.type;
@@ -1671,14 +1782,14 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       [self.appliedEffects setObject: effect forKey: effect.uniqueKey];
       break;
     }
-    case DSAMiracleResultTypeRevive: {
+    case DSACharacterEffectTypeRevive: {
       [self updateStatesDictState: [NSNumber numberWithInteger: DSACharacterStateDead]
                         withValue: [NSNumber numberWithInteger: DSASeverityLevelNone]];
       self.currentLifePoints = 10;        // all should have more LE than 10
       applied = YES;
       break;    
     }
-    case DSAMiracleResultTypeTraitBoost: {
+    case DSACharacterEffectTypeTraitBoost: {
       BOOL extendOnly = NO;
       if (miracleResult.expirationDate)
         {
@@ -1714,7 +1825,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
             }
         }
     }
-    case DSAMiracleResultTypeMRBoost: {
+    case DSACharacterEffectTypeMRBoost: {
       BOOL extendOnly = NO;
       if (miracleResult.expirationDate)
         {
@@ -1734,10 +1845,10 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
           self.currentMrBonus += [miracleResult.statChanges[@"MR"] integerValue];
         }
     }
-    case DSAMiracleResultTypeRemoveCurse: {
+    case DSACharacterEffectTypeRemoveCurse: {
       NSLog(@"DSACharacter applyMiracleEffect of type: DSAMiracleResultTypeRemoveCurse not yet supported, have to support being cursed first (:");
     }
-    case DSAMiracleResultTypeTalentBoost: {
+    case DSACharacterEffectTypeTalentBoost: {
       BOOL extendOnly = NO;
       if (miracleResult.expirationDate)
         {
@@ -1769,7 +1880,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
             }
         }
     }
-    case DSAMiracleResultTypeMagicProtection: {
+    case DSACharacterEffectTypeMagicProtection: {
       if (miracleResult.expirationDate)
         {
           DSACharacterEffect *effect = [[DSACharacterEffect alloc] init];
@@ -1780,7 +1891,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
           [self.appliedEffects setObject: effect forKey: effect.uniqueKey];
         }
     }
-    case DSAMiracleResultTypeUpgradeWeaponToMagic: {
+    case DSACharacterEffectTypeUpgradeWeaponToMagic: {
       NSLog(@"DSACharacter applyMiracleEffect DSAMiracleResultTypeUpgradeWeaponToMagic NOT YET IMPLEMENTED!");
     }             
     default:
@@ -1791,22 +1902,238 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 }
 
 - (void)removeExpiredEffectsAtDate:(DSAAventurianDate *)currentDate {
+    NSLog(@"DSACharacter removeExpiredEffectsAtDate called");
     NSArray *allKeys = [self.appliedEffects allKeys];
     for (NSString *key in allKeys) {
         DSACharacterEffect *effect = self.appliedEffects[key];
+        if (effect.effectType == DSACharacterEffectTypeIllness)  // Handle them separately,...
+          {
+            NSLog(@"DSACharacter removeExpiredEffectsAtDate %@ found DSACharacterEffectTypeIllness, handing over to advanceIllnessEffect", self.name);
+            [self advanceIllnessEffect: (DSAIllnessEffect *) effect atDate: currentDate];
+            continue;
+          }
         if (effect.expirationDate && [effect.expirationDate isEarlierThanDate:currentDate]) {
             [self removeCharacterEffectForKey:key];
         }
     }
 }
 
+- (void) advanceIllnessEffect: (DSAIllnessEffect *) illnessEffect atDate: (DSAAventurianDate *)currentDate
+{
+  DSAIllnessDescription *illnessDescription = [[DSAIllnessRegistry sharedRegistry] illnessWithUniqueID: illnessEffect.uniqueKey];
+  switch (illnessEffect.currentStage)
+    {
+      case DSAIllnessStageIncubation: {
+        if (!illnessEffect.expirationDate)  // have to properly initialize incubation phase
+          {
+            illnessEffect.expirationDate = [illnessDescription endDateOfStage: DSAIllnessStageIncubation
+                                                                     fromDate: currentDate];
+            NSLog(@"DSACharacter advanceIllnessEffect in stage DSAIllnessStageIncubation initializing incubation phase");                                                                     
+          }
+        else
+          {
+            if ([illnessEffect.expirationDate isEarlierThanDate: currentDate]) // Advance to next stage!
+              {
+                NSLog(@"DSACharacter advanceIllnessEffect in stage DSAIllnessStageIncubation advancing to next stage!");
+                illnessEffect.expirationDate = [illnessDescription endDateOfStage: DSAIllnessStageActiveUnknown
+                                                                         fromDate: currentDate];
+                illnessEffect.followUpIllnessChance = [illnessDescription.followUpIllnessChance copy];
+                NSLog(@"DSACharacter advanceIllnessEffect, current date: %@ new expirationDate: %@", currentDate, illnessEffect.expirationDate);                                                                         
+                illnessEffect.oneTimeDamage = [illnessDescription oneTimeDamage];
+                [self applyOneTimeDamage:illnessEffect.oneTimeDamage revert:NO];
+     
+                illnessEffect.dailyDamage = [illnessDescription dailyDamage];
+                [self applyDailyDamageForIllnessEffect: illnessEffect atDate: currentDate];
+                
+                illnessEffect.currentStage = DSAIllnessStageActiveUnknown;     // finally push forward
+                NSLog(@"DSACharacter advanceIllnessEffect goint to set severity level to: %@", @([illnessDescription dangerLevelToSeverityLevel]));
+                [self.statesDict setObject: @([illnessDescription dangerLevelToSeverityLevel]) forKey: @(DSACharacterStateSick)];
+                NSLog(@"DSACharacter advanceIllnessEffect in stage DSAIllnessStageIncubation new illness effect: %@", illnessEffect);
+                
+                NSDictionary *userInfo = @{ @"severity": @(LogSeverityWarning),
+                                             @"message": [NSString stringWithFormat: @"%@ fühlt sich krank.", self.name]
+                                          };                
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                                    object: self
+                                                                  userInfo: userInfo];                
+              }
+            else
+              {
+                NSLog(@"DSACharacter advanceIllnessEffect in stage DSAIllnessStageIncubation, no need to advance illness to next stage yet");
+              }
+          }
+          break;
+      }
+      case DSAIllnessStageActiveUnknown:
+      case DSAIllnessStageActiveIdentified:
+      case DSAIllnessStageUnderTreatment:
+      case DSAIllnessStageChronicActive: {
+        NSLog(@"DSACharacter advanceIllnessEffect in stage: %lu", illnessEffect.currentStage);
+        if ([illnessEffect.expirationDate isEarlierThanDate: currentDate])
+          {
+            // Seems we're still alive and overcome the illness
+            [self applyOneTimeDamage:illnessEffect.oneTimeDamage revert:YES];
+            [self.statesDict setObject: @(DSASeverityLevelNone) forKey: @(DSACharacterStateSick)];
+            DSAIllnessEffect *savedIllnessEffect = illnessEffect;
+            [self removeCharacterEffectForKey: illnessEffect.uniqueKey];
+            NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
+                                         @"message": [NSString stringWithFormat: @"%@ ist wieder genesen.", self.name]
+                                      };
+            self.enduranceBaseValue = 0;  // just reset in case it was lowered
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                                object: self
+                                                              userInfo: userInfo];
+            if (savedIllnessEffect.followUpIllnessChance)                                                            
+              {
+                for (NSString *illnessName in savedIllnessEffect.followUpIllnessChance)
+                  {
+                    NSInteger chance = [savedIllnessEffect.followUpIllnessChance[illnessName] integerValue];
+                    NSInteger diceResult = [Utils rollDice: @"1W100"];
+                    NSLog(@"DSACharacter advanceIllnessEffect checking if to apply follow up illness: %@", illnessName);
+                    if (diceResult <= chance)
+                      {
+                        DSAIllnessDescription *followUpIllnessDescription = [[DSAIllnessRegistry sharedRegistry] illnessWithName: illnessName];
+                        NSLog(@"DSACharacter advanceIllnessEffect applying follow up illness: %@", illnessName);
+                        [self applyIllnessEffect: [followUpIllnessDescription generateEffectForCharacter: self]];
+                        break;  // there should not be more than one anyways
+                      }
+                  }
+              }
+            return; // Good to jump out early (:       
+          }
+        if (illnessEffect.dailyDamage)
+          {
+            if ([illnessEffect.dailyDamageApplyNextDate isEarlierThanDate: currentDate])
+              {
+                NSLog(@"DSACharacter advanceIllnessEffect in stage: %lu handling dailyDamage", illnessEffect.currentStage);
+                [self applyDailyDamageForIllnessEffect: illnessEffect atDate: currentDate];
+              }
+          }
+        
+        break;
+      }
+      case DSAIllnessStageChronicInactive: {
+        NSLog(@"DSACharacter advanceIllnessEffect in stage: DSAIllnessStageChronicInactive");
+        NSInteger restart = [Utils rollDice: @"1W100"];
+        break;
+      }
+      default: {
+        NSLog(@"DSACharacter advanceIllnessEffect in unhandled stage: %lu", illnessEffect.currentStage);
+      }    
+    }
+}
+
+- (void)applyOneTimeDamage:(NSDictionary<NSString *, NSDictionary *> *)oneTimeDamage
+                    revert:(BOOL)shouldRevert
+{
+    for (NSString *damageType in oneTimeDamage)
+    {
+        if ([damageType isEqualToString:@"Eigenschaften"])
+        {
+            NSDictionary *traitChanges = oneTimeDamage[damageType];
+            for (NSString *trait in traitChanges)
+            {
+                NSDictionary *traitDict = traitChanges[trait];
+                NSNumber *modifierNumber = traitDict[@"Modifikator"];
+                if (![modifierNumber isKindOfClass:[NSNumber class]]) {
+                    NSLog(@"❗️Invalid Modifikator value for trait '%@': %@", trait, modifierNumber);
+                    continue;
+                }
+
+                NSInteger traitValue = [modifierNumber integerValue];
+                if (shouldRevert) {
+                    traitValue *= -1;
+                }
+
+                DSAPositiveTrait *positiveTrait = self.currentPositiveTraits[trait];
+                if (positiveTrait)
+                {
+                    positiveTrait.level += traitValue;
+                    continue;
+                }
+
+                DSANegativeTrait *negativeTrait = self.currentNegativeTraits[trait];
+                if (negativeTrait)
+                {
+                    negativeTrait.level += traitValue;
+                    continue;
+                }
+
+                NSLog(@"⚠️ DSACharacter applyOneTimeDamage: unknown trait: %@", trait);
+            }
+        }
+        else if ([damageType isEqualToString:@"AttackeParade"])
+          {
+            NSDictionary *atpaChanges = oneTimeDamage[damageType];
+            for (NSString *atpa in atpaChanges)
+              {
+                NSDictionary *valueDict = atpaChanges[atpa];
+                NSNumber *modifierNumber = valueDict[@"Modifikator"];
+                if (![modifierNumber isKindOfClass:[NSNumber class]]) {
+                    NSLog(@"❗️Invalid Modifikator value for atpa '%@': %@", atpa, modifierNumber);
+                    continue;
+                }
+                
+                NSInteger modifierValue = [modifierNumber integerValue];
+                if (shouldRevert)
+                  {
+                    modifierValue *= -1;
+                  }
+                  
+                if ([atpa isEqualToString: @"AT"])
+                  {
+                    self.attackBaseBaseValue += modifierValue;
+                  }
+                else if ([atpa isEqualToString: @"PA"])
+                  {
+                    self.parryBaseBaseValue += modifierValue;
+                  }
+                else
+                  {
+                    NSLog(@"DSACharacter applyOneTimeDamage unknown AttackeParade: %@", atpa);
+                  }
+              }
+          }
+        else
+          {
+            NSLog(@"⚠️ DSACharacter applyOneTimeDamage: unsupported damageType: %@", damageType);
+          }
+    }
+}
+
+-(void) applyDailyDamageForIllnessEffect: (DSAIllnessEffect *) illnessEffect atDate: (DSAAventurianDate *) currentDate
+{
+  for (NSString *damageType in [illnessEffect.dailyDamage allKeys])
+   {
+      if ([damageType isEqualToString: @"SP"])
+        {
+          NSString *wuerfelString = [illnessEffect.dailyDamage[damageType] objectForKey: @"Wuerfel"];
+          NSInteger modifier = [[illnessEffect.dailyDamage[damageType] objectForKey: @"Modifier"] integerValue];
+                     
+          self.currentLifePoints -= ([Utils rollDice: wuerfelString] + modifier);
+        }
+      else if ([damageType isEqualToString: @"AU"])
+        {
+          NSString *wuerfelString = [illnessEffect.dailyDamage[damageType] objectForKey: @"Wuerfel"];
+          NSInteger modifier = [[illnessEffect.dailyDamage[damageType] objectForKey: @"Modifier"] integerValue];
+                        
+          self.enduranceBaseValue -= ([Utils rollDice: wuerfelString] + modifier);                      
+        }
+      else
+        {
+          NSLog(@"DSACharacter advanceIllnessEffect in stage DSAIllnessStageIncubation dailyDamage don't know how to handle damageType: %@", damageType);
+        }
+   }
+   illnessEffect.dailyDamageApplyNextDate = [currentDate dateByAddingYears:0 days:1 hours:0 minutes:0];
+}
+
 - (void)removeCharacterEffectForKey: (NSString *)key
 {
-  NSLog(@"DSACharacter removeCharacterEffectForKey: %@ NOT YET IMPLEMENTED!!!!", key);
+  
   DSACharacterEffect *effect = self.appliedEffects[key];
   
   switch (effect.effectType) {
-    case DSAMiracleResultTypeTraitBoost: {
+    case DSACharacterEffectTypeTraitBoost: {
       for (NSString *key in effect.reversibleChanges)
         {
           if (self.currentPositiveTraits[key])
@@ -1825,10 +2152,10 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
             }
         }    
     }
-    case DSAMiracleResultTypeMRBoost: {
+    case DSACharacterEffectTypeMRBoost: {
      self.currentMrBonus -= [effect.reversibleChanges[@"MR"] integerValue];
     }
-    case DSAMiracleResultTypeTalentBoost: {
+    case DSACharacterEffectTypeTalentBoost: {
       for (NSString *key in effect.reversibleChanges)
         {
           if (self.currentTalents[key])
@@ -1843,11 +2170,11 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
             }
         }
     }
-    case DSAMiracleResultTypeMagicProtection: {
+    case DSACharacterEffectTypeMagicProtection: {
      NSLog(@"DSACharacter removeCharacterEffectForKey nothing to do for: DSAMiracleResultTypeMagicProtection besides removing myself");
     }           
     default: {
-      NSLog(@"DSACharacter removeCharacterEffectForKey effect %@ not yet implemented", key);
+      NSLog(@"DSACharacter removeCharacterEffectForKey no special handling for effect with key: %@ implemented", key);
     }
   }
   // finally remove the key and object from the dictionary
@@ -2655,7 +2982,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     
   if ([key isEqualToString:@"endurance"])
     {
-      keyPaths = [NSSet setWithObjects:@"lifePoints", @"currentPositiveTraits.KK.level", nil];
+      keyPaths = [NSSet setWithObjects:@"lifePoints", @"currentPositiveTraits.KK.level", @"enduranceBaseValue", nil];
     }
   else if ([key isEqualToString:@"carryingCapacity"])
     {
@@ -2665,13 +2992,15 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     {
         keyPaths = [NSSet setWithObjects:@"currentPositiveTraits.MU.level", 
                                          @"currentPositiveTraits.GE.level", 
-                                         @"currentPositiveTraits.KK.level", nil];        
+                                         @"currentPositiveTraits.KK.level", 
+                                         @"attackBaseBaseValue", nil];        
     }
   else if ([key isEqualToString:@"parryBaseValue"])
     {
         keyPaths = [NSSet setWithObjects:@"currentPositiveTraits.IN.level", 
                                          @"currentPositiveTraits.GE.level", 
-                                         @"currentPositiveTraits.KK.level", nil];        
+                                         @"currentPositiveTraits.KK.level", 
+                                         @"parryBaseBaseValue", nil];        
     }
   else if ([key isEqualToString:@"rangedCombatBaseValue"])
     {

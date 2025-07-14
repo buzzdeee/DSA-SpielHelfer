@@ -26,6 +26,7 @@
 #define _DSAGOD_H_
 
 #import <Foundation/Foundation.h>
+#import "DSACharacter.h"
 @class DSAAdventureGroup;
 @class DSAMiracleResult;
 @class DSAAventurianDate;
@@ -114,7 +115,7 @@ NS_ASSUME_NONNULL_END
 
 
 NS_ASSUME_NONNULL_BEGIN
-
+/*
 typedef NS_ENUM(NSInteger, DSAMiracleResultType) {
     DSAMiracleResultTypeTraitBoost,
     DSAMiracleResultTypeTalentBoost,
@@ -140,7 +141,7 @@ typedef NS_ENUM(NSInteger, DSAMiracleResultType) {
     DSAMiracleResultTypePlaceholder,    
     DSAMiracleResultTypeNothing
 };
-
+*/
 // Praios
 extern NSString * const DSAMiracleKeyPraiosTempMUBoost;
 extern NSString * const DSAMiracleKeyPraiosTempMRBoost;
@@ -179,14 +180,14 @@ extern NSString * const DSAMiracleKeyFirunEwigerFrostschutz;
 
 @interface DSAMiracleResult : NSObject
 
-@property (nonatomic, assign) DSAMiracleResultType type;
+@property (nonatomic, assign) DSACharacterEffectType type;
 @property (nonatomic, copy) NSString *effectDescription;
 @property (nonatomic, strong, nullable) DSAAventurianDate * expirationDate;
 @property (nonatomic, copy) NSString *target; // "group" or "individual"
 @property (nonatomic, strong, nullable) NSDictionary<NSString *, NSNumber *> *statChanges;
 @property (nonatomic, strong, nullable) NSString *uniqueKey;
 
-- (instancetype)initWithType:(DSAMiracleResultType)type
+- (instancetype)initWithType:(DSACharacterEffectType)type
                  description:(NSString *)desc
               expirationDate:(nullable DSAAventurianDate *)expirationDate
                 statChanges:(nullable NSDictionary<NSString *, NSNumber *> *)statChanges

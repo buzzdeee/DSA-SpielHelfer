@@ -54,16 +54,22 @@
         NSLog(@"DSAAdventure init after _gameWeather: %@", _gameWeather);
         _characterFilePaths = [[NSMutableDictionary alloc] init];
         NSLog(@"DSAAdventure init after _characterFilePaths");
-        [_gameClock startClock];
         NSLog(@"DSAAdventure init after starting clock");
-        
+        [self finalizeInitialization];
     }
+    
+    
+    NSLog(@"DSAAdventure init: returning self: %@", self);
+    return self;
+}
+
+- (void)finalizeInitialization {
+    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleGameTimeAdvancedNotification:)
                                                  name:@"DSAGameTimeAdvanced"
-                                               object:nil];    
-    NSLog(@"DSAAdventure init: returning self: %@", self);
-    return self;
+                                               object:nil];
+    [_gameClock startClock];                                               
 }
 
 - (NSArray<DSAGod *> *)initializeGods {
@@ -124,18 +130,21 @@
       
       _characterFilePaths = [coder decodeObjectForKey:@"characterFilePaths"] ?: [NSMutableArray array];
       NSLog(@"DSAAdventure initWithCoder, going to start gameClock");
-      [self.gameClock startClock];
+      [self finalizeInitialization];
     }
   NSLog(@"DSAAdventure loaded groups: %@ and characterFilePaths: %@", _groups, _characterFilePaths);
+  
   [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
   return self;
 }
 
 - (void)handleGameTimeAdvancedNotification:(NSNotification *)notification {
     DSAAventurianDate *currentDate = notification.userInfo[@"currentDate"];
-    
+    NSLog(@"DSAAdventure handleGameTimeAdvancedNotification called");
     for (DSAAdventureGroup *group in self.groups) {
+      NSLog(@"DSAAdventure handleGameTimeAdvancedNotification checking group");
       for (DSACharacter *character in group.allCharacters) {
+        NSLog(@"DSAAdventure handleGameTimeAdvancedNotification iterating characters in group, character: %@", character.name);
         [character removeExpiredEffectsAtDate:currentDate];
       }
     }

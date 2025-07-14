@@ -38,6 +38,7 @@
 #import "DSASpellResult.h"
 #import "DSARegenerationResult.h"
 #import "Utils.h"
+#import "DSAIllness.h"
 
 @implementation DSACharacterWindowController
 
@@ -109,7 +110,8 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
-    NSLog(@"manageTempEnergiesPanel delegate: %@", [self.manageTempEnergiesPanel delegate]);
+    NSLog(@"DSACharacterWindowController awakeFromNib manageTempEnergiesPanel delegate: %@", [self.manageTempEnergiesPanel delegate]);
+    NSLog(@"DSACharacterWindowController awakeFromNib illnessPanel delegate: %@", [self.illnessPanel delegate]);
     // Add similar NSLogs for other auxiliary windows.
 }
 
@@ -1298,159 +1300,6 @@
   [innerTabItem setView:innerView];
   [subTabView addTabViewItem:innerTabItem];
 }
-
-
-// Helper method to add an individual tab for a category
-- (void)XXXXXaddTabForCategory:(NSString *)category 
-             inSubTabView:(NSTabView *)subTabView 
-                withItems:(NSArray *)items 
-       currentItemsByName: (NSDictionary<NSString *, NSObject *> *)currentItems
-{
-  NSLog(@"addTabForCategory %@", category);
-  NSTabViewItem *innerTabItem = [[NSTabViewItem alloc] initWithIdentifier:category];
-  innerTabItem.label = category;
-    
-  NSFlippedView *innerView = [[NSFlippedView alloc] initWithFrame:subTabView.bounds];
-  [innerView setAutoresizingMask:(NSViewWidthSizable | NSViewHeightSizable)];    
-
-  NSString *categoryToCheck = nil; // To hold the category for comparison
-  NSColor *fontColor;  
-  NSInteger Offset = 0;
-  for (DSAOtherTalent *item in items)
-    {
-      // Check the class type and assign categoryToCheck accordingly
-      if ([item isKindOfClass:[DSAFightingTalent class]])
-        {
-          DSAFightingTalent *talentItem = (DSAFightingTalent *)item;
-          categoryToCheck = talentItem.subCategory; // Use subCategory for this class
-          fontColor = [NSColor blackColor];          
-        }
-      else if ([item isKindOfClass:[DSAOtherTalent class]])
-        {
-          DSAOtherTalent *otherTalentItem = (DSAOtherTalent *)item;
-          categoryToCheck = otherTalentItem.category; // Use category for this class
-          fontColor = [NSColor blackColor];          
-        }
-      else if ([item isKindOfClass:[DSAProfession class]])
-        {
-          DSAProfession *professionItem = (DSAProfession *)item;
-          categoryToCheck = professionItem.category; // Use category for this class
-          fontColor = [NSColor blackColor];
-        }
-      else if ([item isKindOfClass:[DSASpecialTalent class]])
-        {
-          DSASpecialTalent *specialTalentItem = (DSASpecialTalent *)item;
-          categoryToCheck = specialTalentItem.category; // Use category for this class
-          fontColor = [NSColor blackColor];
-        } 
-      else if ([item isKindOfClass:[DSALiturgy class]])
-        {
-          DSALiturgy *liturgyItem = (DSALiturgy *)item;
-          categoryToCheck = liturgyItem.category; // Use category for this class
-          fontColor = [NSColor blackColor];
-        }               
-      else if ([item isKindOfClass:[DSASpell class]])
-        {
-          DSASpell *spellItem = (DSASpell *)item;
-          categoryToCheck = spellItem.category; // Use category for this class
-          if ([spellItem isActiveSpell])
-            {
-              fontColor = [NSColor blackColor];          
-            }
-          else
-            {
-              fontColor = [NSColor redColor];
-            }
-        }
-      else
-        {
-          // Handle unknown class types if necessary
-          NSLog(@"Unknown item class: %@", [item class]);
-          continue; // Skip unknown classes
-        }
-        
-      if ([categoryToCheck isEqualToString:category])
-        {      
-          Offset += 22;
-            
-          NSRect fieldRect = NSMakeRect(10, Offset, 400, 20);
-          NSTextField *itemField = [[NSTextField alloc] initWithFrame:fieldRect];
-          [itemField setIdentifier:[NSString stringWithFormat:@"itemField%@", item]];
-          [itemField setSelectable:NO];
-          [itemField setEditable:NO];
-          [itemField setBordered:NO];
-          [itemField setBezeled:NO];
-          [itemField setBackgroundColor:[NSColor lightGrayColor]];
-          if ([item isMemberOfClass: [DSAFightingTalent class]])
-            {
-              [itemField setStringValue:[NSString stringWithFormat:@"%@ (%ld)", item.name, (signed long)item.maxUpPerLevel]];
-              [itemField setTextColor: fontColor];                           
-            }
-          else if ([item isMemberOfClass: [DSASpecialTalent class]])
-            {
-              if ([(DSASpecialTalent *)item test])
-                {
-                  [itemField setStringValue:[NSString stringWithFormat:@"%@ (%@)", item.name, [item.test componentsJoinedByString:@"/"]]];
-                }
-              else
-                {
-                  [itemField setStringValue:[NSString stringWithFormat:@"%@", item.name]];
-                }
-              [itemField setTextColor: fontColor];                           
-            }
-          else if ([item isMemberOfClass: [DSALiturgy class]])
-            {
-              [itemField setStringValue:[NSString stringWithFormat:@"%@", item.name]];
-              [itemField setTextColor: fontColor];
-            }
-          else
-            {
-              [itemField setStringValue:[NSString stringWithFormat:@"%@ (%@) (%ld)", item.name, [item.test componentsJoinedByString:@"/"], (signed long)item.maxUpPerLevel]];
-              [itemField setTextColor: fontColor];
-              if ([item isKindOfClass:[DSASpell class]])
-                {
-                  DSASpell *spellItem = (DSASpell *)item;
-                  [self.spellItemFieldMap setObject: itemField forKey: [spellItem name]];
-                  [self addObserverForObject: spellItem keyPath: @"isActiveSpell"];                                 
-                }
-              else
-                {
-                  // NSLog(@"item is kind of class: %@", [item class]);
-                }              
-            }
-
-          NSFont *boldFont = [NSFont boldSystemFontOfSize:[NSFont systemFontSize]];
-          [itemField setFont:boldFont];
-          [innerView addSubview:itemField];
-        
-          if (!([item isMemberOfClass: [DSASpecialTalent class]] || [item isMemberOfClass: [DSALiturgy class]]))
-            {
-              NSRect fieldValueRect = NSMakeRect(420, Offset, 20, 20);
-              NSTextField *itemFieldValue = [[NSTextField alloc] initWithFrame:fieldValueRect];
-              [itemFieldValue setIdentifier:[NSString stringWithFormat:@"itemFieldValue%@", item]];
-              [itemFieldValue setSelectable:NO];
-              [itemFieldValue setEditable:NO];
-              [itemFieldValue setBordered:NO];
-              [itemFieldValue setBezeled:NO];
-              [itemFieldValue setBackgroundColor:[NSColor lightGrayColor]];
-              [itemFieldValue setStringValue: [NSString stringWithFormat: @"%ld", (signed long) item.level]];
-              [itemFieldValue bind:NSValueBinding  
-                          toObject:item
-                       withKeyPath:@"level" 
-                           options:@{NSContinuouslyUpdatesValueBindingOption: @YES, 
-                                         NSValueTransformerNameBindingOption: @"RightAlignedStringTransformer"}];
-              NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-              [paragraphStyle setAlignment:NSTextAlignmentRight];
-              NSDictionary *attributes = @{NSParagraphStyleAttributeName: paragraphStyle};
-              [itemFieldValue setAttributedStringValue:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat: @"%ld", (signed long) item.level] attributes:attributes]];
-              [innerView addSubview:itemFieldValue];
-            }
-        }
-    }
-  [innerTabItem setView:innerView];
-  [subTabView addTabViewItem:innerTabItem];
-}
-
 
 // Helper method to add a grouped tab for categories that start with "Beschwörung" or "Verwandlung"
 - (void)addGroupedTabWithTitle:(NSString *)title 
@@ -2935,6 +2784,37 @@
 - (void)closePanel:(id)sender {
     NSLog(@"DSACharacterWindowController closePanel called!");
     [[sender window] close];
+}
+
+// applying Illnesses related methods
+-(void)showApplyIllnessPanel: (id)sender
+{
+  NSLog(@"DSACharacterWindowController showApplyIllnessPanel called!");
+      
+  if (!self.illnessPanel)
+    {
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSACharacterIllness" owner:self];
+    }
+  NSArray *illnesses = [[[DSAIllnessRegistry sharedRegistry] allIllnessNames] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+  [self.popupIllnessSelection removeAllItems];
+  [self.popupIllnessSelection addItemsWithTitles: illnesses];
+ 
+  [self.illnessPanel makeKeyAndOrderFront:nil];
+}
+
+- (void) applyIllness: (id) sender
+{
+  NSLog(@"DSACharacterWindowController applyIllness called");   
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+  NSString *illnessName = [[self.popupIllnessSelection selectedItem] title];
+  
+  DSAIllnessDescription *illness = [[DSAIllnessRegistry sharedRegistry] illnessWithName: illnessName];
+  DSAIllnessEffect *effect = [illness generateEffectForCharacter: model];
+  [model applyIllnessEffect: effect];
+  
+  [self.illnessPanel close];
 }
 
 // casting Rituals related methods

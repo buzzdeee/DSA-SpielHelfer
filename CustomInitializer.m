@@ -25,11 +25,13 @@
 #import "CustomInitializer.h"
 #import "DSADocumentController.h"
 #import "Utils.h"
+#import "DSAIllness.h"
 
 @implementation CustomInitializer
 + (void)initializeCustomDocumentController
 {
   [DSADocumentController sharedDocumentController];
   [Utils sharedInstance];
+  [DSAIllnessRegistry sharedRegistry];
 }
 @end

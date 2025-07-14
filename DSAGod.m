@@ -252,7 +252,7 @@
                                                                           days: 3
                                                                          hours: 0
                                                                        minutes: 0];
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeTraitBoost
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeTraitBoost
                                               description:@"MU +1 (Gruppe) für 3 Tage"
                                            expirationDate: expirationDate
                                               statChanges:@{@"MU": @1}
@@ -264,7 +264,7 @@
                                                                           days: 1
                                                                          hours: 0
                                                                        minutes: 0];        
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeMRBoost
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeMRBoost
                                               description:@"MR +1 (Gruppe) für 1 Tag"
                                            expirationDate: expirationDate
                                               statChanges:@{@"MR": @1}
@@ -272,7 +272,7 @@
                                                 uniqueKey:DSAMiracleKeyPraiosTempMRBoost];
         }
         case 8:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRemoveCurse
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeRemoveCurse
                                               description:@"Ein Fluch wird gelöst (ein Held)"
                                            expirationDate: nil
                                               statChanges:@{}
@@ -280,7 +280,7 @@
                                                 uniqueKey:nil];
 
         case 9:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRevive
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeRevive
                                               description:@"Ein Held wird wiederbelebt"
                                            expirationDate: nil
                                               statChanges:@{}
@@ -339,7 +339,7 @@
                                                                           days: 4
                                                                          hours: 0
                                                                        minutes: 0];        
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeTalentBoost
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeTalentBoost
                                               description:@"Schwerter +1 (Gruppe) für 4 Tage"
                                            expirationDate: expirationDate
                                               statChanges:@{@"Schwerter": @1}
@@ -351,7 +351,7 @@
                                                                           days: 1
                                                                          hours: 0
                                                                        minutes: 0];        
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeMagicProtection
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeMagicProtection
                                               description:@"Schutz vor Magie (Gruppe) für 1 Tag"
                                            expirationDate: expirationDate
                                               statChanges:@{}
@@ -359,7 +359,7 @@
                                                 uniqueKey:DSAMiracleKeyRondraTempMagicProtection];
         }
         case 8:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeUpgradeWeaponToMagic
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeUpgradeWeaponToMagic
                                               description:@"Eine normale Waffe wird zu einer magischen Waffe erhoben"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -367,7 +367,7 @@
                                                 uniqueKey:nil];
 
         case 9:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRevive
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeRevive
                                               description:@"Ein Held wird wiederbelebt"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -426,7 +426,7 @@
                                                                           days: 4
                                                                          hours: 0
                                                                        minutes: 0];        
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeTalentAutoSuccess
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeTalentAutoSuccess
                                               description:@"Jede Wildnisleben-Probe auf Wassersuche gelingt automatisch"
                                            expirationDate:expirationDate
                                               statChanges:@{@"Wildnisleben": @4}
@@ -438,7 +438,7 @@
                                                                           days: 4
                                                                          hours: 0
                                                                        minutes: 0];         
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeSeaProtection
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeSeaProtection
                                               description:@"Schutz auf See (Gruppe)"
                                            expirationDate:expirationDate
                                               statChanges:@{}
@@ -450,7 +450,7 @@
                                                                           days: 5
                                                                          hours: 0
                                                                        minutes: 0];        
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeTalentBoost
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeTalentBoost
                                               description:@"Schwimmen +2 (Gruppe)"
                                            expirationDate:expirationDate
                                               statChanges:@{@"Schwimmen": @2}
@@ -458,7 +458,7 @@
                                                 uniqueKey:nil];
         }
         case 10:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRevive
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeRevive
                                               description:@"Ein Held wird wiederbelebt"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -513,7 +513,7 @@
 {
     switch (miracleRoll) {
         case 1 ... 10:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeSatiation
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeSatiation
                                               description:@"Die gesamte Gruppe ist satt"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -522,7 +522,7 @@
 
         case 11 ... 15: {
             NSInteger healed = [Utils rollDice:@"1W6"] + 2;
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeHeal
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeHeal
                                               description:[NSString stringWithFormat:@"Ein Held erhält %ld LE zurück", (long)healed]
                                            expirationDate:nil
                                               statChanges:@{@"LE": [NSNumber numberWithInteger: healed]}
@@ -535,7 +535,7 @@
                                                                           days: 8
                                                                          hours: 0
                                                                        minutes: 0];        
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeNightPeace
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeNightPeace
                                               description:@"Keine Überfälle in der Nacht"
                                            expirationDate:expirationDate
                                               statChanges:@{}
@@ -543,7 +543,7 @@
                                                 uniqueKey: DSAMiracleKeyTraviaNightPeace];
         }
         case 17:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRevive
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeRevive
                                               description:@"Ein Held wird wiederbelebt"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -601,14 +601,14 @@
             BOOL alreadyReceived = [group hasCharacterWithoutUniqueMiracle: DSAMiracleKeyBoronPermanentSchutzVorUntoten];
             if (alreadyReceived) {
                 // Schutz bereits einmalig vergeben -> stattdessen Wiederbelebung
-                return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRevive
+                return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeRevive
                                                   description:@"Ein Held wird wiederbelebt (statt Schutz vor Untoten)"
                                                expirationDate:nil
                                                   statChanges:@{}
                                                        target:@"individual"
                                                     uniqueKey:nil];
             } else {           
-                return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeProtectionAgainstUndead
+                return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeProtectionAgainstUndead
                                                   description:@"Schutz vor Untoten (Gruppe)"
                                                expirationDate:nil
                                                   statChanges:@{}
@@ -622,7 +622,7 @@
                                                                           days: 4
                                                                          hours: 0
                                                                        minutes: 0];        
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeTraitBoost
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeTraitBoost
                                               description:@"Totenangst (TA) -1 für die Gruppe (4 Tage)"
                                            expirationDate:expirationDate
                                               statChanges:@{@"TA": @-1}
@@ -630,7 +630,7 @@
                                                 uniqueKey:nil];
         }
         case 6:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRevive
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeRevive
                                               description:@"Ein Held wird wiederbelebt"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -689,7 +689,7 @@
                                                                           days: 5
                                                                          hours: 0
                                                                        minutes: 0];         
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeMagicBoost
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeMagicBoost
                                               description:@"Analüs +1 für die Gruppe (5 Tage)"
                                            expirationDate:expirationDate
                                               statChanges:@{@"Analüs": @1}
@@ -697,7 +697,7 @@
                                                 uniqueKey:nil];
         }
         case 4 ... 6:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRemoveCurse
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeRemoveCurse
                                               description:@"Ein Fluch wird entfernt (einzelner Held)"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -709,7 +709,7 @@
                                                                           days: 4
                                                                          hours: 0
                                                                        minutes: 0];         
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeMRBoost
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeMRBoost
                                               description:@"MR +5 für die Gruppe (4 Tage)"
                                            expirationDate:expirationDate
                                               statChanges:@{@"MR": @5}
@@ -718,7 +718,7 @@
         }
         case 8:
         case 9:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypePlaceholder
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypePlaceholder
                                               description:@"Kein Wunder – Hesinde schweigt"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -726,7 +726,7 @@
                                                 uniqueKey:nil];
 
         case 10:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRevive
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeRevive
                                               description:@"Ein Held wird wiederbelebt"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -785,7 +785,7 @@
                                                                           days: 4
                                                                          hours: 0
                                                                        minutes: 0];        
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeTalentAutoSuccess
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeTalentAutoSuccess
                                               description:@"Jede Fährtensuchenprobe auf Jagen gelingt automatisch (Gruppe)"
                                            expirationDate:expirationDate
                                               statChanges:@{@"Fährtensuchen": @4}
@@ -797,7 +797,7 @@
                                                                           days: 9
                                                                          hours: 0
                                                                        minutes: 0];        
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeNoHungerThirst
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeNoHungerThirst
                                               description:@"Kein Hunger und Durst (Gruppe)"
                                            expirationDate:expirationDate
                                               statChanges:@{}
@@ -805,7 +805,7 @@
                                                 uniqueKey:nil];
         }
         case 10:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRevive
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeRevive
                                               description:@"Ein Held wird wiederbelebt"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -861,7 +861,7 @@
     switch (miracleRoll) {
         case 1 ... 10: {
             NSInteger healed = [Utils rollDice:@"2W6"];
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeHeal
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeHeal
                                               description:[NSString stringWithFormat:@"Heilung: %ld LE (einzelner Held)", (long)healed]
                                            expirationDate:nil
                                               statChanges:@{@"LE": [NSNumber numberWithInteger: healed]}
@@ -870,7 +870,7 @@
         }
 
         case 11 ... 15:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeFullHeal
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeFullHeal
                                               description:@"Alle Gruppenmitglieder werden vollständig geheilt"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -878,7 +878,7 @@
                                                 uniqueKey:nil];
 
         case 16 ... 18:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRevive
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeRevive
                                               description:@"Ein Held wird wiederbelebt"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -937,7 +937,7 @@
                                                                           days: 4
                                                                          hours: 0
                                                                        minutes: 0];        
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeTalentBoost
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeTalentBoost
                                               description:@"Schlösser öffnen und Taschendiebstahl +1 (Gruppe), Dauer: 4 Tage"
                                            expirationDate:expirationDate
                                               statChanges:@{@"Schlösser knacken": @1, @"Taschendiebstahl": @1}
@@ -949,7 +949,7 @@
                                                                           days: 4
                                                                          hours: 0
                                                                        minutes: 0];        
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeTalentBoost
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeTalentBoost
                                               description:@"Feilschen +1 (Gruppe), Dauer: 4 Tage"
                                            expirationDate:expirationDate
                                               statChanges:@{@"Feilschen": @1}
@@ -961,7 +961,7 @@
                                                                           days: 4
                                                                          hours: 0
                                                                        minutes: 0];        
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeTraitBoost
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeTraitBoost
                                               description:@"Fingerfertigkeit (FF) +1 (Gruppe), Dauer: 4 Tage"
                                            expirationDate:expirationDate
                                               statChanges:@{@"FF": @1}
@@ -969,7 +969,7 @@
                                                 uniqueKey:nil];
         }
         case 10:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRevive
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeRevive
                                               description:@"Ein Held wird wiederbelebt"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -1025,7 +1025,7 @@
     switch (miracleRoll) {
         case 1 ... 10: {
             NSInteger healed = [Utils rollDice:@"1W6"];
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeHeal
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeHeal
                                               description:[NSString stringWithFormat:@"Heilung: %ld LE (einzelner Held)", (long)healed]
                                            expirationDate:nil
                                               statChanges:@{@"LE": [NSNumber numberWithInteger: healed]}
@@ -1034,7 +1034,7 @@
         }
         case 11 ... 16: {
             NSInteger healed = [Utils rollDice:@"2W6"];
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeHeal
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeHeal
                                               description:[NSString stringWithFormat:@"Heilung: %ld LE (einzelner Held)", (long)healed]
                                            expirationDate:nil
                                               statChanges:@{@"LE": [NSNumber numberWithInteger: healed]}
@@ -1042,14 +1042,14 @@
                                                 uniqueKey:nil];
         }
         case 17 ... 18:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeCureDisease
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeCureDisease
                                               description:@"Krankheit wird geheilt (einzelner Held)"
                                            expirationDate:nil
                                               statChanges:@{}
                                                    target:@"individual"
                                                 uniqueKey:nil];
         case 19:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRevive
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeRevive
                                               description:@"Ein Held wird wiederbelebt"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -1104,7 +1104,7 @@
 {
     switch (miracleRoll) {
         case 1 ... 5:       
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeWeaponBlessing
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeWeaponBlessing
                                               description:@"Segnung der Waffen (Gruppe). Entspricht der Anwendung des Schleifsteins"
                                            expirationDate:nil
                                               statChanges:@{@"breakFactor": @-1}
@@ -1112,7 +1112,7 @@
                                                 uniqueKey: nil];
 
         case 6:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeEnchantWeapon
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeEnchantWeapon
                                               description:@"Erhebung einer normalen Waffe zu einer magischen Waffe (einzelner Held)"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -1120,14 +1120,14 @@
                                                 uniqueKey: nil];
 
         case 7:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRepairAndEnchant
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeRepairAndEnchant
                                               description:@"Waffenreparatur und Erhebung dieser Waffe zu einer magischen Waffe (einzelner Held)"
                                            expirationDate:nil
                                               statChanges:@{}
                                                    target:@"individual"
                                                 uniqueKey: nil];
         case 8:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRevive
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeRevive
                                               description:@"Ein Held wird wiederbelebt"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -1193,7 +1193,7 @@
                                                                           days: 7
                                                                          hours: 0
                                                                        minutes: 0];             
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeTalentBoost
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeTalentBoost
                                               description:@"Tanzen und Betören +2 (Gruppe), Dauer 7 Tage"
                                            expirationDate:expirationDate
                                               statChanges:@{@"Tanzen": @2, @"Betören": @2}
@@ -1205,7 +1205,7 @@
                                                                           days: 3
                                                                          hours: 0
                                                                        minutes: 0];         
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeTraitBoost
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeTraitBoost
                                               description:@"Charisma +1 (Gruppe), Dauer 3 Tage"
                                            expirationDate:expirationDate
                                               statChanges:@{@"CH": @1}
@@ -1217,7 +1217,7 @@
                 // Permanente Steigerung schon vergeben
                 return nil;
             }
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeTalentBoost
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeTalentBoost
                                               description:@"Tanzen und Betören permanent +2 (Gruppe)"
                                            expirationDate:nil
                                               statChanges:@{@"Tanzen": @2, @"Betören": @2}
@@ -1225,7 +1225,7 @@
                                                 uniqueKey: DSAMiracleKeyRahjaPermanentTanzenBetören];
             
         case 15:
-            return [[DSAMiracleResult alloc] initWithType:DSAMiracleResultTypeRevive
+            return [[DSAMiracleResult alloc] initWithType:DSACharacterEffectTypeRevive
                                               description:@"Ein Held wird wiederbelebt"
                                            expirationDate:nil
                                               statChanges:@{}
@@ -1312,7 +1312,7 @@ NSString * const DSAMiracleKeyFirunEwigerFrostschutz = @"Firun_Ewiger_Frostschut
 
 @implementation DSAMiracleResult
 
-- (instancetype)initWithType:(DSAMiracleResultType)type
+- (instancetype)initWithType:(DSACharacterEffectType)type
                  description:(NSString *)desc
               expirationDate:(DSAAventurianDate *)expirationDate
                 statChanges:(NSDictionary<NSString *, NSNumber *> *)statChanges

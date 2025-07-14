@@ -1,231 +1,220 @@
 {
   "Karmesin": {
     "Erkennung": {
-      "Alle": 3
+      "Basis": 3
     },
-    "Gefährlichkeit": 1,
-    "Inkubationszeit": [ "3 Tage" ],
-    "Dauer": [ "1W3", 2 ],
-    "Behandlung": { 
+    "Gefaehrlichkeit": 1,
+    "Inkubationszeit": { "Wuerfel": "3T" },
+    "Dauer": { "Wuerfel": "1W3", "Modifier": 2 },
+    "Behandlung": {
       "Bettruhe": {}
     },
     "Schaden": {
-      "Täglich": {
-        "SP": [ "1W3", 1 ]
+      "Taeglich": {
+        "SP": { "Wuerfel": "1W3", "Modifier": 1 }
       },
       "Einmalig": {
         "Eigenschaften": {
-          "Alle": {
-            "KK": -1
-          }
+          "KK": { "Modifikator": -1 }
         }
       }
     }
   },
   "Gänsepusteln": {
     "Erkennung": {
-      "Alle": 2
+      "Basis": 2
     },
-    "Gefährlichkeit": 1,
-    "Inkubationszeit": [ "3 Tage" ],
-    "Dauer": [ "1W3", 2 ],
-    "Behandlung": { 
+    "Gefaehrlichkeit": 1,
+    "Inkubationszeit": { "Wuerfel": "3T" },
+    "Dauer": { "Wuerfel": "1W3", "Modifier": 2 },
+    "Behandlung": {
       "Bettruhe": {}
     },
     "Schaden": {
-      "Täglich": {
-        "SP": [ "1W3", 1 ]
+      "Taeglich": {
+        "SP": { "Wuerfel": "1W3", "Modifier": 1 }
       },
       "Einmalig": {
         "Eigenschaften": {
-          "Alle": {
-            "KK": -1
-          }
+          "KK": { "Modifikator": -1 }
         }
       }
     }
   },
   "Herbstpocken": {
     "Erkennung": {
-      "Alle": 5
+      "Basis": 5
     },
-    "Gefährlichkeit": 2,
-    "Inkubationszeit": [ "3 Tage" ],
-    "Dauer": [ "1W3", 2 ],
-    "Behandlung": { 
+    "Gefaehrlichkeit": 2,
+    "Inkubationszeit": { "Wuerfel": "3T" },
+    "Dauer": { "Wuerfel": "1W3", "Modifier": 2 },
+    "Behandlung": {
       "Bettruhe": {}
     },
     "Schaden": {
-      "Täglich": {
-        "SP": [ "1W3", 2 ]
+      "Taeglich": {
+        "SP": { "Wuerfel": "1W3", "Modifier": 2 }
       },
       "Einmalig": {
         "Eigenschaften": {
-          "Alle": {
-            "KK": -1
-          }
+          "KK": { "Modifikator": -1 }
         }
       }
     }
   },
   "Rotbacke": {
     "Erkennung": {
-      "Alle": 2
+      "Basis": 2
     },
-    "Gefährlichkeit": 2,
-    "Inkubationszeit": [ "3 Tage" ],
-    "Dauer": [ "1W3", 2 ],
-    "Behandlung": { 
+    "Gefaehrlichkeit": 2,
+    "Inkubationszeit": { "Wuerfel": "3T" },
+    "Dauer": { "Wuerfel": "1W3", "Modifier": 2 },
+    "Behandlung": {
       "Bettruhe": {}
     },
     "Schaden": {
-      "Täglich": {
-        "SP": [ "1W3", 2 ]
+      "Taeglich": {
+        "SP": { "Wuerfel": "1W3", "Modifier": 2 }
       },
       "Einmalig": {
         "Eigenschaften": {
-          "Alle": {
-            "KK": -1
-          }
+          "KK": { "Modifikator": -1 }
         }
       }
     }
   },
   "Triefnase": {
     "Erkennung": {
-      "Alle": 3
+      "Basis": 3
     },
-    "Gefährlichkeit": 1,
-    "Inkubationszeit": [ "3 Tage" ],
-    "Dauer": [ "1W3", 2 ],
-    "Behandlung": { 
+    "Gefaehrlichkeit": 1,
+    "Inkubationszeit": { "Wuerfel": "3T" },
+    "Dauer": { "Wuerfel": "1W3", "Modifier": 2 },
+    "Behandlung": {
       "Ruhe": {}
     },
     "Schaden": {
-      "Täglich": {
-        "SP": [ "1W3", 1 ]
+      "Taeglich": {
+        "SP": { "Wuerfel": "1W3", "Modifier": 1 },
+        "AU": { "Wuerfel": "1W6", "Modifier": 1 }
       },
       "Einmalig": {
         "Eigenschaften": {
-          "Alle": {
-            "KK": -1
-          }
+          "KK": { "Modifikator": -1 }
         }
       }
     }
   },
   "Darmfraisch": {
-    "Alternativer Name": "Flinker Difar",
+    "AlternativerName": "Flinker Difar",
     "Erkennung": {
-      "Alle": 2
+      "Basis": 2
     },
-    "Gefährlichkeit": 1,
-    "Inkubationszeit": [ "3 Tage" ],
-    "Dauer": [ "1W3", 2 ],
-    "Behandlung": { 
+    "Gefaehrlichkeit": 1,
+    "Inkubationszeit": { "Wuerfel": "3T" },
+    "Dauer": { "Wuerfel": "1W3", "Modifier": 2 },
+    "Behandlung": {
       "Ruhe": {}
     },
     "Schaden": {
-      "Täglich": {
-        "SP": [ "1W3", 1 ]
+      "Taeglich": {
+        "SP": { "Wuerfel": "1W3", "Modifier": 1 },
+        "AU": { "Wuerfel": "1W6", "Modifier": 1 }
       },
       "Einmalig": {
         "Eigenschaften": {
-          "Alle": {
-            "KK": -1
-          }
+          "KK": { "Modifikator": -1 }
         }
       }
     }
   },
   "Grasse": {
     "Erkennung": {
-      "Alle": 4
+      "Basis": 4
     },
-    "Gefährlichkeit": 3,
-    "Inkubationszeit": [ "3 Tage" ],
-    "Dauer": [ "1W3", 2 ],
-    "Behandlung": { 
+    "Gefaehrlichkeit": 3,
+    "Inkubationszeit": { "Wuerfel": "3T" },
+    "Dauer": { "Wuerfel": "1W3", "Modifier": 2 },
+    "Behandlung": {
       "Ruhe": {}
     },
     "Schaden": {
-      "Täglich": {
-        "SP": [ "1W3", 3 ]
+      "Taeglich": {
+        "SP": { "Wuerfel": "1W3", "Modifier": 3 },
+        "AU": { "Wuerfel": "1W6", "Modifier": 3 }
       },
       "Einmalig": {
         "Eigenschaften": {
-          "Alle": {
-            "KK": -1
-          }
+          "KK": { "Modifikator": -1 }
         }
       }
     }
-  }, 
+  },
   "Blutiger Rotz": {
-    "Erkennung": { 
-      "Alle": 8,
+    "Erkennung": {
+      "Basis": 8,
       "Moha": 2
     },
-    "Gefährlichkeit": 3,
-    "Inkubationszeit": [ "3 Tage" ],
-    "Dauer": [ "1W6", 6 ],
+    "Gefaehrlichkeit": 3,
+    "Inkubationszeit": { "Wuerfel": "3T" },
+    "Dauer": { "Wuerfel": "1W6", "Modifier": 6 },
     "Ursache": {
-      "längerer Aufenthalt im Regenwald": "20%",
-      "Nähe eines Erkrankten": "30%",
-      "Hölzer aus dem Regenwald als Überträger": "5%",
-      "Hölzer aus dem Regenwald als Überträger angefasst": "10%"
+      "laengererAufenthaltImRegenwald": "20%",
+      "NaheEinesErkrankten": "30%",
+      "HoelzerAusDemRegenwaldAlsUebertraeger": "5%",
+      "HoelzerAusDemRegenwaldAlsUebertraegerAngefasst": "10%"
     },
     "Gegenmittel": {
       "Alle": {},
       "Moha": {
-        "Geheimes Gegenmittel": "XX" 
+        "GeheimesGegenmittel": "XX"
       }
     },
     "Behandlung": {
       "Bettruhe": {
-        "Dauer weniger": [ "1W6" ],
-        "Folgekrankheit": {
-          "Blaue Keuche": "-10%"
+        "DauerWeniger": { "Wuerfel": "1W6" },
+        "Folgekrankheiten": {
+          "Blaue Keuche": "10"
         }
       }
     },
     "Schaden": {
-      "Täglich": {
-        "SP": [ "1W3", 1 ]
+      "Taeglich": {
+        "SP": { "Wuerfel": "1W3", "Modifier": 1 }
       },
       "Einmalig": {
         "Eigenschaften": {
-          "Alle": {
-            "KK": -2,
-            "GE": -2,
-            "AT": -2,
-            "PA": -2
-          }
+          "KK": { "Modifikator": -2 },
+          "GE": { "Modifikator": -2 }
         },
-        "Folgekrankheit": {
-          "Blaue Keuche": "20%"
+        "AttackeParade": {
+          "AT": { "Modifikator": -2 },
+          "PA": { "Modifikator": -2 }
+        },
+        "Folgekrankheiten": {
+          "Blaue Keuche": "20"
         }
       }
     }
   },
   "Dumpfschädel": {
-    "Alternativer Name": "Schwerer Kopf",
-    "Erkennung": { 
-      "Alle": 4
+    "AlternativerName": "Schwerer Kopf",
+    "Erkennung": {
+      "Basis": 4
     },
-    "Gefährlichkeit": 4,
-    "Inkubationszeit": [ "2 Tage" ],
-    "Dauer": [ "1W3", 4 ],
+    "Gefaehrlichkeit": 4,
+    "Inkubationszeit": { "Wuerfel": "2T" },
+    "Dauer": { "Wuerfel": "1W3", "Modifier": 4 },
     "Ursache": {
-      "Äußerung grober Unwahrheiten": "20%",
-      "Nähe eines Erkrankten": "20%",
-      "Keine Wetterfeste Kleidung im Frühling und Herbst": "10%"
+      "AeusserungGroberUnwahrheiten": "20%",
+      "NaheEinesErkrankten": "20%",
+      "KeineWetterfesteKleidungImFruehlingUndHerbst": "10%"
     },
     "Gegenmittel": {
       "Alle": {
         "Traschbart": {
-          "SP weniger": [ 1 ],
-          "Dauer": [ 1 ],
+          "SPWeniger": 1,
+          "DauerWeniger": 1,
           "Wenn": {
             "Behandlung": "Bettruhe"
           }
@@ -234,145 +223,114 @@
     },
     "Behandlung": {
       "Ruhe": {
-        "Dauer weniger": [ -2 ],
+        "DauerWeniger": -2,
         "Notiz": "Folgekrankheit 40% über gesamten Krankheitsverlauf hinweg, anstatt 5%/Tag",
-        "Folgekrankheit": {
-          "Blaue Keuche": "40%"
+        "Folgekrankheiten": {
+          "Blaue Keuche": "40"
         }
       },
       "Bettruhe": {
-        "Dauer weniger": [ -4 ],
+        "DauerWeniger": -4,
         "Notiz": "Dauer -4 sind 2 weitere Tage, wenn also erst mit Ruhe, dann später Bettruhe, nur noch 2 Tage abziehen",
-        "Folgekrankheit": {
-          "Blaue Keuche": "0%"
-        }      
+        "Folgekrankheiten": {
+          "Blaue Keuche": "0"
+        }
       }
     },
     "Schaden": {
-      "Täglich": {
-        "SP": [ "1W6", -1 ],
-        "Folgekrankheit": {
-          "Blaue Keuche": "5%"
+      "Taeglich": {
+        "SP": { "Wuerfel": "1W6", "Modifier": -1 },
+        "Folgekrankheiten": {
+          "Blaue Keuche": "5"
         }
       },
       "Einmalig": {
         "Eigenschaften": {
-          "Alle": {
-            "IN": -1,
-            "CH": -1,
-            "GE": -2,
-            "AT": -2,
-            "PA": -2,
-            "KK": -5
-          },
-          "Zwerge": {
-            "JZ": "*2"
-          }
+          "IN": { "Modifikator": -1 },
+          "CH": { "Modifikator": -1 },
+          "GE": { "Modifikator": -2 },
+          "AT": { "Modifikator": -2 },
+          "PA": { "Modifikator": -2 },
+          "KK": { "Modifikator": -5 }
+        },
+        "Zwerge": {
+          "JZ": "*2"
         }
       }
     }
   },
   "Schlafkrankheit": {
-    "Erkennung": { 
-      "Alle": 10,
+    "Erkennung": {
+      "Basis": 10,
       "Probe": {
-        "Sinnenschärfe": "20"
+        "Sinnenschaerfe": 20
       }
     },
-    "Gefährlichkeit": 4,
-    "Inkubationszeit": [ "1 Stunden" ],
-    "Dauer": [ "10% Wahrscheinlichkeit/Tag eines erwachens" ],
+    "Gefaehrlichkeit": 4,
+    "Inkubationszeit": { "Wuerfel": "1H" },
+    "Dauer": { "WahrscheinlichkeitAufwachenProTag": "10%" },
     "Ursache": {
-      "Nächtlicher Besuch einer Grabstätte": "10%",
-      "Stören eines Druidenrituals oder Hexenzirkels": "10%",
-      "Keine Wetterfeste Kleidung im Frühling und Herbst": "10%",
-      "Berühren von Untoten": "10%",
+      "NaechtlicherBesuchEinerGrabstaette": "10%",
+      "StoerenEinesDruidenritualsOderHexenzirkels": "10%",
+      "KeineWetterfesteKleidungImFruehlingUndHerbst": "10%",
+      "BeruehrenVonUntoten": "10%",
       "Fledermausbisse": "10%",
       "Ungezieferbefall": "10%"
     },
     "Gegenmittel": {
       "Alle": {
-        "Öl Yagan-Nuß": "Wahrscheinlichkeit aufzuwachen verdoppelt"
+        "OelYaganNuss": {
+          "WahrscheinlichkeitAufwachenVerdoppelt": true
+        }
       }
     },
     "Behandlung": {
-      "Ruhe": { }
+      "Ruhe": {}
     },
     "Schaden": {
-      "Täglich": {
-        "SP": [ "1W6", -2 ],
+      "Taeglich": {
+        "SP": { "Wuerfel": "1W6", "Modifier": -2 },
         "Eigenschaften": {
-          "Alle": {
-            "KK": -1
-          }        
+          "KK": { "Modifikator": -1 }
         }
       }
     },
     "Besonderheiten": "Elfen haben 20% Zustand des Wachwandelns für 1W6 Stunden"
   },
   "Lutanas": {
-    "Erkennung": { 
-      "Alle": 5
+    "Erkennung": {
+      "Basis": 5
     },
-    "Gefährlichkeit": 5,
-    "Inkubationszeit": [ "2 Tage" ],
-    "Dauer": [ "2W6" ],
+    "Gefaehrlichkeit": 5,
+    "Inkubationszeit": { "Wuerfel": "2T" },
+    "Dauer": { "Wuerfel": "2W6" },
     "Ursache": {
-      "Fledermausbisse": "Erlittene SP durch Bisse in %",
-      "Rattenbisse": "Erlittene SP durch Bisse in %",
-      "Biss eines Erkrankten": "30%"
+      "Zufall": "10%",
+      "VerletzungBeiOrk": "40%",
+      "HoelzerAusDemRegenwaldAlsUebertraeger": "5%",
+      "KaeferAusDemRegenwaldAlsUebertraeger": "5%",
+      "FleckenAmKnoechel": "10%",
+      "BeruehrenDesKrankheitsherdes": "30%"
     },
     "Gegenmittel": {
       "Alle": {
-        "Blütenstaub einer Lulanie als Trunk verabreicht": {
-          "Alle Schäden": "/2",
-          "Dauer weniger": [ -2 ]
+        "ArantlerBlatt": {
+          "DauerWeniger": { "Wuerfel": "1W6" }
         }
       }
     },
     "Behandlung": {
-      "fürsorgliche seelische Betreuung": {
-        "Heilkunde Seele": {
-          "Aufschlag": 0
-        },
-        "Permanenter Schaden": {
-          "5%": {
-            "RA": "1W6"
-          }
-        }
-      },
-      "professionelle seelische Betreuung": {
-        "Heilkunde Seele": {
-          "Aufschlag": [ 5, "RA" ]
-        },
-        "Permanenter Schaden": {
-          "0%": {
-            "RA": "1W6"
-          }
-        }
-      }
+      "Bettruhe": {}
     },
     "Schaden": {
-      "Täglich": {
-        "SP": [ "1W6" ]
+      "Taeglich": {
+        "SP": { "Wuerfel": "1W3", "Modifier": 3 }
       },
       "Einmalig": {
         "Eigenschaften": {
-          "Alle": {
-            "MU": "/2",
-            "KK": "/2",
-            "AT": "/2",
-            "PA": "/2",
-            "RA": "*2"
-          }       
-        }
-      },
-      "Permanent": {
-        "10%": {
-          "RA": "1W6"
+          "KK": { "Modifikator": -3 }
         }
       }
-    },
-    "Besonderheiten": "Elfen haben 20% Zustand des Wachwandelns für 1W6 Stunden"
+    }
   }
 }

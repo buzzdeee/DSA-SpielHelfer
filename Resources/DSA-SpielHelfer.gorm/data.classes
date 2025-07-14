@@ -96,7 +96,8 @@
 	    "advanceGameTimeByOneDay:",
 	    "advanceGameTimeByOneHour:",
 	    "startGameClock:",
-	    "pauseGameClock:"
+	    "pauseGameClock:",
+	    "showApplyIllnessPanel:"
 	);
 	Outlets = (
 	);
@@ -112,7 +113,7 @@
 	    "closePanel:",
 	    "levelUp:",
 	    "levelUpBaseValues:",
-	    "showLocalMaps:",
+	    "showApplyIllnessPanel:",
 	    "newAdventureGeneration:",
 	    "newBattle:",
 	    "newCharacterGeneration:",
@@ -124,6 +125,7 @@
 	    "showCastSpellPanel:",
 	    "showEnergiesManagerPanel:",
 	    "showEquipmentList:",
+	    "showLocalMaps:",
 	    "showManageMoneyPanel:",
 	    "showNameGenerator:",
 	    "showPrefPanel:",

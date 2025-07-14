@@ -1563,7 +1563,7 @@ inventoryIdentifier: (NSString *)sourceInventory
             if (![character hasAppliedCharacterEffectWithKey:roomKey]) {
                 DSACharacterEffect *effect = [[DSACharacterEffect alloc] init];
                 effect.uniqueKey = roomKey;
-                effect.effectType = DSAMiracleResultTypeNothing;
+                effect.effectType = DSACharacterEffectTypeRoomBooked;
                 effect.expirationDate = expirationDate;
                 effect.reversibleChanges = @{ roomType: [DSAPricingEngine roomTypeFromName: roomType] };
 

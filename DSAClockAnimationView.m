@@ -80,14 +80,7 @@
         [self.updateTimer invalidate];
         self.updateTimer = nil;
         NSLog(@"DSAClockAnimationView: Timer stopped.");
-    }   
-//    if (self.gameClock) {
-//        [self.gameClock.gameTimer invalidate];
-//        self.gameClock.gameTimer = nil;
-//    }
-
-// we don't observe anything
-//    [[NSNotificationCenter defaultCenter] removeObserver:self];     
+    }    
 }
 
 - (void) viewWillDisappear {
@@ -95,20 +88,6 @@
     [self.updateTimer invalidate];
     self.updateTimer = nil;
 }
-
-
-/*
-2025-06-20 19:44:19.282 DSA-SpielHelfer[11455:8660732024520] DSAClockAnimationView timerUpdate DSAAventurianDate:
-year = 1030
-month = 1
-day = 6
-hour = 7
-minute = 2
-hourName = Firun
-weekdayName = Erdstag
-monthName = Praios
-*/
-
 
 - (void)updateFromAdventureClock {
     NSLog(@"DSAClockAnimationView updateFromAdventureClock called");
@@ -137,12 +116,12 @@ monthName = Praios
     }
     
     DSAAventurianDate *currentDate = [self.gameClock currentDate];
-    NSLog(@"DSAClockAnimationView timerUpdate THE GAME CLOCK: %@", self.gameClock);
-    NSLog(@"DSAClockAnimationView timerUpdate self.superview: %@", self.superview);
+    // NSLog(@"DSAClockAnimationView timerUpdate THE GAME CLOCK: %@", self.gameClock);
+    // NSLog(@"DSAClockAnimationView timerUpdate self.superview: %@", self.superview);
 //    DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)[[NSDocumentController sharedDocumentController] currentDocument];
 //    self.gameWeather = adventureDoc.model.gameWeather;
-    NSLog(@"DSAClockAnimationView timerUpdate %@", currentDate);
-    NSLog(@"DSAClockAnimationView updateAnimationForHour weather: %@", self.gameWeather);
+    // NSLog(@"DSAClockAnimationView timerUpdate %@", currentDate);
+    // NSLog(@"DSAClockAnimationView updateAnimationForHour weather: %@", self.gameWeather);
     [self updateAnimationForHour:currentDate.hour
                           minute:currentDate.minute
                        moonPhase:[self.gameClock currentMoonPhase]];
@@ -153,7 +132,7 @@ monthName = Praios
                         minute:(NSUInteger)minute 
                      moonPhase:(DSAMoonPhase)moonPhase {
     NSLog(@"DSAClockAnimationView updateAnimationForHour %@:%@", @(hour), @(minute));
-    NSLog(@"DSAClockAnimationView updateAnimationForHour weather: %@", self.gameWeather);
+    // NSLog(@"DSAClockAnimationView updateAnimationForHour weather: %@", self.gameWeather);
     if (self.gameClock.gameTimer) {
         NSLog(@"DSAClockAnimationView updateAnimationForHour: Timer reference exists.");
     } else {

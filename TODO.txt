@@ -22,7 +22,6 @@ TODO:
    * Extra Behinderung bei Rüstung 
  * Knappe
  * Schamane (erz dinger...)
- * Erweitere Regeneration (Abhängig von Zustand etc.)
  * Erweitertes Handling der Zustände, Phase, Auswirkungen auf Basiswerte etc.
  
  
@@ -35,7 +34,8 @@ ABENTEUER:
    * Preise für Waren auf jeweilige Region abstimmen
      * und nicht immer ist alles überall vorhanden
    * unterschiedliche Qualitätsklassen von Shops
-
+ * Gespräche mit NPCs ausbauen
+   * Hints fertigstellen
 
 WIP:
  * Magierakademien
@@ -47,6 +47,7 @@ DONE:
    * Basic Wetter
    * Basic Mondphasen
    * Hinzufügen von Charaktern zur Gruppe
+   * Basic Gespräche mit Shopbesitzern, Schmied, Heiler etc.
  * Karte Aventuriens
    * Mit Regionen Overlay (Regionen aus Kaiser Retos Waffenkammer)
    * Mit Straßen Overlay

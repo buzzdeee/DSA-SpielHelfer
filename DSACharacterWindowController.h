@@ -247,7 +247,9 @@
 @property (weak) IBOutlet NSTextField *fieldRegenerationResult;
 
 
-
+// to apply illnesses
+@property (nonatomic, strong) IBOutlet NSPanel *illnessPanel;
+@property (weak) IBOutlet NSPopUpButton *popupIllnessSelection;
 
 // to track spells and spell names NSText field relationships to be able to change color
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSTextField *> *spellItemFieldMap;
@@ -265,6 +267,7 @@
 -(void)levelUpBaseValues:(id)sender;
 -(void)addAdventurePoints: (id)sender;
 -(void)manageMoney: (id)sender;
+-(void)showApplyIllnessPanel: (id)sender;
 -(void)showUseTalentPanel: (id)sender;
 -(void)showEnergiesManagerPanel: (id)sender;
 -(void)showCastSpellPanel: (id)sender;
