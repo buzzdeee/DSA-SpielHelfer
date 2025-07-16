@@ -347,6 +347,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
   else
     {
+      NSLog(@"DSACharacter setCurrentLifePoints to value >= 5");
       [self.statesDict setObject: @(DSASeverityLevelNone) forKey: @(DSACharacterStateDead)];
       [self.statesDict setObject: @(DSASeverityLevelNone) forKey: @(DSACharacterStateUnconscious)];
     }
@@ -1673,6 +1674,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 - (void) updateStatesDictState: (NSNumber *) DSACharacterState
                      withValue: (NSNumber *) value
 {
+  NSLog(@"DSACharacter updateStatesDictState %@ called with value: %@", DSACharacterState, value);
   switch ([DSACharacterState integerValue])
     {
       case DSACharacterStateHunger: 
@@ -1940,10 +1942,10 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                 illnessEffect.followUpIllnessChance = [illnessDescription.followUpIllnessChance copy];
                 NSLog(@"DSACharacter advanceIllnessEffect, current date: %@ new expirationDate: %@", currentDate, illnessEffect.expirationDate);                                                                         
                 illnessEffect.oneTimeDamage = [illnessDescription oneTimeDamage];
-                [self applyOneTimeDamage:illnessEffect.oneTimeDamage revert:NO];
+                [self applyOneTimeDamage:illnessEffect revert:NO];
      
                 illnessEffect.dailyDamage = [illnessDescription dailyDamage];
-                [self applyDailyDamageForIllnessEffect: illnessEffect atDate: currentDate];
+                [self applyDailyDamageForIllnessEffect:illnessEffect atDate: currentDate];
                 
                 illnessEffect.currentStage = DSAIllnessStageActiveUnknown;     // finally push forward
                 NSLog(@"DSACharacter advanceIllnessEffect goint to set severity level to: %@", @([illnessDescription dangerLevelToSeverityLevel]));
@@ -1972,7 +1974,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         if ([illnessEffect.expirationDate isEarlierThanDate: currentDate])
           {
             // Seems we're still alive and overcome the illness
-            [self applyOneTimeDamage:illnessEffect.oneTimeDamage revert:YES];
+            [self applyOneTimeDamage:illnessEffect revert:YES];
             [self.statesDict setObject: @(DSASeverityLevelNone) forKey: @(DSACharacterStateSick)];
             DSAIllnessEffect *savedIllnessEffect = illnessEffect;
             [self removeCharacterEffectForKey: illnessEffect.uniqueKey];
@@ -2023,105 +2025,144 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
 }
 
-- (void)applyOneTimeDamage:(NSDictionary<NSString *, NSDictionary *> *)oneTimeDamage
+- (void)applyOneTimeDamage:(DSAIllnessEffect *)illnessEffect
                     revert:(BOOL)shouldRevert
 {
-    for (NSString *damageType in oneTimeDamage)
+  NSLog(@"DSACharacter applyOneTimeDamage called!");
+  for (NSString *who in [illnessEffect.oneTimeDamage allKeys])
     {
-        if ([damageType isEqualToString:@"Eigenschaften"])
+      if ([who isEqualToString: @"Alle"] ||
+          ([who isEqualToString: @"Zwerg"] && [self isKindOfClass: [DSACharacterHeroDwarf class]]) ||
+          ([who isEqualToString: @"Mensch"] && [self isKindOfClass: [DSACharacterHeroHuman class]]) ||
+          ([who isEqualToString: @"Elf"] && [self isKindOfClass: [DSACharacterHeroElf class]]))
         {
-            NSDictionary *traitChanges = oneTimeDamage[damageType];
-            for (NSString *trait in traitChanges)
+          NSDictionary *oneTimeDamage = illnessEffect.oneTimeDamage[who];
+          NSLog(@"DSACharacter applyOneTimeDamage going ahead with applying oneTimeDamage: %@", oneTimeDamage);          
+          for (NSString *damageType in oneTimeDamage)
             {
-                NSDictionary *traitDict = traitChanges[trait];
-                NSNumber *modifierNumber = traitDict[@"Modifikator"];
-                if (![modifierNumber isKindOfClass:[NSNumber class]]) {
-                    NSLog(@"❗️Invalid Modifikator value for trait '%@': %@", trait, modifierNumber);
-                    continue;
-                }
-
-                NSInteger traitValue = [modifierNumber integerValue];
-                if (shouldRevert) {
-                    traitValue *= -1;
-                }
-
-                DSAPositiveTrait *positiveTrait = self.currentPositiveTraits[trait];
-                if (positiveTrait)
+              NSLog(@"DSACharacter applyOneTimeDamage going ahead with applying damageType: %@", damageType);
+              if ([damageType isEqualToString:@"Eigenschaften"])
                 {
-                    positiveTrait.level += traitValue;
-                    continue;
+                  NSDictionary *traitChanges = oneTimeDamage[damageType];
+                  for (NSString *trait in traitChanges)
+                    {
+                       NSLog(@"DSACharacter applyOneTimeDamage applying one-time-damage to trait %@", trait);
+                       NSDictionary *traitDict = traitChanges[trait];
+                       [self applyOneTimeTraitChangesForTrait: trait
+                                                     fromDict: traitDict
+                                                       revert: shouldRevert];                                                                                        
+                    }
                 }
-
-                DSANegativeTrait *negativeTrait = self.currentNegativeTraits[trait];
-                if (negativeTrait)
+              else if ([damageType isEqualToString:@"AttackeParade"])
                 {
-                    negativeTrait.level += traitValue;
-                    continue;
-                }
-
-                NSLog(@"⚠️ DSACharacter applyOneTimeDamage: unknown trait: %@", trait);
-            }
-        }
-        else if ([damageType isEqualToString:@"AttackeParade"])
-          {
-            NSDictionary *atpaChanges = oneTimeDamage[damageType];
-            for (NSString *atpa in atpaChanges)
-              {
-                NSDictionary *valueDict = atpaChanges[atpa];
-                NSNumber *modifierNumber = valueDict[@"Modifikator"];
-                if (![modifierNumber isKindOfClass:[NSNumber class]]) {
-                    NSLog(@"❗️Invalid Modifikator value for atpa '%@': %@", atpa, modifierNumber);
-                    continue;
-                }
+                  NSDictionary *atpaChanges = oneTimeDamage[damageType];
+                  for (NSString *atpa in atpaChanges)
+                    {
+                      NSDictionary *valueDict = atpaChanges[atpa];
+                      NSNumber *modifierNumber = valueDict[@"Modifikator"];
+                      if (![modifierNumber isKindOfClass:[NSNumber class]])
+                        {
+                           NSLog(@"❗️Invalid Modifikator value for atpa '%@': %@", atpa, modifierNumber);
+                           continue;
+                        }
                 
-                NSInteger modifierValue = [modifierNumber integerValue];
-                if (shouldRevert)
-                  {
-                    modifierValue *= -1;
-                  }
+                      NSInteger modifierValue = [modifierNumber integerValue];
+                      if (shouldRevert)
+                        {
+                          modifierValue *= -1;
+                        }
                   
-                if ([atpa isEqualToString: @"AT"])
-                  {
-                    self.attackBaseBaseValue += modifierValue;
-                  }
-                else if ([atpa isEqualToString: @"PA"])
-                  {
-                    self.parryBaseBaseValue += modifierValue;
-                  }
-                else
-                  {
-                    NSLog(@"DSACharacter applyOneTimeDamage unknown AttackeParade: %@", atpa);
-                  }
-              }
-          }
-        else
-          {
-            NSLog(@"⚠️ DSACharacter applyOneTimeDamage: unsupported damageType: %@", damageType);
-          }
+                      if ([atpa isEqualToString: @"AT"])
+                        {
+                          self.attackBaseBaseValue += modifierValue;
+                        }
+                      else if ([atpa isEqualToString: @"PA"])
+                        {
+                          self.parryBaseBaseValue += modifierValue;
+                        }
+                      else
+                        {
+                          NSLog(@"DSACharacter applyOneTimeDamage unknown AttackeParade: %@", atpa);
+                        }
+                    }
+                }
+              else
+                {
+                  NSLog(@"⚠️ DSACharacter applyOneTimeDamage: unsupported damageType: %@", damageType);
+                }
+            }
+       }
     }
 }
 
+-(void) applyOneTimeTraitChangesForTrait: (NSString *) trait
+                                fromDict: (NSDictionary<NSString *, NSNumber*>*) traitDict 
+                                  revert: (BOOL) shouldRevert
+{
+   NSNumber *modifierNumber = traitDict[@"Modifikator"];
+   if (![modifierNumber isKindOfClass:[NSNumber class]])
+     {
+        NSLog(@"❗️Invalid Modifikator value for trait '%@': %@", trait, modifierNumber);
+        return;
+     }
+
+   NSInteger traitValue = [modifierNumber integerValue];
+   if (shouldRevert)
+     {
+        traitValue *= -1;
+     }
+
+   DSAPositiveTrait *positiveTrait = self.currentPositiveTraits[trait];
+   if (positiveTrait)
+     {
+        positiveTrait.level += traitValue;
+        return;
+     }
+
+   DSANegativeTrait *negativeTrait = self.currentNegativeTraits[trait];
+   if (negativeTrait)
+     {
+        negativeTrait.level += traitValue;
+        return;
+     }
+
+   NSLog(@"⚠️ DSACharacter applyOneTimeTraitChangesFromDict: unknown trait: %@", trait);
+}                                 
+
 -(void) applyDailyDamageForIllnessEffect: (DSAIllnessEffect *) illnessEffect atDate: (DSAAventurianDate *) currentDate
 {
-  for (NSString *damageType in [illnessEffect.dailyDamage allKeys])
-   {
-      if ([damageType isEqualToString: @"SP"])
+  for (NSString *who in [illnessEffect.dailyDamage allKeys])
+    {    
+      if ([who isEqualToString: @"Alle"] ||
+          ([who isEqualToString: @"Zwerg"] && [self isKindOfClass: [DSACharacterHeroDwarf class]]) ||
+          ([who isEqualToString: @"Mensch"] && [self isKindOfClass: [DSACharacterHeroHuman class]]) ||
+          ([who isEqualToString: @"Elf"] && [self isKindOfClass: [DSACharacterHeroElf class]]))
         {
-          NSString *wuerfelString = [illnessEffect.dailyDamage[damageType] objectForKey: @"Wuerfel"];
-          NSInteger modifier = [[illnessEffect.dailyDamage[damageType] objectForKey: @"Modifier"] integerValue];
-                     
-          self.currentLifePoints -= ([Utils rollDice: wuerfelString] + modifier);
-        }
-      else if ([damageType isEqualToString: @"AU"])
-        {
-          NSString *wuerfelString = [illnessEffect.dailyDamage[damageType] objectForKey: @"Wuerfel"];
-          NSInteger modifier = [[illnessEffect.dailyDamage[damageType] objectForKey: @"Modifier"] integerValue];
-                        
-          self.enduranceBaseValue -= ([Utils rollDice: wuerfelString] + modifier);                      
-        }
-      else
-        {
-          NSLog(@"DSACharacter advanceIllnessEffect in stage DSAIllnessStageIncubation dailyDamage don't know how to handle damageType: %@", damageType);
+          NSDictionary *dailyDamage = illnessEffect.dailyDamage[who];
+          for (NSString *damageType in [dailyDamage allKeys])
+           {
+              if ([damageType isEqualToString: @"SP"])
+                {
+                  NSString *wuerfelString = [dailyDamage[damageType] objectForKey: @"Wuerfel"];
+                  NSInteger modifier = [[dailyDamage[damageType] objectForKey: @"Modifier"] integerValue];
+                  NSInteger sp = [Utils rollDice: wuerfelString] + modifier;
+                  if (sp > 0)  // some modifiers are -2 or more negative, so sp could become < 0, which would be awkward if sick ;)
+                    {
+                      self.currentLifePoints -= sp;
+                    }
+                }
+              else if ([damageType isEqualToString: @"AU"])
+                {
+                  NSString *wuerfelString = [dailyDamage[damageType] objectForKey: @"Wuerfel"];
+                  NSInteger modifier = [[dailyDamage[damageType] objectForKey: @"Modifier"] integerValue];
+                         
+                  self.enduranceBaseValue -= ([Utils rollDice: wuerfelString] + modifier);                      
+                }
+              else
+                {
+                  NSLog(@"DSACharacter advanceIllnessEffect in stage DSAIllnessStageIncubation dailyDamage don't know how to handle damageType: %@", damageType);
+                }
+            }
         }
    }
    illnessEffect.dailyDamageApplyNextDate = [currentDate dateByAddingYears:0 days:1 hours:0 minutes:0];

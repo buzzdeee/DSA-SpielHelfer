@@ -11,11 +11,15 @@
     },
     "Schaden": {
       "Taeglich": {
-        "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+        "Alle": {      
+          "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+        }
       },
       "Einmalig": {
-        "Eigenschaften": {
-          "KK": { "Modifikator": -1 }
+        "Alle": {      
+          "Eigenschaften": {
+            "KK": { "Modifikator": -1 }
+          }
         }
       }
     }
@@ -32,11 +36,15 @@
     },
     "Schaden": {
       "Taeglich": {
-        "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+        "Alle": {      
+          "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+        }
       },
       "Einmalig": {
-        "Eigenschaften": {
-          "KK": { "Modifikator": -1 }
+      "Alle": {      
+          "Eigenschaften": {
+            "KK": { "Modifikator": -1 }
+          }
         }
       }
     }
@@ -53,11 +61,15 @@
     },
     "Schaden": {
       "Taeglich": {
-        "SP": { "Wuerfel": "1W3", "Modifier": 2 }
+        "Alle": {      
+          "SP": { "Wuerfel": "1W3", "Modifier": 2 }
+        }
       },
       "Einmalig": {
-        "Eigenschaften": {
-          "KK": { "Modifikator": -1 }
+        "Alle": {      
+          "Eigenschaften": {
+            "KK": { "Modifikator": -1 }
+          }
         }
       }
     }
@@ -74,11 +86,15 @@
     },
     "Schaden": {
       "Taeglich": {
-        "SP": { "Wuerfel": "1W3", "Modifier": 2 }
+        "Alle": {      
+          "SP": { "Wuerfel": "1W3", "Modifier": 2 }
+        }
       },
       "Einmalig": {
-        "Eigenschaften": {
-          "KK": { "Modifikator": -1 }
+        "Alle": {      
+          "Eigenschaften": {
+            "KK": { "Modifikator": -1 }
+          }
         }
       }
     }
@@ -95,12 +111,16 @@
     },
     "Schaden": {
       "Taeglich": {
-        "SP": { "Wuerfel": "1W3", "Modifier": 1 },
-        "AU": { "Wuerfel": "1W6", "Modifier": 1 }
+        "Alle": {      
+          "SP": { "Wuerfel": "1W3", "Modifier": 1 },
+          "AU": { "Wuerfel": "1W6", "Modifier": 1 }
+        }
       },
       "Einmalig": {
-        "Eigenschaften": {
-          "KK": { "Modifikator": -1 }
+        "Alle": {      
+          "Eigenschaften": {
+            "KK": { "Modifikator": -1 }
+          }
         }
       }
     }
@@ -117,13 +137,17 @@
       "Ruhe": {}
     },
     "Schaden": {
-      "Taeglich": {
-        "SP": { "Wuerfel": "1W3", "Modifier": 1 },
-        "AU": { "Wuerfel": "1W6", "Modifier": 1 }
+      "Alle": {
+        "Taeglich": {
+          "SP": { "Wuerfel": "1W3", "Modifier": 1 },
+          "AU": { "Wuerfel": "1W6", "Modifier": 1 }
+        }
       },
       "Einmalig": {
-        "Eigenschaften": {
-          "KK": { "Modifikator": -1 }
+        "Alle": {
+          "Eigenschaften": {
+            "KK": { "Modifikator": -1 }
+          }
         }
       }
     }
@@ -140,12 +164,16 @@
     },
     "Schaden": {
       "Taeglich": {
-        "SP": { "Wuerfel": "1W3", "Modifier": 3 },
-        "AU": { "Wuerfel": "1W6", "Modifier": 3 }
+        "Alle": {
+          "SP": { "Wuerfel": "1W3", "Modifier": 3 },
+          "AU": { "Wuerfel": "1W6", "Modifier": 3 }
+        }
       },
       "Einmalig": {
-        "Eigenschaften": {
-          "KK": { "Modifikator": -1 }
+        "Alle": {
+          "Eigenschaften": {
+            "KK": { "Modifikator": -1 }
+          }
         }
       }
     }
@@ -180,19 +208,23 @@
     },
     "Schaden": {
       "Taeglich": {
-        "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+        "Alle": {
+          "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+        }
       },
       "Einmalig": {
-        "Eigenschaften": {
-          "KK": { "Modifikator": -2 },
-          "GE": { "Modifikator": -2 }
-        },
-        "AttackeParade": {
-          "AT": { "Modifikator": -2 },
-          "PA": { "Modifikator": -2 }
-        },
-        "Folgekrankheiten": {
-          "Blaue Keuche": "20"
+        "Alle": {
+          "Eigenschaften": {
+            "KK": { "Modifikator": -2 },
+            "GE": { "Modifikator": -2 }
+          },
+          "AttackeParade": {
+            "AT": { "Modifikator": -2 },
+            "PA": { "Modifikator": -2 }
+          },
+          "Folgekrankheiten": {
+            "Blaue Keuche": "20"
+          }
         }
       }
     }
@@ -239,22 +271,30 @@
     },
     "Schaden": {
       "Taeglich": {
-        "SP": { "Wuerfel": "1W6", "Modifier": -1 },
-        "Folgekrankheiten": {
-          "Blaue Keuche": "5"
+        "Alle": {
+          "SP": { "Wuerfel": "1W6", "Modifier": -1 },
+          "Folgekrankheiten": {
+            "Blaue Keuche": "5"
+          }
         }
       },
       "Einmalig": {
-        "Eigenschaften": {
-          "IN": { "Modifikator": -1 },
-          "CH": { "Modifikator": -1 },
-          "GE": { "Modifikator": -2 },
-          "AT": { "Modifikator": -2 },
-          "PA": { "Modifikator": -2 },
-          "KK": { "Modifikator": -5 }
+        "Alle": {
+          "Eigenschaften": {
+            "IN": { "Modifikator": -1 },
+            "CH": { "Modifikator": -1 },
+            "GE": { "Modifikator": -2 },
+            "KK": { "Modifikator": -5 }
+          },
+          "AttackeParade": {
+            "AT": { "Modifikator": -2 },
+            "PA": { "Modifikator": -2 }
+          }
         },
-        "Zwerge": {
-          "JZ": "*2"
+        "Zwerg": {
+          "Eigenschaften": {
+                "JZ": { "Modifikator": 5 }
+            }         
         }
       }
     }
