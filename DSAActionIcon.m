@@ -52,6 +52,7 @@
 #import "DSADialogManager.h"
 #import "DSADialog.h"
 #import "DSAConversationDialogSheetController.h"
+#import "DSAActionViewController.h"
 
 @implementation DSAActionIcon
 
@@ -1724,6 +1725,42 @@ inventoryIdentifier: (NSString *)sourceInventory
         [self updateAppearance];
     }
     return self;
+}
+
+- (void)handleEvent {
+    NSLog(@"DSAActionIconTalent handleEvent called");
+
+    // Step 1: Zugriff auf das Model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"Invalid window controller class");
+        return;
+    }
+            
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    
+
+    DSAActionViewController *selector =
+        [[DSAActionViewController alloc] initWithWindowNibName:@"DSAActionView"];
+    selector.viewMode = DSAActionViewModeTalent;
+    selector.activeGroup = activeGroup;
+    [selector window];  // .gorm laden
+
+    __weak typeof(selector) weakSelector = selector;
+    selector.completionHandler = ^(BOOL result) {
+        typeof(selector) strongSelf = weakSelector;
+        if (!strongSelf || !result) {
+            return;
+        }
+
+        NSLog(@"DSAActionIconTalent sheet completion handler called.... ");
+
+      
+    };
+    [windowController.window beginSheet:selector.window completionHandler:nil];     
 }
 @end
 @implementation DSAActionIconMagic

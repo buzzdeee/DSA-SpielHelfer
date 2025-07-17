@@ -65,6 +65,7 @@ Resources/DSAInnRentRoom.gorm \
 Resources/DSAMealOrderView.gorm \
 Resources/DSASleepView.gorm \
 Resources/DSACharacterIllness.gorm \
+Resources/DSAActionView.gorm \
 Resources/Aventurien.jpg \
 Resources/Dolch.webp \
 Resources/Jagdmesser-firnelfisch.webp \
@@ -5894,7 +5895,8 @@ DSADialogNode.h \
 DSADialog.h \
 DSADialogManager.h \
 DSAConversationDialogSheetController.h \
-DSAIllness.h
+DSAIllness.h \
+DSAActionViewController.h
 
 #
 # Objective-C Class files
@@ -5989,7 +5991,8 @@ DSADialogNode.m \
 DSADialog.m \
 DSADialogManager.m \
 DSAConversationDialogSheetController.m \
-DSAIllness.m
+DSAIllness.m \
+DSAActionViewController.m
 
 #
 # Other sources

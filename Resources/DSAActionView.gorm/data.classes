@@ -1,0 +1,35 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSAActionViewController = {
+	Actions = (
+	    "popupActorSelected:",
+	    "popupActionSelected:",
+	    "popupTargetSelected:",
+	    "buttonCancelAction:",
+	    "buttonDoItAction:"
+	);
+	Outlets = (
+	    buttonDoIt,
+	    fieldActionHeadline,
+	    fieldActionQuestionTarget,
+	    fieldActionQuestionWhat,
+	    fieldActionQuestionWho,
+	    fieldActionResult,
+	    buttonCancel,
+	    popupActions,
+	    popupActors,
+	    popupTargets
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "popupActorSelected:",
+	    "popupActionSelected:",
+	    "popupTargetSelected:",
+	    "buttonCancelAction:",
+	    "buttonDoItAction:"
+	);
+	Super = NSObject;
+    };
+}

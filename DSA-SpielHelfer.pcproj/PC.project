@@ -106,7 +106,8 @@
 	"DSADialog.m",
 	"DSADialogManager.m",
 	"DSAConversationDialogSheetController.m",
-	"DSAIllness.m"
+	"DSAIllness.m",
+	"DSAActionViewController.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -205,7 +206,8 @@
 	"DSADialog.h",
 	"DSADialogManager.h",
 	"DSAConversationDialogSheetController.h",
-	"DSAIllness.h"
+	"DSAIllness.h",
+	"DSAActionViewController.h"
     );
     IMAGES = (
 	"Aventurien.jpg",
@@ -5933,7 +5935,8 @@
 	"DSAInnRentRoom.gorm",
 	"DSAMealOrderView.gorm",
 	"DSASleepView.gorm",
-	"DSACharacterIllness.gorm"
+	"DSACharacterIllness.gorm",
+	"DSAActionView.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (
