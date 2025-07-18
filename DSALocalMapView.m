@@ -288,30 +288,6 @@
     [[NSColor systemRedColor] set];
     NSBezierPath *circle = [NSBezierPath bezierPathWithOvalInRect:markerRect];
     [circle fill];
-/*
-    // Richtungspfeil
-    NSPoint center = NSMakePoint(NSMidX(markerRect), NSMidY(markerRect));
-    CGFloat arrowLength = tileSize / 2.0;
-    NSPoint tip = center;
-
-    switch (self.groupHeading) {
-        case DSADirectionNorth:     tip.y += arrowLength; break;
-        case DSADirectionSouth:     tip.y -= arrowLength; break;
-        case DSADirectionEast:      tip.x += arrowLength; break;
-        case DSADirectionWest:      tip.x -= arrowLength; break;
-        case DSADirectionNortheast: tip.x += arrowLength * 0.7; tip.y += arrowLength * 0.7; break;
-        case DSADirectionSoutheast: tip.x += arrowLength * 0.7; tip.y -= arrowLength * 0.7; break;
-        case DSADirectionSouthwest: tip.x -= arrowLength * 0.7; tip.y -= arrowLength * 0.7; break;
-        case DSADirectionNorthwest: tip.x -= arrowLength * 0.7; tip.y += arrowLength * 0.7; break;
-        default: break;
-    }
-
-    [[NSColor blackColor] setStroke];
-    NSBezierPath *arrow = [NSBezierPath bezierPath];
-    [arrow moveToPoint:center];
-    [arrow lineToPoint:tip];
-    [arrow setLineWidth:2.0];
-    [arrow stroke]; */
 }
 
 - (void)discoverVisibleTilesAroundPosition:(DSAPosition *)position {
@@ -411,12 +387,12 @@
         if ([inType isEqualToString: DSALocalMapTileBuildingInnTypeHerberge] || 
             [inType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne])
            {
-              self.adventure.activeGroup.position.room = @"reception";
+              self.adventure.activeGroup.position.context = DSAActionContextReception;
            }
       }
     else
       {
-        self.adventure.activeGroup.position.room = nil;
+        self.adventure.activeGroup.position.context = nil;
       }
     [self setGroupPosition:newPosition];
     [self setNeedsDisplay:YES];

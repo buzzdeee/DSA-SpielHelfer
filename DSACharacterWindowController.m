@@ -743,12 +743,20 @@
    NSMutableSet *fightingCategories = [NSMutableSet set];
 
    // Enumerate talents to find all fighting talents
-   [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAFightingTalent *obj, BOOL *stop)
+   [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSATalent *obj, BOOL *stop)
      {
-        if ([[obj category] isEqualToString:@"Kampftechniken"])
+        if ([obj isKindOfClass:[DSAFightingTalent class]])
           {
-             [fightingTalents addObject:obj];
-             [fightingCategories addObject:[obj subCategory]];
+            DSAFightingTalent *fightingTalent = (DSAFightingTalent *)obj;
+            if ([[fightingTalent category] isEqualToString:@"Kampftechniken"])
+              {
+                 [fightingTalents addObject: fightingTalent];
+                 [fightingCategories addObject:[fightingTalent subCategory]];
+              }
+          }
+        else
+          {
+            NSLog(@"DSACharacterWindowController populateFightingTalentsTab unexpected DSATalent subclass");
           }
      }];
 
@@ -794,7 +802,7 @@
    NSMutableSet *talentCategories = [NSMutableSet set];
     
    // Enumerate talents to find all categories excluding "Kampftechniken"
-   [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
+   [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSATalent *obj, BOOL *stop)
      {
         if (![[obj category] isEqualToString:@"Kampftechniken"])
           {
@@ -854,7 +862,7 @@
    NSMutableSet *categories = [NSMutableSet set];
   
    // Enumerate professions to find all categories
-   [model.professions enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
+   [model.professions enumerateKeysAndObjectsUsingBlock:^(id key, DSAProfession *obj, BOOL *stop)
      {
         [professions addObject: obj];
         [categories addObject: [obj category]];
@@ -911,7 +919,7 @@
    NSMutableSet *categories = [NSMutableSet set];
   
    // Enumerate talents to find all categories
-   [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
+   [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop)
      {
         [spells addObject: obj];
         [categories addObject: [obj category]];
@@ -1863,7 +1871,7 @@
     NSMutableSet *spellCategories = [NSMutableSet set];  // For magical dabblers
 
     // Enumerate talents to find all categories
-    [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop) {
+    [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSATalent *obj, BOOL *stop) {
         [talentCategories addObject: [obj category]];
     }];
 
@@ -1930,11 +1938,21 @@
     NSMutableArray *sortedSpells = [NSMutableArray array];
     
     // Collect talents in the given category
-    [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop) {
-        if ([[obj category] isEqualTo: talentCategory]) {
-            [sortedTalents addObject: obj];
-        }
-    }];
+    [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSATalent *obj, BOOL *stop)
+      {
+        if ([obj isKindOfClass:[DSAOtherTalent class]])
+          {
+            DSAOtherTalent *otherTalent = (DSAOtherTalent*)obj;
+            if ([[otherTalent category] isEqualTo: talentCategory])
+              {
+                [sortedTalents addObject: otherTalent];
+              }
+          }
+        else
+          {
+            NSLog(@"DSACharacterWindowController populateLevelUpBottomPopupWithTalents unexpected talent type");
+          }
+      }];
     
     // Collect spells in the given category (for magical dabblers)
     [model.spells enumerateKeysAndObjectsUsingBlock:^(id key, DSASpell *obj, BOOL *stop) {
@@ -1960,7 +1978,7 @@
     // Add sorted spells to the popup (if applicable)
     for (DSASpell *spell in sortedSpellNames) {
         [self.popupLevelUpBottom addItemWithTitle:[spell name]];
-        if ([model canLevelUpTalent:[model.spells objectForKey:[spell name]]]) {
+        if ([model canLevelUpSpell:[model.spells objectForKey:[spell name]]]) {
             [[self.popupLevelUpBottom itemWithTitle:[spell name]] setEnabled:YES];
         } else {
             [[self.popupLevelUpBottom itemWithTitle:[spell name]] setEnabled:NO];
@@ -1996,7 +2014,7 @@
     }
   else
     { // special case the magical dabbler here, spells are considered as talents
-      result = [model levelUpTalent: [model.spells objectForKey: [[self.popupLevelUpBottom selectedItem] title]]];    
+      result = [model levelUpSpell: [model.spells objectForKey: [[self.popupLevelUpBottom selectedItem] title]]];    
     }
   
   if (result)
@@ -2468,12 +2486,13 @@
     }
   NSMutableSet *talentCategories = [NSMutableSet set];    
     // Enumerate talents to find all categories
-  [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop) {
+  [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSATalent *obj, BOOL *stop)
+    {
       if (![[obj category] isEqualToString: (@"Kampftechniken")])
         {
           [talentCategories addObject: [obj category]];
         }
-  }];
+    }];
   NSArray *sortedTalentCategories = [[talentCategories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
   [self.popupTalentCategorySelector setEnabled: YES];
   [self.popupTalentCategorySelector removeAllItems];
@@ -2519,7 +2538,7 @@
     NSMutableArray *sortedTalents = [NSMutableArray array];
     
     // Collect talents in the given category
-    [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop) {
+    [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSATalent *obj, BOOL *stop) {
         if ([[obj category] isEqualTo: talentCategory]) {
             [sortedTalents addObject: obj];
         }

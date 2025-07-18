@@ -34,6 +34,16 @@
 @class DSAMapCoordinate;
 @class DSAGod;
 
+typedef NSString * DSAActionContext;
+
+extern DSAActionContext const DSAActionContextResting;
+extern DSAActionContext const DSAActionContextPrivateRoom;
+extern DSAActionContext const DSAActionContextTavern;
+extern DSAActionContext const DSAActionContextMarket;
+extern DSAActionContext const DSAActionContextOnTheRoad;
+extern DSAActionContext const DSAActionContextReception;
+
+
 @interface DSAAdventure : NSObject
 
 @property (nonatomic, strong) NSMutableArray<DSAAdventureGroup *> *groups; // index 0 = aktiv
@@ -47,6 +57,11 @@
 @property (nonatomic, strong) NSArray <DSAGod *> *gods;
 @property (nonatomic, strong) NSDictionary<NSNumber *, DSAGod *> *godsByType;
 @property (nonatomic, strong) NSDictionary<NSString *, DSAGod *> *godsByName;
+
+@property (nonatomic, copy) NSDictionary<DSAActionContext, NSArray<NSString *> *> *availableTalentsByContext;
+@property (nonatomic, copy) NSDictionary<DSAActionContext, NSArray<NSString *> *> *availableSpellsByContext;
+@property (nonatomic, copy) NSDictionary<DSAActionContext, NSArray<NSString *> *> *availableRitualsByContext;
+
 
 @property (strong) NSMutableDictionary<NSString *, NSString *> *characterFilePaths;
 

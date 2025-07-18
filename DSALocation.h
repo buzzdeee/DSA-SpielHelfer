@@ -31,6 +31,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NSString * DSAActionContext;
+extern DSAActionContext const DSAActionContextNone;
+extern DSAActionContext const DSAActionContextResting;
+extern DSAActionContext const DSAActionContextReception;
+extern DSAActionContext const DSAActionContextRoom;
+extern DSAActionContext const DSAActionContextTavern;
+extern DSAActionContext const DSAActionContextStreet;
+
+
 typedef NS_ENUM(NSInteger, DSADirection) {
     DSADirectionNorth,
     DSADirectionEast,
@@ -147,20 +156,20 @@ NS_INLINE NSString * DSADirectionToString(DSADirection direction) {
 
 @interface DSAPosition : NSObject <NSCopying, NSCoding>
 @property (nonatomic, strong) DSAMapCoordinate *mapCoordinate;
-@property (nonatomic, strong, nullable) NSString *room;          // some buildings have multiple rooms, i.e. Inns
+@property (nonatomic, strong, nullable) DSAActionContext context;          // some buildings have multiple rooms, i.e. Inns
 @property (nonatomic, strong) NSString *globalLocationName;      // to refer to DSAGlobalMapLocation info
 @property (nonatomic, strong) NSString *localLocationName;       // to refer to DSALocalMapLocation info
 
 + (instancetype)positionWithMapCoordinate:(DSAMapCoordinate *)coordinate
                        globalLocationName:(NSString *)globalLocationName
                         localLocationName:(NSString *)localLocationName
-                                     room:(nullable NSString *)room;
+                                  context:(nullable DSAActionContext)context;
 
 
 - (instancetype)initWithMapCoordinate:(DSAMapCoordinate *)coordinate
                    globalLocationName:(NSString *)globalLocationName
                     localLocationName:(NSString *)localLocationName
-                                 room:(nullable NSString *)room;
+                              context:(nullable DSAActionContext)context;
 
 - (BOOL)isEqualToPosition:(DSAPosition *)other;
 

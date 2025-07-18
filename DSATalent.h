@@ -37,6 +37,7 @@
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *talentDescription;
 @property (nonatomic, strong) NSString *category;
+@property (nonatomic, strong) NSArray *test;
 @property (nonatomic) BOOL isPersonalTalent;              // set to YES, for i.e. Musizieren for Skald or Bard
 
 - (BOOL) levelUp;
@@ -57,7 +58,6 @@
 // End of DSAFightingTalent
 
 @interface DSAOtherTalent : DSATalent
-@property (nonatomic, strong) NSArray *test;
 - (instancetype)initTalent: (NSString *) name
                 ofCategory: (NSString *) category 
                    onLevel: (NSInteger) level

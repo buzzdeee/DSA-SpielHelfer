@@ -87,6 +87,7 @@
         self.talentDescription = [coder decodeObjectForKey:@"talentDescription"];
         self.category = [coder decodeObjectForKey:@"category"];
         self.isPersonalTalent = [coder decodeBoolForKey:@"isPersonalTalent"];
+        self.test = [coder decodeObjectForKey:@"test"];
       }
     return self;
 }
@@ -100,7 +101,8 @@
   [coder encodeInteger:self.levelUpCost forKey:@"levelUpCost"];  
   [coder encodeObject:self.talentDescription forKey:@"talentDescription"];
   [coder encodeObject:self.category forKey:@"category"];
-  [coder encodeBool:self.isPersonalTalent forKey:@"isPersonalTalent"];    
+  [coder encodeBool:self.isPersonalTalent forKey:@"isPersonalTalent"]; 
+  [coder encodeObject:self.test forKey:@"test"];     
 }
 
 // Ignores readonly variables with the assumption
@@ -344,21 +346,6 @@
       self.levelUpCost = levelUpCost;            
     }
   return self;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)coder {
-    self = [super initWithCoder: coder];
-    if (self)
-      {
-        self.test = [coder decodeObjectForKey:@"test"];
-      }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder
-{
-  [super encodeWithCoder: coder];
-  [coder encodeObject:self.test forKey:@"test"];  
 }
 @end
 // End of DSASpecialTalent

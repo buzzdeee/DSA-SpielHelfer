@@ -267,7 +267,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
             
           if (([tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerberge] ||
               [tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne]) &&
-              [currentPosition.room isEqualToString: @"room"])
+              [currentPosition.context isEqualToString: DSAActionContextPrivateRoom])
             {
               if ([self.imageActionIcon3 isKindOfClass: [DSAActionIconSleep class]])
                 {
@@ -287,10 +287,10 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
             }
           if ((([tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerberge] ||
               [tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne]) &&
-              [currentPosition.room isEqualToString: @"room"]) ||
+              [currentPosition.context isEqualToString: DSAActionContextPrivateRoom]) ||
               [tileType isEqualToString: DSALocalMapTileBuildingInnTypeTaverne] ||
               ([tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne] && 
-              [currentPosition.room isEqualToString: @"tavern"]))
+              [currentPosition.context isEqualToString: DSAActionContextTavern]))
             {
               if ([self.imageActionIcon4 isKindOfClass: [DSAActionIconTalent class]])
                 {
@@ -668,19 +668,19 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     // 📌 2. Gebäude mit Typ (Herberge, Taverne etc.), group may be at the reception, up at the room, or in a tavern
     } else if ([currentTile isKindOfClass: [DSALocalMapTileBuildingInn class]]) {
         NSString *buildingType = [(DSALocalMapTileBuilding *)currentTile type];
-        NSString *room = currentPosition.room;
+        NSString *context = currentPosition.context;
         
         NSString *roomKey = [currentPosition roomKey];
-        NSLog(@"DSAAdventureWindowController updateMainImageView for DSALocalMapTileBuildingInn buildingType: %@ room: %@, roomKey: %@", buildingType, room, roomKey);
+        NSLog(@"DSAAdventureWindowController updateMainImageView for DSALocalMapTileBuildingInn buildingType: %@ context: %@, roomKey: %@", buildingType, context, roomKey);
         DSAGlobalMapLocation *gl = (DSAGlobalMapLocation *)globalLocation;
         NSString *regionType;
         NSString *noRegionType;
-        if ([buildingType isEqualToString: @"Taverne"] || [room isEqualToString: @"tavern"])
+        if ([buildingType isEqualToString: @"Taverne"] || [context isEqualToString: DSAActionContextTavern])
           {
             regionType = [NSString stringWithFormat:@"%@_Taverne", gl.region];
             noRegionType = @"Taverne";
           }
-        else if ([room isEqualToString: @"reception"])
+        else if ([context isEqualToString: DSAActionContextReception])
           {
             regionType = [NSString stringWithFormat:@"%@_Herberge", gl.region];
             noRegionType = @"Herberge";

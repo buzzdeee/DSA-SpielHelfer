@@ -27,6 +27,37 @@
 #import "DSAAdventureGroup.h"
 #import "DSAGod.h"
 
+DSAActionContext const DSAActionContextResting = @"Rasten";
+DSAActionContext const DSAActionContextPrivateRoom = @"Zimmer";
+DSAActionContext const DSAActionContextTavern = @"Taverne";
+DSAActionContext const DSAActionContextMarket = @"Markt";
+DSAActionContext const DSAActionContextOnTheRoad = @"Unterwegs";
+DSAActionContext const DSAActionContextReception = @"Rezeption";
+
+static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultTalentsByContext(void)
+{
+    return @{
+          DSAActionContextResting: @[@"Heilkunde Wunden", @"Heilkunde Gift", @"Heilkunde Krankheiten", @"Heilkunde Seele" ],
+          DSAActionContextPrivateRoom: @[@"Heilkunde Wunden", @"Heilkunde Gift", @"Heilkunde Krankheiten", @"Heilkunde Seele" ],
+          DSAActionContextTavern: @[@"Falschspiel", @"Taschendiebstahl", @"Musizieren", @"Singen", @"Tanzen", @"Gaukeleien" ],
+          DSAActionContextMarket: @[@"Falschspiel", @"Taschendiebstahl", @"Musizieren", @"Singen", @"Tanzen", @"Gaukeleien"]
+    };
+}
+static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultSpellsByContext(void)
+{
+    return @{
+          DSAActionContextResting: @[ @"Balsamsalabunde", @"Hexenspeichel", @"Klarum Purum Kräutersud", @"Analüs Arcanstruktur", @"Odem Arcanum Senserei" ],
+          DSAActionContextPrivateRoom: @[ @"Balsamsalabunde", @"Hexenspeichel", @"Klarum Purum Kräutersud", @"Analüs Arcanstruktur", @"Odem Arcanum Senserei" ]
+    };
+}
+static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByContext(void)
+{
+    return @{
+          DSAActionContextResting: @[ @"Stabzauber", @"Schwertzauber", @"Kugelzauber", @"Schalenzauber", @"Meditation" ],
+          DSAActionContextPrivateRoom: @[ @"Stabzauber", @"Schwertzauber", @"Kugelzauber", @"Schalenzauber", @"Meditation" ]
+    };
+}
+
 @implementation DSAAdventure
 
 - (instancetype)init {
@@ -47,7 +78,11 @@
             }
         }
         _godsByType = [byType copy];
-        _godsByName = [byName copy];        
+        _godsByName = [byName copy];     
+        
+        _availableTalentsByContext = DefaultTalentsByContext();
+        _availableSpellsByContext = DefaultSpellsByContext();
+        _availableRitualsByContext = DefaultRitualsByContext();
         
         NSLog(@"DSAAdventure init after _gameClock: %@", _gameClock.currentDate);        
         _gameWeather = [[DSAWeather alloc] init];
@@ -109,6 +144,9 @@
   self = [super init];
   if (self)
     {
+      _availableTalentsByContext = DefaultTalentsByContext();
+      _availableSpellsByContext = DefaultSpellsByContext();
+      _availableRitualsByContext = DefaultRitualsByContext();
       _groups = [coder decodeObjectForKey:@"groups"];
       _discoveredCoordinates = [coder decodeObjectForKey:@"discoveredCoordinates"];
       _gameClock = [coder decodeObjectForKey:@"gameClock"];

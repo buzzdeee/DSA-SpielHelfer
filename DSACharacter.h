@@ -174,12 +174,12 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *portraitName;
 @property (nonatomic, strong) DSAInventory *inventory;
 @property (nonatomic, strong) DSABodyParts *bodyParts;
-@property (nonatomic, copy) NSMutableDictionary *talents;
-@property (nonatomic, copy) NSMutableDictionary *currentTalents;
-@property (nonatomic, copy, nullable) NSMutableDictionary *professions;
-@property (nonatomic, copy, nullable) NSMutableDictionary *currentProfessions;
-@property (nonatomic, copy, nullable) NSMutableDictionary *spells;
-@property (nonatomic, copy, nullable) NSMutableDictionary *currentSpells;
+@property (nonatomic, copy) NSMutableDictionary <NSString *, DSATalent *> *talents;
+@property (nonatomic, copy) NSMutableDictionary <NSString *, DSATalent *> *currentTalents;
+@property (nonatomic, copy, nullable) NSMutableDictionary <NSString *, DSAProfession *> *professions;
+@property (nonatomic, copy, nullable) NSMutableDictionary <NSString *, DSAProfession *> *currentProfessions;
+@property (nonatomic, copy, nullable) NSMutableDictionary <NSString *, DSASpell *> *spells;
+@property (nonatomic, copy, nullable) NSMutableDictionary <NSString *, DSASpell *> *currentSpells;
 @property (nonatomic, strong, nullable) NSMutableDictionary *specials;
 @property (nonatomic, strong, nullable) NSMutableDictionary *currentSpecials;
 @property (nonatomic, assign) NSInteger firstLevelUpTalentTriesPenalty;  // might have less than usual tries to level up talents to level 1
@@ -298,6 +298,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL) levelDownNegativeTrait: (NSString *) trait;
 - (BOOL) levelUpTalent: (DSATalent *)talent;
 - (BOOL) canLevelUpTalent: (DSATalent *)talent;
+- (BOOL) levelUpSpell: (DSASpell *)spell;
+- (BOOL) canLevelUpSpell: (DSASpell *)spell;
 - (BOOL) canLevelUp;
 - (void) prepareLevelUp;
 - (void) finishLevelUp;
@@ -306,8 +308,6 @@ NS_ASSUME_NONNULL_BEGIN
 // End of DSACharacterHero
 
 @interface DSACharacterHeroElf : DSACharacterHero
-- (BOOL) levelUpSpell: (DSASpell *)spell;
-- (BOOL) canLevelUpSpell: (DSASpell *)spell;
 @end
 // End of DSACharacterHeroElf
 
@@ -336,8 +336,6 @@ NS_ASSUME_NONNULL_BEGIN
 // End of DSACharacterHeroDwarfAngroschPriest
 
 @interface DSACharacterHeroDwarfGeode : DSACharacterHeroDwarf
-- (BOOL) levelUpSpell: (DSASpell *)spell;
-- (BOOL) canLevelUpSpell: (DSASpell *)spell;
 @end
 // End of DSACharacterHeroDwarfGeode
 
@@ -390,8 +388,6 @@ NS_ASSUME_NONNULL_BEGIN
 // End of DSACharacterHeroHumanJuggler
 
 @interface DSACharacterHeroHumanMage : DSACharacterHeroHuman
-- (BOOL) levelUpSpell: (DSASpell *)spell;
-- (BOOL) canLevelUpSpell: (DSASpell *)spell;
 @end
 // End of DSACharacterHeroHumanMage
 
@@ -432,8 +428,6 @@ NS_ASSUME_NONNULL_BEGIN
 // End of DSACharacterHeroHumanShaman
 
 @interface DSACharacterHeroHumanSharisad : DSACharacterHeroHuman
-- (BOOL) levelUpSpell: (DSASpell *)spell;
-- (BOOL) canLevelUpSpell: (DSASpell *)spell;
 @end
 // End of DSACharacterHeroHumanSharisad
 

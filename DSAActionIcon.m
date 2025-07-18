@@ -848,9 +848,9 @@ inventoryIdentifier: (NSString *)sourceInventory
       {
         DSALocalMapTileBuildingInn *innTile = (DSALocalMapTileBuildingInn*) currentTile;
         if ([@[DSALocalMapTileBuildingInnTypeHerberge, DSALocalMapTileBuildingInnTypeHerbergeMitTaverne] containsObject:innTile.type] && 
-            [@[@"room", @"tavern"] containsObject: currentPosition.room])
+            [@[DSAActionContextPrivateRoom, DSAActionContextTavern] containsObject: currentPosition.context])
           {
-            currentPosition.room = @"reception";
+            currentPosition.context = DSAActionContextReception;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];
             return;
           }
@@ -919,11 +919,11 @@ inventoryIdentifier: (NSString *)sourceInventory
         }
       else  // DSALocalMapTileBuildingInnTypeHerbergeMitTaverne
         {
-          if ([currentPosition.room isEqualToString: @"reception"])
+          if ([currentPosition.context isEqualToString: DSAActionContextReception])
             {
               dialogNPC = @"innkeeper";
             }
-          else if ([currentPosition.room isEqualToString: @"tavern"])
+          else if ([currentPosition.context isEqualToString: DSAActionContextTavern])
             {
               dialogNPC = @"tavern";
             }
@@ -1475,7 +1475,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAAdventure *adventure = document.model;
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
     DSAPosition *currentPosition = activeGroup.position;
-    if ([currentPosition.room isEqualToString: @"reception"])
+    if ([currentPosition.context isEqualToString: DSAActionContextReception])
       {
         return YES;
       }
@@ -1503,7 +1503,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     
     NSLog(@"DSAActionIconRoom handleEvent membersWithRoom: %ld", membersWithRoom);                   
     if (groupMembers == membersWithRoom) {                    // everyone has a room, we go onto the room
-        activeGroup.position.room = @"room";
+        activeGroup.position.context = DSAActionContextPrivateRoom;
         [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];
         return;
     }
@@ -1703,9 +1703,9 @@ inventoryIdentifier: (NSString *)sourceInventory
           {
             DSALocalMapTileBuildingInn *innTile = (DSALocalMapTileBuildingInn*) currentTile;
             if ([@[DSALocalMapTileBuildingInnTypeHerberge, DSALocalMapTileBuildingInnTypeHerbergeMitTaverne] containsObject:innTile.type] && 
-                [@[@"room", @"tavern"] containsObject: currentPosition.room])
+                [@[DSAActionContextPrivateRoom, DSAActionContextTavern] containsObject: currentPosition.context])
               {
-                currentPosition.room = @"reception";
+                currentPosition.context = DSAActionContextReception;
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];
               }
           }       
@@ -1742,11 +1742,14 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
     DSAPosition *currentPosition = activeGroup.position;
     
-
+    DSAActionContext currentContext = currentPosition.context;
+    NSArray *availableTalents = adventure.availableTalentsByContext[currentContext];
+    
     DSAActionViewController *selector =
         [[DSAActionViewController alloc] initWithWindowNibName:@"DSAActionView"];
     selector.viewMode = DSAActionViewModeTalent;
     selector.activeGroup = activeGroup;
+    selector.talents = availableTalents;
     [selector window];  // .gorm laden
 
     __weak typeof(selector) weakSelector = selector;

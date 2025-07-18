@@ -38,8 +38,9 @@ typedef NS_ENUM(NSInteger, DSAActionViewMode) {
 @property (nonatomic, copy) void (^completionHandler)(BOOL result);
 @property (nonatomic, assign) DSAActionViewMode viewMode;                    // to either use talents or spells
 @property (nonatomic, strong) DSAAdventureGroup *activeGroup;
-@property (nonatomic, strong) NSArray *talents;
-@property (nonatomic, strong) NSArray *spells;
+@property (nonatomic, strong) NSArray <NSString *> *talents;                 // strings of talent names
+@property (nonatomic, strong) NSArray <NSString *> *spells;                  // strings of spell names
+@property (nonatomic, strong) NSArray <NSString *> *specials;                // strings of ritual names
 
 @property (nonatomic, weak) IBOutlet NSTextField *fieldActionHeadline;
 @property (nonatomic, weak) IBOutlet NSTextField *fieldActionQuestionWho;

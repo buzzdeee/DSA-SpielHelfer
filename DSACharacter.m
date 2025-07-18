@@ -681,7 +681,8 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.currentTalents = [coder decodeObjectForKey: @"currentTalents"];
       if (!self.currentTalents)
         {
-          self.currentTalents = [self deepCopyDictionary:self.talents usingBlock:^id(id obj) {
+          self.currentTalents = (NSMutableDictionary<NSString *, DSATalent *> *)
+                                 [self deepCopyDictionary:self.talents usingBlock:^id(id obj) {
             return [(DSATalent *)obj copy];
           }];
         } 
@@ -689,7 +690,8 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.currentProfessions = [coder decodeObjectForKey: @"currentProfessions"];
       if (!self.currentProfessions)
         {
-          self.currentProfessions = [self deepCopyDictionary:self.professions usingBlock:^id(id obj) {
+          self.currentProfessions = (NSMutableDictionary<NSString *, DSAProfession *> *)
+                                     [self deepCopyDictionary:self.professions usingBlock:^id(id obj) {
             return [(DSAProfession *)obj copy];
           }];
         }      
@@ -697,7 +699,8 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.currentSpells = [coder decodeObjectForKey: @"currentSpells"];
       if (!self.currentSpells)
         {
-          self.currentSpells = [self deepCopyDictionary:self.spells usingBlock:^id(id obj) {
+          self.currentSpells = (NSMutableDictionary<NSString *, DSASpell *> *)
+                                [self deepCopyDictionary:self.spells usingBlock:^id(id obj) {
             return [(DSASpell *)obj copy];
           }];
         }  
@@ -1235,7 +1238,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 {
   NSLog(@"DSACharacter useTalent called");
   DSATalentResult *talentResult = [[DSATalentResult alloc] init];
-  DSAOtherTalent *talent = self.currentTalents[talentName];
+  DSATalent *talent = self.currentTalents[talentName];
   NSInteger level = talent.level - penalty;
   NSInteger initialLevel = level;
   NSMutableArray *resultsArr = [[NSMutableArray alloc] init];
@@ -2960,6 +2963,17 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     {
       return YES;
     }
+}
+
+- (BOOL) LevelUpSpell: (DSASpell *)spell
+{
+  NSLog(@"NSLog DSACharacterHero lLevelUpSpell should be overridden by subclass!");
+  return NO;
+}
+- (BOOL) canLevelUpSpell: (DSASpell *)spell
+{
+  NSLog(@"NSLog DSACharacterHero canLevelUpSpell should be overridden by subclass!");
+  return NO;
 }
 
 - (BOOL) canLevelUp {

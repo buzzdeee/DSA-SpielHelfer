@@ -243,7 +243,7 @@
                 startingPosition = [DSAPosition positionWithMapCoordinate: startingTempleTile.tileCoordinate
                                                        globalLocationName: localLocation.globalLocationName
                                                         localLocationName: localLocation.name
-                                                                     room: nil];
+                                                                  context: nil];
             }
             
             // Setze Location in der ersten Gruppe
