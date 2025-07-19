@@ -40,6 +40,10 @@
         [self initializeViewForSpells];
         break;
       }
+      case DSAActionViewModeRitual: {
+        [self initializeViewForRituals];
+        break;
+      }      
     }
 }
 
@@ -60,15 +64,13 @@
   }
   [self.popupActors selectItemAtIndex: 0];
   
+  DSACharacter *selectedCharacter = (DSACharacter *)[[self.popupActors selectedItem] representedObject];
+  
   [self.popupActions removeAllItems];
-  for (DSATalent *talent in self.talents) {
-    NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:talent.name
-                                                  action:nil
-                                           keyEquivalent:@""];
-    // Verweise das Objekt direkt über `representedObject`
+  for (DSATalent *talent in [selectedCharacter activeTalentsWithNames: self.talents]) {
+    [self.popupActions addItemWithTitle:talent.name];
+    NSMenuItem *item = (NSMenuItem *)[self.popupActions lastItem];
     [item setRepresentedObject:talent];
-
-    [[self.popupActions menu] addItem:item];
   }
      
   [self.popupTargets removeAllItems];
@@ -79,11 +81,118 @@
   } 
   self.buttonCancel.title = @"Abbrechen";
   self.buttonDoIt.title = @"Anwenden";
-  [self.buttonDoIt setEnabled: NO];
-  
 }
 
 - (void) initializeViewForSpells
+{
+  self.window.title = @"Magie anwenden";
+  self.fieldActionHeadline.stringValue = @"Magie anwenden";
+  self.fieldActionQuestionWho.stringValue = @"Wer soll Magie anwenden?";
+  self.fieldActionQuestionWhat.stringValue = @"Zauberspruch auswählen";
+  self.fieldActionQuestionTarget.stringValue = @"Auf wen soll der Spruch angewendet werden?";
+  
+  NSArray *characters = [self.activeGroup allCharacters];
+  [self.popupActors removeAllItems];
+  for (DSACharacter *character in characters) {
+    [self.popupActors addItemWithTitle:character.name];
+    NSMenuItem *item = (NSMenuItem *)[self.popupActors lastItem];
+    [item setRepresentedObject:character];
+  }
+  [self.popupActors selectItemAtIndex: 0];
+  
+  DSACharacter *selectedCharacter = (DSACharacter *)[[self.popupActors selectedItem] representedObject];
+  [self.popupActions removeAllItems];
+  for (DSASpell *spell in [selectedCharacter activeSpellsWithNames: self.spells]) {
+    [self.popupActions addItemWithTitle:spell.name];
+    NSMenuItem *item = (NSMenuItem *)[self.popupActions lastItem];
+    [item setRepresentedObject:spell];
+  }
+     
+  [self.popupTargets removeAllItems];
+  for (DSACharacter *character in characters) {
+    [self.popupTargets addItemWithTitle:character.name];
+    NSMenuItem *item = (NSMenuItem *)[self.popupTargets lastItem];
+    [item setRepresentedObject:character];
+  } 
+  self.buttonCancel.title = @"Abbrechen";
+  self.buttonDoIt.title = @"Anwenden";
+}
+
+- (void) initializeViewForRituals
+{
+  self.window.title = @"Ritual anwenden";
+  self.fieldActionHeadline.stringValue = @"Ritual anwenden";
+  self.fieldActionQuestionWho.stringValue = @"Wer soll ein Ritual anwenden?";
+  self.fieldActionQuestionWhat.stringValue = @"Ritual auswählen";
+  self.fieldActionQuestionTarget.stringValue = @"Auf wen soll das Ritual angewendet werden?";
+  
+  NSArray *characters = [self.activeGroup allCharacters];
+  [self.popupActors removeAllItems];
+  for (DSACharacter *character in characters) {
+    [self.popupActors addItemWithTitle:character.name];
+    NSMenuItem *item = (NSMenuItem *)[self.popupActors lastItem];
+    [item setRepresentedObject:character];
+  }
+  [self.popupActors selectItemAtIndex: 0];
+  
+  DSACharacter *selectedCharacter = (DSACharacter *)[[self.popupActors selectedItem] representedObject];
+  
+  [self.popupActions removeAllItems];
+  for (DSASpell *spell in [selectedCharacter activeSpellsWithNames: self.rituals]) {
+    [self.popupActions addItemWithTitle:spell.name];
+    NSMenuItem *item = (NSMenuItem *)[self.popupActions lastItem];
+    [item setRepresentedObject:spell];
+  }
+     
+  [self.popupTargets removeAllItems];
+  for (DSACharacter *character in characters) {
+    [self.popupTargets addItemWithTitle:character.name];
+    NSMenuItem *item = (NSMenuItem *)[self.popupTargets lastItem];
+    [item setRepresentedObject:character];
+  } 
+  self.buttonCancel.title = @"Abbrechen";
+  self.buttonDoIt.title = @"Anwenden";
+}
+
+- (IBAction)popupActorSelected:(id)sender
+{
+  DSACharacter *selectedCharacter = (DSACharacter *)[[self.popupActors selectedItem] representedObject];
+  NSLog(@"DSAActionViewController popupActorSelected %@", selectedCharacter.name);
+  [self.popupActions removeAllItems];
+  
+    switch (self.viewMode) {
+      case DSAActionViewModeTalent: {
+        for (DSATalent *talent in [selectedCharacter activeTalentsWithNames: self.talents]) {
+          [self.popupActions addItemWithTitle:talent.name];
+          NSMenuItem *item = (NSMenuItem *)[self.popupActions lastItem];
+          [item setRepresentedObject:talent];
+        }      
+        break;
+      }
+      case DSAActionViewModeSpell: {
+        for (DSASpell *spell in [selectedCharacter activeSpellsWithNames: self.spells]) {
+          [self.popupActions addItemWithTitle:spell.name];
+          NSMenuItem *item = (NSMenuItem *)[self.popupActions lastItem];
+          [item setRepresentedObject:spell];
+        }      
+        break;
+      }
+      case DSAActionViewModeRitual: {
+        for (DSASpell *ritual in [selectedCharacter activeRitualsWithNames: self.rituals]) {
+          NSLog(@"DSAActionViewController popupActorSelected checking ritual: %@", ritual);
+          [self.popupActions addItemWithTitle:ritual.name];
+          NSMenuItem *item = (NSMenuItem *)[self.popupActions lastItem];
+          [item setRepresentedObject:ritual];
+        }      
+        break;
+      }      
+    } 
+}
+- (IBAction)popupActionSelected:(id)sender
+{
+
+}
+- (IBAction)popupTargetSelected:(id)sender
 {
 
 }

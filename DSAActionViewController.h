@@ -30,7 +30,8 @@
 
 typedef NS_ENUM(NSInteger, DSAActionViewMode) {
     DSAActionViewModeTalent,
-    DSAActionViewModeSpell
+    DSAActionViewModeSpell,
+    DSAActionViewModeRitual
 };
 
 @interface DSAActionViewController : NSWindowController
@@ -40,7 +41,7 @@ typedef NS_ENUM(NSInteger, DSAActionViewMode) {
 @property (nonatomic, strong) DSAAdventureGroup *activeGroup;
 @property (nonatomic, strong) NSArray <NSString *> *talents;                 // strings of talent names
 @property (nonatomic, strong) NSArray <NSString *> *spells;                  // strings of spell names
-@property (nonatomic, strong) NSArray <NSString *> *specials;                // strings of ritual names
+@property (nonatomic, strong) NSArray <NSString *> *rituals;                // strings of ritual names
 
 @property (nonatomic, weak) IBOutlet NSTextField *fieldActionHeadline;
 @property (nonatomic, weak) IBOutlet NSTextField *fieldActionQuestionWho;

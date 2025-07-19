@@ -5756,6 +5756,12 @@ Resources/TH_Herberge_Suite_2-32x32.webp \
 Resources/TH_Herberge_Suite_2-512x512.webp \
 Resources/TH_Herberge_Suite_2-64x64.webp \
 Resources/TH_Herberge_Suite_2.webp \
+Resources/use_ritual-128x128.webp \
+Resources/use_ritual-256x256.webp \
+Resources/use_ritual-32x32.webp \
+Resources/use_ritual-512x512.webp \
+Resources/use_ritual-64x64.webp \
+Resources/use_ritual.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \

@@ -267,21 +267,6 @@
     }
   return self;
 }
-
-- (instancetype)initWithCoder:(NSCoder *)coder {
-    self = [super initWithCoder: coder];
-    if (self)
-      {
-        self.test = [coder decodeObjectForKey:@"test"];
-      }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder
-{
-  [super encodeWithCoder: coder];
-  [coder encodeObject:self.test forKey:@"test"];  
-}
 @end
 // End of DSAOtherTalent
 

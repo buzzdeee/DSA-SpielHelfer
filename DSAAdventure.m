@@ -53,8 +53,34 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultSpellsByCon
 static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByContext(void)
 {
     return @{
-          DSAActionContextResting: @[ @"Stabzauber", @"Schwertzauber", @"Kugelzauber", @"Schalenzauber", @"Meditation" ],
-          DSAActionContextPrivateRoom: @[ @"Stabzauber", @"Schwertzauber", @"Kugelzauber", @"Schalenzauber", @"Meditation" ]
+          DSAActionContextResting: @[ @"1. Stabzauber", 
+                                      @"2. Stabzauber",
+                                      @"3. Stabzauber",
+                                      @"4. Stabzauber",
+                                      @"5. Stabzauber",
+                                      @"6. Stabzauber",
+                                      @"7. Stabzauber",
+                                      @"1. Kugelzauber",
+                                      @"2. Kugelzauber",
+                                      @"3. Kugelzauber",
+                                      @"4. Kugelzauber",
+                                      @"5. Kugelzauber",
+                                      @"Schwertzauber",
+                                      @"Schalenzauber" ],
+          DSAActionContextPrivateRoom: @[ @"1. Stabzauber", 
+                                          @"2. Stabzauber",
+                                          @"3. Stabzauber",
+                                          @"4. Stabzauber",
+                                          @"5. Stabzauber",
+                                          @"6. Stabzauber",
+                                          @"7. Stabzauber",
+                                          @"1. Kugelzauber",
+                                          @"2. Kugelzauber",
+                                          @"3. Kugelzauber",
+                                          @"4. Kugelzauber",
+                                          @"5. Kugelzauber",
+                                          @"Schwertzauber",
+                                          @"Schalenzauber" ]
     };
 }
 

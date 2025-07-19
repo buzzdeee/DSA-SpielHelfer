@@ -227,9 +227,11 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 + (instancetype)characterWithType:(NSString *)type {
     Class subclass = [typeToClassMap objectForKey:type];
     if (subclass) {
+        NSLog(@"DSACharacter characterWithType: %@", type);
         return [[subclass alloc] init];
     }
     // Handle unknown type
+    NSLog(@"DSACharacter characterWithType: UNKNOWN");
     return nil;
 }
 
@@ -351,7 +353,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       [self.statesDict setObject: @(DSASeverityLevelNone) forKey: @(DSACharacterStateDead)];
       [self.statesDict setObject: @(DSASeverityLevelNone) forKey: @(DSACharacterStateUnconscious)];
     }
-  [self didChangeValueForKey:@"statesDict"];  
+  NSLog(@"DSACharacter setCurrentLifePoints before didChangeValueForKey");
+  [self didChangeValueForKey:@"statesDict"];
+  NSLog(@"DSACharacter setCurrentLifePoints after didChangeValueForKey");
   return;
 }
 
@@ -1224,7 +1228,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 // end of character regeneration related methods
 
 // talent usage related methods
-- (BOOL) canUseTalent
+- (BOOL) canUseTalents
 {
   NSLog(@"DSACharacter canUseTalent called, TO BE ENHANCED!!!");
   if ([self isDeadOrUnconscious])
@@ -1232,6 +1236,64 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       return NO;
     }  
   return YES;
+}
+
+- (BOOL) canUseTalentWithName: (NSString *) name
+{
+  NSLog(@"DSACharacter canUseTalentWithName called, TO BE ENHANCED!!!");
+  if ([self isDeadOrUnconscious])
+    {
+      return NO;
+    } 
+     
+  if (self.talents && self.talents[name])
+    {
+      return YES;
+    }
+  else
+    {
+      return NO;
+    }
+}
+
+- (NSArray <DSATalent *>*) activeTalentsWithNames: (NSArray <NSString *>*) names
+{
+   NSMutableArray *talents = [[NSMutableArray alloc] init];
+   for (NSString *name in names)
+     {
+       if (self.talents[name] && [self canUseTalentWithName: name])
+         {
+           [talents addObject: self.talents[name]];
+         }
+     }
+   return talents;
+}
+- (NSArray <DSASpell *>*) activeSpellsWithNames: (NSArray <NSString *>*) names
+{
+   NSMutableArray *spells = [[NSMutableArray alloc] init];
+   for (NSString *name in names)
+     {
+       if (self.spells[name] && [self canCastSpellWithName: name])
+         {
+           [spells addObject: self.spells[name]];
+         }
+     }
+   return spells;
+}
+- (NSArray <DSASpell *>*) activeRitualsWithNames: (NSArray <NSString *>*) names
+{
+   NSLog(@"DSACharacter activeRitualsWithNames %@ called", names);
+   NSMutableArray *rituals = [[NSMutableArray alloc] init];
+   NSLog(@"DSACharacter activeRitualsWithNames checking specials: %@", self.specials);
+   for (NSString *name in names)
+     {
+       NSLog(@"DSACharacter activeRitualsWithNames testing ritual: %@", name);
+       if (self.specials[name] && [self canCastRitualWithName: name])
+         {
+           [rituals addObject: self.specials[name]];
+         }
+     }
+   return rituals;
 }
 
 - (DSATalentResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty
@@ -1367,13 +1429,22 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     {
       return NO;
     } 
-     
-  if (self.spells)
+  NSLog(@"DSACharacter canCastSpellWithName %@ is alive", self.name);   
+  if (self.spells && self.spells[name])
     {
-      return YES;
+      NSLog(@"DSACharacter canCastSpellWithName: %@ has spell with name: %@", self.name, name); 
+      if (self.spells[name].level >= -5)
+        {
+          return YES;
+        }
+      else
+        {
+          return NO;
+        }
     }
   else
     {
+      NSLog(@"DSACharacter canCastSpellWithName: %@ NO", name);
       return NO;
     }
 }
@@ -1426,8 +1497,8 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     {
       return NO;
     }
-    
-  if (self.specials)
+  NSLog(@"DSACharacter canCastRitualWithName: %@ is not dead or unconscious", name);  
+  if (self.specials && self.specials[name])
     {
       NSLog(@"DSACharacter canCastRitualWithName: self.specials: %@", self.specials);
       DSASpell *ritual = [self.specials objectForKey: name];
@@ -2703,6 +2774,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.maxLevelUpSpellsTriesTmp = 0;       // this value is set in the DSACharacterWindowController, as there are characters out there, that might have variable tries
       self.maxLevelUpVariableTries = 0;        // thats the value the DSACharacterWindowController checks if there ar variable tries
     }
+  NSLog(@"DSACharacterHero init before returning self");
   return self;
 }
 
@@ -2965,7 +3037,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
 }
 
-- (BOOL) LevelUpSpell: (DSASpell *)spell
+- (BOOL) levelUpSpell: (DSASpell *)spell
 {
   NSLog(@"NSLog DSACharacterHero lLevelUpSpell should be overridden by subclass!");
   return NO;
@@ -3379,6 +3451,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.currentKarmaPoints = 0;
       self.mrBonus = self.currentMrBonus = 0;
     }
+  NSLog(@"DSACharacterHeroHuman before returning self");
   return self;
 }
 
@@ -3787,6 +3860,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.mrBonus = self.currentMrBonus = 3;
       self.isMagic = YES;      
     }
+  NSLog(@"DSACharacterHeroHumanMage before returning self");
   return self;
 }
 
@@ -3943,9 +4017,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 {
   if (self.level < 5)
     {
-      return self.currentMrBonus - 1;
+      return [super currentMrBonus] - 1;
     }
-  return self.currentMrBonus;
+  return [super currentMrBonus];
 }
 @end
 // End of DSACharacterHeroHumanSeafarer
@@ -4197,9 +4271,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 {
   if (self.level < 5)
     {
-      return self.currentMrBonus - 1;
+      return [super currentMrBonus] - 1;
     }
-  return self.currentMrBonus;
+  return [super currentMrBonus];
 }
 @end
 // End of DSACharacterHeroHumanThorwaler

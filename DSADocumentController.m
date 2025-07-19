@@ -389,7 +389,7 @@ static NSObject *syncObject = nil; // A synchronization object
                 {
                    DSACharacterWindowController *windowController = [(NSWindow *)firstResponder windowController];
                    DSACharacterDocument *document = (DSACharacterDocument *) windowController.document;
-                   return [(DSACharacterHero *)document.model canUseTalent];                 
+                   return [(DSACharacterHero *)document.model canUseTalents];                 
                 }
             }
           return NO;        

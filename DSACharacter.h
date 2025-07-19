@@ -237,7 +237,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL) canCastRituals;
 - (BOOL) canCastRitualWithName: (NSString *) name;
 // to decide, if currently a talent can be used
-- (BOOL) canUseTalent;
+- (BOOL) canUseTalents;
+- (BOOL) canUseTalentWithName: (NSString *) name;
 // to decide, if the character can regenerate AE or LP
 - (BOOL) canRegenerate;
 
@@ -256,6 +257,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (DSACharacterEffect *) appliedCharacterEffectWithKey: (NSString *) key;
 - (void)removeExpiredEffectsAtDate:(DSAAventurianDate *)currentDate;
 - (void)removeCharacterEffectForKey: (NSString *)key;
+
+
+- (NSArray <DSATalent *>*) activeTalentsWithNames: (NSArray <NSString *>*) names;
+- (NSArray <DSASpell *>*) activeSpellsWithNames: (NSArray <NSString *>*) names;
+- (NSArray <DSASpell *>*) activeRitualsWithNames: (NSArray <NSString *>*) names;
                      
 - (DSATalentResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty;
 - (DSASpellResult *) castSpell: (NSString *) spellName

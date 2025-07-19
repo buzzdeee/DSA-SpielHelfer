@@ -81,6 +81,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                     _(@"sleep"): [DSAActionIconSleep class],
                     _(@"useTalent"): [DSAActionIconTalent class],
                     _(@"useMagic"): [DSAActionIconMagic class],
+                    _(@"useRitual"): [DSAActionIconRitual class],
                     _(@"orderMeal"): [DSAActionIconMeal class],
                     _(@"map"): [DSAActionIconMap class],                             
                 };
@@ -1777,6 +1778,95 @@ inventoryIdentifier: (NSString *)sourceInventory
         [self updateAppearance];
     }
     return self;
+}
+- (void)handleEvent {
+    NSLog(@"DSAActionIconMagic handleEvent called");
+
+    // Step 1: Zugriff auf das Model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"Invalid window controller class");
+        return;
+    }
+            
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    
+    DSAActionContext currentContext = currentPosition.context;
+    NSArray *availableSpells = adventure.availableSpellsByContext[currentContext];
+    
+    DSAActionViewController *selector =
+        [[DSAActionViewController alloc] initWithWindowNibName:@"DSAActionView"];
+    selector.viewMode = DSAActionViewModeSpell;
+    selector.activeGroup = activeGroup;
+    selector.spells = availableSpells;
+    [selector window];  // .gorm laden
+
+    __weak typeof(selector) weakSelector = selector;
+    selector.completionHandler = ^(BOOL result) {
+        typeof(selector) strongSelf = weakSelector;
+        if (!strongSelf || !result) {
+            return;
+        }
+
+        NSLog(@"DSAActionIconMagic sheet completion handler called.... ");
+
+      
+    };
+    [windowController.window beginSheet:selector.window completionHandler:nil];     
+}
+@end
+@implementation DSAActionIconRitual
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"use_ritual-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Ritual anwenden");
+        [self updateAppearance];
+    }
+    return self;
+}
+- (void)handleEvent {
+    NSLog(@"DSAActionIconRitual handleEvent called");
+
+    // Step 1: Zugriff auf das Model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"Invalid window controller class");
+        return;
+    }
+            
+    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
+    DSAAdventure *adventure = document.model;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    
+    DSAActionContext currentContext = currentPosition.context;
+    NSArray *availableRituals = adventure.availableRitualsByContext[currentContext];
+    NSLog(@"DSAActionIconRitual handleEvent, availableRituals: %@", availableRituals);
+    DSAActionViewController *selector =
+        [[DSAActionViewController alloc] initWithWindowNibName:@"DSAActionView"];
+    selector.viewMode = DSAActionViewModeRitual;
+    selector.activeGroup = activeGroup;
+    selector.rituals = availableRituals;
+    [selector window];  // .gorm laden
+
+    __weak typeof(selector) weakSelector = selector;
+    selector.completionHandler = ^(BOOL result) {
+        typeof(selector) strongSelf = weakSelector;
+        if (!strongSelf || !result) {
+            return;
+        }
+
+        NSLog(@"DSAActionIconRitual sheet completion handler called.... ");
+
+      
+    };
+    [windowController.window beginSheet:selector.window completionHandler:nil];     
 }
 @end
 @implementation DSAActionIconMeal

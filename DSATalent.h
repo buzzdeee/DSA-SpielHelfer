@@ -82,7 +82,6 @@
 // End of DSAProfession
 
 @interface DSASpecialTalent : DSATalent
-@property (nonatomic, strong) NSArray *test;
 - (instancetype)initTalent: (NSString *) name
                 ofCategory: (NSString *) category 
                    onLevel: (NSInteger) level

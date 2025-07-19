@@ -237,17 +237,34 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
           if ([tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerberge] ||
               [tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne])
             {
-              if ([self.imageActionIcon1 isKindOfClass: [DSAActionIconRoom class]])
+              if (currentPosition.context == DSAActionContextReception)
                 {
-                  [self.imageActionIcon1 updateAppearance];
+                  if ([self.imageActionIcon1 isKindOfClass: [DSAActionIconRoom class]])
+                    {
+                      [self.imageActionIcon1 updateAppearance];
+                    }
+                  else
+                    {             
+                      DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"rentRoom" andSize:@"128x128"];
+                      [self replaceView:self.imageActionIcon1 withView:newIcon];
+                      self.imageActionIcon1 = newIcon;
+                      [self.imageActionIcon1 updateAppearance];          
+                    }
                 }
-              else
-                {             
-                  DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"rentRoom" andSize:@"128x128"];
-                  [self replaceView:self.imageActionIcon1 withView:newIcon];
-                  self.imageActionIcon1 = newIcon;
-                  [self.imageActionIcon1 updateAppearance];          
-                }            
+              else if (currentPosition.context == DSAActionContextPrivateRoom)
+                {
+                  if ([self.imageActionIcon1 isKindOfClass: [DSAActionIconSleep class]])
+                    {
+                      [self.imageActionIcon1 updateAppearance];
+                    }
+                  else
+                    {             
+                      DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"sleep" andSize:@"128x128"];
+                      [self replaceView:self.imageActionIcon1 withView:newIcon];
+                      self.imageActionIcon1 = newIcon;
+                      [self.imageActionIcon1 updateAppearance];          
+                    }                 
+                }
             }
           else
             {
@@ -269,13 +286,13 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
               [tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne]) &&
               [currentPosition.context isEqualToString: DSAActionContextPrivateRoom])
             {
-              if ([self.imageActionIcon3 isKindOfClass: [DSAActionIconSleep class]])
+              if ([self.imageActionIcon3 isKindOfClass: [DSAActionIconRitual class]])
                 {
                   [self.imageActionIcon3 updateAppearance];
                 }
               else
                 {             
-                  DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"sleep" andSize:@"128x128"];
+                  DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"useRitual" andSize:@"128x128"];
                   [self replaceView:self.imageActionIcon3 withView:newIcon];
                   self.imageActionIcon3 = newIcon;
                   [self.imageActionIcon3 updateAppearance];          

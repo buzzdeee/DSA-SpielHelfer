@@ -61,18 +61,20 @@
     {
       self.character.archetype = archetype;  // NPCs don't have that encoded in their init method
     }
+  NSLog(@"DSACharacterGenerator generateCharacterWithParameters AFTER SETTING ARCHETYPE");  
   self.character.level = [self resolveLevelFromParameters: parameters];
   self.character.lifePoints = [self resolveLifePointsFromParameters: parameters];
   self.character.currentLifePoints = self.character.lifePoints;
+  NSLog(@"DSACharacterGenerator generateCharacterWithParameters AFTER SETTING currentLifePoints");
   self.character.astralEnergy = [self resolveAstralEnergyFromParameters: parameters];
   self.character.currentAstralEnergy = self.character.astralEnergy;  
   self.character.karmaPoints = [self resolveKarmaPointsFromParameters: parameters];
   self.character.currentKarmaPoints = self.character.karmaPoints;
   self.character.mrBonus = [self resolveMagicResistanceFromParameters: parameters];
-  
+  NSLog(@"DSACharacterGenerator generateCharacterWithParameters AFTER SETTING MRBONUS");
   self.character.sex = [self resolveSexFromParameters: parameters];
   self.character.title = [self resolveTitleFromParameters: parameters];
-  NSLog(@"DSACharacterGenerator generateCharacterWithParameters self.character: %@", self.character);
+  NSLog(@"DSACharacterGenerator generateCharacterWithParameters AFTER SETTING TITLE");
   self.character.origin = [self resolveOriginFromParameters: parameters];
   NSLog(@"DSACharacterGenerator generateCharacterWithParameters: origin: %@", self.character.origin);
   self.character.professions = [self resolveProfessionFromParameters: parameters]; 
@@ -127,7 +129,8 @@
 
   self.character.talents = [self resolveTalentsFromParameters: parameters];
   self.character.spells = [self resolveSpellsFromParameters: parameters];
-
+  [self applySpecialsToCharacter];
+  
   [Utils applySpellmodificatorsToCharacter: self.character];  
 
   if ([self.character isKindOfClass: [DSACharacterHero class]])
@@ -2844,57 +2847,6 @@
   //NSLog(@"THE NEW TALENTS: newTalents %@", newTalents);
   return newTalents;
 }
-/*
-- (void) addTalentsToCharacter: (DSACharacterNpc *) character
-{
-    // handle talents
-  NSDictionary *talents = [[NSDictionary alloc] init];
-  talents = [Utils getTalentsForCharacter: character];
-  NSMutableDictionary *newTalents = [[NSMutableDictionary alloc] init];
-  for (NSString *category in talents)
-    {
-      if ([category isEqualTo: @"Kampftechniken"])
-        {   
-          for (NSString *subCategory in [talents objectForKey: category])
-            {
-              for (NSString *t in [[talents objectForKey: category] objectForKey: subCategory])
-                {
-                   NSLog(@"dealing with talent in if clause for loop: %@", t);
-                   NSDictionary *tDict = [[[talents objectForKey: category] objectForKey: subCategory] objectForKey: t];
-                   DSAFightingTalent *talent = [[DSAFightingTalent alloc] initTalent: t
-                                                                       inSubCategory: subCategory
-                                                                          ofCategory: category
-                                                                             onLevel: [[tDict objectForKey: @"Startwert"] integerValue]
-                                                              withMaxTriesPerLevelUp: [[tDict objectForKey: @"Versuche"] integerValue]
-                                                                   withMaxUpPerLevel: [[tDict objectForKey: @"Steigern"] integerValue]
-                                                                     withLevelUpCost: 1];
-                  NSLog(@"DSACharacterGenerationController: initialized talent: %@", talent);                                                                     
-                  [newTalents setObject: talent forKey: t];
-                }
-            }
-        }
-      else
-        {
-          for (NSString *t in [talents objectForKey: category])
-            {
-              //NSLog(@"dealing with talent in else clause for loop: %@", t);
-              NSDictionary *tDict = [[talents objectForKey: category] objectForKey: t];                             
-              DSAOtherTalent *talent = [[DSAOtherTalent alloc] initTalent: t
-                                                               ofCategory: category
-                                                                  onLevel: [[tDict objectForKey: @"Startwert"] integerValue]
-                                                                 withTest: [tDict objectForKey: @"Probe"]
-                                                   withMaxTriesPerLevelUp: [[tDict objectForKey: @"Versuche"] integerValue]
-                                                        withMaxUpPerLevel: [[tDict objectForKey: @"Steigern"] integerValue]
-                                                          withLevelUpCost: 1];
-              //NSLog(@"DSACharacterGenerationController: initialized talent: %@", talent);
-              [newTalents setObject: talent forKey: t];
-            }
-        }        
-    }
-  //NSLog(@"THE NEW TALENTS: newTalents %@", newTalents);
-  character.talents = newTalents;
-}
-*/
 
 - (NSMutableDictionary *) resolveSpellsFromParameters:(NSDictionary *)parameters {
   NSMutableDictionary *spellsDict = parameters[@"spells"];
