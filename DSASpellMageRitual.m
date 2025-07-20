@@ -136,6 +136,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   if (self)
     {
       self.penalty = penalty;
+      self.targetType = DSAActionTargetTypeNone;      // the default anyways, ...
       self.aspCost = aspCost;
       self.permanentASPCost = permanentASPCost;
       self.lpCost = lpCost;

@@ -40,6 +40,8 @@
 @property (nonatomic, strong) NSMutableArray<NSUUID *> *partyMembers;
 @property (nonatomic, strong) NSMutableArray<NSUUID *> *npcMembers;
 @property (nonatomic, readonly) NSArray<NSUUID *> *allMembers;
+@property (nonatomic, readonly) NSArray<DSACharacter *> *partyCharacters;
+@property (nonatomic, readonly) NSArray<DSACharacter *> *npcCharacters;
 @property (nonatomic, readonly) NSArray<DSACharacter *> *allCharacters;
 @property (nonatomic, readonly) NSInteger membersCount;                 // count of all members in the group
 @property (nonatomic, strong) DSAPosition *position;
@@ -61,6 +63,12 @@
 - (NSArray<DSACharacter *> *)charactersWithoutUniqueMiracle:(NSString *)miracleKey;  // returns all Characters that don't yet have received a given permanent miracle
 - (BOOL)hasMageInGroup;                                        // returns YES if a mage is in the group
 - (NSInteger) charactersWithBookedRoomOfKey: (NSString *) roomKey;   // Number of characters that have a room booked
+- (NSArray<DSACharacter *> *)illCharactersIncludingNPCs: (BOOL) includeNPCs;
+- (NSArray<DSACharacter *> *)woundedCharactersIncludingNPCs: (BOOL) includeNPCs;
+- (NSArray<DSACharacter *> *)poisonedCharactersIncludingNPCs: (BOOL) includeNPCs;
+- (NSArray<DSACharacter *> *)charactersAbleToUseTalentsIncludingNPCs: (BOOL) includeNPCs;
+- (NSArray<DSACharacter *> *)charactersAbleToCastSpellsIncludingNPCs: (BOOL) includeNPCs;
+- (NSArray<DSACharacter *> *)charactersAbleToCastRitualsIncludingNPCs: (BOOL) includeNPCs;
 
 - (void)applyMiracle:(DSAMiracleResult *)miracleResult;        // to all, or an individual of the group
 

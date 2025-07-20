@@ -23,6 +23,7 @@
 */
 
 #import "Utils.h"
+#import "DSASpell.h"
 #import "DSASlot.h"
 #import "NSMutableDictionary+Extras.h"
 

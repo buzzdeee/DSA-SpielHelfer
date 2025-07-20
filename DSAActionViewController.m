@@ -25,6 +25,7 @@
 #import "DSAActionViewController.h"
 #import "DSAAdventureGroup.h"
 #import "DSACharacter.h"
+#import "DSASpell.h"
 
 @implementation DSAActionViewController
 - (void)windowDidLoad {
@@ -47,7 +48,7 @@
     }
 }
 
-  - (void) initializeViewForTalents
+- (void) initializeViewForTalents
 {
   self.window.title = @"Talent anwenden";
   self.fieldActionHeadline.stringValue = @"Ein Talent anwenden";
@@ -55,9 +56,9 @@
   self.fieldActionQuestionWhat.stringValue = @"Talent auswählen";
   self.fieldActionQuestionTarget.stringValue = @"Auf wen soll das Talent angewendet werden?";
   
-  NSArray *characters = [self.activeGroup allCharacters];
+  NSArray *actors = [self.activeGroup charactersAbleToUseTalentsIncludingNPCs: YES];
   [self.popupActors removeAllItems];
-  for (DSACharacter *character in characters) {
+  for (DSACharacter *character in actors) {
     [self.popupActors addItemWithTitle:character.name];
     NSMenuItem *item = (NSMenuItem *)[self.popupActors lastItem];
     [item setRepresentedObject:character];
@@ -72,13 +73,18 @@
     NSMenuItem *item = (NSMenuItem *)[self.popupActions lastItem];
     [item setRepresentedObject:talent];
   }
-     
-  [self.popupTargets removeAllItems];
-  for (DSACharacter *character in characters) {
-    [self.popupTargets addItemWithTitle:character.name];
-    NSMenuItem *item = (NSMenuItem *)[self.popupTargets lastItem];
-    [item setRepresentedObject:character];
-  } 
+  
+  DSATalent *selectedTalent = (DSATalent *)[[self.popupActions selectedItem] representedObject];
+  switch (selectedTalent.targetType)
+    {
+      case DSAActionTargetTypeNone: {
+        [self disableTargets];
+        break;
+      }
+      default: {
+        [self enableTargetsForType: selectedTalent.targetType];
+      }
+    }
   self.buttonCancel.title = @"Abbrechen";
   self.buttonDoIt.title = @"Anwenden";
 }
@@ -91,9 +97,9 @@
   self.fieldActionQuestionWhat.stringValue = @"Zauberspruch auswählen";
   self.fieldActionQuestionTarget.stringValue = @"Auf wen soll der Spruch angewendet werden?";
   
-  NSArray *characters = [self.activeGroup allCharacters];
+  NSArray *actors = [self.activeGroup charactersAbleToCastSpellsIncludingNPCs: YES];
   [self.popupActors removeAllItems];
-  for (DSACharacter *character in characters) {
+  for (DSACharacter *character in actors) {
     [self.popupActors addItemWithTitle:character.name];
     NSMenuItem *item = (NSMenuItem *)[self.popupActors lastItem];
     [item setRepresentedObject:character];
@@ -107,13 +113,19 @@
     NSMenuItem *item = (NSMenuItem *)[self.popupActions lastItem];
     [item setRepresentedObject:spell];
   }
-     
-  [self.popupTargets removeAllItems];
-  for (DSACharacter *character in characters) {
-    [self.popupTargets addItemWithTitle:character.name];
-    NSMenuItem *item = (NSMenuItem *)[self.popupTargets lastItem];
-    [item setRepresentedObject:character];
-  } 
+  
+  DSASpell *selectedSpell = (DSASpell *)[[self.popupActions selectedItem] representedObject];
+  switch (selectedSpell.targetType)
+    {
+      case DSAActionTargetTypeNone: {
+        [self disableTargets];
+        break;
+      }
+      default: {
+        [self enableTargetsForType: selectedSpell.targetType];
+      }
+    }
+
   self.buttonCancel.title = @"Abbrechen";
   self.buttonDoIt.title = @"Anwenden";
 }
@@ -126,9 +138,9 @@
   self.fieldActionQuestionWhat.stringValue = @"Ritual auswählen";
   self.fieldActionQuestionTarget.stringValue = @"Auf wen soll das Ritual angewendet werden?";
   
-  NSArray *characters = [self.activeGroup allCharacters];
+  NSArray *actors = [self.activeGroup charactersAbleToCastRitualsIncludingNPCs: YES];
   [self.popupActors removeAllItems];
-  for (DSACharacter *character in characters) {
+  for (DSACharacter *character in actors) {
     [self.popupActors addItemWithTitle:character.name];
     NSMenuItem *item = (NSMenuItem *)[self.popupActors lastItem];
     [item setRepresentedObject:character];
@@ -143,15 +155,34 @@
     NSMenuItem *item = (NSMenuItem *)[self.popupActions lastItem];
     [item setRepresentedObject:spell];
   }
-     
-  [self.popupTargets removeAllItems];
-  for (DSACharacter *character in characters) {
-    [self.popupTargets addItemWithTitle:character.name];
-    NSMenuItem *item = (NSMenuItem *)[self.popupTargets lastItem];
-    [item setRepresentedObject:character];
-  } 
+
+  DSASpell *selectedSpell = (DSASpell *)[[self.popupActions selectedItem] representedObject];
+  switch (selectedSpell.targetType)
+    {
+      case DSAActionTargetTypeNone: {
+        [self disableTargets];
+        break;
+      }
+      default: {
+        [self enableTargetsForType: selectedSpell.targetType];
+      }
+    }  
   self.buttonCancel.title = @"Abbrechen";
   self.buttonDoIt.title = @"Anwenden";
+}
+
+
+- (void) disableTargets
+{
+  [self.fieldActionQuestionTarget setHidden: YES];
+  [self.popupTargets removeAllItems];
+  [self.popupTargets setEnabled: NO];
+  [self.popupTargets setHidden: YES];
+}
+
+- (void) enableTargetsForType: (DSAActionTargetType) targetType
+{
+  NSLog(@"DSAActionIconViewController enableTargetsForType NOT IMPLEMENTED YET");
 }
 
 - (IBAction)popupActorSelected:(id)sender

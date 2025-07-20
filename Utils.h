@@ -28,24 +28,7 @@
 #import <AppKit/AppKit.h>
 #import "DSASlot.h"
 #import "DSACharacter.h"
-
-typedef NS_ENUM(NSInteger, LogSeverity) {
-    LogSeverityInfo,
-    LogSeverityHappy,
-    LogSeverityWarning,
-    LogSeverityCritical
-};
-
-typedef NS_ENUM(NSUInteger, DSASeverityLevel) {
-    DSASeverityLevelNone = 0,
-    DSASeverityLevelMild,
-    DSASeverityLevelModerate,
-    DSASeverityLevelSevere
-};
-
-NSArray<NSString *> *DSAShopGeneralStoreCategories(void);
-NSArray<NSString *> *DSAShopWeaponStoreCategories(void);
-
+#import "DSADefinitions.h"
 
 @interface Utils : NSObject
 

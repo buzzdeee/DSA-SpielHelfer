@@ -26,7 +26,7 @@
 #import "DSASpell.h"
 #import "DSASpellResult.h"
 #import "DSATrait.h"
-#import "Utils.h"
+#import "DSADefinitions.h"
 
 @implementation DSASpell
 
@@ -107,6 +107,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.name = name;
       self.category = category;
       self.level = level;
+      self.targetType = DSAActionTargetTypeNone;
       self.origin = origin;
       self.test = test;
       self.variants = variants;
@@ -140,6 +141,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       self.name = [coder decodeObjectForKey:@"name"];
       self.level = [coder decodeIntegerForKey:@"level"];
+      self.targetType = [coder decodeIntegerForKey:@"targetType"];
       self.origin = [coder decodeObjectForKey:@"origin"];
       self.longName = [coder decodeObjectForKey:@"longName"];
       self.category = [coder decodeObjectForKey:@"category"];
@@ -178,6 +180,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 {
   [coder encodeObject:self.name forKey:@"name"];
   [coder encodeInteger:self.level forKey:@"level"];
+  [coder encodeInteger:self.targetType forKey:@"targetType"];
   [coder encodeObject:self.origin forKey:@"origin"];
   [coder encodeObject:self.longName forKey:@"longName"];
   [coder encodeObject:self.category forKey:@"category"];
@@ -598,6 +601,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.name = name;
       self.category = category;
       self.level = level;
+      self.targetType = DSAActionTargetTypeHuman;
       self.origin = origin;
       self.test = test;
       self.variants = variants;

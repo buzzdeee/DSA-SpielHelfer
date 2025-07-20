@@ -5902,7 +5902,8 @@ DSADialog.h \
 DSADialogManager.h \
 DSAConversationDialogSheetController.h \
 DSAIllness.h \
-DSAActionViewController.h
+DSAActionViewController.h \
+DSADefinitions.h
 
 #
 # Objective-C Class files

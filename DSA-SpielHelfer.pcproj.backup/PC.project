@@ -207,7 +207,8 @@
 	"DSADialogManager.h",
 	"DSAConversationDialogSheetController.h",
 	"DSAIllness.h",
-	"DSAActionViewController.h"
+	"DSAActionViewController.h",
+	"DSADefinitions.h"
     );
     IMAGES = (
 	"Aventurien.jpg",

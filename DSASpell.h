@@ -26,12 +26,14 @@
 #define _DSASPELL_H_
 
 #import <Foundation/Foundation.h>
+#import "Utils.h"
 @class DSACharacter;
 @class DSASpellResult;
 
 @interface DSASpell : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, assign) NSInteger level;
+@property (nonatomic, assign) DSAActionTargetType targetType;           // the target type of a spell
 @property (nonatomic, strong) NSArray *origin;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *longName;

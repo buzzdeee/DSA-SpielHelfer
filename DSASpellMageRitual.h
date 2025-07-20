@@ -29,8 +29,6 @@
 
 @interface DSASpellMageRitual : DSASpell
 
-
-
 + (instancetype)ritualWithName: (NSString *) name
                      ofVariant: (NSString *) variant
              ofDurationVariant: (NSString *) durationVariant

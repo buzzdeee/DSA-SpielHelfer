@@ -4009,9 +4009,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 {
   if (self.level < 5)
     {
-      return self.mrBonus - 1;
+      return [super mrBonus] - 1;
     }
-  return self.mrBonus;
+  return [super mrBonus];
 }
 - (NSInteger) currentMrBonus
 {
@@ -4263,9 +4263,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 {
   if (self.level < 5)
     {
-      return self.mrBonus - 1;
+      return [super mrBonus] - 1;
     }
-  return self.mrBonus;
+  return [super mrBonus];
 }
 - (NSInteger) currentMrBonus
 {

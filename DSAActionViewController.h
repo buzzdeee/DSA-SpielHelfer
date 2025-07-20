@@ -26,13 +26,8 @@
 #define _DSAACTIONVIEWCONTROLLER_H_
 
 #import <AppKit/AppKit.h>
+#import "DSADefinitions.h"
 @class DSAAdventureGroup;
-
-typedef NS_ENUM(NSInteger, DSAActionViewMode) {
-    DSAActionViewModeTalent,
-    DSAActionViewModeSpell,
-    DSAActionViewModeRitual
-};
 
 @interface DSAActionViewController : NSWindowController
 

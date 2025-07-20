@@ -67,6 +67,28 @@
   return allMembers;
 }
 
+- (NSArray<DSACharacter *> *) partyCharacters
+{
+    NSMutableArray<DSACharacter *> *characters = [NSMutableArray array];
+
+    for (NSUUID *modelID in [self partyMembers]) {
+        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
+        [characters addObject: character];
+    }
+    return characters;
+}
+
+- (NSArray<DSACharacter *> *) npcCharacters
+{
+    NSMutableArray<DSACharacter *> *characters = [NSMutableArray array];
+
+    for (NSUUID *modelID in [self npcMembers]) {
+        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
+        [characters addObject: character];
+    }
+    return characters;
+}
+
 - (NSArray<DSACharacter *> *) allCharacters
 {
     NSMutableArray<DSACharacter *> *characters = [NSMutableArray array];
@@ -343,6 +365,67 @@
         }
     }
   return count;
+}
+
+- (NSArray<DSACharacter *> *)illCharactersIncludingNPCs:(BOOL)includeNPCs
+{
+    return [self charactersWithState:DSACharacterStateSick includeNPCs:includeNPCs];
+}
+
+- (NSArray<DSACharacter *> *)woundedCharactersIncludingNPCs: (BOOL) includeNPCs
+{
+  return [self charactersWithState:DSACharacterStateWounded includeNPCs:includeNPCs];
+}
+- (NSArray<DSACharacter *> *)poisonedCharactersIncludingNPCs: (BOOL) includeNPCs
+{
+  return [self charactersWithState:DSACharacterStatePoisoned includeNPCs:includeNPCs];
+}
+- (NSArray<DSACharacter *> *)charactersWithState:(DSACharacterState)state includeNPCs:(BOOL)includeNPCs
+{
+    NSArray<DSACharacter *> *characters = includeNPCs ? self.allCharacters : self.partyCharacters;
+    NSMutableArray<DSACharacter *> *filtered = [NSMutableArray array];
+
+    for (DSACharacter *character in characters) {
+        NSNumber *level = character.statesDict[@(state)];
+        if (level && level.unsignedIntegerValue > DSASeverityLevelNone) {
+            [filtered addObject:character];
+        }
+    }
+
+    return [filtered copy];
+}
+
+- (NSArray<DSACharacter *> *)charactersAbleToUseTalentsIncludingNPCs:(BOOL)includeNPCs
+{
+    return [self charactersWithNonEmptyDictionaryForKey:@"talents" includeNPCs:includeNPCs];
+}
+
+- (NSArray<DSACharacter *> *)charactersAbleToCastSpellsIncludingNPCs:(BOOL)includeNPCs
+{
+    return [self charactersWithNonEmptyDictionaryForKey:@"spells" includeNPCs:includeNPCs];
+}
+
+- (NSArray<DSACharacter *> *)charactersAbleToCastRitualsIncludingNPCs:(BOOL)includeNPCs
+{
+    return [self charactersWithNonEmptyDictionaryForKey:@"specials" includeNPCs:includeNPCs];
+}
+- (NSArray<DSACharacter *> *)charactersWithNonEmptyDictionaryForKey:(NSString *)key includeNPCs:(BOOL)includeNPCs
+{
+    NSArray<DSACharacter *> *characters = includeNPCs ? self.allCharacters : self.partyCharacters;
+    NSMutableArray<DSACharacter *> *filtered = [NSMutableArray array];
+
+    for (DSACharacter *character in characters) {
+        if ([character isDeadOrUnconscious])
+          {
+            continue;
+          }
+        NSDictionary *dict = [character valueForKey:key];
+        if ([dict isKindOfClass:[NSDictionary class]] && dict.count > 0) {
+            [filtered addObject:character];
+        }
+    }
+
+    return [filtered copy];
 }
 
 - (void)applyMiracle:(DSAMiracleResult *)miracleResult {

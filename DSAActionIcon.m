@@ -1855,17 +1855,29 @@ inventoryIdentifier: (NSString *)sourceInventory
     selector.rituals = availableRituals;
     [selector window];  // .gorm laden
 
+    __block BOOL cancel = NO;
+    __block DSASpell *selectedSpell;
+    __block DSACharacter *selectedCharacter;
+    __block id selectedTarget;
+    
     __weak typeof(selector) weakSelector = selector;
     selector.completionHandler = ^(BOOL result) {
         typeof(selector) strongSelf = weakSelector;
         if (!strongSelf || !result) {
+            cancel = YES;
             return;
         }
-
+        selectedCharacter = (DSACharacter *)[[selector.popupActors selectedItem] representedObject];
+        selectedSpell = (DSASpell *)[[selector.popupActions selectedItem] representedObject];
+        selectedTarget = [[selector.popupTargets selectedItem] representedObject];
         NSLog(@"DSAActionIconRitual sheet completion handler called.... ");
-
-      
     };
+    
+    if (cancel)
+      {
+        return;
+      }
+    
     [windowController.window beginSheet:selector.window completionHandler:nil];     
 }
 @end

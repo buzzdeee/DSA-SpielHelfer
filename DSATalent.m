@@ -81,6 +81,7 @@
       {
         self.name = [coder decodeObjectForKey:@"name"];
         self.level = [coder decodeIntegerForKey:@"level"];
+        self.targetType = [coder decodeIntegerForKey:@"targetType"];
         self.maxTriesPerLevelUp = [coder decodeIntegerForKey:@"maxTriesPerLevelUp"];
         self.maxUpPerLevel = [coder decodeIntegerForKey:@"maxUpPerLevel"];
         self.levelUpCost = [coder decodeIntegerForKey:@"levelUpCost"];        
@@ -96,6 +97,7 @@
 {
   [coder encodeObject:self.name forKey:@"name"];
   [coder encodeInteger:self.level forKey:@"level"];
+  [coder encodeInteger:self.targetType forKey:@"targetType"];
   [coder encodeInteger:self.maxTriesPerLevelUp forKey:@"maxTriesPerLevelUp"];
   [coder encodeInteger:self.maxUpPerLevel forKey:@"maxUpPerLevel"];
   [coder encodeInteger:self.levelUpCost forKey:@"levelUpCost"];  

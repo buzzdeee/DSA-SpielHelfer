@@ -26,7 +26,7 @@
 #define _DSAOBJECT_H_
 
 #import <Foundation/Foundation.h>
-#import "DSASpell.h"
+@class DSASpell;
 
 typedef NS_ENUM(NSUInteger, DSAObjectState)
 {

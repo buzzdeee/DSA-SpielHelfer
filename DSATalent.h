@@ -26,11 +26,13 @@
 #define _DSATALENT_H_
 
 #import <Foundation/Foundation.h>
+#import "DSADefinitions.h"
 @class DSACharacter;
 
 @interface DSATalent : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, assign) NSInteger level;
+@property (nonatomic, assign) DSAActionTargetType targetType;           // the target type of a talent
 @property (nonatomic, assign) NSInteger maxUpPerLevel;
 @property (nonatomic, assign) NSInteger maxTriesPerLevelUp;
 @property (nonatomic, assign) NSInteger levelUpCost;
