@@ -70,7 +70,7 @@
       {
         NSLog(@"DSAShopBargainController buttonConfirmClicked, 0%%, no need to bargain");
         talentResult = [[DSATalentResult alloc] init];
-        talentResult.result = DSATalentResultEpicSuccess;
+        talentResult.result = DSAActionResultEpicSuccess;
       }
     else
       {
@@ -118,9 +118,9 @@
       @"Du bist ein besserer Feilscher als ich dachte.",
       @"Ein guter Handel – für uns beide!"
     ];  
-    if (talentResult.result == DSATalentResultSuccess ||
-        talentResult.result == DSATalentResultAutoSuccess ||
-        talentResult.result == DSATalentResultEpicSuccess)
+    if (talentResult.result == DSAActionResultSuccess ||
+        talentResult.result == DSAActionResultAutoSuccess ||
+        talentResult.result == DSAActionResultEpicSuccess)
       {
         [self.fieldBargainResult setStringValue: successfulBargainResponses[arc4random_uniform((uint32_t)successfulBargainResponses.count)]];
         result = YES;

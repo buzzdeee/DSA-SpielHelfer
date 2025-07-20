@@ -201,7 +201,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       {
         if ([spellName isEqualToString: self.name])
           {
-            spellResult.result = DSASpellResultNone;
+            spellResult.result = DSAActionResultNone;
             spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Magierstab aktiv."), self.name];
             return spellResult;
           }
@@ -209,16 +209,16 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
 
   spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
   NSLog(@"DSAMageRitualStabzauberEins castOnTarget got spellResult: %@", spellResult);
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       if ([variant isEqualToString: _(@"Standard")])  // when casted on a secondary staff, not the initial staff, on character creation
         {
@@ -270,7 +270,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }  
@@ -279,7 +279,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       {
         if ([spellName isEqualToString: self.name])
           {
-            spellResult.result = DSASpellResultNone;
+            spellResult.result = DSAActionResultNone;
             spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Magierstab aktiv."), self.name];
             return spellResult;
           }
@@ -287,23 +287,23 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
   
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
 
   spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -354,7 +354,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
@@ -363,23 +363,23 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       {
         if ([spellName isEqualToString: self.name])
           {
-            spellResult.result = DSASpellResultNone;
+            spellResult.result = DSAActionResultNone;
             spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Magierstab aktiv."), self.name];
             return spellResult;
           }
       }
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
   
   spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -427,7 +427,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
@@ -436,23 +436,23 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       {
         if ([spellName isEqualToString: self.name])
           {
-            spellResult.result = DSASpellResultNone;
+            spellResult.result = DSAActionResultNone;
             spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Magierstab aktiv."), self.name];
             return spellResult;
           }
       }
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
   
   spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -487,7 +487,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
@@ -496,23 +496,23 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       {
         if ([spellName isEqualToString: self.name])
           {
-            spellResult.result = DSASpellResultNone;
+            spellResult.result = DSAActionResultNone;
             spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Magierstab aktiv."), self.name];
             return spellResult;
           }
       }
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
     
   spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -565,7 +565,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
@@ -574,23 +574,23 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       {
         if ([spellName isEqualToString: self.name])
           {
-            spellResult.result = DSASpellResultNone;
+            spellResult.result = DSAActionResultNone;
             spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Magierstab aktiv."), self.name];
             return spellResult;
           }
       }
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
   
   spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -648,7 +648,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
@@ -657,23 +657,23 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       {
         if ([spellName isEqualToString: self.name])
           {
-            spellResult.result = DSASpellResultNone;
+            spellResult.result = DSAActionResultNone;
             spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Magierstab aktiv."), self.name];
             return spellResult;
           }
       }
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
   
   spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -721,7 +721,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
@@ -729,7 +729,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       if (![target.states containsObject: @(DSAObjectStateStabzauberFackel)])
         {
-          spellResult.result = DSASpellResultNone;
+          spellResult.result = DSAActionResultNone;
           spellResult.resultDescription = [NSString stringWithFormat: _(@"Ein anderer Zauber ist schon auf dem Magierstab aktiv.")];
           return spellResult;
         }
@@ -764,7 +764,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
@@ -772,7 +772,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       if (![target.states containsObject: @(DSAObjectStateStabzauberSeil)])
         {
-          spellResult.result = DSASpellResultNone;
+          spellResult.result = DSAActionResultNone;
           spellResult.resultDescription = [NSString stringWithFormat: _(@"Ein anderer Zauber ist schon auf dem Magierstab aktiv.")];
           return spellResult;
         }
@@ -822,7 +822,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
@@ -830,7 +830,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       if (![target.states containsObject: @(DSAObjectStateStabzauberTierverwandlung)])
         {
-          spellResult.result = DSASpellResultNone;
+          spellResult.result = DSAActionResultNone;
           spellResult.resultDescription = [NSString stringWithFormat: _(@"Ein anderer Zauber ist schon auf dem Magierstab aktiv.")];
           return spellResult;
         }
@@ -866,7 +866,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
@@ -895,23 +895,23 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierschwert" inModel: castingCharacter];
   if (![self verifyTarget: target andOrigin: originCharacter])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;      
     }
   
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
 
   spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;     
@@ -960,23 +960,23 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierschale" inModel: castingCharacter];
   if (![self verifyTarget: target andOrigin: originCharacter])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;      
     }
   
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
 
   spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -1018,7 +1018,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       {
         if ([spellName isEqualToString: self.name])
           {
-            spellResult.result = DSASpellResultNone;
+            spellResult.result = DSAActionResultNone;
             spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf der Kristallkugel aktiv."), self.name];
             return spellResult;
           }
@@ -1026,16 +1026,16 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
 
   spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
   NSLog(@"DSAMageRitualKugelzauberEins castOnTarget got spellResult: %@", spellResult);
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -1071,7 +1071,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
@@ -1080,7 +1080,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       {
         if ([spellName isEqualToString: self.name])
           {
-            spellResult.result = DSASpellResultNone;
+            spellResult.result = DSAActionResultNone;
             spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf der Kristallkugel aktiv."), self.name];
             return spellResult;
           }
@@ -1088,15 +1088,15 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
 
   spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -1144,7 +1144,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
@@ -1153,23 +1153,23 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       {
         if ([spellName isEqualToString: self.name])
           {
-            spellResult.result = DSASpellResultNone;
+            spellResult.result = DSAActionResultNone;
             spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf der Kristallkugel aktiv."), self.name];
             return spellResult;
           }
       }
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
     
   spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -1228,7 +1228,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
@@ -1237,23 +1237,23 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       {
         if ([spellName isEqualToString: self.name])
           {
-            spellResult.result = DSASpellResultNone;
+            spellResult.result = DSAActionResultNone;
             spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf der Kristallkugel aktiv."), self.name];
             return spellResult;
           }
       }
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
     
   spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -1301,7 +1301,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
@@ -1310,23 +1310,23 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       {
         if ([spellName isEqualToString: self.name])
           {
-            spellResult.result = DSASpellResultNone;
+            spellResult.result = DSAActionResultNone;
             spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Magierstab aktiv."), self.name];
             return spellResult;
           }
       }
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
   
   spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -1376,7 +1376,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   NSLog(@"FOUND TARGET: %@", target);
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
@@ -1384,7 +1384,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       if (![target.states containsObject: @(DSAObjectStateKugelzauberBrennglas)])
         {
-          spellResult.result = DSASpellResultNone;
+          spellResult.result = DSAActionResultNone;
           spellResult.resultDescription = [NSString stringWithFormat: _(@"Ein anderer Zauber ist schon auf der Kristallkugel aktiv.")];
           return spellResult;
         }
@@ -1419,7 +1419,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
@@ -1427,7 +1427,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       if (![target.states containsObject: @(DSAObjectStateKugelzauberSchutzfeld)])
         {
-          spellResult.result = DSASpellResultNone;
+          spellResult.result = DSAActionResultNone;
           spellResult.resultDescription = [NSString stringWithFormat: _(@"Ein anderer Zauber ist schon auf der Kristallkugel aktiv.")];
           return spellResult;
         }
@@ -1462,7 +1462,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
@@ -1470,7 +1470,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       if (![target.states containsObject: @(DSAObjectStateKugelzauberWarnung)])
         {
-          spellResult.result = DSASpellResultNone;
+          spellResult.result = DSAActionResultNone;
           spellResult.resultDescription = [NSString stringWithFormat: _(@"Ein anderer Zauber ist schon auf der Kristallkugel aktiv.")];
           return spellResult;
         }
@@ -1504,7 +1504,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }

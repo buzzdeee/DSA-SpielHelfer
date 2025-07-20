@@ -32,7 +32,7 @@
   self = [super init];
   if (self)
     {
-      _result = DSASpellResultNone;
+      _result = DSAActionResultNone;
       _diceResults = [[NSMutableArray alloc] init];
       _remainingSpellPoints = 0;
       _costAE = 0;
@@ -40,7 +40,7 @@
   return self;
 }
 
-+(NSString *) resultNameForResultValue: (DSASpellResultValue) value
++(NSString *) resultNameForResultValue: (DSAActionResultValue) value
 {
   NSArray *resultStrings = @[ _(@"Ohne Ergebnis"), _(@"Erfolg"), _(@"Automatischer Erfolg"),
                               _(@"Epischer Erfolg!"), _(@"Mißerfolg"), _(@"Automatischer Mißerfolg"),

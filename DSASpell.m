@@ -511,12 +511,12 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       if (oneCounter == 2)
         {
-          spellResult.result = DSASpellResultAutoSuccess;
+          spellResult.result = DSAActionResultAutoSuccess;
           spellResult.remainingSpellPoints = level;
         }
       else
         {
-          spellResult.result = DSASpellResultEpicSuccess;
+          spellResult.result = DSAActionResultEpicSuccess;
           spellResult.remainingSpellPoints = level;        
         }
     }
@@ -524,12 +524,12 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       if (twentyCounter == 2)
         {
-          spellResult.result = DSASpellResultAutoFailure;
+          spellResult.result = DSAActionResultAutoFailure;
           spellResult.remainingSpellPoints = level;        
         }
       else
         {
-          spellResult.result = DSASpellResultEpicFailure;
+          spellResult.result = DSAActionResultEpicFailure;
           spellResult.remainingSpellPoints = level;          
         }
     }
@@ -537,12 +537,12 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       if (earlyFailure == YES)
         {
-          spellResult.result = DSASpellResultFailure;
+          spellResult.result = DSAActionResultFailure;
           spellResult.remainingSpellPoints = level;
         }
       else
         {
-          spellResult.result = DSASpellResultSuccess;
+          spellResult.result = DSAActionResultSuccess;
           spellResult.remainingSpellPoints = level;
         }
     }
@@ -635,13 +635,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   if (![self verifyDistance: distance])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist zu weit entfernt."), [(DSAObject *)target name]];
       return spellResult;
     }
   if (![self verifyTarget: target andOrigin: originCharacter])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;      
     }
@@ -649,7 +649,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   NSInteger costAE = (originCharacter.level - castingCharacter.level) * 4 >= 8 ? : 8 ;
   if (castingCharacter.currentAstralEnergy < costAE)  // not enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
@@ -657,9 +657,9 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   NSInteger level = self.level - [(DSACharacter *)target mrBonus];
   spellResult = [self testTraitsWithSpellLevel: level castingCharacter: castingCharacter];
 
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= costAE;
       NSLog(@"TODO implement spell effect on target.");
@@ -728,13 +728,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   if (![self verifyDistance: distance])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist zu weit entfernt."), [(DSAObject *)target name]];
       return spellResult;
     }
   if (![self verifyTarget: target andOrigin: originCharacter])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;      
     }
@@ -742,7 +742,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   NSInteger costAE = (originCharacter.level - castingCharacter.level) * 3 >= 6 ? : 6 ;
   if (castingCharacter.currentAstralEnergy < costAE)  // not enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
@@ -750,9 +750,9 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   NSInteger level = self.level;
   spellResult = [self testTraitsWithSpellLevel: level castingCharacter: castingCharacter];
 
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= costAE;
       NSLog(@"TODO implement spell effect on target.");
@@ -820,13 +820,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   if (![self verifyDistance: distance])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist zu weit entfernt."), [(DSAObject *)target name]];
       return spellResult;
     }
   if (![self verifyTarget: target andOrigin: originCharacter])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;      
     }
@@ -838,7 +838,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     }      
   if (castingCharacter.currentAstralEnergy < totalRemovalCost)  // not enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
@@ -846,9 +846,9 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   NSInteger level = self.level - [[(DSAObject *)target appliedSpells] count] * 5;
   spellResult = [self testTraitsWithSpellLevel: level castingCharacter: castingCharacter];
  
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= totalRemovalCost;
       castingCharacter.astralEnergy -= roundf(totalRemovalCost * 2 / 3);  // aufgewendete Astralenergie ist zu großen Teilen für immer verloren

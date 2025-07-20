@@ -96,22 +96,11 @@
 
 #endif // _DSATALENT_H_
 
-typedef NS_ENUM(NSUInteger, DSATalentResultValue)
-{
-  DSATalentResultNone,             // no result yet
-  DSATalentResultSuccess,          // normal success
-  DSATalentResultAutoSuccess,      // two times 1 as dice result
-  DSATalentResultEpicSuccess,      // three times 1 as dice result
-  DSATalentResultFailure,          // normal failure
-  DSATalentResultAutoFailure,      // two times 20 as dice result
-  DSATalentResultEpicFailure       // three times 20 as dice result
-};
-
 @interface DSATalentResult : NSObject
-@property (nonatomic, assign) DSATalentResultValue result;
+@property (nonatomic, assign) DSAActionResultValue result;
 @property (nonatomic, strong) NSArray *diceResults;
 @property (nonatomic, assign) NSInteger remainingTalentPoints;
 
-+(NSString *) resultNameForResultValue: (DSATalentResultValue) value;
++(NSString *) resultNameForResultValue: (DSAActionResultValue) value;
 @end
 // End of DSATalentResult

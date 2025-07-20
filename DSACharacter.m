@@ -1364,12 +1364,12 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     {
       if (oneCounter == 2)
         {
-           talentResult.result = DSATalentResultAutoSuccess;
+           talentResult.result = DSAActionResultAutoSuccess;
            talentResult.remainingTalentPoints = level;
         }
       else
         {
-           talentResult.result = DSATalentResultEpicSuccess;
+           talentResult.result = DSAActionResultEpicSuccess;
            talentResult.remainingTalentPoints = level;
         }
     }
@@ -1377,12 +1377,12 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     {
       if (twentyCounter == 2)
         {
-           talentResult.result = DSATalentResultAutoFailure;
+           talentResult.result = DSAActionResultAutoFailure;
            talentResult.remainingTalentPoints = level;
         }
       else
        {
-          talentResult.result = DSATalentResultEpicFailure;
+          talentResult.result = DSAActionResultEpicFailure;
           talentResult.remainingTalentPoints = level;
        }              
     }
@@ -1390,12 +1390,12 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     {
       if (earlyFailure == YES)
         {
-           talentResult.result = DSATalentResultFailure;
+           talentResult.result = DSAActionResultFailure;
            talentResult.remainingTalentPoints = level;                                    
         }
       else
         {
-           talentResult.result = DSATalentResultSuccess;
+           talentResult.result = DSAActionResultSuccess;
            talentResult.remainingTalentPoints = level;                
         }
     }
@@ -1703,9 +1703,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
             {
               DSATalentResult *tresult = [self useTalent: @"Zechen"
                                              withPenalty: food.alcoholLevel];
-              if (tresult.result == DSATalentResultFailure ||
-                  tresult.result == DSATalentResultAutoFailure || 
-                  tresult.result == DSATalentResultEpicFailure)
+              if (tresult.result == DSAActionResultFailure ||
+                  tresult.result == DSAActionResultAutoFailure || 
+                  tresult.result == DSAActionResultEpicFailure)
                 {
                   NSInteger newDrunkenState = [[self.statesDict objectForKey: @(DSACharacterStateDrunken)] integerValue] + 1;
                   [self updateStatesDictState: @(DSACharacterStateDrunken)

@@ -177,14 +177,14 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   if (![target isKindOfClass: [DSACharacter class]])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
   
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
@@ -192,9 +192,9 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   penalty -= round(castingCharacter.level / 2);                                    // halbe Stufe des Druiden gerundet als Bonus
   spellResult = [self testTraitsWithSpellLevel: penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -228,21 +228,21 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   if (![target isKindOfClass: [DSACharacter class]])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
   
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
   NSLog(@"DSASpellDruidRitualHerrschaftsritualAmulett castOnTarget : comparing maxDistance: %ld with distance: %ld", (signed long) self.maxDistance, (signed long) distance);
   if (self.maxDistance <= distance)  // too far away
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist zu weit entfernt."), castingCharacter.name];
       return spellResult;
     } 
@@ -250,9 +250,9 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   penalty -= round(castingCharacter.level / 2);          // halbe Stufe des Druiden gerundet als Bonus
   spellResult = [self testTraitsWithSpellLevel: penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -286,14 +286,14 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   if (![target isKindOfClass: [DSACharacter class]])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
   
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
@@ -301,9 +301,9 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   penalty -= round(castingCharacter.level / 2);                                        // halbe Stufe des Druiden gerundet als Bonus
   spellResult = [self testTraitsWithSpellLevel: penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -337,14 +337,14 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   if (![target isKindOfClass: [DSACharacter class]])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }
   
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     } 
@@ -356,9 +356,9 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     }
   spellResult = [self testTraitsWithSpellLevel: penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -393,16 +393,16 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     } 
 
   spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -445,16 +445,16 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
   NSInteger penalty = self.penalty - round(castingCharacter.level / 2);                                        // halbe Stufe des Druiden gerundet als Bonus
   spellResult = [self testTraitsWithSpellLevel: penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -502,7 +502,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Vulkanglasdolch" inModel: castingCharacter]; 
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }   
@@ -511,7 +511,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       {
         if ([spellName isEqualToString: self.name])
           {
-            spellResult.result = DSASpellResultNone;
+            spellResult.result = DSAActionResultNone;
             spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Vulkanglasdolch aktiv."), self.name];
             return spellResult;
           }
@@ -519,16 +519,16 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
   NSInteger penalty = self.penalty - round(castingCharacter.level / 2);                                        // halbe Stufe des Druiden gerundet als Bonus
   spellResult = [self testTraitsWithSpellLevel: penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -576,7 +576,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Vulkanglasdolch" inModel: castingCharacter]; 
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
       return spellResult;
     }   
@@ -585,7 +585,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       {
         if ([spellName isEqualToString: self.name])
           {
-            spellResult.result = DSASpellResultNone;
+            spellResult.result = DSAActionResultNone;
             spellResult.resultDescription = [NSString stringWithFormat: _(@"Der %@ ist schon auf dem Vulkanglasdolch aktiv."), self.name];
             return spellResult;
           }
@@ -594,9 +594,9 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   NSInteger penalty = self.penalty - round(castingCharacter.level / 2);                                        // halbe Stufe des Druiden gerundet als Bonus
   spellResult = [self testTraitsWithSpellLevel: penalty castingCharacter: castingCharacter];
   
-  if (spellResult.result == DSASpellResultSuccess || 
-      spellResult.result == DSASpellResultAutoSuccess ||
-      spellResult.result == DSASpellResultEpicSuccess)
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
@@ -641,7 +641,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Vulkanglasdolch" inModel: castingCharacter]; 
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat keinen persönlichen Vulkanglasdolch."), [(DSAObject *)target name]];
       return spellResult;
     }   
@@ -654,7 +654,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   spellResult.resultDescription = [NSString stringWithFormat: @"%@ steckt seinen Vulkanglasdolch in die Erde und konzentriert sich darauf. Seine Lebensenergie steigt um %lu Lebenspunkte.", 
                                                               castingCharacter.name,
                                                               (signed long) lp];
-  spellResult.result = DSASpellResultSuccess;
+  spellResult.result = DSAActionResultSuccess;
   castingCharacter.currentLifePoints += lp;  
 
   return spellResult;
@@ -675,12 +675,12 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Vulkanglasdolch" inModel: castingCharacter]; 
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat keinen persönlichen Vulkanglasdolch."), [(DSAObject *)target name]];
       return spellResult;
     }   
 
-  spellResult.result = DSASpellResultSuccess;
+  spellResult.result = DSAActionResultSuccess;
   spellResult.resultDescription = [NSString stringWithFormat: @"%@ legt seinen Vulkanglasdolch auf eine ebene Fläche. Dieser dreht sich mit der Spitze zu dem Ort, an dem er geweiht wurde.", castingCharacter.name];   
 
   return spellResult;
@@ -700,18 +700,18 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Vulkanglasdolch" inModel: castingCharacter]; 
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat keinen persönlichen Vulkanglasdolch."), [(DSAObject *)target name]];
       return spellResult;
     }   
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
-      spellResult.result = DSASpellResultNone;
+      spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
   castingCharacter.currentAstralEnergy -= self.aspCost;  
-  spellResult.result = DSASpellResultSuccess;
+  spellResult.result = DSAActionResultSuccess;
   spellResult.resultDescription = [NSString stringWithFormat: @"%@ ritzt sich mit seinem Vulkanglasdolch in die Stirn. Er kann jetzt für einige Zeit im Dunkeln sehen.", castingCharacter.name];   
 
   return spellResult;
