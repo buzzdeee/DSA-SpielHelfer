@@ -53,6 +53,9 @@
 #import "DSADialog.h"
 #import "DSAConversationDialogSheetController.h"
 #import "DSAActionViewController.h"
+#import "DSASpell.h"
+#import "DSASpellResult.h"
+
 
 @implementation DSAActionIcon
 
@@ -1856,7 +1859,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     [selector window];  // .gorm laden
 
     __block BOOL cancel = NO;
-    __block DSASpell *selectedSpell;
+    __block DSASpell *selectedRitual;
     __block DSACharacter *selectedCharacter;
     __block id selectedTarget;
     
@@ -1868,17 +1871,41 @@ inventoryIdentifier: (NSString *)sourceInventory
             return;
         }
         selectedCharacter = (DSACharacter *)[[selector.popupActors selectedItem] representedObject];
-        selectedSpell = (DSASpell *)[[selector.popupActions selectedItem] representedObject];
-        selectedTarget = [[selector.popupTargets selectedItem] representedObject];
+        selectedRitual = (DSASpell *)[[selector.popupActions selectedItem] representedObject];
+        selectedTarget = [selector.popupTargets isHidden] ? nil : [[selector.popupTargets selectedItem] representedObject];
         NSLog(@"DSAActionIconRitual sheet completion handler called.... ");
-    };
+    };    
+    [windowController.window beginSheet:selector.window completionHandler:nil];
     
     if (cancel)
       {
         return;
       }
     
-    [windowController.window beginSheet:selector.window completionHandler:nil];     
+    DSASpellResult *ritualResult = [selectedCharacter castRitual: selectedRitual.name
+                                                       ofVariant: nil
+                                               ofDurationVariant: nil
+                                                        onTarget: selectedTarget
+                                                      atDistance: 0
+                                                     investedASP: 0
+                                            spellOriginCharacter: nil];
+    NSString *resultString = [NSString stringWithFormat: @"%@. %@", 
+                                         [DSASpellResult resultNameForResultValue: ritualResult.result],
+                                         ritualResult.resultDescription];
+    DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName: @"DSAConversationTextOnly"];
+    [conversationSelector window];  // trigger loading .gorm file
+    [conversationSelector.window setTitle: @"Ergebnis"];
+    conversationSelector.fieldText.stringValue = resultString;
+    NSLog(@"DSAActionIconRitual, handleEvent: conversationSelector.fieldText.stringValue %@", conversationSelector.fieldText.stringValue);
+    conversationSelector.completionHandler = ^(BOOL result) {
+      if (result)
+        {
+           NSLog(@"DSAActionIconRitual, handleEvent: finally, ritual speaking finished");
+        }
+    };
+    [windowController.window beginSheet: conversationSelector.window completionHandler:nil];
+    [adventure.gameClock advanceTimeByHours: 6];
+    NSLog(@"DSAActionIconRitual handle event: using hardcoded duration for all rituals!");
 }
 @end
 @implementation DSAActionIconMeal

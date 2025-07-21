@@ -1157,6 +1157,7 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
     [coder encodeObject:self.globalLocationName forKey:@"globalLocationName"];
     [coder encodeObject:self.localLocationName forKey:@"localLocationName"];
     [coder encodeObject:self.context forKey:@"context"];
+    NSLog(@"DSAPosition encodeWithCoder: context: %@", self.context);
 }
 
 - (instancetype)initWithCoder:(NSCoder *)decoder {
@@ -1164,6 +1165,7 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
     NSString *globalName = [decoder decodeObjectOfClass:[NSString class] forKey:@"globalLocationName"];
     NSString *localName = [decoder decodeObjectOfClass:[NSString class] forKey:@"localLocationName"];
     NSString *context = [decoder decodeObjectOfClass:[NSString class] forKey:@"context"];
+    NSLog(@"DSAPosition initWithCoder: context: %@", self.context);
     return [self initWithMapCoordinate:coord globalLocationName:globalName localLocationName:localName context: context];
 }
 

@@ -210,7 +210,7 @@
       }
       case DSAActionViewModeRitual: {
         for (DSASpell *ritual in [selectedCharacter activeRitualsWithNames: self.rituals]) {
-          NSLog(@"DSAActionViewController popupActorSelected checking ritual: %@", ritual);
+          //NSLog(@"DSAActionViewController popupActorSelected checking ritual: %@", ritual);
           [self.popupActions addItemWithTitle:ritual.name];
           NSMenuItem *item = (NSMenuItem *)[self.popupActions lastItem];
           [item setRepresentedObject:ritual];
@@ -229,7 +229,7 @@
 }
 
 - (IBAction)buttonDoItAction:(id)sender {
-    NSLog(@"DSAActionViewController sleepAction");
+    NSLog(@"DSAActionViewController buttonDoItAction");
     BOOL result = YES;
 
       

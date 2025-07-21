@@ -287,13 +287,13 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         _bodyParts = [[DSABodyParts alloc] init];
         _birthday = [[DSAAventurianDate alloc] init];
         _talents = [[NSMutableDictionary alloc] init];
-        _professions = [[NSMutableDictionary alloc] init];
-        _spells = [[NSMutableDictionary alloc] init];
-        _specials = [[NSMutableDictionary alloc] init];
         _currentTalents = [[NSMutableDictionary alloc] init];
+        _professions = [[NSMutableDictionary alloc] init];
         _currentProfessions = [[NSMutableDictionary alloc] init];
+        _spells = [[NSMutableDictionary alloc] init];
         _currentSpells = [[NSMutableDictionary alloc] init];
-        _currentSpecials = [[NSMutableDictionary alloc] init];        
+        _specials = [[NSMutableDictionary alloc] init];
+        _currentSpecials = [[NSMutableDictionary alloc] init];
         _appliedSpells = [[NSMutableDictionary alloc] init];   // to be replaced by below appliedEffects
         _appliedEffects = [[NSMutableDictionary alloc] init];
         _statesDict = [NSMutableDictionary dictionaryWithDictionary: @{ @(DSACharacterStateWounded): @(DSASeverityLevelNone),
@@ -683,7 +683,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.bodyParts = [coder decodeObjectForKey:@"bodyParts"];
       self.talents = [coder decodeObjectForKey:@"talents"];
       self.currentTalents = [coder decodeObjectForKey: @"currentTalents"];
-      if (!self.currentTalents)
+      if (!self.currentTalents || [self.currentTalents count] == 0)
         {
           self.currentTalents = (NSMutableDictionary<NSString *, DSATalent *> *)
                                  [self deepCopyDictionary:self.talents usingBlock:^id(id obj) {
@@ -692,7 +692,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         } 
       self.professions = [coder decodeObjectForKey:@"professions"];
       self.currentProfessions = [coder decodeObjectForKey: @"currentProfessions"];
-      if (!self.currentProfessions)
+      if (!self.currentProfessions  || [self.currentProfessions count] == 0)
         {
           self.currentProfessions = (NSMutableDictionary<NSString *, DSAProfession *> *)
                                      [self deepCopyDictionary:self.professions usingBlock:^id(id obj) {
@@ -701,7 +701,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         }      
       self.spells = [coder decodeObjectForKey:@"spells"];
       self.currentSpells = [coder decodeObjectForKey: @"currentSpells"];
-      if (!self.currentSpells)
+      if (!self.currentSpells  || [self.currentSpells count] == 0)
         {
           self.currentSpells = (NSMutableDictionary<NSString *, DSASpell *> *)
                                 [self deepCopyDictionary:self.spells usingBlock:^id(id obj) {
@@ -712,7 +712,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       // The most specials are subclasses of DSASpell, but there's also DSALiturgy, which COULD? break here
       // in case of backward compatibility. BUT up to now, we don't yet have Liturgies we could have saved ;)
       self.currentSpecials = [coder decodeObjectForKey: @"currentSpecials"];
-      if (!self.currentSpecials)
+      if (!self.currentSpecials || [self.currentSpecials count] == 0)
         {
           self.currentSpecials = [self deepCopyDictionary:self.specials usingBlock:^id(id obj) {
             return [(DSASpell *)obj copy];
@@ -1500,9 +1500,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   NSLog(@"DSACharacter canCastRitualWithName: %@ is not dead or unconscious", name);  
   if (self.specials && self.specials[name])
     {
-      NSLog(@"DSACharacter canCastRitualWithName: self.specials: %@", self.specials);
+      //NSLog(@"DSACharacter canCastRitualWithName: self.specials: %@", self.specials);
       DSASpell *ritual = [self.specials objectForKey: name];
-      NSLog(@"DSACharacter canCastRitualWithName: the ritual: %@", ritual);
+      //NSLog(@"DSACharacter canCastRitualWithName: the ritual: %@", ritual);
       if (ritual)
         {
           if (ritual.aspCost > 0 && ritual.aspCost > self.currentAstralEnergy)
@@ -1673,9 +1673,12 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                     investedASP: (NSInteger) investedASP 
            spellOriginCharacter: (DSACharacter *) originCharacter
 {
-  NSLog(@"DSACharacter castRitual called for ritual name: %@", ritualName);
+  NSLog(@"DSACharacter castRitual called for ritual name: %@ !!!", ritualName);
 
   DSASpell *spell = [self.currentSpecials objectForKey: ritualName];
+  NSLog(@"DSACharacter castRitual: self.specials: %@", self.specials);
+  NSLog(@"DSACharacter castRitual: self.currentSpecials: %@", self.currentSpecials); 
+  NSLog(@"DSACharacter castRitual: the ritual: %@", spell);
   DSASpellResult *spellResult = [spell castOnTarget: target
                                           ofVariant: variant
                                   ofDurationVariant: durationVariant

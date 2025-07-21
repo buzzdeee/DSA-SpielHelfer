@@ -222,7 +222,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
       else if ([currentTile isKindOfClass: [DSALocalMapTileBuildingInn class]])
         {
           NSString *tileType = [(DSALocalMapTileBuildingInn*)currentTile type];
-          NSLog(@"DSAAdventureWindowController setupActionIcons: currentPosition: %@", currentPosition);
+          NSLog(@"DSAAdventureWindowController setupActionIcons: I'm on DSALocalMapTileBuildingInn: currentPosition: %@", currentPosition);
           if ([self.imageActionIcon0 isKindOfClass: [DSAActionIconChat class]])
             {
               [self.imageActionIcon0 updateAppearance];
@@ -237,7 +237,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
           if ([tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerberge] ||
               [tileType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne])
             {
-              if (currentPosition.context == DSAActionContextReception)
+              if ([currentPosition.context isEqualToString: DSAActionContextReception])
                 {
                   if ([self.imageActionIcon1 isKindOfClass: [DSAActionIconRoom class]])
                     {
@@ -251,7 +251,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
                       [self.imageActionIcon1 updateAppearance];          
                     }
                 }
-              else if (currentPosition.context == DSAActionContextPrivateRoom)
+              else if ([currentPosition.context isEqualToString: DSAActionContextPrivateRoom])
                 {
                   if ([self.imageActionIcon1 isKindOfClass: [DSAActionIconSleep class]])
                     {
@@ -264,6 +264,10 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
                       self.imageActionIcon1 = newIcon;
                       [self.imageActionIcon1 updateAppearance];          
                     }                 
+                }
+              else
+                {
+                  NSLog(@"DSAAdventureWindowController setupActionIcons current tile class: DSALocalMapTileBuildingInn unknown context: %@", currentPosition.context);
                 }
             }
           else

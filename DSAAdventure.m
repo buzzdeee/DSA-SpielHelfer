@@ -46,8 +46,8 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultTalentsByCo
 static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultSpellsByContext(void)
 {
     return @{
-          DSAActionContextResting: @[ @"Balsamsalabunde", @"Hexenspeichel", @"Klarum Purum Kräutersud", @"Analüs Arcanstruktur", @"Odem Arcanum Senserei" ],
-          DSAActionContextPrivateRoom: @[ @"Balsamsalabunde", @"Hexenspeichel", @"Klarum Purum Kräutersud", @"Analüs Arcanstruktur", @"Odem Arcanum Senserei" ]
+          DSAActionContextResting: @[ @"Balsam Salabunde", @"Hexenspeichel", @"Klarum Purum Kräutersud", @"Analüs Arcanstruktur", @"Odem Arcanum Senserei" ],
+          DSAActionContextPrivateRoom: @[ @"Balsam Salabunde", @"Hexenspeichel", @"Klarum Purum Kräutersud", @"Analüs Arcanstruktur", @"Odem Arcanum Senserei" ]
     };
 }
 static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByContext(void)

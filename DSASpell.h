@@ -124,6 +124,8 @@
 @end
 @interface DSASpellDestructiboArcanitas : DSASpell
 @end
-
+// Heilung
+@interface DSASpellBalsamSalabunde : DSASpell
+@end
 #endif // _DSASPELL_H_
 

@@ -291,13 +291,6 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
       return spellResult;
     }
-  
-  if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
-    {
-      spellResult.result = DSAActionResultNone;
-      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ hat nicht genug Astralenergie."), castingCharacter.name];
-      return spellResult;
-    }
 
   spellResult = [self testTraitsWithSpellLevel: self.penalty castingCharacter: castingCharacter];
   

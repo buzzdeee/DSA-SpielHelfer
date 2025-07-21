@@ -44,20 +44,16 @@ typedef NS_ENUM(NSUInteger, DSASeverityLevel) {
 // Used in various actions, i.e. talents, spells, rituals etc.
 // to give a hint to the UI what are the relevant targets to present to the user
 typedef NS_ENUM(NSInteger, DSAActionTargetType) {
-    DSAActionTargetTypeNone = 0,             // Kein Ziel notwendig
+    DSAActionTargetTypeNone = 0,             // Kein Ziel notwendig, der Spruch weiss selbst, worauf er abzielt
+    DSAActionTargetTypeAny,                  // Kann jeglicher DSACharacter oder DSAObject sein...
+    DSAActionTargetTypeSelf,                 // actor == target
     DSAActionTargetTypeEnemy,                // Gegner
     DSAActionTargetTypeAlly,                 // Gruppenmitglied oder Verbündeter
     DSAActionTargetTypeHuman,                // Menschen
     DSAActionTargetTypeAnimal,               // Tiere
     DSAActionTargetTypeObject,               // Allgemein einzelnes Objekt
     DSAActionTargetTypeObjects,              // alle Objekte im Inventory aller Gruppenmitglieder
-    DSAActionTargetTypeObjectLock,           // Schlösser von Türen oder Kisten etc.
-    DSAActionTargetTypeObjectMageStaff,      // Magierstab
-    DSAActionTargetTypeObjectOwnMageStaff,   // Magierstab des Magiers
-    DSAActionTargetTypeObjectMageBall,       // allg. Kristallkugel
-    DSAActionTargetTypeObjectOwnMageBall,    // Kristallkugel des Magiers
-    DSAActionTargetTypeObjectMageBowl,       // Magierschale
-    DSAActionTargetTypeObjectMageSword       // Magierschwert
+    DSAActionTargetTypeObjectLock            // Schlösser von Türen oder Kisten etc.
 };
 
 typedef NS_ENUM(NSUInteger, DSAActionResultValue)
