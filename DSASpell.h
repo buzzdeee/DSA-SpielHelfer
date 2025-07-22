@@ -29,11 +29,14 @@
 #import "Utils.h"
 @class DSACharacter;
 @class DSASpellResult;
+@class DSAActionParameterDescriptor;
 
 @interface DSASpell : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, assign) NSInteger level;
 @property (nonatomic, assign) DSAActionTargetType targetType;           // the target type of a spell
+@property (nonatomic, strong) NSArray<DSAActionParameterDescriptor *> *parameterDescriptors;     // describing optional parameters, giving hints to the controller and UI
+@property (nonatomic, strong) NSMutableDictionary<NSString *, id> *parameterValues;   // optional parameters passed back from controller and UI
 @property (nonatomic, strong) NSArray *origin;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *longName;

@@ -5903,7 +5903,8 @@ DSADialogManager.h \
 DSAConversationDialogSheetController.h \
 DSAIllness.h \
 DSAActionViewController.h \
-DSADefinitions.h
+DSADefinitions.h \
+DSAActionParameterDescriptor.h
 
 #
 # Objective-C Class files
@@ -5999,7 +6000,8 @@ DSADialog.m \
 DSADialogManager.m \
 DSAConversationDialogSheetController.m \
 DSAIllness.m \
-DSAActionViewController.m
+DSAActionViewController.m \
+DSAActionParameterDescriptor.m
 
 #
 # Other sources

@@ -107,7 +107,8 @@
 	"DSADialogManager.m",
 	"DSAConversationDialogSheetController.m",
 	"DSAIllness.m",
-	"DSAActionViewController.m"
+	"DSAActionViewController.m",
+	"DSAActionParameterDescriptor.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -208,7 +209,8 @@
 	"DSAConversationDialogSheetController.h",
 	"DSAIllness.h",
 	"DSAActionViewController.h",
-	"DSADefinitions.h"
+	"DSADefinitions.h",
+	"DSAActionParameterDescriptor.h"
     );
     IMAGES = (
 	"Aventurien.jpg",

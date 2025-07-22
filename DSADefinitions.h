@@ -75,6 +75,16 @@ typedef NS_ENUM(NSInteger, DSAActionViewMode) {
     DSAActionViewModeRitual
 };
 
+// This is used to parameterize talents, spells etc. to allow the UI to ask the user for specific parameters.
+typedef NS_ENUM(NSUInteger, DSAActionParameterType) {
+    DSAActionParameterTypeInteger,
+    DSAActionParameterTypeBoolean,
+    DSAActionParameterTypeChoice,
+    DSAActionParameterTypeText
+};
+
+
+
 NSArray<NSString *> *DSAShopGeneralStoreCategories(void);
 NSArray<NSString *> *DSAShopWeaponStoreCategories(void);
 
