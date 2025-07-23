@@ -55,6 +55,8 @@
 #import "DSAActionViewController.h"
 #import "DSASpell.h"
 #import "DSASpellResult.h"
+#import "DSAActionParameterDescriptor.h"
+#import "DSAActionSliderQuestionController.h"
 
 
 @implementation DSAActionIcon
@@ -1807,6 +1809,10 @@ inventoryIdentifier: (NSString *)sourceInventory
     selector.spells = availableSpells;
     [selector window];  // .gorm laden
 
+    __block BOOL cancel = NO;
+    __block DSASpell *selectedSpell;
+    __block DSACharacter *selectedCharacter;
+    __block id selectedTarget;
     __weak typeof(selector) weakSelector = selector;
     selector.completionHandler = ^(BOOL result) {
         typeof(selector) strongSelf = weakSelector;
@@ -1814,11 +1820,50 @@ inventoryIdentifier: (NSString *)sourceInventory
             return;
         }
 
+        selectedCharacter = (DSACharacter *)[[selector.popupActors selectedItem] representedObject];
+        selectedSpell = (DSASpell *)[[selector.popupActions selectedItem] representedObject];
+        selectedTarget = [selector.popupTargets isHidden] ? nil : [[selector.popupTargets selectedItem] representedObject];
         NSLog(@"DSAActionIconMagic sheet completion handler called.... ");
-
-      
     };
-    [windowController.window beginSheet:selector.window completionHandler:nil];     
+    [windowController.window beginSheet:selector.window completionHandler:nil];
+    NSArray *parameterDescriptors = selectedSpell.parameterDescriptors;
+    for (DSAActionParameterDescriptor *descriptor in parameterDescriptors)
+      {
+        //NSString *className;
+        switch (descriptor.type) {
+          case DSAActionParameterTypeInteger: {
+            //className = @"DSAActionSliderQuestionController";
+            DSAActionSliderQuestionController *questionWindow = 
+                [[DSAActionSliderQuestionController alloc] initWithWindowNibName:@"DSAActionSliderQuestionView"];
+            questionWindow.window.title = descriptor.label;
+            questionWindow.fieldHeadline.stringValue = descriptor.label;
+            questionWindow.fieldQuestion.stringValue = descriptor.helpText;
+            questionWindow.fieldMinValue.stringValue = [NSString stringWithFormat: @"%ld", (signed long)descriptor.minValue];
+            questionWindow.fieldMaxValue.stringValue = [NSString stringWithFormat: @"%ld", (signed long)descriptor.maxValue];
+            questionWindow.sliderSlider.minValue = descriptor.minValue;
+            questionWindow.sliderSlider.maxValue = descriptor.maxValue;
+            questionWindow.fieldSliderValue.stringValue = [NSString stringWithFormat: @"%ld", (signed long)descriptor.minValue];
+            questionWindow.buttonCancel.title = @"Abbrechen";
+            questionWindow.buttonConfirm.title = @"Bestätigen";
+            [questionWindow window];
+            __block NSInteger sliderValue;
+            __block BOOL cancel;
+            questionWindow.completionHandler = ^(BOOL result) {
+              if (!result) {
+                cancel = YES;
+                return;
+              }
+              sliderValue = questionWindow.sliderSlider.integerValue;
+              selectedSpell.parameterValues[descriptor.key] = @(sliderValue);
+            };
+            [windowController.window beginSheet:questionWindow.window completionHandler:nil];
+            break;
+          }
+          default: NSLog(@"DSAActionIconMagic unknown action parameter type: %@", @(descriptor.type));
+        }
+      }
+    
+         
 }
 @end
 @implementation DSAActionIconRitual

@@ -1433,9 +1433,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   if (self.spells && self.spells[name])
     {
       NSLog(@"DSACharacter canCastSpellWithName: %@ has spell with name: %@", self.name, name); 
-      if (self.spells[name].level >= -5)
+      if (self.spells[name].isActiveSpell)
         {
-          return YES;
+           return YES;
         }
       else
         {

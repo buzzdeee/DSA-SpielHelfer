@@ -66,6 +66,7 @@ Resources/DSAMealOrderView.gorm \
 Resources/DSASleepView.gorm \
 Resources/DSACharacterIllness.gorm \
 Resources/DSAActionView.gorm \
+Resources/DSAActionSliderQuestionView.gorm \
 Resources/Aventurien.jpg \
 Resources/Dolch.webp \
 Resources/Jagdmesser-firnelfisch.webp \
@@ -5904,7 +5905,8 @@ DSAConversationDialogSheetController.h \
 DSAIllness.h \
 DSAActionViewController.h \
 DSADefinitions.h \
-DSAActionParameterDescriptor.h
+DSAActionParameterDescriptor.h \
+DSAActionSliderQuestionController.h
 
 #
 # Objective-C Class files
@@ -6001,7 +6003,8 @@ DSADialogManager.m \
 DSAConversationDialogSheetController.m \
 DSAIllness.m \
 DSAActionViewController.m \
-DSAActionParameterDescriptor.m
+DSAActionParameterDescriptor.m \
+DSAActionSliderQuestionController.m
 
 #
 # Other sources

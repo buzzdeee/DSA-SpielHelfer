@@ -108,7 +108,8 @@
 	"DSAConversationDialogSheetController.m",
 	"DSAIllness.m",
 	"DSAActionViewController.m",
-	"DSAActionParameterDescriptor.m"
+	"DSAActionParameterDescriptor.m",
+	"DSAActionSliderQuestionController.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -210,7 +211,8 @@
 	"DSAIllness.h",
 	"DSAActionViewController.h",
 	"DSADefinitions.h",
-	"DSAActionParameterDescriptor.h"
+	"DSAActionParameterDescriptor.h",
+	"DSAActionSliderQuestionController.h"
     );
     IMAGES = (
 	"Aventurien.jpg",
@@ -5945,7 +5947,8 @@
 	"DSAMealOrderView.gorm",
 	"DSASleepView.gorm",
 	"DSACharacterIllness.gorm",
-	"DSAActionView.gorm"
+	"DSAActionView.gorm",
+	"DSAActionSliderQuestionView.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (

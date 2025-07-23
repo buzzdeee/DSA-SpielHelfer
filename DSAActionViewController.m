@@ -115,6 +115,7 @@
   }
   
   DSASpell *selectedSpell = (DSASpell *)[[self.popupActions selectedItem] representedObject];
+  NSLog(@"DSAActionViewController initializeViewForSpells: %@ TargetType: %ld", selectedSpell.name, selectedSpell.targetType);
   switch (selectedSpell.targetType)
     {
       case DSAActionTargetTypeNone: {
@@ -183,6 +184,26 @@
 - (void) enableTargetsForType: (DSAActionTargetType) targetType
 {
   NSLog(@"DSAActionIconViewController enableTargetsForType NOT IMPLEMENTED YET");
+  switch (targetType) {
+    case DSAActionTargetTypeAlly: {
+      [self.fieldActionQuestionTarget setHidden: NO];
+      self.fieldActionQuestionTarget.stringValue = @"Auf wen soll der Spruch angewendet werden?";
+      [self.popupTargets removeAllItems];
+      [self.popupTargets setEnabled: YES];
+      [self.popupTargets setHidden: NO];
+      for (DSACharacter *character in self.activeGroup.allCharacters)
+        {
+          [self.popupTargets addItemWithTitle: character.name];
+          NSMenuItem *item = (NSMenuItem *)[self.popupTargets lastItem];
+          [item setRepresentedObject:character];
+        }
+      [self.popupTargets selectItemAtIndex: 0];  
+      break;
+    }
+    default: {
+      NSLog(@"DSAActionViewController enableTargetsForType: unhandled target type: %ld", (signed long) targetType);
+    }
+  }
 }
 
 - (IBAction)popupActorSelected:(id)sender
