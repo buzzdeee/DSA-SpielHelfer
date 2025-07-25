@@ -40,6 +40,9 @@
 #import "Utils.h"
 #import "DSAIllness.h"
 
+@implementation LevelObserverInfo
+@end
+
 @implementation DSACharacterWindowController
 
 // don't do anything here
@@ -75,7 +78,10 @@
                 NSLog(@"Exception removing observer: %@", exception);
             }
         }
-    } 
+    }
+    for (LevelObserverInfo *info in self.levelObserverInfos) {
+        [info.observedObject removeObserver:self forKeyPath:info.keyPath context:(__bridge void *)info];
+    }
     NSLog(@"DSACharacterWindowController: here at the end of dealloc");
     DSACharacterDocument *document = (DSACharacterDocument *)self.document;
     document.windowControllersCreated = NO;
@@ -226,6 +232,7 @@
     }
 }
 
+// for the name fields
 - (void)addObserverForObject:(id)object keyPath:(NSString *)keyPath {
     [object addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:NULL];
 
@@ -235,6 +242,29 @@
         [self.observedKeyPaths setObject:keyPaths forKey:object];
     }
     [keyPaths addObject:keyPath];
+}
+
+// for the values
+- (void)addObserverForObject:(NSObject *)object
+                     keyPath:(NSString *)keyPath
+                   textField:(NSTextField *)field
+                  baseLevel:(NSInteger)baseLevel
+{
+    LevelObserverInfo *info = [[LevelObserverInfo alloc] init];
+    info.textField = field;
+    info.baseLevel = baseLevel;
+    info.observedObject = object;
+    info.keyPath = keyPath;
+
+    [object addObserver:self
+             forKeyPath:keyPath
+                options:NSKeyValueObservingOptionNew
+                context:(__bridge void *)info];
+
+    if (!self.levelObserverInfos) {
+        self.levelObserverInfos = [NSMutableArray array];
+    }
+    [self.levelObserverInfos addObject:info];
 }
 
 
@@ -1294,6 +1324,12 @@
       NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:levelString attributes:attributes];
       [itemFieldValue setAttributedStringValue:attrString];
 
+      [self addObserverForObject:item
+                         keyPath:@"level"
+                       textField:itemFieldValue
+                       baseLevel:baseLevel];            
+      
+      
       [innerView addSubview:itemFieldValue];
     }
 
@@ -1367,32 +1403,59 @@
                        context:(void *)context
 {
   NSLog(@"DSACharacterWindowController observeValueForKeyPath: %@", keyPath);
-   
-  if ([keyPath isEqualToString:@"adventurePoints"])
-    {
-      [self handleAdventurePointsChange];
-    }
-  else if ([keyPath isEqualToString:@"isActiveSpell"])
-    {
-      DSASpell *spellItem = (DSASpell *)object;
-      // Get the associated itemField using the spellItem
-      NSTextField *itemField = [self.spellItemFieldMap objectForKey:[spellItem name]];
-      if (itemField)
+
+  if (context) {
+      LevelObserverInfo *info = (__bridge LevelObserverInfo *)context;
+      if ([keyPath isEqualToString:info.keyPath]) {
+          NSInteger currentLevel = [[change objectForKey:NSKeyValueChangeNewKey] integerValue];
+          
+          NSTextField *field = info.textField;
+          if (!field) return; // Already released
+           // Color logic
+          NSColor *valueColor = [NSColor blackColor];
+          if (currentLevel > info.baseLevel) {
+              valueColor = [NSColor systemGreenColor];
+          } else if (currentLevel < info.baseLevel) {
+              valueColor = [NSColor systemRedColor];
+          }
+          [field setTextColor:valueColor];
+
+          NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+          [paragraphStyle setAlignment:NSTextAlignmentRight];
+          NSDictionary *attributes = @{NSParagraphStyleAttributeName: paragraphStyle};
+
+          NSString *levelString = [NSString stringWithFormat:@"%ld", (long)currentLevel];
+          NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:levelString attributes:attributes];
+          [field setAttributedStringValue:attrString];
+      }
+  } else {  
+     
+      if ([keyPath isEqualToString:@"adventurePoints"])
         {
-          BOOL isActive = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
-            
-          if (isActive)
+          [self handleAdventurePointsChange];
+        }
+      else if ([keyPath isEqualToString:@"isActiveSpell"])
+        {
+          DSASpell *spellItem = (DSASpell *)object;
+          // Get the associated itemField using the spellItem
+          NSTextField *itemField = [self.spellItemFieldMap objectForKey:[spellItem name]];
+          if (itemField)
             {
-              [itemField setTextColor:[NSColor blackColor]];  // Active spell color
+              BOOL isActive = [[change objectForKey:NSKeyValueChangeNewKey] boolValue];
+            
+              if (isActive)
+                {
+                  [itemField setTextColor:[NSColor blackColor]];  // Active spell color
+                }
+              else
+                {
+                  [itemField setTextColor:[NSColor redColor]];    // Inactive spell color
+                }
             }
           else
             {
-              [itemField setTextColor:[NSColor redColor]];    // Inactive spell color
+              NSLog(@"Could not find associated itemField for spellItem: %@", spellItem.name);
             }
-        }
-      else
-        {
-          NSLog(@"Could not find associated itemField for spellItem: %@", spellItem.name);
         }
     }
 }

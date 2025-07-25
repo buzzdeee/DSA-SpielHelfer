@@ -3005,6 +3005,14 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       tmpTalent.maxUpPerLevel = tmpTalent.maxUpPerLevel - 1;
       tmpTalent.maxTriesPerLevelUp = tmpTalent.maxUpPerLevel * 3;
       tmpTalent.level = targetTalent.level;
+      
+      DSATalent *t = self.currentTalents[talent.name];
+      NSLog(@"DSACharacter levelUpTalent: leveling up currentTalent as well currentTalent.level before: %@", @(t.level));
+      t.level += 1;
+      NSLog(@"DSACharacter levelUpTalent: leveling up currentTalent as well currentTalent.level after: %@", @(t.level));
+DSATalent *t1 = self.currentTalents[talent.name];
+DSATalent *t2 = self.currentTalents[talent.name];
+NSLog(@"Pointers: t1=%p, t2=%p", t1, t2);      
     }
   else
     {

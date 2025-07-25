@@ -77,7 +77,8 @@
   NSLog(@"DSACharacterGenerator generateCharacterWithParameters AFTER SETTING TITLE");
   self.character.origin = [self resolveOriginFromParameters: parameters];
   NSLog(@"DSACharacterGenerator generateCharacterWithParameters: origin: %@", self.character.origin);
-  self.character.professions = [self resolveProfessionFromParameters: parameters]; 
+  self.character.professions = [self resolveProfessionFromParameters: parameters];
+  self.character.currentProfessions = [self resolveProfessionFromParameters: parameters];
   self.character.element = [self resolveElementFromParameters: parameters];
 
   self.character.religion = [self resolveReligionFromParameters: parameters];
@@ -128,7 +129,9 @@
   self.character.armorBaseValue = [self resolveArmorBaseValueFromParameters: parameters];
 
   self.character.talents = [self resolveTalentsFromParameters: parameters];
+  self.character.currentTalents = [self resolveTalentsFromParameters: parameters];  
   self.character.spells = [self resolveSpellsFromParameters: parameters];
+  self.character.currentSpells = [self resolveSpellsFromParameters: parameters];  
   [self applySpecialsToCharacter];
   
   [Utils applySpellmodificatorsToCharacter: self.character];  
@@ -2957,6 +2960,12 @@
     {
       [self addBlessedLiturgiesToCharacter: newCharacter];
     }
+  NSMutableDictionary *deepCopySpecials = [NSMutableDictionary dictionary];
+  for (NSString *key in self.character.specials) {
+    DSASpell *value = self.character.specials[key];
+    deepCopySpecials[key] = [value copy];
+  }
+  self.character.currentSpecials = deepCopySpecials;
 }
 
 - (void) addElvenSongsToCharacter: (DSACharacter *) character
@@ -3562,6 +3571,7 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
         [newTalents setObject: talent forKey: specialTalent];
     }
   [self.character setSpecials: newTalents];
+  [self.character setCurrentSpecials: [newTalents copy]];  
   NSLog(@"THE magical dabbler talents: %@", newTalents);
   NSMutableDictionary *newSpells = [[NSMutableDictionary alloc] init];
   NSDictionary *spellsDict = [[NSDictionary alloc] init];
@@ -3595,6 +3605,7 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
          }
     }
   [self.character setSpells: newSpells];
+  [self.character setCurrentSpells: [newSpells copy]];
   NSLog(@"the magical dabbler spells: %@", newSpells);
            
 }

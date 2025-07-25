@@ -31,6 +31,13 @@
 #import "DSAActionIcon.h"
 #import "DSACharacterStatusView.h"
 
+@interface LevelObserverInfo : NSObject
+@property (nonatomic, weak) NSTextField *textField;
+@property (nonatomic, assign) NSInteger baseLevel;
+@property (nonatomic, weak) NSObject *observedObject;
+@property (nonatomic, copy) NSString *keyPath;
+@end
+
 @interface DSACharacterWindowController : NSWindowController
 
 // Add weak UI outlets here
@@ -253,6 +260,8 @@
 
 // to track spells and spell names NSText field relationships to be able to change color
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSTextField *> *spellItemFieldMap;
+// to track observed talent/spell etc. levels
+@property (nonatomic, strong) NSMutableArray<LevelObserverInfo *> *levelObserverInfos;
 @property (nonatomic, strong) NSMutableSet *observedObjects;
 
 

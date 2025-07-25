@@ -31,7 +31,8 @@
 #import "DSABodyParts.h"
 #import "DSAAventurianDate.h"
 #import "DSATalent.h"
-//#import "DSAGod.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @class DSAPositiveTrait;
 @class DSANegativeTrait;
@@ -103,7 +104,7 @@ typedef NS_ENUM(NSUInteger, DSAIllnessStage) {
   DSAIllnessStageChronicActive
 };
 
-NS_ASSUME_NONNULL_BEGIN
+
 @interface DSACharacterEffect : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, copy) NSString *uniqueKey;
