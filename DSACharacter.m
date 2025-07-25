@@ -3221,6 +3221,9 @@ NSLog(@"Pointers: t1=%p, t2=%p", t1, t2);
       tmpSpell.maxUpPerLevel -= 1;
       tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
       tmpSpell.level = targetSpell.level;
+      DSASpell *s = self.currentSpells[spell.name];
+      s.level += 1;
+      s.everLeveledUp = YES;
       result = YES;
     }
   else
@@ -3396,6 +3399,9 @@ NSLog(@"Pointers: t1=%p, t2=%p", t1, t2);
       tmpSpell.maxUpPerLevel -= 1;
       tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel* 3;
       tmpSpell.level = targetSpell.level;
+      DSASpell *s = self.currentSpells[spell.name];
+      s.level += 1;
+      s.everLeveledUp = YES;      
       result = YES;
     }
   else
@@ -3627,6 +3633,9 @@ NSLog(@"Pointers: t1=%p, t2=%p", t1, t2);
       tmpSpell.maxUpPerLevel -= 1;
       tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
       tmpSpell.level = targetSpell.level;
+      DSASpell *s = self.currentSpells[spell.name];
+      s.level += 1;
+      s.everLeveledUp = YES;      
     }
   else
     {
@@ -3717,6 +3726,9 @@ NSLog(@"Pointers: t1=%p, t2=%p", t1, t2);
       tmpSpell.maxUpPerLevel -= 1;
       tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
       tmpSpell.level = targetSpell.level;
+      DSASpell *s = self.currentSpells[spell.name];
+      s.level += 1;
+      s.everLeveledUp = YES;      
     }
   else
     {
@@ -3813,6 +3825,9 @@ NSLog(@"Pointers: t1=%p, t2=%p", t1, t2);
       tmpSpell.maxUpPerLevel -= 1;
       tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
       tmpSpell.level = targetSpell.level;
+      DSASpell *s = self.currentSpells[spell.name];
+      s.level += 1;
+      s.everLeveledUp = YES;      
     }
   else
     {
@@ -3898,6 +3913,9 @@ NSLog(@"Pointers: t1=%p, t2=%p", t1, t2);
       tmpSpell.maxUpPerLevel -= 1;
       tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
       tmpSpell.level = targetSpell.level;
+      DSASpell *s = self.currentSpells[spell.name];
+      s.level += 1;
+      s.everLeveledUp = YES;      
       result = YES;
     }
   else
@@ -4115,6 +4133,9 @@ NSLog(@"Pointers: t1=%p, t2=%p", t1, t2);
       tmpSpell.maxUpPerLevel -= 1;
       tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
       tmpSpell.level = targetSpell.level;
+      DSASpell *s = self.currentSpells[spell.name];
+      s.level += 1;
+      s.everLeveledUp = YES;      
     }
   else
     {
@@ -4216,6 +4237,9 @@ NSLog(@"Pointers: t1=%p, t2=%p", t1, t2);
       tmpSpell.maxUpPerLevel -= 1;
       tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
       tmpSpell.level = targetSpell.level;
+      DSASpell *s = self.currentSpells[spell.name];
+      s.level += 1;
+      s.everLeveledUp = YES;      
     }
   else
     {
@@ -4350,6 +4374,9 @@ NSLog(@"Pointers: t1=%p, t2=%p", t1, t2);
       tmpSpell.maxUpPerLevel -= 1;
       tmpSpell.maxTriesPerLevelUp = tmpSpell.maxUpPerLevel * 3;
       tmpSpell.level = targetSpell.level;
+      DSASpell *s = self.currentSpells[spell.name];
+      s.level += 1;
+      s.everLeveledUp = YES;      
     }
   else
     {
