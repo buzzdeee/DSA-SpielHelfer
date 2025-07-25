@@ -73,8 +73,8 @@
     NSMenuItem *item = (NSMenuItem *)[self.popupActions lastItem];
     [item setRepresentedObject:talent];
   }
-  
-  DSATalent *selectedTalent = (DSATalent *)[[self.popupActions selectedItem] representedObject];
+  [self populateTargetForTalentAction];
+/*  DSATalent *selectedTalent = (DSATalent *)[[self.popupActions selectedItem] representedObject];
   switch (selectedTalent.targetType)
     {
       case DSAActionTargetTypeNone: {
@@ -84,7 +84,7 @@
       default: {
         [self enableTargetsForType: selectedTalent.targetType];
       }
-    }
+    } */
   self.buttonCancel.title = @"Abbrechen";
   self.buttonDoIt.title = @"Anwenden";
 }
@@ -113,8 +113,8 @@
     NSMenuItem *item = (NSMenuItem *)[self.popupActions lastItem];
     [item setRepresentedObject:spell];
   }
-  
-  DSASpell *selectedSpell = (DSASpell *)[[self.popupActions selectedItem] representedObject];
+  [self populateTargetForSpellAction];
+/*  DSASpell *selectedSpell = (DSASpell *)[[self.popupActions selectedItem] representedObject];
   NSLog(@"DSAActionViewController initializeViewForSpells: %@ TargetType: %ld", selectedSpell.name, selectedSpell.targetType);
   switch (selectedSpell.targetType)
     {
@@ -126,7 +126,7 @@
         [self enableTargetsForType: selectedSpell.targetType];
       }
     }
-
+*/
   self.buttonCancel.title = @"Abbrechen";
   self.buttonDoIt.title = @"Anwenden";
 }
@@ -156,8 +156,8 @@
     NSMenuItem *item = (NSMenuItem *)[self.popupActions lastItem];
     [item setRepresentedObject:spell];
   }
-
-  DSASpell *selectedSpell = (DSASpell *)[[self.popupActions selectedItem] representedObject];
+  [self populateTargetForSpellAction];
+/*  DSASpell *selectedSpell = (DSASpell *)[[self.popupActions selectedItem] representedObject];
   switch (selectedSpell.targetType)
     {
       case DSAActionTargetTypeNone: {
@@ -167,7 +167,7 @@
       default: {
         [self enableTargetsForType: selectedSpell.targetType];
       }
-    }  
+    }  */
   self.buttonCancel.title = @"Abbrechen";
   self.buttonDoIt.title = @"Anwenden";
 }
@@ -183,11 +183,24 @@
 
 - (void) enableTargetsForType: (DSAActionTargetType) targetType
 {
-  NSLog(@"DSAActionIconViewController enableTargetsForType NOT IMPLEMENTED YET");
+  NSLog(@"DSAActionIconViewController called!");
   switch (targetType) {
     case DSAActionTargetTypeAlly: {
       [self.fieldActionQuestionTarget setHidden: NO];
-      self.fieldActionQuestionTarget.stringValue = @"Auf wen soll der Spruch angewendet werden?";
+      switch (self.viewMode) {
+        case DSAActionViewModeTalent: {
+          self.fieldActionQuestionTarget.stringValue = @"Auf wen soll das Talent angewendet werden?";
+          break;
+        }
+        case DSAActionViewModeSpell: {
+          self.fieldActionQuestionTarget.stringValue = @"Auf wen soll der Spruch angewendet werden?";
+          break;
+        }
+        case DSAActionViewModeRitual: {
+          self.fieldActionQuestionTarget.stringValue = @"Auf wen soll das Ritual angewendet werden?";
+          break;
+        }
+      }
       [self.popupTargets removeAllItems];
       [self.popupTargets setEnabled: YES];
       [self.popupTargets setHidden: NO];
@@ -242,8 +255,52 @@
 }
 - (IBAction)popupActionSelected:(id)sender
 {
-
+    switch (self.viewMode) {
+      case DSAActionViewModeTalent: {
+        [self populateTargetForTalentAction];
+        break;
+      }
+      case DSAActionViewModeSpell: {
+        [self populateTargetForSpellAction];
+        break;
+      }
+      case DSAActionViewModeRitual: {
+        [self populateTargetForSpellAction];
+        break;
+      }      
+    }
 }
+
+-(void) populateTargetForSpellAction
+{
+  DSASpell *selectedSpell = (DSASpell *)[[self.popupActions selectedItem] representedObject];
+  switch (selectedSpell.targetType)
+    {
+      case DSAActionTargetTypeNone: {
+        [self disableTargets];
+        break;
+      }
+      default: {
+        [self enableTargetsForType: selectedSpell.targetType];
+      }
+    }
+}
+
+-(void) populateTargetForTalentAction
+{
+  DSATalent *selectedTalent = (DSATalent *)[[self.popupActions selectedItem] representedObject];
+  switch (selectedTalent.targetType)
+    {
+      case DSAActionTargetTypeNone: {
+        [self disableTargets];
+        break;
+      }
+      default: {
+        [self enableTargetsForType: selectedTalent.targetType];
+      }
+    }
+}
+
 - (IBAction)popupTargetSelected:(id)sender
 {
 

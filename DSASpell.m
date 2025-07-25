@@ -137,6 +137,12 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   return self;
 }
 
+
+-(void)setTargetType: (DSAActionTargetType) targetType
+{
+  _targetType = targetType;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)coder
 {
   self = [super init];
@@ -600,6 +606,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                   onLevel: (NSInteger) level
                withOrigin: (NSArray *) origin
                  withTest: (NSArray *) test
+          withMaxDistance: (NSInteger) maxDistance                 
              withVariants: (NSArray *) variants
      withDurationVariants: (NSArray *) durationVariants
    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
@@ -694,6 +701,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                   onLevel: (NSInteger) level
                withOrigin: (NSArray *) origin
                  withTest: (NSArray *) test
+          withMaxDistance: (NSInteger) maxDistance                 
              withVariants: (NSArray *) variants
      withDurationVariants: (NSArray *) durationVariants
    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
@@ -787,6 +795,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                   onLevel: (NSInteger) level
                withOrigin: (NSArray *) origin
                  withTest: (NSArray *) test
+          withMaxDistance: (NSInteger) maxDistance                 
              withVariants: (NSArray *) variants
      withDurationVariants: (NSArray *) durationVariants
    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
@@ -876,7 +885,6 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   return spellResult;
 }             
 @end
-
 @implementation DSASpellBalsamSalabunde
 - (instancetype)initSpell: (NSString *) name
                 ofVariant: (NSString *) variant
@@ -885,6 +893,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                   onLevel: (NSInteger) level
                withOrigin: (NSArray *) origin
                  withTest: (NSArray *) test
+          withMaxDistance: (NSInteger) maxDistance                 
              withVariants: (NSArray *) variants
      withDurationVariants: (NSArray *) durationVariants
    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
@@ -909,7 +918,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.removalCostASP = 0;    
       self.everLeveledUp = NO;
       self.isTraditionSpell = NO;
-      self.maxDistance = 0;             // has ot be close by
+      self.maxDistance = 0;             // has to be close by
       self.canCastOnSelf = YES;
       self.targetType = DSAActionTargetTypeAlly;
       self.allowedTargetTypes = @[ @"DSACharacter" ];
@@ -925,6 +934,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.parameterDescriptors = @[ asp ]; 
       
     }
+  NSLog(@"DSASpellBalsamSalabunde initSpell returning self: %@", self);  
   return self;
 }
 

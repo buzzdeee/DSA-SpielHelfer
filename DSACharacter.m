@@ -701,6 +701,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         }      
       self.spells = [coder decodeObjectForKey:@"spells"];
       self.currentSpells = [coder decodeObjectForKey: @"currentSpells"];
+      NSLog(@"DSACharacter initWithCoder: spell: %@ currentSpell: %@", self.spells[@"Balsam Salabunde"], self.currentSpells[@"Balsam Salabunde"]);
       if (!self.currentSpells  || [self.currentSpells count] == 0)
         {
           self.currentSpells = (NSMutableDictionary<NSString *, DSASpell *> *)
@@ -1261,7 +1262,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
    NSMutableArray *talents = [[NSMutableArray alloc] init];
    for (NSString *name in names)
      {
-       if (self.talents[name] && [self canUseTalentWithName: name])
+       if (self.currentTalents[name] && [self canUseTalentWithName: name])
          {
            [talents addObject: self.talents[name]];
          }
@@ -1273,7 +1274,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
    NSMutableArray *spells = [[NSMutableArray alloc] init];
    for (NSString *name in names)
      {
-       if (self.spells[name] && [self canCastSpellWithName: name])
+       if (self.currentSpells[name] && [self canCastSpellWithName: name])
          {
            [spells addObject: self.spells[name]];
          }
@@ -1288,7 +1289,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
    for (NSString *name in names)
      {
        NSLog(@"DSACharacter activeRitualsWithNames testing ritual: %@", name);
-       if (self.specials[name] && [self canCastRitualWithName: name])
+       if (self.currentSpecials[name] && [self canCastRitualWithName: name])
          {
            [rituals addObject: self.specials[name]];
          }
