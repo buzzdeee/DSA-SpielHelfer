@@ -109,7 +109,8 @@
 	"DSAIllness.m",
 	"DSAActionViewController.m",
 	"DSAActionParameterDescriptor.m",
-	"DSAActionSliderQuestionController.m"
+	"DSAActionSliderQuestionController.m",
+	"DSAPoison.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -212,7 +213,8 @@
 	"DSAActionViewController.h",
 	"DSADefinitions.h",
 	"DSAActionParameterDescriptor.h",
-	"DSAActionSliderQuestionController.h"
+	"DSAActionSliderQuestionController.h",
+	"DSAPoison.h"
     );
     IMAGES = (
 	"Aventurien.jpg",
@@ -6009,7 +6011,8 @@
 	"dialogue_shopkeeper_herbs.json",
 	"dialogue_shopkeeper_weapon.json",
 	"dialogue_tavern.json",
-	"dialogue_temple_priest.json"
+	"dialogue_temple_priest.json",
+	"Gifte.json"
     );
     "OTHER_SOURCES" = (
 	"DSA-SpielHelfer_main.m"

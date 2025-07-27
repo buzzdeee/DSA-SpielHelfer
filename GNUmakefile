@@ -5806,7 +5806,8 @@ Resources/dialogue_shopkeeper_general.json \
 Resources/dialogue_shopkeeper_herbs.json \
 Resources/dialogue_shopkeeper_weapon.json \
 Resources/dialogue_tavern.json \
-Resources/dialogue_temple_priest.json 
+Resources/dialogue_temple_priest.json \
+Resources/Gifte.json 
 
 
 #
@@ -5906,7 +5907,8 @@ DSAIllness.h \
 DSAActionViewController.h \
 DSADefinitions.h \
 DSAActionParameterDescriptor.h \
-DSAActionSliderQuestionController.h
+DSAActionSliderQuestionController.h \
+DSAPoison.h
 
 #
 # Objective-C Class files
@@ -6004,7 +6006,8 @@ DSAConversationDialogSheetController.m \
 DSAIllness.m \
 DSAActionViewController.m \
 DSAActionParameterDescriptor.m \
-DSAActionSliderQuestionController.m
+DSAActionSliderQuestionController.m \
+DSAPoison.m
 
 #
 # Other sources

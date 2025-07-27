@@ -70,43 +70,6 @@
     copy->_reversibleChanges = [[NSDictionary allocWithZone:zone] initWithDictionary:self.reversibleChanges copyItems:YES];
     return copy;
 }
-@end
-
-@implementation DSAIllnessEffect
-- (instancetype)initWithCoder:(NSCoder *)coder {
-    self = [super initWithCoder:coder];
-    if (self) {
-        _currentStage = [coder decodeIntegerForKey:@"currentStage"];    
-        _dailyDamage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"dailyDamage"];
-        _dailyDamageApplyNextDate = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"dailyDamageApplyNextDate"];
-        _oneTimeDamage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"oneTimeDamage"];
-        _followUpIllnessChance = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"followUpIllnessChance"];
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder {
-    [super encodeWithCoder:coder];
-    [coder encodeInteger:self.currentStage forKey:@"currentStage"];    
-    [coder encodeObject:_dailyDamage forKey:@"dailyDamage"];
-    [coder encodeObject:_dailyDamageApplyNextDate forKey:@"dailyDamageApplyNextDate"];
-    [coder encodeObject:_oneTimeDamage forKey:@"oneTimeDamage"];
-    [coder encodeObject:_followUpIllnessChance forKey:@"followUpIllnessChance"];
-}
-
-+ (BOOL)supportsSecureCoding {
-    return YES;
-}
-
-- (id)copyWithZone:(NSZone *)zone {
-    DSAIllnessEffect *copy = [super copyWithZone:zone];
-    copy->_currentStage = self.currentStage;    
-    copy->_dailyDamage = [_dailyDamage copyWithZone:zone];
-    copy->_dailyDamageApplyNextDate = [_dailyDamageApplyNextDate copyWithZone:zone];
-    copy->_oneTimeDamage = [_oneTimeDamage copyWithZone:zone];
-    copy->_followUpIllnessChance = [_followUpIllnessChance copyWithZone:zone];
-    return copy;
-}
 
 - (NSString *)description
 {
@@ -147,6 +110,95 @@
 }
 @end
 
+@implementation DSAIllnessEffect
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+        _currentStage = [coder decodeIntegerForKey:@"currentStage"];    
+        _dailyDamage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"dailyDamage"];
+        _dailyDamageApplyNextDate = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"dailyDamageApplyNextDate"];
+        _oneTimeDamage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"oneTimeDamage"];
+        _followUpIllnessChance = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"followUpIllnessChance"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [super encodeWithCoder:coder];
+    [coder encodeInteger:self.currentStage forKey:@"currentStage"];    
+    [coder encodeObject:_dailyDamage forKey:@"dailyDamage"];
+    [coder encodeObject:_dailyDamageApplyNextDate forKey:@"dailyDamageApplyNextDate"];
+    [coder encodeObject:_oneTimeDamage forKey:@"oneTimeDamage"];
+    [coder encodeObject:_followUpIllnessChance forKey:@"followUpIllnessChance"];
+}
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    DSAIllnessEffect *copy = [super copyWithZone:zone];
+    copy->_currentStage = self.currentStage;    
+    copy->_dailyDamage = [_dailyDamage copyWithZone:zone];
+    copy->_dailyDamageApplyNextDate = [_dailyDamageApplyNextDate copyWithZone:zone];
+    copy->_oneTimeDamage = [_oneTimeDamage copyWithZone:zone];
+    copy->_followUpIllnessChance = [_followUpIllnessChance copyWithZone:zone];
+    return copy;
+}
+@end
+
+@implementation DSAPoisonEffect
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [super encodeWithCoder:coder];
+
+    [coder encodeObject:self.recurringDamage forKey:@"recurringDamage"];
+    [coder encodeInteger:self.beforePoisonActiveCounter forKey:@"beforePoisonActiveCounter"];
+    [coder encodeInteger:self.oncePoisonActiveCounter forKey:@"oncePoisonActiveCounter"];
+    [coder encodeInteger:self.beforePoisonActive forKey:@"beforePoisonActive"];
+    [coder encodeInteger:self.oncePoisonActive forKey:@"oncePoisonActive"];
+    [coder encodeObject:self.recurringDamageApplyNextDate forKey:@"recurringDamageApplyNextDate"];
+    [coder encodeObject:self.oneTimeDamage forKey:@"oneTimeDamage"];
+    [coder encodeInteger:self.currentStage forKey:@"currentStage"];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+        _recurringDamage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"recurringDamage"];
+        _beforePoisonActiveCounter = [coder decodeIntegerForKey:@"beforePoisonActiveCounter"];
+        _oncePoisonActiveCounter = [coder decodeIntegerForKey:@"oncePoisonActiveCounter"];
+        _beforePoisonActive = [coder decodeIntegerForKey:@"beforePoisonActive"];
+        _oncePoisonActive = [coder decodeIntegerForKey:@"oncePoisonActive"];
+        _recurringDamageApplyNextDate = [coder decodeObjectOfClass:[DSAAventurianDate class] forKey:@"recurringDamageApplyNextDate"];
+        _oneTimeDamage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"oneTimeDamage"];
+        _currentStage = [coder decodeIntegerForKey:@"currentStage"];
+    }
+    return self;
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+    DSAPoisonEffect *copy = [super copyWithZone:zone];
+    if (copy) {
+        copy.recurringDamage = [self.recurringDamage copyWithZone:zone];
+        copy.beforePoisonActiveCounter = self.beforePoisonActiveCounter;
+        copy.oncePoisonActiveCounter = self.oncePoisonActiveCounter;
+        copy.beforePoisonActive = self.beforePoisonActive;
+        copy.oncePoisonActive = self.oncePoisonActive;
+        copy.recurringDamageApplyNextDate = [self.recurringDamageApplyNextDate copyWithZone:zone];
+        copy.oneTimeDamage = [self.oneTimeDamage copyWithZone:zone];
+        copy.currentStage = self.currentStage;
+    }
+    return copy;
+}
+
+@end
 @implementation DSACharacter
 
 static NSDictionary<NSString *, Class> *typeToClassMap = nil;

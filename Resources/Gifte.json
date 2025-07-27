@@ -1,0 +1,498 @@
+{
+  "Angstgift": {
+    "Stufe": 4,
+    "Typ": [ "Waffengift" ], 
+    "Beginn": {
+      "Sofort": true
+    },
+    "Dauer": {
+      "SR": 3
+    },
+    "Haltbarkeit": {
+      "Monate": 18
+    },
+    "Preis": 250,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 6
+        },
+        "Zauber": "Horriphobus Schreckenspein"
+      }
+    ] 
+  },
+  "Arachnae": {
+    "Stufe": 1,
+    "Typ": [ "Waffengift" ],
+    "Beginn": {
+      "Sofort": true
+    },
+    "Dauer": {
+      "Stunden": 1
+    },
+    "Haltbarkeit": {
+      "Monate": 3
+    },
+    "Preis": 50,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 3
+        }
+      }
+    ]
+  },
+  "Arax": {
+    "Stufe": 5,
+    "Typ": [ "Waffengift" ],
+    "Beginn": {
+      "SR": 2
+    },
+    "Dauer": {
+      "Tage": 1
+    },
+    "Haltbarkeit": {
+      "Monate": 6
+    },
+    "Preis": 350,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 10
+        }
+      }
+    ]
+  },
+  "Bannstaub": {
+    "Stufe": 15,
+    "Typ": [ "Einnahmegift" ],
+    "Beginn": {
+      "SR": 1
+    },
+    "Dauer": {
+      "Wuerfel": "3W6",
+      "SR": 0
+    },
+    "Haltbarkeit": {
+      "Monate": 12
+    },
+    "Preis": 2500,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 15
+        }
+      }
+    ]
+  },
+  "Boabungaha": {
+    "Stufe": 19,
+    "Typ": [ "Atemgift" ],
+    "Beginn": {
+      "KR": 5
+    },
+    "Dauer": {
+      "Bis zum Tode": true
+    },
+    "Haltbarkeit": {
+      "Monate": 6
+    },
+    "Preis": 2500,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Pflanzenkunde": 12
+        }
+      }
+    ]
+  },
+  "Drachenspeichel": {
+    "Stufe": 7,
+    "Typ": [ "Waffengift", "Einnahmegift" ],
+    "Beginn": {
+      "SR": 1,
+      "Wuerfel": "1W6"
+    },
+    "Dauer": {
+      "SR": 1,
+      "Wuerfel": "1W6"
+    },
+    "Haltbarkeit": {
+      "Monate": 12
+    },
+    "Preis": 400,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 7
+        }
+      }
+    ]
+  },
+  "Feuerzunge": {
+    "Stufe": 5,
+    "Typ": [ "Einnahmegift" ],
+    "Beginn": {
+      "SR": 5
+    },
+    "Dauer": {
+      "Stunden": 5
+    },
+    "Haltbarkeit": {
+      "Monate": 36
+    },
+    "Preis": 250,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 7 
+        }
+      }
+    ]
+  },
+  "Goldleim": {
+    "Stufe": 5,
+    "Typ": [ "Kontaktgift", "Waffengift" ],
+    "Beginn": {
+      "Sofort": true
+    },
+    "Dauer": {
+      "Stunden": 0,
+      "Wuerfel": "2W6"
+    },
+    "Haltbarkeit": {
+      "Monate": 6,
+      "Wuerfel": "1W6"
+    },
+    "Preis": 300,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 6
+        }
+      },
+      {
+        "Talentprobe": {
+          "Pflanzenkunde": 6
+        }
+      }
+    ]
+  },
+  "Gonede": {
+    "Stufe": 8,
+    "Typ": [ "Waffengift" ],
+    "Beginn": {
+      "KR": 10
+    },
+    "Dauer": {
+      "SR": 5
+    },
+    "Haltbarkeit": {
+      "Monate": 9
+    },
+    "Preis": 700,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 9
+        }
+      }
+    ]
+  },
+  "Halbgift": {
+    "Stufe": 8,
+    "Typ": [ "Waffengift", "Einnahmegift" ],
+    "Beginn": {
+      "KR": 4
+    },
+    "Dauer": {
+      "SR": 4 
+    },
+    "Haltbarkeit": {
+      "Monate": 3 
+    },
+    "Preis": 600,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 8
+        },
+        "Zauber": "Plumbumbarum und Narretei"
+      } 
+    ]
+  },
+  "Kelmon": {
+    "Stufe": 5,
+    "Typ": [ "Waffengift", "Kontaktgift" ],
+    "Beginn": {
+      "KR": 5
+    },
+    "Dauer": {
+      "SR": 6
+    },
+    "Haltbarkeit": {
+      "Monate": 9,
+      "Wuerfel": "1W6"
+    },
+    "Preis": 300,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 8
+        },
+        "Talentprobe": {
+          "Pflanzenkunde": 8
+        }
+      }
+    ]
+  },
+  "Kukris": {
+    "Stufe": 12,
+    "Typ": [ "Waffengift", "Einnahmegift" ],
+    "Beginn": {
+      "KR": 10
+    },
+    "Dauer": {
+      "SR": 3
+    },
+    "Haltbarkeit": {
+      "Monate": 3
+    },
+    "Preis": 900,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 12
+        },
+        "Talentprobe": {
+          "Pflanzenkunde": 9
+        }
+      }
+    ]
+  },
+  "Mandragora": {
+    "Stufe": 2,
+    "Typ": [ "Waffengift" ],
+    "Beginn": {
+      "KR": 5
+    },
+    "Dauer": {
+      "KR": 30
+    },
+    "Haltbarkeit": {
+      "Monate": 8
+    },
+    "Preis": 30,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 3
+        }
+      }
+    ]
+  },
+  "Omrais": {
+    "Stufe": 11,
+    "Typ": [ "Waffengift", "Einnahmegift" ],
+    "Beginn": {
+      "SR": 1 
+    },
+    "Dauer": {
+      "SR": 1
+    },
+    "Haltbarkeit": {
+      "Monate": 6
+    },
+    "Preis": 800,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 8 
+        }
+      }
+    ]
+  },
+  "Purpurblitz": {
+    "Stufe": 20,
+    "Typ": [ "Einnahmegift" ],
+    "Beginn": {
+      "Sofort": true
+    },
+    "Dauer": {
+      "Bis zum Tode": true
+    },
+    "Haltbarkeit": {
+      "Monate": 12
+    },
+    "Preis": 3000,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 10
+        }
+      }
+    ]
+  },
+  "Samthauch": {
+    "Stufe": 5,
+    "Typ": [ "Atemgift" ],
+    "Beginn": {
+      "SR": 1
+    },
+    "Dauer": {
+      "Stunden": 0,
+      "Wuerfel": "1W6"
+    },
+    "Haltbarkeit": {
+      "Monate": 2
+    },
+    "Preis": 200,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 9
+        }
+      },
+      {
+        "Talentprobe": {
+          "Pflanzenkunde": 6
+        }
+      }
+    ]
+  },
+  "Schlafgift": {
+    "Stufe": 5,
+    "Typ": [ "Waffengift", "Einnahmegift" ],
+    "Beginn": {
+      "SR": 3
+    },
+    "Dauer": {
+      "SR": 7
+    },
+    "Haltbarkeit": {
+      "Monate": 12
+    },
+    "Preis": 350,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 9 
+        },
+        "Zauber": "Somnigravis Tausend Schaf"
+      }
+    ]
+  },
+  "Schwarzer Lotos": {
+    "Stufe": 10,
+    "Typ": [ "Atemgift" ],
+    "Beginn": {
+      "KR": 5
+    },
+    "Dauer": {
+      "Stunden": 2 
+    },
+    "Haltbarkeit": {
+      "Tage": 15,
+      "Wuerfel": "2W6"
+    },
+    "Preis": 1000,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Pflanzenkunde": 10
+        }
+      }
+    ]
+  },
+  "Sunsura": {
+    "Stufe": 9,
+    "Typ": [ "Waffengift", "Einnahmegift" ],
+    "Beginn": {
+      "SR": 1 
+    },
+    "Dauer": {
+      "SR": 10
+    },
+    "Haltbarkeit": {
+      "Monate": 9
+    },
+    "Preis": 900,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 6
+        } 
+      }
+    ]
+  },
+  "Tinzal": {
+    "Stufe": 7,
+    "Typ": [ "Waffengift" ],
+    "Beginn": {
+      "SR": 1
+    },
+    "Dauer": {
+      "SR": 0,
+      "Wuerfel": "2W6"
+    },
+    "Haltbarkeit": {
+      "Monate": 12 
+    },
+    "Preis": 400,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 6 
+        }
+      }
+    ]
+  },
+  "Tulmadron": {
+    "Stufe": 15,
+    "Typ": [ "Waffengift", "Einnahmegift" ],
+    "Beginn": {
+      "KR": 20
+    },
+    "Dauer": {
+      "SR": 4
+    },
+    "Haltbarkeit": {
+      "unbegrenzt": true
+    },
+    "Preis": 2000,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 9
+        }
+      }
+    ]
+  },
+  "Wurara": {
+    "Stufe": 4,
+    "Typ": [ "Waffengift" ],
+    "Beginn": {
+      "SR": 4
+    },
+    "Dauer": {
+      "Stunden": 0,
+      "Wuerfel": "1W6" 
+    },
+    "Haltbarkeit": {
+      "Monate": 4
+    },
+    "Preis": 150,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 5
+        }
+      },
+      {
+        "Talentprobe": {
+          "Pflanzenkunde": 4
+        }
+      }
+    ]
+  }
+}

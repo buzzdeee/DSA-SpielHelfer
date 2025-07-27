@@ -68,7 +68,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
 @property (nonatomic) BOOL canShareSlot;
 @property (nonatomic, strong) NSArray<NSNumber *> *occupiedBodySlots; // Body parts this item occupies
 @property (nonatomic, strong) NSArray<NSNumber *> *validSlotTypes; // List of DSASlotTypes this object can be placed in
-@property (nonatomic, strong) NSMutableDictionary<NSString*, DSASpell *> *appliedSpells;  // spells casted onto a character, and having effect on it
+@property (nonatomic, strong) NSMutableDictionary<NSString*, DSASpell *> *appliedSpells;  // spells casted onto an object, and having effect on it
 
 
 - (instancetype) initWithName: (NSString *) name forOwner: (NSUUID *)ownerUUID;

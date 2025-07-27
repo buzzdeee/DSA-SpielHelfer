@@ -84,10 +84,29 @@ typedef NS_ENUM(NSUInteger, DSAActionParameterType) {
     DSAActionParameterTypeActiveGroup          // no need to ask the user
 };
 
-
-
 NSArray<NSString *> *DSAShopGeneralStoreCategories(void);
 NSArray<NSString *> *DSAShopWeaponStoreCategories(void);
+
+typedef NS_ENUM(NSInteger, DSAPoisonType) {
+    DSAPoisonTypeUnknown = 0,
+    DSAPoisonTypeOral,
+    DSAPoisonTypeContact,
+    DSAPoisonTypeWeapon,
+    DSAPoisonTypeInhalation,
+    DSAPoisonTypeInjection,
+};
+
+typedef NS_ENUM(NSInteger, DSATimeInterval) {
+    DSATimeIntervalUnknown = 0,
+    DSATimeIntervalKR,          // Kampfrunde, ca. 5 Sekunden
+    DSATimeIntervalSR,          // Spielrunde, ca. 1 Minute
+    DSATimeIntervalMinute,
+    DSATimeIntervalHour,
+    DSATimeIntervalDay,
+    DSATimeIntervalWeek,
+    DSATimeIntervalMonth,
+    DSATimeIntervalYear,
+};
 
 #endif // _DSADEFINITIONS_H_
 
