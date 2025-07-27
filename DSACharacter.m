@@ -37,6 +37,7 @@
 #import "DSAWallet.h"
 #import "DSAGod.h"
 #import "DSAIllness.h"
+#import "DSASpellResult.h"
 
 @implementation DSACharacterEffect
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -1450,17 +1451,23 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
 }
 
-- (DSASpellResult *) castSpell: (NSString *) spellName 
-                     ofVariant: (NSString *) variant
-             ofDurationVariant: (NSString *) durationVariant
+- (DSASpellResult *) castSpell: (DSASpell *) spell 
+                     ofVariant: (nullable NSString *) variant
+             ofDurationVariant: (nullable NSString *) durationVariant
                       onTarget: (DSACharacter *) targetCharacter 
                     atDistance: (NSInteger) distance
                    investedASP: (NSInteger) investedASP 
-          spellOriginCharacter: (DSACharacter *) originCharacter
+          spellOriginCharacter: (nullable DSACharacter *) originCharacter
 {
   NSLog(@"DSACharacter castSpell called!!!");
   DSASpellResult *spellResult;
-  DSASpell *spell = self.currentSpells[spellName];
+  if (!self.currentSpells[spell.name])
+    {
+      spellResult = [[DSASpellResult alloc] init];
+      spellResult.result = DSAActionResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@ hat den Spruch %@ doch gar nicht in seinem Repertoire", self.name, spell.name];
+      return spellResult;
+    }
   spellResult = [spell castOnTarget: targetCharacter
                           ofVariant: (NSString *) variant
                   ofDurationVariant: (NSString *) durationVariant

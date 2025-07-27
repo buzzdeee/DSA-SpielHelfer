@@ -28,6 +28,7 @@
 #import "DSATrait.h"
 #import "DSADefinitions.h"
 #import "DSAActionParameterDescriptor.h"
+#import "DSAAdventureGroup.h"
 
 @implementation DSASpell
 
@@ -46,6 +47,9 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 _(@"Bewegungen stören"): [DSASpellBewegungenStoeren class],
                 _(@"Destructibo Arcanitas"): [DSASpellDestructiboArcanitas class],
                 _(@"Balsam Salabunde"): [DSASpellBalsamSalabunde class],
+                _(@"Klarum Purum Kräutersud"): [DSASpellKlarumPurum class],
+                _(@"Analüs Arcanstruktur"): [DSASpellAnaluesArcanstruktur class],
+                _(@"Odem Arcanum Senserei"): [DSASpellOdemArcanum class],                
               };
             }
         }
@@ -411,27 +415,36 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 - (BOOL) verifyDistance: (NSInteger) distance
 {
+  NSLog(@"DSASpell verifyDistance: maxDistance: %@ distance: %@", @(self.maxDistance), @(distance));
   return self.maxDistance >= distance ? YES : NO;
 }
 
-- (BOOL) verifyTarget: (id) target andOrigin: (DSACharacter *) origin
-{
 
-  if ([self.allowedTargetTypes containsObject: NSStringFromClass([target class])])
-    {
+
+- (BOOL) verifyTarget: (id) target
+            forCaster: (DSACharacter *) caster
+{
       if ([target isKindOfClass: [DSACharacter class]])
         {
+        
+          if (![self.allowedTargetTypes containsObject: @"DSACharacter"])
+            {
+              return NO;
+            }
           if (!self.canCastOnSelf)
             {
-              if ([[(DSACharacter *)target modelID] isEqual: [origin modelID]])
+              if ([[(DSACharacter *)target modelID] isEqual: caster.modelID])
                 {
                   return NO;
                 }
             }
         }
-
-      if ([target isKindOfClass:[DSAObject class]])
+      else if ([target isKindOfClass:[DSAObject class]])
         {
+          if (![self.allowedTargetTypes containsObject: @"DSAObject"])
+            {
+              return NO;
+            }        
           if ([self.targetTypeRestrictions count] > 0)
             {
               for (NSString *constraint in [self.targetTypeRestrictions allKeys])
@@ -461,16 +474,64 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 }
             }
         }
+      else if ([target isKindOfClass:[DSAAdventureGroup class]])  
+            if ([target isKindOfClass: [DSAAdventureGroup class]])
+        {
+        
+          if (![self.allowedTargetTypes containsObject: @"DSAAdventureGroup"])
+            {
+              return NO;
+            }
+          DSAAdventureGroup *group = (DSAAdventureGroup *) target;
+          if (![group.allMembers containsObject: caster.modelID])
+            {
+              return NO;
+            }
+        }
       return YES;
-    }
-  else
-    {
-      return NO;
-    }
-
 }
 
-- (DSASpellResult *) testTraitsWithSpellLevel: (NSInteger) level castingCharacter: (DSACharacter *) castingCharacter
+- (DSASpellResult *) verifyParametersForTarget: (id) target
+                                   withVariant: (NSString *) variant
+                           withDurationVariant: (NSString *) durationVariant
+                                  withDistance: (NSInteger) distance
+                                    withCaster: (DSACharacter *) castingCharacter
+                                    withOrigin: (DSACharacter *) spellOriginCharacter
+{
+  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  
+  if (![self.variants containsObject: variant])
+    {
+      spellResult.result = DSAActionResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist eine unbekannte Variante des Zaubers."), variant];
+      return spellResult;      
+    }
+  if (![self.durationVariants containsObject: durationVariant])
+    {
+      spellResult.result = DSAActionResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist eine unbekannte Zauberdauervariante des Zaubers."), durationVariant];
+      return spellResult;      
+    }     
+  if (![self verifyTarget: target forCaster: castingCharacter])
+    {
+      spellResult.result = DSAActionResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ kann den Spruch %@ nicht auf das Ziel sprechen."), castingCharacter.name, self.name];
+      return spellResult;      
+    }
+  if (![self verifyDistance: distance])
+    {
+      spellResult.result = DSAActionResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"Ziel ist zu weit entfernt.")];
+      return spellResult;
+    }
+  
+  return spellResult;  
+}                                    
+                               
+                                  
+
+- (DSASpellResult *) testTraitsWithSpellLevel: (NSInteger) level 
+                             castingCharacter: (DSACharacter *) castingCharacter
 {
   DSASpellResult *spellResult = [[DSASpellResult alloc] init];
   NSMutableArray *resultsArr = [[NSMutableArray alloc] init];
@@ -529,11 +590,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       if (oneCounter == 2)
         {
           spellResult.result = DSAActionResultAutoSuccess;
+          spellResult.resultDescription = @"Der Zauber ist gut gelungen!";
           spellResult.remainingSpellPoints = level;
         }
       else
         {
           spellResult.result = DSAActionResultEpicSuccess;
+          spellResult.resultDescription = @"Der Zauber ist phänomenal gelungen!";
           spellResult.remainingSpellPoints = level;        
         }
     }
@@ -542,11 +605,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       if (twentyCounter == 2)
         {
           spellResult.result = DSAActionResultAutoFailure;
+          spellResult.resultDescription = @"Der Zauber ist ganz schön daneben gegangen!";
           spellResult.remainingSpellPoints = level;        
         }
       else
         {
           spellResult.result = DSAActionResultEpicFailure;
+          spellResult.resultDescription = @"Der Zauber ist phänomenal fehlgeschlagen!";
           spellResult.remainingSpellPoints = level;          
         }
     }
@@ -555,11 +620,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       if (earlyFailure == YES)
         {
           spellResult.result = DSAActionResultFailure;
+          spellResult.resultDescription = @"Der Zauber ist fehlgeschlagen!";
           spellResult.remainingSpellPoints = level;
         }
       else
         {
           spellResult.result = DSAActionResultSuccess;
+          spellResult.resultDescription = @"Der Zauber hat geklappt!";
           spellResult.remainingSpellPoints = level;
         }
     }
@@ -597,7 +664,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 // All the DSASpell spell subclasses go here
 
-// Antimagie
+#pragma mark - Antimagie
+
 @implementation DSASpellBeherrschungenBrechen
 - (instancetype)initSpell: (NSString *) name
                 ofVariant: (NSString *) variant
@@ -632,7 +700,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.removalCostASP = 0;      
       self.everLeveledUp = NO;
       self.isTraditionSpell = NO;
-      self.maxDistance = 0;
+      self.maxDistance = 1;
       self.targetType = DSAActionTargetTypeHuman;
       self.allowedTargetTypes = @[ @"DSACharacter" ];
       self.spellDuration = -1;
@@ -650,20 +718,18 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellBeherrschungenBrechen called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
-  
-  if (![self verifyDistance: distance])
+  DSASpellResult *spellResult = [self verifyParametersForTarget: target
+                                                    withVariant: variant
+                                            withDurationVariant: durationVariant
+                                                   withDistance: distance
+                                                     withCaster: castingCharacter
+                                                     withOrigin: originCharacter];
+  if (spellResult == DSAActionResultNone)
     {
-      spellResult.result = DSAActionResultNone;
-      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist zu weit entfernt."), [(DSAObject *)target name]];
       return spellResult;
     }
-  if (![self verifyTarget: target andOrigin: originCharacter])
-    {
-      spellResult.result = DSAActionResultNone;
-      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
-      return spellResult;      
-    }
+  spellResult  = nil;
+  spellResult = [[DSASpellResult alloc] init];
   
   NSInteger costAE = (originCharacter.level - castingCharacter.level) * 4 >= 8 ? : 8 ;
   if (castingCharacter.currentAstralEnergy < costAE)  // not enough AE
@@ -687,7 +753,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       castingCharacter.currentAstralEnergy -= roundf(costAE/2);
     }
-  
+  spellResult.spellingDuration = self.spellingDuration;
   return spellResult;
 }             
 
@@ -745,20 +811,18 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellBewegungenStoeren called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
-  
-  if (![self verifyDistance: distance])
+  DSASpellResult *spellResult = [self verifyParametersForTarget: target
+                                                    withVariant: variant
+                                            withDurationVariant: durationVariant
+                                                   withDistance: distance
+                                                     withCaster: castingCharacter
+                                                     withOrigin: originCharacter];
+  if (spellResult == DSAActionResultNone)
     {
-      spellResult.result = DSAActionResultNone;
-      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist zu weit entfernt."), [(DSAObject *)target name]];
       return spellResult;
     }
-  if (![self verifyTarget: target andOrigin: originCharacter])
-    {
-      spellResult.result = DSAActionResultNone;
-      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
-      return spellResult;      
-    }
+  spellResult  = nil;
+  spellResult = [[DSASpellResult alloc] init];
   
   NSInteger costAE = (originCharacter.level - castingCharacter.level) * 3 >= 6 ? : 6 ;
   if (castingCharacter.currentAstralEnergy < costAE)  // not enough AE
@@ -782,7 +846,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       castingCharacter.currentAstralEnergy -= roundf(costAE/2);
     }
-  
+  spellResult.spellingDuration = self.spellingDuration;
   return spellResult;
 }             
 @end
@@ -820,7 +884,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.removalCostASP = 0;    
       self.everLeveledUp = NO;
       self.isTraditionSpell = NO;
-      self.maxDistance = 0;
+      self.maxDistance = 1;
       self.canCastOnSelf = NO;
       self.targetType = DSAActionTargetTypeObject;
       self.allowedTargetTypes = @[ @"DSAObject" ];
@@ -839,20 +903,18 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellDestructiboArcanitas called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
-  
-  if (![self verifyDistance: distance])
+  DSASpellResult *spellResult = [self verifyParametersForTarget: target
+                                                    withVariant: variant
+                                            withDurationVariant: durationVariant
+                                                   withDistance: distance
+                                                     withCaster: castingCharacter
+                                                     withOrigin: originCharacter];
+  if (spellResult == DSAActionResultNone)
     {
-      spellResult.result = DSAActionResultNone;
-      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist zu weit entfernt."), [(DSAObject *)target name]];
       return spellResult;
     }
-  if (![self verifyTarget: target andOrigin: originCharacter])
-    {
-      spellResult.result = DSAActionResultNone;
-      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
-      return spellResult;      
-    }
+  spellResult  = nil;
+  spellResult = [[DSASpellResult alloc] init];
 
   NSInteger totalRemovalCost = 0;
   for (DSASpell *spell in [[(DSAObject *)target appliedSpells] allValues])
@@ -881,10 +943,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       castingCharacter.currentAstralEnergy -= roundf(totalRemovalCost/2);
     }
-  
+  spellResult.spellingDuration = self.spellingDuration;
   return spellResult;
 }             
 @end
+
+#pragma mark - Heilung
+
 @implementation DSASpellBalsamSalabunde
 - (instancetype)initSpell: (NSString *) name
                 ofVariant: (NSString *) variant
@@ -918,7 +983,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.removalCostASP = 0;    
       self.everLeveledUp = NO;
       self.isTraditionSpell = NO;
-      self.maxDistance = 0;             // has to be close by
+      self.maxDistance = 1;             // has to be close by
       self.canCastOnSelf = YES;
       self.targetType = DSAActionTargetTypeAlly;
       self.allowedTargetTypes = @[ @"DSACharacter" ];
@@ -946,25 +1011,25 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
-  NSLog(@"DSASpellDestructiboArcanitas called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
-  if (![self verifyTarget: target andOrigin: originCharacter])
+  NSLog(@"DSASpellBalsamSalabunde castOnTarget called!");
+
+  DSASpellResult *spellResult = [self verifyParametersForTarget: target
+                                                    withVariant: variant
+                                            withDurationVariant: durationVariant
+                                                   withDistance: distance
+                                                     withCaster: castingCharacter
+                                                     withOrigin: originCharacter];
+  if (spellResult == DSAActionResultNone)
     {
-      spellResult.result = DSAActionResultNone;
-      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSACharacter *)target name]];
-      return spellResult;      
-    }
-  DSACharacter *targetCharacter = (DSACharacter *)target;
-  if (![self verifyDistance: distance])
-    {
-      spellResult.result = DSAActionResultNone;
-      spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist zu weit entfernt."), [targetCharacter name]];
       return spellResult;
     }
-
+  spellResult  = nil;
+  spellResult = [[DSASpellResult alloc] init];
+  
   NSNumber *investedNumber = (NSNumber *)self.parameterValues[@"aspAmount"];
   NSInteger investedASP = [investedNumber integerValue];
-
+  
+  DSACharacter *targetCharacter = (DSACharacter *)target;
   if (targetCharacter.currentLifePoints <= 0)
     {
       if (investedASP < 10)
@@ -997,18 +1062,368 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
           [targetCharacter updateStatesDictState: @(DSACharacterStateDead)
                                        withValue: @(NO)];
           [targetCharacter updateStatesDictState: @(DSACharacterStateUnconscious)
-                                       withValue: @(YES)];                             
+                                       withValue: @(YES)];
+          spellResult.resultDescription = [NSString stringWithFormat: @"%@ %@ kann %@ aus dem Reich Borons zurückholen.", 
+                                                                      spellResult.resultDescription,
+                                                                      castingCharacter.name,
+                                                                      targetCharacter.name];                                                                   
         }
       else
         {
-          targetCharacter.currentLifePoints = (targetCharacter.currentLifePoints  + investedASP) < targetCharacter.lifePoints ? : targetCharacter.lifePoints;
+          NSInteger oldLifePoints = targetCharacter.currentLifePoints;
+          NSInteger newLifePoints = (targetCharacter.currentLifePoints  + investedASP) < targetCharacter.lifePoints 
+                                         ? targetCharacter.currentLifePoints  + investedASP 
+                                         : targetCharacter.lifePoints;
+                                        
+          targetCharacter.currentLifePoints = newLifePoints;
+          spellResult.resultDescription = [NSString stringWithFormat: @"%@ %@ kann %@ LP bei %@ wiederherstellen.", 
+                                                                      spellResult.resultDescription,
+                                                                      castingCharacter.name,
+                                                                      @(newLifePoints - oldLifePoints),
+                                                                      targetCharacter.name];          
         }
     }
   else
     {
       castingCharacter.currentAstralEnergy -= roundf(investedASP/2);
     }
+  spellResult.spellingDuration = self.spellingDuration;
+  return spellResult;
+}             
+@end
+@implementation DSASpellKlarumPurum
+- (instancetype)initSpell: (NSString *) name
+                ofVariant: (NSString *) variant
+        ofDurationVariant: (NSString *) durationVariant
+               ofCategory: (NSString *) category 
+                  onLevel: (NSInteger) level
+               withOrigin: (NSArray *) origin
+                 withTest: (NSArray *) test
+          withMaxDistance: (NSInteger) maxDistance                 
+             withVariants: (NSArray *) variants
+     withDurationVariants: (NSArray *) durationVariants
+   withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+        withMaxUpPerLevel: (NSInteger) maxUpPerLevel
+          withLevelUpCost: (NSInteger) levelUpCost
+{
+  self = [super init];
+  if (self)
+    {
+      self.name = name;
+      self.category = category;
+      self.level = level;
+      self.origin = origin;
+      self.test = test;
+      self.variants = variants;
+      self.variant = variant;
+      self.durationVariants = durationVariants;
+      self.durationVariant = durationVariant;
+      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
+      self.maxUpPerLevel = maxUpPerLevel;
+      self.levelUpCost = levelUpCost;  
+      self.removalCostASP = 0;    
+      self.everLeveledUp = NO;
+      self.isTraditionSpell = NO;
+      self.maxDistance = 1;             // has to be close by
+      self.canCastOnSelf = YES;
+      self.targetType = DSAActionTargetTypeAlly;
+      self.allowedTargetTypes = @[ @"DSACharacter" ];
+      self.spellDuration = -1;          // permanent
+      self.spellingDuration = 7;      // seconds
+      
+      DSAActionParameterDescriptor *asp = [DSAActionParameterDescriptor descriptorWithKey:@"aspAmount"
+                                                                                   label:@"wieviele ASP sollen investiert werden?"
+                                                                                helpText:@"1 ASP je Stufe des Giftes nötig. ei Einsatz von zu wenigen ASP, wird der Zauber fehlschlagen."
+                                                                                    type:DSAActionParameterTypeInteger];
+      asp.minValue = 1;
+      asp.maxValue = NSIntegerMax;
+      self.parameterDescriptors = @[ asp ]; 
+      
+    }
+  NSLog(@"DSASpellKlarumPurum initSpell returning self: %@", self);  
+  return self;
+}
+
+- (DSASpellResult *) castOnTarget: (id) target
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP_unused
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellKlarumPurum castOnTarget called!");
+  DSASpellResult *spellResult = [self verifyParametersForTarget: target
+                                                    withVariant: variant
+                                            withDurationVariant: durationVariant
+                                                   withDistance: distance
+                                                     withCaster: castingCharacter
+                                                     withOrigin: originCharacter];
+  if (spellResult == DSAActionResultNone)
+    {
+      return spellResult;
+    }
+  spellResult  = nil;
+  spellResult = [[DSASpellResult alloc] init];
+
+  NSNumber *investedNumber = (NSNumber *)self.parameterValues[@"aspAmount"];
+  NSInteger investedASP = [investedNumber integerValue];
+
+  NSLog(@"DSASpellKlarumPurum castOnTarget not yet properly implemented");
   
+  spellResult.spellingDuration = self.spellingDuration;
+  return spellResult;
+}             
+@end
+
+#pragma mark - Hellsicht
+
+@implementation DSASpellAnaluesArcanstruktur
+- (instancetype)initSpell: (NSString *) name
+                ofVariant: (NSString *) variant
+        ofDurationVariant: (NSString *) durationVariant
+               ofCategory: (NSString *) category 
+                  onLevel: (NSInteger) level
+               withOrigin: (NSArray *) origin
+                 withTest: (NSArray *) test
+          withMaxDistance: (NSInteger) maxDistance                 
+             withVariants: (NSArray *) variants
+     withDurationVariants: (NSArray *) durationVariants
+   withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+        withMaxUpPerLevel: (NSInteger) maxUpPerLevel
+          withLevelUpCost: (NSInteger) levelUpCost
+{
+  self = [super init];
+  if (self)
+    {
+      self.name = name;
+      self.category = category;
+      self.level = level;
+      self.origin = origin;
+      self.test = test;
+      self.variants = variants;
+      self.variant = variant;
+      self.durationVariants = durationVariants;
+      self.durationVariant = durationVariant;
+      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
+      self.maxUpPerLevel = maxUpPerLevel;
+      self.levelUpCost = levelUpCost;  
+      self.removalCostASP = 0;    
+      self.everLeveledUp = NO;
+      self.isTraditionSpell = NO;
+      self.maxDistance = 1;             // has to be close by
+      self.canCastOnSelf = YES;
+      self.targetType = DSAActionTargetTypeObject;  // kann aber theoretisch auch alles sein, Personen, Tiere, etc.
+      self.allowedTargetTypes = @[ @"DSAObject" ];
+      self.spellDuration = -1;          // permanent
+      self.spellingDuration = 300;      // 10 Sekunden bis 10 Minuten :/
+      
+      DSAActionParameterDescriptor *asp = [DSAActionParameterDescriptor descriptorWithKey:@"aspAmount"
+                                                                                   label:@"wieviele LP heilen"
+                                                                                helpText:@"1 ASP Kosten je LP, mindestens 7 ASP. Wenn weniger als 7 ASP vorhanden sind, dann alles was vorhanden ist. Mindestens 10 ASP um kürzlich Verstorbene zu erwecken."
+                                                                                    type:DSAActionParameterTypeInteger];
+      asp.minValue = 1;
+      asp.maxValue = NSIntegerMax;
+      self.parameterDescriptors = @[ asp ]; 
+      
+    }
+  NSLog(@"DSASpellBalsamSalabunde initSpell returning self: %@", self);  
+  return self;
+}
+
+- (DSASpellResult *) castOnTarget: (id) target
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP_unused
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellBalsamSalabunde castOnTarget called!");
+  DSASpellResult *spellResult = [self verifyParametersForTarget: target
+                                                    withVariant: variant
+                                            withDurationVariant: durationVariant
+                                                   withDistance: distance
+                                                     withCaster: castingCharacter
+                                                     withOrigin: originCharacter];
+  if (spellResult == DSAActionResultNone)
+    {
+      return spellResult;
+    }
+  spellResult  = nil;
+  spellResult = [[DSASpellResult alloc] init];
+
+  NSNumber *investedNumber = (NSNumber *)self.parameterValues[@"aspAmount"];
+  NSInteger investedASP = [investedNumber integerValue];
+
+  DSACharacter *targetCharacter = (DSACharacter *) target;
+  if (targetCharacter.currentLifePoints <= 0)
+    {
+      if (investedASP < 10)
+        {
+          spellResult.result = DSAActionResultNone;
+          spellResult.resultDescription = [NSString stringWithFormat: _(@"Es sind mindestens 10 ASP notwendig, um %@ wiederzuerwecken."), [(DSACharacter *)target name]];
+          return spellResult;          
+        }
+    }
+
+  NSInteger availableASP = castingCharacter.currentAstralEnergy;
+  NSInteger minASP = MIN(7, availableASP);
+  if (investedASP < minASP)
+    {
+      spellResult.result = DSAActionResultNone;
+      spellResult.resultDescription = [NSString stringWithFormat: _(@"Mindestens %ld ASP erforderlich (bzw. alles was du hast)"), (long)minASP];
+      return spellResult;
+    }
+    
+  spellResult = [self testTraitsWithSpellLevel: self.level castingCharacter: castingCharacter];
+ 
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= investedASP;
+      if (targetCharacter.currentLifePoints <= 0)
+        {
+          targetCharacter.currentLifePoints = 1;
+          [targetCharacter updateStatesDictState: @(DSACharacterStateDead)
+                                       withValue: @(NO)];
+          [targetCharacter updateStatesDictState: @(DSACharacterStateUnconscious)
+                                       withValue: @(YES)];
+          spellResult.resultDescription = [NSString stringWithFormat: @"%@ %@ kann %@ aus dem Reich Borons zurückholen.", 
+                                                                      spellResult.resultDescription,
+                                                                      castingCharacter.name,
+                                                                      targetCharacter.name];                                                                   
+        }
+      else
+        {
+          NSInteger oldLifePoints = targetCharacter.currentLifePoints;
+          NSInteger newLifePoints = (targetCharacter.currentLifePoints  + investedASP) < targetCharacter.lifePoints 
+                                         ? targetCharacter.currentLifePoints  + investedASP 
+                                         : targetCharacter.lifePoints;
+                                        
+          targetCharacter.currentLifePoints = newLifePoints;
+          spellResult.resultDescription = [NSString stringWithFormat: @"%@ %@ kann %@ LP bei %@ wiederherstellen.", 
+                                                                      spellResult.resultDescription,
+                                                                      castingCharacter.name,
+                                                                      @(newLifePoints - oldLifePoints),
+                                                                      targetCharacter.name];          
+        }
+    }
+  else
+    {
+      castingCharacter.currentAstralEnergy -= roundf(investedASP/2);
+    }
+  spellResult.spellingDuration = self.spellingDuration;
+  return spellResult;
+}             
+@end
+@implementation DSASpellOdemArcanum
+- (instancetype)initSpell: (NSString *) name
+                ofVariant: (NSString *) variant
+        ofDurationVariant: (NSString *) durationVariant
+               ofCategory: (NSString *) category 
+                  onLevel: (NSInteger) level
+               withOrigin: (NSArray *) origin
+                 withTest: (NSArray *) test
+          withMaxDistance: (NSInteger) maxDistance                 
+             withVariants: (NSArray *) variants
+     withDurationVariants: (NSArray *) durationVariants
+   withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+        withMaxUpPerLevel: (NSInteger) maxUpPerLevel
+          withLevelUpCost: (NSInteger) levelUpCost
+{
+  self = [super init];
+  if (self)
+    {
+      self.name = name;
+      self.category = category;
+      self.level = level;
+      self.origin = origin;
+      self.test = test;
+      self.variants = @[ @"Umgebung" ];
+      self.variant = variant;
+      self.durationVariants = durationVariants;
+      self.durationVariant = durationVariant;
+      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
+      self.maxUpPerLevel = maxUpPerLevel;
+      self.levelUpCost = levelUpCost;  
+      self.removalCostASP = 0;    
+      self.everLeveledUp = NO;
+      self.isTraditionSpell = NO;
+      self.maxDistance = 1;             // has to be close by
+      self.canCastOnSelf = YES;
+      self.targetType = DSAActionTargetTypeNone;
+      self.allowedTargetTypes = @[ @"DSAAdventureGroup" ];   // we take the info from the 
+      self.spellDuration = -1;          // eigentlich 20 sekunden
+      self.spellingDuration = 30;       // eigentlich 10 sekunden, aber obige 20 sekunden hinzugefügt
+      
+      DSAActionParameterDescriptor *activeGroup = [DSAActionParameterDescriptor descriptorWithKey:@"activeGroup"
+                                                                                            label:@"wieviele LP heilen"
+                                                                                         helpText:@"Inhalt der Inventories der aktiven Gruppe werden auf Magie untersucht."
+                                                                                    type:DSAActionParameterTypeActiveGroup];
+      self.parameterDescriptors = @[ activeGroup ]; 
+      
+    }
+  NSLog(@"DSASpellOdemArcanum initSpell returning self: %@", self);  
+  return self;
+}
+
+- (DSASpellResult *) castOnTarget: (id) target
+                        ofVariant: (NSString *) variant
+                ofDurationVariant: (NSString *) durationVariant                        
+                       atDistance: (NSInteger) distance
+                      investedASP: (NSInteger) investedASP_unused
+             spellOriginCharacter: (DSACharacter *) originCharacter
+            spellCastingCharacter: (DSACharacter *) castingCharacter
+{
+  NSLog(@"DSASpellOdemArcanum castOnTarget called!");
+  DSASpellResult *spellResult = [self verifyParametersForTarget: target
+                                                    withVariant: variant
+                                            withDurationVariant: durationVariant
+                                                   withDistance: distance
+                                                     withCaster: castingCharacter
+                                                     withOrigin: originCharacter];
+  if (spellResult == DSAActionResultNone)
+    {
+      return spellResult;
+    }
+  spellResult  = nil;
+  spellResult = [[DSASpellResult alloc] init];
+  
+  NSInteger aspCost;
+  NSInteger penalty;
+  if ([variant isEqualToString: @"Umgebung"])
+    {
+      aspCost = 5;
+      penalty = 3;
+    }
+  else
+    {
+      aspCost = 7;
+      penalty = 0;
+    }
+    
+  spellResult = [self testTraitsWithSpellLevel: (self.level - penalty) castingCharacter: castingCharacter];
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= aspCost;
+      DSAAdventureGroup *adventureGroup = (DSAAdventureGroup *)target;
+      for (DSACharacter *character in adventureGroup.allCharacters)
+        {
+          // look for all objects in the characters inventory where appliedSpells > 0
+        }
+    }
+  else
+    {
+      castingCharacter.currentAstralEnergy -= roundf(aspCost/2);
+    }  
+  
+  
+
+  spellResult.spellingDuration = self.spellingDuration;
   return spellResult;
 }             
 @end

@@ -80,7 +80,8 @@ typedef NS_ENUM(NSUInteger, DSAActionParameterType) {
     DSAActionParameterTypeInteger,
     DSAActionParameterTypeBoolean,
     DSAActionParameterTypeChoice,
-    DSAActionParameterTypeText
+    DSAActionParameterTypeText,
+    DSAActionParameterTypeActiveGroup          // no need to ask the user
 };
 
 

@@ -1826,28 +1826,47 @@ inventoryIdentifier: (NSString *)sourceInventory
         NSLog(@"DSAActionIconMagic sheet completion handler called.... ");
     };
     [windowController.window beginSheet:selector.window completionHandler:nil];
+    if (cancel)
+      {
+        return;
+      }    
     NSArray *parameterDescriptors = selectedSpell.parameterDescriptors;
     for (DSAActionParameterDescriptor *descriptor in parameterDescriptors)
       {
         //NSString *className;
+        NSLog(@"DSAActionIconMagic handleEvent parameter descriptor: %@", descriptor);
         switch (descriptor.type) {
           case DSAActionParameterTypeInteger: {
             //className = @"DSAActionSliderQuestionController";
             DSAActionSliderQuestionController *questionWindow = 
                 [[DSAActionSliderQuestionController alloc] initWithWindowNibName:@"DSAActionSliderQuestionView"];
+            [questionWindow window];                
+            NSInteger minValue = descriptor.minValue;
+            NSInteger maxValue = (descriptor.maxValue == NSIntegerMax
+                                 ? selectedCharacter.currentAstralEnergy
+                                 : descriptor.maxValue);
+
+            // Gültige Tick-Zahl nur wenn max > min
+            NSInteger tickCount = MAX(1, maxValue - minValue + 1);                
+            
             questionWindow.window.title = descriptor.label;
             questionWindow.fieldHeadline.stringValue = descriptor.label;
             questionWindow.fieldQuestion.stringValue = descriptor.helpText;
-            questionWindow.fieldMinValue.stringValue = [NSString stringWithFormat: @"%ld", (signed long)descriptor.minValue];
-            questionWindow.fieldMaxValue.stringValue = [NSString stringWithFormat: @"%ld", (signed long)descriptor.maxValue];
-            questionWindow.sliderSlider.minValue = descriptor.minValue;
-            questionWindow.sliderSlider.maxValue = descriptor.maxValue;
+            questionWindow.fieldMinValue.stringValue = [NSString stringWithFormat: @"%ld", (long)minValue];
+            questionWindow.fieldMaxValue.stringValue = [NSString stringWithFormat: @"%ld", (long)maxValue];
+            questionWindow.sliderSlider.minValue = minValue;
+            questionWindow.sliderSlider.maxValue = maxValue;
+            questionWindow.sliderSlider.doubleValue = minValue;
+            questionWindow.sliderSlider.numberOfTickMarks = tickCount;
+            questionWindow.sliderSlider.allowsTickMarkValuesOnly = YES;
+            NSLog(@"DSAActionIconMagic handleEvent: numberOfTickMarks: %@ allowsTickMarkValuesOnly: %@", @(questionWindow.sliderSlider.numberOfTickMarks), @(questionWindow.sliderSlider.allowsTickMarkValuesOnly));
+            NSLog(@"Slider: min=%ld max=%ld ticks=%ld", (long)questionWindow.sliderSlider.minValue, (long)questionWindow.sliderSlider.maxValue, (long)questionWindow.sliderSlider.numberOfTickMarks);
             questionWindow.fieldSliderValue.stringValue = [NSString stringWithFormat: @"%ld", (signed long)descriptor.minValue];
             questionWindow.buttonCancel.title = @"Abbrechen";
             questionWindow.buttonConfirm.title = @"Bestätigen";
-            [questionWindow window];
+            
             __block NSInteger sliderValue;
-            __block BOOL cancel;
+//            __block BOOL cancel;
             questionWindow.completionHandler = ^(BOOL result) {
               if (!result) {
                 cancel = YES;
@@ -1857,13 +1876,36 @@ inventoryIdentifier: (NSString *)sourceInventory
               selectedSpell.parameterValues[descriptor.key] = @(sliderValue);
             };
             [windowController.window beginSheet:questionWindow.window completionHandler:nil];
+            if (cancel)
+              {
+                return;
+              }
             break;
           }
           default: NSLog(@"DSAActionIconMagic unknown action parameter type: %@", @(descriptor.type));
         }
       }
-    
-         
+    DSASpellResult *spellResult = [selectedCharacter castSpell: selectedSpell
+                                                ofVariant: nil
+                                        ofDurationVariant: nil
+                                                 onTarget: selectedTarget
+                                               atDistance: 1
+                                              investedASP: 0  // ignored ...
+                                     spellOriginCharacter: nil];
+    NSLog(@"DSAActionIconMagic handleEvent: spellResult: %@", spellResult);
+    DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName:@"DSAConversationTextOnly"];
+    [conversationSelector window];
+    conversationSelector.window.title = selectedSpell.name;
+
+    conversationSelector.fieldText.stringValue = spellResult.resultDescription;
+
+    conversationSelector.completionHandler = ^(BOOL result) {
+        if (result) {
+            NSLog(@"DSAActionIconMagic, handleEvent: finally, magic finished");
+        }
+    };
+    [windowController.window beginSheet:conversationSelector.window completionHandler:nil];   
+    [adventure.gameClock advanceTimeByMinutes: round(spellResult.spellingDuration/60)]; 
 }
 @end
 @implementation DSAActionIconRitual

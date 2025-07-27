@@ -28,17 +28,19 @@
 - (void)windowDidLoad {
     NSLog(@"DSAActionSliderQuestionController windowDidLoad called, window: %@", self.window);
     [super windowDidLoad];
-    [self.fieldSliderValue setStringValue: @"0 Stunden"];
-    [self.fieldMinValue setStringValue: @"0"];
-    [self.fieldMaxValue setStringValue: @"100"];
-    
+ 
     [self.buttonCancel setTitle: @"Abbrechen"];
     [self.buttonConfirm setTitle: @"Bestätigen"];
     [self.buttonConfirm setEnabled: NO];
 }
 
-- (IBAction)sliderValueChanged:(NSSlider *)sender {
-    NSInteger value = sender.integerValue;
+- (IBAction)sliderValueChanged:(NSSlider *)sender
+{
+    double tickValue = [sender closestTickMarkValueToValue:sender.doubleValue];
+    NSInteger value = (NSInteger)tickValue;
+
+    NSLog(@"DSAActionSliderQuestionController sliderValueChanged: %@", @(value));
+    NSLog(@"DSAActionSliderQuestionController sliderValueChanged  Slider: min=%ld max=%ld ticks=%ld", (long)self.sliderSlider.minValue, (long)self.sliderSlider.maxValue, (long)self.sliderSlider.numberOfTickMarks);
     self.fieldSliderValue.stringValue = [NSString stringWithFormat:@"%ld", (signed long)value];
     if (value > 0)
       {

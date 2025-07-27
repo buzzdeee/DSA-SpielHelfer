@@ -114,7 +114,7 @@
             
 // helper methods related to casting spells            
 - (BOOL) verifyDistance: (NSInteger) distance;  
-- (BOOL) verifyTarget: (id) target andOrigin: (DSACharacter *) origin;  
+- (BOOL) verifyTarget: (id) target forCaster: (DSACharacter *) origin;  
 - (DSASpellResult *) testTraitsWithSpellLevel: (NSInteger) level castingCharacter: (DSACharacter *) castingCharacter;
 - (BOOL) applyEffectOnTarget: (id) target forOwner: (DSACharacter *) owner;
 @end
@@ -129,6 +129,13 @@
 @end
 // Heilung
 @interface DSASpellBalsamSalabunde : DSASpell
+@end
+@interface DSASpellKlarumPurum : DSASpell
+@end
+// Hellsicht
+@interface DSASpellAnaluesArcanstruktur : DSASpell
+@end
+@interface DSASpellOdemArcanum : DSASpell
 @end
 #endif // _DSASPELL_H_
 

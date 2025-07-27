@@ -2,7 +2,7 @@
     "## Comment" = "Do NOT change this file, Gorm maintains it";
     DSAActionQuestionSliderController = {
 	Actions = (
-	    "silderValueChanged:",
+	    "sliderValueChanged:",
 	    "confirmAction:",
 	    "cancelAction:"
 	);
@@ -14,13 +14,13 @@
 	    fieldSliderValue,
 	    buttonCancel,
 	    buttonConfirm,
-	    silderSlider
+	    sliderSlider
 	);
 	Super = NSWindowController;
     };
     FirstResponder = {
 	Actions = (
-	    "silderValueChanged:",
+	    "sliderValueChanged:",
 	    "confirmAction:",
 	    "cancelAction:"
 	);

@@ -34,6 +34,7 @@
 @property (nonatomic, strong) NSString *resultDescription;
 @property (nonatomic, strong) NSArray *diceResults;
 @property (nonatomic, assign) NSInteger remainingSpellPoints;
+@property (nonatomic, assign) NSInteger spellingDuration;       // in seconds
 @property (nonatomic, assign) NSInteger costAE;
 
 +(NSString *) resultNameForResultValue: (DSAActionResultValue) value;

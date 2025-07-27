@@ -35,6 +35,7 @@
       _result = DSAActionResultNone;
       _diceResults = [[NSMutableArray alloc] init];
       _remainingSpellPoints = 0;
+      _spellingDuration = 0;
       _costAE = 0;
     }
   return self;

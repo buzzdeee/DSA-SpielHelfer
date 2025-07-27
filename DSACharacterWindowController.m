@@ -2740,8 +2740,8 @@
 
   targetCharacter.mrBonus = [self.fieldSpellMagicResistance integerValue];
   originCharacter.level = [self.fieldSpellCreatorLevel integerValue];
-  
-  spellResult = [model castSpell: [[self.popupSpellSelector selectedItem] title]
+  NSString *spellName = [[self.popupSpellSelector selectedItem] title];
+  spellResult = [model castSpell: model.currentSpells[spellName]
                        ofVariant: nil
                ofDurationVariant: nil
                         onTarget: targetCharacter

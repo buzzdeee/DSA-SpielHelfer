@@ -265,13 +265,13 @@ typedef NS_ENUM(NSUInteger, DSAIllnessStage) {
 - (NSArray <DSASpell *>*) activeRitualsWithNames: (NSArray <NSString *>*) names;
                      
 - (DSATalentResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty;
-- (DSASpellResult *) castSpell: (NSString *) spellName
+- (DSASpellResult *) castSpell: (DSASpell *) spell
                      ofVariant: (nullable NSString *) variant 
              ofDurationVariant: (nullable NSString *) durationVariant
                       onTarget: (DSACharacter *) targetCharacter 
                     atDistance: (NSInteger) distance
                    investedASP: (NSInteger) investedASP 
-          spellOriginCharacter: (DSACharacter *) originCharacter;
+          spellOriginCharacter: (nullable DSACharacter *) originCharacter;
 
 - (DSASpellResult *) castRitual: (NSString *) ritualName 
                       ofVariant: (nullable NSString *) variant

@@ -886,7 +886,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSASpellResult *spellResult = [[DSASpellResult alloc] init];
 
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierschwert" inModel: castingCharacter];
-  if (![self verifyTarget: target andOrigin: originCharacter])
+  if (![self verifyTarget: target forCaster: castingCharacter])
     {
       spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
@@ -951,7 +951,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSASpellResult *spellResult = [[DSASpellResult alloc] init];
 
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierschale" inModel: castingCharacter];
-  if (![self verifyTarget: target andOrigin: originCharacter])
+  if (![self verifyTarget: target forCaster: castingCharacter])
     {
       spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: _(@"%@ ist ein ungültiges Ziel."), [(DSAObject *)target name]];
