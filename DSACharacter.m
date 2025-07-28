@@ -1891,6 +1891,28 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   return NO;
 }
 
+- (BOOL) applyPoisonEffect: (DSAPoisonEffect *) poisonEffect
+{
+  NSLog(@"DSACharacter applyPoisonEffect called, illnessEffect: %@", poisonEffect);
+  NSLog(@"DSACharacter applyPoisonEffect appliedEffects BEFORE: %@", self.appliedEffects);
+  [self.appliedEffects setObject: poisonEffect forKey: poisonEffect.uniqueKey];
+  NSLog(@"DSACharacter applyPoisonEffect appliedEffects AFTER: %@", self.appliedEffects);
+  return YES;
+}
+
+- (BOOL) isPoisoned
+{
+  for (DSACharacterEffect *effect in self.appliedEffects)
+    {
+      if (![effect isKindOfClass: [DSAPoisonEffect class]])
+        {
+          continue;
+        }
+      return YES;
+    }
+  return NO;
+}
+
 - (BOOL) applyMiracleEffect: (DSAMiracleResult *) miracleResult
 {
   NSLog(@"DSACharacter applyMiracleEffect called!!!");
@@ -2059,7 +2081,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 
 - (void) advanceIllnessEffect: (DSAIllnessEffect *) illnessEffect atDate: (DSAAventurianDate *)currentDate
 {
-  DSAIllnessDescription *illnessDescription = [[DSAIllnessRegistry sharedRegistry] illnessWithUniqueID: illnessEffect.uniqueKey];
+  DSAIllness *illnessDescription = [[DSAIllnessRegistry sharedRegistry] illnessWithUniqueID: illnessEffect.uniqueKey];
   switch (illnessEffect.currentStage)
     {
       case DSAIllnessStageIncubation: {
@@ -2131,7 +2153,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                     NSLog(@"DSACharacter advanceIllnessEffect checking if to apply follow up illness: %@", illnessName);
                     if (diceResult <= chance)
                       {
-                        DSAIllnessDescription *followUpIllnessDescription = [[DSAIllnessRegistry sharedRegistry] illnessWithName: illnessName];
+                        DSAIllness *followUpIllnessDescription = [[DSAIllnessRegistry sharedRegistry] illnessWithName: illnessName];
                         NSLog(@"DSACharacter advanceIllnessEffect applying follow up illness: %@", illnessName);
                         [self applyIllnessEffect: [followUpIllnessDescription generateEffectForCharacter: self]];
                         break;  // there should not be more than one anyways

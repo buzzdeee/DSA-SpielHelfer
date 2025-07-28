@@ -67,6 +67,7 @@ Resources/DSASleepView.gorm \
 Resources/DSACharacterIllness.gorm \
 Resources/DSAActionView.gorm \
 Resources/DSAActionSliderQuestionView.gorm \
+Resources/DSACharacterPoison.gorm \
 Resources/Aventurien.jpg \
 Resources/Dolch.webp \
 Resources/Jagdmesser-firnelfisch.webp \

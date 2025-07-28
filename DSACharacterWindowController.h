@@ -258,6 +258,10 @@
 @property (nonatomic, strong) IBOutlet NSPanel *illnessPanel;
 @property (weak) IBOutlet NSPopUpButton *popupIllnessSelection;
 
+// to apply illnesses
+@property (nonatomic, strong) IBOutlet NSPanel *poisonPanel;
+@property (weak) IBOutlet NSPopUpButton *popupPoisonSelection;
+
 // to track spells and spell names NSText field relationships to be able to change color
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSTextField *> *spellItemFieldMap;
 // to track observed talent/spell etc. levels
@@ -277,6 +281,7 @@
 -(void)addAdventurePoints: (id)sender;
 -(void)manageMoney: (id)sender;
 -(void)showApplyIllnessPanel: (id)sender;
+-(void)showApplyPoisonPanel: (id)sender;
 -(void)showUseTalentPanel: (id)sender;
 -(void)showEnergiesManagerPanel: (id)sender;
 -(void)showCastSpellPanel: (id)sender;

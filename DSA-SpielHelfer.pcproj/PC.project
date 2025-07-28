@@ -5950,7 +5950,8 @@
 	"DSASleepView.gorm",
 	"DSACharacterIllness.gorm",
 	"DSAActionView.gorm",
-	"DSAActionSliderQuestionView.gorm"
+	"DSAActionSliderQuestionView.gorm",
+	"DSACharacterPoison.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (

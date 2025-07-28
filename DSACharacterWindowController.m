@@ -39,6 +39,7 @@
 #import "DSARegenerationResult.h"
 #import "Utils.h"
 #import "DSAIllness.h"
+#import "DSAPoison.h"
 
 @implementation LevelObserverInfo
 @end
@@ -2892,11 +2893,40 @@
   DSACharacterHero *model = (DSACharacterHero *)document.model;
   NSString *illnessName = [[self.popupIllnessSelection selectedItem] title];
   
-  DSAIllnessDescription *illness = [[DSAIllnessRegistry sharedRegistry] illnessWithName: illnessName];
+  DSAIllness *illness = [[DSAIllnessRegistry sharedRegistry] illnessWithName: illnessName];
   DSAIllnessEffect *effect = [illness generateEffectForCharacter: model];
   [model applyIllnessEffect: effect];
   
   [self.illnessPanel close];
+}
+
+-(void)showApplyPoisonPanel: (id)sender
+{
+  NSLog(@"DSACharacterWindowController showApplyPoisonPanel called!");
+      
+  if (!self.poisonPanel)
+    {
+      // Load the panel from the separate .gorm file
+      [NSBundle loadNibNamed:@"DSACharacterPoison" owner:self];
+    }
+  NSArray *poison = [[[DSAPoisonRegistry sharedRegistry] allPoisonNames] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+  [self.popupPoisonSelection removeAllItems];
+  [self.popupPoisonSelection addItemsWithTitles: poison];
+ 
+  [self.poisonPanel makeKeyAndOrderFront:nil];
+}
+- (void) applyPoison: (id) sender
+{
+  NSLog(@"DSACharacterWindowController applyPoison called");   
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  DSACharacterHero *model = (DSACharacterHero *)document.model;
+  NSString *poisonName = [[self.popupPoisonSelection selectedItem] title];
+  
+  DSAPoison *poison = [[DSAPoisonRegistry sharedRegistry] poisonWithName: poisonName];
+  DSAPoisonEffect *effect = [poison generateEffectForCharacter: model];
+  [model applyPoisonEffect: effect];
+  
+  [self.poisonPanel close];
 }
 
 // casting Rituals related methods

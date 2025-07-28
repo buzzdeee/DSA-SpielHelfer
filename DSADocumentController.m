@@ -185,6 +185,25 @@ static NSObject *syncObject = nil; // A synchronization object
     }
 }
 
+-(IBAction)showApplyPoisonPanel: (id)sender
+{
+  NSLog(@"DSADocumentController showApplyPoisonPanel called!");
+  NSDocument *activeDocument = [self currentDocument];
+  for (NSWindowController *windowController in [activeDocument windowControllers])
+    {
+      // Check if the window controller is of the specific subclass you're looking for
+      if ([windowController isKindOfClass:[DSACharacterWindowController class]])
+        {    
+          // Cast the window controller to your custom class and call the method
+          DSACharacterWindowController *characterWindowController = (DSACharacterWindowController *)windowController;
+          [characterWindowController showApplyPoisonPanel:nil];
+            
+          // If you only expect one relevant window controller, you can break after finding it
+          break;
+        }
+    }
+}
+
 -(IBAction)showUseTalentPanel: (id)sender
 {
   NSLog(@"DSADocumentController showUseTalentPanel called!");

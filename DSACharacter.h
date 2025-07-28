@@ -271,6 +271,9 @@ typedef NS_ENUM(NSUInteger, DSAPoisonStage) {
 - (void)addEffect:(DSACharacterEffect *)effect;                       // To add any type of effect, that doesn't need to apply anything special
 - (BOOL) applyIllnessEffect: (DSAIllnessEffect *) illnessEffect;      // To apply illnesses to characters
 - (BOOL) isIll;                                                       // to test if a character is ill, or not
+- (BOOL) applyPoisonEffect: (DSAPoisonEffect *) poisonEffect;         // To apply poisons to characters
+- (BOOL) isPoisoned;                                                  // to test if a character is poisoned, or not
+
 - (BOOL) applyMiracleEffect: (DSAMiracleResult *) miracleResult;      // to add miracle effects, which may change some values when applying
 - (BOOL) hasAppliedCharacterEffectWithKey: (NSString *)key;
 - (DSACharacterEffect *) appliedCharacterEffectWithKey: (NSString *) key;

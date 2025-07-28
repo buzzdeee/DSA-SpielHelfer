@@ -32,7 +32,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DSAIllnessDescription : NSObject <NSCoding, NSCopying>
+@interface DSAIllness : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy, nullable) NSString *alternativeName;
@@ -54,18 +54,18 @@ NS_ASSUME_NONNULL_BEGIN
                             
 -(NSDictionary <NSString *, id>*) oneTimeDamage;
 -(NSDictionary <NSString *, id>*) dailyDamage;
-- (DSASeverityLevel) dangerLevelToSeverityLevel;
+-(DSASeverityLevel) dangerLevelToSeverityLevel;
 @end
 
 @interface DSAIllnessRegistry : NSObject
 
-@property (nonatomic, strong, readonly) NSDictionary<NSString *, DSAIllnessDescription *> *illnesses;
-@property (nonatomic, strong, readonly) NSDictionary<NSString *, DSAIllnessDescription *> *alternateNames;
+@property (nonatomic, strong, readonly) NSDictionary<NSString *, DSAIllness *> *illnesses;
+@property (nonatomic, strong, readonly) NSDictionary<NSString *, DSAIllness *> *alternateNames;
 
 + (instancetype)sharedRegistry;
 
-- (nullable DSAIllnessDescription *)illnessWithName:(NSString *)name;
-- (nullable DSAIllnessDescription *)illnessWithUniqueID:(NSString *)uniqueID;  // uniqueIDs are Illness_<Illness Name>
+- (nullable DSAIllness *)illnessWithName:(NSString *)name;
+- (nullable DSAIllness *)illnessWithUniqueID:(NSString *)uniqueID;  // uniqueIDs are Illness_<Illness Name>
 - (NSArray<NSString *> *)allIllnessNames;
 @end
 

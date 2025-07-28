@@ -23,6 +23,7 @@
 */
 
 #import "DSAPoison.h"
+#import "DSACharacter.h"
 
 static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
@@ -93,6 +94,19 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 - (void)applyEffectToTarget:(id)target
 {
     // Default: no effect. Subclasses can override.
+}
+
+
+- (nullable DSAPoisonEffect *)generateEffectForCharacter:(DSACharacter *)character
+{
+   NSLog(@"DSAPoison generateEffectForCharacter: illness: %@", self);
+   DSAPoisonEffect *effect = [[DSAPoisonEffect alloc] init];
+   effect.uniqueKey = [NSString stringWithFormat: @"Poison_%@", self.name];
+   effect.effectType = DSACharacterEffectTypePoison;
+   effect.expirationDate = nil;
+   effect.currentStage = DSAPoisonStageApplied;
+   
+   return effect;
 }
 
 @end
@@ -299,18 +313,18 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 #pragma mark - Manager
 
-@interface DSAPoisonManager ()
+@interface DSAPoisonRegistry ()
 @property (nonatomic, strong) NSArray<DSAPoison *> *poisons;
 @end
 
-@implementation DSAPoisonManager
+@implementation DSAPoisonRegistry
 
-+ (instancetype)sharedManager {
-    static DSAPoisonManager *sharedInstance = nil;
++ (instancetype)sharedRegistry {
+    static DSAPoisonRegistry *sharedInstance = nil;
     
     @synchronized(self) {
         if (sharedInstance == nil) {
-            sharedInstance = [[DSAPoisonManager alloc] init];
+            sharedInstance = [[DSAPoisonRegistry alloc] init];
             [sharedInstance loadPoisonsFromJSON];
         }
     }
@@ -407,7 +421,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     return [filteredPoisons copy];
 }
 
-- (DSAPoison *)poisonWithExactName:(NSString *)name {
+- (DSAPoison *)poisonWithName:(NSString *)name {
     for (DSAPoison *poison in self.poisons) {
         if ([poison.name isEqualToString:name]) {
             return poison;
@@ -434,5 +448,14 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     }
 
     return [immutableGroups copy];
+}
+
+- (NSArray<NSString *> *)allPoisonNames {
+    NSMutableArray *poisonNames = [[NSMutableArray alloc] init]; 
+    for (DSAPoison *poison in _poisons)
+      {
+        [poisonNames addObject: poison.name];
+      }
+    return [poisonNames copy];
 }
 @end

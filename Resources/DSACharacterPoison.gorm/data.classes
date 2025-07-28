@@ -1,0 +1,20 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSACharacterWindowController = {
+	Actions = (
+	    "applyPoison:"
+	);
+	Outlets = (
+	    buttonApplyPoison,
+	    popupPoisonSelection,
+	    poisonPanel
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "applyPoison:"
+	);
+	Super = NSObject;
+    };
+}

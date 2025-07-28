@@ -28,6 +28,10 @@
 #import <Foundation/Foundation.h>
 #import "DSAObject.h"
 #import "DSADefinitions.h"
+@class DSAPoisonEffect;
+@class DSACharacter;
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface DSAPoison : DSAObject
 
@@ -47,6 +51,8 @@
 
 // Optional behavior
 - (void)applyEffectToTarget:(id)target;
+
+- (nullable DSAPoisonEffect *)generateEffectForCharacter:(DSACharacter *)character;
 
 @end
 
@@ -97,11 +103,11 @@
 @interface DSAPoisonWurara : DSAPoison 
 @end
 
-#pragma mark - Manager
+#pragma mark - Registry
 
-@interface DSAPoisonManager : NSObject
+@interface DSAPoisonRegistry : NSObject
 
-+ (instancetype)sharedManager;
++ (instancetype)sharedRegistry;
 
 + (DSAPoisonType)poisonTypeFromString:(NSString *)typeString;
 + (NSString *)stringFromPoisonType:(DSAPoisonType)type;
@@ -109,9 +115,10 @@
 - (NSArray<DSAPoison *> *)allPoisons;
 - (NSArray<DSAPoison *> *)sortedPoisonsByName;
 - (NSDictionary<NSNumber *, NSArray<DSAPoison *> *> *)groupedByPoisonType;
-- (DSAPoison *)poisonWithExactName:(NSString *)name;
+- (DSAPoison *)poisonWithName:(NSString *)name;
 - (NSDictionary<NSNumber *, NSArray<DSAPoison *> *> *)groupedByPoisonType;
+- (NSArray<NSString *> *)allPoisonNames;
 @end
-
+NS_ASSUME_NONNULL_END
 #endif // _DSAPOISON_H_
 

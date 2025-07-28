@@ -26,7 +26,7 @@
 #import "DSACharacter.h"
 #import "Utils.h"
 
-@implementation DSAIllnessDescription
+@implementation DSAIllness
 
 - (instancetype)initWithName:(NSString *)name dictionary:(NSDictionary *)dict {
     self = [super init];
@@ -49,7 +49,7 @@
 
 - (nullable DSAIllnessEffect *)generateEffectForCharacter:(DSACharacter *)character
 {
-   NSLog(@"DSAIllnessDescription generateEffectForCharacter: illness: %@", self);
+   NSLog(@"DSAIllness generateEffectForCharacter: illness: %@", self);
    DSAIllnessEffect *effect = [[DSAIllnessEffect alloc] init];
    effect.uniqueKey = [NSString stringWithFormat: @"Illness_%@", self.name];
    effect.effectType = DSACharacterEffectTypeIllness;
@@ -73,13 +73,13 @@
     }
 
     if (!durationDict) {
-        NSLog(@"[DSAIllnessDescription] Keine Dauerdefinition für Krankheitsstufe %ld", (long)currentStage);
+        NSLog(@"[DSAIllness] Keine Dauerdefinition für Krankheitsstufe %ld", (long)currentStage);
         return currentDate;
     }
 
     NSString *wuerfelString = durationDict[@"Wuerfel"];
     if (![wuerfelString isKindOfClass:[NSString class]]) {
-        NSLog(@"[DSAIllnessDescription] Ungültiger Wuerfel-Eintrag in Dauerdefinition: %@", wuerfelString);
+        NSLog(@"[DSAIllness] Ungültiger Wuerfel-Eintrag in Dauerdefinition: %@", wuerfelString);
         return currentDate;
     }
 
@@ -95,7 +95,7 @@
             // Feste Tageszahl
             baseDays = [numberPart integerValue];
         } else {
-            NSLog(@"[DSAIllnessDescription] WARNUNG: Unbekannter Zeit-Suffix '%@' im WuerfelString: %@", suffix, wuerfelString);
+            NSLog(@"[DSAIllness] WARNUNG: Unbekannter Zeit-Suffix '%@' im WuerfelString: %@", suffix, wuerfelString);
             return currentDate;
         }
     } else {
@@ -123,7 +123,7 @@
 
 - (DSASeverityLevel) dangerLevelToSeverityLevel
 {
-  NSLog(@"DSAIllnessDescription dangerLevelToSeverityLevel dangerLevel: %@", @(self.dangerLevel));
+  NSLog(@"DSAIllness dangerLevelToSeverityLevel dangerLevel: %@", @(self.dangerLevel));
   switch (self.dangerLevel)
     {
       case 0: return DSASeverityLevelNone;
@@ -211,7 +211,7 @@
 }
 
 - (id)copyWithZone:(NSZone *)zone {
-    DSAIllnessDescription *copy = [[[self class] allocWithZone:zone] init];
+    DSAIllness *copy = [[[self class] allocWithZone:zone] init];
     copy->_name = [_name copyWithZone:zone];
     copy->_alternativeName = [_alternativeName copyWithZone:zone];
     copy->_recognition = [_recognition copyWithZone:zone];
@@ -230,8 +230,8 @@
 
 
 @implementation DSAIllnessRegistry {
-    NSMutableDictionary<NSString *, DSAIllnessDescription *> *_illnesses;
-    NSMutableDictionary<NSString *, DSAIllnessDescription *> *_alternateNames;
+    NSMutableDictionary<NSString *, DSAIllness *> *_illnesses;
+    NSMutableDictionary<NSString *, DSAIllness *> *_alternateNames;
 }
 
 static DSAIllnessRegistry *_sharedInstance = nil;
@@ -290,7 +290,7 @@ static DSAIllnessRegistry *_sharedInstance = nil;
 
     for (NSString *name in jsonDict) {
         NSDictionary *illnessData = jsonDict[name];
-        DSAIllnessDescription *illness = [[DSAIllnessDescription alloc] initWithName:name dictionary:illnessData];
+        DSAIllness *illness = [[DSAIllness alloc] initWithName:name dictionary:illnessData];
         if (illness) {
             _illnesses[name] = illness;
 
@@ -304,8 +304,8 @@ static DSAIllnessRegistry *_sharedInstance = nil;
 
 #pragma mark - Zugriff
 
-- (nullable DSAIllnessDescription *)illnessWithName:(NSString *)name {
-    DSAIllnessDescription *illness = _illnesses[name];
+- (nullable DSAIllness *)illnessWithName:(NSString *)name {
+    DSAIllness *illness = _illnesses[name];
     if (!illness) {
         illness = _alternateNames[name];
     }
@@ -315,7 +315,7 @@ static DSAIllnessRegistry *_sharedInstance = nil;
     return illness;
 }
 
-- (nullable DSAIllnessDescription *)illnessWithUniqueID:(NSString *)uniqueID {
+- (nullable DSAIllness *)illnessWithUniqueID:(NSString *)uniqueID {
     if (![uniqueID hasPrefix:@"Illness_"]) {
         NSLog(@"DSAIllnessRegistry illnessWithUniqueID: unexpected format %@", uniqueID);
         return nil;
