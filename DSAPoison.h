@@ -115,7 +115,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray<DSAPoison *> *)allPoisons;
 - (NSArray<DSAPoison *> *)sortedPoisonsByName;
 - (NSDictionary<NSNumber *, NSArray<DSAPoison *> *> *)groupedByPoisonType;
-- (DSAPoison *)poisonWithName:(NSString *)name;
+- (nullable DSAPoison *)poisonWithName:(NSString *)name;
+- (nullable DSAPoison *)poisonWithUniqueID:(NSString *)uniqueID;
 - (NSDictionary<NSNumber *, NSArray<DSAPoison *> *> *)groupedByPoisonType;
 - (NSArray<NSString *> *)allPoisonNames;
 @end

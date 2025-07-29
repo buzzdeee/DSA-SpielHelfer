@@ -4,21 +4,25 @@
       "Basis": 3
     },
     "Gefaehrlichkeit": 1,
-    "Inkubationszeit": { "Wuerfel": "3T" },
+    "Inkubationszeit": { 
+      "Tage": 3
+    },
     "Dauer": { "Wuerfel": "1W3", "Modifier": 2 },
     "Behandlung": {
       "Bettruhe": {}
     },
     "Schaden": {
       "Taeglich": {
-        "Alle": {      
-          "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+          }
         }
       },
       "Einmalig": {
         "Alle": {      
           "Eigenschaften": {
-            "KK": { "Modifikator": -1 }
+            "KK": { "Modifier": -1 }
           }
         }
       }
@@ -29,21 +33,25 @@
       "Basis": 2
     },
     "Gefaehrlichkeit": 1,
-    "Inkubationszeit": { "Wuerfel": "3T" },
+    "Inkubationszeit": { 
+      "Tage": 3
+    },
     "Dauer": { "Wuerfel": "1W3", "Modifier": 2 },
     "Behandlung": {
       "Bettruhe": {}
     },
     "Schaden": {
       "Taeglich": {
-        "Alle": {      
-          "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+          }
         }
       },
       "Einmalig": {
-      "Alle": {      
+        "Alle": {      
           "Eigenschaften": {
-            "KK": { "Modifikator": -1 }
+            "KK": { "Modifier": -1 }
           }
         }
       }
@@ -54,21 +62,25 @@
       "Basis": 5
     },
     "Gefaehrlichkeit": 2,
-    "Inkubationszeit": { "Wuerfel": "3T" },
+    "Inkubationszeit": { 
+      "Tage": 3
+    },
     "Dauer": { "Wuerfel": "1W3", "Modifier": 2 },
     "Behandlung": {
       "Bettruhe": {}
     },
     "Schaden": {
       "Taeglich": {
-        "Alle": {      
-          "SP": { "Wuerfel": "1W3", "Modifier": 2 }
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "1W3", "Modifier": 2 }
+          }
         }
       },
       "Einmalig": {
         "Alle": {      
           "Eigenschaften": {
-            "KK": { "Modifikator": -1 }
+            "KK": { "Modifier": -1 }
           }
         }
       }
@@ -79,21 +91,25 @@
       "Basis": 2
     },
     "Gefaehrlichkeit": 2,
-    "Inkubationszeit": { "Wuerfel": "3T" },
+    "Inkubationszeit": { 
+      "Tage": 3
+    },
     "Dauer": { "Wuerfel": "1W3", "Modifier": 2 },
     "Behandlung": {
       "Bettruhe": {}
     },
     "Schaden": {
       "Taeglich": {
-        "Alle": {      
-          "SP": { "Wuerfel": "1W3", "Modifier": 2 }
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "1W3", "Modifier": 2 }
+          }
         }
       },
       "Einmalig": {
         "Alle": {      
           "Eigenschaften": {
-            "KK": { "Modifikator": -1 }
+            "KK": { "Modifier": -1 }
           }
         }
       }
@@ -104,22 +120,26 @@
       "Basis": 3
     },
     "Gefaehrlichkeit": 1,
-    "Inkubationszeit": { "Wuerfel": "3T" },
+    "Inkubationszeit": { 
+      "Tage": 3
+    },
     "Dauer": { "Wuerfel": "1W3", "Modifier": 2 },
     "Behandlung": {
       "Ruhe": {}
     },
     "Schaden": {
       "Taeglich": {
-        "Alle": {      
-          "SP": { "Wuerfel": "1W3", "Modifier": 1 },
-          "AU": { "Wuerfel": "1W6", "Modifier": 1 }
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "1W3", "Modifier": 1 },
+            "AU": { "Wuerfel": "1W6", "Modifier": 1 }
+          }
         }
       },
       "Einmalig": {
         "Alle": {      
           "Eigenschaften": {
-            "KK": { "Modifikator": -1 }
+            "KK": { "Modifier": -1 }
           }
         }
       }
@@ -131,22 +151,26 @@
       "Basis": 2
     },
     "Gefaehrlichkeit": 1,
-    "Inkubationszeit": { "Wuerfel": "3T" },
+    "Inkubationszeit": { 
+      "Tage": 3
+    },
     "Dauer": { "Wuerfel": "1W3", "Modifier": 2 },
     "Behandlung": {
       "Ruhe": {}
     },
     "Schaden": {
-      "Alle": {
-        "Taeglich": {
-          "SP": { "Wuerfel": "1W3", "Modifier": 1 },
-          "AU": { "Wuerfel": "1W6", "Modifier": 1 }
+      "Taeglich": {
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "1W3", "Modifier": 1 },
+            "AU": { "Wuerfel": "1W6", "Modifier": 1 }
+          }
         }
       },
       "Einmalig": {
         "Alle": {
           "Eigenschaften": {
-            "KK": { "Modifikator": -1 }
+            "KK": { "Modifier": -1 }
           }
         }
       }
@@ -157,7 +181,9 @@
       "Basis": 4
     },
     "Gefaehrlichkeit": 3,
-    "Inkubationszeit": { "Wuerfel": "3T" },
+    "Inkubationszeit": {
+      "Tage": 3 
+    },
     "Dauer": { "Wuerfel": "1W3", "Modifier": 2 },
     "Behandlung": {
       "Ruhe": {}
@@ -165,14 +191,16 @@
     "Schaden": {
       "Taeglich": {
         "Alle": {
-          "SP": { "Wuerfel": "1W3", "Modifier": 3 },
-          "AU": { "Wuerfel": "1W6", "Modifier": 3 }
+          "Damage": {
+            "SP": { "Wuerfel": "1W3", "Modifier": 3 },
+            "AU": { "Wuerfel": "1W6", "Modifier": 3 }
+          }
         }
       },
       "Einmalig": {
         "Alle": {
           "Eigenschaften": {
-            "KK": { "Modifikator": -1 }
+            "KK": { "Modifier": -1 }
           }
         }
       }
@@ -184,7 +212,9 @@
       "Moha": 2
     },
     "Gefaehrlichkeit": 3,
-    "Inkubationszeit": { "Wuerfel": "3T" },
+    "Inkubationszeit": {
+      "Tage": 3
+    },
     "Dauer": { "Wuerfel": "1W6", "Modifier": 6 },
     "Ursache": {
       "laengererAufenthaltImRegenwald": "20%",
@@ -209,18 +239,20 @@
     "Schaden": {
       "Taeglich": {
         "Alle": {
-          "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+          "Damage": {
+            "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+          }
         }
       },
       "Einmalig": {
         "Alle": {
           "Eigenschaften": {
-            "KK": { "Modifikator": -2 },
-            "GE": { "Modifikator": -2 }
+            "KK": { "Modifier": -2 },
+            "GE": { "Modifier": -2 }
           },
           "AttackeParade": {
-            "AT": { "Modifikator": -2 },
-            "PA": { "Modifikator": -2 }
+            "AT": { "Modifier": -2 },
+            "PA": { "Modifier": -2 }
           },
           "Folgekrankheiten": {
             "Blaue Keuche": "20"
@@ -235,7 +267,9 @@
       "Basis": 4
     },
     "Gefaehrlichkeit": 4,
-    "Inkubationszeit": { "Wuerfel": "2T" },
+    "Inkubationszeit": { 
+      "Tage": 2
+    },
     "Dauer": { "Wuerfel": "1W3", "Modifier": 4 },
     "Ursache": {
       "AeusserungGroberUnwahrheiten": "20%",
@@ -272,28 +306,30 @@
     "Schaden": {
       "Taeglich": {
         "Alle": {
-          "SP": { "Wuerfel": "1W6", "Modifier": -1 },
-          "Folgekrankheiten": {
-            "Blaue Keuche": "5"
+          "Damage": {
+            "SP": { "Wuerfel": "1W6", "Modifier": -1 },
+            "Folgekrankheiten": {
+              "Blaue Keuche": "5"
+            }
           }
         }
       },
       "Einmalig": {
         "Alle": {
           "Eigenschaften": {
-            "IN": { "Modifikator": -1 },
-            "CH": { "Modifikator": -1 },
-            "GE": { "Modifikator": -2 },
-            "KK": { "Modifikator": -5 }
+            "IN": { "Modifier": -1 },
+            "CH": { "Modifier": -1 },
+            "GE": { "Modifier": -2 },
+            "KK": { "Modifier": -5 }
           },
           "AttackeParade": {
-            "AT": { "Modifikator": -2 },
-            "PA": { "Modifikator": -2 }
+            "AT": { "Modifier": -2 },
+            "PA": { "Modifier": -2 }
           }
         },
         "Zwerg": {
           "Eigenschaften": {
-                "JZ": { "Modifikator": 5 }
+                "JZ": { "Modifier": 5 }
             }         
         }
       }
@@ -307,7 +343,9 @@
       }
     },
     "Gefaehrlichkeit": 4,
-    "Inkubationszeit": { "Wuerfel": "1H" },
+    "Inkubationszeit": {
+      "Stunden": 1
+    },
     "Dauer": { "WahrscheinlichkeitAufwachenProTag": "10%" },
     "Ursache": {
       "NaechtlicherBesuchEinerGrabstaette": "10%",
@@ -329,9 +367,11 @@
     },
     "Schaden": {
       "Taeglich": {
-        "SP": { "Wuerfel": "1W6", "Modifier": -2 },
+        "Damage": {
+          "SP": { "Wuerfel": "1W6", "Modifier": -2 }
+        },
         "Eigenschaften": {
-          "KK": { "Modifikator": -1 }
+          "KK": { "Modifier": -1 }
         }
       }
     },
@@ -342,7 +382,9 @@
       "Basis": 5
     },
     "Gefaehrlichkeit": 5,
-    "Inkubationszeit": { "Wuerfel": "2T" },
+    "Inkubationszeit": { "Tage":
+      2
+    },
     "Dauer": { "Wuerfel": "2W6" },
     "Ursache": {
       "Zufall": "10%",
@@ -364,11 +406,13 @@
     },
     "Schaden": {
       "Taeglich": {
-        "SP": { "Wuerfel": "1W3", "Modifier": 3 }
+        "Damage": {
+          "SP": { "Wuerfel": "1W3", "Modifier": 3 }
+        }
       },
       "Einmalig": {
         "Eigenschaften": {
-          "KK": { "Modifikator": -3 }
+          "KK": { "Modifier": -3 }
         }
       }
     }

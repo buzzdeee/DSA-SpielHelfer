@@ -37,6 +37,7 @@
 #import "DSAWallet.h"
 #import "DSAGod.h"
 #import "DSAIllness.h"
+#import "DSAPoison.h"
 #import "DSASpellResult.h"
 
 @implementation DSACharacterEffect
@@ -1868,6 +1869,11 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 {
   NSLog(@"DSACharacter applyIllnessEffect called, illnessEffect: %@", illnessEffect);
   NSLog(@"DSACharacter applyIllnessEffect appliedEffects BEFORE: %@", self.appliedEffects);
+  if ([[self.appliedEffects allKeys] containsObject: illnessEffect.uniqueKey])
+    {
+      NSLog(@"DSACharacter applyIllnessEffect: illness %@ already applied, skipping", illnessEffect.uniqueKey);
+      return NO;
+    }  
   [self.appliedEffects setObject: illnessEffect forKey: illnessEffect.uniqueKey];
   NSLog(@"DSACharacter applyIllnessEffect appliedEffects AFTER: %@", self.appliedEffects);
   return YES;
@@ -1895,6 +1901,11 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 {
   NSLog(@"DSACharacter applyPoisonEffect called, illnessEffect: %@", poisonEffect);
   NSLog(@"DSACharacter applyPoisonEffect appliedEffects BEFORE: %@", self.appliedEffects);
+  if ([[self.appliedEffects allKeys] containsObject: poisonEffect.uniqueKey])
+    {
+      NSLog(@"DSACharacter applyPoisonEffect: poison %@ already applied, skipping", poisonEffect.uniqueKey);
+      return NO;
+    }
   [self.appliedEffects setObject: poisonEffect forKey: poisonEffect.uniqueKey];
   NSLog(@"DSACharacter applyPoisonEffect appliedEffects AFTER: %@", self.appliedEffects);
   return YES;
@@ -2067,16 +2078,30 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     NSArray *allKeys = [self.appliedEffects allKeys];
     for (NSString *key in allKeys) {
         DSACharacterEffect *effect = self.appliedEffects[key];
+        NSLog(@"DSACharacter removeExpiredEffectsAtDate checking effect key: %@", key);
         if (effect.effectType == DSACharacterEffectTypeIllness)  // Handle them separately,...
           {
             NSLog(@"DSACharacter removeExpiredEffectsAtDate %@ found DSACharacterEffectTypeIllness, handing over to advanceIllnessEffect", self.name);
             [self advanceIllnessEffect: (DSAIllnessEffect *) effect atDate: currentDate];
             continue;
           }
+        else if (effect.effectType == DSACharacterEffectTypePoison)  // Handle them separately,...
+          {
+            NSLog(@"DSACharacter removeExpiredEffectsAtDate %@ found DSACharacterEffectTypePoison, handing over to advancePoisonEffect", self.name);
+            [self advancePoisonEffect: (DSAPoisonEffect *) effect atDate: currentDate];
+            continue;
+          }          
         if (effect.expirationDate && [effect.expirationDate isEarlierThanDate:currentDate]) {
             [self removeCharacterEffectForKey:key];
         }
     }
+}
+
+- (void) advancePoisonEffect: (DSAPoisonEffect *) poisonEffect atDate: (DSAAventurianDate *)currentDate
+{
+  DSAPoison *poison = [[DSAPoisonRegistry sharedRegistry] poisonWithUniqueID: poisonEffect.uniqueKey];
+  NSLog(@"DSACharacter advancePoisonEffect the poison: %@", poison);
+  
 }
 
 - (void) advanceIllnessEffect: (DSAIllnessEffect *) illnessEffect atDate: (DSAAventurianDate *)currentDate
@@ -2218,10 +2243,10 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                   for (NSString *atpa in atpaChanges)
                     {
                       NSDictionary *valueDict = atpaChanges[atpa];
-                      NSNumber *modifierNumber = valueDict[@"Modifikator"];
+                      NSNumber *modifierNumber = valueDict[@"Modifier"];
                       if (![modifierNumber isKindOfClass:[NSNumber class]])
                         {
-                           NSLog(@"❗️Invalid Modifikator value for atpa '%@': %@", atpa, modifierNumber);
+                           NSLog(@"❗️Invalid Modifier value for atpa '%@': %@", atpa, modifierNumber);
                            continue;
                         }
                 
@@ -2258,10 +2283,10 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                                 fromDict: (NSDictionary<NSString *, NSNumber*>*) traitDict 
                                   revert: (BOOL) shouldRevert
 {
-   NSNumber *modifierNumber = traitDict[@"Modifikator"];
+   NSNumber *modifierNumber = traitDict[@"Modifier"];
    if (![modifierNumber isKindOfClass:[NSNumber class]])
      {
-        NSLog(@"❗️Invalid Modifikator value for trait '%@': %@", trait, modifierNumber);
+        NSLog(@"❗️Invalid Modifier value for trait '%@': %@", trait, modifierNumber);
         return;
      }
 

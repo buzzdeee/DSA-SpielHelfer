@@ -8,6 +8,18 @@
     "Dauer": {
       "SR": 3
     },
+    "Schaden": {
+      "Einmalig": {
+        "Alle": {
+          "Eigenschaften": {
+            "HA": { "Modifikator": 12 },
+            "RA": { "Modifikator": 12 },
+            "TA": { "Modifikator": 12 },
+            "AG": { "Modifikator": 12 }
+          }
+        }
+      }
+    },
     "Haltbarkeit": {
       "Monate": 18
     },
@@ -30,6 +42,16 @@
     "Dauer": {
       "Stunden": 1
     },
+    "Schaden": {
+      "Einmalig": {
+        "Alle": {
+          "AttackeParade": {
+            "AT": { "Modifikator": -2 },
+            "PA": { "Modifikator": -2 }
+          }
+        }
+      }
+    },    
     "Haltbarkeit": {
       "Monate": 3
     },
@@ -51,6 +73,21 @@
     "Dauer": {
       "Tage": 1
     },
+    "Schaden": {
+      "Einmalig": {
+        "Alle": {
+          "Eigenschaften": {
+            "GE": { "Modifikator": -2 },
+            "FF": { "Modifikator": -2 },
+            "KK": { "Modifikator": -2 }                        
+          },
+          "AttackeParade": {
+            "AT": { "Modifikator": -2 },
+            "PA": { "Modifikator": -2 }
+          }
+        }
+      }
+    },    
     "Haltbarkeit": {
       "Monate": 6
     },
@@ -73,6 +110,13 @@
       "Wuerfel": "3W6",
       "SR": 0
     },
+    "Schaden": {
+      "SR": {
+        "Alle": {
+          "ASP": { "Wuerfel": "1W6", "Modifier": 2 }
+        }
+      }
+    },    
     "Haltbarkeit": {
       "Monate": 12
     },
@@ -93,7 +137,13 @@
     },
     "Dauer": {
       "Bis zum Tode": true
-    },
+    },    "Schaden": {
+      "KR": {
+        "Alle": {
+          "SP": { "Wuerfel": "2W6" }
+        }
+      }
+    },    
     "Haltbarkeit": {
       "Monate": 6
     },
@@ -117,6 +167,13 @@
       "SR": 1,
       "Wuerfel": "1W6"
     },
+    "Schaden": {
+      "SR": {
+        "Alle": {
+          "SP": { "Wuerfel": "1W6", "Modifier": 3 }
+        }
+      }
+    },    
     "Haltbarkeit": {
       "Monate": 12
     },
@@ -138,6 +195,13 @@
     "Dauer": {
       "Stunden": 5
     },
+    "Schaden": {
+      "Stunde": {
+        "Alle": {
+          "SP": { "Wuerfel": "2W6", "Modifier": -2 }
+        }
+      }
+    },    
     "Haltbarkeit": {
       "Monate": 36
     },
@@ -160,6 +224,13 @@
       "Stunden": 0,
       "Wuerfel": "2W6"
     },
+    "Schaden": {
+      "Stunde": {
+        "Alle": {
+          "SP": { "Wuerfel": "2W6", "Modifier": -3 }
+        }
+      }
+    },    
     "Haltbarkeit": {
       "Monate": 6,
       "Wuerfel": "1W6"
@@ -187,6 +258,13 @@
     "Dauer": {
       "SR": 5
     },
+    "Schaden": {
+      "SR": {
+        "Alle": {
+          "SP": { "Wuerfel": "1W6", "Modifier": 5 }
+        }
+      }
+    },    
     "Haltbarkeit": {
       "Monate": 9
     },
@@ -208,6 +286,21 @@
     "Dauer": {
       "SR": 4 
     },
+    "Schaden": {
+      "Alle": {
+        "Einmalig": {
+          "Eigenschaften": {
+            "MU": { "Modifikator": -6 },
+            "GE": { "Modifikator": -6 },
+            "KK": { "Modifikator": -6 }
+          },
+          "AttackeParade": {
+            "AT": { "Modifikator": -4 },
+            "PA": { "Modifikator": -4 }
+          }
+        }
+      }
+    },     
     "Haltbarkeit": {
       "Monate": 3 
     },
@@ -230,6 +323,24 @@
     "Dauer": {
       "SR": 6
     },
+    "Schaden": {
+      "Alle": {
+        "Einmalig": {
+          "Damage": {
+            "SP": { "Wuerfel": "4W6" }
+          },
+          "Eigenschaften": {
+            "GE": { "Modifikator": -2 },
+            "FF": { "Modifikator": -2 },
+            "KK": { "Modifikator": -2 }                        
+          },
+          "AttackeParade": {
+            "AT": { "Modifikator": -2 },
+            "PA": { "Modifikator": -2 }
+          }
+        }
+      }
+    },    
     "Haltbarkeit": {
       "Monate": 9,
       "Wuerfel": "1W6"
@@ -255,6 +366,28 @@
     "Dauer": {
       "SR": 3
     },
+    "Schaden": {
+      "Einmalig": {
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "4W6" }
+          },
+          "Eigenschaften": {
+            "KL": { "Modifikator": -1 },
+            "FF": { "Modifikator": -1 },
+            "KK": { "Modifikator": -3 },
+            "GE": { "Modifikator": -3 }           
+          }
+        }
+      },
+      "KR": {
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "1W6" }
+          }
+        }
+      }
+    },    
     "Haltbarkeit": {
       "Monate": 3
     },
@@ -279,6 +412,15 @@
     "Dauer": {
       "KR": 30
     },
+    "Schaden": {
+      "KR": {
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "1W3" }
+          }
+        }
+      }
+    },     
     "Haltbarkeit": {
       "Monate": 8
     },
@@ -300,6 +442,15 @@
     "Dauer": {
       "SR": 1
     },
+    "Schaden": {
+      "KR": {
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "1W6", "Modifier": -1 }
+          }
+        }
+      }
+    },    
     "Haltbarkeit": {
       "Monate": 6
     },
@@ -321,6 +472,15 @@
     "Dauer": {
       "Bis zum Tode": true
     },
+    "Schaden": {
+      "KR": {
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "2W6" }
+          }
+        }
+      }
+    },     
     "Haltbarkeit": {
       "Monate": 12
     },
@@ -343,6 +503,15 @@
       "Stunden": 0,
       "Wuerfel": "1W6"
     },
+    "Schaden": {
+      "Stuendlich": {
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "2W6" }
+          }
+        }
+      }
+    },     
     "Haltbarkeit": {
       "Monate": 2
     },
@@ -369,6 +538,15 @@
     "Dauer": {
       "SR": 7
     },
+    "Schaden": {
+      "Einmalig": {
+        "Alle": {
+          "Tiefschlaf": {
+             "really": true
+          }
+        }
+      }
+    },    
     "Haltbarkeit": {
       "Monate": 12
     },
@@ -391,6 +569,15 @@
     "Dauer": {
       "Stunden": 2 
     },
+    "Schaden": {
+      "SR": {
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "2W6" }
+          }
+        }
+      }
+    },     
     "Haltbarkeit": {
       "Tage": 15,
       "Wuerfel": "2W6"
@@ -413,6 +600,15 @@
     "Dauer": {
       "SR": 10
     },
+    "Schaden": {
+      "SR": {
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "1W6", "Modifier": 3 }
+          }
+        }
+      }
+    },     
     "Haltbarkeit": {
       "Monate": 9
     },
@@ -435,6 +631,15 @@
       "SR": 0,
       "Wuerfel": "2W6"
     },
+    "Schaden": {
+      "SR": {
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "1W6", "Modifier": 1 }
+          }
+        }
+      }
+    },     
     "Haltbarkeit": {
       "Monate": 12 
     },
@@ -456,6 +661,15 @@
     "Dauer": {
       "SR": 4
     },
+    "Schaden": {
+      "KR": {
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "1W6", "Modifier": 1 }
+          }
+        }
+      }
+    },     
     "Haltbarkeit": {
       "unbegrenzt": true
     },
@@ -478,6 +692,15 @@
       "Stunden": 0,
       "Wuerfel": "1W6" 
     },
+    "Schaden": {
+      "Stuendlich": {
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "1W6" }
+          }
+        }
+      }
+    },     
     "Haltbarkeit": {
       "Monate": 4
     },

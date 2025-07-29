@@ -421,13 +421,24 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     return [filteredPoisons copy];
 }
 
-- (DSAPoison *)poisonWithName:(NSString *)name {
+- (nullable DSAPoison *)poisonWithName:(NSString *)name {
     for (DSAPoison *poison in self.poisons) {
         if ([poison.name isEqualToString:name]) {
             return poison;
         }
     }
     return nil;
+}
+
+- (nullable DSAPoison *)poisonWithUniqueID:(NSString *)uniqueID
+{
+    if (![uniqueID hasPrefix:@"Poison_"]) {
+        NSLog(@"DSAPoisonRegistry poisonWithUniqueID: unexpected format %@", uniqueID);
+        return nil;
+    }
+
+    NSString *name = [uniqueID substringFromIndex:[@"Poison_" length]];
+    return [self poisonWithName:name];
 }
 
 - (NSDictionary<NSNumber *, NSArray<DSAPoison *> *> *)groupedByPoisonType {
