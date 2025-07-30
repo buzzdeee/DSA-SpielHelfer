@@ -1040,6 +1040,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
         }
     }
 
+    
+  NSLog(@"DSASpellBalsamSalabunde castOnTarget castingCharacter: %@", castingCharacter);
   NSInteger availableASP = castingCharacter.currentAstralEnergy;
   NSInteger minASP = MIN(7, availableASP);
   if (investedASP < minASP)

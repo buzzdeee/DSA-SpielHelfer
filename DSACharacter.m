@@ -2325,26 +2325,37 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
           NSDictionary *dailyDamage = illnessEffect.dailyDamage[who];
           for (NSString *damageType in [dailyDamage allKeys])
            {
-              if ([damageType isEqualToString: @"SP"])
+              if ([damageType isEqualToString: @"Damage"])
                 {
-                  NSString *wuerfelString = [dailyDamage[damageType] objectForKey: @"Wuerfel"];
-                  NSInteger modifier = [[dailyDamage[damageType] objectForKey: @"Modifier"] integerValue];
-                  NSInteger sp = [Utils rollDice: wuerfelString] + modifier;
-                  if (sp > 0)  // some modifiers are -2 or more negative, so sp could become < 0, which would be awkward if sick ;)
+                  NSDictionary *damageDict = dailyDamage[@"Damage"];
+                  for (NSString *damage in [damageDict allKeys])
                     {
-                      self.currentLifePoints -= sp;
-                    }
-                }
-              else if ([damageType isEqualToString: @"AU"])
-                {
-                  NSString *wuerfelString = [dailyDamage[damageType] objectForKey: @"Wuerfel"];
-                  NSInteger modifier = [[dailyDamage[damageType] objectForKey: @"Modifier"] integerValue];
+                      if ([damage isEqualToString: @"SP"])
+                        {
+                          NSString *wuerfelString = [damageDict[damage] objectForKey: @"Wuerfel"];
+                          NSInteger modifier = [[damageDict[damage] objectForKey: @"Modifier"] integerValue];
+                          NSInteger sp = [Utils rollDice: wuerfelString] + modifier;
+                          if (sp > 0)  // some modifiers are -2 or more negative, so sp could become < 0, which would be awkward if sick ;)
+                            {
+                              self.currentLifePoints -= sp;
+                            }
+                        }
+                      else if ([damage isEqualToString: @"AU"])
+                        {
+                          NSString *wuerfelString = [damageDict[damage] objectForKey: @"Wuerfel"];
+                          NSInteger modifier = [[damageDict[damage] objectForKey: @"Modifier"] integerValue];
                          
-                  self.enduranceBaseValue -= ([Utils rollDice: wuerfelString] + modifier);                      
+                          self.enduranceBaseValue -= ([Utils rollDice: wuerfelString] + modifier);                      
+                        }
+                      else
+                        {
+                          NSLog(@"DSACharacter advanceIllnessEffect in applyDailyDamageForIllnessEffect don't know how to handle damage: %@", damage);
+                        }
+                    }
                 }
               else
                 {
-                  NSLog(@"DSACharacter advanceIllnessEffect in stage DSAIllnessStageIncubation dailyDamage don't know how to handle damageType: %@", damageType);
+                   NSLog(@"DSACharacter advanceIllnessEffect applyDailyDamageForIllnessEffect don't know how to handle damageType: %@", damageType);
                 }
             }
         }

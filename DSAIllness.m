@@ -72,41 +72,37 @@
             break;
     }
 
+    NSLog(@"DSAIllness endDateOfStage durationDict: %@", durationDict);
+    
     if (!durationDict) {
         NSLog(@"[DSAIllness] Keine Dauerdefinition für Krankheitsstufe %ld", (long)currentStage);
         return currentDate;
     }
 
-    NSString *wuerfelString = durationDict[@"Wuerfel"];
-    if (![wuerfelString isKindOfClass:[NSString class]]) {
-        NSLog(@"[DSAIllness] Ungültiger Wuerfel-Eintrag in Dauerdefinition: %@", wuerfelString);
-        return currentDate;
-    }
-
     NSInteger baseDays = 0;
-
-    // Prüfen, ob der String mit einem Buchstaben endet
-    unichar lastChar = [wuerfelString characterAtIndex:wuerfelString.length - 1];
-    if ([[NSCharacterSet letterCharacterSet] characterIsMember:lastChar]) {
-        NSString *suffix = [NSString stringWithCharacters:&lastChar length:1];
-        NSString *numberPart = [wuerfelString substringToIndex:wuerfelString.length - 1];
-
-        if ([suffix isEqualToString:@"T"]) {
-            // Feste Tageszahl
-            baseDays = [numberPart integerValue];
-        } else {
-            NSLog(@"[DSAIllness] WARNUNG: Unbekannter Zeit-Suffix '%@' im WuerfelString: %@", suffix, wuerfelString);
-            return currentDate;
-        }
-    } else {
-        // Würfelangabe (z. B. "1W3")
+    NSString *wuerfelString = durationDict[@"Wuerfel"];
+    if (![wuerfelString isKindOfClass:[NSString class]])
+      {
+        NSLog(@"[DSAIllness] Kein Wuerfel-Eintrag in Dauerdefinition.");
+      }
+    else
+      {
+        NSLog(@"[DSAIllness] Wuerfel-Eintrag in Dauerdefinition gefunden.");
         baseDays = [Utils rollDice:wuerfelString];
-    }
-
+      }
+    NSNumber *days = durationDict[@"Tage"];
+    if ([days isKindOfClass:[NSNumber class]])
+      {
+        NSLog(@"[DSAIllness] Statischen Tage Eintrag in Dauerdefinition gefunden.");    
+        baseDays += [days integerValue];
+      }
+    
     NSNumber *modifier = durationDict[@"Modifier"];
-    if ([modifier isKindOfClass:[NSNumber class]]) {
+    if ([modifier isKindOfClass:[NSNumber class]])
+      {
+        NSLog(@"[DSAIllness] Statischen Modifier Eintrag in Dauerdefinition gefunden.");    
         baseDays += [modifier integerValue];
-    }
+      }
 
     return [currentDate dateByAddingYears:0 days:baseDays hours:0 minutes:0];
 }
