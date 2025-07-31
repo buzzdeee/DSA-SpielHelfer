@@ -31,6 +31,7 @@
 #import "DSABodyParts.h"
 #import "DSAAventurianDate.h"
 #import "DSATalent.h"
+#import "DSADefinitions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -96,35 +97,17 @@ typedef NS_ENUM(NSInteger, DSACharacterEffectType) {
     DSACharacterEffectTypeNothing
 };
 
-typedef NS_ENUM(NSUInteger, DSAIllnessStage) {
-  DSAIllnessStageIncubation,
-  DSAIllnessStageActiveUnknown,
-  DSAIllnessStageActiveIdentified,
-  DSAIllnessStageUnderTreatment,
-  DSAIllnessStageChronicInactive,
-  DSAIllnessStageChronicActive
-};
-
-typedef NS_ENUM(NSUInteger, DSAPoisonStage) {
-    DSAPoisonStageApplied,           // Gift wurde appliziert, aber Latenz läuft noch
-    DSAPoisonStageLatent,            // Wartet auf Wirkungseintritt (Beginn in KR/SR)
-    DSAPoisonStageActive,            // Gift wirkt – regelmäßiger Schaden o.Ä.
-    DSAPoisonStageExpired,           // Wirkung ist ausgelaufen
-    DSAPoisonStageNeutralized,       // Durch Gegengift etc. neutralisiert
-    DSAPoisonStageSuppressed         // Wirkung unterdrückt (z. B. Alchimie/Zauber), aber noch im Körper
-};
-
 @interface DSACharacterEffect : NSObject <NSCoding, NSCopying>
 @property (nonatomic, copy) NSString *uniqueKey;
 @property (nonatomic, assign) DSACharacterEffectType effectType;
 @property (nonatomic, strong, nullable) DSAAventurianDate *expirationDate;
 @property (nonatomic, strong) NSDictionary<NSString *, NSNumber *> *reversibleChanges;
+@property (nonatomic, strong, nullable) NSDictionary<NSString *, NSDictionary<NSString *, id> *> *oneTimeDamage;
 @end
 
 @interface DSAIllnessEffect : DSACharacterEffect <NSCoding, NSCopying>
 @property (nonatomic, strong, nullable) NSDictionary<NSString *, NSDictionary<NSString *, id> *> *dailyDamage;
 @property (nonatomic, strong, nullable) DSAAventurianDate * dailyDamageApplyNextDate;  // when to apply next daily damage
-@property (nonatomic, strong, nullable) NSDictionary<NSString *, NSDictionary<NSString *, id> *> *oneTimeDamage;
 @property (nonatomic, assign) DSAIllnessStage currentStage;
 @property (nonatomic, strong, nullable) NSDictionary<NSString *, NSNumber *> *followUpIllnessChance;  // chance to get sick on a follow-up sickness in %
 
@@ -137,7 +120,6 @@ typedef NS_ENUM(NSUInteger, DSAPoisonStage) {
 @property (nonatomic, assign) DSATimeInterval beforePoisonActive;
 @property (nonatomic, assign) DSATimeInterval oncePoisonActive;
 @property (nonatomic, strong, nullable) DSAAventurianDate * recurringDamageApplyNextDate;  // date in future, when to apply next damage
-@property (nonatomic, strong, nullable) NSDictionary<NSString *, NSDictionary<NSString *, id> *> *oneTimeDamage;  // to be removed when poison isn't active anymore
 @property (nonatomic, assign) DSAPoisonStage currentStage;
 @end
 

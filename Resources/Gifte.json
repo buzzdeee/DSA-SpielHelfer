@@ -12,10 +12,10 @@
       "Einmalig": {
         "Alle": {
           "Eigenschaften": {
-            "HA": { "Modifikator": 12 },
-            "RA": { "Modifikator": 12 },
-            "TA": { "Modifikator": 12 },
-            "AG": { "Modifikator": 12 }
+            "HA": { "Modifier": 12 },
+            "RA": { "Modifier": 12 },
+            "TA": { "Modifier": 12 },
+            "AG": { "Modifier": 12 }
           }
         }
       }
@@ -46,8 +46,8 @@
       "Einmalig": {
         "Alle": {
           "AttackeParade": {
-            "AT": { "Modifikator": -2 },
-            "PA": { "Modifikator": -2 }
+            "AT": { "Modifier": -2 },
+            "PA": { "Modifier": -2 }
           }
         }
       }
@@ -77,13 +77,13 @@
       "Einmalig": {
         "Alle": {
           "Eigenschaften": {
-            "GE": { "Modifikator": -2 },
-            "FF": { "Modifikator": -2 },
-            "KK": { "Modifikator": -2 }                        
+            "GE": { "Modifier": -2 },
+            "FF": { "Modifier": -2 },
+            "KK": { "Modifier": -2 }                        
           },
           "AttackeParade": {
-            "AT": { "Modifikator": -2 },
-            "PA": { "Modifikator": -2 }
+            "AT": { "Modifier": -2 },
+            "PA": { "Modifier": -2 }
           }
         }
       }
@@ -290,13 +290,13 @@
       "Alle": {
         "Einmalig": {
           "Eigenschaften": {
-            "MU": { "Modifikator": -6 },
-            "GE": { "Modifikator": -6 },
-            "KK": { "Modifikator": -6 }
+            "MU": { "Modifier": -6 },
+            "GE": { "Modifier": -6 },
+            "KK": { "Modifier": -6 }
           },
           "AttackeParade": {
-            "AT": { "Modifikator": -4 },
-            "PA": { "Modifikator": -4 }
+            "AT": { "Modifier": -4 },
+            "PA": { "Modifier": -4 }
           }
         }
       }
@@ -330,13 +330,13 @@
             "SP": { "Wuerfel": "4W6" }
           },
           "Eigenschaften": {
-            "GE": { "Modifikator": -2 },
-            "FF": { "Modifikator": -2 },
-            "KK": { "Modifikator": -2 }                        
+            "GE": { "Modifier": -2 },
+            "FF": { "Modifier": -2 },
+            "KK": { "Modifier": -2 }                        
           },
           "AttackeParade": {
-            "AT": { "Modifikator": -2 },
-            "PA": { "Modifikator": -2 }
+            "AT": { "Modifier": -2 },
+            "PA": { "Modifier": -2 }
           }
         }
       }
@@ -373,10 +373,10 @@
             "SP": { "Wuerfel": "4W6" }
           },
           "Eigenschaften": {
-            "KL": { "Modifikator": -1 },
-            "FF": { "Modifikator": -1 },
-            "KK": { "Modifikator": -3 },
-            "GE": { "Modifikator": -3 }           
+            "KL": { "Modifier": -1 },
+            "FF": { "Modifier": -1 },
+            "KK": { "Modifier": -3 },
+            "GE": { "Modifier": -3 }           
           }
         }
       },

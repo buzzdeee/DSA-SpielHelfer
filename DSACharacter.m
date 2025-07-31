@@ -57,6 +57,7 @@
     [coder encodeInteger:self.effectType forKey:@"effectType"];
     [coder encodeObject:self.expirationDate forKey:@"expirationDate"];
     [coder encodeObject:self.reversibleChanges forKey:@"reversibleChanges"];
+    [coder encodeObject:self.oneTimeDamage forKey:@"oneTimeDamage"];
 }
 
 + (BOOL)supportsSecureCoding {
@@ -69,6 +70,7 @@
     copy->_effectType = self.effectType;
     copy->_expirationDate = [self.expirationDate copyWithZone:zone];
     copy->_reversibleChanges = [[NSDictionary allocWithZone:zone] initWithDictionary:self.reversibleChanges copyItems:YES];
+    copy->_oneTimeDamage = [[NSDictionary allocWithZone:zone] initWithDictionary:self.oneTimeDamage copyItems:YES];
     return copy;
 }
 
@@ -118,7 +120,6 @@
         _currentStage = [coder decodeIntegerForKey:@"currentStage"];    
         _dailyDamage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"dailyDamage"];
         _dailyDamageApplyNextDate = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"dailyDamageApplyNextDate"];
-        _oneTimeDamage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"oneTimeDamage"];
         _followUpIllnessChance = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"followUpIllnessChance"];
     }
     return self;
@@ -129,7 +130,6 @@
     [coder encodeInteger:self.currentStage forKey:@"currentStage"];    
     [coder encodeObject:_dailyDamage forKey:@"dailyDamage"];
     [coder encodeObject:_dailyDamageApplyNextDate forKey:@"dailyDamageApplyNextDate"];
-    [coder encodeObject:_oneTimeDamage forKey:@"oneTimeDamage"];
     [coder encodeObject:_followUpIllnessChance forKey:@"followUpIllnessChance"];
 }
 
@@ -142,7 +142,6 @@
     copy->_currentStage = self.currentStage;    
     copy->_dailyDamage = [_dailyDamage copyWithZone:zone];
     copy->_dailyDamageApplyNextDate = [_dailyDamageApplyNextDate copyWithZone:zone];
-    copy->_oneTimeDamage = [_oneTimeDamage copyWithZone:zone];
     copy->_followUpIllnessChance = [_followUpIllnessChance copyWithZone:zone];
     return copy;
 }
@@ -163,7 +162,6 @@
     [coder encodeInteger:self.beforePoisonActive forKey:@"beforePoisonActive"];
     [coder encodeInteger:self.oncePoisonActive forKey:@"oncePoisonActive"];
     [coder encodeObject:self.recurringDamageApplyNextDate forKey:@"recurringDamageApplyNextDate"];
-    [coder encodeObject:self.oneTimeDamage forKey:@"oneTimeDamage"];
     [coder encodeInteger:self.currentStage forKey:@"currentStage"];
 }
 
@@ -176,7 +174,6 @@
         _beforePoisonActive = [coder decodeIntegerForKey:@"beforePoisonActive"];
         _oncePoisonActive = [coder decodeIntegerForKey:@"oncePoisonActive"];
         _recurringDamageApplyNextDate = [coder decodeObjectOfClass:[DSAAventurianDate class] forKey:@"recurringDamageApplyNextDate"];
-        _oneTimeDamage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"oneTimeDamage"];
         _currentStage = [coder decodeIntegerForKey:@"currentStage"];
     }
     return self;
@@ -193,7 +190,6 @@
         copy.beforePoisonActive = self.beforePoisonActive;
         copy.oncePoisonActive = self.oncePoisonActive;
         copy.recurringDamageApplyNextDate = [self.recurringDamageApplyNextDate copyWithZone:zone];
-        copy.oneTimeDamage = [self.oneTimeDamage copyWithZone:zone];
         copy.currentStage = self.currentStage;
     }
     return copy;
@@ -2102,6 +2098,45 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   DSAPoison *poison = [[DSAPoisonRegistry sharedRegistry] poisonWithUniqueID: poisonEffect.uniqueKey];
   NSLog(@"DSACharacter advancePoisonEffect the poison: %@", poison);
   
+  switch (poisonEffect.currentStage)
+    {
+      case DSAPoisonStageApplied: {
+        if (!poisonEffect.expirationDate)
+          {
+            NSLog(@"DSAcharacter advancePoisonEffect in stage: DSAPoisonStageApplied, properly initializing poisonEffect"); 
+            poisonEffect.expirationDate = [poison endDateOfStage: DSAPoisonStageApplied
+                                                        fromDate: currentDate];
+            if ([poisonEffect.expirationDate isEqualTo: currentDate])  // advance right away ...
+              {
+                poisonEffect.currentStage = DSAPoisonStageActive;
+                poisonEffect.expirationDate = [poison endDateOfStage: DSAPoisonStageActive
+                                                            fromDate: currentDate];
+                poisonEffect.oneTimeDamage = [poison oneTimeDamage];
+                [self applyOneTimeDamage:poisonEffect revert:NO];                                                            
+                [self advancePoisonEffect: poisonEffect atDate: currentDate];
+              }
+          }
+        else
+          {
+            if ([poisonEffect.expirationDate isEarlierThanDate: currentDate])
+              {
+                poisonEffect.currentStage = DSAPoisonStageActive;
+                poisonEffect.expirationDate = [poison endDateOfStage: DSAPoisonStageActive
+                                                            fromDate: currentDate];
+                poisonEffect.oneTimeDamage = [poison oneTimeDamage];
+                [self applyOneTimeDamage:poisonEffect revert:NO];                                                                            
+              }
+            else
+              {
+                NSLog(@"DSAcharacter advancePoisonEffect in stage: DSAPoisonStageApplied, no need yet to advance to next stage");
+              }
+          }
+      }
+      case DSAPoisonStageActive: {
+        
+      }
+    }
+  
 }
 
 - (void) advanceIllnessEffect: (DSAIllnessEffect *) illnessEffect atDate: (DSAAventurianDate *)currentDate
@@ -2209,18 +2244,19 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
 }
 
-- (void)applyOneTimeDamage:(DSAIllnessEffect *)illnessEffect
+- (void)applyOneTimeDamage:(DSACharacterEffect *)characterEffect
                     revert:(BOOL)shouldRevert
 {
   NSLog(@"DSACharacter applyOneTimeDamage called!");
-  for (NSString *who in [illnessEffect.oneTimeDamage allKeys])
+    
+  for (NSString *who in [characterEffect.oneTimeDamage allKeys])
     {
       if ([who isEqualToString: @"Alle"] ||
           ([who isEqualToString: @"Zwerg"] && [self isKindOfClass: [DSACharacterHeroDwarf class]]) ||
           ([who isEqualToString: @"Mensch"] && [self isKindOfClass: [DSACharacterHeroHuman class]]) ||
           ([who isEqualToString: @"Elf"] && [self isKindOfClass: [DSACharacterHeroElf class]]))
         {
-          NSDictionary *oneTimeDamage = illnessEffect.oneTimeDamage[who];
+          NSDictionary *oneTimeDamage = characterEffect.oneTimeDamage[who];
           NSLog(@"DSACharacter applyOneTimeDamage going ahead with applying oneTimeDamage: %@", oneTimeDamage);          
           for (NSString *damageType in oneTimeDamage)
             {

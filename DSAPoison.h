@@ -30,15 +30,17 @@
 #import "DSADefinitions.h"
 @class DSAPoisonEffect;
 @class DSACharacter;
+@class DSAAventurianDate;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DSAPoison : DSAObject
+@interface DSAPoison : DSAObject <NSCoding, NSCopying>
 
 @property (nonatomic, assign) NSInteger level;                     // formerly "Stufe"
 @property (nonatomic, strong) NSArray<NSString *> *types;         // formerly "Typ"
 @property (nonatomic, strong) NSDictionary *onset;                // formerly "Beginn"
 @property (nonatomic, strong) NSDictionary *duration;             // formerly "Dauer"
+@property (nonatomic, strong) NSDictionary<NSString *, id> *damage;   // "Schaden"
 @property (nonatomic, strong) NSDictionary *shelfLife;            // formerly "Haltbarkeit"
 @property (nonatomic, assign) float cost;                         // formerly "Preis"
 @property (nonatomic, strong) NSArray<NSDictionary *> *crafting;  // formerly "Herstellung"
@@ -54,6 +56,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (nullable DSAPoisonEffect *)generateEffectForCharacter:(DSACharacter *)character;
 
+- (DSAAventurianDate *)endDateOfStage:(DSAPoisonStage) currentStage
+                             fromDate:(DSAAventurianDate *)currentDate;
+-(NSDictionary <NSString *, id>*) oneTimeDamage;
 @end
 
 #pragma mark - Subclasses

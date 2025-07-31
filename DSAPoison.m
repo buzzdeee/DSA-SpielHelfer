@@ -24,6 +24,7 @@
 
 #import "DSAPoison.h"
 #import "DSACharacter.h"
+#import "Utils.h"
 
 static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
@@ -83,6 +84,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
         self.types = dict[@"Typ"];
         self.onset = dict[@"Beginn"];
         self.duration = dict[@"Dauer"];
+        self.damage = dict[@"Schaden"];
         self.shelfLife = dict[@"Haltbarkeit"];
         self.cost = [dict[@"Preis"] floatValue];
         self.crafting = dict[@"Herstellung"];
@@ -107,6 +109,128 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
    effect.currentStage = DSAPoisonStageApplied;
    
    return effect;
+}
+
+- (DSAAventurianDate *)endDateOfStage:(DSAPoisonStage)currentStage
+                             fromDate:(DSAAventurianDate *)currentDate
+{
+    NSDictionary *durationDict;
+    switch (currentStage) {
+        case DSAPoisonStageApplied:
+            durationDict = self.onset;
+            break;
+        default:
+            durationDict = self.duration;
+            break;
+    }
+
+    NSLog(@"DSAPoison endDateOfStage durationDict: %@", durationDict);
+    
+    if (!durationDict) {
+        NSLog(@"[DSAPoison] Keine Dauerdefinition für Poison Stufe %ld", (long)currentStage);
+        return currentDate;
+    }
+    
+    if (currentStage == DSAPoisonStageApplied)
+      {
+        if ([[durationDict objectForKey: @"Sofort"] boolValue] == YES)
+          {
+            NSLog(@"[DSAPoison] We're in stage DSAPoisonStageApplied and it has to start immediately");
+            return currentDate;
+          }
+      }
+    
+    if (durationDict[@"KR"] != nil)
+      {
+        // rounding up or down to next closest minute
+        NSNumber *krNumber = durationDict[@"KR"];
+        NSInteger kr = krNumber.integerValue;
+        NSInteger randomValue = durationDict[@"Wuerfel"] ? [Utils rollDice: durationDict[@"Wuerfel"]] : 0;        
+        NSInteger seconds = (kr + randomValue) * 5;
+        NSInteger minutes = (seconds + 30) / 60;  // minutes may be 0, but that's OK
+
+        return [currentDate dateByAddingYears:0 days:0 hours:0 minutes: minutes];
+      }
+    else if (durationDict[@"SR"] != nil || durationDict[@"Minuten"] != nil)
+      {
+        NSInteger minutes = durationDict[@"SR"] ? [durationDict[@"SR"] integerValue] : [durationDict[@"Minuten"] integerValue];
+        NSInteger randomValue = durationDict[@"Wuerfel"] ? [Utils rollDice: durationDict[@"Wuerfel"]] : 0;
+        return [currentDate dateByAddingYears:0 days:0 hours:0 minutes: minutes + randomValue];
+      }
+    else if (durationDict[@"Stunden"] != nil)
+      {
+        NSInteger hours = durationDict[@"Stunden"] ? [durationDict[@"SR"] integerValue] : 0;
+        NSInteger randomValue = durationDict[@"Wuerfel"] ? [Utils rollDice: durationDict[@"Wuerfel"]] : 0;
+        return [currentDate dateByAddingYears:0 days:0 hours: hours + randomValue minutes: 0];
+      }
+    else if ([durationDict[@"Bis zum Tode"] boolValue])
+      {
+        // until eternity ;)
+        return [currentDate dateByAddingYears:1000 days:0 hours: 0 minutes: 0];
+      }
+    return nil;
+}
+
+
+-(NSDictionary <NSString *, id>*) oneTimeDamage
+{
+  return [self.damage objectForKey: @"Einmalig"];
+}
+
+#pragma mark - NSSecureCoding
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [super encodeWithCoder:coder]; // falls DSAObject ebenfalls NSCoding unterstützt
+
+    [coder encodeInteger:self.level forKey:@"level"];
+    [coder encodeObject:self.types forKey:@"types"];
+    [coder encodeObject:self.onset forKey:@"onset"];
+    [coder encodeObject:self.duration forKey:@"duration"];
+    [coder encodeObject:self.damage forKey:@"damage"];
+    [coder encodeObject:self.shelfLife forKey:@"shelfLife"];
+    [coder encodeFloat:self.cost forKey:@"cost"];
+    [coder encodeObject:self.crafting forKey:@"crafting"];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder]; // falls DSAObject ebenfalls NSCoding unterstützt
+    if (self) {
+        _level = [coder decodeIntegerForKey:@"level"];
+        _types = [coder decodeObjectOfClass:[NSArray class] forKey:@"types"];
+        _onset = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"onset"];
+        _duration = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"duration"];
+        _damage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"damage"];
+        _shelfLife = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"shelfLife"];
+        _cost = [coder decodeFloatForKey:@"cost"];
+        _crafting = [coder decodeObjectOfClass:[NSArray class] forKey:@"crafting"];
+    }
+    return self;
+}
+
++ (NSSet<Class> *)supportsSecureCodingClassesForKeys {
+    return [NSSet setWithObjects:
+        [NSArray class], [NSDictionary class], [NSNumber class], [NSString class], nil];
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+    DSAPoison *copy = [[[self class] allocWithZone:zone] init];
+
+    copy.level = self.level;
+    copy.types = [[NSArray allocWithZone:zone] initWithArray:self.types copyItems:YES];
+    copy.onset = [[NSDictionary allocWithZone:zone] initWithDictionary:self.onset copyItems:YES];
+    copy.duration = [[NSDictionary allocWithZone:zone] initWithDictionary:self.duration copyItems:YES];
+    copy.damage = [[NSDictionary allocWithZone:zone] initWithDictionary:self.damage copyItems:YES];
+    copy.shelfLife = [[NSDictionary allocWithZone:zone] initWithDictionary:self.shelfLife copyItems:YES];
+    copy.cost = self.cost;
+    copy.crafting = [[NSArray allocWithZone:zone] initWithArray:self.crafting copyItems:YES];
+
+    return copy;
 }
 
 @end

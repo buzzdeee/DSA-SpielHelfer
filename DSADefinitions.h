@@ -96,6 +96,25 @@ typedef NS_ENUM(NSInteger, DSAPoisonType) {
     DSAPoisonTypeInjection,
 };
 
+typedef NS_ENUM(NSUInteger, DSAIllnessStage) {
+  DSAIllnessStageIncubation,
+  DSAIllnessStageActiveUnknown,
+  DSAIllnessStageActiveIdentified,
+  DSAIllnessStageUnderTreatment,
+  DSAIllnessStageChronicInactive,
+  DSAIllnessStageChronicActive
+};
+
+typedef NS_ENUM(NSUInteger, DSAPoisonStage) {
+    DSAPoisonStageApplied,           // Gift wurde appliziert, aber Latenz läuft noch
+    DSAPoisonStageLatent,            // Wartet auf Wirkungseintritt (Beginn in KR/SR)
+    DSAPoisonStageActive,            // Gift wirkt – regelmäßiger Schaden o.Ä.
+    DSAPoisonStageExpired,           // Wirkung ist ausgelaufen
+    DSAPoisonStageNeutralized,       // Durch Gegengift etc. neutralisiert
+    DSAPoisonStageSuppressed         // Wirkung unterdrückt (z. B. Alchimie/Zauber), aber noch im Körper
+};
+
+
 typedef NS_ENUM(NSInteger, DSATimeInterval) {
     DSATimeIntervalUnknown = 0,
     DSATimeIntervalKR,          // Kampfrunde, ca. 5 Sekunden
