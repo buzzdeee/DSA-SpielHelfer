@@ -12,10 +12,12 @@
       "Bettruhe": {}
     },
     "Schaden": {
-      "Taeglich": {
-        "Alle": {
-          "Damage": {
-            "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+      "Regelmaessig": {
+        "Taeglich": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+            }
           }
         }
       },
@@ -41,10 +43,12 @@
       "Bettruhe": {}
     },
     "Schaden": {
-      "Taeglich": {
-        "Alle": {
-          "Damage": {
-            "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+      "Regelmaessig": {    
+        "Taeglich": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+            }
           }
         }
       },
@@ -70,10 +74,12 @@
       "Bettruhe": {}
     },
     "Schaden": {
-      "Taeglich": {
-        "Alle": {
-          "Damage": {
-            "SP": { "Wuerfel": "1W3", "Modifier": 2 }
+      "Regelmaessig": {    
+        "Taeglich": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W3", "Modifier": 2 }
+            }
           }
         }
       },
@@ -99,10 +105,12 @@
       "Bettruhe": {}
     },
     "Schaden": {
-      "Taeglich": {
-        "Alle": {
-          "Damage": {
-            "SP": { "Wuerfel": "1W3", "Modifier": 2 }
+      "Regelmaessig": {    
+        "Taeglich": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W3", "Modifier": 2 }
+            }
           }
         }
       },
@@ -128,11 +136,13 @@
       "Ruhe": {}
     },
     "Schaden": {
-      "Taeglich": {
-        "Alle": {
-          "Damage": {
-            "SP": { "Wuerfel": "1W3", "Modifier": 1 },
-            "AU": { "Wuerfel": "1W6", "Modifier": 1 }
+      "Regelmaessig": {    
+        "Taeglich": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W3", "Modifier": 1 },
+              "AU": { "Wuerfel": "1W6", "Modifier": 1 }
+            }
           }
         }
       },
@@ -159,11 +169,13 @@
       "Ruhe": {}
     },
     "Schaden": {
-      "Taeglich": {
-        "Alle": {
-          "Damage": {
-            "SP": { "Wuerfel": "1W3", "Modifier": 1 },
-            "AU": { "Wuerfel": "1W6", "Modifier": 1 }
+      "Regelmaessig": {     
+        "Taeglich": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W3", "Modifier": 1 },
+              "AU": { "Wuerfel": "1W6", "Modifier": 1 }
+            }
           }
         }
       },
@@ -189,11 +201,13 @@
       "Ruhe": {}
     },
     "Schaden": {
-      "Taeglich": {
-        "Alle": {
-          "Damage": {
-            "SP": { "Wuerfel": "1W3", "Modifier": 3 },
-            "AU": { "Wuerfel": "1W6", "Modifier": 3 }
+      "Regelmaessig": {     
+        "Taeglich": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W3", "Modifier": 3 },
+              "AU": { "Wuerfel": "1W6", "Modifier": 3 }
+            }
           }
         }
       },
@@ -237,10 +251,12 @@
       }
     },
     "Schaden": {
-      "Taeglich": {
-        "Alle": {
-          "Damage": {
-            "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+      "Regelmaessig": {     
+        "Taeglich": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W3", "Modifier": 1 }
+            }
           }
         }
       },
@@ -304,12 +320,14 @@
       }
     },
     "Schaden": {
-      "Taeglich": {
-        "Alle": {
-          "Damage": {
-            "SP": { "Wuerfel": "1W6", "Modifier": -1 },
-            "Folgekrankheiten": {
-              "Blaue Keuche": "5"
+      "Regelmaessig": {     
+        "Taeglich": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W6", "Modifier": -1 },
+              "Folgekrankheiten": {
+                "Blaue Keuche": "5"
+              }
             }
           }
         }
@@ -366,12 +384,14 @@
       "Ruhe": {}
     },
     "Schaden": {
-      "Taeglich": {
-        "Damage": {
-          "SP": { "Wuerfel": "1W6", "Modifier": -2 }
-        },
-        "Eigenschaften": {
-          "KK": { "Modifier": -1 }
+      "Regelmaessig": {     
+        "Taeglich": {
+          "Damage": {
+            "SP": { "Wuerfel": "1W6", "Modifier": -2 }
+          },
+          "Eigenschaften": {
+            "KK": { "Modifier": -1 }
+          }
         }
       }
     },
@@ -405,9 +425,11 @@
       "Bettruhe": {}
     },
     "Schaden": {
-      "Taeglich": {
-        "Damage": {
-          "SP": { "Wuerfel": "1W3", "Modifier": 3 }
+      "Regelmaessig": {     
+        "Taeglich": {
+          "Damage": {
+            "SP": { "Wuerfel": "1W3", "Modifier": 3 }
+          }
         }
       },
       "Einmalig": {

@@ -53,7 +53,7 @@ NS_ASSUME_NONNULL_BEGIN
                              fromDate:(DSAAventurianDate *)currentDate;
                             
 -(NSDictionary <NSString *, id>*) oneTimeDamage;
--(NSDictionary <NSString *, id>*) dailyDamage;
+-(NSDictionary <NSString *, id>*) recurringDamage;
 -(DSASeverityLevel) dangerLevelToSeverityLevel;
 @end
 

@@ -112,9 +112,9 @@
   return [self.damage objectForKey: @"Einmalig"];
 }
 
--(NSDictionary <NSString *, id>*) dailyDamage
+-(NSDictionary <NSString *, id>*) recurringDamage
 {
-  return [self.damage objectForKey: @"Taeglich"];
+  return [self.damage objectForKey: @"Regelmaessig"];
 }
 
 - (DSASeverityLevel) dangerLevelToSeverityLevel

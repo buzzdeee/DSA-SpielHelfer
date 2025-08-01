@@ -103,23 +103,21 @@ typedef NS_ENUM(NSInteger, DSACharacterEffectType) {
 @property (nonatomic, strong, nullable) DSAAventurianDate *expirationDate;
 @property (nonatomic, strong) NSDictionary<NSString *, NSNumber *> *reversibleChanges;
 @property (nonatomic, strong, nullable) NSDictionary<NSString *, NSDictionary<NSString *, id> *> *oneTimeDamage;
+@property (nonatomic, strong, nullable) NSDictionary<NSString *, NSDictionary<NSString *, id> *> *recurringDamage;  // usually LP/SR or alike
+@property (nonatomic, strong, nullable) DSAAventurianDate * recurringDamageApplyNextDate;  // date in future, when to apply next damage
 @end
 
 @interface DSAIllnessEffect : DSACharacterEffect <NSCoding, NSCopying>
-@property (nonatomic, strong, nullable) NSDictionary<NSString *, NSDictionary<NSString *, id> *> *dailyDamage;
-@property (nonatomic, strong, nullable) DSAAventurianDate * dailyDamageApplyNextDate;  // when to apply next daily damage
 @property (nonatomic, assign) DSAIllnessStage currentStage;
 @property (nonatomic, strong, nullable) NSDictionary<NSString *, NSNumber *> *followUpIllnessChance;  // chance to get sick on a follow-up sickness in %
 
 @end
 
 @interface DSAPoisonEffect : DSACharacterEffect <NSCoding, NSCopying>
-@property (nonatomic, strong, nullable) NSDictionary<NSString *, NSDictionary<NSString *, id> *> *recurringDamage;  // usually LP/SR or alike
 @property (nonatomic, assign) NSInteger beforePoisonActiveCounter;
 @property (nonatomic, assign) NSInteger oncePoisonActiveCounter;
 @property (nonatomic, assign) DSATimeInterval beforePoisonActive;
 @property (nonatomic, assign) DSATimeInterval oncePoisonActive;
-@property (nonatomic, strong, nullable) DSAAventurianDate * recurringDamageApplyNextDate;  // date in future, when to apply next damage
 @property (nonatomic, assign) DSAPoisonStage currentStage;
 @end
 

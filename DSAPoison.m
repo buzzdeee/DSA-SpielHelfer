@@ -80,13 +80,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     self = [super init];
     if (self) {
         self.name = name;
-        self.level = [dict[@"Stufe"] integerValue];
+        self.dangerLevel = [dict[@"Stufe"] integerValue];
         self.types = dict[@"Typ"];
         self.onset = dict[@"Beginn"];
         self.duration = dict[@"Dauer"];
         self.damage = dict[@"Schaden"];
         self.shelfLife = dict[@"Haltbarkeit"];
-        self.cost = [dict[@"Preis"] floatValue];
+        self.price = [dict[@"Preis"] floatValue];
         self.crafting = dict[@"Herstellung"];
         self.states = [NSMutableSet setWithObject:@(DSAObjectStateIsPoisoned)];
     }
@@ -177,6 +177,24 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   return [self.damage objectForKey: @"Einmalig"];
 }
 
+-(NSDictionary <NSString *, id>*) recurringDamage
+{
+  return [self.damage objectForKey: @"Regelmaessig"];
+}
+
+- (DSASeverityLevel) dangerLevelToSeverityLevel
+{
+  NSLog(@"DSAPoison dangerLevelToSeverityLevel dangerLevel: %@", @(self.dangerLevel));
+  switch (self.dangerLevel)
+    {
+      case 0: return DSASeverityLevelNone;
+      case 1 ... 6: return DSASeverityLevelMild;
+      case 7 ... 12: return DSASeverityLevelModerate;
+      case 13 ... 20: return DSASeverityLevelSevere;
+      default: return DSASeverityLevelNone;
+    }
+}
+
 #pragma mark - NSSecureCoding
 
 + (BOOL)supportsSecureCoding {
@@ -186,26 +204,24 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 - (void)encodeWithCoder:(NSCoder *)coder {
     [super encodeWithCoder:coder]; // falls DSAObject ebenfalls NSCoding unterstützt
 
-    [coder encodeInteger:self.level forKey:@"level"];
+    [coder encodeInteger:self.dangerLevel forKey:@"dangerLevel"];
     [coder encodeObject:self.types forKey:@"types"];
     [coder encodeObject:self.onset forKey:@"onset"];
     [coder encodeObject:self.duration forKey:@"duration"];
     [coder encodeObject:self.damage forKey:@"damage"];
     [coder encodeObject:self.shelfLife forKey:@"shelfLife"];
-    [coder encodeFloat:self.cost forKey:@"cost"];
     [coder encodeObject:self.crafting forKey:@"crafting"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder]; // falls DSAObject ebenfalls NSCoding unterstützt
     if (self) {
-        _level = [coder decodeIntegerForKey:@"level"];
+        _dangerLevel = [coder decodeIntegerForKey:@"dangerLevel"];
         _types = [coder decodeObjectOfClass:[NSArray class] forKey:@"types"];
         _onset = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"onset"];
         _duration = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"duration"];
         _damage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"damage"];
         _shelfLife = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"shelfLife"];
-        _cost = [coder decodeFloatForKey:@"cost"];
         _crafting = [coder decodeObjectOfClass:[NSArray class] forKey:@"crafting"];
     }
     return self;
@@ -221,13 +237,12 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 - (id)copyWithZone:(NSZone *)zone {
     DSAPoison *copy = [[[self class] allocWithZone:zone] init];
 
-    copy.level = self.level;
+    copy.dangerLevel = self.dangerLevel;
     copy.types = [[NSArray allocWithZone:zone] initWithArray:self.types copyItems:YES];
     copy.onset = [[NSDictionary allocWithZone:zone] initWithDictionary:self.onset copyItems:YES];
     copy.duration = [[NSDictionary allocWithZone:zone] initWithDictionary:self.duration copyItems:YES];
     copy.damage = [[NSDictionary allocWithZone:zone] initWithDictionary:self.damage copyItems:YES];
     copy.shelfLife = [[NSDictionary allocWithZone:zone] initWithDictionary:self.shelfLife copyItems:YES];
-    copy.cost = self.cost;
     copy.crafting = [[NSArray allocWithZone:zone] initWithArray:self.crafting copyItems:YES];
 
     return copy;

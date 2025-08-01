@@ -48,6 +48,9 @@
         _effectType = [coder decodeIntegerForKey:@"effectType"];
         _expirationDate = [coder decodeObjectOfClass:[DSAAventurianDate class] forKey:@"expirationDate"];
         _reversibleChanges = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"reversibleChanges"];
+        _oneTimeDamage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"oneTimeDamage"];
+        _recurringDamage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"recurringDamage"];        
+        _recurringDamageApplyNextDate = [coder decodeObjectOfClass:[DSAAventurianDate class] forKey:@"recurringDamageApplyNextDate"];        
     }
     return self;
 }
@@ -58,6 +61,8 @@
     [coder encodeObject:self.expirationDate forKey:@"expirationDate"];
     [coder encodeObject:self.reversibleChanges forKey:@"reversibleChanges"];
     [coder encodeObject:self.oneTimeDamage forKey:@"oneTimeDamage"];
+    [coder encodeObject:self.recurringDamage forKey:@"recurringDamage"]; 
+    [coder encodeObject:self.recurringDamageApplyNextDate forKey:@"recurringDamageApplyNextDate"];       
 }
 
 + (BOOL)supportsSecureCoding {
@@ -71,6 +76,8 @@
     copy->_expirationDate = [self.expirationDate copyWithZone:zone];
     copy->_reversibleChanges = [[NSDictionary allocWithZone:zone] initWithDictionary:self.reversibleChanges copyItems:YES];
     copy->_oneTimeDamage = [[NSDictionary allocWithZone:zone] initWithDictionary:self.oneTimeDamage copyItems:YES];
+    copy->_recurringDamage = [[NSDictionary allocWithZone:zone] initWithDictionary:self.recurringDamage copyItems:YES];   
+    copy->_recurringDamageApplyNextDate = [self.recurringDamageApplyNextDate copyWithZone:zone];    
     return copy;
 }
 
@@ -118,8 +125,6 @@
     self = [super initWithCoder:coder];
     if (self) {
         _currentStage = [coder decodeIntegerForKey:@"currentStage"];    
-        _dailyDamage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"dailyDamage"];
-        _dailyDamageApplyNextDate = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"dailyDamageApplyNextDate"];
         _followUpIllnessChance = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"followUpIllnessChance"];
     }
     return self;
@@ -128,8 +133,6 @@
 - (void)encodeWithCoder:(NSCoder *)coder {
     [super encodeWithCoder:coder];
     [coder encodeInteger:self.currentStage forKey:@"currentStage"];    
-    [coder encodeObject:_dailyDamage forKey:@"dailyDamage"];
-    [coder encodeObject:_dailyDamageApplyNextDate forKey:@"dailyDamageApplyNextDate"];
     [coder encodeObject:_followUpIllnessChance forKey:@"followUpIllnessChance"];
 }
 
@@ -140,8 +143,6 @@
 - (id)copyWithZone:(NSZone *)zone {
     DSAIllnessEffect *copy = [super copyWithZone:zone];
     copy->_currentStage = self.currentStage;    
-    copy->_dailyDamage = [_dailyDamage copyWithZone:zone];
-    copy->_dailyDamageApplyNextDate = [_dailyDamageApplyNextDate copyWithZone:zone];
     copy->_followUpIllnessChance = [_followUpIllnessChance copyWithZone:zone];
     return copy;
 }
@@ -156,24 +157,20 @@
 - (void)encodeWithCoder:(NSCoder *)coder {
     [super encodeWithCoder:coder];
 
-    [coder encodeObject:self.recurringDamage forKey:@"recurringDamage"];
     [coder encodeInteger:self.beforePoisonActiveCounter forKey:@"beforePoisonActiveCounter"];
     [coder encodeInteger:self.oncePoisonActiveCounter forKey:@"oncePoisonActiveCounter"];
     [coder encodeInteger:self.beforePoisonActive forKey:@"beforePoisonActive"];
     [coder encodeInteger:self.oncePoisonActive forKey:@"oncePoisonActive"];
-    [coder encodeObject:self.recurringDamageApplyNextDate forKey:@"recurringDamageApplyNextDate"];
     [coder encodeInteger:self.currentStage forKey:@"currentStage"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
-        _recurringDamage = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"recurringDamage"];
         _beforePoisonActiveCounter = [coder decodeIntegerForKey:@"beforePoisonActiveCounter"];
         _oncePoisonActiveCounter = [coder decodeIntegerForKey:@"oncePoisonActiveCounter"];
         _beforePoisonActive = [coder decodeIntegerForKey:@"beforePoisonActive"];
         _oncePoisonActive = [coder decodeIntegerForKey:@"oncePoisonActive"];
-        _recurringDamageApplyNextDate = [coder decodeObjectOfClass:[DSAAventurianDate class] forKey:@"recurringDamageApplyNextDate"];
         _currentStage = [coder decodeIntegerForKey:@"currentStage"];
     }
     return self;
@@ -184,12 +181,10 @@
 - (id)copyWithZone:(NSZone *)zone {
     DSAPoisonEffect *copy = [super copyWithZone:zone];
     if (copy) {
-        copy.recurringDamage = [self.recurringDamage copyWithZone:zone];
         copy.beforePoisonActiveCounter = self.beforePoisonActiveCounter;
         copy.oncePoisonActiveCounter = self.oncePoisonActiveCounter;
         copy.beforePoisonActive = self.beforePoisonActive;
         copy.oncePoisonActive = self.oncePoisonActive;
-        copy.recurringDamageApplyNextDate = [self.recurringDamageApplyNextDate copyWithZone:zone];
         copy.currentStage = self.currentStage;
     }
     return copy;
@@ -2101,6 +2096,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   switch (poisonEffect.currentStage)
     {
       case DSAPoisonStageApplied: {
+        BOOL immediatelyAdvanceStage = NO;
         if (!poisonEffect.expirationDate)
           {
             NSLog(@"DSAcharacter advancePoisonEffect in stage: DSAPoisonStageApplied, properly initializing poisonEffect"); 
@@ -2108,11 +2104,19 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                                                         fromDate: currentDate];
             if ([poisonEffect.expirationDate isEqualTo: currentDate])  // advance right away ...
               {
+                immediatelyAdvanceStage = YES;
                 poisonEffect.currentStage = DSAPoisonStageActive;
                 poisonEffect.expirationDate = [poison endDateOfStage: DSAPoisonStageActive
                                                             fromDate: currentDate];
                 poisonEffect.oneTimeDamage = [poison oneTimeDamage];
-                [self applyOneTimeDamage:poisonEffect revert:NO];                                                            
+                [self.statesDict setObject: @([poison dangerLevelToSeverityLevel]) forKey: @(DSACharacterStatePoisoned)];
+                [self applyOneTimeDamage:poisonEffect revert:NO];
+                NSDictionary *userInfo = @{ @"severity": @(LogSeverityWarning),
+                                             @"message": [NSString stringWithFormat: @"%@ ist vergiftet.", self.name]
+                                          };                
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                                    object: self
+                                                                  userInfo: userInfo];                                                                          
                 [self advancePoisonEffect: poisonEffect atDate: currentDate];
               }
           }
@@ -2120,23 +2124,61 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
           {
             if ([poisonEffect.expirationDate isEarlierThanDate: currentDate])
               {
-                poisonEffect.currentStage = DSAPoisonStageActive;
-                poisonEffect.expirationDate = [poison endDateOfStage: DSAPoisonStageActive
-                                                            fromDate: currentDate];
-                poisonEffect.oneTimeDamage = [poison oneTimeDamage];
-                [self applyOneTimeDamage:poisonEffect revert:NO];                                                                            
+                immediatelyAdvanceStage = YES;              
               }
             else
               {
                 NSLog(@"DSAcharacter advancePoisonEffect in stage: DSAPoisonStageApplied, no need yet to advance to next stage");
               }
           }
+        if (immediatelyAdvanceStage)
+          {
+              poisonEffect.currentStage = DSAPoisonStageActive;
+              poisonEffect.expirationDate = [poison endDateOfStage: DSAPoisonStageActive
+                                                          fromDate: currentDate];
+              [self.statesDict setObject: @([poison dangerLevelToSeverityLevel]) forKey: @(DSACharacterStatePoisoned)];                                                          
+              
+              poisonEffect.oneTimeDamage = [poison oneTimeDamage];
+              [self applyOneTimeDamage:poisonEffect revert:NO];
+              poisonEffect.recurringDamage = [poison recurringDamage];  // we're advancing immediately, applying in active stage...
+              
+              NSDictionary *userInfo = @{ @"severity": @(LogSeverityWarning),
+                                           @"message": [NSString stringWithFormat: @"%@ ist vergiftet.", self.name]
+                                        };                
+              [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                                  object: self
+                                                                userInfo: userInfo];                                                                          
+              [self advancePoisonEffect: poisonEffect atDate: currentDate];          
+          }
       }
       case DSAPoisonStageActive: {
-        
+        if ([poisonEffect.expirationDate isEarlierThanDate: currentDate])
+          {
+            // seems we're still alive at the end of poison
+            [self applyOneTimeDamage:poisonEffect revert:YES];
+            [self.statesDict setObject: @(DSASeverityLevelNone) forKey: @(DSACharacterStatePoisoned)];
+            [self removeCharacterEffectForKey: poisonEffect.uniqueKey];
+            NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
+                                         @"message": [NSString stringWithFormat: @"%@ hat die Vergiftung überstanden.", self.name]
+                                      };
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                                object: self
+                                                              userInfo: userInfo];
+            return; // good to jump out early                                           
+          }
+        if (poisonEffect.recurringDamage)
+          {
+            if ([poisonEffect.recurringDamageApplyNextDate isEarlierThanDate: currentDate])
+              {
+                NSLog(@"DSACharacter advancePoisonEffect in stage: %lu handling recurringDamage", poisonEffect.currentStage);
+                [self applyRegularDamageForCharacterEffect: poisonEffect atDate: currentDate];
+              }
+          }
+      }
+      default: {
+        NSLog(@"DSACharacter advancePoisonEffect not specially handling stage: %@ yet", @(poisonEffect.currentStage));
       }
     }
-  
 }
 
 - (void) advanceIllnessEffect: (DSAIllnessEffect *) illnessEffect atDate: (DSAAventurianDate *)currentDate
@@ -2163,8 +2205,8 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                 illnessEffect.oneTimeDamage = [illnessDescription oneTimeDamage];
                 [self applyOneTimeDamage:illnessEffect revert:NO];
      
-                illnessEffect.dailyDamage = [illnessDescription dailyDamage];
-                [self applyDailyDamageForIllnessEffect:illnessEffect atDate: currentDate];
+                illnessEffect.recurringDamage = [illnessDescription recurringDamage];
+                [self applyRegularDamageForCharacterEffect:illnessEffect atDate: currentDate];
                 
                 illnessEffect.currentStage = DSAIllnessStageActiveUnknown;     // finally push forward
                 NSLog(@"DSACharacter advanceIllnessEffect goint to set severity level to: %@", @([illnessDescription dangerLevelToSeverityLevel]));
@@ -2196,11 +2238,19 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
             [self applyOneTimeDamage:illnessEffect revert:YES];
             [self.statesDict setObject: @(DSASeverityLevelNone) forKey: @(DSACharacterStateSick)];
             DSAIllnessEffect *savedIllnessEffect = illnessEffect;
-            [self removeCharacterEffectForKey: illnessEffect.uniqueKey];
+            if (illnessEffect.currentStage == DSAIllnessStageChronicActive)
+              {
+                illnessEffect.currentStage = DSAIllnessStageChronicInactive;
+                [self.statesDict setObject: @(DSASeverityLevelNone) forKey: @(DSACharacterStateSick)];
+              }
+            else
+              {
+                [self removeCharacterEffectForKey: illnessEffect.uniqueKey];
+              }
+            self.enduranceBaseValue = 0;  // just reset in case it was lowered
             NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
                                          @"message": [NSString stringWithFormat: @"%@ ist wieder genesen.", self.name]
                                       };
-            self.enduranceBaseValue = 0;  // just reset in case it was lowered
             [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
                                                                 object: self
                                                               userInfo: userInfo];
@@ -2222,12 +2272,12 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
               }
             return; // Good to jump out early (:       
           }
-        if (illnessEffect.dailyDamage)
+        if (illnessEffect.recurringDamage)
           {
-            if ([illnessEffect.dailyDamageApplyNextDate isEarlierThanDate: currentDate])
+            if ([illnessEffect.recurringDamageApplyNextDate isEarlierThanDate: currentDate])
               {
-                NSLog(@"DSACharacter advanceIllnessEffect in stage: %lu handling dailyDamage", illnessEffect.currentStage);
-                [self applyDailyDamageForIllnessEffect: illnessEffect atDate: currentDate];
+                NSLog(@"DSACharacter advanceIllnessEffect in stage: %lu handling recurringDamage", illnessEffect.currentStage);
+                [self applyRegularDamageForCharacterEffect: illnessEffect atDate: currentDate];
               }
           }
         
@@ -2236,6 +2286,12 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       case DSAIllnessStageChronicInactive: {
         NSLog(@"DSACharacter advanceIllnessEffect in stage: DSAIllnessStageChronicInactive");
         NSInteger restart = [Utils rollDice: @"1W100"];
+        if (restart < 5)
+          {
+            NSLog(@"DSACharacter advanceIllnessEffect in stage: DSAIllnessStageChronicInactive, reactivating illness: %@", illnessEffect.uniqueKey);
+            illnessEffect.currentStage = DSAIllnessStageChronicInactive;
+            [self.statesDict setObject: @([illnessDescription dangerLevelToSeverityLevel]) forKey: @(DSACharacterStateSick)];
+          }
         break;
       }
       default: {
@@ -2349,21 +2405,26 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
    NSLog(@"⚠️ DSACharacter applyOneTimeTraitChangesFromDict: unknown trait: %@", trait);
 }                                 
 
--(void) applyDailyDamageForIllnessEffect: (DSAIllnessEffect *) illnessEffect atDate: (DSAAventurianDate *) currentDate
+-(void) applyRegularDamageForCharacterEffect: (DSACharacterEffect *) characterEffect atDate: (DSAAventurianDate *) currentDate
 {
-  for (NSString *who in [illnessEffect.dailyDamage allKeys])
+
+  NSString *recurringIntervalDescriptor = characterEffect.recurringDamage.allKeys.firstObject;
+
+  NSDictionary *recurringDamageDict = characterEffect.recurringDamage[recurringIntervalDescriptor];
+  
+  for (NSString *who in [recurringDamageDict allKeys])
     {    
       if ([who isEqualToString: @"Alle"] ||
           ([who isEqualToString: @"Zwerg"] && [self isKindOfClass: [DSACharacterHeroDwarf class]]) ||
           ([who isEqualToString: @"Mensch"] && [self isKindOfClass: [DSACharacterHeroHuman class]]) ||
           ([who isEqualToString: @"Elf"] && [self isKindOfClass: [DSACharacterHeroElf class]]))
         {
-          NSDictionary *dailyDamage = illnessEffect.dailyDamage[who];
-          for (NSString *damageType in [dailyDamage allKeys])
+          NSDictionary *recurringDamage = recurringDamageDict[who];
+          for (NSString *damageType in [recurringDamage allKeys])
            {
               if ([damageType isEqualToString: @"Damage"])
                 {
-                  NSDictionary *damageDict = dailyDamage[@"Damage"];
+                  NSDictionary *damageDict = recurringDamage[@"Damage"];
                   for (NSString *damage in [damageDict allKeys])
                     {
                       if ([damage isEqualToString: @"SP"])
@@ -2385,18 +2446,33 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                         }
                       else
                         {
-                          NSLog(@"DSACharacter advanceIllnessEffect in applyDailyDamageForIllnessEffect don't know how to handle damage: %@", damage);
+                          NSLog(@"DSACharacter advanceIllnessEffect in applyRegularDamageForCharacterEffect don't know how to handle damage: %@", damage);
                         }
                     }
                 }
               else
                 {
-                   NSLog(@"DSACharacter advanceIllnessEffect applyDailyDamageForIllnessEffect don't know how to handle damageType: %@", damageType);
+                   NSLog(@"DSACharacter advanceIllnessEffect applyRegularDamageForCharacterEffect don't know how to handle damageType: %@", damageType);
                 }
             }
         }
    }
-   illnessEffect.dailyDamageApplyNextDate = [currentDate dateByAddingYears:0 days:1 hours:0 minutes:0];
+   if ([recurringIntervalDescriptor isEqualToString: @"KR"])  // handle seconds?
+     {
+       characterEffect.recurringDamageApplyNextDate = [currentDate dateByAddingYears:0 days:0 hours:0 minutes:1];
+     }   
+   else if ([recurringIntervalDescriptor isEqualToString: @"SR"] || [recurringIntervalDescriptor isEqualToString: @"Minuetlich"])
+     {
+       characterEffect.recurringDamageApplyNextDate = [currentDate dateByAddingYears:0 days:0 hours:0 minutes:1];
+     }
+   else if ([recurringIntervalDescriptor isEqualToString: @"Stuendlich"])
+     {
+       characterEffect.recurringDamageApplyNextDate = [currentDate dateByAddingYears:0 days:0 hours:1 minutes:1];
+     }
+   else if ([recurringIntervalDescriptor isEqualToString: @"Taeglich"])
+     {
+       characterEffect.recurringDamageApplyNextDate = [currentDate dateByAddingYears:0 days:1 hours:0 minutes:1];
+     }        
 }
 
 - (void)removeCharacterEffectForKey: (NSString *)key

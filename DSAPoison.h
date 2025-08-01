@@ -36,7 +36,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DSAPoison : DSAObject <NSCoding, NSCopying>
 
-@property (nonatomic, assign) NSInteger level;                     // formerly "Stufe"
+@property (nonatomic, assign) NSInteger dangerLevel;              // formerly "Stufe"
 @property (nonatomic, strong) NSArray<NSString *> *types;         // formerly "Typ"
 @property (nonatomic, strong) NSDictionary *onset;                // formerly "Beginn"
 @property (nonatomic, strong) NSDictionary *duration;             // formerly "Dauer"
@@ -59,6 +59,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (DSAAventurianDate *)endDateOfStage:(DSAPoisonStage) currentStage
                              fromDate:(DSAAventurianDate *)currentDate;
 -(NSDictionary <NSString *, id>*) oneTimeDamage;
+-(NSDictionary <NSString *, id>*) recurringDamage;
+-(DSASeverityLevel) dangerLevelToSeverityLevel;
 @end
 
 #pragma mark - Subclasses
