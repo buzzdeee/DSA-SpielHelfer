@@ -226,6 +226,12 @@ typedef NS_ENUM(NSInteger, DSACharacterEffectType) {
 
 // Check if the character is able to do anything basic
 - (BOOL) isDeadOrUnconscious;
+- (BOOL) isDead;
+- (BOOL) isIll;
+- (BOOL) isPoisoned;
+
+- (DSAIllnessEffect *) activeIllnessEffect;
+- (DSAPoisonEffect *) activePoisonEffect;
 
 // used to decide, if a body inventory slot can hold a given item, based on character constraints
 - (BOOL) canUseItem: (DSAObject *) item;
@@ -250,16 +256,15 @@ typedef NS_ENUM(NSInteger, DSACharacterEffectType) {
 
 - (void)addEffect:(DSACharacterEffect *)effect;                       // To add any type of effect, that doesn't need to apply anything special
 - (BOOL) applyIllnessEffect: (DSAIllnessEffect *) illnessEffect;      // To apply illnesses to characters
-- (BOOL) isIll;                                                       // to test if a character is ill, or not
 - (BOOL) applyPoisonEffect: (DSAPoisonEffect *) poisonEffect;         // To apply poisons to characters
-- (BOOL) isPoisoned;                                                  // to test if a character is poisoned, or not
 
 - (BOOL) applyMiracleEffect: (DSAMiracleResult *) miracleResult;      // to add miracle effects, which may change some values when applying
 - (BOOL) hasAppliedCharacterEffectWithKey: (NSString *)key;
 - (DSACharacterEffect *) appliedCharacterEffectWithKey: (NSString *) key;
 - (void)removeExpiredEffectsAtDate:(DSAAventurianDate *)currentDate;
 - (void)removeCharacterEffectForKey: (NSString *)key;
-
+- (void)applyOneTimeDamage:(DSACharacterEffect *)characterEffect
+                    revert:(BOOL)shouldRevert;
 
 - (NSArray <DSATalent *>*) activeTalentsWithNames: (NSArray <NSString *>*) names;
 - (NSArray <DSASpell *>*) activeSpellsWithNames: (NSArray <NSString *>*) names;

@@ -29,6 +29,7 @@
 #import "DSADefinitions.h"
 #import "DSAActionParameterDescriptor.h"
 #import "DSAAdventureGroup.h"
+#import "DSAPoison.h"
 
 @implementation DSASpell
 
@@ -1171,8 +1172,58 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   NSNumber *investedNumber = (NSNumber *)self.parameterValues[@"aspAmount"];
   NSInteger investedASP = [investedNumber integerValue];
 
-  NSLog(@"DSASpellKlarumPurum castOnTarget not yet properly implemented");
+  NSInteger availableASP = castingCharacter.currentAstralEnergy;
+  NSInteger usedASP = MIN(investedASP, availableASP);
   
+  DSACharacter *targetCharacter = (DSACharacter *)target;
+  
+  DSAPoisonEffect *poisonEffect = [targetCharacter activePoisonEffect];
+  NSLog(@"DSASpellKlarumPurum castOnTarget: poisonEffect: %@", poisonEffect);
+  NSString *poisonName = [poisonEffect.uniqueKey substringFromIndex:@"Poison_".length];
+  NSLog(@"DSASpellKlarumPurum castOnTarget: poisonName: %@", poisonName);
+  DSAPoison *poison = [[DSAPoisonRegistry sharedRegistry] poisonWithName: poisonName];
+  NSLog(@"DSASpellKlarumPurum castOnTarget with poison: %@", poison);
+  NSInteger dangerLevel = poison.dangerLevel;
+  NSLog(@"DSASpellKlarumPurum castOnTarget: dangerLevel: %@ usedASP: %@", @(dangerLevel), @(usedASP));
+  if (dangerLevel > usedASP)
+    {
+      spellResult.spellingDuration = self.spellingDuration;
+      spellResult.result = DSAActionResultFailure;
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@ hat zu wenig ASP eingesetzt um das Gift zu neutralisieren.",
+                                                                  castingCharacter.name];
+      castingCharacter.currentAstralEnergy -= roundf(usedASP/2);
+      return spellResult;
+    }
+  
+  spellResult = [self testTraitsWithSpellLevel: 0 castingCharacter: castingCharacter];
+  if (spellResult.result == DSAActionResultSuccess || 
+      spellResult.result == DSAActionResultAutoSuccess ||
+      spellResult.result == DSAActionResultEpicSuccess)
+    {
+      castingCharacter.currentAstralEnergy -= usedASP;
+      [targetCharacter removeCharacterEffectForKey: poisonEffect.uniqueKey];
+      [targetCharacter applyOneTimeDamage: poisonEffect revert: YES];
+      [targetCharacter.statesDict setObject: @(DSASeverityLevelNone) forKey: @(DSACharacterStatePoisoned)];
+      NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
+                                   @"message": [NSString stringWithFormat: @"%@ hat die Vergiftung überstanden.", targetCharacter.name]
+                                };
+      [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                          object: targetCharacter
+                                                        userInfo: userInfo];                                        
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@: %@ kann das Gift in %@ neutralisieren.", 
+                                                                  spellResult.resultDescription,
+                                                                  castingCharacter.name,
+                                                                  targetCharacter.name];
+    }
+  else
+    {
+      castingCharacter.currentAstralEnergy -= roundf(investedASP/2);
+      spellResult.resultDescription = [NSString stringWithFormat: @"%@: %@ kann das Gift in %@ leider nicht neutralisieren.", 
+                                                                  spellResult.resultDescription,
+                                                                  castingCharacter.name,
+                                                                  targetCharacter.name];
+      
+    }
   spellResult.spellingDuration = self.spellingDuration;
   return spellResult;
 }             

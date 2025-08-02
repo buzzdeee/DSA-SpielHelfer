@@ -148,25 +148,40 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
         NSInteger randomValue = durationDict[@"Wuerfel"] ? [Utils rollDice: durationDict[@"Wuerfel"]] : 0;        
         NSInteger seconds = (kr + randomValue) * 5;
         NSInteger minutes = (seconds + 30) / 60;  // minutes may be 0, but that's OK
-
+        NSLog(@"DSAPoison endDateOfStage durationDict: in KR applying %@ minutes", @(minutes));
         return [currentDate dateByAddingYears:0 days:0 hours:0 minutes: minutes];
       }
     else if (durationDict[@"SR"] != nil || durationDict[@"Minuten"] != nil)
       {
         NSInteger minutes = durationDict[@"SR"] ? [durationDict[@"SR"] integerValue] : [durationDict[@"Minuten"] integerValue];
         NSInteger randomValue = durationDict[@"Wuerfel"] ? [Utils rollDice: durationDict[@"Wuerfel"]] : 0;
+        NSLog(@"DSAPoison endDateOfStage durationDict: in SR/Minuten applying %@ minutes", @(minutes + randomValue));        
         return [currentDate dateByAddingYears:0 days:0 hours:0 minutes: minutes + randomValue];
       }
     else if (durationDict[@"Stunden"] != nil)
       {
-        NSInteger hours = durationDict[@"Stunden"] ? [durationDict[@"SR"] integerValue] : 0;
+        NSInteger hours = durationDict[@"Stunden"] ? [durationDict[@"Stunden"] integerValue] : 0;
         NSInteger randomValue = durationDict[@"Wuerfel"] ? [Utils rollDice: durationDict[@"Wuerfel"]] : 0;
+        NSLog(@"DSAPoison endDateOfStage durationDict: in Stunden applying %@ hours", @(hours + randomValue));                
         return [currentDate dateByAddingYears:0 days:0 hours: hours + randomValue minutes: 0];
       }
+    else if (durationDict[@"Tage"] != nil)
+      {
+        NSInteger days = durationDict[@"Tage"] ? [durationDict[@"Tage"] integerValue] : 0;
+        NSInteger randomValue = durationDict[@"Wuerfel"] ? [Utils rollDice: durationDict[@"Wuerfel"]] : 0;
+        NSLog(@"DSAPoison endDateOfStage durationDict: in Tage applying %@ days", @(days + randomValue));                
+        return [currentDate dateByAddingYears:0 days: days + randomValue hours: 0 minutes: 0];
+      }      
     else if ([durationDict[@"Bis zum Tode"] boolValue])
       {
         // until eternity ;)
+        NSLog(@"DSAPoison endDateOfStage durationDict: in Bis zum Tode applying 1000 years");                
+        
         return [currentDate dateByAddingYears:1000 days:0 hours: 0 minutes: 0];
+      }
+    else
+      {
+        NSLog(@"DSAPoison endDateOfStage no end date interval description found in durationDict!");
       }
     return nil;
 }
