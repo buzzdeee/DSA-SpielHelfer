@@ -68,6 +68,7 @@ Resources/DSACharacterIllness.gorm \
 Resources/DSAActionView.gorm \
 Resources/DSAActionSliderQuestionView.gorm \
 Resources/DSACharacterPoison.gorm \
+Resources/DSAActionChoiceQuestionView.gorm \
 Resources/Aventurien.jpg \
 Resources/Dolch.webp \
 Resources/Jagdmesser-firnelfisch.webp \
@@ -5909,7 +5910,8 @@ DSAActionViewController.h \
 DSADefinitions.h \
 DSAActionParameterDescriptor.h \
 DSAActionSliderQuestionController.h \
-DSAPoison.h
+DSAPoison.h \
+DSAActionChoiceQuestionController.h
 
 #
 # Objective-C Class files
@@ -6008,7 +6010,8 @@ DSAIllness.m \
 DSAActionViewController.m \
 DSAActionParameterDescriptor.m \
 DSAActionSliderQuestionController.m \
-DSAPoison.m
+DSAPoison.m \
+DSAActionChoiceQuestionController.m
 
 #
 # Other sources

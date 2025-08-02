@@ -28,7 +28,7 @@
 
 @implementation DSAIllness
 
-- (instancetype)initWithName:(NSString *)name dictionary:(NSDictionary *)dict {
+- (instancetype)initWithName:(NSString *)name fromDictionary:(NSDictionary *)dict {
     self = [super init];
     if (self) {
         _name = [name copy];
@@ -286,7 +286,7 @@ static DSAIllnessRegistry *_sharedInstance = nil;
 
     for (NSString *name in jsonDict) {
         NSDictionary *illnessData = jsonDict[name];
-        DSAIllness *illness = [[DSAIllness alloc] initWithName:name dictionary:illnessData];
+        DSAIllness *illness = [[DSAIllness alloc] initWithName:name fromDictionary:illnessData];
         if (illness) {
             _illnesses[name] = illness;
 

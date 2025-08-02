@@ -1394,7 +1394,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.level = level;
       self.origin = origin;
       self.test = test;
-      self.variants = @[ @"Umgebung" ];
+      self.variants = @[ @"Umgebung", @"Inventory der Gruppe" ];
       self.variant = variant;
       self.durationVariants = durationVariants;
       self.durationVariant = durationVariant;
@@ -1404,18 +1404,19 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.removalCostASP = 0;    
       self.everLeveledUp = NO;
       self.isTraditionSpell = NO;
-      self.maxDistance = 1;             // has to be close by
+      self.maxDistance = 15;             // has to be close by
       self.canCastOnSelf = YES;
       self.targetType = DSAActionTargetTypeNone;
       self.allowedTargetTypes = @[ @"DSAAdventureGroup" ];   // we take the info from the 
-      self.spellDuration = -1;          // eigentlich 20 sekunden
+      self.spellDuration = -1;          // eigentlich 10 sekunden
       self.spellingDuration = 30;       // eigentlich 10 sekunden, aber obige 20 sekunden hinzugefügt
       
-      DSAActionParameterDescriptor *activeGroup = [DSAActionParameterDescriptor descriptorWithKey:@"activeGroup"
-                                                                                            label:@"wieviele LP heilen"
-                                                                                         helpText:@"Inhalt der Inventories der aktiven Gruppe werden auf Magie untersucht."
-                                                                                    type:DSAActionParameterTypeActiveGroup];
-      self.parameterDescriptors = @[ activeGroup ]; 
+      DSAActionParameterDescriptor *targetType = [DSAActionParameterDescriptor descriptorWithKey:@"targetType"
+                                                                                           label:@"Auf Was soll der Odem Arcanum gesprochen werden?"
+                                                                                        helpText:@"Der Odem Arcanum kann auf das Inventory der Gruppe, oder die Umgebung gesprochen werden."
+                                                                                    type:DSAActionParameterTypeChoice];
+      targetType.choices = @[ @"Inventory der Gruppe", @"Umgebung" ];
+      self.parameterDescriptors = @[ targetType ]; 
       
     }
   NSLog(@"DSASpellOdemArcanum initSpell returning self: %@", self);  
@@ -1423,7 +1424,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 }
 
 - (DSASpellResult *) castOnTarget: (id) target
-                        ofVariant: (NSString *) variant
+                        ofVariant: (NSString *) variant_unused
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP_unused
@@ -1431,8 +1432,9 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellOdemArcanum castOnTarget called!");
+  NSString *spellVariant = (NSString *)self.parameterValues[@"targetType"];
   DSASpellResult *spellResult = [self verifyParametersForTarget: target
-                                                    withVariant: variant
+                                                    withVariant: spellVariant
                                             withDurationVariant: durationVariant
                                                    withDistance: distance
                                                      withCaster: castingCharacter
@@ -1443,18 +1445,29 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     }
   spellResult  = nil;
   spellResult = [[DSASpellResult alloc] init];
+
   
+    
   NSInteger aspCost;
   NSInteger penalty;
-  if ([variant isEqualToString: @"Umgebung"])
+  if ([spellVariant isEqualToString: @"Inventory der Gruppe"])
     {
       aspCost = 5;
+      penalty = 0;
+      self.spellingDuration = 4;
+      self.spellDuration = 6;
+    }
+  else if ([spellVariant isEqualToString: @"Umgebung"])
+    {
+      aspCost = 7;
       penalty = 3;
+      self.spellingDuration = 10;
+      self.spellDuration = 30;
     }
   else
     {
-      aspCost = 7;
-      penalty = 0;
+      NSLog(@"DSASpell castOnTarget: unknown spellVariant: %@", spellVariant);
+      abort();
     }
     
   spellResult = [self testTraitsWithSpellLevel: (self.level - penalty) castingCharacter: castingCharacter];
@@ -1462,15 +1475,36 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       spellResult.result == DSAActionResultAutoSuccess ||
       spellResult.result == DSAActionResultEpicSuccess)
     {
+      NSLog(@"DSASpellOdemArcanum castOnTarget casting was successful");
       castingCharacter.currentAstralEnergy -= aspCost;
-      DSAAdventureGroup *adventureGroup = (DSAAdventureGroup *)target;
-      for (DSACharacter *character in adventureGroup.allCharacters)
+      if ([spellVariant isEqualToString: @"Inventory der Gruppe"])
         {
-          // look for all objects in the characters inventory where appliedSpells > 0
+          NSLog(@"DSASpellOdemArcanum castOnTarget was successful, spellVariant: Inventory der Gruppe!");
+          DSAAdventureGroup *adventureGroup = (DSAAdventureGroup *)target;
+          NSMutableArray *magicObjectsDescriptions = [[NSMutableArray alloc] init];
+          for (DSACharacter *character in adventureGroup.allCharacters)
+            {
+              DSAInventory *inventory = character.inventory;
+              for (DSASlot *slot in inventory.slots)
+                {
+                  DSAObject *object = slot.object;
+                  
+                }
+            }
+        }
+      else if ([spellVariant isEqualToString: @"Umgebung"])
+        {
+          NSLog(@"DSASpellOdemArcanum castOnTarget was successful, spellVariant Umgebung not yet implemented!");
+        }
+      else
+        {
+          NSLog(@"DSASpellOdemArcanum castOnTarget was successful, but unknown spellVariant: %@", spellVariant);
+          abort();
         }
     }
   else
     {
+      NSLog(@"DSASpellOdemArcanum castOnTarget casting was not successful");    
       castingCharacter.currentAstralEnergy -= roundf(aspCost/2);
     }  
   

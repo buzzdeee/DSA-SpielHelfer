@@ -45,11 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) float cost;                         // formerly "Preis"
 @property (nonatomic, strong) NSArray<NSDictionary *> *crafting;  // formerly "Herstellung"
 
-// Factory
-+ (instancetype)poisonWithName:(NSString *)name fromDictionary:(NSDictionary *)dict;
-
 // Init
-- (instancetype)initPoisonWithName:(NSString *)name fromDictionary:(NSDictionary *)dict;
+- (instancetype)initWithName:(NSString *)name fromDictionary:(NSDictionary *)dict;
 
 // Optional behavior
 - (void)applyEffectToTarget:(id)target;
@@ -61,53 +58,6 @@ NS_ASSUME_NONNULL_BEGIN
 -(NSDictionary <NSString *, id>*) oneTimeDamage;
 -(NSDictionary <NSString *, id>*) recurringDamage;
 -(DSASeverityLevel) dangerLevelToSeverityLevel;
-@end
-
-#pragma mark - Subclasses
-
-@interface DSAPoisonAngstgift : DSAPoison 
-@end
-@interface DSAPoisonArachnae : DSAPoison 
-@end
-@interface DSAPoisonArax : DSAPoison 
-@end
-@interface DSAPoisonBannstaub : DSAPoison 
-@end
-@interface DSAPoisonBoabungaha : DSAPoison 
-@end
-@interface DSAPoisonDrachenspeichel : DSAPoison 
-@end
-@interface DSAPoisonFeuerzunge : DSAPoison 
-@end
-@interface DSAPoisonGoldleim : DSAPoison 
-@end
-@interface DSAPoisonGonede : DSAPoison 
-@end
-@interface DSAPoisonHalbgift : DSAPoison 
-@end
-@interface DSAPoisonKelmon : DSAPoison 
-@end
-@interface DSAPoisonKukris : DSAPoison 
-@end
-@interface DSAPoisonMandragora : DSAPoison 
-@end
-@interface DSAPoisonOmrais : DSAPoison 
-@end
-@interface DSAPoisonPurpurblitz : DSAPoison 
-@end
-@interface DSAPoisonSamthauch : DSAPoison 
-@end
-@interface DSAPoisonSchlafgift : DSAPoison 
-@end
-@interface DSAPoisonSchwarzerLotos : DSAPoison 
-@end
-@interface DSAPoisonSunsura : DSAPoison 
-@end
-@interface DSAPoisonTinzal : DSAPoison 
-@end
-@interface DSAPoisonTulmadron : DSAPoison 
-@end
-@interface DSAPoisonWurara : DSAPoison 
 @end
 
 #pragma mark - Registry

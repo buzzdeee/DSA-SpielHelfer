@@ -41,6 +41,13 @@ typedef NS_ENUM(NSUInteger, DSASeverityLevel) {
     DSASeverityLevelSevere
 };
 
+typedef NS_ENUM(NSUInteger, DSAObjectMagicState) {
+    DSAObjectMagicStateNone = 0,       // definitely not magic
+    DSAObjectMagicStateUnknown,        // it's magic, but we don't know about it
+    DSAObjectMagicStateMagic,          // we know it's magic, but no details (for example after Odem Arcanum)
+    DSAObjectMagicStateMagicDetails,   // we know it's magic, and know it's details about it (for example after Analüs)
+};
+
 // Used in various actions, i.e. talents, spells, rituals etc.
 // to give a hint to the UI what are the relevant targets to present to the user
 typedef NS_ENUM(NSInteger, DSAActionTargetType) {

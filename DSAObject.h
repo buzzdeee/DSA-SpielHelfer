@@ -26,6 +26,7 @@
 #define _DSAOBJECT_H_
 
 #import <Foundation/Foundation.h>
+#import "DSADefinitions.h"
 @class DSASpell;
 
 typedef NS_ENUM(NSUInteger, DSAObjectState)
@@ -34,7 +35,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
   DSAObjectStateIsBroken,                     // object is broken
   DSAObjectStateIsPoisoned,                   // object is poisoned
   DSAObjectStateHasSpellActive,               // object has a magic spell activated
-  DSAObjectStateHasUnknownMagic,              // object is magic, but it's unknown which spells/rituals are applied
+  DSAObjectStateIsMagicUnknown,               // object is magic, but it's unknown which spells/rituals are applied
   DSAObjectStateIsConsumable,                 // object can be consumed i.e. eaten or drunk
   DSAObjectStateStabzauberFackel,             // torch Stabzauber is active
   DSAObjectStateStabzauberSeil,               // rope Stabzauber is active
@@ -43,6 +44,9 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
   DSAObjectStateKugelzauberBrennglas,         // Kugelzauber 2, Kugel ist zu einem Brennglas verwandelt
   DSAObjectStateKugelzauberSchutzfeld,        // Kugelzauber 3, Kugel erzeugt Schutzfeld gegen Untote etc.
   DSAObjectStateKugelzauberWarnung,           // Kugelzauber 4, Warnung vor Haß und Mordlust
+  DSAObjectStateIsNotMagic,                   // the object doesn't have any spells applied and therefore isn't magic
+  DSAObjectStateIsMagicKnown,                 // we know that the object is magic, but no details (i.e. after Odem Arcanum)
+  DSAObjectStateIsMagicKnownDetails,          // we know that the object is magic, and we know the details (i.e. after Analüs)
 };
 
 @class DSASlot;
@@ -93,7 +97,10 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
                   withRegions: (NSArray *) regions;
                   
 - (BOOL)isCompatibleWithObject:(DSAObject *)otherObject;                    
-                    
+
+// A couple of states in DSAObjectState relate to object being magic or not...
+- (DSAObjectState) isMagic;
+-(void)setIsMagic: (DSAObjectState) magicState;                  
 
 @end
 

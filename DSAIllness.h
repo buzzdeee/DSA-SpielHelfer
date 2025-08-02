@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy, nullable) NSString *specialNotes;                  // "Besonderheiten"
 @property (nonatomic, strong, nullable) NSDictionary<NSString *, NSNumber *> *followUpIllnessChance;    // Chance to get sick on follow-up illness in %
 
-- (instancetype)initWithName:(NSString *)name dictionary:(NSDictionary *)dict;
+- (instancetype)initWithName:(NSString *)name fromDictionary:(NSDictionary *)dict;
 - (nullable DSAIllnessEffect *)generateEffectForCharacter:(DSACharacter *)character;
 - (DSAAventurianDate *)endDateOfStage:(DSAIllnessStage)currentStage
                              fromDate:(DSAAventurianDate *)currentDate;

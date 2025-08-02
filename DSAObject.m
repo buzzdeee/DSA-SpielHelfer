@@ -607,6 +607,64 @@
   return YES;
 }
 
+- (DSAObjectState) isMagic
+{
+  if ([self.appliedSpells count] > 0)
+    {
+      if ([self.states containsObject: @(DSAObjectStateIsMagicUnknown)]) return DSAObjectStateIsMagicUnknown;
+      if ([self.states containsObject: @(DSAObjectStateIsMagicKnown)]) return DSAObjectStateIsMagicKnown;      
+      if ([self.states containsObject: @(DSAObjectStateIsMagicKnownDetails)]) return DSAObjectStateIsMagicKnownDetails;            
+      if ([self.states containsObject: @(DSAObjectStateIsNotMagic)])
+        {
+          NSLog(@"DSAObject %@ has applied spells, but found DSAObjectStateIsMagicIsNotMagic state set, changing to DSAObjectStateIsMagicUnknown", self.name);
+          [self.states removeObject: @(DSAObjectStateIsNotMagic)];
+          [self.states addObject: @(DSAObjectStateIsMagicUnknown)];
+        }
+    }
+  return DSAObjectStateIsNotMagic;
+}
+
+// Look at DSAObjectState for proper values
+-(void)setIsMagic: (DSAObjectState) magicState  
+{
+  NSInteger spellCount = [self.appliedSpells count];
+  if (magicState == DSAObjectStateIsMagicUnknown && spellCount > 0)
+    {
+      [self.states addObject: @(magicState)];
+      [self.states removeObject: @(DSAObjectStateIsMagicKnown)];
+      [self.states removeObject: @(DSAObjectStateIsMagicKnownDetails)];      
+      [self.states removeObject: @(DSAObjectStateIsNotMagic)];            
+    }
+  else if (magicState == DSAObjectStateIsMagicKnown  && spellCount > 0)
+    {
+      [self.states removeObject: @(DSAObjectStateIsMagicUnknown)];
+      [self.states addObject: @(magicState)];
+      [self.states removeObject: @(DSAObjectStateIsMagicKnownDetails)];
+      [self.states removeObject: @(DSAObjectStateIsNotMagic)];            
+    }
+  else if (magicState == DSAObjectStateIsMagicKnownDetails  && spellCount > 0)
+    {
+      [self.states removeObject: @(DSAObjectStateIsMagicUnknown)];
+      [self.states removeObject: @(DSAObjectStateIsMagicKnown)];       
+      [self.states addObject: @(magicState)];
+      [self.states removeObject: @(DSAObjectStateIsNotMagic)];          
+    }
+  else if (magicState == DSAObjectStateIsNotMagic  && spellCount == 0)
+    {
+      [self.states removeObject: @(DSAObjectStateIsMagicUnknown)];
+      [self.states removeObject: @(DSAObjectStateIsMagicKnown)];       
+      [self.states removeObject: @(DSAObjectStateIsMagicKnownDetails)];                    
+      [self.states addObject: @(magicState)];
+      [self.states removeObject: @(DSAObjectStateIsNotMagic)];              
+    }
+  else
+    {
+      NSLog(@"DSAObject setIsMagic unhandled condition, trying to set isMagic before dealing with applied spells?");
+      abort();
+    }
+}
+
+
 @end
 
 // Subclasses follow below

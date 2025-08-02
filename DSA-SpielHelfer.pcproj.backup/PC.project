@@ -110,7 +110,8 @@
 	"DSAActionViewController.m",
 	"DSAActionParameterDescriptor.m",
 	"DSAActionSliderQuestionController.m",
-	"DSAPoison.m"
+	"DSAPoison.m",
+	"DSAActionChoiceQuestionController.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -214,7 +215,8 @@
 	"DSADefinitions.h",
 	"DSAActionParameterDescriptor.h",
 	"DSAActionSliderQuestionController.h",
-	"DSAPoison.h"
+	"DSAPoison.h",
+	"DSAActionChoiceQuestionController.h"
     );
     IMAGES = (
 	"Aventurien.jpg",
@@ -5951,7 +5953,8 @@
 	"DSACharacterIllness.gorm",
 	"DSAActionView.gorm",
 	"DSAActionSliderQuestionView.gorm",
-	"DSACharacterPoison.gorm"
+	"DSACharacterPoison.gorm",
+	"DSAActionChoiceQuestionView.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (

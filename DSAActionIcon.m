@@ -57,6 +57,7 @@
 #import "DSASpellResult.h"
 #import "DSAActionParameterDescriptor.h"
 #import "DSAActionSliderQuestionController.h"
+#import "DSAActionChoiceQuestionController.h"
 
 
 @implementation DSAActionIcon
@@ -1817,6 +1818,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     selector.completionHandler = ^(BOOL result) {
         typeof(selector) strongSelf = weakSelector;
         if (!strongSelf || !result) {
+            cancel = YES;
             return;
         }
 
@@ -1880,6 +1882,36 @@ inventoryIdentifier: (NSString *)sourceInventory
               {
                 return;
               }
+            break;
+          }
+          case DSAActionParameterTypeChoice: {
+            DSAActionChoiceQuestionController *questionWindow = 
+                [[DSAActionChoiceQuestionController alloc] initWithWindowNibName:@"DSAActionChoiceQuestionView"];
+            [questionWindow window];                
+
+            questionWindow.window.title = descriptor.label;
+            questionWindow.fieldHeadline.stringValue = descriptor.label;
+            questionWindow.fieldQuestion.stringValue = descriptor.helpText;
+            [questionWindow.popupChoice removeAllItems];
+            [questionWindow.popupChoice addItemsWithTitles:descriptor.choices];
+
+            questionWindow.buttonCancel.title = @"Abbrechen";
+            questionWindow.buttonConfirm.title = @"Bestätigen";
+
+            __block NSString *selectedChoice;
+            questionWindow.completionHandler = ^(BOOL result) {
+                if (!result) {
+                    cancel = YES;
+                   return;
+                }
+                selectedChoice = questionWindow.popupChoice.titleOfSelectedItem;
+                selectedSpell.parameterValues[descriptor.key] = selectedChoice;
+            };
+
+            [windowController.window beginSheet:questionWindow.window completionHandler:nil];
+            if (cancel) {
+                return;
+            }
             break;
           }
           default: NSLog(@"DSAActionIconMagic unknown action parameter type: %@", @(descriptor.type));
