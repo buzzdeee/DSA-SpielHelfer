@@ -88,9 +88,13 @@
     [details appendFormat:_(@"Gewicht: %.2f\n"), item.weight];
     [details appendFormat:_(@"Preis: %.2f\n"), item.price];
     [details appendFormat:_(@"Handelsregionen: %@\n"), item.regions ? [item.regions componentsJoinedByString:@", "] : _(@"alle")];
-    [details appendFormat:_(@"ist Magisch: %@\n"), [item.appliedSpells count] > 0 ? _(@"Ja") : _(@"Nein")];
-    if ([item.appliedSpells count] > 0)
+    if ([item isMagic] == DSAObjectStateIsMagicKnown)
       {
+        [details appendFormat:_(@"ist Magisch: %@\n"), _(@"Ja")];
+      }
+    if ([item isMagic] == DSAObjectStateIsMagicKnownDetails)
+      {
+        [details appendFormat:_(@"ist Magisch: %@\n"), _(@"Ja")];      
         for (NSString *spell in item.appliedSpells)
           {
             [details appendFormat:_(@"Spruch: %@\n"), spell];

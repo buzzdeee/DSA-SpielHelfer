@@ -60,7 +60,8 @@ typedef NS_ENUM(NSInteger, DSAActionTargetType) {
     DSAActionTargetTypeAnimal,               // Tiere
     DSAActionTargetTypeObject,               // Allgemein einzelnes Objekt
     DSAActionTargetTypeObjects,              // alle Objekte im Inventory aller Gruppenmitglieder
-    DSAActionTargetTypeObjectLock           // Schlösser von Türen oder Kisten etc.
+    DSAActionTargetTypeObjectLock,           // Schlösser von Türen oder Kisten etc.
+    DSAActionTargetTypeActiveGroupMember,    // Gruppenmitglied
 };
 
 typedef NS_ENUM(NSUInteger, DSAActionResultValue)

@@ -43,6 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class DSALocation;
 @class DSAWallet;
 @class DSAMiracleResult;
+@class DSAAdventure;
 
 typedef NS_ENUM(NSUInteger, DSACharacterState)
 {
@@ -277,6 +278,7 @@ typedef NS_ENUM(NSInteger, DSACharacterEffectType) {
                       onTarget: (DSACharacter *) targetCharacter 
                     atDistance: (NSInteger) distance
                    investedASP: (NSInteger) investedASP 
+              currentAdventure: (nullable DSAAdventure *) adventure      
           spellOriginCharacter: (nullable DSACharacter *) originCharacter;
 
 - (DSASpellResult *) castRitual: (NSString *) ritualName 
@@ -285,6 +287,7 @@ typedef NS_ENUM(NSInteger, DSACharacterEffectType) {
                        onTarget: (id) target
                      atDistance: (NSInteger) distance
                     investedASP: (NSInteger) investedASP 
+               currentAdventure: (nullable DSAAdventure *) adventure         
            spellOriginCharacter: (nullable DSACharacter *) originCharacter;          
           
 - (DSARegenerationResult *) regenerateBaseEnergiesForHours: (NSInteger) hours

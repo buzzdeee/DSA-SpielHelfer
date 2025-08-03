@@ -1785,159 +1785,214 @@ inventoryIdentifier: (NSString *)sourceInventory
     }
     return self;
 }
+
+- (void)askForParameters:(NSArray<DSAActionParameterDescriptor *> *)descriptors
+               atIndex:(NSInteger)index
+                 spell:(DSASpell *)spell
+              character:(DSACharacter *)character
+                 target:(id)target
+             adventure:(DSAAdventure *)adventure
+     windowController:(DSAAdventureWindowController *)windowController
+          completion:(void (^)(BOOL cancelled))completion {
+
+    if (index >= descriptors.count) {
+        completion(NO); // fertig!
+        return;
+    }
+
+    DSAActionParameterDescriptor *descriptor = descriptors[index];
+
+    switch (descriptor.type) {
+        case DSAActionParameterTypeInteger: {
+            DSAActionSliderQuestionController *sliderWindow =
+                [[DSAActionSliderQuestionController alloc] initWithWindowNibName:@"DSAActionSliderQuestionView"];
+            [sliderWindow window];
+
+            NSInteger min = descriptor.minValue;
+            NSInteger max = (descriptor.maxValue == NSIntegerMax
+                             ? character.currentAstralEnergy
+                             : descriptor.maxValue);
+            sliderWindow.fieldHeadline.stringValue = descriptor.label;
+            sliderWindow.fieldQuestion.stringValue = descriptor.helpText;
+            sliderWindow.fieldMinValue.stringValue = [NSString stringWithFormat: @"%ld", (long)min];
+            sliderWindow.fieldMaxValue.stringValue = [NSString stringWithFormat: @"%ld", (long)max];
+            sliderWindow.fieldSliderValue.stringValue = [NSString stringWithFormat: @"%ld", (long)min];
+            sliderWindow.sliderSlider.minValue = min;
+            sliderWindow.sliderSlider.maxValue = max;
+            sliderWindow.sliderSlider.doubleValue = min;
+            sliderWindow.sliderSlider.numberOfTickMarks = MAX(1, max - min + 1);
+            sliderWindow.sliderSlider.allowsTickMarkValuesOnly = YES;
+            sliderWindow.buttonCancel.title = @"Abbrechen";
+            sliderWindow.buttonConfirm.title = @"Bestätigen";
+
+            __weak typeof(sliderWindow) weakSliderWindow = sliderWindow;
+            sliderWindow.completionHandler = ^(BOOL result) {
+                if (!result) {
+                    completion(YES);
+                    return;
+                }
+
+                NSInteger value = weakSliderWindow.sliderSlider.integerValue;
+                spell.parameterValues[descriptor.key] = @(value);
+
+                // nächster Parameter
+                [self askForParameters:descriptors
+                               atIndex:index + 1
+                                 spell:spell
+                              character:character
+                                 target:target
+                             adventure:adventure
+                     windowController:windowController
+                          completion:completion];
+            };
+
+            [windowController.window beginSheet:sliderWindow.window completionHandler:nil];
+            break;
+        }
+
+        case DSAActionParameterTypeChoice: {
+            DSAActionChoiceQuestionController *choiceWindow =
+                [[DSAActionChoiceQuestionController alloc] initWithWindowNibName:@"DSAActionChoiceQuestionView"];
+            [choiceWindow window];
+
+            choiceWindow.fieldHeadline.stringValue = descriptor.label;
+            choiceWindow.fieldQuestion.stringValue = descriptor.helpText;
+            choiceWindow.buttonCancel.title = @"Abbrechen";
+            choiceWindow.buttonConfirm.title = @"Bestätigen";
+
+            NSDictionary *choiceMap = descriptor.choices ?: [spell choicesForDescriptor:descriptor
+                                                                                 target:target
+                                                                              adventure:adventure
+                                                                          selectedActor:character];
+            [choiceWindow.popupChoice removeAllItems];                                                                          
+            for (NSString *title in choiceMap.allKeys) {
+                [choiceWindow.popupChoice addItemWithTitle:title];
+                NSMenuItem *lastItem = (NSMenuItem *)choiceWindow.popupChoice.itemArray.lastObject;
+                lastItem.representedObject = choiceMap[title];
+            }
+
+            __weak typeof(choiceWindow) weakWindow = choiceWindow;
+            choiceWindow.completionHandler = ^(BOOL result) {
+                if (!result) {
+                    completion(YES);
+                    return;
+                }
+
+                NSMenuItem *item = (NSMenuItem *)weakWindow.popupChoice.selectedItem;
+                NSLog(@"DSAActionIconMagic askForParameters: selected item: %@ title: %@ representedObject: %@", item, item.title, item.representedObject);
+//                if (!spell.parameterValues) {
+//                   spell.parameterValues = [NSMutableDictionary dictionary];
+  //              }
+                spell.parameterValues[descriptor.key] = item.representedObject;
+                NSLog(@"DSAActionIconMagic askForParameters: spell.parameterValues: %@", spell.parameterValues);
+                // nächster Parameter
+                [self askForParameters:descriptors
+                               atIndex:index + 1
+                                 spell:spell
+                              character:character
+                                 target:target
+                             adventure:adventure
+                     windowController:windowController
+                          completion:completion];
+            };
+
+            [windowController.window beginSheet:choiceWindow.window completionHandler:nil];
+            break;
+        }
+
+        default:
+            NSLog(@"Unhandled parameter type: %@", @(descriptor.type));
+            [self askForParameters:descriptors
+                           atIndex:index + 1
+                             spell:spell
+                          character:character
+                             target:target
+                         adventure:adventure
+                 windowController:windowController
+                      completion:completion];
+            break;
+    }
+}
+
 - (void)handleEvent {
     NSLog(@"DSAActionIconMagic handleEvent called");
 
-    // Step 1: Zugriff auf das Model
     DSAAdventureWindowController *windowController = self.window.windowController;
     if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
         NSLog(@"Invalid window controller class");
         return;
     }
-            
+
     DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
     DSAAdventure *adventure = document.model;
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
     DSAPosition *currentPosition = activeGroup.position;
-    
+
     DSAActionContext currentContext = currentPosition.context;
     NSArray *availableSpells = adventure.availableSpellsByContext[currentContext];
-    
+
     DSAActionViewController *selector =
         [[DSAActionViewController alloc] initWithWindowNibName:@"DSAActionView"];
     selector.viewMode = DSAActionViewModeSpell;
     selector.activeGroup = activeGroup;
     selector.spells = availableSpells;
-    [selector window];  // .gorm laden
+    [selector window]; // .gorm laden
 
-    __block BOOL cancel = NO;
-    __block DSASpell *selectedSpell;
-    __block DSACharacter *selectedCharacter;
-    __block id selectedTarget;
     __weak typeof(selector) weakSelector = selector;
     selector.completionHandler = ^(BOOL result) {
-        typeof(selector) strongSelf = weakSelector;
-        if (!strongSelf || !result) {
-            cancel = YES;
-            return;
+        typeof(weakSelector) selector = weakSelector;
+        if (!selector || !result) {
+            NSLog(@"DSAActionIconMagic: Auswahl abgebrochen.");
+            return; // ✅ Kein weiterer Code wird mehr ausgeführt.
         }
 
-        selectedCharacter = (DSACharacter *)[[selector.popupActors selectedItem] representedObject];
-        selectedSpell = (DSASpell *)[[selector.popupActions selectedItem] representedObject];
-        selectedTarget = [selector.popupTargets isHidden] ? nil : [[selector.popupTargets selectedItem] representedObject];
+        DSACharacter *selectedCharacter = (DSACharacter *)[[selector.popupActors selectedItem] representedObject];
+        DSASpell *selectedSpell = (DSASpell *)[[selector.popupActions selectedItem] representedObject];
+        id selectedTarget = [selector.popupTargets isHidden] ? nil : [[selector.popupTargets selectedItem] representedObject];
+
         NSLog(@"DSAActionIconMagic sheet completion handler called.... ");
-    };
-    [windowController.window beginSheet:selector.window completionHandler:nil];
-    if (cancel)
-      {
-        return;
-      }    
-    NSArray *parameterDescriptors = selectedSpell.parameterDescriptors;
-    for (DSAActionParameterDescriptor *descriptor in parameterDescriptors)
-      {
-        //NSString *className;
-        NSLog(@"DSAActionIconMagic handleEvent parameter descriptor: %@", descriptor);
-        switch (descriptor.type) {
-          case DSAActionParameterTypeInteger: {
-            //className = @"DSAActionSliderQuestionController";
-            DSAActionSliderQuestionController *questionWindow = 
-                [[DSAActionSliderQuestionController alloc] initWithWindowNibName:@"DSAActionSliderQuestionView"];
-            [questionWindow window];                
-            NSInteger minValue = descriptor.minValue;
-            NSInteger maxValue = (descriptor.maxValue == NSIntegerMax
-                                 ? selectedCharacter.currentAstralEnergy
-                                 : descriptor.maxValue);
 
-            // Gültige Tick-Zahl nur wenn max > min
-            NSInteger tickCount = MAX(1, maxValue - minValue + 1);                
-            
-            questionWindow.window.title = descriptor.label;
-            questionWindow.fieldHeadline.stringValue = descriptor.label;
-            questionWindow.fieldQuestion.stringValue = descriptor.helpText;
-            questionWindow.fieldMinValue.stringValue = [NSString stringWithFormat: @"%ld", (long)minValue];
-            questionWindow.fieldMaxValue.stringValue = [NSString stringWithFormat: @"%ld", (long)maxValue];
-            questionWindow.sliderSlider.minValue = minValue;
-            questionWindow.sliderSlider.maxValue = maxValue;
-            questionWindow.sliderSlider.doubleValue = minValue;
-            questionWindow.sliderSlider.numberOfTickMarks = tickCount;
-            questionWindow.sliderSlider.allowsTickMarkValuesOnly = YES;
-            NSLog(@"DSAActionIconMagic handleEvent: numberOfTickMarks: %@ allowsTickMarkValuesOnly: %@", @(questionWindow.sliderSlider.numberOfTickMarks), @(questionWindow.sliderSlider.allowsTickMarkValuesOnly));
-            NSLog(@"Slider: min=%ld max=%ld ticks=%ld", (long)questionWindow.sliderSlider.minValue, (long)questionWindow.sliderSlider.maxValue, (long)questionWindow.sliderSlider.numberOfTickMarks);
-            questionWindow.fieldSliderValue.stringValue = [NSString stringWithFormat: @"%ld", (signed long)descriptor.minValue];
-            questionWindow.buttonCancel.title = @"Abbrechen";
-            questionWindow.buttonConfirm.title = @"Bestätigen";
-            
-            __block NSInteger sliderValue;
-//            __block BOOL cancel;
-            questionWindow.completionHandler = ^(BOOL result) {
-              if (!result) {
-                cancel = YES;
-                return;
-              }
-              sliderValue = questionWindow.sliderSlider.integerValue;
-              selectedSpell.parameterValues[descriptor.key] = @(sliderValue);
-            };
-            [windowController.window beginSheet:questionWindow.window completionHandler:nil];
-            if (cancel)
-              {
-                return;
-              }
-            break;
-          }
-          case DSAActionParameterTypeChoice: {
-            DSAActionChoiceQuestionController *questionWindow = 
-                [[DSAActionChoiceQuestionController alloc] initWithWindowNibName:@"DSAActionChoiceQuestionView"];
-            [questionWindow window];                
-
-            questionWindow.window.title = descriptor.label;
-            questionWindow.fieldHeadline.stringValue = descriptor.label;
-            questionWindow.fieldQuestion.stringValue = descriptor.helpText;
-            [questionWindow.popupChoice removeAllItems];
-            [questionWindow.popupChoice addItemsWithTitles:descriptor.choices];
-
-            questionWindow.buttonCancel.title = @"Abbrechen";
-            questionWindow.buttonConfirm.title = @"Bestätigen";
-
-            __block NSString *selectedChoice;
-            questionWindow.completionHandler = ^(BOOL result) {
-                if (!result) {
-                    cancel = YES;
-                   return;
-                }
-                selectedChoice = questionWindow.popupChoice.titleOfSelectedItem;
-                selectedSpell.parameterValues[descriptor.key] = selectedChoice;
-            };
-
-            [windowController.window beginSheet:questionWindow.window completionHandler:nil];
-            if (cancel) {
+        [self askForParameters:selectedSpell.parameterDescriptors
+                       atIndex:0
+                         spell:selectedSpell
+                      character:selectedCharacter
+                         target:selectedTarget
+                      adventure:adventure
+               windowController:windowController
+                     completion:^(BOOL cancelled) {
+            if (cancelled) {
+                NSLog(@"DSAActionIconMagic: Parameterabfrage abgebrochen.");
                 return;
             }
-            break;
-          }
-          default: NSLog(@"DSAActionIconMagic unknown action parameter type: %@", @(descriptor.type));
-        }
-      }
-    DSASpellResult *spellResult = [selectedCharacter castSpell: selectedSpell
-                                                ofVariant: nil
-                                        ofDurationVariant: nil
-                                                 onTarget: selectedTarget
-                                               atDistance: 1
-                                              investedASP: 0  // ignored ...
-                                     spellOriginCharacter: nil];
-    NSLog(@"DSAActionIconMagic handleEvent: spellResult: %@", spellResult);
-    DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName:@"DSAConversationTextOnly"];
-    [conversationSelector window];
-    conversationSelector.window.title = selectedSpell.name;
 
-    conversationSelector.fieldText.stringValue = spellResult.resultDescription;
+            DSASpellResult *spellResult = [selectedCharacter castSpell:selectedSpell
+                                                             ofVariant:nil
+                                                     ofDurationVariant:nil
+                                                              onTarget:selectedTarget
+                                                            atDistance:1
+                                                           investedASP:0
+                                                      currentAdventure:adventure
+                                                  spellOriginCharacter:nil];
 
-    conversationSelector.completionHandler = ^(BOOL result) {
-        if (result) {
-            NSLog(@"DSAActionIconMagic, handleEvent: finally, magic finished");
-        }
+            NSLog(@"SpellResult: %@", spellResult);
+
+            DSAConversationController *conversationSelector =
+                [[DSAConversationController alloc] initWithWindowNibName:@"DSAConversationTextOnly"];
+            [conversationSelector window];
+            conversationSelector.window.title = selectedSpell.name;
+            conversationSelector.fieldText.stringValue = spellResult.resultDescription;
+            conversationSelector.completionHandler = ^(BOOL result) {
+                if (result) {
+                    NSLog(@"Spell cast complete.");
+                }
+            };
+
+            [windowController.window beginSheet:conversationSelector.window completionHandler:nil];
+            [adventure.gameClock advanceTimeByMinutes:round(spellResult.spellingDuration / 60)];
+        }];
     };
-    [windowController.window beginSheet:conversationSelector.window completionHandler:nil];   
-    [adventure.gameClock advanceTimeByMinutes: round(spellResult.spellingDuration/60)]; 
+
+    [windowController.window beginSheet:selector.window completionHandler:nil];
 }
 @end
 @implementation DSAActionIconRitual
@@ -2007,6 +2062,7 @@ inventoryIdentifier: (NSString *)sourceInventory
                                                         onTarget: selectedTarget
                                                       atDistance: 0
                                                      investedASP: 0
+                                                currentAdventure: adventure
                                             spellOriginCharacter: nil];
     NSString *resultString = [NSString stringWithFormat: @"%@. %@", 
                                          [DSASpellResult resultNameForResultValue: ritualResult.result],

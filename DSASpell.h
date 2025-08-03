@@ -35,6 +35,7 @@
 
 @property (nonatomic, assign) NSInteger level;
 @property (nonatomic, assign) DSAActionTargetType targetType;           // the target type of a spell
+@property (nonatomic, strong) NSString *targetTypeDescription;          // a description of target type, used in the UI when selecting the spell 
 @property (nonatomic, strong) NSArray<DSAActionParameterDescriptor *> *parameterDescriptors;     // describing optional parameters, giving hints to the controller and UI
 @property (nonatomic, strong) NSMutableDictionary<NSString *, id> *parameterValues;   // optional parameters passed back from controller and UI
 @property (nonatomic, strong) NSArray *origin;
@@ -109,6 +110,7 @@
                 ofDurationVariant: (NSString *) durationVariant       // might be of a "standard" time, or even permanent
                        atDistance: (NSInteger) distance               // the distance the target is away in Schritt
                       investedASP: (NSInteger) invested               // for some spells, the casting character can define how many ASP to invest
+                 currentAdventure: (DSAAdventure *) adventure         // the current adventure
              spellOriginCharacter: (DSACharacter *) originCharacter   // character who spelled a cast on the target before
             spellCastingCharacter: (DSACharacter *) castingCharacter; // the character actually casting the spell
             
@@ -116,6 +118,13 @@
 - (BOOL) verifyDistance: (NSInteger) distance;  
 - (BOOL) verifyTarget: (id) target forCaster: (DSACharacter *) origin;  
 - (DSASpellResult *) testTraitsWithSpellLevel: (NSInteger) level castingCharacter: (DSACharacter *) castingCharacter;
+
+// in case, a descriptor of type choice, can't provide the choices on initialization time...
+- (NSDictionary<NSString *, id> *)choicesForDescriptor:(DSAActionParameterDescriptor *)descriptor
+                                                target:(id)selectedTarget
+                                             adventure:(DSAAdventure *)adventure
+                                         selectedActor:(DSACharacter *)character;
+
 - (BOOL) applyEffectOnTarget: (id) target forOwner: (DSACharacter *) owner;
 @end
 

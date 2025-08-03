@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) DSAActionParameterType type;
 
 // Optional für .choice
-@property (nonatomic, copy, nullable) NSArray<NSString *> *choices;
+@property (nonatomic, copy, nullable) NSDictionary<NSString *, id> *choices;  // keys are popupTitles, values are represented objects
 
 // Optional für .integer
 @property (nonatomic, assign) NSInteger minValue;

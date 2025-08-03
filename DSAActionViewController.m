@@ -185,7 +185,8 @@
 {
   NSLog(@"DSAActionIconViewController called!");
   switch (targetType) {
-    case DSAActionTargetTypeAlly: {
+    case DSAActionTargetTypeAlly:
+    case DSAActionTargetTypeActiveGroupMember: {
       [self.fieldActionQuestionTarget setHidden: NO];
       switch (self.viewMode) {
         case DSAActionViewModeTalent: {
@@ -193,11 +194,15 @@
           break;
         }
         case DSAActionViewModeSpell: {
-          self.fieldActionQuestionTarget.stringValue = @"Auf wen soll der Spruch angewendet werden?";
+          DSASpell *selectedSpell = (DSASpell *)[[self.popupActions selectedItem] representedObject];
+          self.fieldActionQuestionTarget.stringValue = selectedSpell.targetTypeDescription != nil ? selectedSpell.targetTypeDescription 
+                                                                                                  : @"Auf wen soll der Spruch angewendet werden?";
           break;
         }
         case DSAActionViewModeRitual: {
-          self.fieldActionQuestionTarget.stringValue = @"Auf wen soll das Ritual angewendet werden?";
+          DSASpell *selectedSpell = (DSASpell *)[[self.popupActions selectedItem] representedObject];
+          self.fieldActionQuestionTarget.stringValue = selectedSpell.targetTypeDescription != nil ? selectedSpell.targetTypeDescription 
+                                                                                                  : @"Auf wen soll das Ritual angewendet werden?";        
           break;
         }
       }
@@ -213,6 +218,7 @@
       [self.popupTargets selectItemAtIndex: 0];  
       break;
     }
+    
     default: {
       NSLog(@"DSAActionViewController enableTargetsForType: unhandled target type: %ld", (signed long) targetType);
     }

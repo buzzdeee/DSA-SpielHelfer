@@ -152,6 +152,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 ofDurationVariant: (NSString *) durationVariant
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP
+                 currentAdventure: (DSAAdventure *) adventure                      
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
@@ -169,6 +170,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
+                 currentAdventure: (DSAAdventure *) adventure                      
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
@@ -220,6 +222,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
+                 currentAdventure: (DSAAdventure *) adventure                      
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
@@ -278,6 +281,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
+                 currentAdventure: (DSAAdventure *) adventure                      
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
@@ -329,6 +333,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
+                 currentAdventure: (DSAAdventure *) adventure                      
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
@@ -385,6 +390,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
+                 currentAdventure: (DSAAdventure *) adventure                      
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
@@ -434,6 +440,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
+                 currentAdventure: (DSAAdventure *) adventure                      
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
@@ -493,6 +500,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
+                 currentAdventure: (DSAAdventure *) adventure                      
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
@@ -566,6 +574,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
+                 currentAdventure: (DSAAdventure *) adventure                      
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
@@ -633,6 +642,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
+                 currentAdventure: (DSAAdventure *) adventure                      
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
@@ -667,6 +677,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
+                 currentAdventure: (DSAAdventure *) adventure                      
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
@@ -692,6 +703,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
                       investedASP: (NSInteger) investedASP 
+                 currentAdventure: (DSAAdventure *) adventure                      
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {

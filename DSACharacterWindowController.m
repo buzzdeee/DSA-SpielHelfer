@@ -2748,6 +2748,7 @@
                         onTarget: targetCharacter
                       atDistance: [self.fieldSpellDistance integerValue]
                      investedASP: [self.fieldSpellInvestedASP integerValue] 
+                currentAdventure: nil
             spellOriginCharacter: originCharacter];
 
   NSMutableString *resultString = [NSMutableString stringWithFormat: @"%@", [DSASpellResult resultNameForResultValue: spellResult.result]];                        
@@ -3107,6 +3108,7 @@
                                          onTarget: targetCharacter
                                        atDistance: [self.fieldRitualDistance integerValue]
                                       investedASP: [self.fieldRitualInvestedASP integerValue]
+                                 currentAdventure: nil       
                              spellOriginCharacter: nil];
   
   NSMutableString *resultString = [NSMutableString stringWithFormat: @"%@", [DSASpellResult resultNameForResultValue: spellResult.result]];

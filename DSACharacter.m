@@ -1577,6 +1577,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                       onTarget: (DSACharacter *) targetCharacter 
                     atDistance: (NSInteger) distance
                    investedASP: (NSInteger) investedASP 
+              currentAdventure: (DSAAdventure *) adventure                   
           spellOriginCharacter: (nullable DSACharacter *) originCharacter
 {
   NSLog(@"DSACharacter castSpell called!!!");
@@ -1593,6 +1594,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                   ofDurationVariant: (NSString *) durationVariant
                          atDistance: distance
                         investedASP: investedASP 
+                   currentAdventure: adventure
                spellOriginCharacter: originCharacter
               spellCastingCharacter: self];
   return spellResult;
@@ -1799,6 +1801,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                        onTarget: (id) target
                      atDistance: (NSInteger) distance
                     investedASP: (NSInteger) investedASP 
+               currentAdventure: (DSAAdventure *) adventure                    
            spellOriginCharacter: (DSACharacter *) originCharacter
 {
   NSLog(@"DSACharacter castRitual called for ritual name: %@ !!!", ritualName);
@@ -1811,7 +1814,8 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                                           ofVariant: variant
                                   ofDurationVariant: durationVariant
                                          atDistance: distance
-                                        investedASP: investedASP 
+                                        investedASP: investedASP
+                                   currentAdventure: adventure
                                spellOriginCharacter: originCharacter
                               spellCastingCharacter: self];
 

@@ -102,7 +102,7 @@
 
     // If choices are set
     if (self.choices) {
-        [desc appendFormat:@"  choices: %@\n", [self.choices componentsJoinedByString:@", "]];
+        [desc appendFormat:@"  choices: %@\n", [[self.choices allKeys] componentsJoinedByString:@", "]];
     }
 
     // Always include min/max (they are scalar, default to 0 if not set explicitly)

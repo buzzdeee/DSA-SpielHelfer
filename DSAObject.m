@@ -614,12 +614,10 @@
       if ([self.states containsObject: @(DSAObjectStateIsMagicUnknown)]) return DSAObjectStateIsMagicUnknown;
       if ([self.states containsObject: @(DSAObjectStateIsMagicKnown)]) return DSAObjectStateIsMagicKnown;      
       if ([self.states containsObject: @(DSAObjectStateIsMagicKnownDetails)]) return DSAObjectStateIsMagicKnownDetails;            
-      if ([self.states containsObject: @(DSAObjectStateIsNotMagic)])
-        {
-          NSLog(@"DSAObject %@ has applied spells, but found DSAObjectStateIsMagicIsNotMagic state set, changing to DSAObjectStateIsMagicUnknown", self.name);
-          [self.states removeObject: @(DSAObjectStateIsNotMagic)];
-          [self.states addObject: @(DSAObjectStateIsMagicUnknown)];
-        }
+
+      NSLog(@"DSAObject %@ has applied spells, but found DSAObjectStateIsMagicIsNotMagic state set, changing to DSAObjectStateIsMagicUnknown", self.name);
+      [self.states removeObject: @(DSAObjectStateIsNotMagic)];
+      [self.states addObject: @(DSAObjectStateIsMagicUnknown)];
     }
   return DSAObjectStateIsNotMagic;
 }
