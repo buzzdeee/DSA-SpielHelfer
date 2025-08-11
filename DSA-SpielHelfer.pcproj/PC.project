@@ -111,7 +111,8 @@
 	"DSAActionParameterDescriptor.m",
 	"DSAActionSliderQuestionController.m",
 	"DSAPoison.m",
-	"DSAActionChoiceQuestionController.m"
+	"DSAActionChoiceQuestionController.m",
+	"DSAConsumption.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -216,7 +217,8 @@
 	"DSAActionParameterDescriptor.h",
 	"DSAActionSliderQuestionController.h",
 	"DSAPoison.h",
-	"DSAActionChoiceQuestionController.h"
+	"DSAActionChoiceQuestionController.h",
+	"DSAConsumption.h"
     );
     IMAGES = (
 	"Aventurien.jpg",
@@ -5914,7 +5916,19 @@
 	"use_ritual-32x32.webp",
 	"use_ritual-512x512.webp",
 	"use_ritual-64x64.webp",
-	"use_ritual.webp"
+	"use_ritual.webp",
+	"Dreschflegel_1-128x128.webp",
+	"Dreschflegel_1-256x256.webp",
+	"Dreschflegel_1-32x32.webp",
+	"Dreschflegel_1-512x512.webp",
+	"Dreschflegel_1-64x64.webp",
+	"Dreschflegel_1.webp",
+	"Morgenstern_1-128x128.webp",
+	"Morgenstern_1-256x256.webp",
+	"Morgenstern_1-32x32.webp",
+	"Morgenstern_1-512x512.webp",
+	"Morgenstern_1-64x64.webp",
+	"Morgenstern_1.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;

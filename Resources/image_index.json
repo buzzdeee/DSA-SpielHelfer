@@ -3282,14 +3282,14 @@
     "Wachspuppe_2.webp"
   ],
   "Waffenpflegeutensilien": [
-    "Waffenpflegeutensilien_1-32x32.webp",
     "Waffenpflegeutensilien_1-512x512.webp",
-    "Waffenpflegeutensilien_1-64x64.webp",
     "Waffenpflegeutensilien_1.webp",
     "Waffenpflegeutensilien_2-32x32.webp",
     "Waffenpflegeutensilien_2-512x512.webp",
     "Waffenpflegeutensilien_2-64x64.webp",
-    "Waffenpflegeutensilien_2.webp"
+    "Waffenpflegeutensilien_2.webp",
+    "Waffenpflegeutensilien_1-32x32.webp",
+    "Waffenpflegeutensilien_1-64x64.webp"
   ],
   "Wahrsagerin": [
     "Wahrsagerin_1-32x32.webp",
@@ -4098,53 +4098,65 @@
     "TH_Heiler_3-512x512.webp"
   ],
   "Firun_Tempel": [
-    "Firun_Tempel_2.webp",
     "Firun_Tempel_1-32x32.webp",
+    "Firun_Tempel_1-512x512.webp",
     "Firun_Tempel_1-64x64.webp",
     "Firun_Tempel_1.webp",
-    "Firun_Tempel_1-512x512.webp",
     "Firun_Tempel_2-32x32.webp",
+    "Firun_Tempel_2-512x512.webp",
     "Firun_Tempel_2-64x64.webp",
-    "Firun_Tempel_2-512x512.webp"
+    "Firun_Tempel_2.webp"
   ],
   "Ingerimm_Tempel": [
-    "Ingerimm_Tempel_2.webp",
     "Ingerimm_Tempel_1-32x32.webp",
+    "Ingerimm_Tempel_1-512x512.webp",
     "Ingerimm_Tempel_1-64x64.webp",
     "Ingerimm_Tempel_1.webp",
-    "Ingerimm_Tempel_1-512x512.webp",
     "Ingerimm_Tempel_2-32x32.webp",
+    "Ingerimm_Tempel_2-512x512.webp",
     "Ingerimm_Tempel_2-64x64.webp",
-    "Ingerimm_Tempel_2-512x512.webp"
-  ],
-  "TH_Herberge_Schlafsaal": [
-    "TH_Herberge_Schlafsaal_2.webp",
-    "TH_Herberge_Schlafsaal_1.webp",
-    "TH_Herberge_Schlafsaal_1-32x32.webp",
-    "TH_Herberge_Schlafsaal_1-64x64.webp",
-    "TH_Herberge_Schlafsaal_1-512x512.webp",
-    "TH_Herberge_Schlafsaal_2-32x32.webp",
-    "TH_Herberge_Schlafsaal_2-64x64.webp",
-    "TH_Herberge_Schlafsaal_2-512x512.webp"
+    "Ingerimm_Tempel_2.webp"
   ],
   "TH_Herberge_Einzelzimmer": [
-    "TH_Herberge_Einzelzimmer_1.webp",
-    "TH_Herberge_Einzelzimmer_2.webp",
     "TH_Herberge_Einzelzimmer_1-32x32.webp",
-    "TH_Herberge_Einzelzimmer_1-64x64.webp",
     "TH_Herberge_Einzelzimmer_1-512x512.webp",
+    "TH_Herberge_Einzelzimmer_1-64x64.webp",
+    "TH_Herberge_Einzelzimmer_1.webp",
     "TH_Herberge_Einzelzimmer_2-32x32.webp",
+    "TH_Herberge_Einzelzimmer_2-512x512.webp",
     "TH_Herberge_Einzelzimmer_2-64x64.webp",
-    "TH_Herberge_Einzelzimmer_2-512x512.webp"
+    "TH_Herberge_Einzelzimmer_2.webp"
+  ],
+  "TH_Herberge_Schlafsaal": [
+    "TH_Herberge_Schlafsaal_1-32x32.webp",
+    "TH_Herberge_Schlafsaal_1-512x512.webp",
+    "TH_Herberge_Schlafsaal_1-64x64.webp",
+    "TH_Herberge_Schlafsaal_1.webp",
+    "TH_Herberge_Schlafsaal_2-32x32.webp",
+    "TH_Herberge_Schlafsaal_2-512x512.webp",
+    "TH_Herberge_Schlafsaal_2-64x64.webp",
+    "TH_Herberge_Schlafsaal_2.webp"
   ],
   "TH_Herberge_Suite": [
-    "TH_Herberge_Suite_2.webp",
-    "TH_Herberge_Suite_1.webp",
     "TH_Herberge_Suite_1-32x32.webp",
-    "TH_Herberge_Suite_1-64x64.webp",
     "TH_Herberge_Suite_1-512x512.webp",
+    "TH_Herberge_Suite_1-64x64.webp",
+    "TH_Herberge_Suite_1.webp",
     "TH_Herberge_Suite_2-32x32.webp",
+    "TH_Herberge_Suite_2-512x512.webp",
     "TH_Herberge_Suite_2-64x64.webp",
-    "TH_Herberge_Suite_2-512x512.webp"
+    "TH_Herberge_Suite_2.webp"
+  ],
+  "Morgenstern": [
+    "Morgenstern_1.webp",
+    "Morgenstern_1-32x32.webp",
+    "Morgenstern_1-64x64.webp",
+    "Morgenstern_1-512x512.webp"
+  ],
+  "Dreschflegel": [
+    "Dreschflegel_1-512x512.webp",
+    "Dreschflegel_1-32x32.webp",
+    "Dreschflegel_1-64x64.webp",
+    "Dreschflegel_1.webp"
   ]
 }

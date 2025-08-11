@@ -135,5 +135,21 @@ typedef NS_ENUM(NSInteger, DSATimeInterval) {
     DSATimeIntervalYear,
 };
 
+#pragma mark - DSAConsumption related typedefs
+
+typedef NS_ENUM(NSInteger, DSAConsumptionType) {
+    DSAConsumptionTypeUseOnce,   // 1x nutzbar -> verschwindet sofort
+    DSAConsumptionTypeUseMany,   // x mal nutzbar -> maxUses > 1
+    DSAConsumptionTypeUseForever,// unendlich nutzbar
+    DSAConsumptionTypeExpiry     // Ablaufdatum (z.B. Gift)
+};
+
+typedef NS_ENUM(NSInteger, DSAConsumptionFailReason) {
+    DSAConsumptionFailReasonNone = 0,   // Erfolg
+    DSAConsumptionFailReasonNoUsesLeft, // Nutzungsanzahl aufgebraucht
+    DSAConsumptionFailReasonExpired,    // Haltbarkeit abgelaufen
+    DSAConsumptionFailReasonInvalidType // Unbekannt oder nicht nutzbar
+};
+
 #endif // _DSADEFINITIONS_H_
 

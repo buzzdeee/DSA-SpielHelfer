@@ -1047,7 +1047,8 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/2",
           "Regionen": [ "BO", "GA", "HA", "TH", "TO", "WE" ],           
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "Icon": [ "Morgenstern_1" ]
         },
         "Ogerschelle": {
           "Gewicht": 240,
@@ -3087,7 +3088,8 @@
       "Bruchfaktor": 6,
       "Waffenvergleichswert": "4/2",
       "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ],
-      "Material": "Holz" 
+      "Material": "Holz",
+      "Icon": [ "Dreschflegel_1" ]
     },
     "Reisigbesen": {
       "Gewicht": 50,

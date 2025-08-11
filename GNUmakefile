@@ -5765,6 +5765,18 @@ Resources/use_ritual-32x32.webp \
 Resources/use_ritual-512x512.webp \
 Resources/use_ritual-64x64.webp \
 Resources/use_ritual.webp \
+Resources/Dreschflegel_1-128x128.webp \
+Resources/Dreschflegel_1-256x256.webp \
+Resources/Dreschflegel_1-32x32.webp \
+Resources/Dreschflegel_1-512x512.webp \
+Resources/Dreschflegel_1-64x64.webp \
+Resources/Dreschflegel_1.webp \
+Resources/Morgenstern_1-128x128.webp \
+Resources/Morgenstern_1-256x256.webp \
+Resources/Morgenstern_1-32x32.webp \
+Resources/Morgenstern_1-512x512.webp \
+Resources/Morgenstern_1-64x64.webp \
+Resources/Morgenstern_1.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \
@@ -5911,7 +5923,8 @@ DSADefinitions.h \
 DSAActionParameterDescriptor.h \
 DSAActionSliderQuestionController.h \
 DSAPoison.h \
-DSAActionChoiceQuestionController.h
+DSAActionChoiceQuestionController.h \
+DSAConsumption.h
 
 #
 # Objective-C Class files
@@ -6011,7 +6024,8 @@ DSAActionViewController.m \
 DSAActionParameterDescriptor.m \
 DSAActionSliderQuestionController.m \
 DSAPoison.m \
-DSAActionChoiceQuestionController.m
+DSAActionChoiceQuestionController.m \
+DSAConsumption.m
 
 #
 # Other sources
