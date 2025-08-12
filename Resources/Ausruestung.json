@@ -1807,7 +1807,8 @@
         "Preis": 0.6,
         "Material": "Holz",
         "ErlaubtInSlots": [ "Köcher" ],
-        "MehrereProSlot": true
+        "MehrereProSlot": true,
+        "Icon": [ "Kriegsbogenpfeil_1" ]
       }
     },
     "Bolzen": {
@@ -1816,38 +1817,44 @@
         "Preis": 1.5,
         "Material": "Holz",
         "ErlaubtInSlots": [ "Bolzentasche" ],
-        "MehrereProSlot": true
+        "MehrereProSlot": true,
+        "Icon": [ "Bolzen_leichte_Armbrust_1" ]
       },
       "Bolzen, schwere Armbrust": {
         "Gewicht": 4,
         "Preis": 2,
         "Material": "Holz",
         "ErlaubtInSlots": [ "Bolzentasche" ],
-        "MehrereProSlot": true
+        "MehrereProSlot": true,
+        "Icon": [ "Bolzen_schwere_Armbrust_1" ]
       }
     },
     "Kugeln": {
       "Bleikugel, Balläster": {
         "Gewicht": 5,
         "Preis": 0.6,
-        "Material": "Eisen"
+        "Material": "Eisen",
+        "Icon": [ "Bleikugel_Ballaester_1" ]
       },
       "Kieselstein": {
         "Gewicht": 2,
         "Preis": 0.0,
-        "Material": "Stein"
+        "Material": "Stein",
+        "Icon": [ "Kieselstein_1" ]
       }      
       "Schleuderblei": {
         "Gewicht": 2,
         "Preis": 0.5,
-        "Material": "Eisen"
+        "Material": "Eisen",
+        "Icon": [ "Schleuderblei_1" ]
       }
     },
     "Blasrohrpfeile": {
       "Blasrohrpfeil": {
         "Gewicht": 1,
         "Preis": 0.8,
-        "Material": "Holz"
+        "Material": "Holz",
+        "Icon": [ "Blasrohrpfeil_1", "Blasrohrpfeil_2" ]
       }
     }
   },
@@ -2927,7 +2934,8 @@
     },
     "Brecheisen": {
       "Gewicht": 90,
-      "Preis": 10
+      "Preis": 10,
+      "Icon": [ "Brecheisen_1" ]
     },
     "Schüreisen": {
       "Gewicht": 40,
