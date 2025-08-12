@@ -3291,6 +3291,28 @@
     "Waffenpflegeutensilien_1-32x32.webp",
     "Waffenpflegeutensilien_1-64x64.webp"
   ],
+  "Kieselstein": [
+    "Kieselstein_1.webp",
+    "Kieselstein_1-32x32.webp",
+    "Kieselstein_1-64x64.webp",
+    "Kieselstein_1-512x512.webp"
+  ],
+  "Blasrohrpfeil": [
+    "Blasrohrpfeil_1.webp",
+    "Blasrohrpfeil_2.webp",
+    "Blasrohrpfeil_1-32x32.webp",
+    "Blasrohrpfeil_1-64x64.webp",
+    "Blasrohrpfeil_1-512x512.webp",
+    "Blasrohrpfeil_2-32x32.webp",
+    "Blasrohrpfeil_2-64x64.webp",
+    "Blasrohrpfeil_2-512x512.webp"
+  ],
+  "Kriegsbogenpfeil": [
+    "Kriegsbogenpfeil_1.webp",
+    "Kriegsbogenpfeil_1-32x32.webp",
+    "Kriegsbogenpfeil_1-64x64.webp",
+    "Kriegsbogenpfeil_1-512x512.webp"
+  ],
   "Wahrsagerin": [
     "Wahrsagerin_1-32x32.webp",
     "Wahrsagerin_1-512x512.webp",
@@ -4158,5 +4180,35 @@
     "Dreschflegel_1-32x32.webp",
     "Dreschflegel_1-64x64.webp",
     "Dreschflegel_1.webp"
+  ],
+  "Brecheisen": [
+    "Brecheisen_1.webp",
+    "Brecheisen_1-32x32.webp",
+    "Brecheisen_1-64x64.webp",
+    "Brecheisen_1-512x512.webp"
+  ],
+  "Schleuderblei": [
+    "Schleuderblei_1.webp",
+    "Schleuderblei_1-32x32.webp",
+    "Schleuderblei_1-64x64.webp",
+    "Schleuderblei_1-512x512.webp"
+  ],
+  "Bleikugel_Ballaester": [
+    "Bleikugel_Ballaester_1.webp",
+    "Bleikugel_Ballaester_1-32x32.webp",
+    "Bleikugel_Ballaester_1-64x64.webp",
+    "Bleikugel_Ballaester_1-512x512.webp"
+  ],
+  "Bolzen_schwere_Armbrust": [
+    "Bolzen_schwere_Armbrust_1.webp",
+    "Bolzen_schwere_Armbrust_1-32x32.webp",
+    "Bolzen_schwere_Armbrust_1-64x64.webp",
+    "Bolzen_schwere_Armbrust_1-512x512.webp"
+  ],
+  "Bolzen_leichte_Armbrust": [
+    "Bolzen_leichte_Armbrust_1.webp",
+    "Bolzen_leichte_Armbrust_1-32x32.webp",
+    "Bolzen_leichte_Armbrust_1-64x64.webp",
+    "Bolzen_leichte_Armbrust_1-512x512.webp"
   ]
 }
