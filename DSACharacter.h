@@ -303,6 +303,8 @@ typedef NS_ENUM(NSInteger, DSACharacterEffectType) {
 
 // Activates expiry for all items in the character's inventory that have an expiry consumption
 - (void)activateExpiryForAllItemsWithDate:(DSAAventurianDate *)date;
+// Returns all expired items in the character's inventory and container contents
+- (NSArray<DSAObject *> *)allExpiredItemsAtDate:(DSAAventurianDate *)date;
 
 @end
 

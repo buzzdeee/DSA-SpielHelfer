@@ -3089,6 +3089,30 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
 }
 
+- (NSArray<DSAObject *> *)allExpiredItemsAtDate:(DSAAventurianDate *)date {
+    NSMutableArray<DSAObject *> *expiredItems = [NSMutableArray array];
+    [self collectExpiredItemsInSlots:self.inventory.slots atDate:date into:expiredItems];
+    return expiredItems;
+}
+
+- (void)collectExpiredItemsInSlots:(NSArray<DSASlot *> *)slots
+                            atDate:(DSAAventurianDate *)date
+                               into:(NSMutableArray<DSAObject *> *)expiredItems {
+    for (DSASlot *slot in slots) {
+        DSAObject *item = slot.object;
+        if (!item) continue;
+        
+        if ([item isExpiredAtDate:date]) {
+            [expiredItems addObject:item];
+        }
+        
+        if ([item isKindOfClass:[DSAObjectContainer class]]) {
+            DSAObjectContainer *container = (DSAObjectContainer *)item;
+            [self collectExpiredItemsInSlots:container.slots atDate:date into:expiredItems];
+        }
+    }
+}
+
 @end
 
 @implementation DSACharacterHero
