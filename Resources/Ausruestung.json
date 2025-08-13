@@ -2413,7 +2413,8 @@
     "Waffenpflegeutensilien": {
       "Gewicht": 25,
       "Preis": 8,
-      "Icon": [ "Waffenpflegeutensilien_1", "Waffenpflegeutensilien_2" ]
+      "Icon": [ "Waffenpflegeutensilien_1", "Waffenpflegeutensilien_2" ],
+      "MaximumUsageCount": 20
     }
   },
   "Beleuchtung": {

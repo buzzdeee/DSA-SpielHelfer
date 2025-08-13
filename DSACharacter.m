@@ -3068,6 +3068,27 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                                                       object: self
                                                     userInfo: userInfo];
 }
+
+- (void)activateExpiryForAllItemsWithDate:(DSAAventurianDate *)date {
+    [self activateExpiryInSlots:self.inventory.slots withDate:date];
+}
+
+- (void)activateExpiryInSlots:(NSArray<DSASlot *> *)slots withDate:(DSAAventurianDate *)date {
+    for (DSASlot *slot in slots) {
+        DSAObject *item = slot.object;
+        if (!item) continue;
+        
+        // Activate expiry for the object
+        [item activateExpiryIfNeededWithDate:date];
+        
+        // If it's a container, recurse into its slots
+        if ([item isKindOfClass:[DSAObjectContainer class]]) {
+            DSAObjectContainer *container = (DSAObjectContainer *)item;
+            [self activateExpiryInSlots:container.slots withDate:date];
+        }
+    }
+}
+
 @end
 
 @implementation DSACharacterHero

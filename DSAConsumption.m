@@ -24,6 +24,8 @@
 
 #import "DSAConsumption.h"
 #include "DSAAventurianDate.h"
+#include "DSAAdventureClock.h"
+#include "DSAAdventure.h"
 
 @implementation DSAConsumption
 
@@ -90,6 +92,7 @@
 
 - (BOOL)isExpiredAtDate:(DSAAventurianDate *)currentDate {
     if (self.type != DSAConsumptionTypeExpiry) return NO;
+    if (!self.manufactureDate) return NO; // Not started yet
     if (!self.manufactureDate) return NO;
     
     DSAAventurianDate *expiry = [self.manufactureDate dateByAddingYears:0
@@ -97,6 +100,16 @@
                                                                   hours:0
                                                                 minutes:0];
     return [currentDate isLaterThanDate:expiry];
+}
+
+- (void)activateExpiryForAdventure:(DSAAdventure *)adventure {
+    if (self.type == DSAConsumptionTypeExpiry && !self.manufactureDate) {
+        self.manufactureDate = [adventure.gameClock.currentDate copy];
+    }
+}
+
+- (BOOL)isExpiryActive {
+    return (self.type == DSAConsumptionTypeExpiry && self.manufactureDate != nil);
 }
 
 - (BOOL)canUseAtDate: (DSAAventurianDate *)currentDate

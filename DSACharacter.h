@@ -44,6 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class DSAWallet;
 @class DSAMiracleResult;
 @class DSAAdventure;
+@class DSAConsumption;
 
 typedef NS_ENUM(NSUInteger, DSACharacterState)
 {
@@ -299,6 +300,9 @@ typedef NS_ENUM(NSInteger, DSACharacterEffectType) {
 - (void)moveToLocation:(DSALocation *)newLocation;
 
 - (void)removeExpiredEffectsAtDate:(DSAAventurianDate *)currentDate;
+
+// Activates expiry for all items in the character's inventory that have an expiry consumption
+- (void)activateExpiryForAllItemsWithDate:(DSAAventurianDate *)date;
 
 @end
 

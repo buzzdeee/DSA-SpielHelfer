@@ -28,6 +28,7 @@
 #import "Utils.h"
 #import "DSASlot.h"
 #import "DSASpellMageRitual.h"
+#import "DSAConsumption.h"
 
 
 
@@ -49,6 +50,14 @@
   NSString *name = [objectInfo objectForKey: @"Name"];
   NSMutableDictionary *appliedSpells = [NSMutableDictionary new];
   NSLog(@"DSAObject initWithObjectInfo Sprüche: %@", [objectInfo objectForKey: @"Sprüche"]);
+  
+  if ([objectInfo objectForKey: @"MaxUsageCount"] && [[objectInfo objectForKey: @"MaxUsageCount"] count] > 0)
+    {
+      DSAConsumption *maxUsage = [[DSAConsumption alloc] initWithType:DSAConsumptionTypeUseMany];
+      maxUsage.maxUses = 10;
+      maxUsage.remainingUses = 10;
+    }
+  
   if ([objectInfo objectForKey: @"Sprüche"] && [[objectInfo objectForKey: @"Sprüche"] count] > 0)
     {
           for (NSString *spellName in [objectInfo objectForKey: @"Sprüche"])
@@ -336,6 +345,26 @@
                                withOwnerUUID: ownerUUID                      
                                  withRegions: [objectInfo objectForKey: @"Regionen"]];     
     }
+  self.consumptions = [NSMutableDictionary dictionary];
+  
+  if ([objectInfo objectForKey: @"MaxUsageCount"] && [[objectInfo objectForKey: @"MaxUsageCount"] count] > 0)
+    {
+      NSInteger maxUsageCount = [[objectInfo objectForKey: @"MaxUsageCount"] integerValue];
+      DSAConsumption *maxUsage = [[DSAConsumption alloc] initWithType:DSAConsumptionTypeUseMany];
+      maxUsage.maxUses = maxUsageCount; 
+      maxUsage.remainingUses = maxUsageCount;
+      [self.consumptions setObject: maxUsage forKey: @"maxUsageCount"];
+    }
+    
+  if ([objectInfo objectForKey: @"shelfLifeDays"] && [[objectInfo objectForKey: @"shelfLifeDays"] count] > 0)
+    {
+      NSInteger shelfLifeDays = [[objectInfo objectForKey: @"shelfLifeDays"] integerValue];
+      DSAConsumption *shelfLife = [[DSAConsumption alloc] initWithType:DSAConsumptionTypeUseMany];
+      shelfLife.maxUses = shelfLifeDays;
+      shelfLife.remainingUses = shelfLifeDays;
+      [self.consumptions setObject: shelfLife forKey: @"shelfLifeDays"];
+    }    
+  
 /* don't really need this, right?
   if ([appliedSpells count] > 0) // can only do this here at the end
     {
@@ -414,6 +443,7 @@
       self.useWith = [coder decodeObjectForKey:@"useWith"];
       self.useWithText = [coder decodeObjectForKey:@"useWithText"];
       self.states = [coder decodeObjectForKey:@"states"];
+      self.consumptions = [coder decodeObjectForKey:@"consumptions"];
     }
   return self;
 }
@@ -439,6 +469,7 @@
   [coder encodeObject:self.useWith forKey:@"useWith"];
   [coder encodeObject:self.useWithText forKey:@"useWithText"];
   [coder encodeObject:self.states forKey:@"states"];
+  [coder encodeObject:self.consumptions forKey:@"consumptions"];
 }
 
 
@@ -662,6 +693,31 @@
     }
 }
 
+- (DSAConsumption *)expiryConsumption {
+    for (DSAConsumption *consumption in self.consumptions.allValues) {
+        if (consumption.type == DSAConsumptionTypeExpiry) {
+            return consumption;
+        }
+    }
+    return nil;
+}
+
+- (BOOL)hasExpiryConsumption {
+    return ([self expiryConsumption] != nil);
+}
+
+- (BOOL)isExpiredAtDate:(DSAAventurianDate *)currentDate {
+    DSAConsumption *expiry = [self expiryConsumption];
+    if (!expiry) return NO;
+    return [expiry isExpiredAtDate:currentDate];
+}
+
+- (void)activateExpiryIfNeededWithDate:(DSAAventurianDate *)date {
+    DSAConsumption *expiry = [self expiryConsumption];
+    if (expiry && !expiry.manufactureDate) {
+        expiry.manufactureDate = [date copy];
+    }
+}
 
 @end
 

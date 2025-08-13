@@ -27,6 +27,7 @@
 
 #import "DSADefinitions.h"
 @class DSAAventurianDate;
+@class DSAAdventure;
 
 @interface DSAConsumption : NSObject <NSCoding, NSCopying>
 
@@ -58,6 +59,12 @@
 
 /// Ablaufdatum überschritten? Nur bei Expiry.
 - (BOOL)isExpiredAtDate:(DSAAventurianDate *)currentDate;
+
+/// to be called when in an adventure, once item "spawned"
+- (void)activateExpiryForAdventure:(DSAAdventure *)adventure;
+
+/// to check if expiration for adventure is active
+- (BOOL)isExpiryActive;
 
 /// Kann aktuell genutzt werden?
 - (BOOL)canUseAtDate: (DSAAventurianDate *) currentDate;

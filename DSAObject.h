@@ -28,6 +28,10 @@
 #import <Foundation/Foundation.h>
 #import "DSADefinitions.h"
 @class DSASpell;
+@class DSAConsumption;
+@class DSAAventurianDate;
+
+NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, DSAObjectState)
 {
@@ -74,6 +78,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
 @property (nonatomic, strong) NSArray<NSNumber *> *validSlotTypes; // List of DSASlotTypes this object can be placed in
 @property (nonatomic, strong) NSMutableDictionary<NSString*, DSASpell *> *appliedSpells;  // spells casted onto an object, and having effect on it
 
+@property (nonatomic, strong) NSMutableDictionary<NSString *, DSAConsumption *> *consumptions;
 
 - (instancetype) initWithName: (NSString *) name forOwner: (NSUUID *)ownerUUID;
 
@@ -102,6 +107,14 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
 - (DSAObjectState) isMagic;
 -(void)setIsMagic: (DSAObjectState) magicState;                  
 
+// Returns the expiry consumption if present, otherwise nil
+- (nullable DSAConsumption *)expiryConsumption;
+// Returns YES if the object has a DSAConsumption of type DSAConsumptionTypeExpiry
+- (BOOL)hasExpiryConsumption;
+// Checks if the object is expired at the given date (returns NO if no expiry consumption exists)
+- (BOOL)isExpiredAtDate:(DSAAventurianDate *)currentDate;
+// Activates expiry if needed (sets manufactureDate if nil) using the provided date
+- (void)activateExpiryIfNeededWithDate:(DSAAventurianDate *)date;
 @end
 
 // Subclasses come here
@@ -333,6 +346,6 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
                   withRegions: (NSArray *) regions;
 @end
 // End of DSAObjectCloth
-
+NS_ASSUME_NONNULL_END
 #endif // _DSAOBJECT_H_
 
