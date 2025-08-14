@@ -318,6 +318,7 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
             NSMutableArray<NSUUID *> *members = self.model.activeGroup.partyMembers;
             if (![members containsObject:character.modelID]) {
                 [members addObject:character.modelID];
+                [character activateExpiryForAllItemsWithDate:self.model.gameClock.currentDate];
             }
 
             // Step 6: Track document separately

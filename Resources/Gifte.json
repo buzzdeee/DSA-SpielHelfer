@@ -31,7 +31,8 @@
         },
         "Zauber": "Horriphobus Schreckenspein"
       }
-    ] 
+    ],
+    "Icon": [ "Angstgift_1" ] 
   },
   "Arachnae": {
     "Stufe": 1,
@@ -62,7 +63,8 @@
           "Alchimie": 3
         }
       }
-    ]
+    ],
+    "Icon": [ "Arachnae_1" ]
   },
   "Arax": {
     "Stufe": 5,
@@ -98,7 +100,8 @@
           "Alchimie": 10
         }
       }
-    ]
+    ],
+    "Icon": [ "Arax_1" ]
   },
   "Bannstaub": {
     "Stufe": 15,
@@ -131,7 +134,8 @@
           "Alchimie": 15
         }
       }
-    ]
+    ],
+    "Icon": [ "Bannstaub_1" ]
   },
   "Boabungaha": {
     "Stufe": 19,
@@ -163,7 +167,8 @@
           "Pflanzenkunde": 12
         }
       }
-    ]
+    ],
+    "Icon": [ "Boabungaha_1" ]
   },
   "Drachenspeichel": {
     "Stufe": 7,
@@ -197,7 +202,8 @@
           "Alchimie": 7
         }
       }
-    ]
+    ],
+    "Icon": [ "Drachenspeichel_1" ]
   },
   "Feuerzunge": {
     "Stufe": 5,
@@ -229,7 +235,8 @@
           "Alchimie": 7 
         }
       }
-    ]
+    ],
+    "Icon": [ "Feuerzunge_1" ]
   },
   "Goldleim": {
     "Stufe": 5,
@@ -245,7 +252,8 @@
       "Regelmaessig": {     
         "Stunde": {
           "Alle": {
-            "Damage": {              "SP": { "Wuerfel": "2W6", "Modifier": -3 }
+            "Damage": {              
+              "SP": { "Wuerfel": "2W6", "Modifier": -3 }
             }
           }
         }
@@ -267,7 +275,8 @@
           "Pflanzenkunde": 6
         }
       }
-    ]
+    ],
+    "Icon": [ "Goldleim_1" ]
   },
   "Gonede": {
     "Stufe": 8,
@@ -299,7 +308,8 @@
           "Alchimie": 9
         }
       }
-    ]
+    ],
+    "Icon": [ "Gonede_1" ]
   },
   "Halbgift": {
     "Stufe": 8,
@@ -336,7 +346,8 @@
         },
         "Zauber": "Plumbumbarum und Narretei"
       } 
-    ]
+    ],
+    "Icon": [ "Halbgift_1" ]
   },
   "Kelmon": {
     "Stufe": 5,
@@ -379,7 +390,8 @@
           "Pflanzenkunde": 8
         }
       }
-    ]
+    ],
+    "Icon": [ "Kelmon_1" ]
   },
   "Kukris": {
     "Stufe": 12,
@@ -427,7 +439,8 @@
           "Pflanzenkunde": 9
         }
       }
-    ]
+    ],
+    "Icon": [ "Kukris_1" ]
   },
   "Mandragora": {
     "Stufe": 2,
@@ -459,7 +472,8 @@
           "Alchimie": 3
         }
       }
-    ]
+    ],
+    "Icon": [ "Mandragora_1" ]
   },
   "Omrais": {
     "Stufe": 11,
@@ -491,7 +505,8 @@
           "Alchimie": 8 
         }
       }
-    ]
+    ],
+    "Icon": [ "Omrais_1" ]
   },
   "Purpurblitz": {
     "Stufe": 20,
@@ -523,7 +538,8 @@
           "Alchimie": 10
         }
       }
-    ]
+    ],
+    "Icon": [ "Purpurblitz_1" ]
   },
   "Samthauch": {
     "Stufe": 5,
@@ -561,7 +577,8 @@
           "Pflanzenkunde": 6
         }
       }
-    ]
+    ],
+    "Icon": [ "Samthauch_1" ]
   },
   "Schlafgift": {
     "Stufe": 5,
@@ -592,7 +609,8 @@
         },
         "Zauber": "Somnigravis Tausend Schaf"
       }
-    ]
+    ],
+    "Icon": [ "Schlafgift_1" ]
   },
   "Schwarzer Lotos": {
     "Stufe": 10,
@@ -625,7 +643,8 @@
           "Pflanzenkunde": 10
         }
       }
-    ]
+    ],
+    "Icon": [ "Schwarzer_Lotos_1" ]
   },
   "Sunsura": {
     "Stufe": 9,
@@ -657,7 +676,8 @@
           "Alchimie": 6
         } 
       }
-    ]
+    ],
+    "Icon": [ "Sunsura_1" ]
   },
   "Tinzal": {
     "Stufe": 7,
@@ -690,7 +710,8 @@
           "Alchimie": 6 
         }
       }
-    ]
+    ],
+    "Icon": [ "Tinzal_1" ]
   },
   "Tulmadron": {
     "Stufe": 15,
@@ -722,7 +743,8 @@
           "Alchimie": 9
         }
       }
-    ]
+    ],
+    "Icon": [ "Tulmadron_1" ]
   },
   "Wurara": {
     "Stufe": 4,
@@ -760,6 +782,7 @@
           "Pflanzenkunde": 4
         }
       }
-    ]
+    ],
+    "Icon": [ "Wurara_1" ]
   }
 }

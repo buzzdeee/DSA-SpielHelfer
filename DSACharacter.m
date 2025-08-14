@@ -3070,6 +3070,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 }
 
 - (void)activateExpiryForAllItemsWithDate:(DSAAventurianDate *)date {
+    NSLog(@"DSACharacter activateExpiryForAllItemsWithDate for chacter: %@", self.name);
     [self activateExpiryInSlots:self.inventory.slots withDate:date];
 }
 
