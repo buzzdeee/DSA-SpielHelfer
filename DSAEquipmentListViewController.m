@@ -34,14 +34,7 @@
   self = [super initWithWindowNibName:@"DSAEquipmentListViewer"];
   if (self)
     {
-      NSError *e = nil;
-      NSString *filePath;
-            
-      filePath = [[NSBundle mainBundle] pathForResource:@"Ausruestung" ofType:@"json"];
-      _equipmentDict = [NSJSONSerialization 
-        JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
-                   options: NSJSONReadingMutableContainers
-                     error: &e];    
+      
     }
   return self;
 }
@@ -86,7 +79,7 @@
 
             // Extract general fields
             row[@"Name"] = value[@"Name"];
-            row[@"Gewicht"] = value[@"Gewicht"];
+            row[@"Gewicht"] = value[@"Gewicht"] ? value[@"Gewicht"] : @"";
             row[@"Preis"] = value[@"Preis"];
             row[@"Regionen"] = value[@"Regionen"] ? value[@"Regionen"] : @"";            
 
@@ -119,9 +112,19 @@
                 row[@"isArmor"] = @YES;
                 isTerminal = YES;
             }
+            if ([value[@"category"] isEqualToString: @"Gift"])
+              {
+                NSLog(@"THE POISON: %@", value);
+                row[@"Haltbarkeit"] = value[@"Haltbarkeit"];
+                isTerminal = YES;
+              }
             // If this is a terminal node (has specific properties), add to the flat data
             if (isTerminal || value[@"Gewicht"] != nil) {
                 row[@"Oberkategorie"] = keys.count > 0 ? keys[0] : @"";
+                if ([value[@"category"] isEqualToString: @"Gift"])
+                  {
+                    row[@"Oberkategorie"] = @"Gift";
+                  }
                 row[@"Kategorie"] = keys.count > 1 ? keys[1] : @"";
                 row[@"Unterkategorie"] = keys.count > 2 ? keys[2] : @"";
                 row[@"Maßgeschneidert"] = value[@"Maßgeschneidert"] ? value[@"Maßgeschneidert"] : @"";
@@ -247,6 +250,42 @@
     [self resizeColumnsToFit];
 }
 
+- (void)configureTableForPoison {
+    [self.tableView.tableColumns enumerateObjectsUsingBlock:^(NSTableColumn * _Nonnull column, NSUInteger idx, BOOL * _Nonnull stop) {
+        [self.tableView removeTableColumn:column];
+    }];
+
+    NSArray<NSString *> *columnOrder = @[@"Icon", @"Name", @"Preis", @"Gewicht", @"Haltbarkeit"];
+    NSDictionary<NSString *, NSString *> *columns = @{
+        @"Icon": @"Icon",
+        @"Name": @"Name",
+        @"Preis": @"Preis",
+        @"Gewicht": @"Gewicht",        
+        @"Haltbarkeit": @"Haltbarkeit"
+    };
+
+    for (NSString *key in columnOrder) {
+        NSString *header = columns[key];
+        NSTableColumn *column = [[NSTableColumn alloc] initWithIdentifier:key];
+        column.title = header;
+        if ([column.identifier isEqualToString: @"Icon"])
+          {
+            [column setDataCell:[[NSImageCell alloc] init]];
+          }        
+        column.resizingMask = NSTableColumnUserResizingMask;
+        [self.tableView addTableColumn:column];
+    }        
+
+    NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(NSDictionary *entry, NSDictionary *bindings) {
+        return [entry[@"Oberkategorie"] isEqualToString: @"Gift"];
+    }];
+    self.tableData = [self.tableDataOriginal filteredArrayUsingPredicate:predicate];
+NSLog(@"THE TABLE DATA: %@", self.tableData);    
+    [self.tableView reloadData];
+    [self.tableView setRowHeight: ICON_SIZE];
+    [self resizeColumnsToFit];
+}
+
 - (void)configureTableForHandWeapons {
     [self.tableView.tableColumns enumerateObjectsUsingBlock:^(NSTableColumn * _Nonnull column, NSUInteger idx, BOOL * _Nonnull stop) {
         [self.tableView removeTableColumn:column];
@@ -341,6 +380,10 @@
     {
       [self configureTableForArmor];
     }
+  else if ([[[sender selectedItem] title] isEqualToString: @"Gifte"])
+    {
+      [self configureTableForPoison];
+    }    
   else
     {
       NSLog(@"DSAEquipmentListViewController selectView: don't know how to handle: %@", [[sender selectedItem] title]);

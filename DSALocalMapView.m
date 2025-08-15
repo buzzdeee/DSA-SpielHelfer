@@ -102,6 +102,7 @@
     if ([type isEqualToString:@"Haus"]) return [NSColor brownColor];
     if ([type isEqualToString:@"Krämer"]) return [NSColor lightGrayColor];
     if ([type isEqualToString:@"Waffenhändler"]) return [NSColor lightGrayColor];
+    if ([type isEqualToString:@"Kräuterhändler"]) return [NSColor lightGrayColor];    
     if ([type isEqualToString:@"Heiler"]) return [NSColor purpleColor];
     if ([type isEqualToString:@"Schmied"]) return [NSColor colorWithCalibratedRed:0.0
                                                                             green:0.39
@@ -165,7 +166,11 @@
     if ([type isEqualToString:@"Waffenhändler"]) {
         NSString *npc = [(DSALocalMapTileBuildingShop*)tile npc] ?: @"(unbekannt)";
         return [NSString stringWithFormat:@"Waffenhändler: %@", npc];
-    }    
+    }  
+    if ([type isEqualToString:@"Kräuterhändler"]) {
+        NSString *npc = [(DSALocalMapTileBuildingShop*)tile npc] ?: @"(unbekannt)";
+        return [NSString stringWithFormat:@"Kräuterhändler: %@", npc];
+    }      
     if ([type isEqualToString:@"Haus"]) {
         NSString *npc = [(DSALocalMapTileBuildingHealer*)tile npc] ?: nil;
         return npc ? [NSString stringWithFormat:@"Haus: %@", npc] : nil;

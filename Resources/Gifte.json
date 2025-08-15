@@ -24,6 +24,7 @@
       "Monate": 18
     },
     "Preis": 250,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -57,6 +58,7 @@
       "Monate": 3
     },
     "Preis": 50,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -94,6 +96,7 @@
       "Monate": 6
     },
     "Preis": 350,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -128,6 +131,7 @@
       "Monate": 12
     },
     "Preis": 2500,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -161,6 +165,7 @@
       "Monate": 6
     },
     "Preis": 2500,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -196,6 +201,7 @@
       "Monate": 12
     },
     "Preis": 400,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -229,6 +235,7 @@
       "Monate": 36
     },
     "Preis": 250,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -264,6 +271,7 @@
       "Wuerfel": "1W6"
     },
     "Preis": 300,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -302,6 +310,7 @@
       "Monate": 9
     },
     "Preis": 700,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -339,6 +348,7 @@
       "Monate": 3 
     },
     "Preis": 600,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -381,6 +391,7 @@
       "Wuerfel": "1W6"
     },
     "Preis": 300,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -430,6 +441,7 @@
       "Monate": 3
     },
     "Preis": 900,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -466,6 +478,7 @@
       "Monate": 8
     },
     "Preis": 30,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -499,6 +512,7 @@
       "Monate": 6
     },
     "Preis": 800,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -532,6 +546,7 @@
       "Monate": 12
     },
     "Preis": 3000,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -566,6 +581,7 @@
       "Monate": 2
     },
     "Preis": 200,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -602,6 +618,7 @@
       "Monate": 12
     },
     "Preis": 350,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -637,6 +654,7 @@
       "Wuerfel": "2W6"
     },
     "Preis": 1000,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -670,6 +688,7 @@
       "Monate": 9
     },
     "Preis": 900,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -704,6 +723,7 @@
       "Monate": 12 
     },
     "Preis": 400,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -737,6 +757,7 @@
       "unbegrenzt": true
     },
     "Preis": 2000,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {
@@ -771,6 +792,7 @@
       "Monate": 4
     },
     "Preis": 150,
+    "Gewicht": 2,
     "Herstellung": [
       {
         "Talentprobe": {

@@ -237,7 +237,112 @@
           ]
         ]                                                                                                                                          
       }
-    },    
+    },
+    "Kord": {
+      "globalLocation": "Kord",
+      "Tempel": [ "Efferd", "Travia" ],
+      "Levels": ["0"],
+      "LevelDetails": {
+        "0": [
+          [
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" },
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" },
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" },
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" }
+          ],
+          [
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Krämer", "door": "S", "npc": "Ohm Jora" },
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" },
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" }
+          ],
+          [
+            { "type": "Wasser" }, { "type": "Hafen", "destinations": [ "Guddasunden", "Hjalsingor", "Prem", "Treban" ] }, { "type": "Weg" }, { "type": "Tempel", "door": "S", "Gott": "Efferd" },
+            { "type": "Weg" }, { "type": "Haus", "door": "S" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Haus", "door": "S" }, { "type": "Haus", "door": "S" }, { "type": "Weg" }, { "type": "Wasser" },
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" }
+          ],
+          [
+            { "type": "Wasser" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "S" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Haus", "door": "S" },
+            { "type": "Haus", "door": "S" }, { "type": "Weg" }, { "type": "Gras" }
+          ],              
+          [
+            { "type": "Wasser" }, { "type": "Herberge", "name": "Olporter Hof", "door": "E" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Wegweiser", "destinations": [ "Prem" ] }, { "type": "Gras" }
+          ],   
+          [
+            { "type": "Wasser" }, { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Waffenhändler", "door": "E", "npc": "Hardred Gorm" },
+            { "type": "Weg" }, { "type": "Tempel", "door": "S", "Gott": "Travia" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
+            { "type": "Kräuterhändler", "door": "N", "npc": "Asko von Andergast" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
+            { "type": "Haus", "door": "N" }, { "type": "Gras" }, { "type": "Gras" }
+          ],  
+          [
+            { "type": "Wasser" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "E" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
+            { "type": "Weg" }, { "type": "Haus", "door": "N" }, { "type": "Haus", "door": "N" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ],  
+          [
+            { "type": "Wasser" }, { "type": "Krämer", "door": "E", "npc": "Kauuri Jaarin" }, { "type": "Weg" }, { "type": "Haus", "door": "E" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
+            { "type": "Haus", "door": "S" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ],   
+          [
+            { "type": "Wasser" }, { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Haus", "door": "E" },
+            { "type": "Weg" }, { "type": "Herberge", "name": "Großmast", "door": "N" }, { "type": "Weg" },  { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Taverne", "name": "Voller Thin", "door": "S" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ],  
+          [
+            { "type": "Wasser" }, { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },  { "type": "Haus", "door": "W" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "S" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ],  
+          [
+            { "type": "Wasser" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Taverne", "name": "Weites Meer", "door": "E" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Heiler", "door": "W", "npc": "Der alte Valpo" },  { "type": "Haus", "door": "E" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ],  
+          [
+            { "type": "Wasser" }, { "type": "Weg" }, { "type": "Heiler", "door": "N", "npc": "Solva von den Weiden" }, { "type": "Weg" },
+            { "type": "Haus", "door": "N" }, { "type": "Haus", "door": "N" }, { "type": "Haus", "door": "E" },  { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ],  
+          [
+            { "type": "Wasser" }, { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Haus", "door": "E" }, { "type": "Weg" },  { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Schmied", "door": "N", "npc": "Tronde Olvirsson" }, { "type": "Haus", "door": "N" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ],  
+          [
+            { "type": "Wasser" }, { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Gras" }, { "type": "Haus", "door": "N" },  { "type": "Haus", "door": "N" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ],  
+          [
+            { "type": "Wasser" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },  { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ],  
+          [
+            { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },  { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ]
+        ]                                                                                                
+      }
+    },     
     "Orvil": {
       "globalLocation": "Orvil",
       "Tempel": [ "Travia" ],

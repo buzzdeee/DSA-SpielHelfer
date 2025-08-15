@@ -33,7 +33,6 @@
 @property (nonatomic, weak) IBOutlet NSTextField *fieldSearch;
 @property (nonatomic, weak) IBOutlet NSPopUpButton *popupViewSelector;
 
-@property (nonatomic, strong) NSMutableDictionary *equipmentDict;
 @property (nonatomic, strong) NSArray *tableData;
 @property (nonatomic, strong) NSArray *tableDataOriginal;
 

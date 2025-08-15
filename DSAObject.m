@@ -29,6 +29,7 @@
 #import "DSASlot.h"
 #import "DSASpellMageRitual.h"
 #import "DSAConsumption.h"
+#import "DSAPoison.h"
 
 
 
@@ -324,6 +325,10 @@
                                  withAppliedSpells: appliedSpells
                                      withOwnerUUID: ownerUUID
                                        withRegions: [objectInfo objectForKey: @"Regionen"]];
+    }
+  else if ([[objectInfo objectForKey: @"category"] isEqualTo: @"Gifte"])
+    {
+      [[DSAPoisonRegistry sharedRegistry] poisonWithName: objectInfo[@"Name"]];
     }
   else
     {

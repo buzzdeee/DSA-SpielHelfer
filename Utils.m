@@ -53,6 +53,16 @@ NSArray<NSString *> *DSAShopWeaponStoreCategories(void) {
     return categories;
 }
 
+NSArray<NSString *> *DSAShopHerbsStoreCategories(void) {
+    static NSArray<NSString *> *categories = nil;
+    if (categories == nil) {
+        categories = [[NSArray alloc] initWithObjects:
+            @"Gift",
+            nil];
+    }
+    return categories;
+}
+
 @implementation Utils
 
 static Utils *sharedInstance = nil;
@@ -107,7 +117,29 @@ static NSMutableDictionary *imagesIndexDict;
           else
             {
               [Utils enrichEquipmentData: objectsDict withParentKeys:@[]];
-            }                            
+            }
+          filePath = [[NSBundle mainBundle] pathForResource:@"Gifte" ofType:@"json"];
+          NSMutableDictionary *poisonsDict = [NSJSONSerialization 
+          JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+               options: NSJSONReadingMutableContainers
+                 error: &e];
+          if (e)
+            {
+               NSLog(@"Error loading JSON: %@", e.localizedDescription);
+            }
+          else
+            {
+              for (NSString *key in [poisonsDict allKeys])
+                {
+                  NSMutableDictionary *poisonDict = poisonsDict[key];
+                  poisonDict[@"Name"] = key;
+                  poisonDict[@"category"] = @"Gift";
+                  [objectsDict setObject: [poisonDict copy] forKey: key];
+                }
+              
+              //NSLog(@"objectsDict: %@", objectsDict);
+            }            
+                                        
           filePath = [[NSBundle mainBundle] pathForResource:@"Masse" ofType:@"json"];
           masseDict = [NSJSONSerialization 
           JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
@@ -1255,6 +1287,8 @@ static NSMutableDictionary *imagesIndexDict;
         relevantCategories = DSAShopGeneralStoreCategories();
     } else if ([shopType isEqualToString:@"Waffenhändler"]) {
         relevantCategories = DSAShopWeaponStoreCategories();
+    } else if ([shopType isEqualToString:@"Kräuterhändler"]) {
+        relevantCategories = DSAShopHerbsStoreCategories();        
     } else {
         NSLog(@"Utils getAllDSAObjectsForShop: unknown shop type: %@", shopType);
         return @[];
