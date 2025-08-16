@@ -103,6 +103,111 @@
         ]
       }
     },
+    "Angbodirtal": {
+      "globalLocation": "Angbodirtal",
+      "Tempel": [ "Firun" ],
+      "Levels": ["0"],
+      "LevelDetails": {
+        "0": [
+          [
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" },
+            { "type": "Wasser" },  { "type": "Haus", "door": "S" }, { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" },
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Wasser" },
+            { "type": "Wasser" }, { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
+            { "type": "Weg" },  { "type": "Weg" }, { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Wasser" }, { "type": "Wasser" },
+            { "type": "Wasser" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Taverne", "name": "Springender Lachs", "door": "S" },
+            { "type": "Haus", "door": "S" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" },  { "type": "Haus", "door": "W" }, { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Wasser" },
+            { "type": "Wasser" }, { "type": "Fähre", "destinations": [ "Fährstation Angbodirtal" ] }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Taverne", "name": "Piratenschänke", "door": "N" }, { "type": "Haus", "door": "N" },
+            { "type": "Weg" },  { "type": "Weg" }, { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Wasser" },
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Weg" }, { "type": "Haus", "door": "E" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Tempel", "door": "W", "Gott": "Firun" }, { "type": "Weg" },
+            { "type": "Haus", "door": "W" },  { "type": "Weg" }, { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
+            { "type": "Taverne", "name": "Am Arval", "door": "E" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" },  { "type": "Weg" }, { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Weg" }, { "type": "Krämer", "door": "W", "npc": "Hargolm, Sohn des Hordin" },
+            { "type": "Haus", "door": "S" }, { "type": "Weg" }, { "type": "Haus", "door": "N" }, { "type": "Haus", "door": "N" },
+            { "type": "Weg" },  { "type": "Haus", "door": "W", "npc": "Beorn Hjallasson" }, { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "E" },
+            { "type": "Weg" },  { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Wasser" },
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Weg" }, { "type": "Haus", "door": "N" },
+            { "type": "Weg" }, { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" },  { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Wasser" },
+            { "type": "Wasser" }, { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "N" }, { "type": "Heiler", "door": "N", "npc": "Ole Ormsson" },
+            { "type": "Gras" },  { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Wasser" },
+            { "type": "Wasser" }, { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" },  { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ],
+          [
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Wasser" },
+            { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Gras" },  { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
+          ]
+        ]
+      }
+    },
     "Felsteyn": {
       "globalLocation": "Felsteyn",
       "Tempel": [ "Firun", "Ingerimm" ],
