@@ -166,7 +166,7 @@
           [
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
             { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
-            { "type": "Taverne", "name": "Am Arval", "door": "E" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Herberge", "name": "Am Arval", "door": "E" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" },  { "type": "Weg" }, { "type": "Gras" }, { "type": "Gras" }
           ],
           [

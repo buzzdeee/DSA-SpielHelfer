@@ -68,6 +68,7 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
                     _(@"Wasser"): [DSALocalMapTileWater class],
                     _(@"Weg"): [DSALocalMapTileStreet class],
                     _(@"Hafen"): [DSALocalMapTileRoute class],
+                    _(@"Fähre"): [DSALocalMapTileRoute class],
                     _(@"Wegweiser"): [DSALocalMapTileRoute class],
                     _(@"Haus"): [DSALocalMapTileBuilding class],
                     _(@"Krämer"): [DSALocalMapTileBuildingShop class],

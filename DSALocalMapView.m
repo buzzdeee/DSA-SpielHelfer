@@ -98,7 +98,8 @@
     if ([type isEqualToString:@"Weg"]) return [NSColor darkGrayColor];
     if ([type isEqualToString:@"Wasser"]) return [NSColor blueColor];
     if ([type isEqualToString:@"Wegweiser"]) return [NSColor redColor];
-    if ([type isEqualToString:@"Hafen"]) return [NSColor redColor];       
+    if ([type isEqualToString:@"Hafen"]) return [NSColor redColor];
+    if ([type isEqualToString:@"Fähre"]) return [NSColor redColor];       
     if ([type isEqualToString:@"Haus"]) return [NSColor brownColor];
     if ([type isEqualToString:@"Krämer"]) return [NSColor lightGrayColor];
     if ([type isEqualToString:@"Waffenhändler"]) return [NSColor lightGrayColor];
@@ -206,7 +207,13 @@
         if (destinations.count > 0) {
             return [NSString stringWithFormat:@"Hafen nach: %@", [destinations componentsJoinedByString:@", "]];
         }
-    }    
+    }
+    if ([type isEqualToString:@"Fähre"]) {
+        NSArray *destinations = [(DSALocalMapTileRoute*)tile destinations];
+        if (destinations.count > 0) {
+            return [NSString stringWithFormat:@"Fähre nach: %@", [destinations componentsJoinedByString:@", "]];
+        }
+    }        
     return nil;
 }
 @end
