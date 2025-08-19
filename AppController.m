@@ -225,18 +225,21 @@
     DSAAdventureDocument *newDocument = [docController makeUntitledDocumentOfType:@"DSAAdventure" error:&error];
     DSALocations *locations = [DSALocations sharedInstance];
 
+    NSLog(@"AppController createNewAdventureDocument selectedLocation: %@", selectedLocation);
+    
     if (newDocument) {
         // Neue leere Gruppe erstellen
         DSAAdventureGroup *initialGroup = [[DSAAdventureGroup alloc] init];
         DSAPosition *startingPosition;
-        if (selectedLocation) {
+        if (selectedLocation)
+          {
             DSALocation *location = [locations locationWithName:selectedLocation ofType:@"local"];
-            
+            NSLog(@"AppController createNewAdventureDocument got location: %@", location);
             if ([location isMemberOfClass:[DSALocalMapLocation class]]) {
                 DSALocalMapLocation *localLocation = (DSALocalMapLocation *)location;
                 DSALocalMapTile *startingTempleTile = [self getLocalMapTileOfStartingTempleForLocation:localLocation.locationMap];
                 
-                NSLog(@"AppController: starting temple tile: %@", startingTempleTile);
+                NSLog(@"AppController: createNewAdventureDocument: starting temple tile: %@", startingTempleTile);
                 
                 location.mapCoordinate = startingTempleTile.tileCoordinate;
                 
@@ -245,14 +248,19 @@
                                                         localLocationName: localLocation.name
                                                                   context: nil];
             }
-            
+            NSLog(@"AppController createNewAdventureDocument: startingPosition: %@", startingPosition);
             // Setze Location in der ersten Gruppe
-            initialGroup.position = startingPosition;
-        }
+            initialGroup.position = [startingPosition copy];
+          }
+        else
+          {
+            NSLog(@"AppController createNewAdventureDocument: selectedLocation was nil, aborting!");
+            abort();
+          }
 
         // Setze die Gruppenliste mit einer aktiven (leeren) Gruppe
         newDocument.model.groups = [NSMutableArray arrayWithObject:initialGroup];
-
+        NSLog(@"AppController createNewAdventureDocument: activeGroup currentPosition: %@", newDocument.model.activeGroup.position);
         // Dokument öffnen
         [docController addDocument:newDocument];
         [newDocument makeWindowControllers];
@@ -273,13 +281,13 @@
       NSLog(@"AppController getLocalMapTileOfStartingTempleForLocation: checking god %@", god);
       for (DSALocalMapLevel *mapLevel in localMap.mapLevels)
         {
-          NSLog(@"AppController getLocalMapTileOfStartingTempleForLocation: checking map level %@", mapLevel);
+          //NSLog(@"AppController getLocalMapTileOfStartingTempleForLocation: checking map level %@", mapLevel);
           NSArray *mapTiles = mapLevel.mapTiles;
           for (NSArray *mapRow in mapTiles)
             {
               for (DSALocalMapTile *tile in mapRow)
                 {
-                  NSLog(@"AppController getLocalMapTileOfStartingTempleForLocation: checking map tile of type %@", tile.type);
+                  //NSLog(@"AppController getLocalMapTileOfStartingTempleForLocation: checking map tile of type %@", tile.type);
                   if ([tile.type isEqualToString: @"Tempel"])
                     {
                       if ([[(DSALocalMapTileBuildingTemple *)tile god] isEqualToString: god])

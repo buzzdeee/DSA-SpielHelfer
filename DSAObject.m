@@ -50,7 +50,7 @@
   
   NSString *name = [objectInfo objectForKey: @"Name"];
   NSMutableDictionary *appliedSpells = [NSMutableDictionary new];
-  NSLog(@"DSAObject initWithObjectInfo Sprüche: %@", [objectInfo objectForKey: @"Sprüche"]);
+  //NSLog(@"DSAObject initWithObjectInfo Sprüche: %@", [objectInfo objectForKey: @"Sprüche"]);
   
   if ([objectInfo objectForKey: @"MaxUsageCount"] && [[objectInfo objectForKey: @"MaxUsageCount"] count] > 0)
     {
@@ -117,7 +117,7 @@
                   [appliedSpells setObject: appliedSpell
                                     forKey: spellName];
                 }
-              NSLog(@"THE APPLIED SPELLS: %@", [appliedSpells allKeys]);
+              //NSLog(@"THE APPLIED SPELLS: %@", [appliedSpells allKeys]);
           }
     }
   NSLog(@"APPLIED SPELL: %@ to OBJECT: %@", [appliedSpells allKeys], name);
@@ -128,7 +128,7 @@
       ownerUUID = nil;
     }
   
-  NSLog(@"THE OBJECT INFO: %@", objectInfo);
+  //NSLog(@"THE OBJECT INFO: %@", objectInfo);
   if ([[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] && 
       ! [[objectInfo objectForKey: @"isDistantWeapon"] isEqualTo: @YES] && 
       ! [[objectInfo objectForKey: @"isArmor"] isEqualTo: @YES] &&
@@ -326,13 +326,13 @@
                                      withOwnerUUID: ownerUUID
                                        withRegions: [objectInfo objectForKey: @"Regionen"]];
     }
-  else if ([[objectInfo objectForKey: @"category"] isEqualTo: @"Gifte"])
+  else if ([[objectInfo objectForKey: @"category"] isEqualTo: @"Gift"])
     {
-      [[DSAPoisonRegistry sharedRegistry] poisonWithName: objectInfo[@"Name"]];
+      self = [[DSAPoisonRegistry sharedRegistry] poisonWithName: objectInfo[@"Name"]];
     }
   else
     {
-      NSLog(@"Unsure how to handle object creation for: %@, just going with DSAObject", name);
+      NSLog(@"Unsure how to handle object creation for: %@, just going with DSAObject, using objectInfo: %@", name, objectInfo);
       self = [[DSAObject alloc] initWithName: name
                                     withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
                                   inCategory: [objectInfo objectForKey: @"category"]

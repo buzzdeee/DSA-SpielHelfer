@@ -60,6 +60,7 @@ NSArray<NSString *> *DSAShopHerbsStoreCategories(void) {
             @"Gift",
             nil];
     }
+    NSLog(@"Utils.m DSAShopHerbsStoreCategories(): returning categories: %@", categories);
     return categories;
 }
 
@@ -129,17 +130,19 @@ static NSMutableDictionary *imagesIndexDict;
             }
           else
             {
+              NSMutableDictionary *pDict = [[NSMutableDictionary alloc] init];
               for (NSString *key in [poisonsDict allKeys])
                 {
-                  NSMutableDictionary *poisonDict = poisonsDict[key];
+                  NSMutableDictionary *poisonDict = [[NSMutableDictionary alloc] init];
+                  poisonDict = [poisonsDict[key] mutableCopy];
                   poisonDict[@"Name"] = key;
                   poisonDict[@"category"] = @"Gift";
-                  [objectsDict setObject: [poisonDict copy] forKey: key];
+                  [pDict setObject: [poisonDict mutableCopy] forKey: key];
                 }
-              
+              [objectsDict setObject: pDict forKey: @"Gift"];
               //NSLog(@"objectsDict: %@", objectsDict);
             }            
-                                        
+          NSLog(@"Utils.m sharedInstance: objectsDict: %@", objectsDict);                             
           filePath = [[NSBundle mainBundle] pathForResource:@"Masse" ofType:@"json"];
           masseDict = [NSJSONSerialization 
           JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
@@ -1234,7 +1237,7 @@ static NSMutableDictionary *imagesIndexDict;
 {
   return objectsDict;
 }
-
+/*
 + (void)collectDSAObjectsFromCategory:(id)categoryContent
                             intoArray:(NSMutableArray<DSAObject *> *)objectsArr
                              forOwner:(id)owner
@@ -1244,13 +1247,14 @@ static NSMutableDictionary *imagesIndexDict;
 
         for (NSString *key in dict) {
             id value = dict[key];
-
+            NSLog(@"Utils.m collectDSAObjectsFromCategory: iterating over value: %@", value);
             if ([value isKindOfClass:[NSDictionary class]]) {
                 NSDictionary *subDict = (NSDictionary *)value;
-
+                NSLog(@"Utils.m collectDSAObjectsFromCategory: checking subDict: %@", value);
                 // Prüfen, ob subDict „flach“ ist (also ein Objekt sein könnte)
                 BOOL isObjectLeaf = YES;
                 for (id innerValue in [subDict allValues]) {
+                    NSLog(@"Utils.m collectDSAObjectsFromCategory: checking innerValue: %@", value);
                     if ([innerValue isKindOfClass:[NSDictionary class]]) {
                         isObjectLeaf = NO;
                         break;
@@ -1258,6 +1262,7 @@ static NSMutableDictionary *imagesIndexDict;
                 }
 
                 if (isObjectLeaf) {
+                    NSLog(@"Utils.m collectDSAObjectsFromCategory : we found object leaf: %@", key);
                     // Wir haben ein tatsächliches Objekt – key ist der Name
                     NSMutableDictionary *mutableObject = [subDict mutableCopy];
                     mutableObject[@"name"] = key;
@@ -1275,14 +1280,112 @@ static NSMutableDictionary *imagesIndexDict;
         }
     }
 }
+*/
 
++ (void)collectDSAObjectsFromCategory:(id)categoryContent
+                            intoArray:(NSMutableArray<DSAObject *> *)objectsArr
+                             forOwner:(id)owner
+{
+    if ([categoryContent isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dict = (NSDictionary *)categoryContent;
+
+        for (NSString *key in dict) {
+            id value = dict[key];
+
+            if ([value isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *subDict = (NSDictionary *)value;
+
+                // ✅ Nur Objekte mit explizitem "Name"-Feld als DSAObject anlegen
+                if (subDict[@"Name"]) {
+                    NSMutableDictionary *mutableObject = [subDict mutableCopy];
+
+                    // ⚠️ Kein automatisches Fallback mehr für Kategorien wie "Handwaffen"
+                    // Sondern nur, wenn wir sicher sind, dass es sich um ein Objekt handelt
+                    if (!mutableObject[@"name"]) {
+                        mutableObject[@"name"] = subDict[@"Name"];
+                    }
+
+                    DSAObject *object = [[DSAObject alloc] initWithObjectInfo:mutableObject forOwner:owner];
+                    [objectsArr addObject:object];
+
+                    NSLog(@"✅ DSAObject created: %@", object.name);
+                } else {
+                    // 🚩 Keine "Name"-Property → nur Unterkategorie
+                    [self collectDSAObjectsFromCategory:subDict intoArray:objectsArr forOwner:owner];
+                }
+            }
+            else if ([value isKindOfClass:[NSArray class]]) {
+                for (id elem in (NSArray *)value) {
+                    [self collectDSAObjectsFromCategory:elem intoArray:objectsArr forOwner:owner];
+                }
+            }
+        }
+    }
+    else if ([categoryContent isKindOfClass:[NSArray class]]) {
+        for (id elem in (NSArray *)categoryContent) {
+            [self collectDSAObjectsFromCategory:elem intoArray:objectsArr forOwner:owner];
+        }
+    }
+}
+/*
++ (void)collectDSAObjectsFromCategory:(id)categoryContent
+                            intoArray:(NSMutableArray<DSAObject *> *)objectsArr
+                             forOwner:(id)owner
+{
+    if ([categoryContent isKindOfClass:[NSDictionary class]]) {
+        NSDictionary *dict = (NSDictionary *)categoryContent;
+
+        for (NSString *key in dict) {
+            id value = dict[key];
+
+            if ([value isKindOfClass:[NSDictionary class]]) {
+                NSDictionary *subDict = (NSDictionary *)value;
+
+                // 🔑 NEU: Erkennen, ob dies ein richtiges Objekt ist
+                if (subDict[@"Name"]) {
+                    // ✅ Ein echtes Objekt wie "Jagdmesser" oder "Angstgift"
+                    NSMutableDictionary *mutableObject = [subDict mutableCopy];
+                    if (!mutableObject[@"name"]) {
+                        mutableObject[@"name"] = key; // Fallback: Key als Name
+                    }
+
+                    DSAObject *object = [[DSAObject alloc] initWithObjectInfo:mutableObject forOwner:owner];
+                    [objectsArr addObject:object];
+
+                    // 📝 DEBUG: Direkt hier Namen loggen
+                    NSLog(@"Utils.m: collectDSAObjectsFromCategory : DSAObject created: %@", object.name);
+                } else {
+                    // 🚩 Kein direktes Objekt → könnte Unterkategorie sein
+                    [self collectDSAObjectsFromCategory:subDict intoArray:objectsArr forOwner:owner];
+                }
+            }
+            else if ([value isKindOfClass:[NSArray class]]) {
+                // Falls Arrays von Dicts vorkommen (z.B. Herstellung)
+                for (id elem in (NSArray *)value) {
+                    [self collectDSAObjectsFromCategory:elem intoArray:objectsArr forOwner:owner];
+                }
+            }
+            // primitive Werte (NSString, NSNumber, etc.) werden ignoriert → das sind nur Attribute
+        }
+    }
+    else if ([categoryContent isKindOfClass:[NSArray class]]) {
+        // Array auf oberster Ebene
+        for (id elem in (NSArray *)categoryContent) {
+            [self collectDSAObjectsFromCategory:elem intoArray:objectsArr forOwner:owner];
+        }
+    }
+}
+*/
 + (NSArray<DSAObject *> *)getAllDSAObjectsForShop:(NSString *)shopType
 {
     NSDictionary *allObjectsDict = [Utils getDSAObjectsDict];
+    NSLog(@"Utils.m getAllDSAObjectsForShop allObjectsDict: %@", allObjectsDict);
     NSMutableArray *objectsArr = [[NSMutableArray alloc] init];
 
     NSArray<NSString *> *relevantCategories = nil;
 
+    NSLog(@"Utils getAllDSAObjectsForShop: %@", shopType);
+    
     if ([shopType isEqualToString:@"Krämer"]) {
         relevantCategories = DSAShopGeneralStoreCategories();
     } else if ([shopType isEqualToString:@"Waffenhändler"]) {
@@ -1291,13 +1394,15 @@ static NSMutableDictionary *imagesIndexDict;
         relevantCategories = DSAShopHerbsStoreCategories();        
     } else {
         NSLog(@"Utils getAllDSAObjectsForShop: unknown shop type: %@", shopType);
+        abort();
         return @[];
     }
 
     for (NSString *category in relevantCategories) {
         id categoryContent = allObjectsDict[category];
+        NSLog(@"Utils getAllDSAObjectsForShop categoryContent: %@", categoryContent);
         if (categoryContent) {
-            // NSLog(@"Utils getAllDSAObjectsForShop: processing category %@", category);
+            NSLog(@"Utils getAllDSAObjectsForShop: processing category %@", category);
             [self collectDSAObjectsFromCategory:categoryContent
                                        intoArray:objectsArr
                                         forOwner:nil];
@@ -1314,7 +1419,19 @@ static NSMutableDictionary *imagesIndexDict;
             NSMutableDictionary *entry = (NSMutableDictionary *)value;
 
             // Add category flags based on the presence of specific keys
-            entry[@"Name"] = [key copy];
+            //entry[@"Name"] = [key copy];
+            
+BOOL looksLikeItem = (entry[@"TrefferpunkteKK"] ||
+                      entry[@"TP Entfernung"] ||
+                      entry[@"Rüstschutz"] ||
+                      entry[@"Waffenvergleichswert"] ||
+                      entry[@"Waffenvergleichswert Schild"] ||
+                      entry[@"Preis"] ||
+                      entry[@"Gewicht"]);
+
+if (looksLikeItem) {
+    entry[@"Name"] = [key copy];
+}            
             
             if (entry[@"TrefferpunkteKK"] != nil) {
                 entry[@"isHandWeapon"] = @YES;

@@ -68,8 +68,8 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
 @property (nonatomic, assign) NSInteger breakFactor;
 @property (nonatomic, strong) NSUUID *ownerUUID;
 @property (nonatomic, strong) NSArray *regions;
-@property (nonatomic, strong) NSArray *useWith;                       // object can be used with these other objects
-@property (nonatomic, strong) NSString *useWithText;                  // text displayed when used
+@property (nonatomic, strong) NSArray *useWith;                       // object can be used with these other objects, categories, subCategories, or subSubCategories
+@property (nonatomic, strong) NSString *useWithText;                  // text displayed when used, should have %@ placeholder to accomodate name of character
 
 @property (nonatomic, strong) NSMutableSet<NSNumber *> *states;
 
@@ -80,7 +80,7 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
 
 @property (nonatomic, strong) NSMutableDictionary<NSString *, DSAConsumption *> *consumptions;
 
-- (instancetype) initWithName: (NSString *) name forOwner: (NSUUID *)ownerUUID;
+- (instancetype) initWithName: (NSString *) name forOwner: (nullable NSUUID *)ownerUUID;
 
 - (instancetype) initWithObjectInfo: (NSDictionary *) objectInfo forOwner: (NSUUID *) ownerUUID;
 

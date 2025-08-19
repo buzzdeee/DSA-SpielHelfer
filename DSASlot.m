@@ -23,6 +23,7 @@
 */
 
 #import "DSASlot.h"
+#import "DSAObject.h"
 
 @implementation DSASlot
 

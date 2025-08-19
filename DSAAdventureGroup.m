@@ -204,6 +204,7 @@
 
 - (void)distributeItems:(DSAObject *)item count:(NSInteger)count
 {
+    NSLog(@"DSAAdventureGroup distributeItems: item %@", item);
     if (!item || count <= 0) return;
 
     // 1. Gather group members with inventories
@@ -268,6 +269,8 @@
     NSArray<NSString *> *categories = nil;
     if ([shopType isEqualToString:@"Krämer"]) {
         categories = DSAShopGeneralStoreCategories();
+    } else if ([shopType isEqualToString:@"Kräuterhändler"]) {
+        categories = DSAShopHerbsStoreCategories();        
     } else if ([shopType isEqualToString:@"Waffenhändler"]) {
         categories = DSAShopWeaponStoreCategories();
     } else {

@@ -119,12 +119,13 @@
         return;
       }
     float price = [self priceForObject: self.object];
+    NSLog(@"DSAShopItemButton addToShoppingCart: the object: %@", self.object);
     [self.shoppingCart addObject:self.object count:1 price: price ?: 0 slot: self.slotID];
     if (self.mode == DSAShopModeSell)
       {
         self.quantity -= 1;
       }
-    NSLog(@"%@ hinzugefügt – Count: %ld", self.object.name, (long)[self.shoppingCart countForObject:self.object andSlotID: self.slotID]);
+    NSLog(@"DSAShopItemButton addToShoppingCart: %@ hinzugefügt, Count: %ld", self.object, (long)[self.shoppingCart countForObject:self.object andSlotID: self.slotID]);
     [self setNeedsDisplay:YES];
 }
 

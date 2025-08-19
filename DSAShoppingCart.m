@@ -37,7 +37,7 @@
 }
 
 - (void)addObject:(DSAObject *)object count:(NSInteger)count price:(float)price slot: (NSString *) slotID {
-    NSLog(@"DSAShoppingCart addObject: %@", object.name);
+    NSLog(@"DSAShoppingCart addObject: %@", object);
     if (!object || count <= 0) return;
 
     NSString *key;
@@ -53,7 +53,7 @@
     if (!key) return;
     NSLog(@"DSAShoppingCart addObject key: %@", key);
     NSDictionary *existingEntry = self.cartContents[key];
-
+    NSLog(@"DSAShoppingCart addObject existingEntry: %@", nil);
     if (existingEntry) {
         NSMutableArray *existingItems = existingEntry[@"items"];
         for (NSInteger i = 0; i < count; i++) {
@@ -62,13 +62,15 @@
     } else {
         NSMutableArray *items = [NSMutableArray array];
         for (NSInteger i = 0; i < count; i++) {
+            NSLog(@"DSAShoppingCart addObject: adding to items, the object via copy: %@", object);
             [items addObject:[object copy]];
         }
+        NSLog(@"DSAShoppingCart addObject: the items: %@", items);
         NSMutableDictionary *entry = [@{
                                          @"items": items,
                                          @"price": @(price),
                                        } mutableCopy];
-
+        NSLog(@"DSAShoppingCart addObject: the entry: %@", entry);
         self.cartContents[key] = entry;
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAShoppingCartUpdated" object:self];

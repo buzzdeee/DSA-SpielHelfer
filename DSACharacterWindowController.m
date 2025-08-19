@@ -787,7 +787,7 @@
           }
         else
           {
-            NSLog(@"DSACharacterWindowController populateFightingTalentsTab unexpected DSATalent subclass");
+            //NSLog(@"DSACharacterWindowController populateFightingTalentsTab unexpected DSATalent subclass");
           }
      }];
 
@@ -1037,11 +1037,11 @@
    NSMutableSet *categories = [NSMutableSet set];
 
    // Enumerate special talents to find all categories
-   NSLog(@"DSACharacterWindowController: populateSpecialTalentsTab before block enumeration %@", model.specials);
+   //NSLog(@"DSACharacterWindowController: populateSpecialTalentsTab before block enumeration %@", model.specials);
    
    [model.specials enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
      {
-        NSLog(@"enumerating specials, found object: %@", obj);
+        //NSLog(@"enumerating specials, found object: %@", obj);
         [specials addObject: obj];
         [categories addObject: [obj category]];
      }];

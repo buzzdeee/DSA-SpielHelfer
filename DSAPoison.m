@@ -25,6 +25,7 @@
 #import "DSAPoison.h"
 #import "DSACharacter.h"
 #import "Utils.h"
+#import "DSADefinitions.h"
 
 static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
@@ -41,7 +42,9 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
         self.damage = dict[@"Schaden"];
         self.shelfLife = dict[@"Haltbarkeit"];
         self.price = [dict[@"Preis"] floatValue];
+        self.weight = [dict[@"Gewicht"] floatValue];
         self.crafting = dict[@"Herstellung"];
+        self.icon = dict[@"Icon"] ? [dict[@"Icon"] objectAtIndex: arc4random_uniform([dict[@"Icon"] count])]: nil;
         self.states = [NSMutableSet setWithObject:@(DSAObjectStateIsPoisoned)];
     }
     return self;
@@ -202,7 +205,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 }
 
 #pragma mark - NSCopying
-
+/*
 - (id)copyWithZone:(NSZone *)zone {
     DSAPoison *copy = [[[self class] allocWithZone:zone] init];
 
@@ -216,7 +219,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
     return copy;
 }
-
+*/
 @end
 
 #pragma mark - Manager
@@ -295,6 +298,10 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
         NSDictionary *dict = json[name];
         DSAPoison *poison = [[DSAPoison alloc] initWithName:name fromDictionary:dict];
         if (poison) {
+            poison.category = @"Gift";
+            poison.validSlotTypes = @[@(DSASlotTypeGeneral)];
+            poison.useWith = @[@"Handwaffen", @"Wurfwaffen", @"Pfeile", @"Bolzen", @"Blasrohrpfeile"];
+            poison.useWithText = [NSString stringWithFormat: @"%@ vergiftet das Objekt mit %@", @"%@", name];
             [loadedPoisons addObject:poison];
         } else {
             NSLog(@"DSAPoisonManager: Unknown poison class for name %@", name);

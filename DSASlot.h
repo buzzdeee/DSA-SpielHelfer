@@ -26,47 +26,10 @@
 #define _DSASLOT_H_
 
 #import <Foundation/Foundation.h>
-#import "DSAObject.h"
+#import "DSADefinitions.h"
+@class DSAObject;
 
-typedef NS_ENUM(NSUInteger, DSASlotType) {
-    DSASlotTypeGeneral,                         // can hold anything
-    DSASlotTypeUnderwear,                       // will hold underwear
-    DSASlotTypeBodyArmor,                       // holds armor on upper body
-    DSASlotTypeHeadgear,                        // holds headgear, i.e. helmet, cap etc.
-    DSASlotTypeShoes,                           // holds shoes
-    DSASlotTypeNecklace,                        // holds necklaces, medaillons
-    DSASlotTypeEarring,                         // holds earrings
-    DSASlotTypeNosering,                        // holds noserings
-    DSASlotTypeGlasses,                         // holds glasses
-    DSASlotTypeMask,                            // holds mask
-    DSASlotTypeBackpack,                        // holds backpacks on the back of character
-    DSASlotTypeBackquiver,                      // holds quivers on the back of character
-    DSASlotTypeSash,                            // holds Schärpe, or shoulder band
-    DSASlotTypeArmArmor,                        // armor at the arms
-    DSASlotTypeArmRing,                         // ring for the hand anckles
-    DSASlotTypeGloves,                          // holds gloves at hands
-    DSASlotTypeHip,                             // to hold belts etc.
-    DSASlotTypeRing,                            // to hold rings on fingers
-    DSASlotTypeVest,                            // to hold vests on upper body
-    DSASlotTypeShirt,                           // to hold shirts, blouse etc.
-    DSASlotTypeJacket,                          // to hold jackets, robe, etc.
-    DSASlotTypeLegbelt,                         // to hold belt on legs
-    DSASlotTypeLegArmor,                        // to hold armor on legs
-    DSASlotTypeTrousers,                        // to hold trousers
-    DSASlotTypeSocks,                           // to hold socks
-    DSASlotTypeShoeaccessories,                 // to hold spurs, skies, snowshoes
-    DSASlotTypeBag,                             // an ordinary bag, anything that can goes into a bag
-    DSASlotTypeBasket,                          // an ordinary basket, holds anything that can go into a basket
-    DSASlotTypeQuiver,                          // a quiver for arrows
-    DSASlotTypeBoltbag,                         // a quiver/bag for bolts
-    DSASlotTypeLiquid,                          // something to hold liquids
-    DSASlotTypeSword,                           // a shaft to hold swords
-    DSASlotTypeDagger,                          // a shaft to hold daggers 
-    DSASlotTypeAxe,                             // a special thing to hold axes
-    DSASlotTypeMoney,                           // to hold money
-    DSASlotTypeTobacco                          // to hold tobacco
-    // Add other specific types as needed
-};
+
 
 @interface DSASlot : NSObject <NSCoding, NSCopying>
 

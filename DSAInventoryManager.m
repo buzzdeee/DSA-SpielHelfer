@@ -101,9 +101,12 @@
                                 toContainer: (DSAObjectContainer *)targetSlot.object
                                     inModel: targetModel];
         }
-      
-    if (targetSlot.object != nil &&
-        [targetSlot.object.useWith containsObject: sourceSlot.object.name])
+    if ([self canUseItem: sourceSlot.object withItemInSlot: targetSlot])  
+/*    if (targetSlot.object != nil &&
+        [targetSlot.object.useWith containsObject: sourceSlot.object.name] || 
+        [targetSlot.object.useWith containsObject: sourceSlot.object.category] ||
+        [targetSlot.object.useWith containsObject: sourceSlot.object.subCategory] ||
+        [targetSlot.object.useWith containsObject: sourceSlot.object.subSubCategory]) */
       {
         NSLog(@"GOING TO USE TWO OBJECTS WITH EACH OTHER");
         sourceSlot.quantity -= 1;
@@ -510,14 +513,28 @@
 }
 
 
+- (BOOL) canUseItem: (DSAObject *) item withItemInSlot: (DSASlot *)slot
+{
+    if (slot.object != nil && (
+        [slot.object.useWith containsObject: item.name] || 
+        [slot.object.useWith containsObject: item.category] ||
+        [slot.object.useWith containsObject: item.subCategory] ||
+        [slot.object.useWith containsObject: item.subSubCategory] ))
+      {
+        return YES;
+      }
+    return NO;
+}
+
 
 - (BOOL)isItem:(DSAObject *)item compatibleWithSlot:(DSASlot *)slot {
     if (slot.object != nil && slot.object == item)  // shall not be able to drop onto myself
       {
         return NO;
       }
-    if (slot.object != nil &&
-        [slot.object.useWith containsObject: item.name])
+    if ([self canUseItem: item withItemInSlot: slot])
+/*    if (slot.object != nil &&
+        [slot.object.useWith containsObject: item.name]) */
       {
         NSLog(@"DSAInventoryManager isItem: compatibleWithSlot: Items can be used with each other");
         return YES; // these items can be uses with each other

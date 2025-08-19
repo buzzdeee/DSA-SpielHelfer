@@ -1,0 +1,810 @@
+{
+  "Angstgift": {
+    "Stufe": 4,
+    "Typ": [ "Waffengift" ], 
+    "Beginn": {
+      "Sofort": true
+    },
+    "Dauer": {
+      "SR": 3
+    },
+    "Schaden": {
+      "Einmalig": {
+        "Alle": {
+          "Eigenschaften": {
+            "HA": { "Modifier": 12 },
+            "RA": { "Modifier": 12 },
+            "TA": { "Modifier": 12 },
+            "AG": { "Modifier": 12 }
+          }
+        }
+      }
+    },
+    "Haltbarkeit": {
+      "Monate": 18
+    },
+    "Preis": 250,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 6
+        },
+        "Zauber": "Horriphobus Schreckenspein"
+      }
+    ],
+    "Icon": [ "Angstgift_1" ] 
+  },
+  "Arachnae": {
+    "Stufe": 1,
+    "Typ": [ "Waffengift" ],
+    "Beginn": {
+      "Sofort": true
+    },
+    "Dauer": {
+      "Stunden": 1
+    },
+    "Schaden": {
+      "Einmalig": {
+        "Alle": {
+          "AttackeParade": {
+            "AT": { "Modifier": -2 },
+            "PA": { "Modifier": -2 }
+          }
+        }
+      }
+    },    
+    "Haltbarkeit": {
+      "Monate": 3
+    },
+    "Preis": 50,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 3
+        }
+      }
+    ],
+    "Icon": [ "Arachnae_1" ]
+  },
+  "Arax": {
+    "Stufe": 5,
+    "Typ": [ "Waffengift" ],
+    "Beginn": {
+      "SR": 2
+    },
+    "Dauer": {
+      "Tage": 1
+    },
+    "Schaden": {
+      "Einmalig": {
+        "Alle": {
+          "Eigenschaften": {
+            "GE": { "Modifier": -2 },
+            "FF": { "Modifier": -2 },
+            "KK": { "Modifier": -2 }                        
+          },
+          "AttackeParade": {
+            "AT": { "Modifier": -2 },
+            "PA": { "Modifier": -2 }
+          }
+        }
+      }
+    },    
+    "Haltbarkeit": {
+      "Monate": 6
+    },
+    "Preis": 350,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 10
+        }
+      }
+    ],
+    "Icon": [ "Arax_1" ]
+  },
+  "Bannstaub": {
+    "Stufe": 15,
+    "Typ": [ "Einnahmegift" ],
+    "Beginn": {
+      "SR": 1
+    },
+    "Dauer": {
+      "Wuerfel": "3W6",
+      "SR": 0
+    },
+    "Schaden": {
+      "Regelmaessig": {    
+        "SR": {
+          "Alle": {
+            "Damage": {
+              "ASP": { "Wuerfel": "1W6", "Modifier": 2 }
+            }
+          }
+        }
+      }
+    },    
+    "Haltbarkeit": {
+      "Monate": 12
+    },
+    "Preis": 2500,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 15
+        }
+      }
+    ],
+    "Icon": [ "Bannstaub_1" ]
+  },
+  "Boabungaha": {
+    "Stufe": 19,
+    "Typ": [ "Atemgift" ],
+    "Beginn": {
+      "KR": 5
+    },
+    "Dauer": {
+      "Bis zum Tode": true
+    },    
+    "Schaden": {
+      "Regelmaessig": {     
+        "KR": {
+          "Alle": {
+            "Damage": {          
+              "SP": { "Wuerfel": "2W6" }
+            }
+          }
+        }
+      }
+    },    
+    "Haltbarkeit": {
+      "Monate": 6
+    },
+    "Preis": 2500,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Pflanzenkunde": 12
+        }
+      }
+    ],
+    "Icon": [ "Boabungaha_1" ]
+  },
+  "Drachenspeichel": {
+    "Stufe": 7,
+    "Typ": [ "Waffengift", "Einnahmegift" ],
+    "Beginn": {
+      "SR": 1,
+      "Wuerfel": "1W6"
+    },
+    "Dauer": {
+      "SR": 1,
+      "Wuerfel": "1W6"
+    },
+    "Schaden": {
+      "Regelmaessig": {     
+        "SR": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W6", "Modifier": 3 }
+            }
+          }
+        }
+      }
+    },    
+    "Haltbarkeit": {
+      "Monate": 12
+    },
+    "Preis": 400,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 7
+        }
+      }
+    ],
+    "Icon": [ "Drachenspeichel_1" ]
+  },
+  "Feuerzunge": {
+    "Stufe": 5,
+    "Typ": [ "Einnahmegift" ],
+    "Beginn": {
+      "SR": 5
+    },
+    "Dauer": {
+      "Stunden": 5
+    },
+    "Schaden": {
+      "Regelmaessig": {     
+        "Stunde": {
+          "Alle": {
+            "Damage": {          
+              "SP": { "Wuerfel": "2W6", "Modifier": -2 }
+            }
+          }
+        }
+      }
+    },    
+    "Haltbarkeit": {
+      "Monate": 36
+    },
+    "Preis": 250,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 7 
+        }
+      }
+    ],
+    "Icon": [ "Feuerzunge_1" ]
+  },
+  "Goldleim": {
+    "Stufe": 5,
+    "Typ": [ "Kontaktgift", "Waffengift" ],
+    "Beginn": {
+      "Sofort": true
+    },
+    "Dauer": {
+      "Stunden": 0,
+      "Wuerfel": "2W6"
+    },
+    "Schaden": {
+      "Regelmaessig": {     
+        "Stunde": {
+          "Alle": {
+            "Damage": {              
+              "SP": { "Wuerfel": "2W6", "Modifier": -3 }
+            }
+          }
+        }
+      }
+    },    
+    "Haltbarkeit": {
+      "Monate": 6,
+      "Wuerfel": "1W6"
+    },
+    "Preis": 300,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 6
+        }
+      },
+      {
+        "Talentprobe": {
+          "Pflanzenkunde": 6
+        }
+      }
+    ],
+    "Icon": [ "Goldleim_1" ]
+  },
+  "Gonede": {
+    "Stufe": 8,
+    "Typ": [ "Waffengift" ],
+    "Beginn": {
+      "KR": 10
+    },
+    "Dauer": {
+      "SR": 5
+    },
+    "Schaden": {
+      "Regelmaessig": {     
+        "SR": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W6", "Modifier": 5 }
+            }
+          }
+        }
+      }
+    },    
+    "Haltbarkeit": {
+      "Monate": 9
+    },
+    "Preis": 700,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 9
+        }
+      }
+    ],
+    "Icon": [ "Gonede_1" ]
+  },
+  "Halbgift": {
+    "Stufe": 8,
+    "Typ": [ "Waffengift", "Einnahmegift" ],
+    "Beginn": {
+      "KR": 4
+    },
+    "Dauer": {
+      "SR": 4 
+    },
+    "Schaden": {
+      "Einmalig": {
+        "Alle": {
+          "Eigenschaften": {
+            "MU": { "Modifier": -6 },
+            "GE": { "Modifier": -6 },
+            "KK": { "Modifier": -6 }
+          },
+          "AttackeParade": {
+            "AT": { "Modifier": -4 },
+            "PA": { "Modifier": -4 }
+          }
+        }
+      }
+    },     
+    "Haltbarkeit": {
+      "Monate": 3 
+    },
+    "Preis": 600,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 8
+        },
+        "Zauber": "Plumbumbarum und Narretei"
+      } 
+    ],
+    "Icon": [ "Halbgift_1" ]
+  },
+  "Kelmon": {
+    "Stufe": 5,
+    "Typ": [ "Waffengift", "Kontaktgift" ],
+    "Beginn": {
+      "KR": 5
+    },
+    "Dauer": {
+      "SR": 6
+    },
+    "Schaden": {
+      "Einmalig": {
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "4W6" }
+          },
+          "Eigenschaften": {
+            "GE": { "Modifier": -2 },
+            "FF": { "Modifier": -2 },
+            "KK": { "Modifier": -2 }                        
+          },
+          "AttackeParade": {
+            "AT": { "Modifier": -2 },
+            "PA": { "Modifier": -2 }
+          }
+        }
+      }
+    },    
+    "Haltbarkeit": {
+      "Monate": 9,
+      "Wuerfel": "1W6"
+    },
+    "Preis": 300,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 8
+        },
+        "Talentprobe": {
+          "Pflanzenkunde": 8
+        }
+      }
+    ],
+    "Icon": [ "Kelmon_1" ]
+  },
+  "Kukris": {
+    "Stufe": 12,
+    "Typ": [ "Waffengift", "Einnahmegift" ],
+    "Beginn": {
+      "KR": 10
+    },
+    "Dauer": {
+      "SR": 3
+    },
+    "Schaden": {
+      "Einmalig": {
+        "Alle": {
+          "Damage": {
+            "SP": { "Wuerfel": "4W6" }
+          },
+          "Eigenschaften": {
+            "KL": { "Modifier": -1 },
+            "FF": { "Modifier": -1 },
+            "KK": { "Modifier": -3 },
+            "GE": { "Modifier": -3 }           
+          }
+        }
+      },
+      "Regelmaessig": {      
+        "KR": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W6" }
+            }
+          }
+        }
+      }
+    },    
+    "Haltbarkeit": {
+      "Monate": 3
+    },
+    "Preis": 900,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 12
+        },
+        "Talentprobe": {
+          "Pflanzenkunde": 9
+        }
+      }
+    ],
+    "Icon": [ "Kukris_1" ]
+  },
+  "Mandragora": {
+    "Stufe": 2,
+    "Typ": [ "Waffengift" ],
+    "Beginn": {
+      "KR": 5
+    },
+    "Dauer": {
+      "KR": 30
+    },
+    "Schaden": {
+      "Regelmaessig": {    
+        "KR": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W3" }
+            }
+          }
+        }
+      }
+    },     
+    "Haltbarkeit": {
+      "Monate": 8
+    },
+    "Preis": 30,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 3
+        }
+      }
+    ],
+    "Icon": [ "Mandragora_1" ]
+  },
+  "Omrais": {
+    "Stufe": 11,
+    "Typ": [ "Waffengift", "Einnahmegift" ],
+    "Beginn": {
+      "SR": 1 
+    },
+    "Dauer": {
+      "SR": 1
+    },
+    "Schaden": {
+      "Regelmaessig": {    
+        "KR": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W6", "Modifier": -1 }
+            }
+          }
+        }
+      }
+    },    
+    "Haltbarkeit": {
+      "Monate": 6
+    },
+    "Preis": 800,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 8 
+        }
+      }
+    ],
+    "Icon": [ "Omrais_1" ]
+  },
+  "Purpurblitz": {
+    "Stufe": 20,
+    "Typ": [ "Einnahmegift" ],
+    "Beginn": {
+      "Sofort": true
+    },
+    "Dauer": {
+      "Bis zum Tode": true
+    },
+    "Schaden": {
+      "Regelmaessig": {    
+        "KR": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "2W6" }
+            }
+          }
+        }
+      }
+    },     
+    "Haltbarkeit": {
+      "Monate": 12
+    },
+    "Preis": 3000,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 10
+        }
+      }
+    ],
+    "Icon": [ "Purpurblitz_1" ]
+  },
+  "Samthauch": {
+    "Stufe": 5,
+    "Typ": [ "Atemgift" ],
+    "Beginn": {
+      "SR": 1
+    },
+    "Dauer": {
+      "Stunden": 0,
+      "Wuerfel": "1W6"
+    },
+    "Schaden": {
+      "Regelmaessig": {    
+        "Stuendlich": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "2W6" }
+            }
+          }
+        }
+      }
+    },     
+    "Haltbarkeit": {
+      "Monate": 2
+    },
+    "Preis": 200,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 9
+        }
+      },
+      {
+        "Talentprobe": {
+          "Pflanzenkunde": 6
+        }
+      }
+    ],
+    "Icon": [ "Samthauch_1" ]
+  },
+  "Schlafgift": {
+    "Stufe": 5,
+    "Typ": [ "Waffengift", "Einnahmegift" ],
+    "Beginn": {
+      "SR": 3
+    },
+    "Dauer": {
+      "SR": 7
+    },
+    "Schaden": {
+      "Einmalig": {
+        "Alle": {
+          "Tiefschlaf": {
+             "really": true
+          }
+        }
+      }
+    },    
+    "Haltbarkeit": {
+      "Monate": 12
+    },
+    "Preis": 350,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 9 
+        },
+        "Zauber": "Somnigravis Tausend Schaf"
+      }
+    ],
+    "Icon": [ "Schlafgift_1" ]
+  },
+  "Schwarzer Lotos": {
+    "Stufe": 10,
+    "Typ": [ "Atemgift" ],
+    "Beginn": {
+      "KR": 5
+    },
+    "Dauer": {
+      "Stunden": 2 
+    },
+    "Schaden": {
+      "Regelmaessig": {    
+        "SR": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "2W6" }
+            }
+          }
+        }
+      }
+    },     
+    "Haltbarkeit": {
+      "Tage": 15,
+      "Wuerfel": "2W6"
+    },
+    "Preis": 1000,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Pflanzenkunde": 10
+        }
+      }
+    ],
+    "Icon": [ "Schwarzer_Lotos_1" ]
+  },
+  "Sunsura": {
+    "Stufe": 9,
+    "Typ": [ "Waffengift", "Einnahmegift" ],
+    "Beginn": {
+      "SR": 1 
+    },
+    "Dauer": {
+      "SR": 10
+    },
+    "Schaden": {
+      "Regelmaessig": {    
+        "SR": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W6", "Modifier": 3 }
+            }
+          }
+        }
+      }
+    },     
+    "Haltbarkeit": {
+      "Monate": 9
+    },
+    "Preis": 900,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 6
+        } 
+      }
+    ],
+    "Icon": [ "Sunsura_1" ]
+  },
+  "Tinzal": {
+    "Stufe": 7,
+    "Typ": [ "Waffengift" ],
+    "Beginn": {
+      "SR": 1
+    },
+    "Dauer": {
+      "SR": 0,
+      "Wuerfel": "2W6"
+    },
+    "Schaden": {
+      "Regelmaessig": {    
+        "SR": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W6", "Modifier": 1 }
+            }
+          }
+        }
+      }
+    },     
+    "Haltbarkeit": {
+      "Monate": 12 
+    },
+    "Preis": 400,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 6 
+        }
+      }
+    ],
+    "Icon": [ "Tinzal_1" ]
+  },
+  "Tulmadron": {
+    "Stufe": 15,
+    "Typ": [ "Waffengift", "Einnahmegift" ],
+    "Beginn": {
+      "KR": 20
+    },
+    "Dauer": {
+      "SR": 4
+    },
+    "Schaden": {
+      "Regelmaessig": {    
+        "KR": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W6", "Modifier": 1 }
+            }
+          }
+        }
+      }
+    },     
+    "Haltbarkeit": {
+      "unbegrenzt": true
+    },
+    "Preis": 2000,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 9
+        }
+      }
+    ],
+    "Icon": [ "Tulmadron_1" ]
+  },
+  "Wurara": {
+    "Stufe": 4,
+    "Typ": [ "Waffengift" ],
+    "Beginn": {
+      "SR": 4
+    },
+    "Dauer": {
+      "Stunden": 0,
+      "Wuerfel": "1W6" 
+    },
+    "Schaden": {
+      "Regelmaessig": {    
+        "Stuendlich": {
+          "Alle": {
+            "Damage": {
+              "SP": { "Wuerfel": "1W6" }
+            }
+          }
+        }
+      }
+    },     
+    "Haltbarkeit": {
+      "Monate": 4
+    },
+    "Preis": 150,
+    "Gewicht": 2,
+    "Herstellung": [
+      {
+        "Talentprobe": {
+          "Alchimie": 5
+        }
+      },
+      {
+        "Talentprobe": {
+          "Pflanzenkunde": 4
+        }
+      }
+    ],
+    "Icon": [ "Wurara_1" ]
+  }
+}

@@ -179,6 +179,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
               DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"buy" andSize:@"128x128"];
               [self replaceView:self.imageActionIcon1 withView:newIcon];
               self.imageActionIcon1 = newIcon;
+              [self.imageActionIcon1 updateAppearance];
             }
 
           if ([self.imageActionIcon2 isKindOfClass: [DSAActionIconSell class]])
@@ -594,7 +595,8 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     }
   else
     {
-      NSLog(@"DSAAdventureWindowController setupActionIcons for global locations not yet defined!!!");
+      NSLog(@"DSAAdventureWindowController setupActionIcons: for global locations not yet defined!!!");
+      abort();
     }
   
 }

@@ -23,6 +23,7 @@
 */
 
 #import "DSABodyParts.h"
+#import "DSAObject.h"
 
 @implementation DSABodyParts
 

@@ -4342,5 +4342,15 @@
     "Feuerzunge_1-32x32.webp",
     "Feuerzunge_1-64x64.webp",
     "Feuerzunge_1-512x512.webp"
+  ],
+  "Efferd_Tempel": [
+    "Efferd_Tempel_2.webp",
+    "Efferd_Tempel_1-32x32.webp",
+    "Efferd_Tempel_1-64x64.webp",
+    "Efferd_Tempel_1.webp",
+    "Efferd_Tempel_1-512x512.webp",
+    "Efferd_Tempel_2-32x32.webp",
+    "Efferd_Tempel_2-64x64.webp",
+    "Efferd_Tempel_2-512x512.webp"
   ]
 }

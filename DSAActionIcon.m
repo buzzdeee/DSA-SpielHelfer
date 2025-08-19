@@ -847,6 +847,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAAdventure *adventure = document.model;
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
     DSAPosition *currentPosition = activeGroup.position;
+    NSLog(@"DSAActionIconLeave handleEvent currentPosition before leaving: %@", currentPosition);
     DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
     
     DSALocalMapTile *currentTile = [currentLocation tileAtCoordinate: currentPosition.mapCoordinate];
@@ -871,6 +872,7 @@ inventoryIdentifier: (NSString *)sourceInventory
         activeGroup.position = nil;
         activeGroup.position = [currentPosition positionByMovingInDirection: direction steps: 1];
       }
+    NSLog(@"DSAActionIconLeave handleEvent currentPosition after leaving: %@", activeGroup.position);
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];     
 }
 @end
@@ -1230,6 +1232,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     selector.maxSilber = [activeGroup totalWealthOfGroup];
     selector.allItems = [Utils getAllDSAObjectsForShop: shopType];    
     NSLog(@"DSAActionIconBuy handleEvent allItems count: %@", [NSNumber numberWithInteger: [selector.allItems count]]);
+    NSLog(@"DSAActionIconBuy handleEvent first items: %@", [selector.allItems objectAtIndex: 0]);
     __block DSAShoppingCart *localShoppingCart;
     selector.completionHandler = ^(DSAShoppingCart *shoppingCart) {
         NSLog(@"DSAActionIconBuy handleEvent: completionHandler aufgerufen mit: %@", shoppingCart);
@@ -1309,7 +1312,9 @@ inventoryIdentifier: (NSString *)sourceInventory
         NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"sell_icon-%@", size] ofType: @"webp"];
         self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
         self.toolTip = _(@"Verkaufen");
+        NSLog(@"DSAActionIconSell initWithImageSize: going to call updateAppearance");
         [self updateAppearance];
+        NSLog(@"DSAActionIconSell initWithImageSize: finished calling updateAppearance");        
     }
     return self;
 }
@@ -1319,6 +1324,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
     DSAAdventure *adventure = document.model;
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    NSLog(@"DSAActionIconSell isActive activeGroup: %@", activeGroup);    
     DSAPosition *currentPosition = activeGroup.position;
     NSLog(@"DSAActionIconSell isActive currentPosition: %@", currentPosition);
     DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
