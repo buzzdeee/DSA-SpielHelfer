@@ -177,8 +177,11 @@ NSLog(@"DSAInventorySlotView mouseDown called!!!!");
 }
 
 - (BOOL)canAcceptDraggedItem:(DSAObject *)draggedItem withQuantity:(NSInteger)draggedQuantity {
-    if (self.slot.object != nil &&
-        [self.slot.object.useWith containsObject: draggedItem.name])
+    if (self.slot.object != nil && (
+        [[self.slot.object.useWith allKeys] containsObject: draggedItem.name] ||
+        [[self.slot.object.useWith allKeys] containsObject: draggedItem.category] ||
+        [[self.slot.object.useWith allKeys] containsObject: draggedItem.subCategory] ||
+        [[self.slot.object.useWith allKeys] containsObject: draggedItem.subSubCategory]))
       {
         return YES; // these items can be uses with each other
       }

@@ -152,6 +152,13 @@ typedef NS_ENUM(NSInteger, DSAConsumptionFailReason) {
     DSAConsumptionFailReasonInvalidType // Unbekannt oder nicht nutzbar
 };
 
+// To distinguish what should happen, when using one type of object with another
+typedef NS_ENUM(NSInteger, DSAUseObjectWithActionType) {
+    DSAUseObjectWithActionTypeSmoking = 0,   // Rauchen
+    DSAUseObjectWithActionTypePoisoning,     // Vergiften
+    DSAUseObjectWithActionTypeWeaponMaintenance // Haltbarkeit abgelaufen
+};
+
 #pragma mark - DSASlot and Inventory related typedefs
 
 typedef NS_ENUM(NSUInteger, DSASlotType) {
@@ -192,6 +199,88 @@ typedef NS_ENUM(NSUInteger, DSASlotType) {
     DSASlotTypeMoney,                           // to hold money
     DSASlotTypeTobacco                          // to hold tobacco
     // Add other specific types as needed
+};
+
+#pragma mark - DSAObject related typedefs
+
+typedef NS_ENUM(NSUInteger, DSAObjectState)
+{
+  DSAObjectStateIsUnbreakable,                // object is not destroyable
+  DSAObjectStateIsBroken,                     // object is broken
+  DSAObjectStateIsPoisoned,                   // object is poisoned
+  DSAObjectStateHasSpellActive,               // object has a magic spell activated
+  DSAObjectStateIsMagicUnknown,               // object is magic, but it's unknown which spells/rituals are applied
+  DSAObjectStateIsConsumable,                 // object can be consumed i.e. eaten or drunk
+  DSAObjectStateStabzauberFackel,             // torch Stabzauber is active
+  DSAObjectStateStabzauberSeil,               // rope Stabzauber is active
+  DSAObjectStateNoMoreStabzauber,             // Stabzauber 5 failed, no more Stabzauber possible
+  DSAObjectStateStabzauberTierverwandlung,    // Stabzauber 6 verwandlung in Chamäleon oder Speikobra
+  DSAObjectStateKugelzauberBrennglas,         // Kugelzauber 2, Kugel ist zu einem Brennglas verwandelt
+  DSAObjectStateKugelzauberSchutzfeld,        // Kugelzauber 3, Kugel erzeugt Schutzfeld gegen Untote etc.
+  DSAObjectStateKugelzauberWarnung,           // Kugelzauber 4, Warnung vor Haß und Mordlust
+  DSAObjectStateIsNotMagic,                   // the object doesn't have any spells applied and therefore isn't magic
+  DSAObjectStateIsMagicKnown,                 // we know that the object is magic, but no details (i.e. after Odem Arcanum)
+  DSAObjectStateIsMagicKnownDetails,          // we know that the object is magic, and we know the details (i.e. after Analüs)
+};
+
+typedef NS_ENUM(NSInteger, DSAObjectEffectType)
+{
+  DSAObjectEffectTypePoisoned                 // poison applied onto object
+};
+
+#pragma mark - DSACharacter related typedefs
+
+typedef NS_ENUM(NSUInteger, DSACharacterState)
+{
+  DSACharacterStateWounded,                 // the character is wounded
+  DSACharacterStateSick,                    // if the character is sick
+  DSACharacterStateDrunken,                 // the level of drunkenes
+  DSACharacterStatePoisoned,                // if the character is poisoned
+  DSACharacterStateDead,                    // the character is dead
+  DSACharacterStateUnconscious,             // the character is unconscious
+  DSACharacterStateSpellbound,              // a spell was casted onto the character
+  DSACharacterStateHunger,                  // level of hunger
+  DSACharacterStateThirst,                  // level of thirst
+};
+
+typedef NS_ENUM(NSUInteger, DSASleepQuality)
+{
+    DSASleepQualityTerrible,    // z. B. in der Gosse, nass, voller Ungeziefer
+    DSASleepQualityLousy,       // unbequem, laut, kalt – kaum erholsam
+    DSASleepQualityMediocre,    // akzeptabel, aber nicht gut (z. B. Lager ohne Decke)
+    DSASleepQualityNormal,      // Standardherberge oder Feldbett mit Decke
+    DSASleepQualityGood,        // ruhiges Zimmer, gutes Bett, warm, trocken
+    DSASleepQualityExcellent,   // luxuriöse Suite, Duftöle, Federn, evtl. Bonus durch Zauber o.ä.
+    DSASleepQualityUnknown
+};
+
+typedef NS_ENUM(NSInteger, DSACharacterEffectType) {
+    DSACharacterEffectTypeTraitBoost,                    // basic traits are boosted
+    DSACharacterEffectTypeTalentBoost,                   // talents are boosted
+    DSACharacterEffectTypeMagicBoost,                    // a spell is boosted, or all spells ???
+    DSACharacterEffectTypeTalentAutoSuccess,             // Auto success for a given talent
+    DSACharacterEffectTypeMRBoost,                       // Magic Resistance boost
+    DSACharacterEffectTypeMagicProtection,               // protection against magic
+    DSACharacterEffectTypeSeaProtection,                 // protection when travelling on the sea
+    DSACharacterEffectTypeRemoveCurse,                   // this removes an applied curse
+    DSACharacterEffectTypeCureDisease,                   // this heals a disease/illness
+    DSACharacterEffectTypeRevive,                        // a character is revived from dead
+    DSACharacterEffectTypeSatiation,                     // thirst and hunger will vanish
+    DSACharacterEffectTypeNoHungerThirst,                // no hunger and thirst for a given amount of time
+    DSACharacterEffectTypeHeal,                          // some LE get restored
+    DSACharacterEffectTypeFullHeal,                      // full LE healing
+    DSACharacterEffectTypeNightPeace,                    // sleep well at night, without attacks
+    DSACharacterEffectTypeProtectionAgainstUndead,       // undeads won't harm
+    DSACharacterEffectTypeFearOfDead,                    // TA goes down
+    DSACharacterEffectTypeWeaponBlessing,                // weapon "healing" ;)
+    DSACharacterEffectTypeUpgradeWeaponToMagic,          // weapon becomes magic
+    DSACharacterEffectTypeEnchantWeapon,                 // weapon becomes magic
+    DSACharacterEffectTypeRepairAndEnchant,              // weapon repaired and magic
+    DSACharacterEffectTypePlaceholder,                   // what's that?
+    DSACharacterEffectTypeRoomBooked,                    // has a room booked in an inn
+    DSACharacterEffectTypeIllness,                       // character is sick/ill 
+    DSACharacterEffectTypePoison,                        // character is poisoned
+    DSACharacterEffectTypeNothing
 };
 
 #endif // _DSADEFINITIONS_H_

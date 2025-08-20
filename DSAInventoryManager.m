@@ -102,13 +102,45 @@
                                     inModel: targetModel];
         }
     if ([self canUseItem: sourceSlot.object withItemInSlot: targetSlot])  
-/*    if (targetSlot.object != nil &&
-        [targetSlot.object.useWith containsObject: sourceSlot.object.name] || 
-        [targetSlot.object.useWith containsObject: sourceSlot.object.category] ||
-        [targetSlot.object.useWith containsObject: sourceSlot.object.subCategory] ||
-        [targetSlot.object.useWith containsObject: sourceSlot.object.subSubCategory]) */
       {
         NSLog(@"GOING TO USE TWO OBJECTS WITH EACH OTHER");
+        NSDictionary *useWithDict;
+        for (NSString *key in [targetSlot.object.useWith allKeys])
+          {
+            if ([sourceSlot.object.name isEqualToString: key] ||
+                [sourceSlot.object.category isEqualToString: key] ||
+                [sourceSlot.object.subCategory isEqualToString: key] ||
+                [sourceSlot.object.subSubCategory isEqualToString: key])
+              {
+                useWithDict = targetSlot.object.useWith[key];
+                break;
+              }  
+          }
+        
+        switch ([useWithDict[@"action"] integerValue])
+          {
+            case DSAUseObjectWithActionTypeSmoking:
+              {
+                NSLog(@"DSAInventoryManager use object %@ with DSAUseObjectWithActionTypeSmoking action", targetSlot.object.name);
+                // nothing special
+                break;
+              }
+            case DSAUseObjectWithActionTypePoisoning:
+              {
+                NSLog(@"DSAInventoryManager use object %@ with DSAUseObjectWithActionTypePoisoning action", targetSlot.object.name);
+                break;
+              }
+            case DSAUseObjectWithActionTypeWeaponMaintenance:
+              {
+                NSLog(@"DSAInventoryManager use object %@ with DSAUseObjectWithActionTypeWeaponMaintenance action", targetSlot.object.name);
+                break;              
+              }
+            default:
+              {
+                NSLog(@"DSAInventoryManager use object %@ with unknown action type: %@ action", targetSlot.object.name, useWithDict[@"action"]);
+              }
+          }
+          
         sourceSlot.quantity -= 1;
         if (sourceSlot.quantity == 0)
           {
@@ -116,7 +148,7 @@
           }
         //NSLog(targetSlot.object.useWithText, sourceModel.name);
         NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
-                                    @"message": [NSString stringWithFormat: targetSlot.object.useWithText, sourceModel.name]
+                                    @"message": [NSString stringWithFormat: [useWithDict objectForKey: @"useWithText"], sourceModel.name]
                                   };
         [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
                                                             object: sourceModel
@@ -516,10 +548,10 @@
 - (BOOL) canUseItem: (DSAObject *) item withItemInSlot: (DSASlot *)slot
 {
     if (slot.object != nil && (
-        [slot.object.useWith containsObject: item.name] || 
-        [slot.object.useWith containsObject: item.category] ||
-        [slot.object.useWith containsObject: item.subCategory] ||
-        [slot.object.useWith containsObject: item.subSubCategory] ))
+        [[slot.object.useWith allKeys] containsObject: item.name] || 
+        [[slot.object.useWith allKeys] containsObject: item.category] ||
+        [[slot.object.useWith allKeys] containsObject: item.subCategory] ||
+        [[slot.object.useWith allKeys] containsObject: item.subSubCategory] ))
       {
         return YES;
       }
@@ -533,8 +565,6 @@
         return NO;
       }
     if ([self canUseItem: item withItemInSlot: slot])
-/*    if (slot.object != nil &&
-        [slot.object.useWith containsObject: item.name]) */
       {
         NSLog(@"DSAInventoryManager isItem: compatibleWithSlot: Items can be used with each other");
         return YES; // these items can be uses with each other

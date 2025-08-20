@@ -126,7 +126,14 @@
         [details appendFormat:_(@"Länge: %f\n"), weapon.length];
         [details appendFormat:_(@"Trefferpunkte: %@\n"), weapon.hitPoints ? [weapon.hitPoints componentsJoinedByString:@" + "] : @"-"];
         [details appendFormat:_(@"TrefferpunkteKK: %ld\n"), (unsigned long) weapon.hitPointsKK];
-        [details appendFormat:_(@"Bruchfaktor: %@\n"), weapon.breakFactor == -1 ? _(@"unzerstörbar") : [NSNumber numberWithInteger: weapon.breakFactor]];
+        if ([weapon.breakFactor[@"initial"] integerValue] == -1)
+          {
+            [details appendFormat:_(@"Bruchfaktor: %@\n"), _(@"unzerstörbar")];          
+          }
+        else
+          {
+            [details appendFormat:_(@"Bruchfaktor: %@/%@\n"), weapon.breakFactor[@"current"], weapon.breakFactor[@"initial"]];
+          }
         [details appendFormat:_(@"Waffenvergleichswert: %ld/%ld\n"), (unsigned long) weapon.attackPower, (unsigned long) weapon.parryValue];
         [details appendFormat:_(@"Trefferpunkte Distanz: %@\n"), weapon.hitPointsLongRange ? [weapon.hitPointsLongRange componentsJoinedByString:@" + "] : @"-"];
         [details appendFormat:_(@"Reichweite: %ld\n"), (unsigned long) weapon.maxDistance];
@@ -136,19 +143,40 @@
         [details appendFormat:_(@"Länge: %f\n"), weapon.length];
         [details appendFormat:_(@"Trefferpunkte: %@\n"), weapon.hitPoints ? [weapon.hitPoints componentsJoinedByString:@" + "] : @"-"];
         [details appendFormat:_(@"TrefferpunkteKK: %ld\n"), (unsigned long) weapon.hitPointsKK];
-        [details appendFormat:_(@"Bruchfaktor: %@\n"), weapon.breakFactor == -1 ? _(@"unzerstörbar") : [NSNumber numberWithInteger: weapon.breakFactor]];
+        if ([weapon.breakFactor[@"initial"] integerValue] == -1)
+          {
+            [details appendFormat:_(@"Bruchfaktor: %@\n"), _(@"unzerstörbar")];          
+          }
+        else
+          {
+            [details appendFormat:_(@"Bruchfaktor: %@/%@\n"), weapon.breakFactor[@"current"], weapon.breakFactor[@"initial"]];
+          }
         [details appendFormat:_(@"Waffenvergleichswert: %ld/%ld\n"), (unsigned long) weapon.attackPower, (unsigned long) weapon.parryValue];
     } else if ([item isKindOfClass:[DSAObjectShieldAndParry class]]) {
         DSAObjectShieldAndParry *weapon = (DSAObjectShieldAndParry *)item;
         [details appendFormat:_(@"Trefferpunkte: %@\n"), weapon.hitPoints ? [weapon.hitPoints componentsJoinedByString:@" + "] : @"-"];
         [details appendFormat:_(@"TrefferpunkteKK: %ld\n"), (unsigned long) weapon.hitPointsKK];
-        [details appendFormat:_(@"Bruchfaktor: %@\n"), weapon.breakFactor == -1 ? _(@"unzerstörbar") : [NSNumber numberWithInteger: weapon.breakFactor]];
+        if ([weapon.breakFactor[@"initial"] integerValue] == -1)
+          {
+            [details appendFormat:_(@"Bruchfaktor: %@\n"), _(@"unzerstörbar")];          
+          }
+        else
+          {
+            [details appendFormat:_(@"Bruchfaktor: %@/%@\n"), weapon.breakFactor[@"current"], weapon.breakFactor[@"initial"]];
+          }
         [details appendFormat:_(@"Behinderung: %.0f\n"), weapon.penalty];
         [details appendFormat:_(@"Waffenvergleichswert: %ld/%ld\n"), (unsigned long) weapon.attackPower, (unsigned long) weapon.parryValue];
         [details appendFormat:_(@"Waffenvergleichswert Schild: %ld/%ld\n"), (unsigned long) weapon.shieldAttackPower, (unsigned long) weapon.shieldParryValue];
     } else if ([item isKindOfClass:[DSAObjectShield class]]) {
         DSAObjectShield *weapon = (DSAObjectShield *)item;
-        [details appendFormat:_(@"Bruchfaktor: %@\n"), weapon.breakFactor == -1 ? _(@"unzerstörbar") : [NSNumber numberWithInteger: weapon.breakFactor]];
+        if ([weapon.breakFactor[@"initial"] integerValue] == -1)
+          {
+            [details appendFormat:_(@"Bruchfaktor: %@\n"), _(@"unzerstörbar")];          
+          }
+        else
+          {
+            [details appendFormat:_(@"Bruchfaktor: %@/%@\n"), weapon.breakFactor[@"current"], weapon.breakFactor[@"initial"]];
+          }
         [details appendFormat:_(@"Behinderung: %.0f\n"), weapon.penalty];
         [details appendFormat:_(@"Waffenvergleichswert Schild: %ld/%ld\n"), (unsigned long) weapon.shieldAttackPower, (unsigned long) weapon.shieldParryValue];
     } else if ([item isKindOfClass:[DSAObjectWeaponLongRange class]]) {

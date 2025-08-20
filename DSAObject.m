@@ -30,8 +30,62 @@
 #import "DSASpellMageRitual.h"
 #import "DSAConsumption.h"
 #import "DSAPoison.h"
+#import "DSADefinitions.h"
 
 
+@implementation DSAObjectEffect
+
+#pragma mark - Initializer
+
+- (instancetype)initWithEffectType:(DSAObjectEffectType)effectType {
+    self = [super init];
+    if (self) {
+        _effectType = effectType;
+        _uniqueKey = [[NSUUID UUID] UUIDString]; // automatischer eindeutiger Schlüssel
+    }
+    return self;
+}
+
+#pragma mark - NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super init];
+    if (self) {
+        _uniqueKey = [coder decodeObjectOfClass:[NSString class] forKey:@"uniqueKey"];
+        _effectType = [coder decodeIntegerForKey:@"effectType"];
+        _expirationDate = [coder decodeObjectOfClass:[DSAAventurianDate class] forKey:@"expirationDate"];
+        _appliedSpell = [coder decodeObjectOfClass:[DSASpell class] forKey:@"appliedSpell"];
+        _appliedPoison = [coder decodeObjectOfClass:[DSAPoison class] forKey:@"appliedPoison"];
+    }
+    return self;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:self.uniqueKey forKey:@"uniqueKey"];
+    [coder encodeInteger:self.effectType forKey:@"effectType"];
+    [coder encodeObject:self.expirationDate forKey:@"expirationDate"];
+    [coder encodeObject:self.appliedSpell forKey:@"appliedSpell"];
+    [coder encodeObject:self.appliedPoison forKey:@"appliedPoison"];
+}
+
+/// Falls du Secure Coding nutzen willst:
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+#pragma mark - NSCopying
+
+- (id)copyWithZone:(NSZone *)zone {
+    DSAObjectEffect *copy = [[[self class] allocWithZone:zone] init];
+    copy.uniqueKey = [self.uniqueKey copyWithZone:zone];
+    copy.effectType = self.effectType;
+    copy.expirationDate = [self.expirationDate copyWithZone:zone];
+    copy.appliedSpell = [self.appliedSpell copyWithZone:zone];
+    copy.appliedPoison = [self.appliedPoison copyWithZone:zone];
+    return copy;
+}
+
+@end
 
 @implementation DSAObject
 
@@ -152,7 +206,12 @@
                                 occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
                                 withAppliedSpells: appliedSpells
                                     withOwnerUUID: ownerUUID
-                                      withRegions: [objectInfo objectForKey: @"Regionen"]];      
+                                      withRegions: [objectInfo objectForKey: @"Regionen"]];
+      self.useWith = @{ @"Gift": @{ @"useWithText": [NSString stringWithFormat: @"%@ hat %@ vergiftet", @"%@", self.name],
+                                    @"action": @(DSAUseObjectWithActionTypePoisoning)},
+                        @"Waffenpflegeutensilien": @{ @"useWithText": [NSString stringWithFormat: @"%@ pflegt sein %@", @"%@", self.name],
+                                                      @"action": @(DSAUseObjectWithActionTypeWeaponMaintenance) }
+                      };                      
     }
   else if (! [[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] && 
            [[objectInfo objectForKey: @"isDistantWeapon"] isEqualTo: @YES] && 
@@ -175,7 +234,15 @@
                                 occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
                                 withAppliedSpells: appliedSpells
                                     withOwnerUUID: ownerUUID                               
-                                      withRegions: [objectInfo objectForKey: @"Regionen"]];      
+                                      withRegions: [objectInfo objectForKey: @"Regionen"]];    
+      if ([self.subCategory isEqualToString: @"Wurfwaffen"])
+        {
+           self.useWith = @{ @"Gift": @{ @"useWithText": [NSString stringWithFormat: @"%@ hat %@ vergiftet.", @"%@", self.name],
+                                         @"action": @(DSAUseObjectWithActionTypePoisoning)},
+                             @"Waffenpflegeutensilien": @{ @"useWithText": [NSString stringWithFormat: @"%@ pflegt sein %@", @"%@", self.name],
+                                                           @"action": @(DSAUseObjectWithActionTypeWeaponMaintenance) }                                        
+                           };         
+        }                                        
     }
   else if ([[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] && 
            [[objectInfo objectForKey: @"isDistantWeapon"] isEqualTo: @YES] && 
@@ -203,7 +270,13 @@
                                 occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
                                 withAppliedSpells: appliedSpells
                                     withOwnerUUID: ownerUUID                        
-                                      withRegions: [objectInfo objectForKey: @"Regionen"]];           
+                                      withRegions: [objectInfo objectForKey: @"Regionen"]];
+      self.useWith = @{ @"Gift": @{ @"useWithText": [NSString stringWithFormat: @"%@ hat %@ vergiftet", @"%@", self.name],
+                                    @"action": @(DSAUseObjectWithActionTypePoisoning) },
+                        @"Waffenpflegeutensilien": @{ @"useWithText": [NSString stringWithFormat: @"%@ pflegt sein %@", @"%@", self.name],
+                                                      @"action": @(DSAUseObjectWithActionTypeWeaponMaintenance) }
+                      };
+                                                                   
     }
   else if ([[objectInfo objectForKey: @"isShield"] isEqualTo: @YES] && 
            [[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] )
@@ -234,7 +307,7 @@
   else if ([[objectInfo objectForKey: @"isShield"] isEqualTo: @YES] && 
            ! [[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] )
     {
-      NSLog(@"a shield and a parry weapon");
+      NSLog(@"a shield but not a parry weapon");
       self = [[DSAObjectShield alloc] initWithName: name
                                          withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
                                        inCategory: [objectInfo objectForKey: @"category"]
@@ -344,12 +417,24 @@
                      validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                            occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]                     
                                 canShareSlot: [[objectInfo objectForKey: @"canShareSlot"] boolValue]
-                                     useWith: [objectInfo objectForKey: @"benutzen mit"]
-                                 useWithText: [objectInfo objectForKey: @"benutzen Text" ]
                            withAppliedSpells: appliedSpells
                                withOwnerUUID: ownerUUID                      
-                                 withRegions: [objectInfo objectForKey: @"Regionen"]];     
+                                 withRegions: [objectInfo objectForKey: @"Regionen"]];
+      if ([self.subCategory isEqualToString: @"Pfeile"] ||
+          [self.subCategory isEqualToString: @"Bolzen"])
+        {
+           self.useWith = @{ @"Gift": @{ @"useWithText": [NSString stringWithFormat: @"%@ hat %@ vergiftet.", @"%@", self.name],
+                                         @"action": @(DSAUseObjectWithActionTypePoisoning)}
+                           };         
+        }
+      else if ([self.subCategory isEqualToString: @"Pfeifen"])
+        {
+           self.useWith = @{ @"Pfeifenkraut, Knaster": @{ @"useWithText": [NSString stringWithFormat: @"%@ stopft seine Pfeife und beginnt genüsslich zu paffen.", @"%@"],
+                                                          @"action": @(DSAUseObjectWithActionTypeSmoking)}
+                           };        
+        } 
     }
+    
   self.consumptions = [NSMutableDictionary dictionary];
   
   if ([objectInfo objectForKey: @"MaxUsageCount"] && [[objectInfo objectForKey: @"MaxUsageCount"] count] > 0)
@@ -393,8 +478,6 @@
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
                  canShareSlot: (BOOL) canShareSlot
-                      useWith: (NSArray *) useWith
-                  useWithText: (NSString *) useWithText
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
                 withOwnerUUID: (NSUUID *) ownerUUID
                   withRegions: (NSArray *) regions
@@ -410,15 +493,13 @@
       self.weight = weight;
       self.price = price;
       self.penalty = penalty;
-      self.breakFactor = 0;
+      self.breakFactor = @{ @"initial": @(0), @"current": @(0)};
       self.canShareSlot = canShareSlot;
       self.validSlotTypes = validSlotTypes;
       self.occupiedBodySlots = occupiedBodySlots;
       self.appliedSpells = appliedSpells;
       self.ownerUUID = ownerUUID;
       self.regions = regions;
-      self.useWith = useWith;
-      self.useWithText = useWithText;
       self.states = [[NSMutableSet alloc] init];
     }  
   return self;
@@ -438,7 +519,7 @@
       self.price = [[coder decodeObjectForKey:@"price"] floatValue];
       self.penalty = [[coder decodeObjectForKey:@"penalty"] floatValue];
       self.protection = [[coder decodeObjectForKey:@"protection"] floatValue];
-      self.breakFactor = [coder decodeIntegerForKey:@"breakFactor"];
+      self.breakFactor = [coder decodeObjectForKey:@"breakFactor"];
       self.appliedSpells = [coder decodeObjectForKey:@"appliedSpells"];
       self.ownerUUID = [coder decodeObjectForKey:@"ownerUUID"];  
       self.regions = [coder decodeObjectForKey:@"regions"];
@@ -446,7 +527,6 @@
       self.validSlotTypes = [coder decodeObjectForKey:@"validSlotTypes"];
       self.occupiedBodySlots = [coder decodeObjectForKey:@"occupiedBodySlots"];
       self.useWith = [coder decodeObjectForKey:@"useWith"];
-      self.useWithText = [coder decodeObjectForKey:@"useWithText"];
       self.states = [coder decodeObjectForKey:@"states"];
       self.consumptions = [coder decodeObjectForKey:@"consumptions"];
     }
@@ -464,7 +544,7 @@
   [coder encodeObject:@(self.price) forKey:@"price"];
   [coder encodeObject:@(self.penalty) forKey:@"penalty"];
   [coder encodeObject:@(self.protection) forKey:@"protection"];    // armor value
-  [coder encodeInteger:self.breakFactor forKey:@"breakFactor"];
+  [coder encodeObject:self.breakFactor forKey:@"breakFactor"];
   [coder encodeObject:self.appliedSpells forKey:@"appliedSpells"];
   [coder encodeObject:self.ownerUUID forKey:@"ownerUUID"];
   [coder encodeObject:self.regions forKey:@"regions"];
@@ -472,7 +552,6 @@
   [coder encodeObject:self.validSlotTypes forKey:@"validSlotTypes"];
   [coder encodeObject:self.occupiedBodySlots forKey:@"occupiedBodySlots"];
   [coder encodeObject:self.useWith forKey:@"useWith"];
-  [coder encodeObject:self.useWithText forKey:@"useWithText"];
   [coder encodeObject:self.states forKey:@"states"];
   [coder encodeObject:self.consumptions forKey:@"consumptions"];
 }
@@ -850,7 +929,7 @@
       self.length = length;
       self.hitPoints = hitPoints;
       self.hitPointsKK = hitPointsKK;
-      self.breakFactor = breakFactor;
+      self.breakFactor = @{ @"initial": @(breakFactor), @"current": @(breakFactor)};
       self.attackPower = attackPower;
       self.parryValue = parryValue;
       self.validSlotTypes = validSlotTypes;
@@ -922,7 +1001,7 @@
       self.length = length;
       self.hitPoints = hitPoints;
       self.hitPointsKK = hitPointsKK;
-      self.breakFactor = breakFactor;
+      self.breakFactor = @{ @"initial": @(breakFactor), @"current": @(breakFactor)};
       self.attackPower = attackPower;
       self.parryValue = parryValue;
       self.maxDistance = maxDistance;
@@ -1050,7 +1129,7 @@
       self.subSubCategory = subSubCategory;
       self.weight = weight;
       self.price = price;
-      self.breakFactor = breakFactor;
+      self.breakFactor = @{ @"initial": @(breakFactor), @"current": @(breakFactor)};
       self.penalty = penalty;
       self.shieldAttackPower = shieldAttackPower;
       self.shieldParryValue = shieldParryValue;
@@ -1116,7 +1195,7 @@
       self.weight = weight;
       self.price = price;
       self.length = length;
-      self.breakFactor = breakFactor;
+      self.breakFactor = @{ @"initial": @(breakFactor), @"current": @(breakFactor)};
       self.penalty = penalty;
       self.hitPoints = hitPoints;
       self.hitPointsKK = hitPointsKK;

@@ -247,7 +247,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 - (BOOL) applyEffectOnTarget: (id) target forOwner: (DSACharacter *) owner
 {
-  [(DSAObject *)target setBreakFactor: -1];
+  [(DSAObject *)target setBreakFactor: @{ @"initial": @(-1), @"current": @(-1) }];
   [[(DSAObject *)target appliedSpells] setObject: [self copy] forKey: self.name];
   [(DSAObject *)target setOwnerUUID: [owner.modelID copy]];  
   return YES;
@@ -941,7 +941,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       owner.currentAstralEnergy -= 1;
       owner.astralEnergy -= 1;
     }
-  [(DSAObject *)target setBreakFactor: -1];
+  [(DSAObject *)target setBreakFactor: @{ @"initial": @(-1), @"current": @(-1) }];
   [[(DSAObject *)target appliedSpells] setObject: [self copy] forKey: self.name];
   [(DSAObject *)target setOwnerUUID: [owner.modelID copy]];  
   return YES;
@@ -989,7 +989,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       castingCharacter.astralEnergy -= self.permanentASPCost;
       castingCharacter.currentLifePoints -= self.lpCost;
       castingCharacter.lifePoints -= self.permanentLPCost;      
-      [(DSAObjectWeaponHandWeapon *)target setBreakFactor: -1];
+      [(DSAObjectWeaponHandWeapon *)target setBreakFactor: @{ @"initial": @(-1), @"current": @(-1) }];
       target.ownerUUID = [castingCharacter.modelID copy];
       [target.appliedSpells setObject: [self copy] forKey: self.name];
     }
@@ -1047,7 +1047,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       castingCharacter.currentAstralEnergy -= self.aspCost;
       castingCharacter.astralEnergy -= self.permanentASPCost;
-      [target setBreakFactor: -1];
+      [target setBreakFactor: @{ @"initial": @(-1), @"current": @(-1) }];
       [target.appliedSpells setObject: [self copy] forKey: self.name];
       target.ownerUUID = [castingCharacter.modelID copy];
       spellResult.resultDescription = [NSString stringWithFormat: @"%@ stellt einen geistigen Band zu seiner Kristallkugel her. Die Kugel wird unzerstörbar.", castingCharacter.name];

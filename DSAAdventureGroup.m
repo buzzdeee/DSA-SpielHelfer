@@ -225,6 +225,7 @@
     // 2. Try bulk add first
     for (DSACharacter *character in members) {
         NSInteger added = [character.inventory addObject:item quantity:remaining];
+        NSLog(@"DSAAdventureGroup distributeItems: bulk adding %@ to Character: %@", item.name, character.name);
         if (added == remaining)
           {
             [[[DSAInventoryManager alloc] init] postDSAInventoryChangedNotificationForSourceModel: character targetModel: character];
@@ -243,6 +244,7 @@
         while (remaining > 0)
           {
             NSInteger added = [character.inventory addObject:item quantity:1];
+            NSLog(@"DSAAdventureGroup distributeItems: single adding %@ to Character: %@", item.name, character.name);
             if (added == 1)
               {
                 remaining -= 1;
@@ -259,7 +261,7 @@
         [[[DSAInventoryManager alloc] init] postDSAInventoryChangedNotificationForSourceModel: character targetModel: character];
       }
     if (remaining > 0) {
-        NSLog(@"⚠️ Could not distribute %ld of item %@", (long)remaining, item.name);
+        NSLog(@"DSAAdventureGroup distributeItems: Could not distribute %ld of item %@", (long)remaining, item.name);
     }
 }
 

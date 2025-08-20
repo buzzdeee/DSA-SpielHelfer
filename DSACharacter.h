@@ -46,59 +46,6 @@ NS_ASSUME_NONNULL_BEGIN
 @class DSAAdventure;
 @class DSAConsumption;
 
-typedef NS_ENUM(NSUInteger, DSACharacterState)
-{
-  DSACharacterStateWounded,                 // the character is wounded
-  DSACharacterStateSick,                    // if the character is sick
-  DSACharacterStateDrunken,                 // the level of drunkenes
-  DSACharacterStatePoisoned,                // if the character is poisoned
-  DSACharacterStateDead,                    // the character is dead
-  DSACharacterStateUnconscious,             // the character is unconscious
-  DSACharacterStateSpellbound,              // a spell was casted onto the character
-  DSACharacterStateHunger,                  // level of hunger
-  DSACharacterStateThirst,                  // level of thirst
-};
-
-typedef NS_ENUM(NSUInteger, DSASleepQuality)
-{
-    DSASleepQualityTerrible,    // z. B. in der Gosse, nass, voller Ungeziefer
-    DSASleepQualityLousy,       // unbequem, laut, kalt – kaum erholsam
-    DSASleepQualityMediocre,    // akzeptabel, aber nicht gut (z. B. Lager ohne Decke)
-    DSASleepQualityNormal,      // Standardherberge oder Feldbett mit Decke
-    DSASleepQualityGood,        // ruhiges Zimmer, gutes Bett, warm, trocken
-    DSASleepQualityExcellent,   // luxuriöse Suite, Duftöle, Federn, evtl. Bonus durch Zauber o.ä.
-    DSASleepQualityUnknown
-};
-
-typedef NS_ENUM(NSInteger, DSACharacterEffectType) {
-    DSACharacterEffectTypeTraitBoost,                    // basic traits are boosted
-    DSACharacterEffectTypeTalentBoost,                   // talents are boosted
-    DSACharacterEffectTypeMagicBoost,                    // a spell is boosted, or all spells ???
-    DSACharacterEffectTypeTalentAutoSuccess,             // Auto success for a given talent
-    DSACharacterEffectTypeMRBoost,                       // Magic Resistance boost
-    DSACharacterEffectTypeMagicProtection,               // protection against magic
-    DSACharacterEffectTypeSeaProtection,                 // protection when travelling on the sea
-    DSACharacterEffectTypeRemoveCurse,                   // this removes an applied curse
-    DSACharacterEffectTypeCureDisease,                   // this heals a disease/illness
-    DSACharacterEffectTypeRevive,                        // a character is revived from dead
-    DSACharacterEffectTypeSatiation,                     // thirst and hunger will vanish
-    DSACharacterEffectTypeNoHungerThirst,                // no hunger and thirst for a given amount of time
-    DSACharacterEffectTypeHeal,                          // some LE get restored
-    DSACharacterEffectTypeFullHeal,                      // full LE healing
-    DSACharacterEffectTypeNightPeace,                    // sleep well at night, without attacks
-    DSACharacterEffectTypeProtectionAgainstUndead,       // undeads won't harm
-    DSACharacterEffectTypeFearOfDead,                    // TA goes down
-    DSACharacterEffectTypeWeaponBlessing,                // weapon "healing" ;)
-    DSACharacterEffectTypeUpgradeWeaponToMagic,          // weapon becomes magic
-    DSACharacterEffectTypeEnchantWeapon,                 // weapon becomes magic
-    DSACharacterEffectTypeRepairAndEnchant,              // weapon repaired and magic
-    DSACharacterEffectTypePlaceholder,                   // what's that?
-    DSACharacterEffectTypeRoomBooked,                    // has a room booked in an inn
-    DSACharacterEffectTypeIllness,                       // character is sick/ill 
-    DSACharacterEffectTypePoison,                        // character is poisoned
-    DSACharacterEffectTypeNothing
-};
-
 @interface DSACharacterEffect : NSObject <NSCoding, NSCopying>
 @property (nonatomic, copy) NSString *uniqueKey;
 @property (nonatomic, assign) DSACharacterEffectType effectType;

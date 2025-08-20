@@ -203,7 +203,7 @@
 
     for (DSASlot *slot in self.slots) {
         if (slot.object == nil && [self isAllowedObject:object inSlot:slot]) {
-            NSLog(@"DSAInventory: adding to empty slot %@", object.name);
+            NSLog(@"DSAInventory: addObject: adding %@ to empty slot.", object.name);
 
             NSInteger amountToAdd = 0;
 
@@ -229,13 +229,13 @@
 }
 
 - (BOOL)isAllowedObject:(DSAObject *)object inSlot:(DSASlot *)slot {
-    NSLog(@"DSAInventory: Testing object slot type: %@ vs. slot.slotType: %ld", object.validSlotTypes, slot.slotType);
+    NSLog(@"DSAInventory: isAllowedObject: Testing object slot type: %@ vs. slot.slotType: %ld", object.validSlotTypes, slot.slotType);
     for (NSNumber *validSlotType in object.validSlotTypes) {
         if (validSlotType.integerValue == slot.slotType) {
             return YES; // Object is allowed in this slot
         }
     }
-    NSLog(@"DSAInventory %@ not allowed in slot!", object.name);
+    NSLog(@"DSAInventory isAllowedObject: %@ not allowed in slot!", object.name);
     return NO; // Object is not allowed in this slot
 }
 

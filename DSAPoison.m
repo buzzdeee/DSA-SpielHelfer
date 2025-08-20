@@ -58,7 +58,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 - (nullable DSAPoisonEffect *)generateEffectForCharacter:(DSACharacter *)character
 {
-   NSLog(@"DSAPoison generateEffectForCharacter: illness: %@", self);
+   NSLog(@"DSAPoison generateEffectForCharacter: poison: %@", self);
    DSAPoisonEffect *effect = [[DSAPoisonEffect alloc] init];
    effect.uniqueKey = [NSString stringWithFormat: @"Poison_%@", self.name];
    effect.effectType = DSACharacterEffectTypePoison;
@@ -300,8 +300,6 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
         if (poison) {
             poison.category = @"Gift";
             poison.validSlotTypes = @[@(DSASlotTypeGeneral)];
-            poison.useWith = @[@"Handwaffen", @"Wurfwaffen", @"Pfeile", @"Bolzen", @"Blasrohrpfeile"];
-            poison.useWithText = [NSString stringWithFormat: @"%@ vergiftet das Objekt mit %@", @"%@", name];
             [loadedPoisons addObject:poison];
         } else {
             NSLog(@"DSAPoisonManager: Unknown poison class for name %@", name);

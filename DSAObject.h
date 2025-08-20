@@ -28,32 +28,21 @@
 #import <Foundation/Foundation.h>
 #import "DSADefinitions.h"
 @class DSASpell;
+@class DSAPoison;
 @class DSAConsumption;
 @class DSAAventurianDate;
+@class DSASlot;
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSUInteger, DSAObjectState)
-{
-  DSAObjectStateIsUnbreakable,                // object is not destroyable
-  DSAObjectStateIsBroken,                     // object is broken
-  DSAObjectStateIsPoisoned,                   // object is poisoned
-  DSAObjectStateHasSpellActive,               // object has a magic spell activated
-  DSAObjectStateIsMagicUnknown,               // object is magic, but it's unknown which spells/rituals are applied
-  DSAObjectStateIsConsumable,                 // object can be consumed i.e. eaten or drunk
-  DSAObjectStateStabzauberFackel,             // torch Stabzauber is active
-  DSAObjectStateStabzauberSeil,               // rope Stabzauber is active
-  DSAObjectStateNoMoreStabzauber,             // Stabzauber 5 failed, no more Stabzauber possible
-  DSAObjectStateStabzauberTierverwandlung,    // Stabzauber 6 verwandlung in Chamäleon oder Speikobra
-  DSAObjectStateKugelzauberBrennglas,         // Kugelzauber 2, Kugel ist zu einem Brennglas verwandelt
-  DSAObjectStateKugelzauberSchutzfeld,        // Kugelzauber 3, Kugel erzeugt Schutzfeld gegen Untote etc.
-  DSAObjectStateKugelzauberWarnung,           // Kugelzauber 4, Warnung vor Haß und Mordlust
-  DSAObjectStateIsNotMagic,                   // the object doesn't have any spells applied and therefore isn't magic
-  DSAObjectStateIsMagicKnown,                 // we know that the object is magic, but no details (i.e. after Odem Arcanum)
-  DSAObjectStateIsMagicKnownDetails,          // we know that the object is magic, and we know the details (i.e. after Analüs)
-};
+@interface DSAObjectEffect : NSObject <NSCoding, NSCopying>
+@property (nonatomic, copy) NSString *uniqueKey;
+@property (nonatomic, assign) DSAObjectEffectType effectType;
+@property (nonatomic, strong, nullable) DSAAventurianDate *expirationDate;
+@property (nonatomic, strong, nullable) DSASpell *appliedSpell;
+@property (nonatomic, strong, nullable) DSAPoison *appliedPoison;
+@end
 
-@class DSASlot;
 
 @interface DSAObject : NSObject <NSCoding, NSCopying>
 @property (nonatomic, strong) NSString *name;
@@ -65,11 +54,10 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
 @property (nonatomic, assign) float price;
 @property (nonatomic, assign) float penalty;
 @property (nonatomic, assign) float protection;
-@property (nonatomic, assign) NSInteger breakFactor;
+@property (nonatomic, strong) NSDictionary<NSString *,NSNumber *> *breakFactor;
 @property (nonatomic, strong) NSUUID *ownerUUID;
 @property (nonatomic, strong) NSArray *regions;
-@property (nonatomic, strong) NSArray *useWith;                       // object can be used with these other objects, categories, subCategories, or subSubCategories
-@property (nonatomic, strong) NSString *useWithText;                  // text displayed when used, should have %@ placeholder to accomodate name of character
+@property (nonatomic, strong) NSDictionary<NSString *, NSDictionary *> *useWith;        // object can be used with these other objects, categories, subCategories, or subSubCategories, the dictionary has info about text, and type of action
 
 @property (nonatomic, strong) NSMutableSet<NSNumber *> *states;
 
@@ -95,8 +83,6 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
       validInventorySlotTypes: (NSArray *) validSlotTypes
             occupiedBodySlots: (NSArray *) occupiedBodySlots
                  canShareSlot: (BOOL) canShareSlot
-                      useWith: (NSArray *) useWith
-                  useWithText: (NSString *) useWithText
             withAppliedSpells: (NSMutableDictionary *) appliedSpells
                 withOwnerUUID: (NSUUID *) ownerUUID
                   withRegions: (NSArray *) regions;
