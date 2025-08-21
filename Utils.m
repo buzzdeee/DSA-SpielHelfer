@@ -26,6 +26,7 @@
 #import "DSASpell.h"
 #import "DSASlot.h"
 #import "NSMutableDictionary+Extras.h"
+#import "DSADefinitions.h"
 
 
 NSArray<NSString *> *DSAShopGeneralStoreCategories(void) {
@@ -62,6 +63,24 @@ NSArray<NSString *> *DSAShopHerbsStoreCategories(void) {
     }
     NSLog(@"Utils.m DSAShopHerbsStoreCategories(): returning categories: %@", categories);
     return categories;
+}
+
+#pragma mark - translator functions for DSAUseObjectWithActionType defined in DSADefinitions.h
+
+NSString *NSStringFromDSAUseObjectWithActionType(DSAUseObjectWithActionType type) {
+    switch (type) {
+#define X(name) case name: return @#name;
+        DSA_USE_OBJECT_WITH_ACTION_TYPES
+#undef X
+    }
+    return @"Unknown";
+}
+
+DSAUseObjectWithActionType DSAUseObjectWithActionTypeFromString(NSString *string) {
+#define X(name) if ([string isEqualToString:@#name]) return name;
+    DSA_USE_OBJECT_WITH_ACTION_TYPES
+#undef X
+    return -1; // oder NSNotFound
 }
 
 @implementation Utils

@@ -12,6 +12,16 @@
           "Waffenvergleichswert": "2/1",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
           "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Jagdmesser vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Jagdmesser wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Icon": [ "Jagdmesser" ]
         },
         "Jagdmesser, firnelfisch": {
@@ -24,6 +34,16 @@
           "Waffenvergleichswert": "2/1",
           "Regionen": [ "FI" ],
           "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das firnelfische Jagdmesser vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das firnelfisches Jagdmesser wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Icon": [ "Jagdmesser-firnelfisch" ]
         },
         "Dolch": {
@@ -36,6 +56,16 @@
           "Waffenvergleichswert": "2/1",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
           "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Dolch vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Dolch wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Reichweite": 25,
           "Trefferpunkte Fernwaffe": [ "1W6" ],
           "TP Entfernung": {
@@ -59,6 +89,16 @@
           "Waffenvergleichswert": "3/3",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
           "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Schweren Dolch vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Schweren Dolch wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Icon": [ "Schwerer_Dolch_1", "Schwerer_Dolch_2" ]       
         },
         "Langdolch": {
@@ -71,6 +111,16 @@
           "Waffenvergleichswert": "3/4",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ],
           "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Langdolch vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Langdolch wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Icon": [ "Langdolch" ]  
         },
         "Magierschwert": {
@@ -83,6 +133,16 @@
           "Waffenvergleichswert": "3/4",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ],
           "Material": "Silber",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Magierschwert vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Magierschwert wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Icon": [ "Magierschwert_1", "Magierschwert_2" ]  
         },        
         "Basilikenzunge": {
@@ -94,7 +154,17 @@
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "2/1",
           "Regionen": [ "LF", "SÜ", "ZY" ],
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Basiliskenzunge vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Basiliskenzunge wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Basiliskenzunge, meisterlich": {
           "Gewicht": 25,
@@ -105,7 +175,17 @@
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "2/1",
           "Regionen": [ "LF", "ZY" ],
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die meisterliche Basiliskenzunge vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die meisterliche Basiliskenzunge wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Drachenzahn": {
           "Gewicht": 40,
@@ -116,7 +196,17 @@
           "Bruchfaktor": 0,
           "Waffenvergleichswert": "4/3",
           "Regionen": [ "ZW" ],
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Drachenzahn vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Drachenzahn wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Eberfänger": {
           "Gewicht": 40,
@@ -127,7 +217,17 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "4/2",
           "Regionen": [ "BO", "NO", "TO", "WE" ],
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Eberfänger vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Eberfänger wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Waqqif": {
           "Gewicht": 35,
@@ -138,7 +238,17 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "4/2",
           "Regionen": [ "KH" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Waqqif vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Waqqif wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Linkhand": {
           "Gewicht": 30,
@@ -149,7 +259,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "2/5",
           "Regionen": [ "GA", "HA", "LF", "PU" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Linkhand vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Linkhand wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Hakendolch": {
           "Gewicht": 60,
@@ -160,7 +280,17 @@
           "Bruchfaktor": 0,
           "Waffenvergleichswert": "1/3",
           "Regionen": [ "LF", "MA", "MH" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Hakendolch vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Hakendolch wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Menglibar": {
           "Gewicht": 20,
@@ -171,7 +301,17 @@
           "Bruchfaktor": 7,
           "Waffenvergleichswert": "2/0",
           "Regionen": [ "MH", "SÜ", "ZY" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Menglibar vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Menglibar wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Ogerfänger": {
           "Gewicht": 35,
@@ -182,7 +322,17 @@
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "3/2",
           "Regionen": [ "HA" ],
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Ogerfänger vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Ogerfänger wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Vulkanglasdolch": {
           "Gewicht": 30,
@@ -194,6 +344,16 @@
           "Waffenvergleichswert": "2/0",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
           "Material": "Glas",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Vulkanglasdolch vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Vulkanglasdolch wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Icon": [ "Vulkanglasdolch_1", "Vulkanglasdolch_2" ]
         }
       },
@@ -207,7 +367,17 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "8/4",
           "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Kriegsbeil vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Kriegsbeil wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }         
         },
         "Orknase": {
           "Gewicht": 110,
@@ -218,7 +388,17 @@
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "9/4",
           "Regionen": [ "TH" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Orknase vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Orknase wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Skraja": {
           "Gewicht": 90,
@@ -229,7 +409,17 @@
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "7/6",
           "Regionen": [ "TH" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Skraja vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Skraja wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Zwergenskraja": {
           "Gewicht": 80,
@@ -240,7 +430,17 @@
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/6",
           "Regionen": [ "ZW" ],         
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Zwergenskraja vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Zwergenskraja wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Lindwurmschläger": {
           "Gewicht": 95,
@@ -251,7 +451,17 @@
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/5",
           "Regionen": [ "ZW" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Lindwurmschläger vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Lindwurmschläger wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Felsspalter": {
           "Gewicht": 150,
@@ -262,7 +472,17 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "9/2",
           "Regionen": [ "ZW" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Felsspalter vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Felsspalter wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }
         },
         "Barbarenstreitaxt": {
           "Gewicht": 250,
@@ -274,6 +494,16 @@
           "Waffenvergleichswert": "10/2",
           "Regionen": [ "NO", "TO" ], 
           "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Barbarenstreitaxt vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Barbarenstreitaxt wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Icon": [ "Barbarenstreitaxt_1", "Barbarenstreitaxt_2" ]
         },
         "Molokdeschnaja": {
@@ -285,7 +515,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "7/5",
           "Regionen": [ "NO" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Molokdeschnaja vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Molokdeschnaja wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Byakka": {
           "Gewicht": 130,
@@ -296,7 +536,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "9/4",
           "Regionen": [ "OR" ],
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Byakka vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Byakka wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }        
         },
         "Echsische Axt": {
           "Gewicht": 90,
@@ -308,6 +558,16 @@
           "Waffenvergleichswert": "8/6",
           "Regionen": [ "WA" ], 
           "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Echsische Axt vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Echsische Axt wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Icon": [ "Echsische_Axt_1", "Echsische_Axt_2" ]
         }
       },
@@ -321,7 +581,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "6/3",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Haumesser vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Haumesser wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Entermesser": {
           "Gewicht": 70,
@@ -332,7 +602,17 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/5",
           "Regionen": [ "HA", "LF", "MH", "SÜ", "TH", "ZY" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Entermesser vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Entermesser wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Robbentöter": {
           "Gewicht": 70,
@@ -343,7 +623,17 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/6",
           "Regionen": [ "FI" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Robbentöter vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Robbentöter wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Säbel": {
           "Gewicht": 60,
@@ -354,7 +644,17 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/7",
           "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Säbel vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Säbel wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Arbach": {
           "Gewicht": 100,
@@ -365,7 +665,17 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/7",
           "Regionen": [ "OR" ],
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Arbach vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Arbach wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }      
         },
         "Kharkush-Arbach": {
           "Gewicht": 90,
@@ -376,7 +686,17 @@
           "Bruchfaktor": 0,
           "Waffenvergleichswert": "7/7",
           "Regionen": [ "OR" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Kharkush-Arbach vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Kharkush-Arbach wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Khunchomer": {
           "Gewicht": 90,
@@ -387,7 +707,17 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/5",
           "Regionen": [ "KH", "MH" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Khunchomer vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Khunchomer wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }         
         },
         "Doppelkhunchomer": {
           "Gewicht": 150,
@@ -398,7 +728,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "10/3",
           "Regionen": [ "KH", "MH" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Doppelkhunchomer vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Doppelkhunchomer wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Sklaventod": {
           "Gewicht": 80,
@@ -409,7 +749,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "7/6",
           "Regionen": [ "SÜ" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Sklaventod vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Sklaventod wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Großer Sklaventod": {
           "Gewicht": 160,
@@ -420,7 +770,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "9/4",
           "Regionen": [ "SÜ" ],
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Großen Sklaventod vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Großen Sklaventod wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Schnitter": {
           "Gewicht": 70,
@@ -431,7 +791,17 @@
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "7/6",
           "Regionen": [ "MA", "MH" ],
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Schnitter vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Schnitter wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Schnitter, alanfanisch": {
           "Gewicht": 80,
@@ -442,7 +812,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "7/6",
           "Regionen": [ "SÜ" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den alanfanischen Schnitter vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den alanfanischen Schnitter wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         }
       },
       "Speere und Stäbe": {
@@ -455,7 +835,17 @@
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "6/6",
           "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
-          "Material": "Holz"
+          "Material": "Holz",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Kampfstab vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Kampfstab wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }         
         },
         "Holzspeer": {
           "Gewicht": 60,
@@ -467,6 +857,16 @@
           "Waffenvergleichswert": "4/3",
           "Regionen": [ "BO", "EL", "GA", "HA", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
           "Material": "Holz",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Holzspeer vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Holzspeer wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Reichweite": 40,
           "Trefferpunkte Fernwaffe": [ "1W6", 2 ],
           "TP Entfernung": {
@@ -490,6 +890,16 @@
           "Waffenvergleichswert": "5/4",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
           "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Speer vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Speer wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Reichweite": 40,
           "Trefferpunkte Fernwaffe": [ "1W6", 3 ],
           "TP Entfernung": {
@@ -513,6 +923,16 @@
           "Waffenvergleichswert": "5/4",
           "Regionen": [ "BO", "TO", "WE" ], 
           "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Jagdspieß vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Jagdspieß wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Icon": [ "Jagdspiess_1", "Jagdspiess_2" ]
         },
         "Jagdspieß, elfisch": {
@@ -525,6 +945,16 @@
           "Waffenvergleichswert": "5/4",
           "Regionen": [ "EL" ],           
           "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den elfischen Jagdspieß vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den elfischen Jagdspieß, wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Icon": [ "Jagdspiess_elfisch_1", "Jagdspiess_elfisch_2" ]
         },
         "Stoßspeer": {
@@ -537,6 +967,16 @@
           "Waffenvergleichswert": "5/3",
           "Regionen": [ "BO", "EL", "FI", "NO", "WE" ], 
           "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Stoßspeer vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Stoßspeer wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Icon": [ "Stossspeer_1", "Stossspeer_2" ]
         },
         "Dschadra": {
@@ -548,7 +988,17 @@
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "4/3",
           "Regionen": [ "KH", "MH" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Dschadra vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Dschadra wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Dreizack": {
           "Gewicht": 90,
@@ -559,7 +1009,17 @@
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "4/4",
           "Regionen": [ "HA", "LF", "TH", "ZY" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Dreizack vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Dreizack wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Zweililien": {
           "Gewicht": 80,
@@ -570,7 +1030,17 @@
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "7/7",
           "Regionen": [ "HA", "LF", "ZW" ],           
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Zweililien vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Zweililien wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Magierstab": {
           "Gewicht": 80,
@@ -594,6 +1064,16 @@
           "Waffenvergleichswert": "5/6",
           "Regionen": [ "HA", "LF", "SÜ", "ZY" ],
           "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Efferdbart vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Efferdbart wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Reichweite": 25,
           "Trefferpunkte Fernwaffe": [ "1W6", 3 ],
           "TP Entfernung": {
@@ -618,6 +1098,16 @@
           "Waffenvergleichswert": "5/5",
           "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TO", "WE", "ZW", "ZY" ], 
           "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Kurzschwert vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Kurzschwert wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Icon": [ "Kurzschwert_1" ]
         },
         "Kusliker Säbel": {
@@ -629,7 +1119,17 @@
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/6",
           "Regionen": [ "LF", "ZY" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Kusliker Säbel vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Kusliker Säbel wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Schwert": {
           "Gewicht": 80,
@@ -641,6 +1141,16 @@
           "Waffenvergleichswert": "7/7",
           "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TO", "WE", "ZY" ],
           "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Schwert vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Schwert wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "ErlaubtInSlots": [ "Schwert" ],
           "Icon": [ "Schwert_1" ]
         },
@@ -653,7 +1163,17 @@
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/6",
           "Regionen": [ "SÜ", "TH", "ZY" ],          
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Breitschwert vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Breitschwert wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }       
         },
         "Barbarenschwert": {
           "Gewicht": 100,
@@ -664,7 +1184,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "8/6",
           "Regionen": [ "NO", "TO" ],
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Barbarenschwert vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Barbarenschwert wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }         
         },
         "Amazonensäbel": {
           "Gewicht": 90,
@@ -674,9 +1204,19 @@
           "TrefferpunkteKK": -14,
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/5",
-          "Regionen": [ "GA", "MH", "TO" ],
-          "Icon": [ "Amazonensaebel" ], 
-          "Material": "Eisen"
+          "Regionen": [ "GA", "MH", "TO" ], 
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Amazonensäbel vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Amazonensäbel wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },
+          "Icon": [ "Amazonensaebel" ]         
         },
         "Turnierschwert": {
           "Gewicht": 60,
@@ -687,7 +1227,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "7/7",
           "Regionen": [ "GA", "PU", "WE" ],           
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Turnierschwert vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Turnierschwert wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Nachtwind": {
           "Gewicht": 70,
@@ -698,7 +1248,17 @@
           "Bruchfaktor": 0,
           "Waffenvergleichswert": "7/7",
           "Regionen": [ "MA", "MH" ],           
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Nachtwind vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Nachtwind wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Bastardschwert": {
           "Gewicht": 120,
@@ -709,7 +1269,17 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "8/6",
           "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TH", "TO", "WE" ],           
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Bastardschwert vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Bastardschwert wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Rondrakamm": {
           "Gewicht": 150,
@@ -720,7 +1290,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "9/6",
           "Regionen": [ "GA", "LF", "MH", "ZW" ],           
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Rondrakamm vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Rondrakamm wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Rondrakamm, aus Arivor": {
           "Gewicht": 140,
@@ -731,7 +1311,17 @@
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "9/6",
           "Regionen": [ "LF" ],           
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Arivorischen Rondrakamm vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Arivorischen Rondrakamm wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Zweihänder": {
           "Gewicht": 160,
@@ -742,7 +1332,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "9/5",
           "Regionen": [ "BO", "GA", "TO", "WE" ],           
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Zweihänder vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Zweihänder wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Boronssichel": {
           "Gewicht": 160,
@@ -753,7 +1353,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "8/3",
           "Regionen": [ "MH", "PU" ],          
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Boronsichel vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Boronsichel wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Andergaster": {
           "Gewicht": 220,
@@ -764,7 +1374,17 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/3",
           "Regionen": [ "HA", "WE" ],          
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Andergaster vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Andergaster wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }      
         },
         "Tuzakmesser": {
           "Gewicht": 130,
@@ -775,7 +1395,17 @@
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/7",
           "Regionen": [ "GA", "MA", "MH" ],           
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Tuzakmesser vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Tuzakmesser wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         }
       },
       "Infanteriewaffen": {
@@ -788,7 +1418,17 @@
           "Bruchfaktor": 6,
           "Waffenvergleichswert": "4/0",
           "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Pike vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Pike wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Drachentöter": {
           "Gewicht": 400,
@@ -799,7 +1439,17 @@
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "3/0",
           "Regionen": [ "ZW" ],          
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Drachentöter vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Drachentöter wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Hellebarde": {
           "Gewicht": 150,
@@ -810,7 +1460,17 @@
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "5/2",
           "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Hellebarde vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Hellebarde wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }         
         },
         "Prunkhellebarde": {
           "Gewicht": 140,
@@ -821,7 +1481,17 @@
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "5/2",
           "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Prunkhellebarde vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Prunkhellebarde wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Hakenspieß": {
           "Gewicht": 120,
@@ -832,7 +1502,17 @@
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "3/1",
           "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Hakenspieß vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Hakenspieß wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Glefe": {
           "Gewicht": 120,
@@ -843,7 +1523,17 @@
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "4/2",
           "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Glefe vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Glefe wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Partisane": {
           "Gewicht": 150,
@@ -854,7 +1544,17 @@
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "5/3",
           "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Partisane vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Partisane wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }          
         },
         "Wurmspieß": {
           "Gewicht": 120,
@@ -865,7 +1565,17 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "5/2",
           "Regionen": [ "ZW" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Wurmspieß vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Wurmspieß wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }         
         },
         "Pailos": {
           "Gewicht": 160,
@@ -876,7 +1586,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "5/2",
           "Regionen": [ "ZY" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Pailos vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Pailos wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Neethaner Langaxt": {
           "Gewicht": 160,
@@ -887,7 +1607,17 @@
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "6/1",
           "Regionen": [ "LF" ],          
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Neethaner Langaxt vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Neethaner Langaxt wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Sturmsense": {
           "Gewicht": 120,
@@ -898,7 +1628,17 @@
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "4/2",
           "Regionen": [ "BO", "GA", "TO", "WE" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Sturmsense vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Sturmsense wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Kriegsflegel": {
           "Gewicht": 120,
@@ -909,7 +1649,17 @@
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "5/1",
           "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
-          "Material": "Holz"
+          "Material": "Holz",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Kriegsflegel vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Kriegsflegel wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         }
       },
       "Stumpfe Hiebwaffen": {
@@ -957,6 +1707,16 @@
           "Waffenvergleichswert": "7/5",
           "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
           "Material": "Holz",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Streitkolben vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Streitkolben wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Icon": [ "Streitkolben_1" ]
         },
         "Brabakbengel": {
@@ -968,7 +1728,17 @@
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/5",
           "Regionen": [ "SÜ", "ZY" ], 
-          "Material": "Holz"
+          "Material": "Holz",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Brabakbengel vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Brabakbengel wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Kriegshammer": {
           "Gewicht": 180,
@@ -979,7 +1749,17 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "9/3",
           "Regionen": [ "BO", "GA", "HA", "LF", "NA", "NO", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ],
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Kriegshammer vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Kriegshammer wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Zwergenschlägel": {
           "Gewicht": 120,
@@ -990,7 +1770,17 @@
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "9/3",
           "Regionen": [ "ZW" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Zewrgenschlägel vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Zwergenschlägel wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Gruufhai": {
           "Gewicht": 180,
@@ -1001,7 +1791,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "10/3",
           "Regionen": [ "OR" ],
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Gruufhai vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Gruufhai wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Rabenschnabel": {
           "Gewicht": 90,
@@ -1012,7 +1812,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "8/3",
           "Regionen": [ "KH", "MH", "PU", "SÜ" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Rabenschnabel vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Rabenschnabel wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Sonnenszepter": {
           "Gewicht": 90,
@@ -1023,7 +1833,13 @@
           "Bruchfaktor": 1,
           "Waffenvergleichswert": "7/5",
           "Regionen": [ "GA" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": {
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Wurmspieß wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Schmiedehammer": {
           "Gewicht": 150,
@@ -1048,6 +1864,16 @@
           "Waffenvergleichswert": "7/2",
           "Regionen": [ "BO", "GA", "HA", "TH", "TO", "WE" ],           
           "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Morgenstern vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Morgenstern wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Icon": [ "Morgenstern_1" ]
         },
         "Ogerschelle": {
@@ -1059,7 +1885,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "8/1",
           "Regionen": [ "BO", "GA", "HA", "TH", "TO", "WE" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Ogerschelle vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Ogerschelle wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Ochsenherde": {
           "Gewicht": 300,
@@ -1070,7 +1906,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "9/0",
           "Regionen": [ "BO", "GA", "HA", "TH", "TO", "WE" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Ochsenherde vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Ochsenherde wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Kettenstab": {
           "Gewicht": 100,
@@ -1081,7 +1927,17 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "6/3",
           "Regionen": [ "MA", "MH", "SÜ", "WA" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Kettenstab vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Kettenstab wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         }
       },
       "Stichwaffen": {
@@ -1094,7 +1950,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "7/5",
           "Regionen": [ "LF" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Florett vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Florett wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Rapier": {
           "Gewicht": 45,
@@ -1105,7 +1971,17 @@
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "7/6",
           "Regionen": [ "GA", "HA", "LF", "PU", "SÜ" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Rapier vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Rapier wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Degen": {
           "Gewicht": 40,
@@ -1116,7 +1992,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "6/6",
           "Regionen": [ "GA", "HA", "LF", "PU", "SÜ" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Degen vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Degen wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Wolfsmesser": {
           "Gewicht": 50,
@@ -1127,7 +2013,17 @@
           "Bruchfaktor": 2,
           "Waffenvergleichswert": "7/6",
           "Regionen": [ "EL" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Wolfsmesser vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Wolfsmesser wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Magierflorett": {
           "Gewicht": 25,
@@ -1139,6 +2035,16 @@
           "Waffenvergleichswert": "5/5",
           "Regionen": [ "GA", "HA", "LF", "MH", "PU" ],
           "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Magierflorett vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Magierflorett wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },          
           "Icon": [ "Magierflorett_1", "Magierflorett_2" ]
         },
         "Stockdegen": {
@@ -1150,7 +2056,17 @@
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "6/4",
           "Regionen": [ "GA", "HA", "LF", "PU" ],          
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Stockdegen vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Stockdegen wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         }
       },
       "Sonstige Handwaffen": {
@@ -1163,7 +2079,17 @@
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "1/1",
           "Regionen": [ "GA", "HA", "LF" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Veteranenhand vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Veteranenhand wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Schlagring": {
           "Gewicht": 20,
@@ -1174,7 +2100,17 @@
           "Bruchfaktor": 4,
           "Waffenvergleichswert": "1/0",
           "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Schlagring vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Schlagring wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Orchidee": {
           "Gewicht": 35,
@@ -1185,7 +2121,17 @@
           "Bruchfaktor": 3,
           "Waffenvergleichswert": "1/0",
           "Regionen": [ "MO", "SÜ", "WA" ], 
-          "Material": "Eisen"
+          "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Orchidee vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Orchidee wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Peitsche": {
           "Gewicht": 60,
@@ -1218,7 +2164,17 @@
           "Bruchfaktor": 6,
           "Waffenvergleichswert": "1/0",
           "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TO", "WE" ], 
-          "Material": "Holz"
+          "Material": "Holz",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Turnierlanze vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Turnerlanze wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         },
         "Kriegslanze": {
           "Gewicht": 150,
@@ -1229,7 +2185,17 @@
           "Bruchfaktor": 5,
           "Waffenvergleichswert": "1/0",
           "Regionen": [ "BO", "GA", "HA", "LF", "PU", "TO", "WE" ], 
-          "Material": "Holz"
+          "Material": "Holz",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Kriegslanze vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Kriegslanze wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }           
         }
       }
   },
@@ -1268,6 +2234,12 @@
         },
         "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
         "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Wurfmesser vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            }
+          },     
         "Icon": [ "Wurfmesser_1", "Wurfmesser_2" ]
       },
       "Wurfdolch": {
@@ -1286,6 +2258,12 @@
         },
         "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
         "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Wurfdolch vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            }
+          },        
         "Icon": [ "Wurfdolch_1", "Wurfdolch_2" ]
       },
       "Borndorn": {
@@ -1303,7 +2281,13 @@
           "extrem weit": 0
         },
         "Regionen": [ "BO" ], 
-        "Material": "Eisen"
+        "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Borndorn vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            }
+          }         
       },
       "Wurfscheibe": {
         "Gewicht": 10,
@@ -1321,6 +2305,12 @@
         },
         "Regionen": [ "MA", "MH", "SÜ" ], 
         "Material": "Holz",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die hölzerne Wurfscheibe vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            }
+          },         
         "Icon": [ "Wurfscheibe_1" ]
       },
       "Wurfscheibe, Stahl": {
@@ -1339,6 +2329,12 @@
         },
         "Regionen": [ "MA" ], 
         "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die stählerne Wurfscheibe vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            }
+          },        
         "Icon": [ "Wurfscheibe_Stahl_1", "Wurfscheibe_Stahl_2" ]
       },
       "Wurfspeer": {
@@ -1357,6 +2353,12 @@
         },
         "Regionen": [ "KH", "LF", "MH", "PU" ],
         "Material": "Holz",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Wurfspeer vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            }
+          },        
         "Icon": [ "Wurfspeer_1" ]
       },
       "Wurfbeil": {
@@ -1369,6 +2371,16 @@
         "Waffenvergleichswert": "6/2",
         "Regionen": [ "BO", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
         "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat das Wurfbeil vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Wurfbeil wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },        
         "Reichweite": 25,
         "Trefferpunkte Fernwaffe": [ "1W6", 3 ],
         "TP Entfernung": {
@@ -1392,6 +2404,16 @@
         "Waffenvergleichswert": "5/1",
         "Regionen": [ "TH" ],
         "Material": "Eisen",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Schneidzahn vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Schneidzahn wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },        
         "Reichweite": 25,
         "Trefferpunkte Fernwaffe": [ "1W6", 4 ],
         "TP Entfernung": {
@@ -1414,6 +2436,16 @@
         "Waffenvergleichswert": "6/2",
         "Regionen": [ "FI", "NO" ],
         "Material": "Holz",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Wurfkeule vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            },
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Wurfkeule wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },     
         "Reichweite": 25,
         "Trefferpunkte Fernwaffe": [ "1W6", 2 ],
         "TP Entfernung": {
@@ -1790,6 +2822,12 @@
         "Gewicht": 2,
         "Preis": 0.25,
         "Material": "Holz",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Pfeile für kurze Bögen vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            }
+          },        
         "Icon": [ "Kurzbogenpfeil" ],
         "ErlaubtInSlots": [ "Köcher" ],
         "MehrereProSlot": true
@@ -1798,6 +2836,12 @@
         "Gewicht": 3,
         "Preis": 0.4,
         "Material": "Holz",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Pfeile für lange Bögen vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            }
+          },        
         "Icon": [ "Langbogenpfeil" ],
         "ErlaubtInSlots": [ "Köcher" ],
         "MehrereProSlot": true
@@ -1806,6 +2850,12 @@
         "Gewicht": 4,
         "Preis": 0.6,
         "Material": "Holz",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Pfeile für Kriegsbögen vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            }
+          },        
         "ErlaubtInSlots": [ "Köcher" ],
         "MehrereProSlot": true,
         "Icon": [ "Kriegsbogenpfeil_1" ]
@@ -1816,6 +2866,12 @@
         "Gewicht": 4,
         "Preis": 1.5,
         "Material": "Holz",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Bolzen für leichte Armbrüste vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            }
+          },        
         "ErlaubtInSlots": [ "Bolzentasche" ],
         "MehrereProSlot": true,
         "Icon": [ "Bolzen_leichte_Armbrust_1" ]
@@ -1824,6 +2880,12 @@
         "Gewicht": 4,
         "Preis": 2,
         "Material": "Holz",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat die Bolzen für schwere Armbrüste vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            }
+          },        
         "ErlaubtInSlots": [ "Bolzentasche" ],
         "MehrereProSlot": true,
         "Icon": [ "Bolzen_schwere_Armbrust_1" ]
@@ -1841,7 +2903,7 @@
         "Preis": 0.0,
         "Material": "Stein",
         "Icon": [ "Kieselstein_1" ]
-      }      
+      },    
       "Schleuderblei": {
         "Gewicht": 2,
         "Preis": 0.5,
@@ -1854,6 +2916,12 @@
         "Gewicht": 1,
         "Preis": 0.8,
         "Material": "Holz",
+          "useWith": { 
+            "Gift": {
+              "useWithText": "%@ hat den Blasrohrpfeil vergiftet.",
+              "action": "DSAUseObjectWithActionTypePoisoning"
+            }
+          },        
         "Icon": [ "Blasrohrpfeil_1", "Blasrohrpfeil_2" ]
       }
     }
@@ -2191,6 +3259,12 @@
         "Preis": 25,
         "Waffenvergleichswert Schild": "-1/1",
         "Bruchfaktor": 3,
+          "useWith": { 
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den einfachen Holzschild wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },        
         "Behinderung": 1,
         "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ],
         "Material": "Holz",
@@ -2204,6 +3278,12 @@
         "Behinderung": 1,
         "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MA", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
         "Material": "Holz",
+          "useWith": { 
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den verstärkten Holzschild wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },        
         "Icon": [ "Holzschild_verstaerkt_1", "Holzschild_verstaerkt_2" ]
       },
       "Lederschild": {
@@ -2214,6 +3294,12 @@
         "Behinderung": 2,
         "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
         "Material": "Leder",
+          "useWith": { 
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Lederschild wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },        
         "Icon": [ "Lederschild_1", "Lederschild_2" ]
       },
       "Thorwalerschild": {
@@ -2223,7 +3309,13 @@
         "Bruchfaktor": 3,
         "Behinderung": 2,
         "Regionen": [ "HA", "TH" ], 
-        "Material": "Holz"
+        "Material": "Holz",
+          "useWith": { 
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Thorwalerschild wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          }        
       },
       "Großer Lederschild": {
         "Gewicht": 120,
@@ -2233,6 +3325,12 @@
         "Behinderung": 3,
         "Regionen": [ "KH", "LF", "MH", "PU" ], 
         "Material": "Leder",
+          "useWith": { 
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das große Lederschild wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },        
         "Icon": [ "Lederschild_gross_1", "Lederschild_gross_2" ]
       },
       "Großschild": {
@@ -2243,6 +3341,12 @@
         "Behinderung": 3,
         "Regionen": [ "BO", "GA", "HA", "TO", "WE" ], 
         "Material": "Eisen",
+          "useWith": { 
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Großschild wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },        
         "Icon": [ "Grossschild_1", "Grossschild_2" ]
       },
       "Buckler": {
@@ -2880,6 +3984,12 @@
       "Trefferpunkte": [ "1W6" ],
       "TrefferpunkteKK": -16,
       "Bruchfaktor": 4,
+          "useWith": { 
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Messer wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },      
       "Waffenvergleichswert": "1/0",
       "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ],
       "Material": "Eisen",
@@ -2963,6 +4073,12 @@
         "Trefferpunkte": [ "1W6", 6 ],
         "TrefferpunkteKK": -15,
         "Bruchfaktor": 5,
+          "useWith": { 
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Spitzhacke wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },        
         "Waffenvergleichswert": "8/1",
         "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
         "Material": "Eisen",
@@ -2982,6 +4098,12 @@
         "Trefferpunkte": [ "1W6", 3 ],
         "TrefferpunkteKK": -14,
         "Bruchfaktor": 5,
+          "useWith": { 
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Beil wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },        
         "Waffenvergleichswert": "6/2",
         "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
         "Material": "Eisen" ,
@@ -2994,6 +4116,12 @@
         "Trefferpunkte": [ "1W6", 2 ],
         "TrefferpunkteKK": -16,
         "Bruchfaktor": 2,
+          "useWith": { 
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt das Fleischerbeil wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },        
         "Waffenvergleichswert": "2/1",
         "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
         "Material": "Eisen",
@@ -3006,6 +4134,12 @@
         "Trefferpunkte": [ "2W6" ],
         "TrefferpunkteKK": -13,
         "Bruchfaktor": 5,
+          "useWith": { 
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Holzfälleraxt wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },        
         "Waffenvergleichswert": "9/1",
         "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
         "Material": "Eisen",
@@ -3071,6 +4205,12 @@
       "Trefferpunkte": [ "1W6", 2 ],
       "TrefferpunkteKK": -17,
       "Bruchfaktor": 5,
+          "useWith": { 
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Sichel wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },      
       "Waffenvergleichswert": "3/1",
       "Regionen": [ "BO", "EL", "FI", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY" ], 
       "Material": "Eisen",
@@ -3083,6 +4223,12 @@
       "Trefferpunkte": [ "1W6", 3 ],
       "TrefferpunkteKK": -17,
       "Bruchfaktor": 6,
+          "useWith": { 
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt die Sense wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },      
       "Waffenvergleichswert": "3/1",
       "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ], 
       "Material": "Eisen",
@@ -3095,6 +4241,12 @@
       "Trefferpunkte": [ "1W6", 2 ],
       "TrefferpunkteKK": -14,
       "Bruchfaktor": 6,
+          "useWith": { 
+            "Waffenpflegeutensilien": {
+              "useWithText": "%@ bringt den Dreschflegel wieder auf Hochglanz.",
+              "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
+            }
+          },      
       "Waffenvergleichswert": "4/2",
       "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MH", "NA", "NO", "OR", "PU", "SÜ", "TH", "TO", "WE", "ZW", "ZY" ],
       "Material": "Holz",
@@ -3617,29 +4769,45 @@
       "Pfeife, Ton": {
         "Gewicht": 5,
         "Preis": 1,
-        "benutzen mit": [ "Pfeifenkraut, Knaster" ],
-        "benutzen Text": "%@ stopft seine Pfeife, und beginnt zu paffen.",
+        "useWith": { 
+          "Pfeifenkraut, Knaster": {
+            "useWithText": "%@ stopft seine Pfeife, und beginnt genüsslich zu paffen.",
+            "action": "DSAUseObjectWithActionTypeSmoking"
+          }
+        },
         "Icon": [ "Tonpfeife_1", "Tonpfeife_2" ]
       },
       "Pfeife, Holz": {
         "Gewicht": 5,
         "Preis": 5,
-        "benutzen mit": [ "Pfeifenkraut, Knaster" ],
-        "benutzen Text": "%@ stopft seine Pfeife, und beginnt zu paffen.",
+        "useWith": { 
+          "Pfeifenkraut, Knaster": {
+            "useWithText": "%@ stopft seine Pfeife, und beginnt genüsslich zu paffen.",
+            "action": "DSAUseObjectWithActionTypeSmoking"
+          }
+        },
         "Icon": [ "Holzpfeife_1", "Holzpfeife_2" ]
       },
       "Pfeife, Meerschaum": {
         "Gewicht": 4,
         "Preis": 10,
-        "benutzen mit": [ "Pfeifenkraut, Knaster" ],
-        "benutzen Text": "%@ stopft seine Pfeife, und beginnt zu paffen.",
+        "useWith": { 
+          "Pfeifenkraut, Knaster": {
+            "useWithText": "%@ stopft seine Meerschaumpfeife, und beginnt genüsslich zu paffen.",
+            "action": "DSAUseObjectWithActionTypeSmoking"
+          }
+        },
         "Icon": [ "Meerschaumpfeife_1", "Meerschaumpfeife_2" ]
       },
       "Wasserpfeife": {
         "Gewicht": 40,
         "Preis": 20,
-        "benutzen mit": [ "Pfeifenkraut, Knaster" ],
-        "benutzen Text": "%@ stopft seine Wasserpfeife, und beginnt zu paffen.",
+        "useWith": { 
+          "Pfeifenkraut, Knaster": {
+            "useWithText": "%@ stopft seine Wasserpfeife, und beginnt genüsslich zu paffen.",
+            "action": "DSAUseObjectWithActionTypeSmoking"
+          }
+        },
         "Icon": [ "Wasserpfeife_1", "Wasserpfeife_2" ]
       }
     },
@@ -4376,7 +5544,7 @@
       "Beinkleider, Leinen": {
         "Gewicht": 25,
         "Preis": 1,
-        "Rüstschutz": 02,
+        "Rüstschutz": 0.2,
         "Behinderung": 0.2,        
         "Maßgeschneidert": 10,
         "belegteKörperSlots": [ "Beinkleidung", "Beinkleidung" ],

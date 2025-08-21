@@ -206,12 +206,13 @@
                                 occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
                                 withAppliedSpells: appliedSpells
                                     withOwnerUUID: ownerUUID
-                                      withRegions: [objectInfo objectForKey: @"Regionen"]];
+                                      withRegions: [objectInfo objectForKey: @"Regionen"]];                                   
+/*                                       
       self.useWith = @{ @"Gift": @{ @"useWithText": [NSString stringWithFormat: @"%@ hat %@ vergiftet", @"%@", self.name],
                                     @"action": @(DSAUseObjectWithActionTypePoisoning)},
                         @"Waffenpflegeutensilien": @{ @"useWithText": [NSString stringWithFormat: @"%@ pflegt sein %@", @"%@", self.name],
                                                       @"action": @(DSAUseObjectWithActionTypeWeaponMaintenance) }
-                      };                      
+                      };         */             
     }
   else if (! [[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] && 
            [[objectInfo objectForKey: @"isDistantWeapon"] isEqualTo: @YES] && 
@@ -235,14 +236,14 @@
                                 withAppliedSpells: appliedSpells
                                     withOwnerUUID: ownerUUID                               
                                       withRegions: [objectInfo objectForKey: @"Regionen"]];    
-      if ([self.subCategory isEqualToString: @"Wurfwaffen"])
+/*      if ([self.subCategory isEqualToString: @"Wurfwaffen"])
         {
            self.useWith = @{ @"Gift": @{ @"useWithText": [NSString stringWithFormat: @"%@ hat %@ vergiftet.", @"%@", self.name],
                                          @"action": @(DSAUseObjectWithActionTypePoisoning)},
                              @"Waffenpflegeutensilien": @{ @"useWithText": [NSString stringWithFormat: @"%@ pflegt sein %@", @"%@", self.name],
                                                            @"action": @(DSAUseObjectWithActionTypeWeaponMaintenance) }                                        
                            };         
-        }                                        
+        }                                        */
     }
   else if ([[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] && 
            [[objectInfo objectForKey: @"isDistantWeapon"] isEqualTo: @YES] && 
@@ -271,11 +272,11 @@
                                 withAppliedSpells: appliedSpells
                                     withOwnerUUID: ownerUUID                        
                                       withRegions: [objectInfo objectForKey: @"Regionen"]];
-      self.useWith = @{ @"Gift": @{ @"useWithText": [NSString stringWithFormat: @"%@ hat %@ vergiftet", @"%@", self.name],
+/*      self.useWith = @{ @"Gift": @{ @"useWithText": [NSString stringWithFormat: @"%@ hat %@ vergiftet", @"%@", self.name],
                                     @"action": @(DSAUseObjectWithActionTypePoisoning) },
                         @"Waffenpflegeutensilien": @{ @"useWithText": [NSString stringWithFormat: @"%@ pflegt sein %@", @"%@", self.name],
                                                       @"action": @(DSAUseObjectWithActionTypeWeaponMaintenance) }
-                      };
+                      }; */
                                                                    
     }
   else if ([[objectInfo objectForKey: @"isShield"] isEqualTo: @YES] && 
@@ -420,7 +421,7 @@
                            withAppliedSpells: appliedSpells
                                withOwnerUUID: ownerUUID                      
                                  withRegions: [objectInfo objectForKey: @"Regionen"]];
-      if ([self.subCategory isEqualToString: @"Pfeile"] ||
+/*      if ([self.subCategory isEqualToString: @"Pfeile"] ||
           [self.subCategory isEqualToString: @"Bolzen"])
         {
            self.useWith = @{ @"Gift": @{ @"useWithText": [NSString stringWithFormat: @"%@ hat %@ vergiftet.", @"%@", self.name],
@@ -432,9 +433,41 @@
            self.useWith = @{ @"Pfeifenkraut, Knaster": @{ @"useWithText": [NSString stringWithFormat: @"%@ stopft seine Pfeife und beginnt genüsslich zu paffen.", @"%@"],
                                                           @"action": @(DSAUseObjectWithActionTypeSmoking)}
                            };        
-        } 
+        } */
     }
+
+    NSDictionary *useWithInfo = objectInfo[@"useWith"];
+    if (useWithInfo) {
+        NSMutableDictionary *mapped = [NSMutableDictionary dictionary];
+
+        [useWithInfo enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
+            if (![key isKindOfClass:[NSString class]] || ![obj isKindOfClass:[NSDictionary class]]) {
+                return;
+            }
+            NSString *useWithKey = (NSString *)key;
+            NSDictionary *value = (NSDictionary *)obj;
+
+            NSString *useWithText = value[@"useWithText"];
+            NSString *actionString = value[@"action"];
+
+            DSAUseObjectWithActionType actionType = DSAUseObjectWithActionTypeFromString(actionString);
+
+            // Sicherstellen, dass ein gültiger Enum-Wert zurückkam
+            if (actionType == -1) {
+                 NSLog(@"DSAObject initWithObjectInfo Error: unknown action '%@' in JSON for useWith-Key '%@'", actionString, useWithKey);
+                 abort(); // sofortiges Beenden
+            }            
+            
+            mapped[useWithKey] = @{
+                @"useWithText": useWithText ?: @"",
+                @"action": @(actionType)
+            };
+        }];
+
+        self.useWith = [mapped copy];
+    }                                         
     
+        
   self.consumptions = [NSMutableDictionary dictionary];
   
   if ([objectInfo objectForKey: @"MaxUsageCount"] && [[objectInfo objectForKey: @"MaxUsageCount"] count] > 0)

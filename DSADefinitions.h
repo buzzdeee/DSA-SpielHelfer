@@ -152,12 +152,32 @@ typedef NS_ENUM(NSInteger, DSAConsumptionFailReason) {
     DSAConsumptionFailReasonInvalidType // Unbekannt oder nicht nutzbar
 };
 
+
+// zentrale Liste aller Actions
+#define DSA_USE_OBJECT_WITH_ACTION_TYPES \
+    X(DSAUseObjectWithActionTypeSmoking) \
+    X(DSAUseObjectWithActionTypePoisoning) \
+    X(DSAUseObjectWithActionTypeWeaponMaintenance)
+
+// Enum-Definition
+typedef NS_ENUM(NSInteger, DSAUseObjectWithActionType) {
+#define X(name) name,
+    DSA_USE_OBJECT_WITH_ACTION_TYPES
+#undef X
+};
+
+/*
 // To distinguish what should happen, when using one type of object with another
 typedef NS_ENUM(NSInteger, DSAUseObjectWithActionType) {
     DSAUseObjectWithActionTypeSmoking = 0,   // Rauchen
     DSAUseObjectWithActionTypePoisoning,     // Vergiften
     DSAUseObjectWithActionTypeWeaponMaintenance // Haltbarkeit abgelaufen
 };
+*/
+
+// Funktionsdeklarationen (für globalen Zugriff) implementiert in Utils.m
+FOUNDATION_EXPORT NSString *NSStringFromDSAUseObjectWithActionType(DSAUseObjectWithActionType type);
+FOUNDATION_EXPORT DSAUseObjectWithActionType DSAUseObjectWithActionTypeFromString(NSString *string);
 
 #pragma mark - DSASlot and Inventory related typedefs
 
