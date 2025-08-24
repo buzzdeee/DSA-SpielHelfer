@@ -221,15 +221,15 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
 
 - (BOOL)isDocumentEdited
 {
-    NSLog(@"DSAAdventureDocument isDocumentEdited called!");
+    //NSLog(@"DSAAdventureDocument isDocumentEdited called!");
     BOOL edited = [super isDocumentEdited];
-    NSLog(@"DSAAdventureDocument isDocumentEdited returning: %@", edited ? @"YES" : @"NO");
+    //NSLog(@"DSAAdventureDocument isDocumentEdited returning: %@", edited ? @"YES" : @"NO");
     return edited;
 }
 
 - (BOOL)canCloseDocument
 {
-    NSLog(@"DSAAdventureDocument canCloseDocument called!");
+    //NSLog(@"DSAAdventureDocument canCloseDocument called!");
 
     NSWindow *closingWindow = [[NSApplication sharedApplication] keyWindow];
     if (![self isMainWindow: closingWindow])
@@ -315,7 +315,7 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
 
             // Step 2: Check if this character is already tracked
             if (self.model.characterFilePaths[uuidString] != nil) {
-                NSLog(@"DSAAdventureDocument addCharacterFromURL : Character %@ already added to adventure.", uuidString);
+                //NSLog(@"DSAAdventureDocument addCharacterFromURL : Character %@ already added to adventure.", uuidString);
                 return;
             }
 
@@ -349,10 +349,10 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
     self.characterDocuments = [NSMutableArray array];
     NSString *baseDir = [[Utils characterStorageDirectory] path];
 
-    NSLog(@"DSAAdventureDocument loadCharacterDocuments: self.model: %@", self.model.characterFilePaths);
+    //NSLog(@"DSAAdventureDocument loadCharacterDocuments: self.model: %@", self.model.characterFilePaths);
     for (NSString *relativePath in [self.model.characterFilePaths allValues]) {
         NSString *fullPath = [baseDir stringByAppendingPathComponent:relativePath];
-        NSLog(@"DSAAdventureDocument loadCharacterDocuments: fullPath: %@", fullPath);
+        //NSLog(@"DSAAdventureDocument loadCharacterDocuments: fullPath: %@", fullPath);
         NSURL *characterURL = [NSURL fileURLWithPath:fullPath];
         [[NSDocumentController sharedDocumentController] openDocumentWithContentsOfURL:characterURL
                                                                               display:NO
@@ -369,7 +369,7 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
         forSaveOperation:(NSSaveOperationType)saveOperation 
                    error:(NSError **)outError {
     
-    NSLog(@"DSAAdventureDocument: Writing safely to URL %@", url);
+    //NSLog(@"DSAAdventureDocument: Writing safely to URL %@", url);
 
     // First, save all character documents
     for (DSACharacterDocument *charDoc in self.characterDocuments) {
@@ -378,7 +378,7 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
                                 ofType:[charDoc fileType] 
                       forSaveOperation:saveOperation 
                                  error:&charSaveError]) {
-            NSLog(@"Failed to save character: %@", charSaveError);
+            NSLog(@"DSAAdventureDocument writeSafelyToURL: Failed to save character: %@", charSaveError);
             if (outError) *outError = charSaveError;
             return NO; // Stop if any character fails to save
         }
@@ -402,7 +402,7 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
 // Callback method for character document save
 - (void)characterDocumentDidSave:(NSDocument *)document success:(BOOL)success contextInfo:(void *)contextInfo {
     if (!success) {
-        NSLog(@"Error saving character document: %@", document);
+        NSLog(@"DSAAdventureDocument characterDocumentDidSave: Error saving character document: %@", document);
     }
 }
 
@@ -410,7 +410,7 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
 - (void)saveDocumentWithCompletionHandler:(void (^)(NSError *))completionHandler {
     // Save character documents first
     [self saveCharacterDocuments];
-NSLog(@"DSAAdventureDocument saveDocumentWithCompletionHandler saving self: %@", self.model);
+    // NSLog(@"DSAAdventureDocument saveDocumentWithCompletionHandler: saving self: %@", self.model);
     // Save the adventure document itself
     [self saveToURL:[self fileURL] 
              ofType:[self fileType]
@@ -440,11 +440,11 @@ NSLog(@"DSAAdventureDocument saveDocumentWithCompletionHandler saving self: %@",
         // Update the tracked selected character in the document
         self.selectedCharacterDocument = selectedCharacter;
 
-        NSLog(@"DSAAdventureDocument may want to do something after receiving the Notification...");
+        //NSLog(@"DSAAdventureDocument characterHighlighted: may want to do something after receiving the Notification...");
     } else {
         // No character is selected
         self.selectedCharacterDocument = nil;
-        NSLog(@"DSAAdventureDocument character was deselected...");
+        //NSLog(@"DSAAdventureDocument characterHighlighted: character was deselected...");
     }
 }
 

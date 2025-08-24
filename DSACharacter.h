@@ -59,7 +59,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DSAIllnessEffect : DSACharacterEffect <NSCoding, NSCopying>
 @property (nonatomic, assign) DSAIllnessStage currentStage;
 @property (nonatomic, strong, nullable) NSDictionary<NSString *, NSNumber *> *followUpIllnessChance;  // chance to get sick on a follow-up sickness in %
+@end
 
+@interface DSADrunkenEffect : DSACharacterEffect <NSCoding, NSCopying>
+@property (nonatomic, assign) DSADrunkenLevel currentLevel;
 @end
 
 @interface DSAPoisonEffect : DSACharacterEffect <NSCoding, NSCopying>
@@ -181,6 +184,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (DSAIllnessEffect *) activeIllnessEffect;
 - (DSAPoisonEffect *) activePoisonEffect;
+- (DSADrunkenEffect *) activeDrunkenEffect;
 
 // used to decide, if a body inventory slot can hold a given item, based on character constraints
 - (BOOL) canUseItem: (DSAObject *) item;

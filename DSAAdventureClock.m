@@ -71,12 +71,8 @@
 }
 
 - (void)updateGameTime {
-    NSLog(@"DSAAdventureClock updateGameTime called (advance time by 1 minute)");
-    [self advanceTimeByMinutes:1]; // Advances 1 minute of game time every 30 real seconds
-// We do this in advanceTimeByMinutes anyways, right?    
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameTimeAdvanced"
-//                                                        object:self
-//                                                      userInfo:@{ @"currentDate": [self.currentDate copy] }];    
+    //NSLog(@"DSAAdventureClock updateGameTime: called (advance time by 1 minute)");
+    [self advanceTimeByMinutes:1]; // Advances 1 minute of game time every 30 real seconds    
 }
 
 - (void)advanceTimeByMinutes:(NSUInteger)minutes {
@@ -95,14 +91,14 @@
 }
 
 - (void)advanceTimeByHours:(NSUInteger)hours {
-    NSLog(@"DSAAdventureClock advanceTimeByHours hours before: %lu", self.currentDate.hour);
+    //NSLog(@"DSAAdventureClock advanceTimeByHours hours before: %lu", self.currentDate.hour);
     self.currentDate.hour += hours;
     if (self.currentDate.hour >= 24) {
         [self advanceTimeByDays:self.currentDate.hour / 24];
         self.currentDate.hour %= 24;
     }
-    NSLog(@"DSAAdventureClock advanceTimeByHours hours after: %lu", self.currentDate.hour);
-    NSLog(@"DSAAdventureClock currentDate after: %@", self.currentDate);
+    //NSLog(@"DSAAdventureClock advanceTimeByHours hours after: %lu", self.currentDate.hour);
+    //NSLog(@"DSAAdventureClock advanceTimeByHours : currentDate after: %@", self.currentDate);
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameTimeAdvanced"
                                                         object:self
                                                       userInfo:@{ @"currentDate": [self.currentDate copy] }];    
@@ -190,6 +186,8 @@
         case DSAMoonPhaseLastQuarter: return @"Letztes Viertel";
         case DSAMoonPhaseWaningCrescent: return @"Abnehmende Sichel";
     }
+    NSLog(@"DSAAdventureClock moonPhaseNameForPhase unknown moon phase: %@ ABORTING", @(phase));
+    abort();
     return @"Unbekannt";
 }
 

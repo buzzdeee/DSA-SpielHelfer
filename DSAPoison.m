@@ -50,12 +50,6 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     return self;
 }
 
-- (void)applyEffectToTarget:(id)target
-{
-    // Default: no effect. Subclasses can override.
-}
-
-
 - (nullable DSAPoisonEffect *)generateEffectForCharacter:(DSACharacter *)character
 {
    NSLog(@"DSAPoison generateEffectForCharacter: poison: %@", self);

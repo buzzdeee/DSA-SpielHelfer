@@ -60,33 +60,33 @@
 }
 
 - (void)dealloc {
-    NSLog(@"DSACharacterWindowController is being deallocated.");
+    //NSLog(@"DSACharacterWindowController dealloc called!");
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [self closeAllAuxiliaryWindows];
     [[self window] close];
 
-    NSLog(@"DSACharacterWindowController: removing observers");
+    //NSLog(@"DSACharacterWindowController: dealloc: removing observers");
     for (id object in self.observedKeyPaths) {
-        //NSLog(@"DSACharacterWindowController: remove observer for object: %@", object);
+        //NSLog(@"DSACharacterWindowController: dealloc: remove observer for object: %@", object);
         NSSet<NSString *> *keyPaths = [self.observedKeyPaths objectForKey:object];
-        NSLog(@"DSACharacterWindowController: remove observer for keyPaths %@", keyPaths);
+        //NSLog(@"DSACharacterWindowController: dealloc: remove observer for keyPaths %@", keyPaths);
         for (NSString *keyPath in keyPaths) {
-            NSLog(@"DSACharacterWindowController: remove observer for keyPath %@", keyPath);
+            //NSLog(@"DSACharacterWindowController: dealloc: remove observer for keyPath %@", keyPath);
             @try {
                 [object removeObserver:self forKeyPath:keyPath];
             } @catch (NSException *exception) {
-                NSLog(@"Exception removing observer: %@", exception);
+                NSLog(@"DSACharacterWindowController dealloc: Exception removing observer: %@", exception);
             }
         }
     }
     for (LevelObserverInfo *info in self.levelObserverInfos) {
         [info.observedObject removeObserver:self forKeyPath:info.keyPath context:(__bridge void *)info];
     }
-    NSLog(@"DSACharacterWindowController: here at the end of dealloc");
+    //NSLog(@"DSACharacterWindowController: dealloc: here at the end of dealloc");
     DSACharacterDocument *document = (DSACharacterDocument *)self.document;
     document.windowControllersCreated = NO;
-    NSLog(@"DSACharacterWindowController: here at the VERY end of dealloc: %@", [NSNumber numberWithBool: document.windowControllersCreated]);
+    //NSLog(@"DSACharacterWindowController: dealloc: here at the VERY end of dealloc: %@", [NSNumber numberWithBool: document.windowControllersCreated]);
 }
 
 

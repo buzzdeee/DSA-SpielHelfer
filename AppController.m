@@ -308,10 +308,10 @@
 
       if ([menuItem tag] == 200)
         { // Tag for the "Level Up" menu item
-          NSLog(@"AppController validateMenuItem for menuItem tag 200");
+          //NSLog(@"AppController validateMenuItem for menuItem tag 200");
           if ([DSAAdventureManager sharedManager].currentAdventure != nil)  // we already have an adventure loaded
             {
-              NSLog(@"AppController validateMenuItem for menuItem tag 200, returning NO");
+              //NSLog(@"AppController validateMenuItem for menuItem tag 200, returning NO");
               return NO;
             }
         }

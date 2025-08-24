@@ -24,6 +24,8 @@
 
 #import "DSAInventoryManager.h"
 #import "Utils.h"
+#import "DSAAdventure.h"
+#import "DSAAdventureClock.h"
 
 @implementation DSAInventoryManager
 
@@ -51,22 +53,25 @@
     DSASlot *targetSlot = [self findSlotInModel:targetModel
                         withInventoryIdentifier:targetInventoryIdentifier // Pass target inventory
                                         atIndex:targetSlotIndex];
-    NSLog(@"TRANSFERRING SINGLE SLOT ITEM");
+
+    // get a handle to current adventure
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    // NSLog(@"DSAInventoryManager transferItemFromSlot : TRANSFERRING SINGLE SLOT ITEM");
     // Validate the source and target slots
     if (!sourceSlot || !targetSlot) {
-        NSLog(@"Invalid slot indices or model references. source slot: %@ targetSlot %@", sourceSlot, targetSlot);
+        NSLog(@"DSAInventoryManager transferItemFromSlot: Invalid slot indices or model references. source slot: %@ targetSlot %@", sourceSlot, targetSlot);
         return NO;
     }
 
     // Ensure that source slot has an item
     if (!sourceSlot.object) {
-        NSLog(@"Source slot is empty.");
+        NSLog(@"DSAInventoryManager transferItemFromSlot: Source slot is empty.");
         return NO;
     }
     
     // Check for the valid slot type (e.g., item can only go into compatible slots)
     if (![self isItem:sourceSlot.object compatibleWithSlot:targetSlot]) {
-        NSLog(@"Incompatible item for target slot.");
+        NSLog(@"DSAInventoryManager transferItemFromSlot: Incompatible item for target slot.");
         return NO;
     }
     
@@ -76,7 +81,7 @@
         targetSlot.slotType == DSASlotTypeGeneral && 
         [sourceSlot.object isKindOfClass: [DSAObjectContainer class]])
       {
-        NSLog(@"SOURCE IS a CONTAINER, TARGET is empty and of type GENERAL");
+        NSLog(@"DSAInventoryManager transferItemFromSlot: SOURCE IS a CONTAINER, TARGET is empty and of type GENERAL");
         DSAObjectContainer *container = (DSAObjectContainer *) sourceSlot.object;
         
         for (DSASlot *slot in container.slots)
@@ -103,7 +108,7 @@
         }
     if ([self canUseItem: sourceSlot.object withItemInSlot: targetSlot])  
       {
-        NSLog(@"GOING TO USE TWO OBJECTS WITH EACH OTHER");
+        NSLog(@"DSAInventoryManager transferItemFromSlot: GOING TO USE TWO OBJECTS WITH EACH OTHER");
         NSDictionary *useWithDict;
         for (NSString *key in [targetSlot.object.useWith allKeys])
           {
@@ -121,40 +126,44 @@
           {
             case DSAUseObjectWithActionTypeSmoking:
               {
-                NSLog(@"DSAInventoryManager use object %@ with DSAUseObjectWithActionTypeSmoking action", targetSlot.object.name);
+                NSLog(@"DSAInventoryManager transferItemFromSlot: use object %@ with DSAUseObjectWithActionTypeSmoking action", targetSlot.object.name);
                 // nothing special
                 break;
               }
             case DSAUseObjectWithActionTypePoisoning:
               {
-                NSLog(@"DSAInventoryManager use object %@ with DSAUseObjectWithActionTypePoisoning action", targetSlot.object.name);
+                NSLog(@"DSAInventoryManager transferItemFromSlot: use object %@ with DSAUseObjectWithActionTypePoisoning action", targetSlot.object.name);
                 break;
               }
             case DSAUseObjectWithActionTypeWeaponMaintenance:
               {
-                NSLog(@"DSAInventoryManager use object %@ with DSAUseObjectWithActionTypeWeaponMaintenance action", targetSlot.object.name);
+                NSLog(@"DSAInventoryManager transferItemFromSlot: use object %@ with DSAUseObjectWithActionTypeWeaponMaintenance action", targetSlot.object.name);
                 break;              
               }
             default:
               {
-                NSLog(@"DSAInventoryManager use object %@ with unknown action type: %@ action", targetSlot.object.name, useWithDict[@"action"]);
+                NSLog(@"DSAInventoryManager transferItemFromSlot: use object %@ with unknown action type: %@ action ABORTING", targetSlot.object.name, useWithDict[@"action"]);
+                abort();
               }
           }
-          
-        sourceSlot.quantity -= 1;
-        if (sourceSlot.quantity == 0)
+        BOOL result = [sourceSlot.object useOnceWithDate: adventure.gameClock.currentDate
+                                                  reason: nil];
+        if (result)
           {
-            sourceSlot.object = nil;
-          }
-        //NSLog(targetSlot.object.useWithText, sourceModel.name);
-        NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
-                                    @"message": [NSString stringWithFormat: [useWithDict objectForKey: @"useWithText"], sourceModel.name]
-                                  };
-        [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
-                                                            object: sourceModel
-                                                          userInfo: userInfo];
-        [self postDSAInventoryChangedNotificationForSourceModel: sourceModel targetModel: targetModel];
-        return YES;       
+            [self handleItemInSourceSlot: sourceSlot
+                           ofSourceModel: sourceModel];
+
+
+            NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
+                                         @"message": [NSString stringWithFormat: [useWithDict objectForKey: @"useWithText"], sourceModel.name]
+                                      };
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                                object: sourceModel
+                                                              userInfo: userInfo];
+               [self postDSAInventoryChangedNotificationForSourceModel: sourceModel targetModel: targetModel];
+            return YES;
+         }
+         return NO;
       }
     
     
@@ -197,6 +206,55 @@
     NSLog(@"Transfer failed: No space or incompatible item.");
     return NO;
 }
+
+-(void)handleItemInSourceSlot: (DSASlot *) sourceSlot
+                ofSourceModel: (DSACharacter *) sourceModel
+{                
+    DSASlot *slot = sourceSlot;
+    DSAObject *item = slot.object;
+        
+    NSLog(@"DSAInventoryManager handleItemInSourceSlot: item just depleted???? %@", @([item justDepleted]));
+    
+    if ([item justDepleted])
+      {
+        NSLog(@"DSAInventoryManager handleItemInSourceSlot: sourceModel item is depleted, cleaning up slot");                
+        slot.quantity -= 1;
+        if (slot.quantity == 0)
+          {
+
+            if ([slot.object transitionWhenEmpty])
+              {
+                NSLog(@"DSAInventoryManager handleItemInSourceSlot: was called, and [slot.object transitionWhenEmpty] was true");
+                NSString *transitionToName = [slot.object transitionWhenEmpty];
+                NSLog(@"DSAInventoryManager handleItemInSourceSlot: was called, and transitionToName: %@", transitionToName);
+                slot.object = nil;
+                slot.object = [[DSAObject alloc] initWithName: transitionToName forOwner: [sourceModel modelID]];
+              }
+            else if ([slot.object disappearWhenEmpty])
+              {
+                NSLog(@"DSAInventoryManager handleItemInSourceSlot: was called, and [slot.object disappearWhenEmpty] was true");
+                slot.object = nil;
+              }
+            else
+              {
+                NSLog(@"DSAInventoryManager handleItemInSourceSlot: disappearWhenEmpty was default NO, and transitionWhenEmpty was empty assuming it should disappear!");
+                slot.object = nil;
+              }
+          }
+        else
+          {
+            [slot.object resetCurrentUsageToMax];    // there might be depletable objects in multiple slots, have to reset the count...
+          }
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAInventoryChangedNotification"
+                                                            object:sourceModel
+                                                          userInfo:@{@"sourceModel": sourceModel}];
+      }
+    else
+      {
+        NSLog(@"DSAInventoryManager handleItemInSourceSlot: sourceModel item is not yet depleted, not cleaning up slot!");
+      }
+}            
+
 
 - (BOOL) transferItemFromSlot: (DSASlot *) sourceSlot
                       inModel: (DSACharacter *) sourceModel

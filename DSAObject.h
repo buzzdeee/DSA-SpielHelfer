@@ -110,13 +110,15 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL) justDepleted;
 - (NSInteger) alcoholLevel;
 - (float) nutritionValue;
+- (BOOL) disappearWhenEmpty;
+- (NSString *) transitionWhenEmpty;
 
 /// Versucht, das Objekt zu benutzen.
 /// @param currentDate the current adventure time
 /// @param reason Optionaler Pointer auf den Grund, warum es nicht funktioniert.
 /// @return YES, wenn Nutzung erfolgreich, NO sonst.
 - (BOOL)useOnceWithDate:(DSAAventurianDate *)currentDate
-                 reason:(DSAConsumptionFailReason *)reason;
+                 reason:(nullable DSAConsumptionFailReason *)reason;
 
 @end
 

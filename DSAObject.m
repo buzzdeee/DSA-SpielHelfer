@@ -873,6 +873,7 @@ NSLog(@"DSAObject initWithObjectInfo before consumptions shelfLifeDays");
 - (BOOL) justDepleted
 {
    DSAConsumption *usageConsumption = [self usageConsumption];
+   NSLog(@"DSAObject justDepleted: %@ based off of DSAConsumption: %@", @([usageConsumption justDepleted]), usageConsumption);
    return [usageConsumption justDepleted];
 
 }
@@ -896,6 +897,26 @@ NSLog(@"DSAObject initWithObjectInfo before consumptions shelfLifeDays");
     }
   return 0.0;
 }
+
+- (BOOL) disappearWhenEmpty
+{
+  DSAConsumption *usageConsumption = [self usageConsumption];
+  if (usageConsumption)
+    {
+      return [usageConsumption disappearWhenEmpty];
+    }
+  return YES;
+}
+- (NSString *) transitionWhenEmpty
+{
+  DSAConsumption *usageConsumption = [self usageConsumption];
+  if (usageConsumption)
+    {
+      return [usageConsumption transitionWhenEmpty];
+    }
+  return nil;
+}
+
 
 // first check if we have an expiration consumption, and check if expired
 // if not, or not expired, check maxUsageCount.
@@ -1515,6 +1536,34 @@ NSLog(@"DSAObject initWithObjectInfo before consumptions shelfLifeDays");
       self.canShareSlot = canShareSlot;
     }  
   return self;
-}                               
+}
+
+- (nullable DSADrunkenEffect *)generateDrunkenEffectForCharacter:(DSACharacter *)character
+{
+   NSLog(@"DSAObjectFood generateDrunkenEffectForCharacter called");
+   DSADrunkenEffect *activeDrunkenEffect = [character activeDrunkenEffect];
+   DSADrunkenLevel stateLevel = DSADrunkenLevelNone;
+   if (activeDrunkenEffect)
+     {
+       stateLevel = activeDrunkenEffect.currentLevel;
+     }
+   if (stateLevel == DSADrunkenLevelSevere)  // already severely drunken, can't get worse
+     {
+       return nil;
+     }
+   else
+     {
+       stateLevel++;
+     }
+   
+   DSADrunkenEffect *effect = [[DSADrunkenEffect alloc] init];
+   effect.uniqueKey = [NSString stringWithFormat: @"Drunken_%@", self.name];
+   effect.effectType = DSACharacterEffectTypeDrunken;
+   effect.expirationDate = nil;
+   effect.currentLevel = stateLevel;
+   
+   return effect;
+}
+                           
 @end
 // End of DSAObjectCloth

@@ -3477,7 +3477,7 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
         {
           NSLog(@"DSACharacterGenerator addEquipmentToCharacter: going to alloc initWithName: equipment: %@", equipment);
           item = [[DSAObject alloc] initWithName: equipment forOwner: character.modelID];
-          NSLog(@"DSACharacterGenerator addEquipmentToCharacter: after alloc initWithName, now we have item.name: ", item.name);
+          NSLog(@"DSACharacterGenerator addEquipmentToCharacter: after alloc initWithName, now we have item.name: %@", item.name);
         }
       
       NSLog(@"DSACharacterGenerationController: addEquipmentToCharacter THE ITEM NAME: %@", item.name);

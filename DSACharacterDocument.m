@@ -221,30 +221,21 @@
 
 - (BOOL)isDocumentEdited
 {
-    NSLog(@"DSACharacterDocument isDocumentEdited called!");
+    //NSLog(@"DSACharacterDocument isDocumentEdited called!");
     BOOL edited = [super isDocumentEdited];
-    NSLog(@"DSACharacterDocument isDocumentEdited returning: %@", edited ? @"YES" : @"NO");
+    //NSLog(@"DSACharacterDocument isDocumentEdited returning: %@", edited ? @"YES" : @"NO");
     return edited;
 }
 
 - (BOOL)canCloseDocument
 {
-    NSLog(@"DSACharacterDocument canCloseDocument called!");
+    //NSLog(@"DSACharacterDocument canCloseDocument called!");
 
     NSWindow *closingWindow = [[NSApplication sharedApplication] keyWindow];
     if (![self isMainWindow: closingWindow])
       {
         return YES;
       }
-    
-/*    
-    if ([closingWindow.windowController isKindOfClass:[DSACharacterWindowController class]]) {
-        if ([closingWindow.windowController != self.windowControllers[0]]) {
-            NSLog(@"DSACharacterDocument: Auxiliary window closing, bypassing save check.");
-            return YES; // Allow the window to close without saving.
-        }
-    }
-*/
     return [super canCloseDocument]; // Default behavior: Allow the standard save check.
 }
 

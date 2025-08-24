@@ -99,18 +99,24 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 + (instancetype)iconWithAction:(NSString *) action andSize: (NSString *)size
 {
     Class subclass = [typeToClassMap objectForKey:action];
-    NSLog(@"DSAActionIcon: action: %@ returning class: %@", action, [subclass class]);
-    if (subclass) {
-        NSLog(@"DSAActionIcon: action: %@ returning class: %@", action, [subclass class]);
+    // NSLog(@"DSAActionIcon: iconWithAction: %@ returning class: %@", action, [subclass class]);
+    if (subclass)
+      {
+        // NSLog(@"DSAActionIcon: iconWithAction: %@ returning class: %@", action, [subclass class]);
         return [[subclass alloc] initWithImageSize: size];
-    }
+      }
+    else
+      {
+        NSLog(@"DSAActionIcon iconWithAction: unknown action: %@ ABORTING", action);
+        abort();
+      }
     // Handle unknown type
     return nil;
 }
 
 - (instancetype)initWithImageSize: (NSString *)size
 {
-    NSLog(@"DSAActionIcon: subclasses %@ shall override initWithSize!", [self class]);
+    NSLog(@"DSAActionIcon: initWithImageSize : subclasses %@ shall override initWithSize!", [self class]);
     return nil;
 }
 
@@ -337,7 +343,8 @@ inventoryIdentifier: (NSString *)sourceInventory
     // Implement logic to consume the item
     NSLog(@"DSAActionItem: Consuming item: %@", item);
     DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
-    DSASlot *slot = [[DSAInventoryManager sharedManager] findSlotInModel: sourceModel
+    DSAInventoryManager *inventoryManager = [DSAInventoryManager sharedManager];
+    DSASlot *slot = [inventoryManager findSlotInModel: sourceModel
                                                  withInventoryIdentifier: sourceInventory
                                                                  atIndex: sourceSlotIndex];
     if (slot == nil)  // slot not found, odd???
@@ -346,30 +353,12 @@ inventoryIdentifier: (NSString *)sourceInventory
       }
     BOOL result = [sourceModel consumeItem: item
                                     atDate: adventure.gameClock.currentDate];
-    NSLog(@"DSAActionIconConsume sourceModel consumed the item");
+    
     if (result == YES)
       {
-    NSLog(@"DSAActionIconConsume sourceModel consumed the item successfully");      
-        if ([item justDepleted])
-          {
-            NSLog(@"DSAActionIconConsume sourceModel item is depleted, cleaning up slot");                
-            slot.quantity -= 1;
-            if (slot.quantity == 0)
-              {
-                slot.object = nil;
-              }
-            else
-              {
-                [slot.object resetCurrentUsageToMax];    // there might be depletable objects in multiple slots, have to reset the count...
-              }
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAInventoryChangedNotification"
-                                                                object:sourceModel
-                                                              userInfo:@{@"sourceModel": sourceModel}];
-          }
-      }
-    else
-      {
-        NSLog(@"DSAActionIconConsume sourceModel item is not yet depleted, not cleaning up slot!");
+        NSLog(@"DSAActionIconConsume consumeItem: sourceModel consumed the item successfully");
+        [inventoryManager handleItemInSourceSlot: slot
+                                   ofSourceModel: sourceModel];
       }
 }
 @end

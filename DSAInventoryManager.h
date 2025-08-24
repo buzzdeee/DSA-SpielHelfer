@@ -107,7 +107,11 @@ NS_ASSUME_NONNULL_BEGIN
                   ofQuantity:(NSInteger)quantity 
                   toBodyPart:(NSString *)bodyPart 
                     slotType:(DSASlotType)slotType;
-                   
+
+-(void)handleItemInSourceSlot: (DSASlot *) sourceSlot
+                ofSourceModel: (DSACharacter *) sourceModel;                  
+                    
+                                       
 - (DSASlot *)findOccupiedBodySlotOfType:(DSASlotType)slotType inModel:(DSACharacter *)model;
 - (DSASlot *)findFreeBodySlotOfType:(NSInteger)slotType inModel:(DSACharacter *)model;
 - (BOOL) isSlotWithID: (NSString *) slotID inModel: (DSACharacter *) model;

@@ -61,6 +61,7 @@
 - (BOOL)useOnceWithDate:(DSAAventurianDate *)currentDate
                  reason:(DSAConsumptionFailReason *)reason
 {                 
+    NSLog(@"DSAConsumption useOnceWithDate going to set self.previousUses = self.remainingUses");
     self.previousUses = self.remainingUses;
     if (reason) *reason = DSAConsumptionFailReasonNone;
     
@@ -78,9 +79,11 @@
         case DSAConsumptionTypeUseOnce:
         case DSAConsumptionTypeUseMany:
             if (self.remainingUses > 0) {
+                NSLog(@"DSAConsumption useOnceWithDate: remainingUses was > 0 going to subtract and return YES");
                 self.remainingUses--;
                 return YES;
             } else {
+                NSLog(@"DSAConsumption useOnceWithDate: remainingUses was alread 0 going to return NO");
                 if (reason) *reason = DSAConsumptionFailReasonNoUsesLeft;
                 return NO;
             }
@@ -98,7 +101,7 @@
 }
 
 - (BOOL)justDepleted {
-    return (self.previousUses > 0 && self.remainingUses == 0 && self.maxUses > 1);
+    return (self.previousUses > 0 && self.remainingUses == 0 && self.maxUses >= 1);
 }
 
 - (BOOL)isExpiredAtDate:(DSAAventurianDate *)currentDate {
@@ -190,6 +193,40 @@
     copy.alcoholLevel = self.alcoholLevel;
     copy.nutritionValue = self.nutritionValue;
     return copy;
+}
+
+- (NSString *)description {
+    NSMutableString *desc = [NSMutableString stringWithFormat:@"<%@: %p>\n", NSStringFromClass([self class]), self];
+    
+    [desc appendFormat:@"  type: %ld\n", (long)self.type];
+    
+    [desc appendFormat:@"  maxUses: %ld\n", (long)self.maxUses];
+    [desc appendFormat:@"  remainingUses: %ld\n", (long)self.remainingUses];
+    
+    if (self.manufactureDate) {
+        [desc appendFormat:@"  manufactureDate: %@\n", self.manufactureDate];
+    } else {
+        [desc appendString:@"  manufactureDate: (nil)\n"];
+    }
+    
+    [desc appendFormat:@"  shelfLifeDays: %ld\n", (long)self.shelfLifeDays];
+    [desc appendFormat:@"  previousUses: %ld\n", (long)self.previousUses];
+    
+    [desc appendFormat:@"  disappearWhenEmpty: %@\n", self.disappearWhenEmpty ? @"YES" : @"NO"];
+    
+    if (self.transitionWhenEmpty) {
+        [desc appendFormat:@"  transitionWhenEmpty: %@\n", self.transitionWhenEmpty];
+    } else {
+        [desc appendString:@"  transitionWhenEmpty: (nil)\n"];
+    }
+    
+    [desc appendFormat:@"  isDrinkable: %@\n", self.isDrinkable ? @"YES" : @"NO"];
+    [desc appendFormat:@"  isEatable: %@\n", self.isEatable ? @"YES" : @"NO"];
+    
+    [desc appendFormat:@"  alcoholLevel: %ld\n", (long)self.alcoholLevel];
+    [desc appendFormat:@"  nutritionValue: %.2f\n", self.nutritionValue];
+    
+    return desc;
 }
 
 @end

@@ -123,6 +123,12 @@ typedef NS_ENUM(NSUInteger, DSAPoisonStage) {
     DSAPoisonStageSuppressed         // Wirkung unterdrückt (z. B. Alchimie/Zauber), aber noch im Körper
 };
 
+typedef NS_ENUM(NSInteger, DSADrunkenLevel) {
+  DSADrunkenLevelNone,           // Not drunken
+  DSADrunkenLevelLight,          // lightly drunken
+  DSADrunkenLevelMedium,         // a bit more drunken
+  DSADrunkenLevelSevere          // severely drunken
+};
 
 typedef NS_ENUM(NSInteger, DSATimeInterval) {
     DSATimeIntervalUnknown = 0,
@@ -157,7 +163,8 @@ typedef NS_ENUM(NSInteger, DSAConsumptionFailReason) {
 #define DSA_USE_OBJECT_WITH_ACTION_TYPES \
     X(DSAUseObjectWithActionTypeSmoking) \
     X(DSAUseObjectWithActionTypePoisoning) \
-    X(DSAUseObjectWithActionTypeWeaponMaintenance)
+    X(DSAUseObjectWithActionTypeWeaponMaintenance) \
+    X(DSAUseObjectWithActionTypeConsuming)
 
 // Enum-Definition
 typedef NS_ENUM(NSInteger, DSAUseObjectWithActionType) {
@@ -303,6 +310,7 @@ typedef NS_ENUM(NSInteger, DSACharacterEffectType) {
     DSACharacterEffectTypeRoomBooked,                    // has a room booked in an inn
     DSACharacterEffectTypeIllness,                       // character is sick/ill 
     DSACharacterEffectTypePoison,                        // character is poisoned
+    DSACharacterEffectTypeDrunken,                       // character is drunken
     DSACharacterEffectTypeNothing
 };
 

@@ -1346,7 +1346,7 @@ static NSMutableDictionary *imagesIndexDict;
 
 + (void)enrichEquipmentData:(NSMutableDictionary *)data withParentKeys:(NSArray<NSString *> *)parentKeys {
     for (NSString *key in data) {
-        NSLog(@"Utils.m enrichEquipmentData: CHECKING KEY: %@", key);
+        //NSLog(@"Utils.m enrichEquipmentData: CHECKING KEY: %@", key);
         id value = data[key];
         if ([value isKindOfClass:[NSMutableDictionary class]]) {
             NSMutableDictionary *entry = (NSMutableDictionary *)value;
@@ -1361,7 +1361,7 @@ static NSMutableDictionary *imagesIndexDict;
 
             if (looksLikeItem) {
                 entry[@"Name"] = [key copy];
-                NSLog(@"Utils.m enrichEquipmentData: LOOKS LIKE ITEM: %@", key);
+                //NSLog(@"Utils.m enrichEquipmentData: LOOKS LIKE ITEM: %@", key);
              }            
             
             if (entry[@"TrefferpunkteKK"] != nil) {
@@ -1405,7 +1405,8 @@ static NSMutableDictionary *imagesIndexDict;
                   entry[@"attackPower"] = @(attackPower);
                   entry[@"parryValue"] = @(parryValue);
                 } else {
-                  NSLog(@"Invalid Waffenvergleichswert format: %@", waffenvergleichswert);
+                  NSLog(@"Utils.m enrichEquipmentData: Invalid Waffenvergleichswert format: %@ ABORTING!", waffenvergleichswert);
+                  abort();
                 }
             }
             if (entry[@"Waffenvergleichswert Schild"] != nil) {
@@ -1421,7 +1422,7 @@ static NSMutableDictionary *imagesIndexDict;
                   entry[@"shieldAttackPower"] = @(shieldAttackPower);
                   entry[@"shieldParryValue"] = @(shieldParryValue);
                 } else {
-                  NSLog(@"Invalid Waffenvergleichswert Schild format: %@", waffenvergleichswertSchild);
+                  NSLog(@"Utils.m enrichEquipmentData: Invalid Waffenvergleichswert Schild format: %@", waffenvergleichswertSchild);
                 }
             }                 
             if (entry[@"Regionen"] != nil) {
@@ -1630,11 +1631,11 @@ static NSMutableDictionary *imagesIndexDict;
                                 inDictionary:(NSDictionary *)dictionary
                                categoryStack:(NSMutableArray *)categoryStack
 {
-  NSLog(@"Utils.m searchForDSAObjectWithName: %@", name);
+  //NSLog(@"Utils.m searchForDSAObjectWithName: %@", name);
   // Iterate through the dictionary
   for (NSString *key in [dictionary allKeys])
     {
-      NSLog(@"Utils.m searchForDSAObjectWithName checking key: %@", key);
+      //NSLog(@"Utils.m searchForDSAObjectWithName checking key: %@", key);
       id value = dictionary[key];
       NSDictionary *entry;
       BOOL looksLikeItem = NO;

@@ -207,11 +207,11 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 
 - (void)handleGameTimeAdvancedNotification:(NSNotification *)notification {
     DSAAventurianDate *currentDate = notification.userInfo[@"currentDate"];
-    NSLog(@"DSAAdventure handleGameTimeAdvancedNotification called");
+    //NSLog(@"DSAAdventure handleGameTimeAdvancedNotification called");
     for (DSAAdventureGroup *group in self.groups) {
-      NSLog(@"DSAAdventure handleGameTimeAdvancedNotification checking group");
+      //NSLog(@"DSAAdventure handleGameTimeAdvancedNotification checking group");
       for (DSACharacter *character in group.allCharacters) {
-        NSLog(@"DSAAdventure handleGameTimeAdvancedNotification iterating characters in group, character: %@", character.name);
+        //NSLog(@"DSAAdventure handleGameTimeAdvancedNotification iterating characters in group, character: %@", character.name);
         [character removeExpiredEffectsAtDate:currentDate];
       }
     }

@@ -832,7 +832,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     
     if (!message) return;
 
-    NSLog(@"DSAAdventureWindowController handleLogsMessage: Got message: %@", message);
+    //NSLog(@"DSAAdventureWindowController handleLogsMessage: Got message: %@", message);
     // Get timestamp
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     [formatter setDateFormat:@"HH:mm:ss"];
@@ -864,7 +864,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     [logEntry addAttribute:NSForegroundColorAttributeName value:textColor range:NSMakeRange(timestamp.length + 1, message.length)];
 
     // Append to existing logs, ensuring we don't exceed the field’s capacity
-    NSLog(@"That's the log entry: %@", logEntry);
+    // NSLog(@"DSAAdventureWindowController handleLogsMessage: That's the log entry: %@", logEntry);
     [self appendLogMessage:logEntry];
 }
 

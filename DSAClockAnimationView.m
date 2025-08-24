@@ -35,7 +35,7 @@
 - (instancetype)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        NSLog(@"DSAClockAnimationView initWithFrame called");
+        //NSLog(@"DSAClockAnimationView initWithFrame called");
         // Sync initial values
         [self updateFromAdventureClock];                                                      
     }
@@ -44,17 +44,17 @@
 
 - (void)awakeFromNib
 {
-    NSLog(@"DSAClockAnimationView awakeFromNib called");
+    //NSLog(@"DSAClockAnimationView awakeFromNib called");
     NSWindow *window = self.window;
     __weak DSAAdventureWindowController *windowController = (DSAAdventureWindowController *)window.windowController;
     if (windowController && windowController.document) {
         // Access the model's gameClock here
         DSAAdventureDocument *document = (DSAAdventureDocument*)windowController.document;
-        NSLog(@"Game Clock: %@", document.model.gameClock);
+        // NSLog(@"DSAClockAnimationView awakeFromNib: Game Clock: %@", document.model.gameClock);
         self.gameClock = document.model.gameClock; 
         self.gameWeather = document.model.gameWeather;
     } else {
-        NSLog(@"WindowController or document not available.");
+        NSLog(@"DSAClockAnimationView awakeFromNib: WindowController or document not available.");
     }        
     // Sync initial values
     [self updateFromAdventureClock];
@@ -75,27 +75,27 @@
 
 - (void) dealloc
 {
-    NSLog(@"DSAClockAnimationView dealloc called");
+    //NSLog(@"DSAClockAnimationView dealloc called");
     if (self.updateTimer) {
         [self.updateTimer invalidate];
         self.updateTimer = nil;
-        NSLog(@"DSAClockAnimationView: Timer stopped.");
+        //NSLog(@"DSAClockAnimationView: dealloc: Timer stopped.");
     }    
 }
 
 - (void) viewWillDisappear {
-    NSLog(@"DSAClockAnimationView viewWillDisappear called");
+    // NSLog(@"DSAClockAnimationView viewWillDisappear called");
     [self.updateTimer invalidate];
     self.updateTimer = nil;
 }
 
 - (void)updateFromAdventureClock {
-    NSLog(@"DSAClockAnimationView updateFromAdventureClock called");
+    // NSLog(@"DSAClockAnimationView updateFromAdventureClock called");
     
     if (self.gameClock.gameTimer) {
-        NSLog(@"DSAClockAnimationView updateFromAdventureClock: Timer reference exists.");
+        // NSLog(@"DSAClockAnimationView updateFromAdventureClock: Timer reference exists.");
     } else {
-        NSLog(@"DSAClockAnimationView updateFromAdventureClock: Timer is nil, no need to update the UI.");
+        // NSLog(@"DSAClockAnimationView updateFromAdventureClock: Timer is nil, no need to update the UI.");
         return;
     }    
     
@@ -109,9 +109,9 @@
 - (void)timerUpdate {
 
     if (self.gameClock.gameTimer) {
-        NSLog(@"DSAClockAnimationView timerUpdate: Timer reference exists.");
+        //NSLog(@"DSAClockAnimationView timerUpdate: Timer reference exists.");
     } else {
-        NSLog(@"DSAClockAnimationView timerUpdate: Timer is nil, no need to update the UI.");
+        //NSLog(@"DSAClockAnimationView timerUpdate: Timer is nil, no need to update the UI.");
         return;
     }
     
@@ -131,12 +131,12 @@
 - (void)updateAnimationForHour:(NSUInteger)hour 
                         minute:(NSUInteger)minute 
                      moonPhase:(DSAMoonPhase)moonPhase {
-    NSLog(@"DSAClockAnimationView updateAnimationForHour %@:%@", @(hour), @(minute));
+    //NSLog(@"DSAClockAnimationView updateAnimationForHour %@:%@", @(hour), @(minute));
     // NSLog(@"DSAClockAnimationView updateAnimationForHour weather: %@", self.gameWeather);
     if (self.gameClock.gameTimer) {
-        NSLog(@"DSAClockAnimationView updateAnimationForHour: Timer reference exists.");
+        //NSLog(@"DSAClockAnimationView updateAnimationForHour: Timer reference exists.");
     } else {
-        NSLog(@"DSAClockAnimationView updateAnimationForHour: Timer is nil, no need to update the UI.");
+        //NSLog(@"DSAClockAnimationView updateAnimationForHour: Timer is nil, no need to update the UI.");
         return;
     }     
     self.currentHour = hour;
@@ -175,7 +175,7 @@
 }
 
 - (void)drawPrecipitation {
-    NSLog(@"DSAClockAnimationView drawPrecipitation called");
+    //NSLog(@"DSAClockAnimationView drawPrecipitation called");
     if (self.gameWeather.precipitation == DSAPrecipNone || self.gameWeather.precipitation == DSAPrecipCalm) {
         return;  // No precipitation, nothing to draw
     }
@@ -227,7 +227,7 @@
 }
 
 - (void)drawFog {
-    NSLog(@"DSAClockAnimationView drawFog called");
+    //NSLog(@"DSAClockAnimationView drawFog called");
     if (self.gameWeather.fogDensity == DSAFogNone) {
         return; // No fog
     }
@@ -239,7 +239,7 @@
 }
 
 - (void)drawClouds {
-    NSLog(@"DSAClockAnimationView drawClouds called");
+    //NSLog(@"DSAClockAnimationView drawClouds called");
     if (self.gameWeather.cloudCoverage == DSACloudClear) {
         return; // No clouds
     }
