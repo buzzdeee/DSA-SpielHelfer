@@ -3452,20 +3452,20 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
                                                               objectForKey: @"Herkunft"] 
                                                               objectForKey: [character socialStatus]] 
                                                               objectForKey: @"Equipment"];
-  NSLog(@"The EQUIPMENT DICT: %@", equipmentDict);
-  for (NSString *equipment in equipmentDict)
+  NSLog(@"DSACharacterGenerator addEquipmentToCharacter: The EQUIPMENT DICT: %@", equipmentDict);
+  for (NSString *equipment in [equipmentDict allKeys])
     {
       NSDictionary *tEquipment = [equipmentDict objectForKey: equipment];
       DSAObject *item;
-      NSLog(@"GOT THIS tEquipment HERE: %@", tEquipment);
+      NSLog(@"DSACharacterGenerator addEquipmentToCharacter: GOT THIS key: %@ tEquipment HERE: %@", equipment, tEquipment);
       
       
       if ([tEquipment objectForKey: @"Sprüche"])
         {
           NSMutableDictionary *eEquipment = [[Utils getDSAObjectInfoByName: equipment] mutableCopy];
-          NSLog(@"THE eEquipment: %@", eEquipment);
+          NSLog(@"DSACharacterGenerator addEquipmentToCharacter:THE eEquipment: %@", eEquipment);
           [eEquipment setObject: [tEquipment objectForKey: @"Sprüche"] forKey: @"Sprüche"];
-          NSLog(@"AGAIN THE eEquipment: %@", eEquipment);          
+          NSLog(@"DSACharacterGenerator addEquipmentToCharacter: AGAIN THE eEquipment: %@", eEquipment);          
           item = [[DSAObject alloc] initWithObjectInfo: eEquipment forOwner: character.modelID];
           for (NSString *spellName in item.appliedSpells)
             {
@@ -3475,10 +3475,12 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
         }
       else
         {
+          NSLog(@"DSACharacterGenerator addEquipmentToCharacter: going to alloc initWithName: equipment: %@", equipment);
           item = [[DSAObject alloc] initWithName: equipment forOwner: character.modelID];
+          NSLog(@"DSACharacterGenerator addEquipmentToCharacter: after alloc initWithName, now we have item.name: ", item.name);
         }
       
-      NSLog(@"DSACharacterGenerationController: addEquipmentToCharacter %@", item.name);
+      NSLog(@"DSACharacterGenerationController: addEquipmentToCharacter THE ITEM NAME: %@", item.name);
       [character.inventory addObject: item
                             quantity: [[[equipmentDict objectForKey: equipment] objectForKey: @"Anzahl"] integerValue]];
     } 

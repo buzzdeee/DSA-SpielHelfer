@@ -53,7 +53,7 @@ static NSMutableDictionary<NSUUID *, DSASlot *> *slotRegistry = nil;
             if (_slotID == nil)
               {
                 _slotID = [NSUUID UUID]; // Use NSUUID for a truly unique ID
-                NSLog(@"Generated slotID: %@", _slotID);
+                //NSLog(@"DSASlot init: Generated slotID: %@", _slotID);
               }
 
             if (!slotRegistry[_slotID]) {
@@ -87,12 +87,12 @@ static NSMutableDictionary<NSUUID *, DSASlot *> *slotRegistry = nil;
           if (_slotID == nil)
             {
               _slotID = [NSUUID UUID]; // Use NSUUID for a truly unique ID
-              NSLog(@"Generated slotID: %@", _slotID);
+              //NSLog(@"DSASlot initWithCoder: Generated slotID: %@", _slotID);
             }
            if (!slotRegistry[_slotID]) {
               slotRegistry[_slotID] = self; // Register the character
           } else {
-              NSLog(@"Warning: slotID %@ already exists!", _slotID);
+              NSLog(@"DSASlot initWithCoder: Warning: slotID %@ already exists!", _slotID);
           }
       }    
       self.object = [coder decodeObjectForKey:@"object"];

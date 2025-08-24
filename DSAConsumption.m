@@ -50,6 +50,11 @@
                 break;
         }
     }
+    _disappearWhenEmpty = NO;
+    _isEatable = NO;
+    _isDrinkable = NO;    
+    _alcoholLevel = 0;
+    _nutritionValue = 0.0;
     return self;
 }
 
@@ -84,6 +89,12 @@
             if (reason) *reason = DSAConsumptionFailReasonInvalidType;
             return NO;
     }
+}
+
+- (void)resetCurrentUsageToMax
+{
+  self.remainingUses = self.maxUses;
+  self.previousUses = self.maxUses;
 }
 
 - (BOOL)justDepleted {
@@ -126,6 +137,11 @@
     return YES;
 }
 
+- (BOOL) isAlcoholic
+{
+  return (self.alcoholLevel > 0);
+}
+
 #pragma mark - NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)coder {
@@ -134,6 +150,12 @@
     [coder encodeInteger:self.remainingUses forKey:@"remainingUses"];
     [coder encodeObject:self.manufactureDate forKey:@"manufactureDate"];
     [coder encodeInteger:self.shelfLifeDays forKey:@"shelfLifeDays"];
+    [coder encodeBool:self.disappearWhenEmpty forKey:@"disappearWhenEmpty"];
+    [coder encodeObject:self.transitionWhenEmpty forKey:@"transitionWhenEmpty"];
+    [coder encodeBool:self.isDrinkable forKey:@"isDrinkable"];
+    [coder encodeBool:self.isEatable forKey:@"isEatable"];
+    [coder encodeInteger:self.alcoholLevel forKey:@"alcoholLevel"];
+    [coder encodeObject:@(self.nutritionValue) forKey:@"nutritionValue"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -143,6 +165,12 @@
         _remainingUses = [coder decodeIntegerForKey:@"remainingUses"];
         _manufactureDate = [coder decodeObjectForKey:@"manufactureDate"];
         _shelfLifeDays = [coder decodeIntegerForKey:@"shelfLifeDays"];
+        _disappearWhenEmpty = [coder decodeBoolForKey:@"disappearWhenEmpty"];
+        _transitionWhenEmpty = [coder decodeObjectForKey:@"transitionWhenEmpty"];
+        _isDrinkable = [coder decodeBoolForKey:@"isDrinkable"];
+        _isEatable = [coder decodeBoolForKey:@"isEatable"];
+        _alcoholLevel = [coder decodeIntegerForKey:@"alcoholLevel"];
+        _nutritionValue = [[coder decodeObjectForKey:@"nutritionValue"] floatValue];
     }
     return self;
 }
@@ -155,6 +183,12 @@
     copy.remainingUses = self.remainingUses;
     copy.manufactureDate = [self.manufactureDate copy];
     copy.shelfLifeDays = self.shelfLifeDays;
+    copy.disappearWhenEmpty = self.disappearWhenEmpty;
+    copy.transitionWhenEmpty = [self.transitionWhenEmpty copy];
+    copy.isDrinkable = self.isDrinkable;
+    copy.isEatable = self.isEatable;
+    copy.alcoholLevel = self.alcoholLevel;
+    copy.nutritionValue = self.nutritionValue;
     return copy;
 }
 

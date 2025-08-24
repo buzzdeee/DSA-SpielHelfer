@@ -302,4 +302,20 @@
   return nil;
 }
 
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+//NSLog(@"AppController validateMenuItem %@ %lu", [menuItem title], (unsigned long)[menuItem tag]);
+// TAGS: 200: create new adventure
+
+      if ([menuItem tag] == 200)
+        { // Tag for the "Level Up" menu item
+          NSLog(@"AppController validateMenuItem for menuItem tag 200");
+          if ([DSAAdventureManager sharedManager].currentAdventure != nil)  // we already have an adventure loaded
+            {
+              NSLog(@"AppController validateMenuItem for menuItem tag 200, returning NO");
+              return NO;
+            }
+        }
+  return YES; // [super validateMenuItem:menuItem];
+}
+
 @end

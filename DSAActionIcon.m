@@ -336,6 +336,7 @@ inventoryIdentifier: (NSString *)sourceInventory
 {
     // Implement logic to consume the item
     NSLog(@"DSAActionItem: Consuming item: %@", item);
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
     DSASlot *slot = [[DSAInventoryManager sharedManager] findSlotInModel: sourceModel
                                                  withInventoryIdentifier: sourceInventory
                                                                  atIndex: sourceSlotIndex];
@@ -343,17 +344,32 @@ inventoryIdentifier: (NSString *)sourceInventory
       {
         return;
       }
-    BOOL result = [sourceModel consumeItem: item];
+    BOOL result = [sourceModel consumeItem: item
+                                    atDate: adventure.gameClock.currentDate];
+    NSLog(@"DSAActionIconConsume sourceModel consumed the item");
     if (result == YES)
       {
-        slot.quantity -= 1;
-        if (slot.quantity == 0)
+    NSLog(@"DSAActionIconConsume sourceModel consumed the item successfully");      
+        if ([item justDepleted])
           {
-            slot.object = nil;
+            NSLog(@"DSAActionIconConsume sourceModel item is depleted, cleaning up slot");                
+            slot.quantity -= 1;
+            if (slot.quantity == 0)
+              {
+                slot.object = nil;
+              }
+            else
+              {
+                [slot.object resetCurrentUsageToMax];    // there might be depletable objects in multiple slots, have to reset the count...
+              }
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAInventoryChangedNotification"
+                                                                object:sourceModel
+                                                              userInfo:@{@"sourceModel": sourceModel}];
           }
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAInventoryChangedNotification"
-                                                            object:sourceModel
-                                                          userInfo:@{@"sourceModel": sourceModel}];
+      }
+    else
+      {
+        NSLog(@"DSAActionIconConsume sourceModel item is not yet depleted, not cleaning up slot!");
       }
 }
 @end

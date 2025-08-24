@@ -101,6 +101,23 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isExpiredAtDate:(DSAAventurianDate *)currentDate;
 // Activates expiry if needed (sets manufactureDate if nil) using the provided date
 - (void)activateExpiryIfNeededWithDate:(DSAAventurianDate *)date;
+
+- (void)resetCurrentUsageToMax;
+
+- (BOOL) isConsumable;
+- (BOOL) isAlcoholic;
+- (BOOL) isDepletable;
+- (BOOL) justDepleted;
+- (NSInteger) alcoholLevel;
+- (float) nutritionValue;
+
+/// Versucht, das Objekt zu benutzen.
+/// @param currentDate the current adventure time
+/// @param reason Optionaler Pointer auf den Grund, warum es nicht funktioniert.
+/// @return YES, wenn Nutzung erfolgreich, NO sonst.
+- (BOOL)useOnceWithDate:(DSAAventurianDate *)currentDate
+                 reason:(DSAConsumptionFailReason *)reason;
+
 @end
 
 // Subclasses come here
@@ -291,11 +308,6 @@ NS_ASSUME_NONNULL_BEGIN
 // End of DSAObjectArmor
 
 @interface DSAObjectFood : DSAObject
-@property (nonatomic) BOOL isConsumable;
-@property (nonatomic) BOOL isAlcohol;
-@property (nonatomic, assign) NSInteger alcoholLevel;
-@property (nonatomic, assign) float nutritionValue;
-@property (nonatomic, strong) NSString *becomeWhenEmpty;                    // Item name, when it becomes empty, i.e. a bottle...
 - (instancetype) initWithName: (NSString *) name
                      withIcon: (NSString *) icon
                    inCategory: (NSString *) category
@@ -303,11 +315,6 @@ NS_ASSUME_NONNULL_BEGIN
              inSubSubCategory: (NSString *) subSubCategory
                    withWeight: (float) weight
                     withPrice: (float) price
-                 isConsumable: (BOOL) isConsumable
-              becomeWhenEmpty: (NSString *) newItemName
-                    isAlcohol: (BOOL) isAlcohol
-                 alcoholLevel: (NSInteger) alcoholLevel
-               nutritionValue: (float) nutritionValue
       validInventorySlotTypes: (NSArray *) validSlotTypes
                  canShareSlot: (BOOL) canShareSlot;
 @end

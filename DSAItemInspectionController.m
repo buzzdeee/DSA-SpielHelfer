@@ -26,6 +26,7 @@
 #import "DSACharacter.h"
 #import "DSAObject.h"
 #import "Utils.h"
+#import "DSAConsumption.h"
 
 @implementation DSAItemInspectionController
 
@@ -100,9 +101,34 @@
             [details appendFormat:_(@"Spruch: %@\n"), spell];
           }
       }
-
+    NSLog(@"DSAItemInspectionController item.states: %@", item.states);
     [details appendFormat:_(@"ist Vergiftet: %@\n"), [item.states containsObject: @(DSAObjectStateIsPoisoned)] ? _(@"Ja") : _(@"Nein")];
     [details appendFormat:_(@"ist Konsumierbar: %@\n"), [item.states containsObject: @(DSAObjectStateIsConsumable)] ? _(@"Ja") : _(@"Nein")];
+    if ([item.states containsObject: @(DSAObjectStateIsConsumable)])
+      {
+        NSInteger maxUses = [[item.consumptions objectForKey: @"maxUsageCount"] maxUses];
+        NSInteger remainingUses = [[item.consumptions objectForKey: @"maxUsageCount"] remainingUses];        
+        [details appendFormat:_(@"konsumierbare Einheiten: %@/%@\n"), @(remainingUses), @(maxUses)];
+      }
+    if ([item.states containsObject: @(DSAObjectStateIsDepletable)])
+      {
+        NSInteger maxUses = [[item.consumptions objectForKey: @"maxUsageCount"] maxUses];
+        NSInteger remainingUses = [[item.consumptions objectForKey: @"maxUsageCount"] remainingUses];        
+        [details appendFormat:_(@"verbrauchbare Einheiten: %@/%@\n"), @(remainingUses), @(maxUses)];
+      }      
+    else if ([[item.consumptions objectForKey: @"maxUsageCount"] maxUses])
+    [details appendFormat:_(@"hat Verfallsdatum: %@\n"),  [item.states containsObject: @(DSAObjectStateHasShelfLife)] ? _(@"Ja") : _(@"Nein")];
+    if ([item.states containsObject: @(DSAObjectStateHasShelfLife)])
+      {
+        DSAAventurianDate *manufactureDate = [[item.consumptions objectForKey: @"shelfLifeDays"] manufactureDate];
+        NSInteger shelfLifeDays = [[item.consumptions objectForKey: @"shelfLifeDays"] shelfLifeDays];
+        NSString *manufactureDateString = [manufactureDate dateString];
+        NSString *shelfLifeEndDateString = [[manufactureDate dateByAddingYears: 0
+                                                                          days: shelfLifeDays
+                                                                         hours: 0
+                                                                       minutes: 0] dateString];
+        [details appendFormat:_(@"Herstellungsdatum: %@ Verfallsdatum: %@\n"), manufactureDateString, shelfLifeEndDateString];
+      }    
     [details appendFormat:_(@"ist persönlicher Gegenstand: %@\n"), item.ownerUUID ? _(@"Ja") : _(@"Nein")];
     if (item.ownerUUID)
       {

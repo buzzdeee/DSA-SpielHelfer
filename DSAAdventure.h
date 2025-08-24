@@ -29,6 +29,8 @@
 #import "DSACharacter.h"
 #import "DSAWeather.h"
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class DSAAdventureClock;
 @class DSAAdventureGroup;
 @class DSAMapCoordinate;
@@ -75,5 +77,12 @@ extern DSAActionContext const DSAActionContextReception;
 - (BOOL)isCoordinateDiscovered:(DSAMapCoordinate *)coord forLocation:(NSString *)location;
 
 @end
+
+@interface DSAAdventureManager : NSObject
+@property (nonatomic, strong, nullable) DSAAdventure *currentAdventure;
++ (instancetype)sharedManager;
+@end
+
+NS_ASSUME_NONNULL_END
 #endif // _DSAADVENTURE_H_
 

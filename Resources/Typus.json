@@ -36,7 +36,7 @@
             "Anzahl": 3
           }, 
           "Obst": {
-            "Anzahl": 5
+            "Anzahl": 2
           },
           "Lederrucksack, 15 Stein": {
             "Anzahl": 1
@@ -45,7 +45,7 @@
             "Anzahl": 10
           },          
           "Tee": {
-            "Anzahl": 10
+            "Anzahl": 2
           },                                     
           "Magierschale": {
             "Anzahl": 1
@@ -97,7 +97,10 @@
           },
           "Pfeifenkraut, Knaster": {
             "Anzahl": 50
-          },                            
+          }, 
+          "Waffenpflegeutensilien": {
+            "Anzahl": 1
+          },                                     
           "Ohrring, Silber": {
             "Anzahl": 1
           }
@@ -123,10 +126,10 @@
             "Anzahl": 1
           }, 
           "Bier": {
-            "Anzahl": 3
+            "Anzahl": 2
           }, 
           "Obst": {
-            "Anzahl": 5
+            "Anzahl": 2
           },
           "Lederrucksack, 15 Stein": {
             "Anzahl": 1
@@ -135,7 +138,7 @@
             "Anzahl": 10
           },          
           "Tee": {
-            "Anzahl": 10
+            "Anzahl": 2
           },           
           "Magierschale": {
             "Anzahl": 1
@@ -187,7 +190,10 @@
           },
           "Pfeifenkraut, Knaster": {
             "Anzahl": 50
-          },                           
+          },
+          "Waffenpflegeutensilien": {
+            "Anzahl": 1
+          },                                     
           "Ohrring, Silber": {
             "Anzahl": 1
           }
@@ -213,10 +219,10 @@
             "Anzahl": 1
           }, 
           "Bier": {
-            "Anzahl": 3
+            "Anzahl": 2
           }, 
           "Obst": {
-            "Anzahl": 5
+            "Anzahl": 2
           },
           "Lederrucksack, 15 Stein": {
             "Anzahl": 1
@@ -225,7 +231,7 @@
             "Anzahl": 10
           },          
           "Tee": {
-            "Anzahl": 10
+            "Anzahl": 2
           },         
           "Magierschale": {
             "Anzahl": 1
@@ -277,7 +283,10 @@
           },
           "Pfeifenkraut, Knaster": {
             "Anzahl": 50
-          },                           
+          },
+          "Waffenpflegeutensilien": {
+            "Anzahl": 1
+          },                                     
           "Ohrring, Silber": {
             "Anzahl": 1
           }
@@ -301,10 +310,10 @@
             "Anzahl": 1
           }, 
           "Bier": {
-            "Anzahl": 3
+            "Anzahl": 2
           }, 
           "Obst": {
-            "Anzahl": 5
+            "Anzahl": 2
           },
           "Lederrucksack, 15 Stein": {
             "Anzahl": 1
@@ -313,7 +322,7 @@
             "Anzahl": 10
           },          
           "Tee": {
-            "Anzahl": 10
+            "Anzahl": 2
           },           
           "Magierschale": {
             "Anzahl": 1
@@ -365,7 +374,10 @@
           },
           "Pfeifenkraut, Knaster": {
             "Anzahl": 50
-          },                           
+          },
+          "Waffenpflegeutensilien": {
+            "Anzahl": 1
+          },                                    
           "Ohrring, Silber": {
             "Anzahl": 1
           }
@@ -1402,7 +1414,10 @@
         "Equipment": {
           "Amazonenrüstung": {
             "Anzahl": 1
-          }, 
+          },
+          "Waffenpflegeutensilien": {
+            "Anzahl": 1
+          },           
           "Amazonensäbel": {
             "Anzahl": 1
           }, 
@@ -1444,6 +1459,9 @@
           "Amazonensäbel": {
             "Anzahl": 1
           }, 
+          "Waffenpflegeutensilien": {
+            "Anzahl": 1
+          },          
           "Kurzbogen": {
             "Anzahl": 1
           },

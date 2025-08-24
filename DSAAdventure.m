@@ -27,6 +27,7 @@
 #import "DSAAdventureGroup.h"
 #import "DSAGod.h"
 
+
 DSAActionContext const DSAActionContextResting = @"Rasten";
 DSAActionContext const DSAActionContextPrivateRoom = @"Zimmer";
 DSAActionContext const DSAActionContextTavern = @"Taverne";
@@ -155,6 +156,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 {
   NSLog(@"DSAAdventure encodeWithCoder called!");
   [coder encodeObject:self.groups forKey:@"groups"];
+  NSLog(@"DSAAdventure encodeWithCoder: encoded self.groups: %@", self.groups);
   [coder encodeObject:self.discoveredCoordinates forKey:@"discoveredCoordinates"];
   [coder encodeObject:self.gameClock forKey:@"gameClock"];
   [coder encodeObject:self.gods forKey:@"gods"];
@@ -174,6 +176,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
       _availableSpellsByContext = DefaultSpellsByContext();
       _availableRitualsByContext = DefaultRitualsByContext();
       _groups = [coder decodeObjectForKey:@"groups"];
+      NSLog(@"DSAAdventure initWithCoder: decoded self.groups: %@", _groups);
       _discoveredCoordinates = [coder decodeObjectForKey:@"discoveredCoordinates"];
       _gameClock = [coder decodeObjectForKey:@"gameClock"];
       // load the gods, and build up the lookup caches
@@ -197,7 +200,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
       [self finalizeInitialization];
     }
   NSLog(@"DSAAdventure loaded groups: %@ and characterFilePaths: %@", _groups, _characterFilePaths);
-  
+  [DSAAdventureManager sharedManager].currentAdventure = self;
   [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
   return self;
 }
@@ -322,6 +325,30 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     }
 
   return descriptionString;
+}
+
+@end
+
+
+@implementation DSAAdventureManager
+static DSAAdventureManager *sharedInstance = nil;
++ (instancetype)sharedManager {
+    @synchronized(self) {
+        if (sharedInstance == nil) {
+            sharedInstance = [[self alloc] init];
+        }
+    }
+    return sharedInstance;
+}
+
+-(instancetype) init
+{
+  self = [super init];
+  if (self)
+    {
+      _currentAdventure = nil;
+    }
+  return self;
 }
 
 @end

@@ -29,6 +29,8 @@
 @class DSAAventurianDate;
 @class DSAAdventure;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface DSAConsumption : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, assign) DSAConsumptionType type;
@@ -38,11 +40,18 @@
 @property (nonatomic, assign) NSInteger remainingUses;
 
 // Für Ablauf-basierten Verbrauch
-@property (nonatomic, strong) DSAAventurianDate *manufactureDate;
+@property (nonatomic, strong, nullable) DSAAventurianDate *manufactureDate;
 @property (nonatomic, assign) NSInteger shelfLifeDays;
 
 // Letzter Zustand für Depleted-Check
 @property (nonatomic, assign) NSInteger previousUses;
+
+@property (nonatomic, assign) BOOL disappearWhenEmpty;         // just disappear when empty or used up?
+@property (nonatomic, strong, nullable) NSString *transitionWhenEmpty;   // or transition to an empty container, string with name of container
+@property (nonatomic, assign) BOOL isDrinkable;                // can drink it?
+@property (nonatomic, assign) BOOL isEatable;                  // can eat it?
+@property (nonatomic, assign) NSInteger alcoholLevel;          // 0 if nonalcoholic, >0 otherwise
+@property (nonatomic, assign) float nutritionValue;            // depending whether drink or eat ...
 
 - (instancetype)initWithType:(DSAConsumptionType)type;
 
@@ -53,6 +62,10 @@
 - (BOOL)useOnceWithDate:(DSAAventurianDate *)currentDate
                  reason:(DSAConsumptionFailReason *)reason;
 
+/// bump whatever is remainingUsage to maxUses.
+- (void)resetCurrentUsageToMax;
+                 
+                 
 /// Ob das Objekt (seit letztem Aufruf) gerade von >0 auf 0 Nutzungen gefallen ist.
 /// Nur relevant bei UseMany.
 - (BOOL)justDepleted;
@@ -69,7 +82,10 @@
 /// Kann aktuell genutzt werden?
 - (BOOL)canUseAtDate: (DSAAventurianDate *) currentDate;
 
-@end
+/// check if consumable is alcoholic
+- (BOOL) isAlcoholic;
 
+@end
+NS_ASSUME_NONNULL_END
 #endif // _DSACONSUMPTION_H_
 

@@ -83,6 +83,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL)isLaterThanDate:(DSAAventurianDate *)otherDate;
 - (BOOL)isBetweenDate:(DSAAventurianDate *)startDate andDate:(DSAAventurianDate *)endDate;
 
+
+- (NSString *) dateString;
+
 @end
 
 NS_ASSUME_NONNULL_END

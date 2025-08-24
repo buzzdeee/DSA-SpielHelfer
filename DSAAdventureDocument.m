@@ -43,12 +43,19 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
   if (self)
     {
       // Initialize your document here
+      if ([DSAAdventureManager sharedManager].currentAdventure != nil)
+        {
+          NSLog(@"DSAAdventureDocument init: another adventure is already running");
+          self = nil;
+          return self;
+        }
       _model = [[DSAAdventure alloc] init];
       _characterDocuments = [[NSMutableArray alloc] init];
       [[NSNotificationCenter defaultCenter] addObserver:self
                                          selector:@selector(characterHighlighted:)
                                              name:DSACharacterHighlightedNotification
                                            object:nil];
+      [DSAAdventureManager sharedManager].currentAdventure = self.model;
     }
   NSLog(@"DSAAdventureDocument init was called, the model: %@", self.model);  
   return self;
@@ -64,9 +71,13 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
 - (void)close
 {
     NSLog(@"DSAAdventureDocument close called!");
+    if ([DSAAdventureManager sharedManager].currentAdventure == self.model) {
+        [DSAAdventureManager sharedManager].currentAdventure = nil;
+    }    
     [self.model.gameClock.gameTimer invalidate];
     self.model.gameClock.gameTimer = nil;
     self.model = nil;
+    
     [super close];
 }
 
@@ -131,16 +142,16 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
         
       if (!data && outError)
         {
-          NSLog(@"Archiving failed with error: %@", *outError);
+          NSLog(@"DSAAdventureDocument dataOfType: Archiving failed with error: %@", *outError);
           return nil;
         }
         
-      NSLog(@"Successfully encoded the data: %@", data);
+      NSLog(@"DSAAdventureDocument dataOfType: Successfully encoded the data");
       return data;
     }
   @catch (NSException *exception)
     {
-      NSLog(@"Exception caught during archiving: %@", exception);
+      NSLog(@"DSAAdventureDocument dataOfType: Exception caught during archiving: %@", exception);
       if (outError)
         {
            *outError = [NSError errorWithDomain:NSCocoaErrorDomain
@@ -154,16 +165,17 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
 
 - (BOOL)readFromData:(NSData *)data ofType:(NSString *)typeName error:(NSError **)outError
 {
-  NSLog(@"DSAAdventureDocument readFromData called...");
+  NSLog(@"DSAAdventureDocument readFromData called... ABORTING!!!!");
+  abort();
+  
   // Unarchive the model from the data
   self.model = [NSKeyedUnarchiver unarchivedObjectOfClass:[DSAAdventure class] fromData:data error:outError];
-    
+
   // If unarchiving fails, return NO and pass the error
   if (!self.model && outError)
     {
       return NO;
     }
- 
   return YES;
 }
 
@@ -171,37 +183,39 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
 { 
   NSLog(@"DSAAdventureDocument readFromURL called...");  
   // Load data from file
-  NSData *data = [NSData dataWithContentsOfURL:url];
-  if (!data)
-    {
-      NSLog(@"Failed to read data from URL: %@", url);
-      return NO;
-    }
+    {      
+      NSData *data = [NSData dataWithContentsOfURL:url];
+      if (!data)
+        {
+          NSLog(@"DSAAdventureManager readFromURL: Failed to read data from URL: %@", url);
+          return NO;
+        }
     
-  // Unarchive model object from NSData
-  self.model = [NSKeyedUnarchiver unarchivedObjectOfClass:[DSAAdventure class] fromData:data error:outError];
-  if (!self.model)
-    {
-      NSLog(@"Failed to unarchive model");
-      return NO;
-    }
-  [self loadCharacterDocuments];
-  // Notify that the document has been successfully loaded
-  [self updateChangeCount:NSChangeCleared];
+      // Unarchive model object from NSData
+      self.model = [NSKeyedUnarchiver unarchivedObjectOfClass:[DSAAdventure class] fromData:data error:outError];
+      if (!self.model)
+        {
+          NSLog(@"Failed to unarchive model");
+          return NO;
+        }
+      [self loadCharacterDocuments];
+      // Notify that the document has been successfully loaded
+      [self updateChangeCount:NSChangeCleared];
     
-  // Force initialization of the UI if lazy loading is used
-  if (self.windowControllersCreated)
-    {
-      NSLog(@"DSAAdventureDocument: windowControllers already created");
-      //[windowController showWindow:self];
+      // Force initialization of the UI if lazy loading is used
+      if (self.windowControllersCreated)
+        {
+          NSLog(@"DSAAdventureDocument readFromURL: windowControllers already created");
+          //[windowController showWindow:self];
       
-      return YES; // Don't create again
-    }  
-  self.windowControllersCreated = YES;  
-  DSAAdventureWindowController *windowController = [[DSAAdventureWindowController alloc] initWithWindowNibName:[self windowNibName]];
-  [self addWindowController:windowController];
-  [windowController showWindow:self];
-    
+          return YES; // Don't create again
+        }  
+      self.windowControllersCreated = YES;  
+      DSAAdventureWindowController *windowController = [[DSAAdventureWindowController alloc] initWithWindowNibName:[self windowNibName]];
+      [self addWindowController:windowController];
+      [windowController showWindow:self];
+    }
+  NSLog(@"DSAAdventureDocument readFromURL: AT THE END");   
   return YES;
 }
 
@@ -301,7 +315,7 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
 
             // Step 2: Check if this character is already tracked
             if (self.model.characterFilePaths[uuidString] != nil) {
-                NSLog(@"Character %@ already added to adventure.", uuidString);
+                NSLog(@"DSAAdventureDocument addCharacterFromURL : Character %@ already added to adventure.", uuidString);
                 return;
             }
 
@@ -326,7 +340,7 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
 
             [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureCharactersUpdated" object:self];
         } else {
-            NSLog(@"Failed to open character at %@: %@", characterURL, error);
+            NSLog(@"DSAAdventureDocument addCharacterFromURL: Failed to open character at %@: %@", characterURL, error);
         }
     }];
 }
@@ -335,7 +349,7 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
     self.characterDocuments = [NSMutableArray array];
     NSString *baseDir = [[Utils characterStorageDirectory] path];
 
-    NSLog(@"DSAAdventureDocument loadCharacterDocuments self.model: %@", self.model.characterFilePaths);
+    NSLog(@"DSAAdventureDocument loadCharacterDocuments: self.model: %@", self.model.characterFilePaths);
     for (NSString *relativePath in [self.model.characterFilePaths allValues]) {
         NSString *fullPath = [baseDir stringByAppendingPathComponent:relativePath];
         NSLog(@"DSAAdventureDocument loadCharacterDocuments: fullPath: %@", fullPath);

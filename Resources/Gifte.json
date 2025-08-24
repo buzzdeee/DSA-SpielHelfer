@@ -20,9 +20,11 @@
         }
       }
     },
-    "Haltbarkeit": {
-      "Monate": 18
+    "Haltbarkeit": { 
+      "Tage": 540
     },
+    "MaxUsageCount": 5,
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",
     "Preis": 250,
     "Gewicht": 2,
     "Herstellung": [
@@ -55,8 +57,10 @@
       }
     },    
     "Haltbarkeit": {
-      "Monate": 3
+      "Tage": 90
     },
+    "MaxUsageCount": 5,
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",   
     "Preis": 50,
     "Gewicht": 2,
     "Herstellung": [
@@ -93,8 +97,10 @@
       }
     },    
     "Haltbarkeit": {
-      "Monate": 6
+      "Tage": 180
     },
+    "MaxUsageCount": 5,
+    "transitionWhenEmpty": "Glasflasche, 3 Flux", 
     "Preis": 350,
     "Gewicht": 2,
     "Herstellung": [
@@ -128,8 +134,10 @@
       }
     },    
     "Haltbarkeit": {
-      "Monate": 12
+      "Tage": 360
     },
+    "MaxUsageCount": 5,
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",   
     "Preis": 2500,
     "Gewicht": 2,
     "Herstellung": [
@@ -162,8 +170,10 @@
       }
     },    
     "Haltbarkeit": {
-      "Monate": 6
+      "Tage": 180
     },
+    "MaxUsageCount": 5,
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",   
     "Preis": 2500,
     "Gewicht": 2,
     "Herstellung": [
@@ -198,8 +208,10 @@
       }
     },    
     "Haltbarkeit": {
-      "Monate": 12
+      "Tage": 360
     },
+    "MaxUsageCount": 5,
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",  
     "Preis": 400,
     "Gewicht": 2,
     "Herstellung": [
@@ -232,8 +244,10 @@
       }
     },    
     "Haltbarkeit": {
-      "Monate": 36
+      "Tage": 1080
     },
+    "MaxUsageCount": 5,
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",  
     "Preis": 250,
     "Gewicht": 2,
     "Herstellung": [
@@ -267,9 +281,11 @@
       }
     },    
     "Haltbarkeit": {
-      "Monate": 6,
-      "Wuerfel": "1W6"
+      "Tage": 180,
+      "Wuerfel": "1W180"
     },
+    "MaxUsageCount": 5,
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",    
     "Preis": 300,
     "Gewicht": 2,
     "Herstellung": [
@@ -307,8 +323,10 @@
       }
     },    
     "Haltbarkeit": {
-      "Monate": 9
+      "Tage": 270
     },
+    "MaxUsageCount": 5,
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",    
     "Preis": 700,
     "Gewicht": 2,
     "Herstellung": [
@@ -345,8 +363,10 @@
       }
     },     
     "Haltbarkeit": {
-      "Monate": 3 
+      "Tage": 90 
     },
+    "MaxUsageCount": 5,
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",    
     "Preis": 600,
     "Gewicht": 2,
     "Herstellung": [
@@ -387,9 +407,11 @@
       }
     },    
     "Haltbarkeit": {
-      "Monate": 9,
-      "Wuerfel": "1W6"
+      "Tage": 270,
+      "Wuerfel": "1W180"
     },
+    "MaxUsageCount": 5,
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",    
     "Preis": 300,
     "Gewicht": 2,
     "Herstellung": [
@@ -438,8 +460,10 @@
       }
     },    
     "Haltbarkeit": {
-      "Monate": 3
+      "Tage": 90
     },
+    "MaxUsageCount": 5,
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",    
     "Preis": 900,
     "Gewicht": 2,
     "Herstellung": [
@@ -475,8 +499,10 @@
       }
     },     
     "Haltbarkeit": {
-      "Monate": 8
+      "Tage": 240
     },
+    "MaxUsageCount": 5,
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",    
     "Preis": 30,
     "Gewicht": 2,
     "Herstellung": [
@@ -509,8 +535,10 @@
       }
     },    
     "Haltbarkeit": {
-      "Monate": 6
+      "Tage": 180
     },
+    "MaxUsageCount": 5,    
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",
     "Preis": 800,
     "Gewicht": 2,
     "Herstellung": [
@@ -543,8 +571,10 @@
       }
     },     
     "Haltbarkeit": {
-      "Monate": 12
+      "Tage": 360
     },
+    "MaxUsageCount": 5,    
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",
     "Preis": 3000,
     "Gewicht": 2,
     "Herstellung": [
@@ -578,8 +608,10 @@
       }
     },     
     "Haltbarkeit": {
-      "Monate": 2
+      "Tage": 60
     },
+    "MaxUsageCount": 5,    
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",
     "Preis": 200,
     "Gewicht": 2,
     "Herstellung": [
@@ -615,8 +647,10 @@
       }
     },    
     "Haltbarkeit": {
-      "Monate": 12
+      "Tage": 360
     },
+    "MaxUsageCount": 5,    
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",
     "Preis": 350,
     "Gewicht": 2,
     "Herstellung": [
@@ -653,6 +687,8 @@
       "Tage": 15,
       "Wuerfel": "2W6"
     },
+    "MaxUsageCount": 5,    
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",
     "Preis": 1000,
     "Gewicht": 2,
     "Herstellung": [
@@ -685,8 +721,10 @@
       }
     },     
     "Haltbarkeit": {
-      "Monate": 9
+      "Tage": 270
     },
+    "MaxUsageCount": 5,    
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",
     "Preis": 900,
     "Gewicht": 2,
     "Herstellung": [
@@ -720,8 +758,10 @@
       }
     },     
     "Haltbarkeit": {
-      "Monate": 12 
+      "Tage": 360
     },
+    "MaxUsageCount": 5,    
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",
     "Preis": 400,
     "Gewicht": 2,
     "Herstellung": [
@@ -754,8 +794,10 @@
       }
     },     
     "Haltbarkeit": {
-      "unbegrenzt": true
+      "Tage": -1
     },
+    "MaxUsageCount": 5,    
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",
     "Preis": 2000,
     "Gewicht": 2,
     "Herstellung": [
@@ -789,8 +831,10 @@
       }
     },     
     "Haltbarkeit": {
-      "Monate": 4
+      "Tage": 120
     },
+    "MaxUsageCount": 5,    
+    "transitionWhenEmpty": "Glasflasche, 3 Flux",
     "Preis": 150,
     "Gewicht": 2,
     "Herstellung": [

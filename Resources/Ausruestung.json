@@ -3518,7 +3518,7 @@
       "Gewicht": 25,
       "Preis": 8,
       "Icon": [ "Waffenpflegeutensilien_1", "Waffenpflegeutensilien_2" ],
-      "MaximumUsageCount": 20
+      "MaxUsageCount": 20
     }
   },
   "Beleuchtung": {
@@ -3960,11 +3960,13 @@
       "Wasserschlauch, 5 Schank": {
         "Gewicht": 5,
         "Preis": 1,
+        "MaxUsageCount": 5,
         "Icon": [ "Wasserschlauch_1", "Wasserschlauch_2" ]
       },
       "Feldflasche, 5 Schank": {
         "Gewicht": 12,
         "Preis": 3,
+        "MaxUsageCount": 5,
         "Icon": [ "Feldflasche_1", "Feldflasche_2" ]
       }
     },
@@ -5239,27 +5241,35 @@
     "Seife": {
       "Gewicht": 20,
       "Preis": 0.2,
+      "MaxUsageCount": 20,
+      "disappearWhenEmpty": true,
       "Icon": [ "Seife_1", "Seife_2" ]
     },
     "Badeöl": {
       "Gewicht": 20,
       "Preis": 2,
+      "MaxUsageCount": 20,
+      "disappearWhenEmpty": true,      
       "Icon": [ "Badeoel_1", "Badeoel_2" ]
     },
     "Parfum": {
       "Gewicht": 1,
       "Preis": 30,
+      "MaxUsageCount": 20,
+      "disappearWhenEmpty": true,
       "Icon": [ "Parfum_1", "Parfum_2" ]
     },
     "Massageöl": {
       "Gewicht": 10,
       "Preis": 4,
-      "Icon": [ "Massageoel_1", "Massageoel_2" ]
+      "MaxUsageCount": 20,
+      "disappearWhenEmpty": true,      "Icon": [ "Massageoel_1", "Massageoel_2" ]
     },
     "Kräuterbranntwein": {
       "Gewicht": 10,
       "Preis": 4,
-      "Icon": [ "Kraeuterbranntwein_1", "Kraeuterbranntwein_2" ]
+      "MaxUsageCount": 10,
+      "disappearWhenEmpty": true,       "Icon": [ "Kraeuterbranntwein_1", "Kraeuterbranntwein_2" ]
     },
     "Kamm, Holz": {
       "Gewicht": 5,
@@ -5289,17 +5299,20 @@
     "Augenschminke": {
       "Gewicht": 1,
       "Preis": 1,
-      "Icon": [ "Augenschminke" ]
+      "MaxUsageCount": 20,
+      "disappearWhenEmpty": true,      "Icon": [ "Augenschminke" ]
     },
     "Lippenrot": {
       "Gewicht": 1,
       "Preis": 2,
-      "Icon": [ "Lippenrot" ]
+      "MaxUsageCount": 20,
+      "disappearWhenEmpty": true,      "Icon": [ "Lippenrot" ]
     },
     "Puder": {
       "Gewicht": 3,
       "Preis": 10,
-      "Icon": [ "Puder" ]
+      "MaxUsageCount": 20,
+      "disappearWhenEmpty": true,           "Icon": [ "Puder" ]
     }
   },
   "Kleidung und Schuhwerk": {
@@ -6098,13 +6111,16 @@
         "Preis": 3,
         "Icon": [ "Proviantpaket" ],
         "direkt konsumierbar": true,
-        "DurstodHungerlinderung": 1.0        
+        "MaxUsageCount": 3,
+        "disappearWhenEmpty": true,        "DurstodHungerlinderung": 1.0        
       },
       "Brot": {
         "Gewicht": 40,
         "Preis": 0.15,
         "Icon": [ "Brot" ],
         "direkt konsumierbar": true,
+        "MaxUsageCount": 4,
+        "disappearWhenEmpty": true,
         "DurstodHungerlinderung": 0.1        
       },
       "Kuchen": {
@@ -6112,13 +6128,16 @@
         "Preis": 0.2,
         "Icon": [ "Kuchen_1", "Kuchen_2" ],
         "direkt konsumierbar": true,
-        "DurstodHungerlinderung": 0.1        
+        "MaxUsageCount": 4,
+        "disappearWhenEmpty": true,        "DurstodHungerlinderung": 0.1        
       },
       "Fleisch": {
         "Gewicht": 20,
         "Preis": 0.3,
         "Icon": [ "Fleisch_1", "Fleisch_2" ],
         "direkt konsumierbar": true,
+        "MaxUsageCount": 4,
+        "disappearWhenEmpty": true,
         "DurstodHungerlinderung": 0.1        
       },
       "Wurst": {
@@ -6126,20 +6145,24 @@
         "Preis": 0.2,
         "Icon": [ "Wurst" ],
         "direkt konsumierbar": true,
-        "DurstodHungerlinderung": 0.1        
+        "MaxUsageCount": 4,
+        "disappearWhenEmpty": true,        "DurstodHungerlinderung": 0.1        
       },
       "Fisch": {
         "Gewicht": 20,
         "Preis": 0.6,
         "Icon": [ "Fisch_1", "Fisch_2" ],
         "direkt konsumierbar": true,
-        "DurstodHungerlinderung": 0.1        
+        "MaxUsageCount": 2,
+        "disappearWhenEmpty": true,        "DurstodHungerlinderung": 0.1        
       },
       "Efferdfrüchte": {
         "Gewicht": 40,
         "Preis": 0.05,
         "Icon": [ "Efferdfruechte" ],
         "direkt konsumierbar": true,
+        "MaxUsageCount": 2,
+        "disappearWhenEmpty": true,
         "DurstodHungerlinderung": 0.1        
       },
       "Käse": {
@@ -6147,6 +6170,8 @@
         "Preis": 0.15,
         "Icon": [ "Kaese" ],
         "direkt konsumierbar": true,
+        "MaxUsageCount": 4,
+        "disappearWhenEmpty": true,
         "DurstodHungerlinderung": 0.1        
       },
       "Eier, 6 Stück": {
@@ -6154,20 +6179,24 @@
         "Preis": 0.09,
         "Icon": [ "Eier" ],
         "direkt konsumierbar": true,
-        "DurstodHungerlinderung": 0.1        
+        "MaxUsageCount": 6,
+        "disappearWhenEmpty": true,        "DurstodHungerlinderung": 0.1        
       },
       "Butter": {
         "Gewicht": 20,
         "Preis": 0.1,
         "Icon": [ "Butter" ],
         "direkt konsumierbar": true,
-        "DurstodHungerlinderung": 0.1      
+        "MaxUsageCount": 10,
+        "disappearWhenEmpty": true,        "DurstodHungerlinderung": 0.1      
       },
       "Hülsenfrüchte": {
         "Gewicht": 20,
         "Preis": 0.04,
         "Icon": [ "Huelsenfruechte_1", "Huelsenfruechte_2" ],
         "direkt konsumierbar": true,
+        "MaxUsageCount": 5,
+        "disappearWhenEmpty": true,
         "DurstodHungerlinderung": 0.2        
       },
       "Kohl": {
@@ -6175,6 +6204,8 @@
         "Preis": 0.03,
         "Icon": [ "Kohl_1", "Kohl_2" ],
         "direkt konsumierbar": true,
+        "MaxUsageCount": 5,
+        "disappearWhenEmpty": true,
         "DurstodHungerlinderung": 0.2
       },
       "Gemüse": {
@@ -6182,36 +6213,46 @@
         "Preis": 0.1,
         "Icon": [ "Gemuese_1", "Gemuese_2" ],
         "direkt konsumierbar": true,
-        "DurstodHungerlinderung": 0.2
+        "MaxUsageCount": 5,
+        "disappearWhenEmpty": true,        "DurstodHungerlinderung": 0.2
       },
       "Salz": {
         "Gewicht": 20,
         "Preis": 1,
         "Icon": [ "Salz" ],
+        "MaxUsageCount": 20,
+        "disappearWhenEmpty": true,
         "DurstodHungerlinderung": 0.01
       },
       "Küchenkräuter": {
         "Gewicht": 10,
         "Preis": 1,
         "Icon": [ "Kuechenkraeuter" ],
+        "MaxUsageCount": 10,
+        "disappearWhenEmpty": true,
         "DurstodHungerlinderung": 0.01
       },
       "Gewürze": {
         "Gewicht": 10,
         "Preis": 10,
         "Icon": [ "Gewuerze" ],
+        "MaxUsageCount": 20,
+        "disappearWhenEmpty": true,
         "DurstodHungerlinderung": 0.01
       },
       "Öl": {
         "Gewicht": 20,
         "Preis": 2,
         "Icon": [ "Oel" ],
-        "DurstodHungerlinderung": 0.05
+        "MaxUsageCount": 10,
+        "disappearWhenEmpty": true,        "DurstodHungerlinderung": 0.05
       },
       "Mehl": {
         "Gewicht": 20,
         "Preis": 0.04,
         "Icon": [ "Mehl" ],
+        "MaxUsageCount": 4,
+        "disappearWhenEmpty": true,
         "DurstodHungerlinderung": 0.2
       },
       "Honig": {
@@ -6219,13 +6260,16 @@
         "Preis": 0.8,
         "Icon": [ "Honig_1", "Honig_2" ],
         "direkt konsumierbar": true,
-        "DurstodHungerlinderung": 0.1
+        "MaxUsageCount": 20,
+        "disappearWhenEmpty": true,        "DurstodHungerlinderung": 0.1
       },
       "Nüsse": {
         "Gewicht": 10,
         "Preis": 0.2,
         "Icon": [ "Nuesse" ],
         "direkt konsumierbar": true,
+        "MaxUsageCount": 10,
+        "disappearWhenEmpty": true,
         "DurstodHungerlinderung": 0.1
       },
       "Obst": {
@@ -6234,7 +6278,8 @@
         "Icon": [ "Obst_1", "Obst_2" ],
         "MehrereProSlot": true,
         "direkt konsumierbar": true,
-        "DurstodHungerlinderung": 0.2
+        "MaxUsageCount": 5,
+        "disappearWhenEmpty": true,        "DurstodHungerlinderung": 0.2
       },
       "Naschwerk": {
         "Gewicht": 1,
@@ -6242,19 +6287,24 @@
         "Icon": [ "Naschwerk" ],
         "MehrereProSlot": true,
         "direkt konsumierbar": true,
+        "MaxUsageCount": 20,
+        "disappearWhenEmpty": true,
         "DurstodHungerlinderung": 0.05
       },
       "Tee": {
         "Gewicht": 20,
         "Preis": 0.05,
         "Icon": [ "Tee_1", "Tee_2" ],
+        "MaxUsageCount": 20,
+        "disappearWhenEmpty": true,
         "DurstodHungerlinderung": 0.05
       },
       "Kakao": {
         "Gewicht": 20,
         "Preis": 8,
         "Icon": [ "Kakao_1", "Kakao_2" ],
-        "DurstodHungerlinderung": 0.05
+        "MaxUsageCount": 20,
+        "disappearWhenEmpty": true,        "DurstodHungerlinderung": 0.05
 
       }
     },
@@ -6265,6 +6315,8 @@
           "Preis": -1,
 	       "Icon": [ "Wasser" ],
           "direkt konsumierbar": true,
+          "MaxUsageCount": 1,
+          "transitionWhenEmpty": "Glasflasche, 1 Schank",
           "DurstodHungerlinderung": 0.5
         },
         "Milch": {
@@ -6272,6 +6324,8 @@
           "Preis": 0.2,
 	       "Icon": [ "Milch" ],
           "direkt konsumierbar": true,
+          "MaxUsageCount": 1,
+          "transitionWhenEmpty": "Glasflasche, 1 Schank",          
           "DurstodHungerlinderung": 0.5
         }        
       },
@@ -6281,6 +6335,8 @@
           "Preis": 0.1,
 	       "Icon": [ "Bier" ],
           "direkt konsumierbar": true,
+          "MaxUsageCount": 1,
+          "transitionWhenEmpty": "Irdene Flasche, 1 Schank",          
           "DurstodHungerlinderung": 0.5,
           "Wirkung": 1
         },
@@ -6289,6 +6345,8 @@
           "Preis": 0.3,
 	       "Icon": [ "Landwein" ],
           "direkt konsumierbar": true,
+          "MaxUsageCount": 1,
+          "transitionWhenEmpty": "Irdene Flasche, 1 Schank",          
           "DurstodHungerlinderung": 0.1,          
           "Wirkung": 2
         },
@@ -6297,6 +6355,8 @@
           "Preis": 8,
 	       "Icon": [ "Rotwein" ],
           "direkt konsumierbar": true,
+          "MaxUsageCount": 1,
+          "transitionWhenEmpty": "Irdene Flasche, 1 Schank",          
           "DurstodHungerlinderung": 0.1,                    
           "Wirkung": 2
         },
@@ -6305,6 +6365,8 @@
           "Preis": 0.8,
 	       "Icon": [ "Schnaps" ],
           "direkt konsumierbar": true,
+          "MaxUsageCount": 1,
+          "transitionWhenEmpty": "Irdene Flasche, 1 Schank",          
           "DurstodHungerlinderung": 0.05,                    
           "Wirkung": 4
         },
@@ -6313,6 +6375,8 @@
           "Preis": 10,
 	       "Icon": [ "Branntwein" ],
           "direkt konsumierbar": true,
+          "MaxUsageCount": 1,
+          "transitionWhenEmpty": "Irdene Flasche, 1 Schank",          
           "DurstodHungerlinderung": 0.05,                    
           "Wirkung": 4
         },
@@ -6321,6 +6385,8 @@
           "Preis": 1,
 	       "Icon": [ "Likoer" ],
           "direkt konsumierbar": true,
+          "MaxUsageCount": 1,
+          "transitionWhenEmpty": "Irdene Flasche, 1 Schank",          
           "DurstodHungerlinderung": 0.05,                    
           "Wirkung": 4
         }
@@ -6328,16 +6394,20 @@
     },
     "Tabakwaren": {
       "Pfeifenkraut, Knaster": {
-        "Gewicht": 0.04,
-        "Preis": 0.02,
+        "Gewicht": 0.2,
+        "Preis": 0.1,
         "Icon": [ "Tabak" ],
         "ErlaubtInSlots": [ "Tabak" ],
+        "MaxUsageCount": 1,
+        "disappearWhenEmpty": true,
         "MehrereProSlot": true
       },
       "Zigarren": {
         "Gewicht": 0.8,
-        "Preis": 1,
+        "Preis": 10,
         "Icon": [ "Zigarren" ],
+        "MaxUsageCount": 10,
+        "disappearWhenEmpty": true,       
         "MehrereProSlot": true
       }
     }

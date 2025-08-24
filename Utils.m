@@ -27,6 +27,8 @@
 #import "DSASlot.h"
 #import "NSMutableDictionary+Extras.h"
 #import "DSADefinitions.h"
+#import "DSAAdventure.h"
+#import "DSAAdventureClock.h"
 
 
 NSArray<NSString *> *DSAShopGeneralStoreCategories(void) {
@@ -160,8 +162,9 @@ static NSMutableDictionary *imagesIndexDict;
                 }
               [objectsDict setObject: pDict forKey: @"Gift"];
               //NSLog(@"objectsDict: %@", objectsDict);
-            }            
-          NSLog(@"Utils.m sharedInstance: objectsDict: %@", objectsDict);                             
+            }
+                       
+          //NSLog(@"Utils.m sharedInstance: objectsDict: %@", objectsDict);                             
           filePath = [[NSBundle mainBundle] pathForResource:@"Masse" ofType:@"json"];
           masseDict = [NSJSONSerialization 
           JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
@@ -1256,50 +1259,6 @@ static NSMutableDictionary *imagesIndexDict;
 {
   return objectsDict;
 }
-/*
-+ (void)collectDSAObjectsFromCategory:(id)categoryContent
-                            intoArray:(NSMutableArray<DSAObject *> *)objectsArr
-                             forOwner:(id)owner
-{
-    if ([categoryContent isKindOfClass:[NSDictionary class]]) {
-        NSDictionary *dict = (NSDictionary *)categoryContent;
-
-        for (NSString *key in dict) {
-            id value = dict[key];
-            NSLog(@"Utils.m collectDSAObjectsFromCategory: iterating over value: %@", value);
-            if ([value isKindOfClass:[NSDictionary class]]) {
-                NSDictionary *subDict = (NSDictionary *)value;
-                NSLog(@"Utils.m collectDSAObjectsFromCategory: checking subDict: %@", value);
-                // Prüfen, ob subDict „flach“ ist (also ein Objekt sein könnte)
-                BOOL isObjectLeaf = YES;
-                for (id innerValue in [subDict allValues]) {
-                    NSLog(@"Utils.m collectDSAObjectsFromCategory: checking innerValue: %@", value);
-                    if ([innerValue isKindOfClass:[NSDictionary class]]) {
-                        isObjectLeaf = NO;
-                        break;
-                    }
-                }
-
-                if (isObjectLeaf) {
-                    NSLog(@"Utils.m collectDSAObjectsFromCategory : we found object leaf: %@", key);
-                    // Wir haben ein tatsächliches Objekt – key ist der Name
-                    NSMutableDictionary *mutableObject = [subDict mutableCopy];
-                    mutableObject[@"name"] = key;
-
-                    DSAObject *object = [[DSAObject alloc] initWithObjectInfo:mutableObject
-                                                                     forOwner:owner];
-                    [objectsArr addObject:object];
-                } else {
-                    // Noch eine tiefere Kategorie – weiter rekursiv suchen
-                    [self collectDSAObjectsFromCategory:value
-                                               intoArray:objectsArr
-                                                forOwner:owner];
-                }
-            }
-        }
-    }
-}
-*/
 
 + (void)collectDSAObjectsFromCategory:(id)categoryContent
                             intoArray:(NSMutableArray<DSAObject *> *)objectsArr
@@ -1325,6 +1284,8 @@ static NSMutableDictionary *imagesIndexDict;
                     }
 
                     DSAObject *object = [[DSAObject alloc] initWithObjectInfo:mutableObject forOwner:owner];
+                    DSAAdventure *currentAdventure = [DSAAdventureManager sharedManager].currentAdventure;
+                    [object activateExpiryIfNeededWithDate: currentAdventure.gameClock.currentDate];
                     [objectsArr addObject:object];
 
                     NSLog(@"✅ DSAObject created: %@", object.name);
@@ -1346,55 +1307,7 @@ static NSMutableDictionary *imagesIndexDict;
         }
     }
 }
-/*
-+ (void)collectDSAObjectsFromCategory:(id)categoryContent
-                            intoArray:(NSMutableArray<DSAObject *> *)objectsArr
-                             forOwner:(id)owner
-{
-    if ([categoryContent isKindOfClass:[NSDictionary class]]) {
-        NSDictionary *dict = (NSDictionary *)categoryContent;
 
-        for (NSString *key in dict) {
-            id value = dict[key];
-
-            if ([value isKindOfClass:[NSDictionary class]]) {
-                NSDictionary *subDict = (NSDictionary *)value;
-
-                // 🔑 NEU: Erkennen, ob dies ein richtiges Objekt ist
-                if (subDict[@"Name"]) {
-                    // ✅ Ein echtes Objekt wie "Jagdmesser" oder "Angstgift"
-                    NSMutableDictionary *mutableObject = [subDict mutableCopy];
-                    if (!mutableObject[@"name"]) {
-                        mutableObject[@"name"] = key; // Fallback: Key als Name
-                    }
-
-                    DSAObject *object = [[DSAObject alloc] initWithObjectInfo:mutableObject forOwner:owner];
-                    [objectsArr addObject:object];
-
-                    // 📝 DEBUG: Direkt hier Namen loggen
-                    NSLog(@"Utils.m: collectDSAObjectsFromCategory : DSAObject created: %@", object.name);
-                } else {
-                    // 🚩 Kein direktes Objekt → könnte Unterkategorie sein
-                    [self collectDSAObjectsFromCategory:subDict intoArray:objectsArr forOwner:owner];
-                }
-            }
-            else if ([value isKindOfClass:[NSArray class]]) {
-                // Falls Arrays von Dicts vorkommen (z.B. Herstellung)
-                for (id elem in (NSArray *)value) {
-                    [self collectDSAObjectsFromCategory:elem intoArray:objectsArr forOwner:owner];
-                }
-            }
-            // primitive Werte (NSString, NSNumber, etc.) werden ignoriert → das sind nur Attribute
-        }
-    }
-    else if ([categoryContent isKindOfClass:[NSArray class]]) {
-        // Array auf oberster Ebene
-        for (id elem in (NSArray *)categoryContent) {
-            [self collectDSAObjectsFromCategory:elem intoArray:objectsArr forOwner:owner];
-        }
-    }
-}
-*/
 + (NSArray<DSAObject *> *)getAllDSAObjectsForShop:(NSString *)shopType
 {
     NSDictionary *allObjectsDict = [Utils getDSAObjectsDict];
@@ -1433,14 +1346,12 @@ static NSMutableDictionary *imagesIndexDict;
 
 + (void)enrichEquipmentData:(NSMutableDictionary *)data withParentKeys:(NSArray<NSString *> *)parentKeys {
     for (NSString *key in data) {
+        NSLog(@"Utils.m enrichEquipmentData: CHECKING KEY: %@", key);
         id value = data[key];
         if ([value isKindOfClass:[NSMutableDictionary class]]) {
             NSMutableDictionary *entry = (NSMutableDictionary *)value;
-
-            // Add category flags based on the presence of specific keys
-            //entry[@"Name"] = [key copy];
             
-BOOL looksLikeItem = (entry[@"TrefferpunkteKK"] ||
+            BOOL looksLikeItem = (entry[@"TrefferpunkteKK"] ||
                       entry[@"TP Entfernung"] ||
                       entry[@"Rüstschutz"] ||
                       entry[@"Waffenvergleichswert"] ||
@@ -1448,9 +1359,10 @@ BOOL looksLikeItem = (entry[@"TrefferpunkteKK"] ||
                       entry[@"Preis"] ||
                       entry[@"Gewicht"]);
 
-if (looksLikeItem) {
-    entry[@"Name"] = [key copy];
-}            
+            if (looksLikeItem) {
+                entry[@"Name"] = [key copy];
+                NSLog(@"Utils.m enrichEquipmentData: LOOKS LIKE ITEM: %@", key);
+             }            
             
             if (entry[@"TrefferpunkteKK"] != nil) {
                 entry[@"isHandWeapon"] = @YES;
@@ -1604,7 +1516,11 @@ if (looksLikeItem) {
             entry[@"occupiedBodySlots"] = occupiedBodySlotsEnum;
                         
             // Recurse into deeper dictionaries with updated hierarchy
-            [Utils enrichEquipmentData:entry withParentKeys:[parentKeys arrayByAddingObject:key]];
+            // BUT only if we think we're not at the end of the rabbit hole...
+            if (!looksLikeItem)
+              {
+                [Utils enrichEquipmentData:entry withParentKeys:[parentKeys arrayByAddingObject:key]];
+              }
         } else if ([value isKindOfClass:[NSMutableArray class]]) {
             // Handle arrays of dictionaries (if applicable)
             for (id subValue in (NSMutableArray *)value) {
@@ -1690,9 +1606,11 @@ if (looksLikeItem) {
 + (NSDictionary *)getDSAObjectInfoByName:(NSString *)name
 {
   NSMutableArray *categories = [NSMutableArray array]; // To track category path
+  NSLog(@"Utils.m getDSAObjectInfoByName: %@ BEFORE calling searchForDSAObjectWithName", name);
   NSDictionary *result = [self searchForDSAObjectWithName: name
                                              inDictionary: objectsDict
                                             categoryStack: categories];
+  NSLog(@"Utils.m getDSAObjectInfoByName: %@ AFTER calling searchForDSAObjectWithName", name);                                            
 
   if (result && categories.count > 0)
     {
@@ -1712,12 +1630,27 @@ if (looksLikeItem) {
                                 inDictionary:(NSDictionary *)dictionary
                                categoryStack:(NSMutableArray *)categoryStack
 {
+  NSLog(@"Utils.m searchForDSAObjectWithName: %@", name);
   // Iterate through the dictionary
-  for (NSString *key in dictionary)
+  for (NSString *key in [dictionary allKeys])
     {
+      NSLog(@"Utils.m searchForDSAObjectWithName checking key: %@", key);
       id value = dictionary[key];
-
-      if ([key isEqualToString:name] && [value isKindOfClass:[NSDictionary class]])
+      NSDictionary *entry;
+      BOOL looksLikeItem = NO;
+      if ([value isKindOfClass:[NSDictionary class]])
+        {
+          entry = (NSDictionary *)value;
+        
+            looksLikeItem = (entry[@"TrefferpunkteKK"] ||
+                      entry[@"TP Entfernung"] ||
+                      entry[@"Rüstschutz"] ||
+                      entry[@"Waffenvergleichswert"] ||
+                      entry[@"Waffenvergleichswert Schild"] ||
+                      entry[@"Preis"] ||
+                      entry[@"Gewicht"]);
+        } 
+      if (looksLikeItem && [key isEqualToString:name] && [value isKindOfClass:[NSDictionary class]])
         {
           // Found the key matching the name, and its value is a dictionary
           return value;

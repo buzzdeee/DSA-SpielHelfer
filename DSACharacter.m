@@ -1825,6 +1825,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 
 // Consume items, i.e. eat or drink
 - (BOOL) consumeItem: (DSAObject *) item
+              atDate: (DSAAventurianDate *) currentDate
 {
   BOOL retval = NO;
   
@@ -1832,16 +1833,30 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     {
       DSAObjectFood *food = (DSAObjectFood *) item;
         
+      DSAConsumptionFailReason reason;
+      BOOL result = [food useOnceWithDate: currentDate
+                                   reason: &reason];
+      
+      if (!result)
+        {
+          NSLog(@"DSACharacter consumeItem: DSAConsumptionFailReason: %lu", (unsigned long) reason);
+          return NO;
+        }
+        
+      NSLog(@"DSACharacter consumeItem I'm still here");                             
       if ([food.subCategory isEqualToString: _(@"Getränke")])
         {
-          if (food.isAlcohol)
+          NSLog(@"DSACharacter consumeItem it's a drink");
+          if ([food isAlcoholic])
             {
+              NSLog(@"DSACharacter consumeItem it's an alcoholic drink");            
               DSATalentResult *tresult = [self useTalent: @"Zechen"
                                              withPenalty: food.alcoholLevel];
               if (tresult.result == DSAActionResultFailure ||
                   tresult.result == DSAActionResultAutoFailure || 
                   tresult.result == DSAActionResultEpicFailure)
                 {
+                  NSLog(@"DSACharacter consumeItem it's an alcoholic drink, have to update my drunken state (:");                
                   NSInteger newDrunkenState = [[self.statesDict objectForKey: @(DSACharacterStateDrunken)] integerValue] + 1;
                   [self updateStatesDictState: @(DSACharacterStateDrunken)
                                     withValue: @(newDrunkenState)];
@@ -1856,6 +1871,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         }
       else
         {
+          NSLog(@"DSACharacter consumeItem it's something to eat");
           CGFloat newHunger = [[self.statesDict objectForKey: @(DSACharacterStateHunger)] floatValue] + food.nutritionValue;
           NSLog(@"DSACharacter consumeItem: oldHunger %f newHunger %f", 
                   [[self.statesDict objectForKey: @(DSACharacterStateHunger)] floatValue], 

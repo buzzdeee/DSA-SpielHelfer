@@ -91,9 +91,11 @@
 
 - (instancetype) initWithName: (NSString *) name forOwner: (NSUUID *) ownerUUID
 {
+  NSLog(@"DSAObject initWithName: before calling self = [super init] for name: %@", name);
   self = [super init];
+  NSLog(@"DSAObject initWithName: before calling Utils getDSAObjectInfoByName: %@", name);
   NSDictionary *objectInfo = [Utils getDSAObjectInfoByName: name];
-  
+  NSLog(@"DSAObject initWithName: name: %@, objectInfo: %@", name, objectInfo);
   return [self initWithObjectInfo: objectInfo forOwner: ownerUUID];
   
 }
@@ -104,14 +106,6 @@
   
   NSString *name = [objectInfo objectForKey: @"Name"];
   NSMutableDictionary *appliedSpells = [NSMutableDictionary new];
-  //NSLog(@"DSAObject initWithObjectInfo Sprüche: %@", [objectInfo objectForKey: @"Sprüche"]);
-  
-  if ([objectInfo objectForKey: @"MaxUsageCount"] && [[objectInfo objectForKey: @"MaxUsageCount"] count] > 0)
-    {
-      DSAConsumption *maxUsage = [[DSAConsumption alloc] initWithType:DSAConsumptionTypeUseMany];
-      maxUsage.maxUses = 10;
-      maxUsage.remainingUses = 10;
-    }
   
   if ([objectInfo objectForKey: @"Sprüche"] && [[objectInfo objectForKey: @"Sprüche"] count] > 0)
     {
@@ -167,14 +161,12 @@
                 }
               if (appliedSpell)    // effects are applied at the end of the method                                 
                 {
-                  // [appliedSpell variant = spruchDict.spellName; HAVE TO THINK MORE ABOUT IT XXXXX
                   [appliedSpells setObject: appliedSpell
                                     forKey: spellName];
                 }
-              //NSLog(@"THE APPLIED SPELLS: %@", [appliedSpells allKeys]);
           }
     }
-  NSLog(@"APPLIED SPELL: %@ to OBJECT: %@", [appliedSpells allKeys], name);
+  NSLog(@"DSAObject initWithObjectInfo: APPLIED SPELL: %@ to OBJECT: %@", [appliedSpells allKeys], name);
   // first ensure that we ownly set the owner on items that are definite personal items
   // other items may set ownerUUID in a second step  
   if (![[objectInfo objectForKey: @"persönliches Objekt"] isEqualTo: @YES])
@@ -182,7 +174,6 @@
       ownerUUID = nil;
     }
   
-  //NSLog(@"THE OBJECT INFO: %@", objectInfo);
   if ([[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] && 
       ! [[objectInfo objectForKey: @"isDistantWeapon"] isEqualTo: @YES] && 
       ! [[objectInfo objectForKey: @"isArmor"] isEqualTo: @YES] &&
@@ -206,13 +197,7 @@
                                 occupiedBodySlots: [objectInfo objectForKey: @"occupiedBodySlots"]
                                 withAppliedSpells: appliedSpells
                                     withOwnerUUID: ownerUUID
-                                      withRegions: [objectInfo objectForKey: @"Regionen"]];                                   
-/*                                       
-      self.useWith = @{ @"Gift": @{ @"useWithText": [NSString stringWithFormat: @"%@ hat %@ vergiftet", @"%@", self.name],
-                                    @"action": @(DSAUseObjectWithActionTypePoisoning)},
-                        @"Waffenpflegeutensilien": @{ @"useWithText": [NSString stringWithFormat: @"%@ pflegt sein %@", @"%@", self.name],
-                                                      @"action": @(DSAUseObjectWithActionTypeWeaponMaintenance) }
-                      };         */             
+                                      withRegions: [objectInfo objectForKey: @"Regionen"]];                                           
     }
   else if (! [[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] && 
            [[objectInfo objectForKey: @"isDistantWeapon"] isEqualTo: @YES] && 
@@ -236,14 +221,6 @@
                                 withAppliedSpells: appliedSpells
                                     withOwnerUUID: ownerUUID                               
                                       withRegions: [objectInfo objectForKey: @"Regionen"]];    
-/*      if ([self.subCategory isEqualToString: @"Wurfwaffen"])
-        {
-           self.useWith = @{ @"Gift": @{ @"useWithText": [NSString stringWithFormat: @"%@ hat %@ vergiftet.", @"%@", self.name],
-                                         @"action": @(DSAUseObjectWithActionTypePoisoning)},
-                             @"Waffenpflegeutensilien": @{ @"useWithText": [NSString stringWithFormat: @"%@ pflegt sein %@", @"%@", self.name],
-                                                           @"action": @(DSAUseObjectWithActionTypeWeaponMaintenance) }                                        
-                           };         
-        }                                        */
     }
   else if ([[objectInfo objectForKey: @"isHandWeapon"] isEqualTo: @YES] && 
            [[objectInfo objectForKey: @"isDistantWeapon"] isEqualTo: @YES] && 
@@ -272,11 +249,6 @@
                                 withAppliedSpells: appliedSpells
                                     withOwnerUUID: ownerUUID                        
                                       withRegions: [objectInfo objectForKey: @"Regionen"]];
-/*      self.useWith = @{ @"Gift": @{ @"useWithText": [NSString stringWithFormat: @"%@ hat %@ vergiftet", @"%@", self.name],
-                                    @"action": @(DSAUseObjectWithActionTypePoisoning) },
-                        @"Waffenpflegeutensilien": @{ @"useWithText": [NSString stringWithFormat: @"%@ pflegt sein %@", @"%@", self.name],
-                                                      @"action": @(DSAUseObjectWithActionTypeWeaponMaintenance) }
-                      }; */
                                                                    
     }
   else if ([[objectInfo objectForKey: @"isShield"] isEqualTo: @YES] && 
@@ -374,11 +346,6 @@
                                 inSubSubCategory: [objectInfo objectForKey: @"category2"]
                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                        withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
-                                    isConsumable: [objectInfo objectForKey: @"direkt konsumierbar" ] ? YES : NO
-                                 becomeWhenEmpty: [objectInfo objectForKey: @"Objekt wenn leer" ]
-                                       isAlcohol: [objectInfo objectForKey: @"Wirkung" ] ? YES : NO
-                                    alcoholLevel: [[objectInfo objectForKey: @"Wirkung"] integerValue]
-                                  nutritionValue: [[objectInfo objectForKey: @"DurstodHungerlinderung"] floatValue]
                          validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
                                     canShareSlot: [[objectInfo objectForKey: @"canShareSlot"] boolValue]];
     }
@@ -421,21 +388,12 @@
                            withAppliedSpells: appliedSpells
                                withOwnerUUID: ownerUUID                      
                                  withRegions: [objectInfo objectForKey: @"Regionen"]];
-/*      if ([self.subCategory isEqualToString: @"Pfeile"] ||
-          [self.subCategory isEqualToString: @"Bolzen"])
-        {
-           self.useWith = @{ @"Gift": @{ @"useWithText": [NSString stringWithFormat: @"%@ hat %@ vergiftet.", @"%@", self.name],
-                                         @"action": @(DSAUseObjectWithActionTypePoisoning)}
-                           };         
-        }
-      else if ([self.subCategory isEqualToString: @"Pfeifen"])
-        {
-           self.useWith = @{ @"Pfeifenkraut, Knaster": @{ @"useWithText": [NSString stringWithFormat: @"%@ stopft seine Pfeife und beginnt genüsslich zu paffen.", @"%@"],
-                                                          @"action": @(DSAUseObjectWithActionTypeSmoking)}
-                           };        
-        } */
     }
 
+    if (!self.states)
+      {
+        self.states = [NSMutableSet new];
+      }
     NSDictionary *useWithInfo = objectInfo[@"useWith"];
     if (useWithInfo) {
         NSMutableDictionary *mapped = [NSMutableDictionary dictionary];
@@ -467,38 +425,109 @@
         self.useWith = [mapped copy];
     }                                         
     
-        
+  NSLog(@"DSAObject initWithObjectInfo before setting up self.consumptions ");      
   self.consumptions = [NSMutableDictionary dictionary];
-  
-  if ([objectInfo objectForKey: @"MaxUsageCount"] && [[objectInfo objectForKey: @"MaxUsageCount"] count] > 0)
+  NSLog(@"DSAObject initWithObjectInfo after setting up self.consumptions ");
+  if ([objectInfo objectForKey: @"MaxUsageCount"] && [[objectInfo objectForKey: @"MaxUsageCount"] integerValue] > 0)
     {
+      NSLog(@"DSAObject initWithObjectInfo in MaxUsageCount");
       NSInteger maxUsageCount = [[objectInfo objectForKey: @"MaxUsageCount"] integerValue];
-      DSAConsumption *maxUsage = [[DSAConsumption alloc] initWithType:DSAConsumptionTypeUseMany];
-      maxUsage.maxUses = maxUsageCount; 
-      maxUsage.remainingUses = maxUsageCount;
-      [self.consumptions setObject: maxUsage forKey: @"maxUsageCount"];
-    }
-    
-  if ([objectInfo objectForKey: @"shelfLifeDays"] && [[objectInfo objectForKey: @"shelfLifeDays"] count] > 0)
-    {
-      NSInteger shelfLifeDays = [[objectInfo objectForKey: @"shelfLifeDays"] integerValue];
-      DSAConsumption *shelfLife = [[DSAConsumption alloc] initWithType:DSAConsumptionTypeUseMany];
-      shelfLife.maxUses = shelfLifeDays;
-      shelfLife.remainingUses = shelfLifeDays;
-      [self.consumptions setObject: shelfLife forKey: @"shelfLifeDays"];
-    }    
-  
-/* don't really need this, right?
-  if ([appliedSpells count] > 0) // can only do this here at the end
-    {
-      for (DSASpell *appliedSpell in [appliedSpells allValues])
+      DSAConsumption *consumption;
+      if (maxUsageCount == 1)
         {
-          [appliedSpell applyEffectOnTarget: self];
+          consumption = [[DSAConsumption alloc] initWithType:DSAConsumptionTypeUseOnce];
         }
+      else if (maxUsageCount > 1)
+        {
+          consumption = [[DSAConsumption alloc] initWithType:DSAConsumptionTypeUseMany];
+        }
+      consumption.maxUses = maxUsageCount; 
+      consumption.remainingUses = maxUsageCount;
+      if ([objectInfo objectForKey: @"disappearWhenEmpty"] && [[objectInfo objectForKey: @"disappearWhenEmpty"] boolValue] == YES)
+        {
+          NSLog(@"DSAObject initWithObjectInfo in MaxUsageCount disappearWhenEmpty");
+          consumption.disappearWhenEmpty = YES;
+        }
+      if ([objectInfo objectForKey: @"transitionWhenEmpty"])
+        {
+          NSLog(@"DSAObject initWithObjectInfo in MaxUsageCount transitionWhenEmpty");
+          consumption.transitionWhenEmpty = [objectInfo objectForKey: @"transitionWhenEmpty"];
+        }
+      if ([objectInfo objectForKey: @"DurstodHungerlinderung"])
+        {
+          NSLog(@"DSAObject initWithObjectInfo in MaxUsageCount DurstodHungerlinderung");
+          consumption.nutritionValue = [[objectInfo objectForKey: @"DurstodHungerlinderung"] floatValue];
+        }
+      NSLog(@"DSAObject initWithObjectInfo: self.name: %@, self.category: %@, self.subCategory: %@, self.subSubCategory: %@", self.name, self.category, self.subCategory, self.subSubCategory);
+      if ([self.subCategory isEqualToString: _(@"Getränke")])
+        {
+          NSLog(@"DSAObject initWithObjectInfo in MaxUsageCount Getränke objectInfo: %@", objectInfo);
+          if ([objectInfo objectForKey: @"direkt konsumierbar"])
+            {
+              [self.states addObject: @(DSAObjectStateIsConsumable)];
+              NSLog(@"DSAObject initWithObjectInfo DID ADD STATE: DSAObjectStateIsConsumable %@", self.states);
+              consumption.isDrinkable = YES;
+              if ([self.subSubCategory isEqualToString: _(@"Alkoholisch")])
+                {
+                  [self.states addObject: @(DSAObjectStateIsAlcoholic)];
+                }
+            }
+        }
+      else if ([self.subCategory isEqualToString: _(@"Essen")])
+        {
+          NSLog(@"DSAObject initWithObjectInfo in MaxUsageCount Essen");
+          if ([objectInfo objectForKey: @"direkt konsumierbar"])
+            {
+              [self.states addObject: @(DSAObjectStateIsConsumable)];   
+              NSLog(@"DSAObject initWithObjectInfo DID ADD STATE: DSAObjectStateIsConsumable: %@", self.states);         
+              consumption.isEatable = YES;
+            }
+        }
+      else
+        {
+           [self.states addObject: @(DSAObjectStateIsDepletable)];
+        }  
+      [self.consumptions setObject: consumption forKey: @"maxUsageCount"];
     }
-*/   
+NSLog(@"DSAObject initWithObjectInfo before consumptions shelfLifeDays");
+  NSInteger shelfLifeInt = [self calculateShelfLifeDaysForObjectDict: objectInfo];
+  if (shelfLifeInt > NSIntegerMin)
+    {
+      DSAConsumption *consumption = [[DSAConsumption alloc] initWithType:DSAConsumptionTypeExpiry];
+      consumption.shelfLifeDays = shelfLifeInt;
+      [self.states addObject: @(DSAObjectStateHasShelfLife)];
+      [self.consumptions setObject: consumption forKey: @"shelfLifeDays"];
+    }  
+  NSLog(@"DSAObject initWithObjectInfo after consumptions shelfLifeDays");           
   return self;
 }
+
+
+// returns NSIntegerMin in case of no shelfLifeDays
+// returns NSIntegerMax in case of good forever
+// returns NSInteger in days for how long it is good
+- (NSInteger) calculateShelfLifeDaysForObjectDict: (NSDictionary *) dict
+{
+   NSInteger shelfLife = NSIntegerMin;
+   if ([dict objectForKey: @"Haltbarkeit"])
+     {
+       NSDictionary *shelfLifeDict = [dict objectForKey: @"Haltbarkeit"];
+       shelfLife = [[shelfLifeDict objectForKey: @"Tage"] integerValue];
+       if (shelfLife == -1)
+         {
+           return NSIntegerMax;
+         }
+       NSInteger randomDays = 0;
+       if ([shelfLifeDict objectForKey: @"Wuerfel"])
+         {
+           randomDays = [Utils rollDice: [shelfLifeDict objectForKey: @"Wuerfel"]];
+         }
+          
+       shelfLife += randomDays;
+     }
+   return shelfLife;
+}
+
 
 - (instancetype) initWithName: (NSString *) name
                      withIcon: (NSString *) icon
@@ -810,6 +839,87 @@
     }
 }
 
+- (BOOL) isConsumable
+{
+  if ([self.states containsObject: @(DSAObjectStateIsConsumable)])
+    {
+      return YES;
+    }
+  return NO;
+}
+- (BOOL) isAlcoholic
+{
+  if ([self.states containsObject: @(DSAObjectStateIsAlcoholic)])
+    {
+      return YES;
+    }
+  return NO;
+}
+- (BOOL) isDepletable
+{
+  if ([self.states containsObject: @(DSAObjectStateIsDepletable)])
+    {
+      return YES;
+    }
+  return NO;
+}
+
+- (void)resetCurrentUsageToMax
+{
+  DSAConsumption *usageConsumption = [self usageConsumption];
+  [usageConsumption resetCurrentUsageToMax];
+}
+
+- (BOOL) justDepleted
+{
+   DSAConsumption *usageConsumption = [self usageConsumption];
+   return [usageConsumption justDepleted];
+
+}
+
+- (NSInteger) alcoholLevel
+{
+  if ([self isAlcoholic])
+    {
+      DSAConsumption *usageConsumption = [self usageConsumption];
+      return usageConsumption.alcoholLevel;
+    }
+  return -20;  // definitely not alcoholic 
+}
+
+- (float) nutritionValue
+{
+  DSAConsumption *usageConsumption = [self usageConsumption];
+  if (usageConsumption)
+    {
+      return usageConsumption.nutritionValue;
+    }
+  return 0.0;
+}
+
+// first check if we have an expiration consumption, and check if expired
+// if not, or not expired, check maxUsageCount.
+- (BOOL)useOnceWithDate:(DSAAventurianDate *)currentDate
+                 reason:(DSAConsumptionFailReason *)reason
+{
+  if (reason) *reason = DSAConsumptionFailReasonNone;
+  if ([self hasExpiryConsumption])
+    {
+      if ([[self expiryConsumption] isExpiredAtDate: currentDate])
+        {
+          if (reason) *reason = DSAConsumptionFailReasonExpired;
+          return NO;
+        }
+    }
+  DSAConsumption *maxUsageConsumption = [self.consumptions objectForKey: @"maxUsageCount"];
+  if (maxUsageConsumption)
+    {
+      return [maxUsageConsumption useOnceWithDate: currentDate
+                                           reason: reason];
+    }
+  return YES;
+}
+
 - (DSAConsumption *)expiryConsumption {
     for (DSAConsumption *consumption in self.consumptions.allValues) {
         if (consumption.type == DSAConsumptionTypeExpiry) {
@@ -817,6 +927,10 @@
         }
     }
     return nil;
+}
+
+- (DSAConsumption *)usageConsumption {
+    return [self.consumptions objectForKey: @"maxUsageCount"];
 }
 
 - (BOOL)hasExpiryConsumption {
@@ -1384,11 +1498,6 @@
              inSubSubCategory: (NSString *) subSubCategory
                    withWeight: (float) weight
                     withPrice: (float) price
-                 isConsumable: (BOOL) isConsumable
-              becomeWhenEmpty: (NSString *) newItemName
-                    isAlcohol: (BOOL) isAlcohol
-                 alcoholLevel: (NSInteger) alcoholLevel
-               nutritionValue: (float) nutritionValue
       validInventorySlotTypes: (NSArray *) validSlotTypes
                  canShareSlot: (BOOL) canShareSlot
 {
@@ -1402,38 +1511,10 @@
       self.subSubCategory = subSubCategory;
       self.weight = weight;
       self.price = price;
-      self.isConsumable = isConsumable;
-      self.becomeWhenEmpty = (NSString *) newItemName;
-      self.isAlcohol = isAlcohol;
-      self.alcoholLevel = alcoholLevel;
-      self.nutritionValue = nutritionValue;
       self.validSlotTypes = validSlotTypes;
       self.canShareSlot = canShareSlot;
     }  
   return self;
-}                  
-
-- (instancetype)initWithCoder:(NSCoder *)coder {
-    self = [super initWithCoder: coder];
-    if (self)
-      {
-        self.isConsumable = [coder decodeBoolForKey:@"isConsumable"];
-        self.isAlcohol = [coder decodeBoolForKey:@"isAlcohol"];
-        self.becomeWhenEmpty = [coder decodeObjectForKey:@"becomeWhenEmpty"];
-        self.alcoholLevel = [coder decodeIntegerForKey:@"alcoholLevel"];
-        self.nutritionValue = [[coder decodeObjectForKey:@"nutritionValue"] floatValue];
-      }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder
-{
-  [super encodeWithCoder: coder];
-  [coder encodeBool:self.isConsumable forKey:@"isConsumable"];
-  [coder encodeBool:self.isAlcohol forKey:@"isAlcohol"];
-  [coder encodeObject:self.becomeWhenEmpty forKey:@"becomeWhenEmpty"];
-  [coder encodeInteger:self.alcoholLevel forKey:@"alcoholLevel"];
-  [coder encodeObject:@(self.nutritionValue) forKey:@"nutritionValue"];
-}             
+}                               
 @end
 // End of DSAObjectCloth

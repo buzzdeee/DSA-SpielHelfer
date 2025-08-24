@@ -231,6 +231,9 @@ typedef NS_ENUM(NSUInteger, DSAObjectState)
   DSAObjectStateHasSpellActive,               // object has a magic spell activated
   DSAObjectStateIsMagicUnknown,               // object is magic, but it's unknown which spells/rituals are applied
   DSAObjectStateIsConsumable,                 // object can be consumed i.e. eaten or drunk
+  DSAObjectStateIsDepletable,                 // can be used up, after a while, i.e. soap, ...
+  DSAObjectStateIsAlcoholic,                  // contains alcohol
+  DSAObjectStateHasShelfLife,                 // Objekt hat Verfallsdatum
   DSAObjectStateStabzauberFackel,             // torch Stabzauber is active
   DSAObjectStateStabzauberSeil,               // rope Stabzauber is active
   DSAObjectStateNoMoreStabzauber,             // Stabzauber 5 failed, no more Stabzauber possible

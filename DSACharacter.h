@@ -196,7 +196,9 @@ NS_ASSUME_NONNULL_BEGIN
 // to decide, if the character can regenerate AE or LP
 - (BOOL) canRegenerate;
 
-- (BOOL) consumeItem: (DSAObject *) item;
+// to deal with eventual expiration dates, therefore pass in currentDate
+- (BOOL) consumeItem: (DSAObject *) item
+              atDate: (DSAAventurianDate *) currentDate;
 
 - (void) updateStateHungerWithValue: (NSNumber*) value;
 - (void) updateStateThirstWithValue: (NSNumber*) value;

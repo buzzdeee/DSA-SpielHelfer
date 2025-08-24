@@ -127,11 +127,11 @@
         
       if (!data && outError)
         {
-          NSLog(@"Archiving failed with error: %@", *outError);
+          NSLog(@"DSACharacterDocument dataOfType: Archiving failed with error: %@", *outError);
           return nil;
         }
         
-      NSLog(@"Successfully encoded the data: %@", data);
+      NSLog(@"DSACharacterDocument dataOfType: Successfully encoded the data");
       return data;
     }
   @catch (NSException *exception)

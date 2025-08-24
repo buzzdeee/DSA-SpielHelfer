@@ -249,6 +249,16 @@ static const DSAAventurianWeekday ANCHOR_WEEKDAY = Praiostag;
     }
 }
 
+
+- (NSString *) dateString
+{
+  return [NSString stringWithFormat: @"%lu. %@ %lu %@",
+                                     (unsigned long) self.day,
+                                     self.monthName,
+                                     (unsigned long) self.year,
+                                     self.year > 0 ? @"AF" : @"BF"];
+}
+
 - (NSString *)description
 {
   NSMutableString *descriptionString = [NSMutableString stringWithFormat:@"%@:\n", [self class]];
