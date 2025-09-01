@@ -4265,6 +4265,12 @@
     "Mandragora_1-64x64.webp",
     "Mandragora_1-512x512.webp"
   ],
+  "Hakendolch": [
+    "Hakendolch_1.webp",
+    "Hakendolch_1-32x32.webp",
+    "Hakendolch_1-64x64.webp",
+    "Hakendolch_1-512x512.webp"
+  ],
   "Arachnae": [
     "Arachnae_1.webp",
     "Arachnae_1-32x32.webp",
@@ -4337,6 +4343,12 @@
     "Schwarzer_Lotos_1-64x64.webp",
     "Schwarzer_Lotos_1-512x512.webp"
   ],
+  "Waqqif": [
+    "Waqqif_1.webp",
+    "Waqqif_1-32x32.webp",
+    "Waqqif_1-64x64.webp",
+    "Waqqif_1-512x512.webp"
+  ],
   "Feuerzunge": [
     "Feuerzunge_1.webp",
     "Feuerzunge_1-32x32.webp",
@@ -4352,5 +4364,111 @@
     "Efferd_Tempel_2-32x32.webp",
     "Efferd_Tempel_2-64x64.webp",
     "Efferd_Tempel_2-512x512.webp"
+  ],
+  "Orknase": [
+    "Orknase_1.webp",
+    "Orknase_1-32x32.webp",
+    "Orknase_1-64x64.webp",
+    "Orknase_1-512x512.webp"
+  ],
+  "Basiliskenzunge": [
+    "Basiliskenzunge_1.webp",
+    "Basiliskenzunge_1-32x32.webp",
+    "Basiliskenzunge_1-64x64.webp",
+    "Basiliskenzunge_1-512x512.webp"
+  ],
+  "Menglibar": [
+    "Menglibar_1.webp",
+    "Menglibar_1-32x32.webp",
+    "Menglibar_1-64x64.webp",
+    "Menglibar_1-512x512.webp"
+  ],
+  "Basiliskenzunge_meisterlich": [
+    "Basiliskenzunge_meisterlich_1.webp",
+    "Basiliskenzunge_meisterlich_1-32x32.webp",
+    "Basiliskenzunge_meisterlich_1-64x64.webp",
+    "Basiliskenzunge_meisterlich_1-512x512.webp"
+  ],
+  "Schlagring": [
+    "Schlagring_1.webp",
+    "Schlagring_1-32x32.webp",
+    "Schlagring_1-64x64.webp",
+    "Schlagring_1-512x512.webp"
+  ],
+  "Orchidee": [
+    "Orchidee_1.webp",
+    "Orchidee_1-32x32.webp",
+    "Orchidee_1-64x64.webp",
+    "Orchidee_1-512x512.webp"
+  ],
+  "Byakka": [
+    "Byakka_1.webp",
+    "Byakka_1-32x32.webp",
+    "Byakka_1-64x64.webp",
+    "Byakka_1-512x512.webp"
+  ],
+  "Veteranenhand": [
+    "Veteranenhand_1.webp",
+    "Veteranenhand_1-32x32.webp",
+    "Veteranenhand_1-64x64.webp",
+    "Veteranenhand_1-512x512.webp"
+  ],
+  "Felsspalter": [
+    "Felsspalter_1.webp",
+    "Felsspalter_2.webp",
+    "Felsspalter_1-32x32.webp",
+    "Felsspalter_1-64x64.webp",
+    "Felsspalter_1-512x512.webp",
+    "Felsspalter_2-32x32.webp",
+    "Felsspalter_2-64x64.webp",
+    "Felsspalter_2-512x512.webp"
+  ],
+  "Saebel": [
+    "Saebel_1.webp",
+    "Saebel_1-32x32.webp",
+    "Saebel_1-64x64.webp",
+    "Saebel_1-512x512.webp"
+  ],
+  "Molokdeschnaja": [
+    "Molokdeschnaja_1.webp",
+    "Molokdeschnaja_1-32x32.webp",
+    "Molokdeschnaja_1-64x64.webp",
+    "Molokdeschnaja_1-512x512.webp"
+  ],
+  "Entermesser": [
+    "Entermesser_1.webp",
+    "Entermesser_1-32x32.webp",
+    "Entermesser_1-64x64.webp",
+    "Entermesser_1-512x512.webp"
+  ],
+  "Haumesser": [
+    "Haumesser_1.webp",
+    "Haumesser_1-32x32.webp",
+    "Haumesser_1-64x64.webp",
+    "Haumesser_1-512x512.webp"
+  ],
+  "Arbach": [
+    "Arbach_1.webp",
+    "Arbach_1-32x32.webp",
+    "Arbach_1-64x64.webp",
+    "Arbach_1-512x512.webp"
+  ],
+  "Robbentoeter": [
+    "Robbentoeter_1.webp",
+    "Robbentoeter_1-32x32.webp",
+    "Robbentoeter_1-64x64.webp",
+    "Robbentoeter_1-512x512.webp"
+  ],
+  "Kharkush_Arbach": [
+    "Kharkush_Arbach_1.webp",
+    "Kharkush_Arbach_1-32x32.webp",
+    "Kharkush_Arbach_1-64x64.webp",
+    "Kharkush_Arbach_1-512x512.webp"
+  ],
+  "Drachenzahn": [
+    "Drachenzahn_1.webp",
+    "Drachenzahn_1-32x32.webp",
+    "Drachenzahn_1-64x64.webp",
+    "Drachenzahn_1-512x512.webp"
   ]
 }

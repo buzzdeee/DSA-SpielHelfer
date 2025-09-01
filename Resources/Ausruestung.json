@@ -164,7 +164,8 @@
               "useWithText": "%@ bringt die Basiliskenzunge wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }          
+          },
+          "Icon": [ "Basiliskenzunge_1" ]         
         },
         "Basiliskenzunge, meisterlich": {
           "Gewicht": 25,
@@ -185,7 +186,8 @@
               "useWithText": "%@ bringt die meisterliche Basiliskenzunge wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }          
+          },
+          "Icon": [ "Basiliskenzunge_meisterlich_1" ]          
         },
         "Drachenzahn": {
           "Gewicht": 40,
@@ -206,7 +208,8 @@
               "useWithText": "%@ bringt den Drachenzahn wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }          
+          },
+          "Icon": [ "Drachenzahn_1" ]        
         },
         "Eberfänger": {
           "Gewicht": 40,
@@ -248,7 +251,8 @@
               "useWithText": "%@ bringt das Waqqif wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }          
+          },
+          "Icon": [ "Waqqif_1" ]          
         },
         "Linkhand": {
           "Gewicht": 30,
@@ -290,7 +294,8 @@
               "useWithText": "%@ bringt den Hakendolch wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }          
+          },
+          "Icon": [ "Hakendolch_1" ]         
         },
         "Menglibar": {
           "Gewicht": 20,
@@ -311,7 +316,8 @@
               "useWithText": "%@ bringt den Menglibar wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }          
+          },
+          "Icon": [ "Menglibar_1" ]          
         },
         "Ogerfänger": {
           "Gewicht": 35,
@@ -398,7 +404,8 @@
               "useWithText": "%@ bringt die Orknase wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }          
+          },
+          "Icon": [ "Orknase_1" ]          
         },
         "Skraja": {
           "Gewicht": 90,
@@ -482,7 +489,8 @@
               "useWithText": "%@ bringt den Felsspalter wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }
+          },
+          "Icon": [ "Felsspalter_1", "Felsspalter_2" ]
         },
         "Barbarenstreitaxt": {
           "Gewicht": 250,
@@ -525,7 +533,8 @@
               "useWithText": "%@ bringt das Molokdeschnaja wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }          
+          },
+          "Icon": [ "Molokdeschnaja_1" ]          
         },
         "Byakka": {
           "Gewicht": 130,
@@ -546,7 +555,8 @@
               "useWithText": "%@ bringt das Byakka wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }        
+          },
+          "Icon": [ "Byakka_1" ]        
         },
         "Echsische Axt": {
           "Gewicht": 90,
@@ -591,7 +601,8 @@
               "useWithText": "%@ bringt das Haumesser wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }          
+          },
+          "Icon": [ "Haumesser_1" ]       
         },
         "Entermesser": {
           "Gewicht": 70,
@@ -612,7 +623,8 @@
               "useWithText": "%@ bringt das Entermesser wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }          
+          },
+          "Icon": [ "Entermesser_1" ]       
         },
         "Robbentöter": {
           "Gewicht": 70,
@@ -633,7 +645,8 @@
               "useWithText": "%@ bringt den Robbentöter wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }          
+          },
+          "Icon": [ "Robbentoeter_1" ]          
         },
         "Säbel": {
           "Gewicht": 60,
@@ -654,7 +667,8 @@
               "useWithText": "%@ bringt den Säbel wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }          
+          },
+          "Icon": [ "Saebel_1" ]         
         },
         "Arbach": {
           "Gewicht": 100,
@@ -675,7 +689,8 @@
               "useWithText": "%@ bringt den Arbach wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }      
+          },
+          "Icon": [ "Arbach_1" ]      
         },
         "Kharkush-Arbach": {
           "Gewicht": 90,
@@ -696,7 +711,8 @@
               "useWithText": "%@ bringt den Kharkush-Arbach wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }          
+          },
+          "Icon": [ "Kharkush_Arbach_1" ]          
         },
         "Khunchomer": {
           "Gewicht": 90,
@@ -2089,7 +2105,8 @@
               "useWithText": "%@ bringt die Veteranenhand wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }           
+          },
+          "Icon": [ "Veteranenhand_1" ]           
         },
         "Schlagring": {
           "Gewicht": 20,
@@ -2110,7 +2127,8 @@
               "useWithText": "%@ bringt den Schlagring wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }           
+          },
+          "Icon": [ "Schlagring_1" ]         
         },
         "Orchidee": {
           "Gewicht": 35,
@@ -2131,7 +2149,8 @@
               "useWithText": "%@ bringt die Orchidee wieder auf Hochglanz.",
               "action": "DSAUseObjectWithActionTypeWeaponMaintenance"              
             }
-          }           
+          },
+          "Icon": [ "Orchidee_1" ]           
         },
         "Peitsche": {
           "Gewicht": 60,

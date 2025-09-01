@@ -1,6 +1,11 @@
 #!/bin/sh
 
+IMAGES=$@
+
+if [ "X${IMAGES}" == "X" ];then
 IMAGES=$(ls *webp)
+fi
+
 SIZES="32x32 64x64 128x128 256x256 512x512"
 
 for IMAGE in ${IMAGES}; do
