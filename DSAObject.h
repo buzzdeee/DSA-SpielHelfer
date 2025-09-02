@@ -32,6 +32,8 @@
 @class DSAConsumption;
 @class DSAAventurianDate;
 @class DSASlot;
+@class DSACharacter;
+@class DSADrunkenEffect;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -319,6 +321,9 @@ NS_ASSUME_NONNULL_BEGIN
                     withPrice: (float) price
       validInventorySlotTypes: (NSArray *) validSlotTypes
                  canShareSlot: (BOOL) canShareSlot;
+                 
+- (nullable DSADrunkenEffect *)generateDrunkenEffectForCharacter:(DSACharacter *)character
+                                                          atDate: (DSAAventurianDate *) currentDate;                 
 @end
 // End of DSAObjectFood
                     

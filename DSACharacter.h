@@ -62,7 +62,8 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 @interface DSADrunkenEffect : DSACharacterEffect <NSCoding, NSCopying>
-@property (nonatomic, assign) DSADrunkenLevel currentLevel;
+@property (nonatomic, assign) DSADrunkenLevel drunkenLevel;
++ (NSDictionary *)drunkennessOffsets;
 @end
 
 @interface DSAPoisonEffect : DSACharacterEffect <NSCoding, NSCopying>

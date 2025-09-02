@@ -458,6 +458,12 @@
           NSLog(@"DSAObject initWithObjectInfo in MaxUsageCount DurstodHungerlinderung");
           consumption.nutritionValue = [[objectInfo objectForKey: @"DurstodHungerlinderung"] floatValue];
         }
+      if ([objectInfo objectForKey: @"AlkoholischeWirkung"])
+        {
+          NSLog(@"DSAObject initWithObjectInfo in MaxUsageCount AlkoholischeWirkung");
+          consumption.alcoholLevel = [[objectInfo objectForKey: @"AlkoholischeWirkung"] integerValue];
+          [self.states addObject: @(DSAObjectStateIsAlcoholic)];
+        }        
       NSLog(@"DSAObject initWithObjectInfo: self.name: %@, self.category: %@, self.subCategory: %@, self.subSubCategory: %@", self.name, self.category, self.subCategory, self.subSubCategory);
       if ([self.subCategory isEqualToString: _(@"Getränke")])
         {
@@ -467,10 +473,6 @@
               [self.states addObject: @(DSAObjectStateIsConsumable)];
               NSLog(@"DSAObject initWithObjectInfo DID ADD STATE: DSAObjectStateIsConsumable %@", self.states);
               consumption.isDrinkable = YES;
-              if ([self.subSubCategory isEqualToString: _(@"Alkoholisch")])
-                {
-                  [self.states addObject: @(DSAObjectStateIsAlcoholic)];
-                }
             }
         }
       else if ([self.subCategory isEqualToString: _(@"Essen")])
@@ -1539,31 +1541,37 @@ NSLog(@"DSAObject initWithObjectInfo before consumptions shelfLifeDays");
 }
 
 - (nullable DSADrunkenEffect *)generateDrunkenEffectForCharacter:(DSACharacter *)character
+                                                          atDate: (DSAAventurianDate *) currentDate
 {
    NSLog(@"DSAObjectFood generateDrunkenEffectForCharacter called");
    DSADrunkenEffect *activeDrunkenEffect = [character activeDrunkenEffect];
    DSADrunkenLevel stateLevel = DSADrunkenLevelNone;
    if (activeDrunkenEffect)
      {
-       stateLevel = activeDrunkenEffect.currentLevel;
+       NSLog(@"DSAObjectFood generateDrunkenEffectForCharacter the character already has a drunken effect!");
+       stateLevel = activeDrunkenEffect.drunkenLevel;
      }
    if (stateLevel == DSADrunkenLevelSevere)  // already severely drunken, can't get worse
      {
+       NSLog(@"DSAObjectFood generateDrunkenEffectForCharacter the character already is severely drunken!");
        return nil;
      }
    else
      {
+       NSLog(@"DSAObjectFood generateDrunkenEffectForCharacter the character is already drunken, but not yet severely, so bumping level!");
        stateLevel++;
      }
    
    DSADrunkenEffect *effect = [[DSADrunkenEffect alloc] init];
-   effect.uniqueKey = [NSString stringWithFormat: @"Drunken_%@", self.name];
+   effect.uniqueKey = @"Drunken";
    effect.effectType = DSACharacterEffectTypeDrunken;
-   effect.expirationDate = nil;
-   effect.currentLevel = stateLevel;
+   effect.expirationDate = [currentDate dateByAddingYears: 0
+                                                     days: 0
+                                                    hours: 6
+                                                  minutes: 0];
+   effect.drunkenLevel = stateLevel;
    
    return effect;
-}
-                           
+}                         
 @end
 // End of DSAObjectCloth

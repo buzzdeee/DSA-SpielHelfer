@@ -6357,7 +6357,7 @@
           "MaxUsageCount": 1,
           "transitionWhenEmpty": "Irdene Flasche, 1 Schank",          
           "DurstodHungerlinderung": 0.5,
-          "Wirkung": 1
+          "AlkoholischeWirkung": 1
         },
         "Einfacher Landwein": {
           "Gewicht": 40,
@@ -6367,7 +6367,7 @@
           "MaxUsageCount": 1,
           "transitionWhenEmpty": "Irdene Flasche, 1 Schank",          
           "DurstodHungerlinderung": 0.1,          
-          "Wirkung": 2
+          "AlkoholischeWirkung": 2
         },
         "Guter Rotwein": {
           "Gewicht": 40,
@@ -6377,7 +6377,7 @@
           "MaxUsageCount": 1,
           "transitionWhenEmpty": "Irdene Flasche, 1 Schank",          
           "DurstodHungerlinderung": 0.1,                    
-          "Wirkung": 2
+          "AlkoholischeWirkung": 2
         },
         "Einfacher Schnaps": {
           "Gewicht": 40,
@@ -6387,7 +6387,7 @@
           "MaxUsageCount": 1,
           "transitionWhenEmpty": "Irdene Flasche, 1 Schank",          
           "DurstodHungerlinderung": 0.05,                    
-          "Wirkung": 4
+          "AlkoholischeWirkung": 4
         },
         "Guter Branntwein": {
           "Gewicht": 40,
@@ -6397,7 +6397,7 @@
           "MaxUsageCount": 1,
           "transitionWhenEmpty": "Irdene Flasche, 1 Schank",          
           "DurstodHungerlinderung": 0.05,                    
-          "Wirkung": 4
+          "AlkoholischeWirkung": 4
         },
         "Likör": {
           "Gewicht": 20,
@@ -6407,7 +6407,7 @@
           "MaxUsageCount": 1,
           "transitionWhenEmpty": "Irdene Flasche, 1 Schank",          
           "DurstodHungerlinderung": 0.05,                    
-          "Wirkung": 4
+          "AlkoholischeWirkung": 4
         }
       }
     },

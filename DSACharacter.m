@@ -149,17 +149,55 @@
 @end
 
 @implementation DSADrunkenEffect
+
+static NSDictionary *_drunkennessOffsets = nil;
+
++ (NSDictionary *)drunkennessOffsets {
+    @synchronized(self) {
+        if (_drunkennessOffsets == nil) {
+            _drunkennessOffsets = @{
+                @"None": @{
+                    @"MU": @0, @"KL": @0, @"IN": @0, @"CH": @0,
+                    @"FF": @0, @"GE": @0, @"KK": @0,
+                    @"AG": @0, @"HA": @0, @"RA": @0, @"TA": @0,
+                    @"NG": @0, @"GG": @0, @"JZ": @0
+                },
+                @"Light": @{
+                    @"MU": @1, @"CH": @1, @"IN": @-1,
+                    @"KL": @0, @"FF": @0, @"GE": @0, @"KK": @0,
+                    @"AG": @-1, @"HA": @-1, @"RA": @-1, @"TA": @-1,
+                    @"NG": @1, @"GG": @0, @"JZ": @0
+                },
+                @"Medium": @{
+                    @"MU": @2, @"CH": @0,
+                    @"KL": @-1, @"IN": @-2, @"FF": @-2, @"GE": @-1, @"KK": @0,
+                    @"AG": @-2, @"HA": @-2, @"RA": @-2, @"TA": @-2,
+                    @"NG": @2, @"GG": @1, @"JZ": @1
+                },
+                @"Severe": @{
+                    @"MU": @0, @"CH": @-2,
+                    @"KL": @-3, @"IN": @-3, @"FF": @-3, @"GE": @-3, @"KK": @-1,
+                    @"AG": @-3, @"HA": @-3, @"RA": @-3, @"TA": @-3,
+                    @"NG": @3, @"GG": @2, @"JZ": @3
+                }
+            };
+        }
+    }
+    return _drunkennessOffsets;
+}
+
+
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
-        _currentLevel = [coder decodeIntegerForKey:@"currentLevel"];    
+        _drunkenLevel = [coder decodeIntegerForKey:@"drunkenLevel"];    
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder {
     [super encodeWithCoder:coder];
-    [coder encodeInteger:self.currentLevel forKey:@"currentLevel"];    
+    [coder encodeInteger:self.drunkenLevel forKey:@"drunkenLevel"];    
 }
 
 + (BOOL)supportsSecureCoding {
@@ -168,7 +206,7 @@
 
 - (id)copyWithZone:(NSZone *)zone {
     DSADrunkenEffect *copy = [super copyWithZone:zone];
-    copy->_currentLevel = self.currentLevel;    
+    copy->_drunkenLevel = self.drunkenLevel;    
     return copy;
 }
 @end
@@ -1283,10 +1321,10 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 {
   for (NSString *key in [self.appliedEffects allKeys])
     {
-      if ([key hasPrefix:@"Drunken_"])
+      if ([key isEqualToString:@"Drunken"])
         {
           DSADrunkenEffect *drunkenEffect = (DSADrunkenEffect*)[self.appliedEffects objectForKey: key];
-          if ([drunkenEffect currentLevel] > DSADrunkenLevelNone)
+          if ([drunkenEffect drunkenLevel] > DSADrunkenLevelNone)
             {
               continue;
             }
@@ -1898,16 +1936,26 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                   tresult.result == DSAActionResultAutoFailure || 
                   tresult.result == DSAActionResultEpicFailure)
                 {
-                  NSLog(@"DSACharacter consumeItem it's an alcoholic drink, have to update my drunken state (:");                
-                  NSInteger newDrunkenState = [[self.statesDict objectForKey: @(DSACharacterStateDrunken)] integerValue] + 1;
-                  [self updateStatesDictState: @(DSACharacterStateDrunken)
-                                    withValue: @(newDrunkenState)];
+                  NSLog(@"DSACharacter consumeItem it's an alcoholic drink, have to update my drunken state (:");
+                  DSADrunkenEffect *drunkenEffect = [food generateDrunkenEffectForCharacter: self atDate: currentDate];
+                  [self applyDrunkenEffect: drunkenEffect];
+                  NSInteger previousDrunkenState = [[self.statesDict objectForKey: @(DSACharacterStateDrunken)] integerValue];
+                  if (previousDrunkenState == DSADrunkenLevelSevere)
+                    {
+                      NSInteger newDrunkenState = previousDrunkenState + 1;
+                      [self updateStatesDictState: @(DSACharacterStateDrunken)
+                                        withValue: @(newDrunkenState)];
+                    }
+                  else
+                    {
+                      NSLog(@"DSACharacter consumeItem DSADrunkenLevel is already severe, can't make it worse.");
+                    }
                 }
             }
           CGFloat newThirst = [[self.statesDict objectForKey: @(DSACharacterStateThirst)] floatValue] + food.nutritionValue;
+          newThirst = newThirst > 1.0 ? 1.0 : newThirst;
           NSLog(@"DSACharacter consumeItem: oldThirst %f newThirst %f", 
-                  [[self.statesDict objectForKey: @(DSACharacterStateThirst)] floatValue], 
-                  newThirst);
+                  [[self.statesDict objectForKey: @(DSACharacterStateThirst)] floatValue], newThirst);
           [self updateStatesDictState: @(DSACharacterStateThirst)
                             withValue: @(newThirst)];
         }
@@ -1915,11 +1963,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         {
           NSLog(@"DSACharacter consumeItem it's something to eat");
           CGFloat newHunger = [[self.statesDict objectForKey: @(DSACharacterStateHunger)] floatValue] + food.nutritionValue;
+          newHunger = newHunger > 1.0 ? 1.0 : newHunger;
           NSLog(@"DSACharacter consumeItem: oldHunger %f newHunger %f", 
-                  [[self.statesDict objectForKey: @(DSACharacterStateHunger)] floatValue], 
-                  newHunger);
-          
-          
+                  [[self.statesDict objectForKey: @(DSACharacterStateHunger)] floatValue], newHunger);          
           [self updateStatesDictState: @(DSACharacterStateHunger)
                             withValue: @(newHunger)];
         }
@@ -2020,6 +2066,58 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   [self.appliedEffects setObject: poisonEffect forKey: poisonEffect.uniqueKey];
   NSLog(@"DSACharacter applyPoisonEffect appliedEffects AFTER: %@", self.appliedEffects);
   return YES;
+}
+
+- (BOOL) applyDrunkenEffect: (DSADrunkenEffect *)drunkenEffect
+{
+   if (drunkenEffect == nil)
+     {
+       NSLog(@"DSACharacter applyDrunkenEffect: drunkenEffect was nil, exiting.");
+       return YES;  // we did all good ;)
+     }
+
+   DSADrunkenEffect *previousDrunkenEffect = [self activeDrunkenEffect];
+   if (previousDrunkenEffect)
+     {
+       [self applyDrunkenEffect: previousDrunkenEffect revert: YES];
+     }
+   [self applyDrunkenEffect: drunkenEffect revert: NO];
+   [self.appliedEffects setObject: drunkenEffect forKey: drunkenEffect.uniqueKey];
+   return YES;
+}
+
+- (void)applyDrunkenEffect:(DSADrunkenEffect *)drunkenEffect revert:(BOOL)revert {
+    if (!drunkenEffect) return;
+
+    NSString *levelKey = nil;
+    switch (drunkenEffect.drunkenLevel) {
+        case DSADrunkenLevelNone:   levelKey = @"None"; break;
+        case DSADrunkenLevelLight:  levelKey = @"Light"; break;
+        case DSADrunkenLevelMedium: levelKey = @"Medium"; break;
+        case DSADrunkenLevelSevere: levelKey = @"Severe"; break;
+    }
+
+    NSDictionary *effectOffsets = [DSADrunkenEffect drunkennessOffsets][levelKey];
+    if (!effectOffsets) return;
+
+    int direction = revert ? -1 : 1;
+
+    // Positive Traits anpassen
+    [effectOffsets enumerateKeysAndObjectsUsingBlock:^(id<NSCopying> key, id obj, BOOL *stop) {
+        DSAPositiveTrait *trait = self.currentPositiveTraits[(NSString *)key];
+        if (trait) {
+            trait.level += [(NSNumber *)obj intValue] * direction;
+        }
+    }];
+
+    // Negative Traits anpassen
+    [effectOffsets enumerateKeysAndObjectsUsingBlock:^(id<NSCopying> key, id obj, BOOL *stop) {
+        DSAPositiveTrait *trait = self.currentPositiveTraits[(NSString *)key];
+        if (trait) {
+            trait.level += [(NSNumber *)obj intValue] * direction;
+        }
+    }];
+
 }
 
 - (BOOL) applyMiracleEffect: (DSAMiracleResult *) miracleResult
@@ -2188,7 +2286,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
             //NSLog(@"DSACharacter removeExpiredEffectsAtDate: %@ found DSACharacterEffectTypePoison, handing over to advancePoisonEffect", self.name);
             [self advancePoisonEffect: (DSAPoisonEffect *) effect atDate: currentDate];
             continue;
-          }          
+          }
         if (effect.expirationDate && [effect.expirationDate isEarlierThanDate:currentDate]) {
             [self removeCharacterEffectForKey:key];
         }
@@ -2669,7 +2767,14 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     case DSACharacterEffectTypeMagicProtection: {
      NSLog(@"DSACharacter removeCharacterEffectForKey nothing to do for: DSAMiracleResultTypeMagicProtection besides removing myself");
      break;
-    }           
+    }
+    case DSACharacterEffectTypeDrunken: {
+      NSLog(@"DSACharacter removeCharacterEffectForKey DSACharacterEffectTypeDrunken and resetting states Dict");
+      DSADrunkenEffect *drunkenEffect = (DSADrunkenEffect *)effect;
+      [self applyDrunkenEffect: drunkenEffect revert: YES];
+      [self.statesDict setObject: @(DSADrunkenLevelNone) forKey: @(DSACharacterStateDrunken)];
+      break;
+    }        
     default: {
       NSLog(@"DSACharacter removeCharacterEffectForKey no special handling for effect with key: %@ implemented", key);
     }

@@ -249,7 +249,7 @@
 - (void)addObserverForObject:(NSObject *)object
                      keyPath:(NSString *)keyPath
                    textField:(NSTextField *)field
-                  baseLevel:(NSInteger)baseLevel
+                   baseLevel:(NSInteger)baseLevel
 {
     LevelObserverInfo *info = [[LevelObserverInfo alloc] init];
     info.textField = field;
@@ -1403,7 +1403,7 @@
                         change:(NSDictionary<NSKeyValueChangeKey,id> *)change 
                        context:(void *)context
 {
-  NSLog(@"DSACharacterWindowController observeValueForKeyPath: %@", keyPath);
+  //NSLog(@"DSACharacterWindowController observeValueForKeyPath: %@", keyPath);
 
   if (context) {
       LevelObserverInfo *info = (__bridge LevelObserverInfo *)context;
@@ -2483,7 +2483,7 @@
   if (model.lifePoints >= [[self.fieldTempEnergiesLE stringValue] integerValue])
     {
     
-      NSLog(@"setting life points");
+      NSLog(@"DSACharacterWindowController setTempEnergies: setting life points");
       if ([[self.fieldTempEnergiesLE stringValue] integerValue] != model.currentLifePoints )
         {
            model.currentLifePoints = [[self.fieldTempEnergiesLE stringValue] integerValue];
@@ -2492,31 +2492,56 @@
     }  
   else
     {
-       NSLog(@"not setting life points");
+       NSLog(@"DSACharacterWindowController setTempEnergies life points were > than model.lifePoints, setting to model.lifePoints");
+       if (model.lifePoints != model.currentLifePoints)
+         {
+            model.currentLifePoints = model.lifePoints;
+            [document updateChangeCount: NSChangeDone];
+         }       
     }
     
   if (model.isMagic || model.isMagicalDabbler)
     {
       if (model.astralEnergy >= [[self.fieldTempEnergiesAE stringValue] integerValue])
         {
+          NSLog(@"DSACharacterWindowController setTempEnergies: setting astral energy");
           if ([[self.fieldTempEnergiesAE stringValue] integerValue] != model.currentAstralEnergy )
             {
               model.currentAstralEnergy = [[self.fieldTempEnergiesAE stringValue] integerValue];
               [document updateChangeCount: NSChangeDone];
             }
         }
+      else
+        {
+          NSLog(@"DSACharacterWindowController setTempEnergies astral energy > than model.astralEnergy, setting to model.astralEnergy");
+          if (model.astralEnergy != model.currentAstralEnergy)
+            {
+              model.currentAstralEnergy = model.astralEnergy;
+              [document updateChangeCount: NSChangeDone];
+            }        
+        }
     }
   if (model.isBlessedOne)
     {
       if (model.karmaPoints >= [[self.fieldTempEnergiesKE stringValue] integerValue])
         {
+          NSLog(@"DSACharacterWindowController setTempEnergies: setting karma points");
           if ([[self.fieldTempEnergiesKE stringValue] integerValue] != model.currentKarmaPoints )
             {
               model.currentKarmaPoints = [[self.fieldTempEnergiesKE stringValue] integerValue];
+              [document updateChangeCount: NSChangeDone];
             }
         }
+      else
+        {
+           NSLog(@"DSACharacterWindowController setTempEnergies karma points > than model.karmaPoints, setting to model.karmaPoints");
+          if (model.karmaPoints != model.currentKarmaPoints )
+            {
+              model.currentKarmaPoints = model.karmaPoints;
+              [document updateChangeCount: NSChangeDone];
+            }           
+        }
     }
-  NSLog(@"DER HUNGER: %f", [self.sliderTempEnergiesHunger floatValue]);
   [model updateStatesDictState: (NSNumber *) @(DSACharacterStateHunger)
                      withValue: (NSNumber *) @([self.sliderTempEnergiesHunger floatValue])];  
   [model updateStatesDictState: (NSNumber *) @(DSACharacterStateThirst)
