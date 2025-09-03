@@ -34,18 +34,9 @@
 
 + (instancetype)sharedInstance;
 
-+ (NSDictionary *) getDSAObjectInfoByName: (NSString *) name;
-
 + (NSDictionary *) parseDice: (NSString *) diceDefinition;
 + (NSDictionary *) parseConstraint: (NSString *) constraintDefinition;
 + (NSInteger) rollDice: (NSString *) diceDefinition;
-
-+ (NSDictionary<NSString *, NSDictionary *> *) getDSAObjectsDict;
-+ (NSDictionary *) getDSAObjectInfoByName: (NSString *) name;
-+ (DSASlotType)slotTypeFromString:(NSString *)slotTypeString;
-+ (NSArray<DSAObject *> *) getAllDSAObjectsForShop: (NSString *) shopType;
-
-+ (NSString *)formatTPEntfernung:(NSDictionary *)tpEntfernung;
 
 + (NSDictionary *) getNamesDict;
 + (NSDictionary *) getNamesForRegion: (NSString *) region;

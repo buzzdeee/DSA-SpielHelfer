@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype) initWithName: (NSString *) name forOwner: (nullable NSUUID *)ownerUUID;
 
-- (instancetype) initWithObjectInfo: (NSDictionary *) objectInfo forOwner: (NSUUID *) ownerUUID;
+- (instancetype) initWithObjectInfo: (NSDictionary *) objectInfo forOwner: (nullable NSUUID *) ownerUUID;
 
 - (instancetype) initWithName: (NSString *) name
                      withIcon: (NSString *) icon
@@ -109,6 +109,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL) isConsumable;
 - (BOOL) isAlcoholic;
 - (BOOL) isDepletable;
+- (BOOL) isPoisoned;
+- (BOOL) hasShelfLife;
 - (BOOL) justDepleted;
 - (NSInteger) alcoholLevel;
 - (float) nutritionValue;
@@ -346,6 +348,19 @@ NS_ASSUME_NONNULL_BEGIN
                   withRegions: (NSArray *) regions;
 @end
 // End of DSAObjectCloth
+
+@interface DSAObjectManager : NSObject
+@property (nonatomic, strong, nullable) NSMutableDictionary <NSString *, NSMutableDictionary *> *objectsByName;
++ (instancetype)sharedManager;
+
+- (NSDictionary *)getDSAObjectInfoByName:(NSString *)name;
+- (NSArray<DSAObject *> *)getAllDSAObjectsForShop:(NSString *)shopType;
+
+- (DSASlotType)slotTypeFromString:(NSString *)slotTypeString;
+- (NSString *)formatTPEntfernung:(NSDictionary *)tpEntfernung;
+@end
+
+
 NS_ASSUME_NONNULL_END
 #endif // _DSAOBJECT_H_
 

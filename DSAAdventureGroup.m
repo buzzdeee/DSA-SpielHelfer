@@ -204,7 +204,7 @@
 
 - (void)distributeItems:(DSAObject *)item count:(NSInteger)count
 {
-    NSLog(@"DSAAdventureGroup distributeItems: item %@", item);
+    //NSLog(@"DSAAdventureGroup distributeItems: item %@", item);
     if (!item || count <= 0) return;
 
     // 1. Gather group members with inventories

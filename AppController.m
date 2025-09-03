@@ -95,7 +95,7 @@
   NSLog(@"AppController showEquipmentList called!!!");
   // Initialize and retain the DSAEquipmentListViewController
   self.equipmentListViewController = [[DSAEquipmentListViewController alloc] init];
-    
+  NSLog(@"AppController showEquipmentList the equipmentListViewController is now initialized");
   // Show the window
   [self.equipmentListViewController showWindow:self];
 }

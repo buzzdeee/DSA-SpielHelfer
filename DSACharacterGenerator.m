@@ -3287,7 +3287,7 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
           for (NSString *itemName in [equipment allKeys])
             {
               NSDictionary *itemInfo = [equipment objectForKey: itemName];
-              NSMutableDictionary *itemDict = [[Utils getDSAObjectInfoByName: itemName] mutableCopy];
+              NSMutableDictionary *itemDict = [[[DSAObjectManager sharedManager] getDSAObjectInfoByName: itemName] mutableCopy];
               if ([itemInfo objectForKey: @"Sprüche"])
                 {
                   [itemDict setObject: [itemInfo objectForKey: @"Sprüche"] forKey: @"Sprüche"];
@@ -3462,7 +3462,7 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
       
       if ([tEquipment objectForKey: @"Sprüche"])
         {
-          NSMutableDictionary *eEquipment = [[Utils getDSAObjectInfoByName: equipment] mutableCopy];
+          NSMutableDictionary *eEquipment = [[[DSAObjectManager sharedManager] getDSAObjectInfoByName: equipment] mutableCopy];
           NSLog(@"DSACharacterGenerator addEquipmentToCharacter:THE eEquipment: %@", eEquipment);
           [eEquipment setObject: [tEquipment objectForKey: @"Sprüche"] forKey: @"Sprüche"];
           NSLog(@"DSACharacterGenerator addEquipmentToCharacter: AGAIN THE eEquipment: %@", eEquipment);          

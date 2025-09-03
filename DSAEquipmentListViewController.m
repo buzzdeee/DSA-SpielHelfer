@@ -23,7 +23,8 @@
 */
 
 #import "DSAEquipmentListViewController.h"
-#import "Utils.h"
+//#import "Utils.h"
+#import "DSAObject.h"
 
 #define ICON_SIZE 32
 
@@ -50,6 +51,15 @@
 
 }
 
+- (void)loadData {
+    NSDictionary *objectsByName = [DSAObjectManager sharedManager].objectsByName;
+    NSArray *flattenedData = [self flattenEquipmentData: objectsByName];
+    self.tableDataOriginal = flattenedData; // Store the unfiltered data
+    self.tableData = [flattenedData mutableCopy]; // Initialize the table data
+
+    [self configureTableForGeneralView];
+}
+
 
 // NSTableViewDelegate to prevent editing table cells
 - (BOOL)tableView:(NSTableView *)tableView shouldEditTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
@@ -58,7 +68,7 @@
 
 - (NSArray *)flattenEquipmentData:(NSDictionary *)data {
     NSMutableArray *flatData = [NSMutableArray array];
-    [self traverseData:data parentKeys:@[] intoArray:flatData];
+    [self traverseData:data intoArray:flatData];
     
     // Sort the flattened data
     NSSortDescriptor *sortOberkategorie = [NSSortDescriptor sortDescriptorWithKey:@"Oberkategorie" ascending:YES];
@@ -69,13 +79,11 @@
     return [flatData sortedArrayUsingDescriptors:@[sortOberkategorie, sortKategorie, sortUnterkategorie, sortName]];
 }
 
-- (void)traverseData:(NSDictionary *)data parentKeys:(NSArray *)keys intoArray:(NSMutableArray *)flatData {
+- (void)traverseData:(NSDictionary *)data intoArray:(NSMutableArray *)flatData {
     for (NSString *key in data) {
         id value = data[key];
         
-        if ([value isKindOfClass:[NSDictionary class]]) {
             NSMutableDictionary *row = [NSMutableDictionary dictionary];
-            BOOL isTerminal = NO;
 
             // Extract general fields
             row[@"Name"] = value[@"Name"];
@@ -97,44 +105,32 @@
                 row[@"BF"] = value[@"Bruchfaktor"];
                 row[@"WV"] = value[@"Waffenvergleichswert"];
                 row[@"isHandWeapon"] = @YES;
-                isTerminal = YES;
             }
             if ([value[@"isDistantWeapon"] isEqual: @YES]) {
                 row[@"Reichweite"] = value[@"Reichweite"];
                 row[@"TP Fern"] = [value[@"Trefferpunkte Fernwaffe"] componentsJoinedByString:@", "];
                 row[@"TP Entfernung"] = value[@"TP Entfernung Formatted"];
                 row[@"isDistantWeapon"] = @YES;
-                isTerminal = YES;
             }
             if ([value[@"isArmor"] isEqual: @YES]) {
                 row[@"Rüstschutz"] = value[@"Rüstschutz"];
                 row[@"Behinderung"] = value[@"Behinderung"];
                 row[@"isArmor"] = @YES;
-                isTerminal = YES;
             }
             if ([value[@"category"] isEqualToString: @"Gift"])
               {
                 NSLog(@"THE POISON: %@", value);
                 row[@"Haltbarkeit"] = value[@"Haltbarkeit"];
-                isTerminal = YES;
               }
             // If this is a terminal node (has specific properties), add to the flat data
-            if (isTerminal || value[@"Gewicht"] != nil) {
-                row[@"Oberkategorie"] = keys.count > 0 ? keys[0] : @"";
-                if ([value[@"category"] isEqualToString: @"Gift"])
-                  {
-                    row[@"Oberkategorie"] = @"Gift";
-                  }
-                row[@"Kategorie"] = keys.count > 1 ? keys[1] : @"";
-                row[@"Unterkategorie"] = keys.count > 2 ? keys[2] : @"";
-                row[@"Maßgeschneidert"] = value[@"Maßgeschneidert"] ? value[@"Maßgeschneidert"] : @"";
+            if (value[@"Gewicht"] != nil) {
+                row[@"Oberkategorie"] = value[@"category"] ? : @"";
+                row[@"Kategorie"] = value[@"subCategory"] ? : @"";
+                row[@"Unterkategorie"] = value[@"subSubCategory"] ? : @"";
+                row[@"Maßgeschneidert"] = value[@"Maßgeschneidert"] ? : @"";
                 [flatData addObject:row];
-            } else {
-                // Recurse deeper if not terminal
-                [self traverseData:value parentKeys:[keys arrayByAddingObject:key] intoArray:flatData];
+
             }
-           
-        }
     }
 }
 
@@ -167,15 +163,6 @@
     
     // For other columns, return the corresponding value from rowData
     return rowData[identifier];
-}
-
-
-- (void)loadData {
-    NSArray *flattenedData = [self flattenEquipmentData: [Utils getDSAObjectsDict]];
-    self.tableDataOriginal = flattenedData; // Store the unfiltered data
-    self.tableData = [flattenedData mutableCopy]; // Initialize the table data
-
-    [self configureTableForGeneralView];
 }
 
 - (void) configureTableForGeneralView {

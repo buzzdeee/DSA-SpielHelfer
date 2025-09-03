@@ -214,7 +214,7 @@
         CGFloat yPos = arc4random_uniform(self.bounds.size.height);
         
         // Adjust the Y position for rain/snow particles to start from the top
-        CGFloat yStart = self.bounds.size.height;  // Starting at the top of the NSRect
+        //CGFloat yStart = self.bounds.size.height;  // Starting at the top of the NSRect
         
         // Create a particle
         // NSRect particleRect = NSMakeRect(xPos, yStart, particleSize, particleSize);

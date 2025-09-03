@@ -37,11 +37,11 @@
 }
 
 - (void)addObject:(DSAObject *)object count:(NSInteger)count price:(float)price slot: (NSString *) slotID {
-    NSLog(@"DSAShoppingCart addObject: %@", object);
+    //NSLog(@"DSAShoppingCart addObject: %@", object);
     if (!object || count <= 0) return;
 
     NSString *key;
-    NSLog(@"DSAShoppingCart addObject slotID: %@ Shop Mode: %ld", slotID, self.mode);
+    //NSLog(@"DSAShoppingCart addObject slotID: %@ Shop Mode: %ld", slotID, self.mode);
     if (self.mode == DSAShopModeBuy)
       {
         key = object.name;
@@ -51,9 +51,9 @@
         key = [NSString stringWithFormat: @"%@|%@", object.name, slotID];
       }
     if (!key) return;
-    NSLog(@"DSAShoppingCart addObject key: %@", key);
+    //NSLog(@"DSAShoppingCart addObject key: %@", key);
     NSDictionary *existingEntry = self.cartContents[key];
-    NSLog(@"DSAShoppingCart addObject existingEntry: %@", nil);
+    //NSLog(@"DSAShoppingCart addObject existingEntry: %@", nil);
     if (existingEntry) {
         NSMutableArray *existingItems = existingEntry[@"items"];
         for (NSInteger i = 0; i < count; i++) {
@@ -62,7 +62,7 @@
     } else {
         NSMutableArray *items = [NSMutableArray array];
         for (NSInteger i = 0; i < count; i++) {
-            NSLog(@"DSAShoppingCart addObject: adding to items, the object via copy: %@", object);
+            //NSLog(@"DSAShoppingCart addObject: adding to items, the object via copy: %@", object);
             [items addObject:[object copy]];
         }
         NSLog(@"DSAShoppingCart addObject: the items: %@", items);
@@ -88,7 +88,7 @@
       {
         key = [NSString stringWithFormat: @"%@|%@", object.name, slotID];
       }
-    NSLog(@"DSAShoppingCart removeObject key: %@", key);
+    //NSLog(@"DSAShoppingCart removeObject key: %@", key);
     //NSMutableDictionary *entry = self.cartContents[key];
     NSDictionary *entry = self.cartContents[key];
     if (!entry) return;
@@ -123,7 +123,7 @@
     NSInteger count = 0;
     for (NSDictionary *entry in [self.cartContents allValues])
       {
-        NSLog(@"DSAShoppingCart countAllObjects: entry: %@", entry);
+        //NSLog(@"DSAShoppingCart countAllObjects: entry: %@", entry);
         count += [[entry objectForKey: @"items"] count];
       }
     return count;

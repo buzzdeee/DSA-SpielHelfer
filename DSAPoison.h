@@ -48,9 +48,6 @@ NS_ASSUME_NONNULL_BEGIN
 // Init
 - (instancetype)initWithName:(NSString *)name fromDictionary:(NSDictionary *)dict;
 
-// Optional behavior
-- (void)applyEffectToTarget:(id)target;
-
 - (nullable DSAPoisonEffect *)generateEffectForCharacter:(DSACharacter *)character;
 
 - (DSAAventurianDate *)endDateOfStage:(DSAPoisonStage) currentStage

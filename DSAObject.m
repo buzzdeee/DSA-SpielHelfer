@@ -94,7 +94,7 @@
   NSLog(@"DSAObject initWithName: before calling self = [super init] for name: %@", name);
   self = [super init];
   NSLog(@"DSAObject initWithName: before calling Utils getDSAObjectInfoByName: %@", name);
-  NSDictionary *objectInfo = [Utils getDSAObjectInfoByName: name];
+  NSDictionary *objectInfo = [[DSAObjectManager sharedManager] getDSAObjectInfoByName: name];
   NSLog(@"DSAObject initWithName: name: %@, objectInfo: %@", name, objectInfo);
   return [self initWithObjectInfo: objectInfo forOwner: ownerUUID];
   
@@ -183,8 +183,8 @@
       self = [[DSAObjectWeaponHandWeapon alloc] initWithName: name
                                          withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: arc4random_uniform([[objectInfo valueForKey: @"Icon"] count])]: nil
                                        inCategory: [objectInfo objectForKey: @"category"]
-                                    inSubCategory: [objectInfo objectForKey: @"category1"]
-                                 inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                                    inSubCategory: [objectInfo objectForKey: @"subCategory"]
+                                 inSubSubCategory: [objectInfo objectForKey: @"subSubCategory"]
                                        withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                        withLength: [[objectInfo objectForKey: @"Länge"] floatValue]
@@ -208,8 +208,8 @@
       self = [[DSAObjectWeaponLongRange alloc] initWithName: name
                                          withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
                                        inCategory: [objectInfo objectForKey: @"category"]
-                                    inSubCategory: [objectInfo objectForKey: @"category1"]
-                                 inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                                    inSubCategory: [objectInfo objectForKey: @"subCategory"]
+                                 inSubSubCategory: [objectInfo objectForKey: @"subSubCategory"]
                                        withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                   withMaxDistance: [[objectInfo objectForKey: @"Reichweite"] integerValue]
@@ -231,8 +231,8 @@
       self = [[DSAObjectWeaponHandAndLongRangeWeapon alloc] initWithName: name
                                          withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
                                        inCategory: [objectInfo objectForKey: @"category"]
-                                    inSubCategory: [objectInfo objectForKey: @"category1"]
-                                 inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                                    inSubCategory: [objectInfo objectForKey: @"subCategory"]
+                                 inSubSubCategory: [objectInfo objectForKey: @"subSubCategory"]
                                        withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                        withLength: [[objectInfo objectForKey: @"Länge"] floatValue]
@@ -258,8 +258,8 @@
       self = [[DSAObjectShieldAndParry alloc] initWithName: name
                                          withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
                                        inCategory: [objectInfo objectForKey: @"category"]
-                                    inSubCategory: [objectInfo objectForKey: @"category1"]
-                                 inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                                    inSubCategory: [objectInfo objectForKey: @"subCategory"]
+                                 inSubSubCategory: [objectInfo objectForKey: @"subSubCategory"]
                                        withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                        withLength: [[objectInfo objectForKey: @"Länge"] floatValue]
@@ -284,8 +284,8 @@
       self = [[DSAObjectShield alloc] initWithName: name
                                          withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
                                        inCategory: [objectInfo objectForKey: @"category"]
-                                    inSubCategory: [objectInfo objectForKey: @"category1"]
-                                 inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                                    inSubCategory: [objectInfo objectForKey: @"subCategory"]
+                                 inSubSubCategory: [objectInfo objectForKey: @"subSubCategory"]
                                        withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                   withBreakFactor: [[objectInfo objectForKey: @"Bruchfaktor"] integerValue]                                        
@@ -304,8 +304,8 @@
       self = [[DSAObjectArmor alloc] initWithName: name
                                          withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
                                        inCategory: [objectInfo objectForKey: @"category"]
-                                    inSubCategory: [objectInfo objectForKey: @"category1"]
-                                 inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                                    inSubCategory: [objectInfo objectForKey: @"subCategory"]
+                                 inSubSubCategory: [objectInfo objectForKey: @"subSubCategory"]
                                        withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                         withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                    withProtection: [[objectInfo objectForKey: @"Rüstschutz"] floatValue]
@@ -322,12 +322,12 @@
       self = [[DSAObjectContainer alloc] initWithName: name
                                              withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
                                            inCategory: [objectInfo objectForKey: @"category"]
-                                        inSubCategory: [objectInfo objectForKey: @"category1"]
-                                     inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                                        inSubCategory: [objectInfo objectForKey: @"subCategory"]
+                                     inSubSubCategory: [objectInfo objectForKey: @"subSubCategory"]
                                            withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                             withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                           withPenalty: [[objectInfo objectForKey: @"Behinderung"] floatValue]  
-                                           ofSlotType: [objectInfo objectForKey: @"HatSlots" ] ? [Utils slotTypeFromString: [[objectInfo objectForKey: @"HatSlots" ] objectAtIndex: 0]] : DSASlotTypeGeneral
+                                           ofSlotType: [objectInfo objectForKey: @"HatSlots" ] ? [[DSAObjectManager sharedManager] slotTypeFromString: [[objectInfo objectForKey: @"HatSlots" ] objectAtIndex: 0]] : DSASlotTypeGeneral
                                         withNrOfSlots: [objectInfo objectForKey: @"Slots" ] ? [[objectInfo objectForKey: @"Slots" ] integerValue] : 1
                                       maxItemsPerSlot: [objectInfo objectForKey: @"MaximumPerSlot" ] ? [[objectInfo objectForKey: @"MaximumPerSlot" ] integerValue] : 1
                               validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
@@ -342,8 +342,8 @@
       self = [[DSAObjectFood alloc] initWithName: name
                                         withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
                                       inCategory: [objectInfo objectForKey: @"category"]
-                                   inSubCategory: [objectInfo objectForKey: @"category1"]
-                                inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                                   inSubCategory: [objectInfo objectForKey: @"subCategory"]
+                                inSubSubCategory: [objectInfo objectForKey: @"subSubCategory"]
                                       withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                        withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                          validInventorySlotTypes: [objectInfo objectForKey: @"validSlotTypes"]
@@ -354,8 +354,8 @@
        self = [[DSAObjectCloth alloc] initWithName: name
                                           withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
                                         inCategory: [objectInfo objectForKey: @"category"]
-                                     inSubCategory: [objectInfo objectForKey: @"category1"]
-                                  inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                                     inSubCategory: [objectInfo objectForKey: @"subCategory"]
+                                  inSubSubCategory: [objectInfo objectForKey: @"subSubCategory"]
                                         withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                          withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                        withPenalty: [[objectInfo objectForKey: @"Behinderung"] floatValue]
@@ -377,8 +377,8 @@
       self = [[DSAObject alloc] initWithName: name
                                     withIcon: [objectInfo objectForKey: @"Icon"] ? [[objectInfo valueForKey: @"Icon"] objectAtIndex: 0]: nil
                                   inCategory: [objectInfo objectForKey: @"category"]
-                               inSubCategory: [objectInfo objectForKey: @"category1"]
-                            inSubSubCategory: [objectInfo objectForKey: @"category2"]
+                               inSubCategory: [objectInfo objectForKey: @"subCategory"]
+                            inSubSubCategory: [objectInfo objectForKey: @"subSubCategory"]
                                   withWeight: [[objectInfo objectForKey: @"Gewicht"] floatValue]
                                    withPrice: [[objectInfo objectForKey: @"Preis"] floatValue]
                                  withPenalty: [[objectInfo objectForKey: @"Behinderung"] floatValue]    
@@ -663,77 +663,83 @@ NSLog(@"DSAObject initWithObjectInfo before consumptions shelfLifeDays");
 // they are all calculated
 - (id)copyWithZone:(NSZone *)zone
 {
-  // Create a new instance of the class
-  DSAObject *copy = [[[self class] allocWithZone:zone] init];
+    NSLog(@"DSAObject copyWithZone called!");
+    // Neues Objekt vom selben Typ erzeugen
+    DSAObject *copy = [[[self class] allocWithZone:zone] init];
 
-  Class currentClass = [self class];
-  while (currentClass != [NSObject class])
-    {  // Loop through class hierarchy
-      // Get a list of all properties for this class
-      unsigned int propertyCount;
-      objc_property_t *properties = class_copyPropertyList(currentClass, &propertyCount);
-        
-      // Iterate over each property
-      for (unsigned int i = 0; i < propertyCount; i++)
-        {
-          objc_property_t property = properties[i];
-          // Get the property name
-          const char *propertyName = property_getName(property);
-          NSString *key = [NSString stringWithUTF8String:propertyName];
+    Class currentClass = [self class];
+    while (currentClass != [NSObject class]) {
+        unsigned int propertyCount;
+        objc_property_t *properties = class_copyPropertyList(currentClass, &propertyCount);
 
-          // Get the property attributes
-          const char *attributes = property_getAttributes(property);
-          NSString *attributesString = [NSString stringWithUTF8String:attributes];
-          // Check if the property is readonly by looking for the "R" attribute
-          if ([attributesString containsString:@",R"])
-            {
-              // This is a readonly property, skip copying it
-              continue;
+        for (unsigned int i = 0; i < propertyCount; i++) {
+            objc_property_t property = properties[i];
+            const char *propertyName = property_getName(property);
+            NSString *key = [NSString stringWithUTF8String:propertyName];
+
+            const char *attributes = property_getAttributes(property);
+            NSString *attributesString = [NSString stringWithUTF8String:attributes];
+            if ([attributesString containsString:@",R"]) {
+                // readonly -> wird übersprungen
+                continue;
             }
-            
-          // Get the value of the property for the current object
-          id value = [self valueForKey:key];
 
-          if (value)
-            {
-              // Handle arrays specifically
-              if ([value isKindOfClass:[NSArray class]])
-                {
-                  // Create a mutable array to copy the elements
-                  NSMutableArray *copiedArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)value count]];
-                  for (id item in (NSArray *)value)
-                    {
-                      if ([item conformsToProtocol:@protocol(NSCopying)])
-                        {
-                          [copiedArray addObject:[item copyWithZone:zone]];
-                        } else {
-                          [copiedArray addObject:item]; // Fallback to shallow copy
-                        }
+            id value = [self valueForKey:key];
+            if (!value) continue;
+
+            // --- NSArray ---
+            if ([value isKindOfClass:[NSArray class]]) {
+                NSMutableArray *copiedArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)value count]];
+                for (id item in (NSArray *)value) {
+                    if ([item conformsToProtocol:@protocol(NSCopying)]) {
+                        [copiedArray addObject:[item copyWithZone:zone]];
+                    } else {
+                        [copiedArray addObject:item];
                     }
-                  [copy setValue:[NSArray arrayWithArray:copiedArray] forKey:key];
                 }
-              // Check if the property conforms to NSCopying
-              else if ([value conformsToProtocol:@protocol(NSCopying)])
-                {
-                  [copy setValue:[value copyWithZone:zone] forKey:key];
+                [copy setValue:[NSArray arrayWithArray:copiedArray] forKey:key];
+            }
+            // --- NSDictionary ---
+            else if ([value isKindOfClass:[NSDictionary class]]) {
+                NSMutableDictionary *copiedDict = [[NSMutableDictionary alloc] initWithCapacity:[(NSDictionary *)value count]];
+                for (id dictKey in (NSDictionary *)value) {
+                    id item = value[dictKey];
+                    if ([item conformsToProtocol:@protocol(NSCopying)]) {
+                        copiedDict[dictKey] = [item copyWithZone:zone];
+                    } else {
+                        copiedDict[dictKey] = item;
+                    }
                 }
-              else
-                {
-                    // Just assign the reference (shallow copy)
-                    [copy setValue:value forKey:key];
+                [copy setValue:[NSDictionary dictionaryWithDictionary:copiedDict] forKey:key];
+            }
+            // --- NSSet ---
+            else if ([value isKindOfClass:[NSSet class]]) {
+                NSMutableSet *copiedSet = [[NSMutableSet alloc] initWithCapacity:[(NSSet *)value count]];
+                for (id item in (NSSet *)value) {
+                    if ([item conformsToProtocol:@protocol(NSCopying)]) {
+                        [copiedSet addObject:[item copyWithZone:zone]];
+                    } else {
+                        [copiedSet addObject:item];
+                    }
                 }
+                [copy setValue:[NSSet setWithSet:copiedSet] forKey:key];
+            }
+            // --- alle anderen Objekte, die NSCopying unterstützen ---
+            else if ([value conformsToProtocol:@protocol(NSCopying)]) {
+                [copy setValue:[value copyWithZone:zone] forKey:key];
+            }
+            // --- Fallback: shallow copy ---
+            else {
+                [copy setValue:value forKey:key];
             }
         }
 
-      // Free the property list memory
-      free(properties);
-        
-      // Move to superclass
-      currentClass = [currentClass superclass];
-    }    
-  return copy;
-}
+        free(properties);
+        currentClass = [currentClass superclass];
+    }
 
+    return copy;
+}
 
 // used to determine, if the object can share an inventory slot
 // or if we can carry the other object
@@ -779,7 +785,7 @@ NSLog(@"DSAObject initWithObjectInfo before consumptions shelfLifeDays");
   // XXX TODO below tests may be bogus, and not sufficient
   if (self.appliedSpells != otherObject.appliedSpells || 
       ![self.ownerUUID isEqual: otherObject.ownerUUID] ||
-      [self.states containsObject: @(DSAObjectStateIsPoisoned)] != [otherObject.states containsObject: @(DSAObjectStateIsPoisoned)])
+      [self isPoisoned] != [otherObject isPoisoned])
     {
       return NO; // Mismatched properties
     }
@@ -860,6 +866,22 @@ NSLog(@"DSAObject initWithObjectInfo before consumptions shelfLifeDays");
 - (BOOL) isDepletable
 {
   if ([self.states containsObject: @(DSAObjectStateIsDepletable)])
+    {
+      return YES;
+    }
+  return NO;
+}
+- (BOOL) isPoisoned
+{
+  if ([self.states containsObject: @(DSAObjectStateIsPoisoned)])
+    {
+      return YES;
+    }
+  return NO;
+}
+- (BOOL) hasShelfLife
+{
+  if ([self.states containsObject: @(DSAObjectStateHasShelfLife)])
     {
       return YES;
     }
@@ -1575,3 +1597,336 @@ NSLog(@"DSAObject initWithObjectInfo before consumptions shelfLifeDays");
 }                         
 @end
 // End of DSAObjectCloth
+
+@implementation DSAObjectManager
+static DSAObjectManager *sharedInstance = nil;
++ (instancetype)sharedManager {
+    @synchronized(self) {
+        if (sharedInstance == nil) {
+            sharedInstance = [[self alloc] init];
+        }
+    }
+    return sharedInstance;
+}
+
+-(instancetype) init
+{
+  self = [super init];
+  if (self)
+    {
+      _objectsByName = nil;
+      
+      NSError *e = nil;
+      NSString *filePath;
+      filePath = [[NSBundle mainBundle] pathForResource:@"Ausruestung" ofType:@"json"];
+      _objectsByName = [NSJSONSerialization JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                                                       options: NSJSONReadingMutableContainers
+                                                         error: &e];
+      if (e)
+        {
+           NSLog(@"DSAObjectManager init: Error loading JSON: %@", e.localizedDescription);
+        }
+      else
+        {
+          [self enrichEquipmentData];
+        }
+      filePath = [[NSBundle mainBundle] pathForResource:@"Gifte" ofType:@"json"];
+      NSMutableDictionary *poisonsDict = [NSJSONSerialization JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                                                                         options: NSJSONReadingMutableContainers
+                                                                           error: &e];
+      if (e)
+        {
+           NSLog(@"DSAObjectManager init: Error loading JSON: %@", e.localizedDescription);
+        }
+      else
+        {
+          for (NSString *key in [poisonsDict allKeys])
+            {
+              NSMutableDictionary *poisonDict = [[NSMutableDictionary alloc] init];
+              poisonDict = [poisonsDict[key] mutableCopy];
+              poisonDict[@"Name"] = key;
+              poisonDict[@"category"] = @"Gift";
+              [_objectsByName setObject: poisonDict forKey: key];
+            }
+        }      
+      
+    }
+  return self;
+}
+
+- (void)enrichEquipmentData {
+    for (NSString *key in _objectsByName) {
+        //NSLog(@"Utils.m enrichEquipmentData: CHECKING KEY: %@", key);
+        NSMutableDictionary *entry = _objectsByName[key];
+
+            if ([entry[@"Name"] isEqualToString: @"Bier"])
+              {
+                NSLog(@"DSAObject enrichEquipmentData BEGINNING entry: %@", entry);
+              }
+            if (entry[@"TrefferpunkteKK"] != nil) {
+                entry[@"isHandWeapon"] = @YES;
+            }
+            if (entry[@"TP Entfernung"] != nil) {
+                entry[@"isDistantWeapon"] = @YES;
+            }
+            if (entry[@"Rüstschutz"] != nil) {
+                entry[@"isArmor"] = @YES;
+            }
+            if (entry[@"Waffenvergleichswert Schild"]) {
+                entry[@"isShield"] = @YES;
+                if (entry[@"Waffenvergleichswert"]) {
+                  entry[@"isHandWeapon"] = @YES;
+                }
+            }
+            
+            if (entry[@"HatSlots"] != nil)
+              {
+                entry[@"isContainer"] = @YES;
+              }
+            
+            // Optionally, compute and format additional fields here
+            if (entry[@"Trefferpunkte"] != nil) {
+                entry[@"TP"] = [entry[@"Trefferpunkte"] componentsJoinedByString:@", "];
+            }
+            if (entry[@"TP Entfernung"] != nil) {
+                entry[@"TP Entfernung Formatted"] = [self formatTPEntfernung:entry[@"TP Entfernung"]];
+            }
+            if (entry[@"Waffenvergleichswert"] != nil) {
+                NSString *waffenvergleichswert = entry[@"Waffenvergleichswert"];
+                NSArray *values = [waffenvergleichswert componentsSeparatedByString:@"/"];
+    
+                if (values.count == 2) {
+                  // Parse the attackPower and parryValue as integers
+                  NSInteger attackPower = [values[0] integerValue];
+                  NSInteger parryValue = [values[1] integerValue];
+        
+                  // Assign them back to the dictionary
+                  entry[@"attackPower"] = @(attackPower);
+                  entry[@"parryValue"] = @(parryValue);
+                } else {
+                  NSLog(@"DSAObjectManager enrichEquipmentData: Invalid Waffenvergleichswert format: %@ ABORTING!", waffenvergleichswert);
+                  abort();
+                }
+            }
+            if (entry[@"Waffenvergleichswert Schild"] != nil) {
+                NSString *waffenvergleichswertSchild = entry[@"Waffenvergleichswert Schild"];
+                NSArray *values = [waffenvergleichswertSchild componentsSeparatedByString:@"/"];
+    
+                if (values.count == 2) {
+                  // Parse the attackPower and parryValue as integers
+                  NSInteger shieldAttackPower = [values[0] integerValue];
+                  NSInteger shieldParryValue = [values[1] integerValue];
+        
+                  // Assign them back to the dictionary
+                  entry[@"shieldAttackPower"] = @(shieldAttackPower);
+                  entry[@"shieldParryValue"] = @(shieldParryValue);
+                } else {
+                  NSLog(@"DSAObjectManager enrichEquipmentData: Invalid Waffenvergleichswert Schild format: %@", waffenvergleichswertSchild);
+                }
+            }                 
+            if (entry[@"Regionen"] != nil) {
+                entry[@"Regionen Formatted"] = [entry[@"Regionen"] componentsJoinedByString:@", "];
+                NSArray *regionen = [NSArray arrayWithArray: entry[@"Regionen"]];
+                entry[@"Regionen"] = regionen;
+            }
+
+            if ([entry[@"category"] isEqualToString: @"Behälter"])
+              {
+                entry[@"isContainer"] = @YES;
+              }
+            if ([entry[@"category"] isEqualToString: @"Werkzeug"])
+              {
+                entry[@"isTool"] = @YES;
+              }
+            if ([entry[@"category"] isEqualToString: @"Kleidung und Schuhwerk"])
+              {
+                entry[@"isCloth"] = @YES;
+              }
+            if ([entry[@"category"] isEqualToString: @"Musikinstrumente"])
+              {
+                entry[@"isInstrument"] = @YES;
+              }
+            if ([entry[@"category"] isEqualToString: @"Nahrungs- und Genußmittel"])
+              {
+                entry[@"isFood"] = @YES;
+                if ([entry[@"subCategory"] isEqualToString: @"Getränke"])
+                  {
+                    entry[@"isDrink"] = @YES;
+                    if ([entry[@"subSubCategory"] isEqualToString: @"Alkoholisch"])
+                      {
+                        entry[@"isAlcohol"] = @YES;
+                      }
+                    else
+                      {
+                        entry[@"isAlcohol"] = @NO;
+                      }
+                  }
+                else
+                  {
+                    entry[@"isDrink"] = @NO;
+                  }
+              }
+
+            if ([entry[@"MehrereProSlot"] isEqualTo: @YES])
+              {
+                entry[@"canShareSlot"] = @YES;
+              }              
+              
+            // Add the slot types parsing logic here
+            NSArray *validSlotTypes = entry[@"ErlaubtInSlots"];
+            NSMutableArray<NSNumber *> *validSlotTypesEnum = [NSMutableArray array];
+
+            // If validSlotTypes is missing or empty, default to DSASlotTypeGeneral
+            if (validSlotTypes == nil || validSlotTypes.count == 0) {
+                [validSlotTypesEnum addObject:@(DSASlotTypeGeneral)];
+            } else {
+                // Convert slot types in JSON to DSASlotType enums
+                for (NSString *slotTypeString in validSlotTypes) {
+                    DSASlotType slotType = [self slotTypeFromString:slotTypeString];
+                    if (slotType != NSNotFound) {
+                        [validSlotTypesEnum addObject:@(slotType)];
+                    }
+                }
+                // Always add DSASlotTypeGeneral to the list of valid slot types
+                [validSlotTypesEnum addObject:@(DSASlotTypeGeneral)];
+            }
+
+            // Store the parsed validSlotTypes as enum values
+            entry[@"validSlotTypes"] = validSlotTypesEnum;              
+            
+            NSArray *occupiedBodySlots = entry[@"belegteKörperSlots"];
+            NSMutableArray<NSNumber *> * occupiedBodySlotsEnum = [NSMutableArray array];
+            // If occupiedBodySlots is missing or empty, we're fine with it, the item only occpuies a single named slot
+            if (occupiedBodySlots == nil || occupiedBodySlots.count == 0) {
+                occupiedBodySlots = nil;
+            } else {
+                // Convert slot types in JSON to DSASlotType enums
+                for (NSString *slotTypeString in occupiedBodySlots) {
+                    DSASlotType slotType = [self slotTypeFromString:slotTypeString];
+                    if (slotType != NSNotFound) {
+                        [occupiedBodySlotsEnum addObject:@(slotType)];
+                    }
+                }
+            }
+            entry[@"occupiedBodySlots"] = occupiedBodySlotsEnum;
+            if ([entry[@"Name"] isEqualToString: @"Bier"])
+              {
+                NSLog(@"DSAObject enrichEquipmentData END entry: %@", entry);
+              }            
+    }
+}
+
+// helper method to enrich object data, DSASlot related info on DSAObjects
+- (DSASlotType)slotTypeFromString:(NSString *)slotTypeString {
+    NSDictionary<NSString *, NSNumber *> *slotTypeMapping = @{
+        @"Allgemein" : @(DSASlotTypeGeneral),
+        @"Unterwäsche" : @(DSASlotTypeUnderwear),
+        @"Körperrüstung" : @(DSASlotTypeBodyArmor),
+        @"Kopfbedeckung" : @(DSASlotTypeHeadgear),
+        @"Schuh" : @(DSASlotTypeShoes),
+        @"Halskette" : @(DSASlotTypeNecklace),
+        @"Ohrring" : @(DSASlotTypeEarring),
+        @"Nasenring" : @(DSASlotTypeNosering),
+        @"Brille" : @(DSASlotTypeGlasses),
+        @"Maske" : @(DSASlotTypeMask),
+        @"Rucksack" : @(DSASlotTypeBackpack),
+        @"Rückenköcher" : @(DSASlotTypeBackquiver),
+        @"Schärpe" : @(DSASlotTypeSash),
+        @"Armrüstung" : @(DSASlotTypeArmArmor),
+        @"Armreif" : @(DSASlotTypeArmRing),
+        @"Handschuhe" : @(DSASlotTypeGloves),
+        @"Hüfte" : @(DSASlotTypeHip),
+        @"Ring" : @(DSASlotTypeRing),
+        @"Weste" : @(DSASlotTypeVest),
+        @"Shirt" : @(DSASlotTypeShirt),
+        @"Jacke" : @(DSASlotTypeJacket),
+        @"Beingurt" : @(DSASlotTypeLegbelt),
+        @"Beinrüstung" : @(DSASlotTypeLegArmor),
+        @"Beinkleidung" : @(DSASlotTypeTrousers),
+        @"Socke" : @(DSASlotTypeSocks),
+        @"Schuhaccesoir" : @(DSASlotTypeShoeaccessories),
+        @"Sack" : @(DSASlotTypeBag),
+        @"Korb" : @(DSASlotTypeBasket),
+        @"Köcher" : @(DSASlotTypeQuiver),
+        @"Bolzentasche" : @(DSASlotTypeBoltbag),
+        @"Flüssigkeit" : @(DSASlotTypeLiquid),
+        @"Schwert" : @(DSASlotTypeSword),
+        @"Dolch" : @(DSASlotTypeDagger),
+        @"Axt" : @(DSASlotTypeAxe),
+        @"Geld" : @(DSASlotTypeMoney),
+        @"Tabak" : @(DSASlotTypeTobacco)
+    };
+
+    // Look up the corresponding slot type
+    NSNumber *slotTypeNumber = slotTypeMapping[slotTypeString];
+    // NSLog(@"Utils: slotTypeFromString: for slot type: %@ returning: %@", slotTypeString, slotTypeNumber);
+    return slotTypeNumber ? slotTypeNumber.unsignedIntegerValue : NSNotFound;
+}
+
+
+// methods to format various strings
+- (NSString *)formatTPEntfernung:(NSDictionary *)tpEntfernung {
+    if (![tpEntfernung isKindOfClass:[NSDictionary class]]) {
+        return @"";
+    }    
+    // Extract the values in order of the keys
+    NSArray<NSString *> *orderedKeys = @[@"extrem nah", @"sehr nah", @"nah", @"mittel", @"weit", @"sehr weit", @"extrem weit"];
+    NSMutableArray<NSString *> *values = [NSMutableArray array];
+    
+    for (NSString *key in orderedKeys) {
+        NSNumber *value = tpEntfernung[key];
+        if (value) {
+            [values addObject:value.stringValue];
+        } else {
+            [values addObject:@"-"]; // Default for missing values
+        }
+    }
+    
+    // Join the values with "/"
+    return [NSString stringWithFormat: @"(%@)", [values componentsJoinedByString:@"/"]];
+}
+// end of methods to format various strings
+
+
+- (NSDictionary *)getDSAObjectInfoByName:(NSString *)name
+{
+  return _objectsByName[name];
+}
+
+- (NSArray<DSAObject *> *)getAllDSAObjectsForShop:(NSString *)shopType
+{
+    NSDictionary *allObjectsDict = _objectsByName;
+    //NSLog(@"DSAObjectManager getAllDSAObjectsForShop allObjectsDict: %@", allObjectsDict);
+    NSMutableArray *objectsArr = [[NSMutableArray alloc] init];
+
+    NSArray<NSString *> *relevantCategories = nil;
+
+    NSLog(@"DSAObjectManager getAllDSAObjectsForShop: %@", shopType);
+    
+    if ([shopType isEqualToString:@"Krämer"]) {
+        relevantCategories = DSAShopGeneralStoreCategories();
+    } else if ([shopType isEqualToString:@"Waffenhändler"]) {
+        relevantCategories = DSAShopWeaponStoreCategories();
+    } else if ([shopType isEqualToString:@"Kräuterhändler"]) {
+        relevantCategories = DSAShopHerbsStoreCategories();        
+    } else {
+        NSLog(@"DSAObjectManager getAllDSAObjectsForShop: unknown shop type: %@", shopType);
+        abort();
+        return @[];
+    }
+    //NSLog(@"DSAObject getAllDSAObjectsForShop got relevant categories: %@", relevantCategories);
+    for (NSString *category in relevantCategories) {
+        for (NSDictionary *objectDict in [_objectsByName allValues])
+          {
+            if ([[objectDict objectForKey: @"category"] isEqualToString: category])
+              {
+                DSAObject *object = [[DSAObject alloc] initWithObjectInfo: objectDict forOwner: nil];
+                [objectsArr addObject: object];
+              }
+          }
+      }
+
+    return objectsArr;
+}
+
+@end

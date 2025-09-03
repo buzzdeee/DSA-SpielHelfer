@@ -72,7 +72,7 @@
 }
 
 - (void)updateUIForItem:(DSAObject *)item {
-    NSLog(@"DSAItemInspectionController updateUIForItem: %@", item);
+    NSLog(@"DSAItemInspectionController updateUIForItem: %@ %p", item, &item);
 
     // Update the image
     NSString *imagePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@-512x512", item.icon] ofType:@"webp"];
@@ -102,23 +102,23 @@
           }
       }
     NSLog(@"DSAItemInspectionController item.states: %@", item.states);
-    [details appendFormat:_(@"ist Vergiftet: %@\n"), [item.states containsObject: @(DSAObjectStateIsPoisoned)] ? _(@"Ja") : _(@"Nein")];
-    [details appendFormat:_(@"ist Konsumierbar: %@\n"), [item.states containsObject: @(DSAObjectStateIsConsumable)] ? _(@"Ja") : _(@"Nein")];
-    if ([item.states containsObject: @(DSAObjectStateIsConsumable)])
+    [details appendFormat:_(@"ist Vergiftet: %@\n"), [item isPoisoned] ? _(@"Ja") : _(@"Nein")];
+    [details appendFormat:_(@"ist Konsumierbar: %@\n"), [item isConsumable] ? _(@"Ja") : _(@"Nein")];
+    if ([item isConsumable])
       {
         NSInteger maxUses = [[item.consumptions objectForKey: @"maxUsageCount"] maxUses];
         NSInteger remainingUses = [[item.consumptions objectForKey: @"maxUsageCount"] remainingUses];        
         [details appendFormat:_(@"konsumierbare Einheiten: %@/%@\n"), @(remainingUses), @(maxUses)];
       }
-    if ([item.states containsObject: @(DSAObjectStateIsDepletable)])
+    if ([item isDepletable])
       {
         NSInteger maxUses = [[item.consumptions objectForKey: @"maxUsageCount"] maxUses];
         NSInteger remainingUses = [[item.consumptions objectForKey: @"maxUsageCount"] remainingUses];        
         [details appendFormat:_(@"verbrauchbare Einheiten: %@/%@\n"), @(remainingUses), @(maxUses)];
       }      
     else if ([[item.consumptions objectForKey: @"maxUsageCount"] maxUses])
-    [details appendFormat:_(@"hat Verfallsdatum: %@\n"),  [item.states containsObject: @(DSAObjectStateHasShelfLife)] ? _(@"Ja") : _(@"Nein")];
-    if ([item.states containsObject: @(DSAObjectStateHasShelfLife)])
+    [details appendFormat:_(@"hat Verfallsdatum: %@\n"),  [item hasShelfLife] ? _(@"Ja") : _(@"Nein")];
+    if ([item hasShelfLife])
       {
         DSAAventurianDate *manufactureDate = [[item.consumptions objectForKey: @"shelfLifeDays"] manufactureDate];
         NSInteger shelfLifeDays = [[item.consumptions objectForKey: @"shelfLifeDays"] shelfLifeDays];
@@ -163,7 +163,7 @@
         [details appendFormat:_(@"Waffenvergleichswert: %ld/%ld\n"), (unsigned long) weapon.attackPower, (unsigned long) weapon.parryValue];
         [details appendFormat:_(@"Trefferpunkte Distanz: %@\n"), weapon.hitPointsLongRange ? [weapon.hitPointsLongRange componentsJoinedByString:@" + "] : @"-"];
         [details appendFormat:_(@"Reichweite: %ld\n"), (unsigned long) weapon.maxDistance];
-        [details appendFormat:_(@"Entfernungsmalus: %@\n"), [Utils formatTPEntfernung: weapon.distancePenalty]];        
+        [details appendFormat:_(@"Entfernungsmalus: %@\n"), [[DSAObjectManager sharedManager] formatTPEntfernung: weapon.distancePenalty]];        
     } else if ([item isKindOfClass:[DSAObjectWeaponHandWeapon class]]) {
         DSAObjectWeaponHandWeapon *weapon = (DSAObjectWeaponHandWeapon *)item;
         [details appendFormat:_(@"Länge: %f\n"), weapon.length];
@@ -209,7 +209,7 @@
         DSAObjectWeaponLongRange *weapon = (DSAObjectWeaponLongRange *)item;
         [details appendFormat:_(@"Trefferpunkte: %@\n"), weapon.hitPointsLongRange ? [weapon.hitPointsLongRange componentsJoinedByString:@" + "] : @"-"];
         [details appendFormat:_(@"Reichweite: %ld\n"), (unsigned long) weapon.maxDistance];
-        [details appendFormat:_(@"Entfernungsmalus: %@\n"), [Utils formatTPEntfernung: weapon.distancePenalty]];
+        [details appendFormat:_(@"Entfernungsmalus: %@\n"), [[DSAObjectManager sharedManager] formatTPEntfernung: weapon.distancePenalty]];
     } else if ([item isKindOfClass:[DSAObjectArmor class]]) {
         DSAObjectArmor *armor = (DSAObjectArmor *)item;
         [details appendFormat:_(@"Rüstschutz: %ld\n"), (unsigned long)armor.protection];

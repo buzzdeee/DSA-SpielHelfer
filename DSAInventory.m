@@ -214,8 +214,8 @@
                 // Only one item per slot
                 amountToAdd = MIN(quantity, 1);
             }
-
-            NSInteger added = [slot addObject:object quantity:amountToAdd];
+            // we have top copy the object, to prevent referencing the same, over and over again...
+            NSInteger added = [slot addObject:[object copy] quantity:amountToAdd];
             totalAdded += added;
             quantity -= added;
 

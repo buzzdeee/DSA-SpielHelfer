@@ -525,6 +525,8 @@
 
 
 - (void) handleInventoryUpdate {
+  DSACharacterDocument *document = (DSACharacterDocument *)self.document;
+  NSLog(@"DSACharacterWindowController handleInventoryUpdate called for model: %@", document.model.name);
   [self populateInventory];
   [self updateLoadDisplay];
   [self updateArmorDisplay];

@@ -181,7 +181,9 @@
 #pragma mark - NSCopying
 
 - (id)copyWithZone:(NSZone *)zone {
+    NSLog(@"DSAConsumption copyWithZone called");
     DSAConsumption *copy = [[[self class] allocWithZone:zone] initWithType:self.type];
+    NSLog(@"DSAConsumption copyWithZone self: %p, copy: %p", self, copy);
     copy.maxUses = self.maxUses;
     copy.remainingUses = self.remainingUses;
     copy.manufactureDate = [self.manufactureDate copy];

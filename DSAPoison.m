@@ -198,22 +198,6 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
         [NSArray class], [NSDictionary class], [NSNumber class], [NSString class], nil];
 }
 
-#pragma mark - NSCopying
-/*
-- (id)copyWithZone:(NSZone *)zone {
-    DSAPoison *copy = [[[self class] allocWithZone:zone] init];
-
-    copy.dangerLevel = self.dangerLevel;
-    copy.types = [[NSArray allocWithZone:zone] initWithArray:self.types copyItems:YES];
-    copy.onset = [[NSDictionary allocWithZone:zone] initWithDictionary:self.onset copyItems:YES];
-    copy.duration = [[NSDictionary allocWithZone:zone] initWithDictionary:self.duration copyItems:YES];
-    copy.damage = [[NSDictionary allocWithZone:zone] initWithDictionary:self.damage copyItems:YES];
-    copy.shelfLife = [[NSDictionary allocWithZone:zone] initWithDictionary:self.shelfLife copyItems:YES];
-    copy.crafting = [[NSArray allocWithZone:zone] initWithArray:self.crafting copyItems:YES];
-
-    return copy;
-}
-*/
 @end
 
 #pragma mark - Manager

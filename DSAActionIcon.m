@@ -1235,7 +1235,7 @@ inventoryIdentifier: (NSString *)sourceInventory
         [[DSAShopViewController alloc] initWithWindowNibName:@"DSAShopView"];
     selector.mode = DSAShopModeBuy;
     selector.maxSilber = [activeGroup totalWealthOfGroup];
-    selector.allItems = [Utils getAllDSAObjectsForShop: shopType];    
+    selector.allItems = [[DSAObjectManager sharedManager] getAllDSAObjectsForShop: shopType];    
     NSLog(@"DSAActionIconBuy handleEvent allItems count: %@", [NSNumber numberWithInteger: [selector.allItems count]]);
     NSLog(@"DSAActionIconBuy handleEvent first items: %@", [selector.allItems objectAtIndex: 0]);
     __block DSAShoppingCart *localShoppingCart;
@@ -1430,9 +1430,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     
     [activeGroup addSilber: finalPrice];
     for (NSString *key in [localShoppingCart.cartContents allKeys])
-      {
-        //[activeGroup distributeItems:[[cartItem objectForKey: @"items"] objectAtIndex: 0] count: [[cartItem objectForKey: @"items"] count]];
-        
+      {        
         NSArray<NSString *> *components = [key componentsSeparatedByString:@"|"];
         NSInteger quantity = [[localShoppingCart.cartContents[key] objectForKey: @"items"] count];
         //NSString *itemName;

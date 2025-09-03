@@ -61,6 +61,10 @@
         case DSAMealQualityFeast:
             names = @[@"Fünf-Gänge-Menü", @"Festtafel", @"Bankett mit Wildschwein"];
             base = 5.0f; range = 5.0f; break;
+        case DSAMealQualityUnknown:
+            NSLog(@"DSAPricingEngine mealPriceWithQuality: unknown price quality, aborting");
+            abort();
+            break;
     }
 
     NSString *combinedSeed = [NSString stringWithFormat:@"meal-%@-%ld", seed, (long)quality];

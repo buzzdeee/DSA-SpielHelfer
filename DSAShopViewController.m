@@ -31,7 +31,7 @@
 @implementation DSAShopViewController
 
 - (void)windowDidLoad {
-    NSLog(@"DSAShopViewController windowDidLoad called, window: %@", self.window);
+    //NSLog(@"DSAShopViewController windowDidLoad called, window: %@", self.window);
     [super windowDidLoad];
     
     if (!self.shoppingCart)
@@ -94,7 +94,7 @@
 
 
 - (void)updatePage {
-    NSLog(@"DSAShopViewController updatePage called!!!");
+    //NSLog(@"DSAShopViewController updatePage called!!!");
     
     NSInteger startIndex = self.currentPage * self.itemsPerPage;
     //NSLog(@"DSAShopViewController updatePage start index: %@", @(startIndex));
@@ -129,7 +129,7 @@
 
             if (self.mode == DSAShopModeBuy) {
                 DSAObject *item = itemsToShow[i];
-                NSLog(@"DSAShopViewController updatePage Buy Mode, set button.object from item: %@", item);
+                //NSLog(@"DSAShopViewController updatePage Buy Mode, set button.object from item: %@", item);
                 button.object = item;
             } else if (self.mode == DSAShopModeSell) {
                 DSASlot *slot = itemsToShow[i];
