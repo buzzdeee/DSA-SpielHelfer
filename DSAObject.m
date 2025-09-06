@@ -166,7 +166,7 @@
                 }
           }
     }
-  NSLog(@"DSAObject initWithObjectInfo: APPLIED SPELL: %@ to OBJECT: %@", [appliedSpells allKeys], name);
+  //NSLog(@"DSAObject initWithObjectInfo: APPLIED SPELL: %@ to OBJECT: %@", [appliedSpells allKeys], name);
   // first ensure that we ownly set the owner on items that are definite personal items
   // other items may set ownerUUID in a second step  
   if (![[objectInfo objectForKey: @"persönliches Objekt"] isEqualTo: @YES])
@@ -425,9 +425,9 @@
         self.useWith = [mapped copy];
     }                                         
     
-  NSLog(@"DSAObject initWithObjectInfo before setting up self.consumptions ");      
+  //NSLog(@"DSAObject initWithObjectInfo before setting up self.consumptions ");      
   self.consumptions = [NSMutableDictionary dictionary];
-  NSLog(@"DSAObject initWithObjectInfo after setting up self.consumptions ");
+  //NSLog(@"DSAObject initWithObjectInfo after setting up self.consumptions ");
   if ([objectInfo objectForKey: @"MaxUsageCount"] && [[objectInfo objectForKey: @"MaxUsageCount"] integerValue] > 0)
     {
       NSLog(@"DSAObject initWithObjectInfo in MaxUsageCount");
@@ -491,7 +491,7 @@
         }  
       [self.consumptions setObject: consumption forKey: @"maxUsageCount"];
     }
-NSLog(@"DSAObject initWithObjectInfo before consumptions shelfLifeDays");
+  //NSLog(@"DSAObject initWithObjectInfo before consumptions shelfLifeDays");
   NSInteger shelfLifeInt = [self calculateShelfLifeDaysForObjectDict: objectInfo];
   if (shelfLifeInt > NSIntegerMin)
     {
@@ -500,7 +500,7 @@ NSLog(@"DSAObject initWithObjectInfo before consumptions shelfLifeDays");
       [self.states addObject: @(DSAObjectStateHasShelfLife)];
       [self.consumptions setObject: consumption forKey: @"shelfLifeDays"];
     }  
-  NSLog(@"DSAObject initWithObjectInfo after consumptions shelfLifeDays");           
+  //NSLog(@"DSAObject initWithObjectInfo after consumptions shelfLifeDays");           
   return self;
 }
 
@@ -897,7 +897,7 @@ NSLog(@"DSAObject initWithObjectInfo before consumptions shelfLifeDays");
 - (BOOL) justDepleted
 {
    DSAConsumption *usageConsumption = [self usageConsumption];
-   NSLog(@"DSAObject justDepleted: %@ based off of DSAConsumption: %@", @([usageConsumption justDepleted]), usageConsumption);
+   //NSLog(@"DSAObject justDepleted: %@ based off of DSAConsumption: %@", @([usageConsumption justDepleted]), usageConsumption);
    return [usageConsumption justDepleted];
 
 }

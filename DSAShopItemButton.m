@@ -66,7 +66,7 @@
 }
 
 - (float)priceForObject:(DSAObject *)object {
-    NSLog(@"DSAShopViewController updatePage called!!!");
+    //NSLog(@"DSAShopItemButton priceForObject called!!!");
     float price = object.price;
     if (self.mode == DSAShopModeBuy) {
         return price;

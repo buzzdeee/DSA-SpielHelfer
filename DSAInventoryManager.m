@@ -196,14 +196,14 @@
         sourceSlot.object = nil;
         sourceSlot.quantity = 0;
         
-        NSLog(@"After updating slots: Source Slot: %@, Quantity: %ld", sourceSlot.object, sourceSlot.quantity);
-        NSLog(@"After updating slots: Target Slot: %@, Quantity: %ld", targetSlot.object, targetSlot.quantity);
+        NSLog(@"DSAInventoryManager transferItemFromSlot: After updating slots: Source Slot: %@, Quantity: %ld", sourceSlot.object, sourceSlot.quantity);
+        NSLog(@"DSAInventoryManager transferItemFromSlot: After updating slots: Target Slot: %@, Quantity: %ld", targetSlot.object, targetSlot.quantity);
         
         [self postDSAInventoryChangedNotificationForSourceModel: sourceModel targetModel: targetModel];
         return YES;
     }
 
-    NSLog(@"Transfer failed: No space or incompatible item.");
+    NSLog(@"DSAInventoryManager transferItemFromSlot: Transfer failed: No space or incompatible item.");
     return NO;
 }
 
@@ -213,31 +213,31 @@
     DSASlot *slot = sourceSlot;
     DSAObject *item = slot.object;
         
-    NSLog(@"DSAInventoryManager handleItemInSourceSlot: item just depleted???? %@", @([item justDepleted]));
+    //NSLog(@"DSAInventoryManager handleItemInSourceSlot: item just depleted???? %@", @([item justDepleted]));
     
     if ([item justDepleted])
       {
-        NSLog(@"DSAInventoryManager handleItemInSourceSlot: sourceModel item is depleted, cleaning up slot");                
+        //NSLog(@"DSAInventoryManager handleItemInSourceSlot: sourceModel item is depleted, cleaning up slot");                
         slot.quantity -= 1;
         if (slot.quantity == 0)
           {
 
             if ([slot.object transitionWhenEmpty])
               {
-                NSLog(@"DSAInventoryManager handleItemInSourceSlot: was called, and [slot.object transitionWhenEmpty] was true");
+                //NSLog(@"DSAInventoryManager handleItemInSourceSlot: was called, and [slot.object transitionWhenEmpty] was true");
                 NSString *transitionToName = [slot.object transitionWhenEmpty];
-                NSLog(@"DSAInventoryManager handleItemInSourceSlot: was called, and transitionToName: %@", transitionToName);
+                //NSLog(@"DSAInventoryManager handleItemInSourceSlot: was called, and transitionToName: %@", transitionToName);
                 slot.object = nil;
                 slot.object = [[DSAObject alloc] initWithName: transitionToName forOwner: [sourceModel modelID]];
               }
             else if ([slot.object disappearWhenEmpty])
               {
-                NSLog(@"DSAInventoryManager handleItemInSourceSlot: was called, and [slot.object disappearWhenEmpty] was true");
+                //NSLog(@"DSAInventoryManager handleItemInSourceSlot: was called, and [slot.object disappearWhenEmpty] was true");
                 slot.object = nil;
               }
             else
               {
-                NSLog(@"DSAInventoryManager handleItemInSourceSlot: disappearWhenEmpty was default NO, and transitionWhenEmpty was empty assuming it should disappear!");
+                //NSLog(@"DSAInventoryManager handleItemInSourceSlot: disappearWhenEmpty was default NO, and transitionWhenEmpty was empty assuming it should disappear!");
                 slot.object = nil;
               }
           }
@@ -251,7 +251,7 @@
       }
     else
       {
-        NSLog(@"DSAInventoryManager handleItemInSourceSlot: sourceModel item is not yet depleted, not cleaning up slot!");
+        //NSLog(@"DSAInventoryManager handleItemInSourceSlot: sourceModel item is not yet depleted, not cleaning up slot!");
       }
 }            
 

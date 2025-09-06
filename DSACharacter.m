@@ -1319,19 +1319,18 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 
 - (DSADrunkenEffect *) activeDrunkenEffect
 {
-  for (NSString *key in [self.appliedEffects allKeys])
+  NSLog(@"DSACharacter activeDrunkenEffect checking all applied effects: %@", [self.appliedEffects allKeys]);
+  DSADrunkenEffect *drunkenEffect = (DSADrunkenEffect*)[self.appliedEffects objectForKey: @"Drunken"];
+  if (drunkenEffect)
     {
-      if ([key isEqualToString:@"Drunken"])
-        {
-          DSADrunkenEffect *drunkenEffect = (DSADrunkenEffect*)[self.appliedEffects objectForKey: key];
-          if ([drunkenEffect drunkenLevel] > DSADrunkenLevelNone)
-            {
-              continue;
-            }
-          return drunkenEffect;
-        }
+      NSLog(@"DSACharacter activeDrunkenEffect found effect: %@", drunkenEffect);
+      return drunkenEffect;
     }
-  return nil;
+  else
+    {
+      NSLog(@"DSACharacter activeDrunkenEffect not found");
+      return nil;
+    }
 }
 
 - (BOOL) canUseItem: (DSAObject *) item
@@ -1907,6 +1906,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 - (BOOL) consumeItem: (DSAObject *) item
               atDate: (DSAAventurianDate *) currentDate
 {
+  NSLog(@"DSACharacter consumeItem called");
   BOOL retval = NO;
   
   if ([item isKindOfClass: [DSAObjectFood class]])
@@ -1936,20 +1936,24 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                   tresult.result == DSAActionResultAutoFailure || 
                   tresult.result == DSAActionResultEpicFailure)
                 {
-                  NSLog(@"DSACharacter consumeItem it's an alcoholic drink, have to update my drunken state (:");
+                  NSLog(@"DSACharacter consumeItem it's an alcoholic drink with consequences on character, have to update my drunken state (:");
                   DSADrunkenEffect *drunkenEffect = [food generateDrunkenEffectForCharacter: self atDate: currentDate];
-                  [self applyDrunkenEffect: drunkenEffect];
+                  
                   NSInteger previousDrunkenState = [[self.statesDict objectForKey: @(DSACharacterStateDrunken)] integerValue];
-                  if (previousDrunkenState == DSADrunkenLevelSevere)
+                  [self applyDrunkenEffect: drunkenEffect];
+                  if (previousDrunkenState != DSADrunkenLevelSevere)
                     {
-                      NSInteger newDrunkenState = previousDrunkenState + 1;
                       [self updateStatesDictState: @(DSACharacterStateDrunken)
-                                        withValue: @(newDrunkenState)];
+                                        withValue: @(drunkenEffect.drunkenLevel)];
                     }
                   else
                     {
                       NSLog(@"DSACharacter consumeItem DSADrunkenLevel is already severe, can't make it worse.");
                     }
+                }
+              else
+                {
+                  NSLog(@"DSACharacter consumeItem atDate: ... Zechen test was successful, not being drunken.");
                 }
             }
           CGFloat newThirst = [[self.statesDict objectForKey: @(DSACharacterStateThirst)] floatValue] + food.nutritionValue;
@@ -2079,8 +2083,14 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
    DSADrunkenEffect *previousDrunkenEffect = [self activeDrunkenEffect];
    if (previousDrunkenEffect)
      {
+       NSLog(@"DSACharacter applyDrunkenEffect going to revert previous Drunken Effect");
        [self applyDrunkenEffect: previousDrunkenEffect revert: YES];
      }
+   else
+     {
+       NSLog(@"DSACharacter applyDrunkenEffect there was no previous effect applied");
+     }
+   NSLog(@"DSACharacter applyDrunkenEffect going to apply new Drunken Effect");  
    [self applyDrunkenEffect: drunkenEffect revert: NO];
    [self.appliedEffects setObject: drunkenEffect forKey: drunkenEffect.uniqueKey];
    return YES;
@@ -2098,23 +2108,36 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
 
     NSDictionary *effectOffsets = [DSADrunkenEffect drunkennessOffsets][levelKey];
-    if (!effectOffsets) return;
+    NSLog(@"DSACharacter applyDrunkenEffect: revert: effectOffsets: %@", effectOffsets);
+    if (!effectOffsets)
+      {
+        NSLog(@"DSACharacter applyDrunkenEffect: revert: we did not found effectOffsets, aborting!");
+        abort();
+      }
 
     int direction = revert ? -1 : 1;
 
     // Positive Traits anpassen
     [effectOffsets enumerateKeysAndObjectsUsingBlock:^(id<NSCopying> key, id obj, BOOL *stop) {
+        NSLog(@"DSACharacter applyDrunkenEffect: revert: checking for positive trait: %@", key);
         DSAPositiveTrait *trait = self.currentPositiveTraits[(NSString *)key];
+        NSLog(@"DSACharacter applyDrunkenEffect: revert: found positive trait: %@", trait);
         if (trait) {
+            NSLog(@"DSACharacter applyDrunkenEffect: revert: found positive trait: before %@", trait);
             trait.level += [(NSNumber *)obj intValue] * direction;
+            NSLog(@"DSACharacter applyDrunkenEffect: revert: found positive trait: after %@", trait);
         }
     }];
 
     // Negative Traits anpassen
     [effectOffsets enumerateKeysAndObjectsUsingBlock:^(id<NSCopying> key, id obj, BOOL *stop) {
-        DSAPositiveTrait *trait = self.currentPositiveTraits[(NSString *)key];
+        NSLog(@"DSACharacter applyDrunkenEffect: revert: checking for negative trait: %@", key);
+        DSANegativeTrait *trait = self.currentNegativeTraits[(NSString *)key];
+        
         if (trait) {
+            NSLog(@"DSACharacter applyDrunkenEffect: revert: found negative trait: before %@", trait);
             trait.level += [(NSNumber *)obj intValue] * direction;
+            NSLog(@"DSACharacter applyDrunkenEffect: revert: found negative trait: after %@", trait);
         }
     }];
 
@@ -2772,7 +2795,8 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       NSLog(@"DSACharacter removeCharacterEffectForKey DSACharacterEffectTypeDrunken and resetting states Dict");
       DSADrunkenEffect *drunkenEffect = (DSADrunkenEffect *)effect;
       [self applyDrunkenEffect: drunkenEffect revert: YES];
-      [self.statesDict setObject: @(DSADrunkenLevelNone) forKey: @(DSACharacterStateDrunken)];
+      [self updateStatesDictState: @(DSACharacterStateDrunken)
+                        withValue: @(DSADrunkenLevelNone)];
       break;
     }        
     default: {
