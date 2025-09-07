@@ -25,7 +25,7 @@
 #ifndef _DSACHARACTER_H_
 #define _DSACHARACTER_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 #import "DSAObject.h"
 #import "DSAInventory.h"
 #import "DSABodyParts.h"
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class DSAAdventure;
 @class DSAConsumption;
 
-@interface DSACharacterEffect : NSObject <NSCoding, NSCopying>
+@interface DSACharacterEffect : DSABaseObject <NSCoding>
 @property (nonatomic, copy) NSString *uniqueKey;
 @property (nonatomic, assign) DSACharacterEffectType effectType;
 @property (nonatomic, strong, nullable) DSAAventurianDate *expirationDate;
@@ -56,17 +56,17 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) DSAAventurianDate * recurringDamageApplyNextDate;  // date in future, when to apply next damage
 @end
 
-@interface DSAIllnessEffect : DSACharacterEffect <NSCoding, NSCopying>
+@interface DSAIllnessEffect : DSACharacterEffect <NSCoding>
 @property (nonatomic, assign) DSAIllnessStage currentStage;
 @property (nonatomic, strong, nullable) NSDictionary<NSString *, NSNumber *> *followUpIllnessChance;  // chance to get sick on a follow-up sickness in %
 @end
 
-@interface DSADrunkenEffect : DSACharacterEffect <NSCoding, NSCopying>
+@interface DSADrunkenEffect : DSACharacterEffect <NSCoding>
 @property (nonatomic, assign) DSADrunkenLevel drunkenLevel;
 + (NSDictionary *)drunkennessOffsets;
 @end
 
-@interface DSAPoisonEffect : DSACharacterEffect <NSCoding, NSCopying>
+@interface DSAPoisonEffect : DSACharacterEffect <NSCoding>
 @property (nonatomic, assign) NSInteger beforePoisonActiveCounter;
 @property (nonatomic, assign) NSInteger oncePoisonActiveCounter;
 @property (nonatomic, assign) DSATimeInterval beforePoisonActive;
@@ -74,7 +74,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) DSAPoisonStage currentStage;
 @end
 
-@interface DSACharacter : NSObject <NSCoding>
+@interface DSACharacter : DSABaseObject <NSCoding>
 
 @property (nonatomic, strong, readonly) NSUUID *modelID; // Unique ID for each model
 

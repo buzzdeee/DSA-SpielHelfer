@@ -25,7 +25,7 @@
 #ifndef _DSAAVENTURIANDATE_H_
 #define _DSAAVENTURIANDATE_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 
 typedef NS_ENUM(NSUInteger, DSAAventurianMonth) {
     DSAAventurianMonthPraios = 1,
@@ -55,7 +55,7 @@ typedef NS_ENUM(NSUInteger, DSAAventurianWeekday) {
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DSAAventurianDate : NSObject <NSCoding, NSCopying>
+@interface DSAAventurianDate : DSABaseObject <NSCoding>
 
 @property (nonatomic, assign) NSInteger year;
 @property (nonatomic, assign) DSAAventurianMonth month;

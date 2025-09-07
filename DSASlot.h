@@ -25,13 +25,13 @@
 #ifndef _DSASLOT_H_
 #define _DSASLOT_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 #import "DSADefinitions.h"
 @class DSAObject;
 
 
 
-@interface DSASlot : NSObject <NSCoding, NSCopying>
+@interface DSASlot : DSABaseObject <NSCoding>
 
 @property (nonatomic, strong) NSUUID *slotID;       // UUID to eas tracking the slot
 @property (nonatomic, assign) DSASlotType slotType; // Define what this slot can hold

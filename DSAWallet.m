@@ -59,27 +59,6 @@
     return self;
 }
 
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone {
-    DSAWallet *copy = [[[self class] allocWithZone:zone] init];
-    copy.dukaten = self.dukaten;
-    copy.silber = self.silber;
-    copy.heller = self.heller;
-    copy.kreuzer = self.kreuzer;
-    return copy;
-}
-
-#pragma mark - Description
-
-- (NSString *)description {
-    return [NSString stringWithFormat:@"D: %ld, S: %ld, H: %ld, K: %ld",
-            (long)self.dukaten,
-            (long)self.silber,
-            (long)self.heller,
-            (long)self.kreuzer];
-}
-
 #pragma mark - Helper (Konversion)
 
 - (void)addSilber:(float)silber {

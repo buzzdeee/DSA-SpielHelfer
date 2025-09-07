@@ -25,7 +25,7 @@
 #ifndef _DSAOBJECT_H_
 #define _DSAOBJECT_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 #import "DSADefinitions.h"
 @class DSASpell;
 @class DSAPoison;
@@ -37,7 +37,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DSAObjectEffect : NSObject <NSCoding, NSCopying>
+@interface DSAObjectEffect : DSABaseObject <NSCoding>
 @property (nonatomic, copy) NSString *uniqueKey;
 @property (nonatomic, assign) DSAObjectEffectType effectType;
 @property (nonatomic, strong, nullable) DSAAventurianDate *expirationDate;
@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 
 
-@interface DSAObject : NSObject <NSCoding, NSCopying>
+@interface DSAObject : DSABaseObject <NSCoding>
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *icon;
 @property (nonatomic, strong) NSString *category;

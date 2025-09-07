@@ -25,12 +25,12 @@
 #ifndef _DSAACTIONPARAMETERDESCRIPTOR_H_
 #define _DSAACTIONPARAMETERDESCRIPTOR_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 #import "DSADefinitions.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DSAActionParameterDescriptor : NSObject <NSCopying, NSSecureCoding>
+@interface DSAActionParameterDescriptor : DSABaseObject <NSSecureCoding>
 
 @property (nonatomic, copy) NSString *key;              // Interner Schlüssel, z.B. @"aspAmount"
 @property (nonatomic, copy) NSString *label;            // Nutzerfreundlicher UI-Text, z.B. @"Wie viele ASP einsetzen?"

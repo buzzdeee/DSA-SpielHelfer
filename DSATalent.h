@@ -25,11 +25,11 @@
 #ifndef _DSATALENT_H_
 #define _DSATALENT_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 #import "DSADefinitions.h"
 @class DSACharacter;
 
-@interface DSATalent : NSObject <NSCoding, NSCopying>
+@interface DSATalent : DSABaseObject <NSCoding>
 
 @property (nonatomic, assign) NSInteger level;
 @property (nonatomic, assign) DSAActionTargetType targetType;           // the target type of a talent

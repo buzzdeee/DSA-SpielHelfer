@@ -25,7 +25,7 @@
 #ifndef _DSAGOD_H_
 #define _DSAGOD_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 #import "DSACharacter.h"
 @class DSAAdventureGroup;
 @class DSAMiracleResult;
@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, DSAGodType) {
     DSAGodTypeLast,
 };
 
-@interface DSAGod : NSObject <NSCopying, NSCoding>
+@interface DSAGod : DSABaseObject <NSCoding>
 
 @property (nonatomic, readonly) DSAGodType godType;
 @property (nonatomic, copy) NSString *name;

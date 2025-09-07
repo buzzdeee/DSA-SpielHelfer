@@ -25,7 +25,7 @@
 #ifndef _DSAADVENTURE_H_
 #define _DSAADVENTURE_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 #import "DSACharacter.h"
 #import "DSAWeather.h"
 
@@ -46,7 +46,7 @@ extern DSAActionContext const DSAActionContextOnTheRoad;
 extern DSAActionContext const DSAActionContextReception;
 
 
-@interface DSAAdventure : NSObject
+@interface DSAAdventure : DSABaseObject <NSCoding>
 
 @property (nonatomic, strong) NSMutableArray<DSAAdventureGroup *> *groups; // index 0 = aktiv
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSMutableSet<DSAMapCoordinate *> *> *discoveredCoordinates;

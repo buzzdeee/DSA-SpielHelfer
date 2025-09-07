@@ -25,9 +25,9 @@
 #ifndef _DSAWALLET_H_
 #define _DSAWALLET_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 
-@interface DSAWallet : NSObject <NSCoding, NSCopying>
+@interface DSAWallet : DSABaseObject <NSCoding>
 
 @property (nonatomic, assign) NSInteger dukaten;   // D
 @property (nonatomic, assign) NSInteger silber;    // S

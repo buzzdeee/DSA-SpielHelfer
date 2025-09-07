@@ -190,15 +190,6 @@
     return god;
 }
 
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone {
-    DSAGod *copy = [[[self class] allocWithZone:zone] init];
-    copy->_name = [_name copyWithZone:zone];
-    copy->_reputation = _reputation;
-    return copy;
-}
-
 @end
 
 @implementation DSAGodPraios

@@ -72,44 +72,4 @@
     }
     return self;
 }
-
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone {
-    DSAActionParameterDescriptor *copy = [[[self class] allocWithZone:zone] init];
-    copy.key = [self.key copy];
-    copy.label = [self.label copy];
-    copy.type = self.type;
-    copy.choices = [self.choices copy];
-    copy.minValue = self.minValue;
-    copy.maxValue = self.maxValue;
-    return copy;
-}
-
-- (NSString *)description {
-    NSMutableString *desc = [NSMutableString stringWithFormat:
-        @"<%@: %p>\n"
-        @"  key: %@\n"
-        @"  label: %@\n"
-        @"  helpText: %@\n"
-        @"  type: %ld\n",
-        NSStringFromClass([self class]), self,
-        self.key,
-        self.label,
-        self.helpText ?: @"(null)",
-        (long)self.type
-    ];
-
-    // If choices are set
-    if (self.choices) {
-        [desc appendFormat:@"  choices: %@\n", [[self.choices allKeys] componentsJoinedByString:@", "]];
-    }
-
-    // Always include min/max (they are scalar, default to 0 if not set explicitly)
-    [desc appendFormat:@"  minValue: %ld\n", (long)self.minValue];
-    [desc appendFormat:@"  maxValue: %@\n", self.maxValue == NSIntegerMax ? @"context-dependent" : [@(self.maxValue) stringValue]];
-
-    return [desc copy];
-}
-
 @end

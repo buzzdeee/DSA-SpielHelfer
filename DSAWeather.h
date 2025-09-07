@@ -25,11 +25,9 @@
 #ifndef _DSAWEATHER_H_
 #define _DSAWEATHER_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 
-#import <Foundation/Foundation.h>
-
-@interface DSAWeather : NSObject <NSCoding>
+@interface DSAWeather : DSABaseObject <NSCoding>
 
 typedef NS_ENUM(NSInteger, DSAFog) {
     DSAFogNone,

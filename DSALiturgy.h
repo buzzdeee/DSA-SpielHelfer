@@ -25,10 +25,10 @@
 #ifndef _DSALITURGY_H_
 #define _DSALITURGY_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 #import "DSACharacter.h"
 
-@interface DSALiturgy : NSObject <NSCoding, NSCopying>
+@interface DSALiturgy : DSABaseObject <NSCoding>
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *category;
 

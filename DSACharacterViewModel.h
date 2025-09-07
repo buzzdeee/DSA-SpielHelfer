@@ -29,7 +29,7 @@
 @class DSACharacterHero;
 @class DSAWallet;
 
-@interface DSACharacterViewModel : NSObject <NSCopying>
+@interface DSACharacterViewModel : NSObject
 
 @property (nonatomic, strong) DSACharacterHero *model;
 

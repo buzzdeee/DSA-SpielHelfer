@@ -25,13 +25,13 @@
 #ifndef _DSAHINT_H_
 #define _DSAHINT_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 
 @class DSAMapCoordinate;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DSAHint : NSObject <NSCoding, NSCopying>
+@interface DSAHint : DSABaseObject <NSCoding>
 
 @property (nonatomic, strong) NSString *hintID;
 @property (nonatomic, strong) NSString *text;

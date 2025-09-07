@@ -25,9 +25,9 @@
 #ifndef _DSATRAIT_H_
 #define _DSATRAIT_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 
-@interface DSATrait : NSObject <NSCoding, NSCopying>
+@interface DSATrait : DSABaseObject <NSCoding>
 @property (nonatomic, assign) NSInteger level;
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *category;

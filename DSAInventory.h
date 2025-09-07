@@ -25,10 +25,10 @@
 #ifndef _DSAINVENTORY_H_
 #define _DSAINVENTORY_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 #import "DSASlot.h"
 
-@interface DSAInventory : NSObject <NSCoding, NSCopying>
+@interface DSAInventory : DSABaseObject <NSCoding>
 
 @property (nonatomic, strong) NSMutableArray<DSASlot *> *slots;
 

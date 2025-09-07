@@ -25,14 +25,14 @@
 #ifndef _DSAILLNESS_H_
 #define _DSAILLNESS_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 #import "DSACharacter.h"
 #import "Utils.h"
 @class DSAIllnessEffect;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DSAIllness : NSObject <NSCoding, NSCopying>
+@interface DSAIllness : DSABaseObject <NSCoding>
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy, nullable) NSString *alternativeName;

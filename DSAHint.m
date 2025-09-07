@@ -52,19 +52,6 @@
     [coder encodeObject:self.questID forKey:@"questID"];
 }
 
-- (instancetype)copyWithZone:(NSZone *)zone {
-    DSAHint *copy = [[[self class] allocWithZone:zone] init];
-    copy.hintID = [self.hintID copyWithZone:zone];
-    copy.text = [self.text copyWithZone:zone];
-    copy.requiresNPC = [self.requiresNPC copyWithZone:zone];
-    copy.requiresRole = [self.requiresRole copyWithZone:zone];
-    copy.coordinate = [self.coordinate copyWithZone:zone];
-    copy.range = self.range;
-    copy.locationName = [self.locationName copyWithZone:zone];
-    copy.questID = [self.questID copyWithZone:zone];
-    return copy;
-}
-
 + (instancetype)hintFromDictionary:(NSDictionary *)dict {
     DSAHint *hint = [[DSAHint alloc] init];
     hint.hintID = dict[@"id"];

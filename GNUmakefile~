@@ -6242,7 +6242,8 @@ DSAActionParameterDescriptor.h \
 DSAActionSliderQuestionController.h \
 DSAPoison.h \
 DSAActionChoiceQuestionController.h \
-DSAConsumption.h
+DSAConsumption.h \
+DSABaseObject.h
 
 #
 # Objective-C Class files
@@ -6343,7 +6344,8 @@ DSAActionParameterDescriptor.m \
 DSAActionSliderQuestionController.m \
 DSAPoison.m \
 DSAActionChoiceQuestionController.m \
-DSAConsumption.m
+DSAConsumption.m \
+DSABaseObject.m
 
 #
 # Other sources

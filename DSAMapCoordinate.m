@@ -64,12 +64,6 @@
     return (NSUInteger)(self.x ^ (self.y << 8) ^ (self.level << 16));
 }
 
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone {
-    return [[DSAMapCoordinate allocWithZone:zone] initWithX:self.x y:self.y level:self.level];
-}
-
 #pragma mark - NSSecureCoding
 
 + (BOOL)supportsSecureCoding {
@@ -87,12 +81,6 @@
     NSInteger y = [decoder decodeIntegerForKey:@"y"];
     NSInteger level = [decoder decodeIntegerForKey:@"level"];
     return [self initWithX:x y:y level:level];
-}
-
-#pragma mark - Description
-
-- (NSString *)description {
-    return [NSString stringWithFormat:@"<DSAMapCoordinate x:%ld y:%ld level:%ld>", (long)self.x, (long)self.y, (long)self.level];
 }
 
 #pragma mark - Distances

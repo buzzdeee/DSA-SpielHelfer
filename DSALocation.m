@@ -57,7 +57,7 @@ NSString * const DSALocalMapTileBuildingInnTypeTaverne = @"Taverne";
 }
 @end
 
-@implementation DSALocalMapTile: NSObject
+@implementation DSALocalMapTile
 static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
 + (void)initialize {
     if (self == [DSALocalMapTile class]) {
@@ -95,119 +95,6 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
     return nil;
 }
 
-- (NSString *)description
-{
-  NSMutableString *descriptionString = [NSMutableString stringWithFormat:@"%@:\n", [self class]];
-
-  // Start from the current class
-  Class currentClass = [self class];
-
-  // Loop through the class hierarchy
-  while (currentClass && currentClass != [NSObject class])
-    {
-      // Get the list of properties for the current class
-      unsigned int propertyCount;
-      objc_property_t *properties = class_copyPropertyList(currentClass, &propertyCount);
-
-      // Iterate through all properties of the current class
-      for (unsigned int i = 0; i < propertyCount; i++)
-        {
-          objc_property_t property = properties[i];
-          const char *propertyName = property_getName(property);
-          NSString *key = [NSString stringWithUTF8String:propertyName];
-            
-          // Get the value of the property using KVC (Key-Value Coding)
-          id value = [self valueForKey:key];
-
-          // Append the property and its value to the description string
-          [descriptionString appendFormat:@"%@ = %@\n", key, value];
-        }
-
-      // Free the property list since it's a C array
-      free(properties);
-
-      // Move to the superclass
-      currentClass = [currentClass superclass];
-    }
-
-  return descriptionString;
-}
-
-// Ignores readonly variables with the assumption
-// they are all calculated
-- (id)copyWithZone:(NSZone *)zone
-{
-  // Create a new instance of the class
-  DSALocalMapTile *copy = [[[self class] allocWithZone:zone] init];
-
-  Class currentClass = [self class];
-  while (currentClass != [NSObject class])
-    {  // Loop through class hierarchy
-      // Get a list of all properties for this class
-      unsigned int propertyCount;
-      objc_property_t *properties = class_copyPropertyList(currentClass, &propertyCount);
-        
-      // Iterate over each property
-      for (unsigned int i = 0; i < propertyCount; i++)
-        {
-          objc_property_t property = properties[i];
-          // Get the property name
-          const char *propertyName = property_getName(property);
-          NSString *key = [NSString stringWithUTF8String:propertyName];
-
-          // Get the property attributes
-          const char *attributes = property_getAttributes(property);
-          NSString *attributesString = [NSString stringWithUTF8String:attributes];
-          // Check if the property is readonly by looking for the "R" attribute
-          if ([attributesString containsString:@",R"])
-            {
-              // This is a readonly property, skip copying it
-              continue;
-            }
-            
-          // Get the value of the property for the current object
-          id value = [self valueForKey:key];
-
-          if (value)
-            {
-              // Handle arrays specifically
-              if ([value isKindOfClass:[NSArray class]])
-                {
-                  // Create a mutable array to copy the elements
-                  NSMutableArray *copiedArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)value count]];
-                  for (id item in (NSArray *)value)
-                    {
-                      if ([item conformsToProtocol:@protocol(NSCopying)])
-                        {
-                          [copiedArray addObject:[item copyWithZone:zone]];
-                        } else {
-                          [copiedArray addObject:item]; // Fallback to shallow copy
-                        }
-                    }
-                  [copy setValue:[NSArray arrayWithArray:copiedArray] forKey:key];
-                }
-              // Check if the property conforms to NSCopying
-              else if ([value conformsToProtocol:@protocol(NSCopying)])
-                {
-                  [copy setValue:[value copyWithZone:zone] forKey:key];
-                }
-              else
-                {
-                    // Just assign the reference (shallow copy)
-                    [copy setValue:value forKey:key];
-                }
-            }
-        }
-
-      // Free the property list memory
-      free(properties);
-        
-      // Move to superclass
-      currentClass = [currentClass superclass];
-    }    
-  return copy;
-}
-
 #pragma mark - NSCoding
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.type forKey:@"type"];
@@ -226,7 +113,7 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
 }
 @end
 
-@implementation DSALocalMapTileWater: DSALocalMapTile
+@implementation DSALocalMapTileWater
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     self = [super init];
     if (self) {
@@ -240,7 +127,7 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
 }
 @end
 
-@implementation DSALocalMapTileStreet: DSALocalMapTile
+@implementation DSALocalMapTileStreet
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     self = [super init];
     if (self) {
@@ -254,7 +141,7 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
 }
 @end
 
-@implementation DSALocalMapTileGreen: DSALocalMapTile
+@implementation DSALocalMapTileGreen
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     self = [super init];
     if (self) {
@@ -268,7 +155,7 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
 }
 @end
 
-@implementation DSALocalMapTileRoute: DSALocalMapTile
+@implementation DSALocalMapTileRoute
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     self = [super init];
     if (self) {
@@ -297,7 +184,7 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
 
 @end
 
-@implementation DSALocalMapTileBuilding: DSALocalMapTile
+@implementation DSALocalMapTileBuilding
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     self = [super init];
     if (self) {
@@ -329,7 +216,7 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
 }
 @end
 
-@implementation DSALocalMapTileBuildingTemple: DSALocalMapTileBuilding
+@implementation DSALocalMapTileBuildingTemple
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     self = [super init];
     if (self) {
@@ -359,10 +246,10 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
 }
 @end
 
-@implementation DSALocalMapTileBuildingShop: DSALocalMapTileBuilding
+@implementation DSALocalMapTileBuildingShop
 @end
 
-@implementation DSALocalMapTileBuildingInn: DSALocalMapTileBuilding
+@implementation DSALocalMapTileBuildingInn
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     self = [super init];
     if (self) {
@@ -392,14 +279,14 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
 }
 @end
 
-@implementation DSALocalMapTileBuildingHealer: DSALocalMapTileBuilding
+@implementation DSALocalMapTileBuildingHealer
 @end
 
-@implementation DSALocalMapTileBuildingSmith: DSALocalMapTileBuilding
+@implementation DSALocalMapTileBuildingSmith
 @end
 
 
-@implementation DSALocalMapLevel: NSObject
+@implementation DSALocalMapLevel
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -451,119 +338,6 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
                      objectAtIndex: coordinate.x];   
 }
 
-- (NSString *)description
-{
-  NSMutableString *descriptionString = [NSMutableString stringWithFormat:@"%@:\n", [self class]];
-
-  // Start from the current class
-  Class currentClass = [self class];
-
-  // Loop through the class hierarchy
-  while (currentClass && currentClass != [NSObject class])
-    {
-      // Get the list of properties for the current class
-      unsigned int propertyCount;
-      objc_property_t *properties = class_copyPropertyList(currentClass, &propertyCount);
-
-      // Iterate through all properties of the current class
-      for (unsigned int i = 0; i < propertyCount; i++)
-        {
-          objc_property_t property = properties[i];
-          const char *propertyName = property_getName(property);
-          NSString *key = [NSString stringWithUTF8String:propertyName];
-            
-          // Get the value of the property using KVC (Key-Value Coding)
-          id value = [self valueForKey:key];
-
-          // Append the property and its value to the description string
-          [descriptionString appendFormat:@"%@ = %@\n", key, value];
-        }
-
-      // Free the property list since it's a C array
-      free(properties);
-
-      // Move to the superclass
-      currentClass = [currentClass superclass];
-    }
-
-  return descriptionString;
-}
-
-// Ignores readonly variables with the assumption
-// they are all calculated
-- (id)copyWithZone:(NSZone *)zone
-{
-  // Create a new instance of the class
-  DSALocation *copy = [[[self class] allocWithZone:zone] init];
-
-  Class currentClass = [self class];
-  while (currentClass != [NSObject class])
-    {  // Loop through class hierarchy
-      // Get a list of all properties for this class
-      unsigned int propertyCount;
-      objc_property_t *properties = class_copyPropertyList(currentClass, &propertyCount);
-        
-      // Iterate over each property
-      for (unsigned int i = 0; i < propertyCount; i++)
-        {
-          objc_property_t property = properties[i];
-          // Get the property name
-          const char *propertyName = property_getName(property);
-          NSString *key = [NSString stringWithUTF8String:propertyName];
-
-          // Get the property attributes
-          const char *attributes = property_getAttributes(property);
-          NSString *attributesString = [NSString stringWithUTF8String:attributes];
-          // Check if the property is readonly by looking for the "R" attribute
-          if ([attributesString containsString:@",R"])
-            {
-              // This is a readonly property, skip copying it
-              continue;
-            }
-            
-          // Get the value of the property for the current object
-          id value = [self valueForKey:key];
-
-          if (value)
-            {
-              // Handle arrays specifically
-              if ([value isKindOfClass:[NSArray class]])
-                {
-                  // Create a mutable array to copy the elements
-                  NSMutableArray *copiedArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)value count]];
-                  for (id item in (NSArray *)value)
-                    {
-                      if ([item conformsToProtocol:@protocol(NSCopying)])
-                        {
-                          [copiedArray addObject:[item copyWithZone:zone]];
-                        } else {
-                          [copiedArray addObject:item]; // Fallback to shallow copy
-                        }
-                    }
-                  [copy setValue:[NSArray arrayWithArray:copiedArray] forKey:key];
-                }
-              // Check if the property conforms to NSCopying
-              else if ([value conformsToProtocol:@protocol(NSCopying)])
-                {
-                  [copy setValue:[value copyWithZone:zone] forKey:key];
-                }
-              else
-                {
-                    // Just assign the reference (shallow copy)
-                    [copy setValue:value forKey:key];
-                }
-            }
-        }
-
-      // Free the property list memory
-      free(properties);
-        
-      // Move to superclass
-      currentClass = [currentClass superclass];
-    }    
-  return copy;
-}
-
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.mapTiles forKey:@"mapTiles"];
     [coder encodeInteger:self.level forKey:@"level"];
@@ -581,7 +355,7 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
 @end
 // End of DSALocalMapLevel
 
-@implementation DSALocalMap: NSObject
+@implementation DSALocalMap
 - (instancetype)init {
     self = [super init];
     if (self) {
@@ -621,119 +395,6 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
     return self;
 }
 
-- (NSString *)description
-{
-  NSMutableString *descriptionString = [NSMutableString stringWithFormat:@"%@:\n", [self class]];
-
-  // Start from the current class
-  Class currentClass = [self class];
-
-  // Loop through the class hierarchy
-  while (currentClass && currentClass != [NSObject class])
-    {
-      // Get the list of properties for the current class
-      unsigned int propertyCount;
-      objc_property_t *properties = class_copyPropertyList(currentClass, &propertyCount);
-
-      // Iterate through all properties of the current class
-      for (unsigned int i = 0; i < propertyCount; i++)
-        {
-          objc_property_t property = properties[i];
-          const char *propertyName = property_getName(property);
-          NSString *key = [NSString stringWithUTF8String:propertyName];
-            
-          // Get the value of the property using KVC (Key-Value Coding)
-          id value = [self valueForKey:key];
-
-          // Append the property and its value to the description string
-          [descriptionString appendFormat:@"%@ = %@\n", key, value];
-        }
-
-      // Free the property list since it's a C array
-      free(properties);
-
-      // Move to the superclass
-      currentClass = [currentClass superclass];
-    }
-
-  return descriptionString;
-}
-
-// Ignores readonly variables with the assumption
-// they are all calculated
-- (id)copyWithZone:(NSZone *)zone
-{
-  // Create a new instance of the class
-  DSALocalMap *copy = [[[self class] allocWithZone:zone] init];
-
-  Class currentClass = [self class];
-  while (currentClass != [NSObject class])
-    {  // Loop through class hierarchy
-      // Get a list of all properties for this class
-      unsigned int propertyCount;
-      objc_property_t *properties = class_copyPropertyList(currentClass, &propertyCount);
-        
-      // Iterate over each property
-      for (unsigned int i = 0; i < propertyCount; i++)
-        {
-          objc_property_t property = properties[i];
-          // Get the property name
-          const char *propertyName = property_getName(property);
-          NSString *key = [NSString stringWithUTF8String:propertyName];
-
-          // Get the property attributes
-          const char *attributes = property_getAttributes(property);
-          NSString *attributesString = [NSString stringWithUTF8String:attributes];
-          // Check if the property is readonly by looking for the "R" attribute
-          if ([attributesString containsString:@",R"])
-            {
-              // This is a readonly property, skip copying it
-              continue;
-            }
-            
-          // Get the value of the property for the current object
-          id value = [self valueForKey:key];
-
-          if (value)
-            {
-              // Handle arrays specifically
-              if ([value isKindOfClass:[NSArray class]])
-                {
-                  // Create a mutable array to copy the elements
-                  NSMutableArray *copiedArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)value count]];
-                  for (id item in (NSArray *)value)
-                    {
-                      if ([item conformsToProtocol:@protocol(NSCopying)])
-                        {
-                          [copiedArray addObject:[item copyWithZone:zone]];
-                        } else {
-                          [copiedArray addObject:item]; // Fallback to shallow copy
-                        }
-                    }
-                  [copy setValue:[NSArray arrayWithArray:copiedArray] forKey:key];
-                }
-              // Check if the property conforms to NSCopying
-              else if ([value conformsToProtocol:@protocol(NSCopying)])
-                {
-                  [copy setValue:[value copyWithZone:zone] forKey:key];
-                }
-              else
-                {
-                    // Just assign the reference (shallow copy)
-                    [copy setValue:value forKey:key];
-                }
-            }
-        }
-
-      // Free the property list memory
-      free(properties);
-        
-      // Move to superclass
-      currentClass = [currentClass superclass];
-    }    
-  return copy;
-}
-
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.mapLevels forKey:@"mapLevels"];
 }
@@ -764,7 +425,6 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
     }
 }
 
-
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     Class subclass = [locationTypeToClassMap objectForKey: [dict objectForKey: @"locationType"]];
     if (subclass)
@@ -784,119 +444,6 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
 {
   NSLog(@"DSALocation subclasses should override tileAtCoordinate!");
   return nil;
-}
-
-- (NSString *)description
-{
-  NSMutableString *descriptionString = [NSMutableString stringWithFormat:@"%@:\n", [self class]];
-
-  // Start from the current class
-  Class currentClass = [self class];
-
-  // Loop through the class hierarchy
-  while (currentClass && currentClass != [NSObject class])
-    {
-      // Get the list of properties for the current class
-      unsigned int propertyCount;
-      objc_property_t *properties = class_copyPropertyList(currentClass, &propertyCount);
-
-      // Iterate through all properties of the current class
-      for (unsigned int i = 0; i < propertyCount; i++)
-        {
-          objc_property_t property = properties[i];
-          const char *propertyName = property_getName(property);
-          NSString *key = [NSString stringWithUTF8String:propertyName];
-            
-          // Get the value of the property using KVC (Key-Value Coding)
-          id value = [self valueForKey:key];
-
-          // Append the property and its value to the description string
-          [descriptionString appendFormat:@"%@ = %@\n", key, value];
-        }
-
-      // Free the property list since it's a C array
-      free(properties);
-
-      // Move to the superclass
-      currentClass = [currentClass superclass];
-    }
-
-  return descriptionString;
-}
-
-// Ignores readonly variables with the assumption
-// they are all calculated
-- (id)copyWithZone:(NSZone *)zone
-{
-  // Create a new instance of the class
-  DSALocation *copy = [[[self class] allocWithZone:zone] init];
-
-  Class currentClass = [self class];
-  while (currentClass != [NSObject class])
-    {  // Loop through class hierarchy
-      // Get a list of all properties for this class
-      unsigned int propertyCount;
-      objc_property_t *properties = class_copyPropertyList(currentClass, &propertyCount);
-        
-      // Iterate over each property
-      for (unsigned int i = 0; i < propertyCount; i++)
-        {
-          objc_property_t property = properties[i];
-          // Get the property name
-          const char *propertyName = property_getName(property);
-          NSString *key = [NSString stringWithUTF8String:propertyName];
-
-          // Get the property attributes
-          const char *attributes = property_getAttributes(property);
-          NSString *attributesString = [NSString stringWithUTF8String:attributes];
-          // Check if the property is readonly by looking for the "R" attribute
-          if ([attributesString containsString:@",R"])
-            {
-              // This is a readonly property, skip copying it
-              continue;
-            }
-            
-          // Get the value of the property for the current object
-          id value = [self valueForKey:key];
-
-          if (value)
-            {
-              // Handle arrays specifically
-              if ([value isKindOfClass:[NSArray class]])
-                {
-                  // Create a mutable array to copy the elements
-                  NSMutableArray *copiedArray = [[NSMutableArray alloc] initWithCapacity:[(NSArray *)value count]];
-                  for (id item in (NSArray *)value)
-                    {
-                      if ([item conformsToProtocol:@protocol(NSCopying)])
-                        {
-                          [copiedArray addObject:[item copyWithZone:zone]];
-                        } else {
-                          [copiedArray addObject:item]; // Fallback to shallow copy
-                        }
-                    }
-                  [copy setValue:[NSArray arrayWithArray:copiedArray] forKey:key];
-                }
-              // Check if the property conforms to NSCopying
-              else if ([value conformsToProtocol:@protocol(NSCopying)])
-                {
-                  [copy setValue:[value copyWithZone:zone] forKey:key];
-                }
-              else
-                {
-                    // Just assign the reference (shallow copy)
-                    [copy setValue:value forKey:key];
-                }
-            }
-        }
-
-      // Free the property list memory
-      free(properties);
-        
-      // Move to superclass
-      currentClass = [currentClass superclass];
-    }    
-  return copy;
 }
 
 #pragma mark - NSCoding
@@ -1138,15 +685,6 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
            self.context.hash;
 }
 
-#pragma mark - NSCopying
-
-- (id)copyWithZone:(NSZone *)zone {
-    return [[DSAPosition allocWithZone:zone] initWithMapCoordinate:[self.mapCoordinate copy]
-                                                globalLocationName:[self.globalLocationName copy]
-                                                 localLocationName:[self.localLocationName copy]
-                                                           context:[self.context copy]];
-}
-
 #pragma mark - NSSecureCoding
 
 + (BOOL)supportsSecureCoding {
@@ -1168,13 +706,6 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
     NSString *context = [decoder decodeObjectOfClass:[NSString class] forKey:@"context"];
     NSLog(@"DSAPosition initWithCoder: context: %@", self.context);
     return [self initWithMapCoordinate:coord globalLocationName:globalName localLocationName:localName context: context];
-}
-
-#pragma mark - Description
-
-- (NSString *)description {
-    return [NSString stringWithFormat:@"<DSAPosition coordinate:%@ global:%@ local:%@ context:%@>",
-            self.mapCoordinate, self.globalLocationName, self.localLocationName, self.context];
 }
 
 - (NSString *)roomKey

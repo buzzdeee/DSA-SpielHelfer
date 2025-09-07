@@ -25,9 +25,9 @@
 #ifndef _DSAMAPCOORDINATE_H_
 #define _DSAMAPCOORDINATE_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 
-@interface DSAMapCoordinate : NSObject <NSCopying, NSSecureCoding>
+@interface DSAMapCoordinate : DSABaseObject <NSSecureCoding>
 
 @property (nonatomic, assign) NSInteger x;
 @property (nonatomic, assign) NSInteger y;

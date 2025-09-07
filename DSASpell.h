@@ -25,13 +25,13 @@
 #ifndef _DSASPELL_H_
 #define _DSASPELL_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 #import "Utils.h"
 @class DSACharacter;
 @class DSASpellResult;
 @class DSAActionParameterDescriptor;
 
-@interface DSASpell : NSObject <NSCoding, NSCopying>
+@interface DSASpell : DSABaseObject <NSCoding>
 
 @property (nonatomic, assign) NSInteger level;
 @property (nonatomic, assign) DSAActionTargetType targetType;           // the target type of a spell

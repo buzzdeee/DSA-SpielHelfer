@@ -25,10 +25,10 @@
 #ifndef _DSASPELLRESULT_H_
 #define _DSASPELLRESULT_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 #import "DSADefinitions.h"
 
-@interface DSASpellResult : NSObject
+@interface DSASpellResult : DSABaseObject
 
 @property (nonatomic, assign) DSAActionResultValue result;
 @property (nonatomic, strong) NSString *resultDescription;

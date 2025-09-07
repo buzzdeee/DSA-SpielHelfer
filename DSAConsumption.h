@@ -25,13 +25,14 @@
 #ifndef _DSACONSUMPTION_H_
 #define _DSACONSUMPTION_H_
 
+#import "DSABaseObject.h"
 #import "DSADefinitions.h"
 @class DSAAventurianDate;
 @class DSAAdventure;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface DSAConsumption : NSObject <NSCoding, NSCopying>
+@interface DSAConsumption : DSABaseObject <NSCoding>
 
 @property (nonatomic, assign) DSAConsumptionType type;
 

@@ -25,10 +25,10 @@
 #ifndef _DSAADVENTURECLOCK_H_
 #define _DSAADVENTURECLOCK_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 #import "DSAAventurianDate.h"
 
-@interface DSAAdventureClock : NSObject <NSCoding>
+@interface DSAAdventureClock : DSABaseObject <NSCoding>
 
 typedef NS_ENUM(NSUInteger, DSAMoonPhase) {
     DSAMoonPhaseNewMoon = 0,     // Day 1

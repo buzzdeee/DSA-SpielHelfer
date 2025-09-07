@@ -25,7 +25,7 @@
 #ifndef _DSAADVENTUREGROUP_H_
 #define _DSAADVENTUREGROUP_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 #import "DSALocation.h"
 
 @class DSAPosition;
@@ -35,7 +35,7 @@
 @class DSACharacter;
 @class DSAMiracleResult;
 
-@interface DSAAdventureGroup : NSObject <NSCoding>
+@interface DSAAdventureGroup : DSABaseObject <NSCoding>
 
 @property (nonatomic, strong) NSMutableArray<NSUUID *> *partyMembers;
 @property (nonatomic, strong) NSMutableArray<NSUUID *> *npcMembers;

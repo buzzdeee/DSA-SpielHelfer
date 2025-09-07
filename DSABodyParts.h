@@ -25,11 +25,11 @@
 #ifndef _DSABODYPARTS_H_
 #define _DSABODYPARTS_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 #import "DSAInventory.h"
 #import "DSAEquipResult.h"
 
-@interface DSABodyParts : NSObject <NSCoding, NSCopying>
+@interface DSABodyParts : DSABaseObject <NSCoding>
 @property (nonatomic, strong) DSAInventory *head;
 @property (nonatomic, strong) DSAInventory *neck;
 @property (nonatomic, strong) DSAInventory *eyes;

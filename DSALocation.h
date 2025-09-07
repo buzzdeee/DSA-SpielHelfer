@@ -25,7 +25,7 @@
 #ifndef _DSALOCATION_H_
 #define _DSALOCATION_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 
 @class DSAMapCoordinate;
 
@@ -71,7 +71,7 @@ NS_INLINE NSString * DSADirectionToString(DSADirection direction) {
 + (DSADirection)directionFromString:(NSString *)string;
 @end
 
-@interface DSALocalMapTile: NSObject <NSCoding>
+@interface DSALocalMapTile: DSABaseObject <NSCoding>
 @property (nonatomic, strong) DSAMapCoordinate *tileCoordinate;
 @property (nonatomic, strong) NSString *type;
 @property (nonatomic, assign) BOOL walkable;
@@ -115,20 +115,20 @@ NS_INLINE NSString * DSADirectionToString(DSADirection direction) {
 @interface DSALocalMapTileBuildingSmith: DSALocalMapTileBuilding <NSCoding>
 @end
 
-@interface DSALocalMapLevel: NSObject <NSCoding>
+@interface DSALocalMapLevel: DSABaseObject <NSCoding>
 @property (nonatomic, assign) NSInteger level;          // map levels, 0 is earth level
 @property (nonatomic, strong) NSArray<NSArray<DSALocalMapTile *> *> *mapTiles;
 - (instancetype)initWithDictionary: (NSDictionary *) dict;
 - (DSALocalMapTile *) tileAtCoordinate: (DSAMapCoordinate *) coordinate;
 @end
 
-@interface DSALocalMap: NSObject <NSCoding>
+@interface DSALocalMap: DSABaseObject <NSCoding>
 @property (nonatomic, strong) NSArray<DSALocalMapLevel *> *mapLevels;
 - (instancetype)initWithDictionary: (NSDictionary *) levelsDict;
 - (instancetype)initWithMapLevels: (NSArray<DSALocalMapLevel *> *) mapLevels;
 @end
 
-@interface DSALocation : NSObject <NSCoding>
+@interface DSALocation : DSABaseObject <NSCoding>
 @property (nonatomic, strong, nullable) NSString *name; // Name of the location (nullable if traveling)
 @property (nonatomic, strong) DSAMapCoordinate *mapCoordinate;
 
@@ -154,7 +154,7 @@ NS_INLINE NSString * DSADirectionToString(DSADirection direction) {
 - (BOOL) hasTileOfType: (NSString *) tileType;
 @end
 
-@interface DSAPosition : NSObject <NSCopying, NSCoding>
+@interface DSAPosition : DSABaseObject <NSCoding>
 @property (nonatomic, strong) DSAMapCoordinate *mapCoordinate;
 @property (nonatomic, strong, nullable) DSAActionContext context;          // some buildings have multiple rooms, i.e. Inns
 @property (nonatomic, strong) NSString *globalLocationName;      // to refer to DSAGlobalMapLocation info
