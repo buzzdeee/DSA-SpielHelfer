@@ -250,6 +250,20 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
 @end
 
 @implementation DSALocalMapTileBuildingInn
+
+static inline DSALocalMapTileBuildingInnFillLevel DSALocalMapTileBuildingInnFillLevelFromString(NSString *string) {
+    if ([string caseInsensitiveCompare:@"Empty"] == NSOrderedSame) {
+        return DSALocalMapTileBuildingInnFillLevelEmpty;
+    } else if ([string caseInsensitiveCompare:@"Normal"] == NSOrderedSame) {
+        return DSALocalMapTileBuildingInnFillLevelNormal;
+    } else if ([string caseInsensitiveCompare:@"Busy"] == NSOrderedSame) {
+        return DSALocalMapTileBuildingInnFillLevelBusy;
+    } else if ([string caseInsensitiveCompare:@"Packed"] == NSOrderedSame) {
+        return DSALocalMapTileBuildingInnFillLevelPacked;
+    }
+    return DSALocalMapTileBuildingInnFillLevelNormal; // Default fallback
+}
+
 - (instancetype)initWithDictionary:(NSDictionary *)dict {
     self = [super init];
     if (self) {
@@ -260,6 +274,9 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
         self.walkable = YES;
         self.door = [DSADirectionHelper directionFromString: dict[@"door"]];
         self.npc = dict[@"npc"];
+        self.tavernFillLevel = dict[@"fillLevel"] 
+                               ? DSALocalMapTileBuildingInnFillLevelFromString(dict[@"fillLevel"]) 
+                               : DSALocalMapTileBuildingInnFillLevelNormal;
         _name = dict[@"name"];
     }
     return self;
@@ -268,12 +285,14 @@ static NSDictionary<NSString *, Class> *tileTypeToClassMap = nil;
 - (void)encodeWithCoder:(NSCoder *)coder {
     [super encodeWithCoder: coder];
     [coder encodeObject:self.name forKey:@"name"];
+    [coder encodeInteger:self.tavernFillLevel forKey:@"tavernFillLevel"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder: coder];
     if (self) {
         _name = [coder decodeObjectForKey: @"name"];
+        _tavernFillLevel = [coder decodeIntegerForKey: @"tavernFillLevel"];
     }
     return self;
 }

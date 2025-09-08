@@ -26,6 +26,7 @@
 #define _DSALOCATION_H_
 
 #import "DSABaseObject.h"
+#import "DSADefinitions.h"
 
 @class DSAMapCoordinate;
 
@@ -107,6 +108,7 @@ NS_INLINE NSString * DSADirectionToString(DSADirection direction) {
 
 @interface DSALocalMapTileBuildingInn: DSALocalMapTileBuilding <NSCoding>  // Taverne, Herberge, etc.
 @property (nonatomic, strong) NSString *name;
+@property (assign) DSALocalMapTileBuildingInnFillLevel tavernFillLevel;
 @end
 
 @interface DSALocalMapTileBuildingHealer: DSALocalMapTileBuilding <NSCoding>

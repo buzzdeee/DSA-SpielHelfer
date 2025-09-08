@@ -96,7 +96,7 @@
 
 #endif // _DSATALENT_H_
 
-@interface DSATalentResult : NSObject
+@interface DSATalentResult : DSABaseObject
 @property (nonatomic, assign) DSAActionResultValue result;
 @property (nonatomic, strong) NSArray *diceResults;
 @property (nonatomic, assign) NSInteger remainingTalentPoints;

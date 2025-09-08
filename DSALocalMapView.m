@@ -398,9 +398,18 @@
         NSString *inType = [toTile type];
         if ([inType isEqualToString: DSALocalMapTileBuildingInnTypeHerberge] || 
             [inType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne])
-           {
-              self.adventure.activeGroup.position.context = DSAActionContextReception;
-           }
+          {
+             self.adventure.activeGroup.position.context = DSAActionContextReception;
+          }
+        else if ([inType isEqualToString: DSALocalMapTileBuildingInnTypeTaverne])
+          {
+            self.adventure.activeGroup.position.context = DSAActionContextTavern;
+          }
+        else
+          {
+            NSLog(@"DSALocalMapViewAdventure moveGroupInDirection: unknown inType: %@, aborting!", inType);
+            abort();
+          }
       }
     else
       {

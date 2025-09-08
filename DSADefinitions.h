@@ -314,5 +314,12 @@ typedef NS_ENUM(NSInteger, DSACharacterEffectType) {
     DSACharacterEffectTypeNothing
 };
 
+typedef NS_ENUM(NSInteger, DSALocalMapTileBuildingInnFillLevel) {
+    DSALocalMapTileBuildingInnFillLevelEmpty = 0,        // almost no guests
+    DSALocalMapTileBuildingInnFillLevelNormal = 1,       // average crowd
+    DSALocalMapTileBuildingInnFillLevelBusy = 2,         // many guests
+    DSALocalMapTileBuildingInnFillLevelPacked = 3        // completely full
+};
+
 #endif // _DSADEFINITIONS_H_
 
