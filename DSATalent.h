@@ -29,6 +29,8 @@
 #import "DSADefinitions.h"
 @class DSACharacter;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface DSATalent : DSABaseObject <NSCoding>
 
 @property (nonatomic, assign) NSInteger level;
@@ -87,7 +89,7 @@
 - (instancetype)initTalent: (NSString *) name
                 ofCategory: (NSString *) category 
                    onLevel: (NSInteger) level
-                  withTest: (NSArray *) test
+                  withTest: (nullable NSArray *) test
     withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
          withMaxUpPerLevel: (NSInteger) maxUpPerLevel
            withLevelUpCost: (NSInteger) levelUpCost;                          
@@ -104,3 +106,16 @@
 +(NSString *) resultNameForResultValue: (DSAActionResultValue) value;
 @end
 // End of DSATalentResult
+
+
+@interface DSATalentManager : NSObject
+@property (nonatomic, strong, nullable) NSMutableDictionary <NSString *, NSMutableDictionary *> *talentsByCategory;
++ (instancetype)sharedManager;
+
+- (NSDictionary *) getTalentsDict;
+- (NSDictionary *) getTalentsDictForCharacter: (DSACharacter *)character;
+- (NSMutableDictionary <NSString *, DSATalent*>*)getTalentsForCharacter: (DSACharacter *)character;
+- (NSMutableDictionary <NSString *, DSASpecialTalent*>*)getMagicalDabblerTalentsByTalentsNameArray: (NSArray *) specialTalentNames;
+@end
+
+NS_ASSUME_NONNULL_END

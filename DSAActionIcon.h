@@ -46,6 +46,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 @property (strong, nonatomic) DSAItemInspectionController *inspectionController;  // to keep a reference to item inspection window
 @end
 @interface DSAActionIconConsume: DSAActionIconDragTarget
+@property (nonatomic, weak) DSACharacter *ownerCharacter;
 @end
 @interface DSAActionIconDispose: DSAActionIconDragTarget
 @end

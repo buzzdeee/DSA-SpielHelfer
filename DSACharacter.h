@@ -227,6 +227,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray <DSASpell *>*) activeRitualsWithNames: (NSArray <NSString *>*) names;
                      
 - (DSATalentResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty;
+
+- (DSATalentResult *) useTalent: (DSATalent *) talent
+                       onTarget: (id) target
+               currentAdventure: (nullable DSAAdventure *) adventure;
+
 - (DSASpellResult *) castSpell: (DSASpell *) spell
                      ofVariant: (nullable NSString *) variant 
              ofDurationVariant: (nullable NSString *) durationVariant

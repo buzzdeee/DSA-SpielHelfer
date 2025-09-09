@@ -1309,7 +1309,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 
 - (DSATalentResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty
 {
-  NSLog(@"DSACharacter useTalent called");
+  NSLog(@"DSACharacter useTalent withPenalty called");
   DSATalentResult *talentResult = [[DSATalentResult alloc] init];
   DSATalent *talent = self.currentTalents[talentName];
   NSInteger level = talent.level - penalty;
@@ -1414,6 +1414,15 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   
   return talentResult;
 }
+
+
+- (DSATalentResult *) useTalent: (DSATalent *) talent
+                       onTarget: (id) target
+               currentAdventure: (nullable DSAAdventure *) adventure
+{
+  return nil;
+}               
+
 // end of talent usage related methods
 
 // casting spells related methods

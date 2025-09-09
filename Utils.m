@@ -89,7 +89,6 @@ DSAUseObjectWithActionType DSAUseObjectWithActionTypeFromString(NSString *string
 
 static Utils *sharedInstance = nil;
 static NSMutableDictionary *masseDict;
-static NSMutableDictionary *talentsDict;
 static NSMutableDictionary *spellsDict;
 static NSMutableDictionary *archetypesDict;
 static NSMutableDictionary *npcTypesDict;
@@ -136,15 +135,7 @@ static NSMutableDictionary *imagesIndexDict;
             {
                NSLog(@"Error loading JSON: %@", e.localizedDescription);
             }
-          filePath = [[NSBundle mainBundle] pathForResource:@"Talente" ofType:@"json"];
-          talentsDict = [NSJSONSerialization 
-            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
-                   options: NSJSONReadingMutableContainers
-                     error: &e];
-          if (e)
-            {
-               NSLog(@"Error loading JSON: %@", e.localizedDescription);
-            }        
+
           filePath = [[NSBundle mainBundle] pathForResource:@"Zauberfertigkeiten" ofType:@"json"];
           spellsDict = [NSJSONSerialization 
             JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
@@ -874,12 +865,6 @@ static NSMutableDictionary *imagesIndexDict;
 }
 // end of shaman origins dict related methods
 
-// talents dict related methods
-+ (NSDictionary *) getTalentsDict
-{
-  return talentsDict;
-}
-
 + (NSString *) findSpellOrRitualTypeWithName: (NSString *) name
 {
   if ([Utils getSpellWithName: name])
@@ -896,81 +881,6 @@ static NSMutableDictionary *imagesIndexDict;
     }  
   return nil;
 }
-
-// returns a dictionary of talents for the requested archetype
-+ (NSDictionary *) getTalentsForCharacter: (DSACharacter *)character
-{
-  NSString *archetype = character.archetype;
-  NSMutableDictionary *talents = [[NSMutableDictionary alloc] init];
-  NSString *typus;
-  if ([archetype isEqualToString: _(@"Schamane")])  // We're special here, use the origins of Moha or Nivese, then apply offsets :(
-    {
-      typus = character.origin;
-    }
-  else if ([archetype isEqualToString: _(@"Steppenelf")])  // Only exists as NPC, but closely related to Auelf
-    {
-      typus = @"Auelf";
-    }
-  else if ([character isKindOfClass: [DSACharacterNpc class]])  // all other NPCs for now
-    {
-      typus = @"Other NPC";
-    }
-  else
-    {
-      typus = archetype;
-    }
-  
-  NSArray *categories = [NSArray arrayWithArray: [talentsDict allKeys]];
-  for (NSString *category in categories)
-    {
-      if ([@"Kampftechniken" isEqualTo: category])
-        {
-          NSString *steigern = [NSString stringWithFormat: @"%@", [[talentsDict objectForKey: category] objectForKey: @"Steigern"]];
-          NSString *versuche = [NSString stringWithFormat: @"%li", [steigern integerValue] * 3];
-         
-          for (NSString *key in [talentsDict objectForKey: category])
-            {
-              NSString *weapontype;
-              NSString *startwert;
-              if ([@"Steigern" isEqualTo: key])
-                {
-                  continue;
-                }
-              else
-                {
-                  weapontype = [NSString stringWithFormat: @"%@", [[[talentsDict objectForKey: category] objectForKey: key] objectForKey: @"Waffentyp"]];
-                  startwert = [NSString stringWithFormat: @"%@", [[[[talentsDict objectForKey: category] objectForKey: key] objectForKey: @"Startwerte"] objectForKey: typus]];
-                }
-                [talents setValue: @{@"Startwert": startwert, @"Steigern": steigern, @"Versuche": versuche} 
-                  forKeyHierarchy: @[category, weapontype, key]];
-            } 
-        }
-      else
-        {
-          NSString *steigern = [NSString stringWithFormat: @"%@", [[talentsDict objectForKey: category] objectForKey: @"Steigern"]];
-          NSString *versuche = [NSString stringWithFormat: @"%li", [steigern integerValue] * 3]; 
-          for (NSString *key in [talentsDict objectForKey: category])
-            {
-              NSArray *probe;
-              NSString *startwert;
-              if ([@"Steigern" isEqualTo: key])
-                {
-                  continue;
-                }
-              else
-                {
-                  probe = [NSArray arrayWithArray: [[[talentsDict objectForKey: category] objectForKey: key] objectForKey: @"Probe"]];
-                  startwert = [NSString stringWithFormat: @"%@", [[[[talentsDict objectForKey: category] objectForKey: key] objectForKey: @"Startwerte"] objectForKey: typus]];
-                }
-                [talents setValue: @{@"Startwert": startwert, @"Probe": probe, @"Steigern": steigern, @"Versuche": versuche} forKeyHierarchy: @[category, key]];
-            }       
-        }
-    }
-  return talents;
-}
-// end of talents dict related methods
-
-
 
 // warriorAcademies dict related methods
 + (NSDictionary *) getWarriorAcademiesDict

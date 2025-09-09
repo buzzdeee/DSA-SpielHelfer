@@ -74,9 +74,6 @@
 
 + (NSString *) findSpellOrRitualTypeWithName: (NSString *) name;
 
-+ (NSDictionary *) getTalentsDict;
-+ (NSDictionary *) getTalentsForCharacter: (DSACharacter *)character;
-
 + (NSDictionary *) getWarriorAcademiesDict;
 
 + (NSDictionary *) getArchetypesDict;

@@ -2804,6 +2804,12 @@
     }
 
   // handle talents
+  DSATalentManager *sharedTalentManager = [DSATalentManager sharedManager];
+  NSMutableDictionary *newTalents = [[NSMutableDictionary alloc] init];
+  newTalents = [sharedTalentManager getTalentsForCharacter: self.character];
+  
+  return newTalents;
+/*  
   NSDictionary *talents = [[NSDictionary alloc] init];
   talents = [Utils getTalentsForCharacter: self.character];
   NSMutableDictionary *newTalents = [[NSMutableDictionary alloc] init];
@@ -2849,6 +2855,7 @@
     }
   //NSLog(@"THE NEW TALENTS: newTalents %@", newTalents);
   return newTalents;
+*/  
 }
 
 - (NSMutableDictionary *) resolveSpellsFromParameters:(NSDictionary *)parameters {
@@ -3554,7 +3561,12 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
   character.astralEnergy = [[magicalDabblerInfo objectForKey: @"AE"] integerValue];
   character.currentAstralEnergy = character.astralEnergy;
 
-  NSMutableDictionary * newTalents = [[NSMutableDictionary alloc] init];        
+  DSATalentManager *sharedTalentManager = [DSATalentManager sharedManager];
+  NSMutableDictionary * newTalents = [[NSMutableDictionary alloc] init];
+  newTalents = [sharedTalentManager getMagicalDabblerTalentsByTalentsNameArray: specialTalents];
+  
+/*  
+          
   for (NSString *specialTalent in specialTalents)
     {
         NSLog(@"Checking specialTalent: %@", specialTalent);
@@ -3572,6 +3584,7 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
         NSLog(@"created Talent: %@", talent);
         [newTalents setObject: talent forKey: specialTalent];
     }
+    */
   [self.character setSpecials: newTalents];
   [self.character setCurrentSpecials: [newTalents copy]];  
   NSLog(@"THE magical dabbler talents: %@", newTalents);

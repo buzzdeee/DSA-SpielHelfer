@@ -345,13 +345,13 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
     DSAInventoryManager *inventoryManager = [DSAInventoryManager sharedManager];
     DSASlot *slot = [inventoryManager findSlotInModel: sourceModel
-                                                 withInventoryIdentifier: sourceInventory
-                                                                 atIndex: sourceSlotIndex];
+                              withInventoryIdentifier: sourceInventory
+                                              atIndex: sourceSlotIndex];
     if (slot == nil)  // slot not found, odd???
       {
         return;
       }
-    BOOL result = [sourceModel consumeItem: item
+    BOOL result = [self.ownerCharacter consumeItem: item
                                     atDate: adventure.gameClock.currentDate];
     
     if (result == YES)

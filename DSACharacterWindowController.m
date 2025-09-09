@@ -431,27 +431,26 @@
   NSLog(@"AFTER adding all those observers....");
   [self populateInventory];
   
-  NSLog(@"End of populateBasicsTab");   
-
+  NSLog(@"End of populateBasicsTab");
 
 }
-
 
 - (void)populateInventory {
     DSACharacterDocument *document = (DSACharacterDocument *)self.document;
     NSLog(@"DSACharacterWindowController populateInventory called");
 
-    DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"examine" andSize:@"64x64"];
-    [self replaceView:self.imageEye withView:newIcon];
-    self.imageEye = newIcon;    
+    DSAActionIcon *imageEye = [DSAActionIcon iconWithAction:@"examine" andSize:@"64x64"];
+    [self replaceView:self.imageEye withView:imageEye];
+    self.imageEye = imageEye;    
 
-    newIcon = [DSAActionIcon iconWithAction:@"consume" andSize:@"64x64"];
-    [self replaceView:self.imageMouth withView:newIcon];
-    self.imageMouth = newIcon;        
+    DSAActionIconConsume *imageMouth= [DSAActionIconConsume iconWithAction:@"consume" andSize:@"64x64"];
+    imageMouth.ownerCharacter = document.model;
+    [self replaceView:self.imageMouth withView:imageMouth];
+    self.imageMouth = imageMouth;        
     
-    newIcon = [DSAActionIcon iconWithAction:@"dispose" andSize:@"64x64"];
-    [self replaceView:self.imageTrash withView:newIcon];
-    self.imageTrash = newIcon;    
+    DSAActionIcon *imageTrash = [DSAActionIcon iconWithAction:@"dispose" andSize:@"64x64"];
+    [self replaceView:self.imageTrash withView:imageTrash];
+    self.imageTrash = imageTrash;    
     
     NSString *imagePath;
     NSImage *image;
