@@ -41,8 +41,30 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *talentDescription;
 @property (nonatomic, strong) NSString *category;
+@property (nonatomic, strong) NSString *subCategory;
 @property (nonatomic, strong) NSArray *test;
 @property (nonatomic) BOOL isPersonalTalent;              // set to YES, for i.e. Musizieren for Skald or Bard
+@property (nonatomic, strong) NSMutableDictionary *influencesTalents;
+
++ (instancetype)talentWithName: (NSString *) name
+                 inSubCategory: (nullable NSString *) subCategory
+                    ofCategory: (NSString *) category
+                       onLevel: (NSInteger) level
+                      withTest: (nullable NSArray *) test
+        withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+             withMaxUpPerLevel: (NSInteger) maxUpPerLevel
+               withLevelUpCost: (NSInteger) levelUpCost
+        influencesOtherTalents: (nullable NSMutableDictionary *)otherInfluencedTalents;
+
+- (instancetype)initTalent: (NSString *) name
+             inSubCategory: (nullable NSString *) subCategory
+                ofCategory: (NSString *) category
+                   onLevel: (NSInteger) level
+                  withTest: (nullable NSArray *) test
+    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
+           withLevelUpCost: (NSInteger) levelUpCost
+    influencesOtherTalents: (nullable NSMutableDictionary *) otherInfluencedTalents;           
 
 - (BOOL) levelUp;
 
@@ -50,7 +72,6 @@ NS_ASSUME_NONNULL_BEGIN
 // End of DSATalent
 
 @interface DSAFightingTalent : DSATalent
-@property (nonatomic, strong) NSString *subCategory;
 - (instancetype)initTalent: (NSString *) name
              inSubCategory: (NSString *) subCategory
                 ofCategory: (NSString *) category
@@ -61,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
 @end
 // End of DSAFightingTalent
 
-@interface DSAOtherTalent : DSATalent
+@interface DSAGeneralTalent : DSATalent
 - (instancetype)initTalent: (NSString *) name
                 ofCategory: (NSString *) category 
                    onLevel: (NSInteger) level
@@ -71,10 +92,9 @@ NS_ASSUME_NONNULL_BEGIN
            withLevelUpCost: (NSInteger) levelUpCost;                          
 
 @end
-// End of DSAOtherTalent
+// End of DSAGeneralTalent
 
-@interface DSAProfession : DSAOtherTalent <NSCoding, NSCopying>
-@property (nonatomic, strong) NSMutableDictionary *influencesTalents;
+@interface DSAProfession : DSAGeneralTalent <NSCoding>
 - (instancetype)initProfession: (NSString *) name
                     ofCategory: (NSString *) category
                        onLevel: (NSInteger) level
@@ -110,12 +130,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DSATalentManager : NSObject
 @property (nonatomic, strong, nullable) NSMutableDictionary <NSString *, NSMutableDictionary *> *talentsByCategory;
+@property (nonatomic, strong, nullable) NSMutableDictionary <NSString *, NSMutableDictionary *> *professionsByName;
 + (instancetype)sharedManager;
 
 - (NSDictionary *) getTalentsDict;
 - (NSDictionary *) getTalentsDictForCharacter: (DSACharacter *)character;
 - (NSMutableDictionary <NSString *, DSATalent*>*)getTalentsForCharacter: (DSACharacter *)character;
 - (NSMutableDictionary <NSString *, DSASpecialTalent*>*)getMagicalDabblerTalentsByTalentsNameArray: (NSArray *) specialTalentNames;
+
+- (NSDictionary *) getProfessionsDict;
+- (NSArray *) getProfessionsForArchetype: (nullable NSString *) archetype;
 @end
 
 NS_ASSUME_NONNULL_END

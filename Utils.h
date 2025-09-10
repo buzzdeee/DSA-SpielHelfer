@@ -96,9 +96,6 @@
 + (NSArray *) getMageAcademiesAreasOfExpertise;
 + (NSArray *) getMageAcademiesOfExpertise: (NSString *) expertise;
 
-+ (NSDictionary *) getProfessionsDict;
-+ (NSArray *) getProfessionsForArchetype: (NSString *) archetype;
-
 + (NSDictionary *) getBlessedLiturgiesDict;
 
 + (NSColor *)colorForDSASeverity:(DSASeverityLevel)level;

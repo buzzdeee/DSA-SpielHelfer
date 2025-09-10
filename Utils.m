@@ -92,7 +92,6 @@ static NSMutableDictionary *masseDict;
 static NSMutableDictionary *spellsDict;
 static NSMutableDictionary *archetypesDict;
 static NSMutableDictionary *npcTypesDict;
-static NSMutableDictionary *professionsDict;
 static NSMutableDictionary *originsDict;
 static NSMutableDictionary *mageAcademiesDict;
 static NSMutableDictionary *warriorAcademiesDict;
@@ -154,15 +153,7 @@ static NSMutableDictionary *imagesIndexDict;
             {
                NSLog(@"Error loading JSON: %@", e.localizedDescription);
             }             
-          filePath = [[NSBundle mainBundle] pathForResource:@"Berufe" ofType:@"json"];        
-          professionsDict = [NSJSONSerialization 
-            JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
-                   options: NSJSONReadingMutableContainers
-                     error: &e];
-          if (e)
-            {
-               NSLog(@"Error loading JSON: %@", e.localizedDescription);
-            }        
+
           filePath = [[NSBundle mainBundle] pathForResource:@"Herkunft" ofType:@"json"];         
           originsDict = [NSJSONSerialization 
             JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
@@ -1085,39 +1076,6 @@ static NSMutableDictionary *imagesIndexDict;
   return sortedAcademies;
 }
 // end of mage academies related methods
-
-
-// professions related methods
-+ (NSDictionary *) getProfessionsDict
-{
-  return professionsDict;
-}
-
-// returns all relevant professions for a given Archetype in an array
-+ (NSArray *) getProfessionsForArchetype: (NSString *) archetype
-{
-  NSMutableArray *professions = [[NSMutableArray alloc] init];
-  
-  if (archetype == nil)
-    {
-      return professions;
-    }
-      
-  for (NSString *profession in [professionsDict allKeys])
-    {
-      if ([[professionsDict objectForKey: profession] objectForKey: @"Typen"] != nil)
-        {
-          if ([[[professionsDict objectForKey: profession] objectForKey: @"Typen"] containsObject: archetype])
-            {
-              [professions addObject: profession];
-            }
-        }
-    }
-  NSArray *sortedProfessions = [professions sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];  
-  return sortedProfessions;
-}
-// end of professions related methods
-
 
 // blessed liturgies related methods
 + (NSDictionary *) getBlessedLiturgiesDict

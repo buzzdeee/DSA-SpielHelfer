@@ -716,7 +716,7 @@ NSLog(@"popupCategorySelected called!");
   // Die Berufe
   [self.popupProfessions removeAllItems];
   [self.popupProfessions addItemWithTitle: _(@"Beruf wählen")];  
-  [self.popupProfessions addItemsWithTitles: [Utils getProfessionsForArchetype: selectedArchetype]];
+  [self.popupProfessions addItemsWithTitles: [[DSATalentManager sharedManager] getProfessionsForArchetype: selectedArchetype]];
   if ([self.popupProfessions numberOfItems] == 1)
     {
       [self.popupProfessions setEnabled: NO];        
@@ -818,7 +818,7 @@ NSLog(@"popupCategorySelected called!");
     }
     
   // some professions have extra constraints as well
-  NSDictionary *professionConstraints = [[[[Utils getProfessionsDict] objectForKey: [[self.popupProfessions selectedItem] title]] objectForKey: @"Bedingung"] objectForKey: @"Basiswerte"];  
+  NSDictionary *professionConstraints = [[[[[DSATalentManager sharedManager] getProfessionsDict] objectForKey: [[self.popupProfessions selectedItem] title]] objectForKey: @"Bedingung"] objectForKey: @"Basiswerte"];  
   for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK", 
                              @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
     {          

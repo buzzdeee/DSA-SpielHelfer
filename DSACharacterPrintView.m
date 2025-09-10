@@ -779,9 +779,9 @@
 
            // Even column index, draw title
            NSString *title;    
-          if ([talent isMemberOfClass: [DSAOtherTalent class]])
+          if ([talent isMemberOfClass: [DSAGeneralTalent class]])
             {
-              title = [NSString stringWithFormat: @"%@ (%@)", [talent name], [[(DSAOtherTalent *)talent test] componentsJoinedByString:@"/"]];
+              title = [NSString stringWithFormat: @"%@ (%@)", [talent name], [[(DSAGeneralTalent *)talent test] componentsJoinedByString:@"/"]];
             }
           else
             {

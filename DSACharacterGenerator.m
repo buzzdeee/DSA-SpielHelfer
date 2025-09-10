@@ -502,7 +502,7 @@
   NSMutableDictionary *professionsDictionary = [[NSMutableDictionary alloc] init];
   if (professionName)
     {
-      NSDictionary *professionDict = [NSDictionary dictionaryWithDictionary: [[Utils getProfessionsDict] objectForKey: professionName]];
+      NSDictionary *professionDict = [NSDictionary dictionaryWithDictionary: [[[DSATalentManager sharedManager] getProfessionsDict] objectForKey: professionName]];
       DSAProfession *profession = [[DSAProfession alloc] initProfession: professionName
                                                              ofCategory: [professionDict objectForKey: @"Freizeittalent"] ? _(@"Freizeittalent") : _(@"Beruf")
                                                                 onLevel: 3
@@ -2454,7 +2454,7 @@
   // some professions have extra constraints as well
   for (NSString *profession in [professions allKeys])
     {
-      NSDictionary *professionConstraints = [[[[Utils getProfessionsDict] objectForKey: profession] objectForKey: @"Bedingung"] objectForKey: @"Basiswerte"];  
+      NSDictionary *professionConstraints = [[[[[DSATalentManager sharedManager] getProfessionsDict] objectForKey: profession] objectForKey: @"Bedingung"] objectForKey: @"Basiswerte"];  
       for (NSString *field in @[ @"MU", @"KL", @"IN", @"CH", @"FF", @"GE", @"KK" ])
         {          
           if ([professionConstraints objectForKey: field])
@@ -2515,7 +2515,7 @@
   // some professions have extra constraints as well
   for (NSString *profession in [professions allKeys])
     {
-      NSDictionary *professionConstraints = [[[[Utils getProfessionsDict] objectForKey: profession] objectForKey: @"Bedingung"] objectForKey: @"Basiswerte"];  
+      NSDictionary *professionConstraints = [[[[[DSATalentManager sharedManager] getProfessionsDict] objectForKey: profession] objectForKey: @"Bedingung"] objectForKey: @"Basiswerte"];  
       for (NSString *field in @[ @"AG", @"HA", @"RA", @"TA", @"NG", @"GG", @"JZ" ])
         {          
           if ([professionConstraints objectForKey: field])

@@ -854,7 +854,7 @@
    for (NSString *category in sortedTalentCategories)
      {
         // Filter talents that belong to the current category
-        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(DSAOtherTalent *evaluatedObject, NSDictionary *bindings)
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(DSAGeneralTalent *evaluatedObject, NSDictionary *bindings)
           {
             return [evaluatedObject.category isEqualToString:category];
           }];
@@ -911,7 +911,7 @@
    for (NSString *category in sortedCategories)
      {
         // Filter professions that belong to the current category
-        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(DSAOtherTalent *evaluatedObject, NSDictionary *bindings)
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(DSAGeneralTalent *evaluatedObject, NSDictionary *bindings)
           {
              return [evaluatedObject.category isEqualToString:category];
           }];
@@ -982,7 +982,7 @@
         else
           {
              // Non-grouped categories: filter spells and add tabs
-             NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(DSAOtherTalent *evaluatedObject, NSDictionary *bindings)
+             NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(DSAGeneralTalent *evaluatedObject, NSDictionary *bindings)
                {
                   return [evaluatedObject.category isEqualToString:category];
                }];
@@ -1040,7 +1040,7 @@
    // Enumerate special talents to find all categories
    //NSLog(@"DSACharacterWindowController: populateSpecialTalentsTab before block enumeration %@", model.specials);
    
-   [model.specials enumerateKeysAndObjectsUsingBlock:^(id key, DSAOtherTalent *obj, BOOL *stop)
+   [model.specials enumerateKeysAndObjectsUsingBlock:^(id key, DSAGeneralTalent *obj, BOOL *stop)
      {
         //NSLog(@"enumerating specials, found object: %@", obj);
         [specials addObject: obj];
@@ -1059,7 +1059,7 @@
    for (NSString *category in sortedCategories)
      {
         // Filter talents belonging to the current category
-        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(DSAOtherTalent *evaluatedObject, NSDictionary *bindings)
+        NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(DSAGeneralTalent *evaluatedObject, NSDictionary *bindings)
           {
             return [evaluatedObject.category isEqualToString:category];
           }];
@@ -1217,7 +1217,7 @@
 
 - (void)addTabForCategory:(NSString *)category
              inSubTabView:(NSTabView *)subTabView
-                withItems:(NSArray<DSAOtherTalent *> *)items
+                withItems:(NSArray<DSAGeneralTalent *> *)items
        currentItemsByName:(NSDictionary<NSString *, NSObject *> *)currentItems
 {
   NSLog(@"addTabForCategory %@", category);
@@ -1229,14 +1229,14 @@
 
   NSInteger Offset = 0;
 
-  for (DSAOtherTalent *item in items) {
+  for (DSAGeneralTalent *item in items) {
     NSString *categoryToCheck = nil;
     NSColor *fontColor = [NSColor blackColor];
 
     if ([item isKindOfClass:[DSAFightingTalent class]]) {
       categoryToCheck = [(DSAFightingTalent *)item subCategory];
-    } else if ([item isKindOfClass:[DSAOtherTalent class]]) {
-      categoryToCheck = [(DSAOtherTalent *)item category];
+    } else if ([item isKindOfClass:[DSAGeneralTalent class]]) {
+      categoryToCheck = [(DSAGeneralTalent *)item category];
     } else if ([item isKindOfClass:[DSAProfession class]]) {
       categoryToCheck = [(DSAProfession *)item category];
     } else if ([item isKindOfClass:[DSASpecialTalent class]]) {
@@ -2005,9 +2005,9 @@
     // Collect talents in the given category
     [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSATalent *obj, BOOL *stop)
       {
-        if ([obj isKindOfClass:[DSAOtherTalent class]])
+        if ([obj isKindOfClass:[DSAGeneralTalent class]])
           {
-            DSAOtherTalent *otherTalent = (DSAOtherTalent*)obj;
+            DSAGeneralTalent *otherTalent = (DSAGeneralTalent*)obj;
             if ([[otherTalent category] isEqualTo: talentCategory])
               {
                 [sortedTalents addObject: otherTalent];
@@ -2031,7 +2031,7 @@
     NSArray *sortedSpellNames = [sortedSpells sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]];
     
     // Add sorted talents to the popup
-    for (DSAOtherTalent *talent in sortedTalentNames) {
+    for (DSAGeneralTalent *talent in sortedTalentNames) {
         [self.popupLevelUpBottom addItemWithTitle:[talent name]];
         if ([model canLevelUpTalent:[model.talents objectForKey:[talent name]]]) {
             [[self.popupLevelUpBottom itemWithTitle:[talent name]] setEnabled:YES];
@@ -2638,7 +2638,7 @@
     NSArray *sortedTalentNames = [sortedTalents sortedArrayUsingDescriptors:@[[NSSortDescriptor sortDescriptorWithKey:@"name" ascending:YES selector:@selector(localizedCaseInsensitiveCompare:)]]];
     
     // Add sorted talents to the popup
-    for (DSAOtherTalent *talent in sortedTalentNames) {
+    for (DSAGeneralTalent *talent in sortedTalentNames) {
         [self. popupTalentSelector addItemWithTitle:[talent name]];
         [[self.popupTalentSelector itemWithTitle:[talent name]] setEnabled:YES];
     }
