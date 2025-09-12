@@ -203,10 +203,93 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 _(@"Zimmermann"): [DSAProfession class],
                 _(@"Zuckerbäcker"): [DSAProfession class],
                 _(@"Zureiter"): [DSAProfession class],
+                
+                _(@"Schutzgeist"): [DSASpecialTalent class],
+                _(@"Magisches Meisterhandwerk"): [DSASpecialTalent class],
               };
             }
         }
     }
+}
+
++ (instancetype)talentWithName: (NSString *) talentName
+                  forCharacter: (DSACharacter *) character
+{
+  Class subclass = [typeToClassMap objectForKey: talentName];
+  if (subclass)
+    {
+      if (subclass == [DSAProfession class])
+        {
+          NSLog(@"DSATalent: talentWithName: %@ going to call initTalent for a profession", talentName);
+          NSDictionary *professionDict = [[[DSATalentManager sharedManager] getProfessionsDict] 
+                                                     objectForKey: talentName];
+          return [[subclass alloc] initTalent: talentName
+                                inSubCategory: nil
+                                   ofCategory: [professionDict objectForKey: @"Freizeittalent"] ? : @"Beruf"
+                                      onLevel: 3
+                                     withTest: [professionDict objectForKey: @"Probe"]
+                       withMaxTriesPerLevelUp: 6
+                            withMaxUpPerLevel: 2
+                              withLevelUpCost: 0
+                       influencesOtherTalents: [professionDict objectForKey: @"Bonus"]];
+       }
+     else if (subclass == [DSAFightingTalent class])
+       {
+          NSLog(@"DSATalent: talentWithName: %@ going to call initTalent for a fighting talent", talentName);
+          NSDictionary *talentDict = [[[DSATalentManager sharedManager] 
+                      getTalentsDictForCharacter: character] 
+                                             objectForKey: talentName];
+          NSLog(@"DSATalent: talentWithName: going to call initTalent for a fighting talent from dict: %@", [[DSATalentManager sharedManager] 
+                      getTalentsDictForCharacter: character]);                                             
+          return [[subclass alloc] initTalent: talentName
+                                inSubCategory: [talentDict objectForKey: @"subCategory"]
+                                   ofCategory: [talentDict objectForKey: @"category"]
+                                      onLevel: [[talentDict objectForKey: @"Startwert"] integerValue]
+                                     withTest: [talentDict objectForKey: @"Probe"]
+                       withMaxTriesPerLevelUp: [[talentDict objectForKey: @"Versuche"] integerValue]
+                            withMaxUpPerLevel: [[talentDict objectForKey: @"Steigern"] integerValue]
+                              withLevelUpCost: 1
+                       influencesOtherTalents: nil];
+       }
+     else if (subclass == [DSASpecialTalent class])
+       {
+          NSLog(@"DSATalent: talentWithName: %@ going to call initTalent for a special talent", talentName);
+          return [[subclass alloc] initTalent: talentName
+                                inSubCategory: nil
+                                   ofCategory: @"Spezialtalent"
+                                      onLevel: 0
+                                     withTest: [talentName isEqualToString: @"Magisches Meisterhandwerk"] ? @ [ @"IN" ] : nil
+                       withMaxTriesPerLevelUp: 0
+                            withMaxUpPerLevel: 0
+                              withLevelUpCost: 0
+                       influencesOtherTalents: nil];
+       }
+     else if (subclass == [DSAGeneralTalent class])
+       {
+          NSLog(@"DSATalent: talentWithName: %@ going to call initTalent for a general talent", talentName);
+          NSDictionary *talentDict = [[[DSATalentManager sharedManager] 
+                      getTalentsDictForCharacter: character] 
+                                             objectForKey: talentName];
+          NSLog(@"DSATalent: talentWithName: going to call initTalent for a fighting talent from dict: %@", talentDict);                                             
+          return [[subclass alloc] initTalent: talentName
+                                inSubCategory: nil
+                                   ofCategory: [talentDict objectForKey: @"category"]
+                                      onLevel: [[talentDict objectForKey: @"Startwert"] integerValue]
+                                     withTest: [talentDict objectForKey: @"Probe"]
+                       withMaxTriesPerLevelUp: [[talentDict objectForKey: @"Versuche"] integerValue]
+                            withMaxUpPerLevel: [[talentDict objectForKey: @"Steigern"] integerValue]
+                              withLevelUpCost: 1
+                       influencesOtherTalents: nil];    
+       }       
+     else
+       {
+         NSLog(@"DSATalent talentWithName: unknown main talent class: %@  for talent: %@ aborting", [subclass class], talentName);
+         abort();
+       }
+    }
+  // handle unknown type
+  NSLog(@"DSASpell: talentWithName: %@ not found returning NIL", talentName);
+  return nil;
 }
 
 + (instancetype)talentWithName: (NSString *) name
@@ -234,7 +317,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                    influencesOtherTalents: otherInfluencedTalents];
     }
   // handle unknown type
-  NSLog(@"DSASpell: spellWithName: %@ not found returning NIL", name);
+  NSLog(@"DSATalent: talentWithName: %@ not found returning NIL", name);
   return nil;
 }   
 
@@ -345,103 +428,22 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of DSATalent
 
 @implementation DSAFightingTalent
-- (instancetype)initTalent: (NSString *) name
-             inSubCategory: (NSString *) newSubCategory
-                ofCategory: (NSString *) category
-                   onLevel: (NSInteger) level
-    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
-         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
-           withLevelUpCost: (NSInteger) levelUpCost;
-{
-  self = [super init];
-  if (self)
-    {
-      self.name = name;
-      self.category = category;
-      self.subCategory = newSubCategory;      
-      self.level = level;
-      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
-      self.maxUpPerLevel = maxUpPerLevel;
-      self.levelUpCost = levelUpCost;
-    }
-  //NSLog(@"DSAFightingTalent: initTalent ... self: %@", self);
-  return self;
-}
+
 @end
 // End of DSAFightingTalent
 
 @implementation DSAGeneralTalent
-- (instancetype)initTalent: (NSString *) name
-                ofCategory: (NSString *) category 
-                   onLevel: (NSInteger) level
-                  withTest: (NSArray *) test
-    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
-         withMaxUpPerLevel: (NSInteger) maxUpPerLevel 
-           withLevelUpCost: (NSInteger) levelUpCost;                          
-{
-  self = [super init];
-  if (self)
-    {
-      self.name = name;
-      self.category = category;
-      self.level = level;
-      self.test = test;
-      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
-      self.maxUpPerLevel = maxUpPerLevel;      
-      self.levelUpCost = levelUpCost;            
-    }
-  return self;
-}
+
 @end
 // End of DSAGeneralTalent
 
 @implementation DSAProfession
-- (instancetype)initProfession: (NSString *) name
-                    ofCategory: (NSString *) category
-                       onLevel: (NSInteger) level
-                      withTest: (NSArray *) test
-        withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
-             withMaxUpPerLevel: (NSInteger) maxUpPerLevel
-             influencesTalents: (NSMutableDictionary *)talents
-{
-  self = [super init];
-  if (self)
-    {
-      self.name = name;
-      self.category = category;
-      self.level = level;
-      self.test = test;
-      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
-      self.maxUpPerLevel = maxUpPerLevel;
-      self.influencesTalents = talents;     
-    }
-  return self;
-}                       
+                       
 @end
 // End of DSAProfession
 
 @implementation DSASpecialTalent
-- (instancetype)initTalent: (NSString *) name
-                ofCategory: (NSString *) category 
-                   onLevel: (NSInteger) level
-                  withTest: (NSArray *) test
-    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
-         withMaxUpPerLevel: (NSInteger) maxUpPerLevel 
-           withLevelUpCost: (NSInteger) levelUpCost;                          
-{
-  self = [super init];
-  if (self)
-    {
-      self.name = name;
-      self.category = category;
-      self.level = level;
-      self.test = test;
-      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
-      self.maxUpPerLevel = maxUpPerLevel;      
-      self.levelUpCost = levelUpCost;            
-    }
-  return self;
-}
+
 @end
 // End of DSASpecialTalent
 
@@ -517,6 +519,7 @@ static DSATalentManager *sharedInstance = nil;
 }
 
 // returns a dictionary of talents for the requested archetype
+
 - (NSDictionary *) getTalentsDictForCharacter: (DSACharacter *)character
 {
   NSString *archetype = character.archetype;
@@ -560,8 +563,8 @@ static DSATalentManager *sharedInstance = nil;
                   weapontype = [NSString stringWithFormat: @"%@", [[[_talentsByCategory objectForKey: category] objectForKey: key] objectForKey: @"Waffentyp"]];
                   startwert = [NSString stringWithFormat: @"%@", [[[[_talentsByCategory objectForKey: category] objectForKey: key] objectForKey: @"Startwerte"] objectForKey: typus]];
                 }
-                [talents setValue: @{@"Startwert": startwert, @"Steigern": steigern, @"Versuche": versuche} 
-                  forKeyHierarchy: @[category, weapontype, key]];
+                [talents setValue: @{@"Startwert": startwert, @"Steigern": steigern, @"Versuche": versuche, @"category": category, @"subCategory": weapontype} 
+                  forKey: key];
             } 
         }
       else
@@ -581,7 +584,7 @@ static DSATalentManager *sharedInstance = nil;
                   probe = [NSArray arrayWithArray: [[[_talentsByCategory objectForKey: category] objectForKey: key] objectForKey: @"Probe"]];
                   startwert = [NSString stringWithFormat: @"%@", [[[[_talentsByCategory objectForKey: category] objectForKey: key] objectForKey: @"Startwerte"] objectForKey: typus]];
                 }
-                [talents setValue: @{@"Startwert": startwert, @"Probe": probe, @"Steigern": steigern, @"Versuche": versuche} forKeyHierarchy: @[category, key]];
+                [talents setValue: @{@"Startwert": startwert, @"Probe": probe, @"Steigern": steigern, @"Versuche": versuche, @"category": category} forKey: key];
             }       
         }
     }
@@ -594,45 +597,12 @@ static DSATalentManager *sharedInstance = nil;
   NSDictionary *talents = [[NSDictionary alloc] init];
   talents = [self getTalentsDictForCharacter: character];
   NSMutableDictionary *newTalents = [[NSMutableDictionary alloc] init];
-  for (NSString *category in talents)
+  for (NSString *talent in [talents allKeys])
     {
-      if ([category isEqualTo: @"Kampftechniken"])
-        {   
-          for (NSString *subCategory in [talents objectForKey: category])
-            {
-              for (NSString *t in [[talents objectForKey: category] objectForKey: subCategory])
-                {
-                   // NSLog(@"dealing with talent in if clause for loop: %@", t);
-                   NSDictionary *tDict = [[[talents objectForKey: category] objectForKey: subCategory] objectForKey: t];
-                   DSAFightingTalent *talent = [[DSAFightingTalent alloc] initTalent: t
-                                                                       inSubCategory: subCategory
-                                                                          ofCategory: category
-                                                                             onLevel: [[tDict objectForKey: @"Startwert"] integerValue]
-                                                              withMaxTriesPerLevelUp: [[tDict objectForKey: @"Versuche"] integerValue]
-                                                                   withMaxUpPerLevel: [[tDict objectForKey: @"Steigern"] integerValue]
-                                                                     withLevelUpCost: 1];
-                  // NSLog(@"DSACharacterGenerationController: initialized talent: %@", talent);                                                                     
-                  [newTalents setObject: talent forKey: t];
-                }
-            }
-        }
-      else
-        {
-          for (NSString *t in [talents objectForKey: category])
-            {
-              //NSLog(@"dealing with talent in else clause for loop: %@", t);
-              NSDictionary *tDict = [[talents objectForKey: category] objectForKey: t];                             
-              DSAGeneralTalent *talent = [[DSAGeneralTalent alloc] initTalent: t
-                                                               ofCategory: category
-                                                                  onLevel: [[tDict objectForKey: @"Startwert"] integerValue]
-                                                                 withTest: [tDict objectForKey: @"Probe"]
-                                                   withMaxTriesPerLevelUp: [[tDict objectForKey: @"Versuche"] integerValue]
-                                                        withMaxUpPerLevel: [[tDict objectForKey: @"Steigern"] integerValue]
-                                                          withLevelUpCost: 1];
-              //NSLog(@"DSACharacterGenerationController: initialized talent: %@", talent);
-              [newTalents setObject: talent forKey: t];
-            }
-        }        
+       DSATalent *t = [DSATalent talentWithName: talent
+                                   forCharacter: character];
+       [newTalents setObject: t forKey: talent];
+
     }
   //NSLog(@"THE NEW TALENTS: newTalents %@", newTalents);
   return newTalents;
@@ -643,19 +613,10 @@ static DSATalentManager *sharedInstance = nil;
   NSMutableDictionary *specialTalents = [[NSMutableDictionary alloc] init];        
   for (NSString *specialTalentName in specialTalentNames)
     {
-        NSLog(@"Checking specialTalentName: %@", specialTalentName);
-        DSASpecialTalent *talent = [[DSASpecialTalent alloc] initTalent: specialTalentName
-                                                             ofCategory: _(@"Spezialtalent")
-                                                                onLevel: 0
-                                                               withTest: nil
-                                                 withMaxTriesPerLevelUp: 0
-                                                      withMaxUpPerLevel: 0
-                                                        withLevelUpCost: 0];
-        if ([specialTalentName isEqualToString: _(@"Magisches Meisterhandwerk")])                                             
-          {
-            [talent setTest: @[ @"IN"] ];
-          }
-        NSLog(@"created Talent: %@", talent);
+        NSLog(@"DSATalentManager getMagicalDabblerTalentsByTalentsNameArray : Checking specialTalentName: %@", specialTalentName);
+        DSATalent *talent = [DSATalent talentWithName: specialTalentName
+                                         forCharacter: nil];
+        NSLog(@"DSATalentManager getMagicalDabblerTalentsByTalentsNameArray: created Talent: %@", talent);
         [specialTalents setObject: talent forKey: specialTalentName];
     }
   return specialTalents;

@@ -175,8 +175,8 @@
   [self populateBasicsTab];
   NSLog(@"DSACharacterWindowController: before populateFightingTalentsTab");
   [self populateFightingTalentsTab];
-  NSLog(@"DSACharacterWindowController: before populateOtherTalentsTab");
-  [self populateOtherTalentsTab];
+  NSLog(@"DSACharacterWindowController: before populateGeneralTalentsTab");
+  [self populateGeneralTalentsTab];
   NSLog(@"DSACharacterWindowController: before populateProfessionsTab");
   [self populateProfessionsTab];
   NSLog(@"DSACharacterWindowController: before populateMagicTalentsTab");
@@ -820,8 +820,9 @@
    [mainTabItem setView:subTabView];
 }
 
-- (void)populateOtherTalentsTab
+- (void)populateGeneralTalentsTab
 {
+   NSLog(@"DSACharacterWindowController populateGeneralTalentsTab called");
    DSACharacterDocument *document = (DSACharacterDocument *)self.document;
    DSACharacterHero *model = (DSACharacterHero *)document.model;
    
@@ -832,8 +833,9 @@
     
    NSMutableArray *otherTalents = [NSMutableArray array];
    NSMutableSet *talentCategories = [NSMutableSet set];
-    
+
    // Enumerate talents to find all categories excluding "Kampftechniken"
+   NSLog(@"DSACharacterWindowController populateGeneralTalentsTab BEFORE filtering out Kampftechniken: %@", model.talents); 
    [model.talents enumerateKeysAndObjectsUsingBlock:^(id key, DSATalent *obj, BOOL *stop)
      {
         if (![[obj category] isEqualToString:@"Kampftechniken"])
@@ -842,7 +844,7 @@
              [talentCategories addObject: [obj category]];
           }
      }];
-    
+   NSLog(@"DSACharacterWindowController populateGeneralTalentsTab after filtering out Kampftechniken: %@", otherTalents); 
    // Sort the talent categories alphabetically
    NSArray *sortedTalentCategories = [[talentCategories allObjects] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
     

@@ -46,6 +46,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL isPersonalTalent;              // set to YES, for i.e. Musizieren for Skald or Bard
 @property (nonatomic, strong) NSMutableDictionary *influencesTalents;
 
++ (instancetype)talentWithName: (NSString *) talentName
+                  forCharacter: (nullable DSACharacter *) character;
+
 + (instancetype)talentWithName: (NSString *) name
                  inSubCategory: (nullable NSString *) subCategory
                     ofCategory: (NSString *) category
@@ -72,47 +75,22 @@ NS_ASSUME_NONNULL_BEGIN
 // End of DSATalent
 
 @interface DSAFightingTalent : DSATalent
-- (instancetype)initTalent: (NSString *) name
-             inSubCategory: (NSString *) subCategory
-                ofCategory: (NSString *) category
-                   onLevel: (NSInteger) level
-    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
-         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
-           withLevelUpCost: (NSInteger) levelUpCost;
+
 @end
 // End of DSAFightingTalent
 
-@interface DSAGeneralTalent : DSATalent
-- (instancetype)initTalent: (NSString *) name
-                ofCategory: (NSString *) category 
-                   onLevel: (NSInteger) level
-                  withTest: (NSArray *) test
-    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
-         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
-           withLevelUpCost: (NSInteger) levelUpCost;                          
+@interface DSAGeneralTalent : DSATalent                          
 
 @end
 // End of DSAGeneralTalent
 
-@interface DSAProfession : DSAGeneralTalent <NSCoding>
-- (instancetype)initProfession: (NSString *) name
-                    ofCategory: (NSString *) category
-                       onLevel: (NSInteger) level
-                      withTest: (NSArray *) test
-        withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
-             withMaxUpPerLevel: (NSInteger) maxUpPerLevel
-             influencesTalents: (NSMutableDictionary *)talents;
+@interface DSAProfession : DSAGeneralTalent
+
 @end
 // End of DSAProfession
 
 @interface DSASpecialTalent : DSATalent
-- (instancetype)initTalent: (NSString *) name
-                ofCategory: (NSString *) category 
-                   onLevel: (NSInteger) level
-                  withTest: (nullable NSArray *) test
-    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
-         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
-           withLevelUpCost: (NSInteger) levelUpCost;                          
+                          
 @end
 // End of DSASpecialTalent
 

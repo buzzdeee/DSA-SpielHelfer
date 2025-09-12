@@ -433,46 +433,6 @@
   return name;
       
 }
-/*
--(NSString *) generateNameForGender: (NSString *) gender
-{
-  NSArray *supportedNames = [DSANameGenerator getTypesOfNames];
-  NSLog(@"DSANPCGenerationCtroller: generateName: supportedNames: %@", supportedNames);
-  NSString *origin;
-  NSString *name;
-
-  if ([supportedNames containsObject: [[self.popupSubtypes selectedItem] title]])     // first check Subtyp, might be more specifc name available
-    {
-      origin = [[self.popupSubtypes selectedItem] title];
-    }    
-  else if ([supportedNames containsObject: [[self.popupTypes selectedItem] title]])   // fall back to Typus
-    {
-      origin = [[self.popupTypes selectedItem] title];
-    }    
-  else if ([supportedNames containsObject: [[self.popupOrigins selectedItem] title]]) // or origin
-    {
-      origin = [[self.popupOrigins selectedItem] title];
-    }
-  if ([supportedNames containsObject: [[self.popupCategories selectedItem] title]])   // before falling back to more or less last resort...
-    {
-      origin = [[self.popupCategories selectedItem] title];
-    }    
-  if ([origin length] == 0)
-    {
-      name = @"ohne Namen";
-      return name;
-    }
-    
-  name = [DSANameGenerator generateNameWithGender: gender
-                                          isNoble: NO
-                                         nameData: [Utils getNamesForRegion: origin]]; 
-  if ([name length] == 0)
-    {
-      name = @"ohne Namen";
-    }       
-  return name;                                                                                                                                   
-}
-*/
 
 - (NSString *)resolveTitleFromParameters:(NSDictionary *)parameters {
     NSString *title = parameters[@"title"];
@@ -502,15 +462,8 @@
   NSMutableDictionary *professionsDictionary = [[NSMutableDictionary alloc] init];
   if (professionName)
     {
-      NSDictionary *professionDict = [NSDictionary dictionaryWithDictionary: [[[DSATalentManager sharedManager] getProfessionsDict] objectForKey: professionName]];
-      DSAProfession *profession = [[DSAProfession alloc] initProfession: professionName
-                                                             ofCategory: [professionDict objectForKey: @"Freizeittalent"] ? _(@"Freizeittalent") : _(@"Beruf")
-                                                                onLevel: 3
-                                                               withTest: [professionDict objectForKey: @"Probe"]
-                                                 withMaxTriesPerLevelUp: 6
-                                                      withMaxUpPerLevel: 2
-                                                      influencesTalents: [professionDict objectForKey: @"Bonus"]];     
-
+      DSATalent *profession = [DSATalent talentWithName: professionName
+                                           forCharacter: self.character];
       [professionsDictionary setObject: profession forKey: professionName];
     }
   else
@@ -2808,54 +2761,7 @@
   NSMutableDictionary *newTalents = [[NSMutableDictionary alloc] init];
   newTalents = [sharedTalentManager getTalentsForCharacter: self.character];
   
-  return newTalents;
-/*  
-  NSDictionary *talents = [[NSDictionary alloc] init];
-  talents = [Utils getTalentsForCharacter: self.character];
-  NSMutableDictionary *newTalents = [[NSMutableDictionary alloc] init];
-  for (NSString *category in talents)
-    {
-      if ([category isEqualTo: @"Kampftechniken"])
-        {   
-          for (NSString *subCategory in [talents objectForKey: category])
-            {
-              for (NSString *t in [[talents objectForKey: category] objectForKey: subCategory])
-                {
-                   // NSLog(@"dealing with talent in if clause for loop: %@", t);
-                   NSDictionary *tDict = [[[talents objectForKey: category] objectForKey: subCategory] objectForKey: t];
-                   DSAFightingTalent *talent = [[DSAFightingTalent alloc] initTalent: t
-                                                                       inSubCategory: subCategory
-                                                                          ofCategory: category
-                                                                             onLevel: [[tDict objectForKey: @"Startwert"] integerValue]
-                                                              withMaxTriesPerLevelUp: [[tDict objectForKey: @"Versuche"] integerValue]
-                                                                   withMaxUpPerLevel: [[tDict objectForKey: @"Steigern"] integerValue]
-                                                                     withLevelUpCost: 1];
-                  // NSLog(@"DSACharacterGenerationController: initialized talent: %@", talent);                                                                     
-                  [newTalents setObject: talent forKey: t];
-                }
-            }
-        }
-      else
-        {
-          for (NSString *t in [talents objectForKey: category])
-            {
-              //NSLog(@"dealing with talent in else clause for loop: %@", t);
-              NSDictionary *tDict = [[talents objectForKey: category] objectForKey: t];                             
-              DSAOtherTalent *talent = [[DSAOtherTalent alloc] initTalent: t
-                                                               ofCategory: category
-                                                                  onLevel: [[tDict objectForKey: @"Startwert"] integerValue]
-                                                                 withTest: [tDict objectForKey: @"Probe"]
-                                                   withMaxTriesPerLevelUp: [[tDict objectForKey: @"Versuche"] integerValue]
-                                                        withMaxUpPerLevel: [[tDict objectForKey: @"Steigern"] integerValue]
-                                                          withLevelUpCost: 1];
-              //NSLog(@"DSACharacterGenerationController: initialized talent: %@", talent);
-              [newTalents setObject: talent forKey: t];
-            }
-        }        
-    }
-  //NSLog(@"THE NEW TALENTS: newTalents %@", newTalents);
-  return newTalents;
-*/  
+  return newTalents;  
 }
 
 - (NSMutableDictionary *) resolveSpellsFromParameters:(NSDictionary *)parameters {
@@ -3565,26 +3471,6 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
   NSMutableDictionary * newTalents = [[NSMutableDictionary alloc] init];
   newTalents = [sharedTalentManager getMagicalDabblerTalentsByTalentsNameArray: specialTalents];
   
-/*  
-          
-  for (NSString *specialTalent in specialTalents)
-    {
-        NSLog(@"Checking specialTalent: %@", specialTalent);
-        DSASpecialTalent *talent = [[DSASpecialTalent alloc] initTalent: specialTalent
-                                                             ofCategory: _(@"Spezialtalent")
-                                                                onLevel: 0
-                                                               withTest: nil
-                                                 withMaxTriesPerLevelUp: 0
-                                                      withMaxUpPerLevel: 0
-                                                        withLevelUpCost: 0];
-        if ([specialTalent isEqualToString: _(@"Magisches Meisterhandwerk")])                                             
-          {
-            [talent setTest: @[ @"IN"] ];
-          }
-        NSLog(@"created Talent: %@", talent);
-        [newTalents setObject: talent forKey: specialTalent];
-    }
-    */
   [self.character setSpecials: newTalents];
   [self.character setCurrentSpecials: [newTalents copy]];  
   NSLog(@"THE magical dabbler talents: %@", newTalents);
