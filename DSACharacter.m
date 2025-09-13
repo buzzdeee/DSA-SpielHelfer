@@ -38,7 +38,7 @@
 #import "DSAGod.h"
 #import "DSAIllness.h"
 #import "DSAPoison.h"
-#import "DSASpellResult.h"
+#import "DSAActionResult.h"
 
 @implementation DSACharacterEffect
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -1307,14 +1307,14 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
    return rituals;
 }
 
-- (DSATalentResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty
+- (DSAActionResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty
 {
   NSLog(@"DSACharacter useTalent withPenalty called");
-  DSATalentResult *talentResult = [[DSATalentResult alloc] init];
+  DSAActionResult *talentResult = [[DSAActionResult alloc] init];
   DSATalent *talent = self.currentTalents[talentName];
   NSInteger level = talent.level - penalty;
   NSInteger initialLevel = level;
-  NSMutableArray *resultsArr = [[NSMutableArray alloc] init];
+  NSMutableDictionary *resultsDict = [[NSMutableDictionary alloc] init];
   NSInteger oneCounter = 0;
   NSInteger twentyCounter = 0;
   BOOL earlyFailure = NO;
@@ -1323,7 +1323,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     {
       NSInteger traitLevel = [[self.positiveTraits objectForKey: trait] level];
       NSInteger result = [Utils rollDice: @"1W20"];
-      [resultsArr addObject: @{ @"trait": trait, @"result": @(result) }];
+      [resultsDict setObject: @(result) forKey: trait];
               
       if (result == 1)
         {
@@ -1376,12 +1376,12 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       if (oneCounter == 2)
         {
            talentResult.result = DSAActionResultAutoSuccess;
-           talentResult.remainingTalentPoints = level;
+           talentResult.remainingActionPoints = level;
         }
       else
         {
            talentResult.result = DSAActionResultEpicSuccess;
-           talentResult.remainingTalentPoints = level;
+           talentResult.remainingActionPoints = level;
         }
     }
   else if (twentyCounter >= 2)
@@ -1389,12 +1389,12 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       if (twentyCounter == 2)
         {
            talentResult.result = DSAActionResultAutoFailure;
-           talentResult.remainingTalentPoints = level;
+           talentResult.remainingActionPoints = level;
         }
       else
        {
           talentResult.result = DSAActionResultEpicFailure;
-          talentResult.remainingTalentPoints = level;
+          talentResult.remainingActionPoints = level;
        }              
     }
   else
@@ -1402,15 +1402,15 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       if (earlyFailure == YES)
         {
            talentResult.result = DSAActionResultFailure;
-           talentResult.remainingTalentPoints = level;                                    
+           talentResult.remainingActionPoints = level;                                    
         }
       else
         {
            talentResult.result = DSAActionResultSuccess;
-           talentResult.remainingTalentPoints = level;                
+           talentResult.remainingActionPoints = level;                
         }
     }
-  talentResult.diceResults = resultsArr;
+  talentResult.diceResults = resultsDict;
   
   return talentResult;
 }
@@ -1469,20 +1469,20 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
 }
 
-- (DSASpellResult *) castSpell: (DSASpell *) spell 
-                     ofVariant: (nullable NSString *) variant
-             ofDurationVariant: (nullable NSString *) durationVariant
-                      onTarget: (DSACharacter *) targetCharacter 
-                    atDistance: (NSInteger) distance
-                   investedASP: (NSInteger) investedASP 
-              currentAdventure: (DSAAdventure *) adventure                   
-          spellOriginCharacter: (nullable DSACharacter *) originCharacter
+- (DSAActionResult *) castSpell: (DSASpell *) spell 
+                      ofVariant: (nullable NSString *) variant
+              ofDurationVariant: (nullable NSString *) durationVariant
+                       onTarget: (DSACharacter *) targetCharacter 
+                     atDistance: (NSInteger) distance
+                    investedASP: (NSInteger) investedASP 
+               currentAdventure: (DSAAdventure *) adventure                   
+           spellOriginCharacter: (nullable DSACharacter *) originCharacter
 {
   NSLog(@"DSACharacter castSpell called!!!");
-  DSASpellResult *spellResult;
+  DSAActionResult *spellResult;
   if (!self.currentSpells[spell.name])
     {
-      spellResult = [[DSASpellResult alloc] init];
+      spellResult = [[DSAActionResult alloc] init];
       spellResult.result = DSAActionResultNone;
       spellResult.resultDescription = [NSString stringWithFormat: @"%@ hat den Spruch %@ doch gar nicht in seinem Repertoire", self.name, spell.name];
       return spellResult;
@@ -1693,14 +1693,14 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
 }
 
-- (DSASpellResult *) castRitual: (NSString *) ritualName
-                      ofVariant: (NSString *) variant
-              ofDurationVariant: (NSString *) durationVariant
-                       onTarget: (id) target
-                     atDistance: (NSInteger) distance
-                    investedASP: (NSInteger) investedASP 
-               currentAdventure: (DSAAdventure *) adventure                    
-           spellOriginCharacter: (DSACharacter *) originCharacter
+- (DSAActionResult *) castRitual: (NSString *) ritualName
+                       ofVariant: (NSString *) variant
+               ofDurationVariant: (NSString *) durationVariant
+                        onTarget: (id) target
+                      atDistance: (NSInteger) distance
+                     investedASP: (NSInteger) investedASP 
+                currentAdventure: (DSAAdventure *) adventure                    
+            spellOriginCharacter: (DSACharacter *) originCharacter
 {
   NSLog(@"DSACharacter castRitual called for ritual name: %@ !!!", ritualName);
 
@@ -1708,14 +1708,14 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   NSLog(@"DSACharacter castRitual: self.specials: %@", self.specials);
   NSLog(@"DSACharacter castRitual: self.currentSpecials: %@", self.currentSpecials); 
   NSLog(@"DSACharacter castRitual: the ritual: %@", spell);
-  DSASpellResult *spellResult = [spell castOnTarget: target
-                                          ofVariant: variant
-                                  ofDurationVariant: durationVariant
-                                         atDistance: distance
-                                        investedASP: investedASP
-                                   currentAdventure: adventure
-                               spellOriginCharacter: originCharacter
-                              spellCastingCharacter: self];
+  DSAActionResult *spellResult = [spell castOnTarget: target
+                                           ofVariant: variant
+                                   ofDurationVariant: durationVariant
+                                          atDistance: distance
+                                         investedASP: investedASP
+                                    currentAdventure: adventure
+                                spellOriginCharacter: originCharacter
+                               spellCastingCharacter: self];
 
   return spellResult;
 }          
@@ -1749,7 +1749,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
           if ([food isAlcoholic])
             {
               NSLog(@"DSACharacter consumeItem it's an alcoholic drink");            
-              DSATalentResult *tresult = [self useTalent: @"Zechen"
+              DSAActionResult *tresult = [self useTalent: @"Zechen"
                                              withPenalty: food.alcoholLevel];
               if (tresult.result == DSAActionResultFailure ||
                   tresult.result == DSAActionResultAutoFailure || 

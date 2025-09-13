@@ -1,11 +1,11 @@
 /*
    Project: DSA-SpielHelfer
 
-   Copyright (C) 2024 Free Software Foundation
+   Copyright (C) 2025 Free Software Foundation
 
    Author: Sebastian Reitenbach
 
-   Created: 2024-09-12 00:04:18 +0200 by sebastia
+   Created: 2025-09-13 19:41:12 +0200 by sebastia
 
    This application is free software; you can redistribute it and/or
    modify it under the terms of the GNU General Public
@@ -22,10 +22,9 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
-#import <objc/runtime.h>
-#import "DSASpellResult.h"
+#import "DSAActionResult.h"
 
-@implementation DSASpellResult
+@implementation DSAActionResult
 
 -(instancetype)init
 {
@@ -33,9 +32,10 @@
   if (self)
     {
       _result = DSAActionResultNone;
-      _diceResults = [[NSMutableArray alloc] init];
-      _remainingSpellPoints = 0;
-      _spellingDuration = 0;
+      _resultDescription = @"";
+      _diceResults = [[NSMutableDictionary alloc] init];
+      _remainingActionPoints = 0;
+      _actionDuration = 0;
       _costAE = 0;
     }
   return self;

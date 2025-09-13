@@ -23,7 +23,7 @@
 */
 
 #import "DSASpell.h"
-#import "DSASpellResult.h"
+#import "DSAActionResult.h"
 #import "DSATrait.h"
 #import "DSADefinitions.h"
 #import "DSAActionParameterDescriptor.h"
@@ -284,7 +284,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 }
 
 // spelling related methods
-- (DSASpellResult *) castOnTarget: (id) target
+- (DSAActionResult *) castOnTarget: (id) target
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant
                        atDistance: (NSInteger) distance
@@ -294,7 +294,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpell castOnTarget called!");
-  DSASpellResult *result = [[DSASpellResult alloc] init];
+  DSAActionResult *result = [[DSAActionResult alloc] init];
   result.resultDescription = [NSString stringWithFormat: _(@"%@ ist noch nicht implementiert."), self.name];
   return result;
 }
@@ -385,14 +385,14 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       return YES;
 }
 
-- (DSASpellResult *) verifyParametersForTarget: (id) target
-                                   withVariant: (NSString *) variant
-                           withDurationVariant: (NSString *) durationVariant
-                                  withDistance: (NSInteger) distance
-                                    withCaster: (DSACharacter *) castingCharacter
-                                    withOrigin: (DSACharacter *) spellOriginCharacter
+- (DSAActionResult *) verifyParametersForTarget: (id) target
+                                    withVariant: (NSString *) variant
+                            withDurationVariant: (NSString *) durationVariant
+                                   withDistance: (NSInteger) distance
+                                     withCaster: (DSACharacter *) castingCharacter
+                                     withOrigin: (DSACharacter *) spellOriginCharacter
 {
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   if (![self.variants containsObject: variant])
     {
@@ -424,11 +424,11 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                                
                                   
 
-- (DSASpellResult *) testTraitsWithSpellLevel: (NSInteger) level 
-                             castingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) testTraitsWithSpellLevel: (NSInteger) level 
+                              castingCharacter: (DSACharacter *) castingCharacter
 {
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
-  NSMutableArray *resultsArr = [[NSMutableArray alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
+  NSMutableDictionary *resultsDict = [[NSMutableDictionary alloc] init];
   NSInteger initialLevel = level;
   NSInteger oneCounter = 0;
   NSInteger twentyCounter = 0;
@@ -438,7 +438,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       NSInteger traitLevel = [[castingCharacter.positiveTraits objectForKey: trait] level];
       NSInteger result = [Utils rollDice: @"1W20"];
-      [resultsArr addObject: @{ @"trait": trait, @"result": @(result) }];
+      [resultsDict setObject: @(result) forKey: trait];
       if (result == 1)
         {
           oneCounter += 1;
@@ -485,13 +485,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
         {
           spellResult.result = DSAActionResultAutoSuccess;
           spellResult.resultDescription = @"Der Zauber ist gut gelungen!";
-          spellResult.remainingSpellPoints = level;
+          spellResult.remainingActionPoints = level;
         }
       else
         {
           spellResult.result = DSAActionResultEpicSuccess;
           spellResult.resultDescription = @"Der Zauber ist phänomenal gelungen!";
-          spellResult.remainingSpellPoints = level;        
+          spellResult.remainingActionPoints = level;        
         }
     }
   else if (twentyCounter >= 2)
@@ -500,13 +500,13 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
         {
           spellResult.result = DSAActionResultAutoFailure;
           spellResult.resultDescription = @"Der Zauber ist ganz schön daneben gegangen!";
-          spellResult.remainingSpellPoints = level;        
+          spellResult.remainingActionPoints = level;        
         }
       else
         {
           spellResult.result = DSAActionResultEpicFailure;
           spellResult.resultDescription = @"Der Zauber ist phänomenal fehlgeschlagen!";
-          spellResult.remainingSpellPoints = level;          
+          spellResult.remainingActionPoints = level;          
         }
     }
   else
@@ -515,16 +515,16 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
         {
           spellResult.result = DSAActionResultFailure;
           spellResult.resultDescription = @"Der Zauber ist fehlgeschlagen!";
-          spellResult.remainingSpellPoints = level;
+          spellResult.remainingActionPoints = level;
         }
       else
         {
           spellResult.result = DSAActionResultSuccess;
           spellResult.resultDescription = @"Der Zauber hat geklappt!";
-          spellResult.remainingSpellPoints = level;
+          spellResult.remainingActionPoints = level;
         }
     }
-  spellResult.diceResults = resultsArr;
+  spellResult.diceResults = resultsDict;
 
   return spellResult;
 }
@@ -613,28 +613,28 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   return self;
 }
 
-- (DSASpellResult *) castOnTarget: (id) target
-                        ofVariant: (NSString *) variant
-                ofDurationVariant: (NSString *) durationVariant
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP 
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target
+                         ofVariant: (NSString *) variant
+                 ofDurationVariant: (NSString *) durationVariant
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP 
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellBeherrschungenBrechen called!");
-  DSASpellResult *spellResult = [self verifyParametersForTarget: target
-                                                    withVariant: variant
-                                            withDurationVariant: durationVariant
-                                                   withDistance: distance
-                                                     withCaster: castingCharacter
-                                                     withOrigin: originCharacter];
+  DSAActionResult *spellResult = [self verifyParametersForTarget: target
+                                                     withVariant: variant
+                                             withDurationVariant: durationVariant
+                                                    withDistance: distance
+                                                      withCaster: castingCharacter
+                                                      withOrigin: originCharacter];
   if (spellResult == DSAActionResultNone)
     {
       return spellResult;
     }
   spellResult  = nil;
-  spellResult = [[DSASpellResult alloc] init];
+  spellResult = [[DSAActionResult alloc] init];
   
   NSInteger costAE = (originCharacter.level - castingCharacter.level) * 4 >= 8 ? : 8 ;
   if (castingCharacter.currentAstralEnergy < costAE)  // not enough AE
@@ -658,7 +658,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       castingCharacter.currentAstralEnergy -= roundf(costAE/2);
     }
-  spellResult.spellingDuration = self.spellingDuration;
+  spellResult.actionDuration = self.spellingDuration;
   return spellResult;
 }             
 
@@ -708,28 +708,28 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   return self;
 }
 
-- (DSASpellResult *) castOnTarget: (id) target
-                        ofVariant: (NSString *) variant
-                ofDurationVariant: (NSString *) durationVariant       
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP 
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target
+                         ofVariant: (NSString *) variant
+                 ofDurationVariant: (NSString *) durationVariant       
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP 
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellBewegungenStoeren called!");
-  DSASpellResult *spellResult = [self verifyParametersForTarget: target
-                                                    withVariant: variant
-                                            withDurationVariant: durationVariant
-                                                   withDistance: distance
-                                                     withCaster: castingCharacter
-                                                     withOrigin: originCharacter];
+  DSAActionResult *spellResult = [self verifyParametersForTarget: target
+                                                     withVariant: variant
+                                             withDurationVariant: durationVariant
+                                                    withDistance: distance
+                                                      withCaster: castingCharacter
+                                                      withOrigin: originCharacter];
   if (spellResult == DSAActionResultNone)
     {
       return spellResult;
     }
   spellResult  = nil;
-  spellResult = [[DSASpellResult alloc] init];
+  spellResult = [[DSAActionResult alloc] init];
   
   NSInteger costAE = (originCharacter.level - castingCharacter.level) * 3 >= 6 ? : 6 ;
   if (castingCharacter.currentAstralEnergy < costAE)  // not enough AE
@@ -753,7 +753,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       castingCharacter.currentAstralEnergy -= roundf(costAE/2);
     }
-  spellResult.spellingDuration = self.spellingDuration;
+  spellResult.actionDuration = self.spellingDuration;
   return spellResult;
 }             
 @end
@@ -802,28 +802,28 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   return self;
 }
 
-- (DSASpellResult *) castOnTarget: (id) target
-                        ofVariant: (NSString *) variant
-                ofDurationVariant: (NSString *) durationVariant                        
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP 
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target
+                         ofVariant: (NSString *) variant
+                 ofDurationVariant: (NSString *) durationVariant                        
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP 
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellDestructiboArcanitas called!");
-  DSASpellResult *spellResult = [self verifyParametersForTarget: target
-                                                    withVariant: variant
-                                            withDurationVariant: durationVariant
-                                                   withDistance: distance
-                                                     withCaster: castingCharacter
-                                                     withOrigin: originCharacter];
+  DSAActionResult *spellResult = [self verifyParametersForTarget: target
+                                                     withVariant: variant
+                                             withDurationVariant: durationVariant
+                                                    withDistance: distance
+                                                      withCaster: castingCharacter
+                                                      withOrigin: originCharacter];
   if (spellResult == DSAActionResultNone)
     {
       return spellResult;
     }
   spellResult  = nil;
-  spellResult = [[DSASpellResult alloc] init];
+  spellResult = [[DSAActionResult alloc] init];
 
   NSInteger totalRemovalCost = 0;
   for (DSASpell *spell in [[(DSAObject *)target appliedSpells] allValues])
@@ -852,7 +852,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       castingCharacter.currentAstralEnergy -= roundf(totalRemovalCost/2);
     }
-  spellResult.spellingDuration = self.spellingDuration;
+  spellResult.actionDuration = self.spellingDuration;
   return spellResult;
 }             
 @end
@@ -913,29 +913,29 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   return self;
 }
 
-- (DSASpellResult *) castOnTarget: (id) target
-                        ofVariant: (NSString *) variant
-                ofDurationVariant: (NSString *) durationVariant                        
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP_unused
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target
+                         ofVariant: (NSString *) variant
+                 ofDurationVariant: (NSString *) durationVariant                        
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP_unused
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellBalsamSalabunde castOnTarget called!");
 
-  DSASpellResult *spellResult = [self verifyParametersForTarget: target
-                                                    withVariant: variant
-                                            withDurationVariant: durationVariant
-                                                   withDistance: distance
-                                                     withCaster: castingCharacter
-                                                     withOrigin: originCharacter];
+  DSAActionResult *spellResult = [self verifyParametersForTarget: target
+                                                     withVariant: variant
+                                             withDurationVariant: durationVariant
+                                                    withDistance: distance
+                                                      withCaster: castingCharacter
+                                                      withOrigin: originCharacter];
   if (spellResult == DSAActionResultNone)
     {
       return spellResult;
     }
   spellResult  = nil;
-  spellResult = [[DSASpellResult alloc] init];
+  spellResult = [[DSAActionResult alloc] init];
   
   NSNumber *investedNumber = (NSNumber *)self.parameterValues[@"aspAmount"];
   NSInteger investedASP = [investedNumber integerValue];
@@ -1000,7 +1000,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       castingCharacter.currentAstralEnergy -= roundf(investedASP/2);
     }
-  spellResult.spellingDuration = self.spellingDuration;
+  spellResult.actionDuration = self.spellingDuration;
   return spellResult;
 }             
 @end
@@ -1058,28 +1058,28 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   return self;
 }
 
-- (DSASpellResult *) castOnTarget: (id) target
-                        ofVariant: (NSString *) variant
-                ofDurationVariant: (NSString *) durationVariant                        
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP_unused
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target
+                         ofVariant: (NSString *) variant
+                 ofDurationVariant: (NSString *) durationVariant                        
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP_unused
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellKlarumPurum castOnTarget called!");
-  DSASpellResult *spellResult = [self verifyParametersForTarget: target
-                                                    withVariant: variant
-                                            withDurationVariant: durationVariant
-                                                   withDistance: distance
-                                                     withCaster: castingCharacter
-                                                     withOrigin: originCharacter];
+  DSAActionResult *spellResult = [self verifyParametersForTarget: target
+                                                     withVariant: variant
+                                             withDurationVariant: durationVariant
+                                                    withDistance: distance
+                                                      withCaster: castingCharacter
+                                                      withOrigin: originCharacter];
   if (spellResult == DSAActionResultNone)
     {
       return spellResult;
     }
   spellResult  = nil;
-  spellResult = [[DSASpellResult alloc] init];
+  spellResult = [[DSAActionResult alloc] init];
 
   NSNumber *investedNumber = (NSNumber *)self.parameterValues[@"aspAmount"];
   NSInteger investedASP = [investedNumber integerValue];
@@ -1099,7 +1099,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   NSLog(@"DSASpellKlarumPurum castOnTarget: dangerLevel: %@ usedASP: %@", @(dangerLevel), @(usedASP));
   if (dangerLevel > usedASP)
     {
-      spellResult.spellingDuration = self.spellingDuration;
+      spellResult.actionDuration = self.spellingDuration;
       spellResult.result = DSAActionResultFailure;
       spellResult.resultDescription = [NSString stringWithFormat: @"%@ hat zu wenig ASP eingesetzt um das Gift zu neutralisieren.",
                                                                   castingCharacter.name];
@@ -1136,7 +1136,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                                                                   targetCharacter.name];
       
     }
-  spellResult.spellingDuration = self.spellingDuration;
+  spellResult.actionDuration = self.spellingDuration;
   return spellResult;
 }             
 @end
@@ -1196,7 +1196,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   return self;
 }
 
-- (DSASpellResult *) castOnTarget: (id) target_unused
+- (DSAActionResult *) castOnTarget: (id) target_unused
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -1207,18 +1207,18 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 {
   NSLog(@"DSASpellAnaluesArcanstruktur castOnTarget called!");
   DSAObject *target = (DSAObject *)self.parameterValues[@"targetObject"];
-  DSASpellResult *spellResult = [self verifyParametersForTarget: target
-                                                    withVariant: variant
-                                            withDurationVariant: durationVariant
-                                                   withDistance: distance
-                                                     withCaster: castingCharacter
-                                                     withOrigin: originCharacter];
+  DSAActionResult *spellResult = [self verifyParametersForTarget: target
+                                                     withVariant: variant
+                                             withDurationVariant: durationVariant
+                                                    withDistance: distance
+                                                      withCaster: castingCharacter
+                                                      withOrigin: originCharacter];
   if (spellResult == DSAActionResultNone)
     {
       return spellResult;
     }
   spellResult  = nil;
-  spellResult = [[DSASpellResult alloc] init];
+  spellResult = [[DSAActionResult alloc] init];
   NSInteger investedASP = 10;
 
   NSInteger availableASP = castingCharacter.currentAstralEnergy;
@@ -1249,7 +1249,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       castingCharacter.currentAstralEnergy -= roundf(investedASP/2);
     }
-  spellResult.spellingDuration = self.spellingDuration * [target.appliedSpells count];
+  spellResult.actionDuration = self.spellingDuration * [target.appliedSpells count];
   return spellResult;
 }
 
@@ -1341,30 +1341,30 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   return self;
 }
 
-- (DSASpellResult *) castOnTarget: (id) target
-                        ofVariant: (NSString *) variant_unused
-                ofDurationVariant: (NSString *) durationVariant                        
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP_unused
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target
+                         ofVariant: (NSString *) variant_unused
+                 ofDurationVariant: (NSString *) durationVariant                        
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP_unused
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellOdemArcanum castOnTarget called!");
   NSString *spellVariant = (NSString *)self.parameterValues[@"targetType"];
   NSLog(@"DSASpellOdemArcanum castOnTarget: spellVariant: %@ parameterValues: %@", spellVariant, self.parameterValues);
-  DSASpellResult *spellResult = [self verifyParametersForTarget: target
-                                                    withVariant: spellVariant
-                                            withDurationVariant: durationVariant
-                                                   withDistance: distance
-                                                     withCaster: castingCharacter
-                                                     withOrigin: originCharacter];
+  DSAActionResult *spellResult = [self verifyParametersForTarget: target
+                                                     withVariant: spellVariant
+                                             withDurationVariant: durationVariant
+                                                    withDistance: distance
+                                                      withCaster: castingCharacter
+                                                      withOrigin: originCharacter];
   if (spellResult == DSAActionResultNone)
     {
       return spellResult;
     }
   spellResult  = nil;
-  spellResult = [[DSASpellResult alloc] init];
+  spellResult = [[DSAActionResult alloc] init];
     
   NSInteger aspCost;
   NSInteger penalty;
@@ -1444,7 +1444,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                                                               spellResult.resultDescription,
                                                               [magicObjectsDescriptions componentsJoinedByString:@" "]];
 
-  spellResult.spellingDuration = self.spellingDuration;
+  spellResult.actionDuration = self.spellingDuration;
   return spellResult;
 }
           

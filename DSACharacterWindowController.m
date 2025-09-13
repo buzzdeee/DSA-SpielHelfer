@@ -35,7 +35,7 @@
 #import "DSACharacterStatusView.h"
 #import "DSARightAlignedStringTransformer.h"
 #import "DSAInventorySlotView.h"
-#import "DSASpellResult.h"
+#import "DSAActionResult.h"
 #import "DSARegenerationResult.h"
 #import "Utils.h"
 #import "DSAIllness.h"
@@ -2684,7 +2684,7 @@
   DSACharacterDocument *document = (DSACharacterDocument *)self.document;
   DSACharacterHero *model = (DSACharacterHero *)document.model;  
 
-  DSATalentResult *result;
+  DSAActionResult *result;
   
   result = [model useTalent: [[self.popupTalentSelector selectedItem] title] withPenalty: [self.fieldTalentPenalty integerValue]];
   
@@ -2694,9 +2694,9 @@
       [diceResultString appendFormat: @"%@: %@ ", [res objectForKey: @"trait"], [res objectForKey: @"result"]];
     }
   
-  NSMutableString *resultString = [NSMutableString stringWithFormat: @"%@, ( ", [DSATalentResult resultNameForResultValue: result.result]];
+  NSMutableString *resultString = [NSMutableString stringWithFormat: @"%@, ( ", [DSAActionResult resultNameForResultValue: result.result]];
   [resultString appendString: diceResultString];
-  [resultString appendFormat: @") verbliebene Talentpunkte: %ld", (signed long) result.remainingTalentPoints];
+  [resultString appendFormat: @") verbliebene Talentpunkte: %ld", (signed long) result.remainingActionPoints];
   
   [self.fieldTalentFeedback setStringValue: resultString];
   [self.fieldTalentFeedback setHidden: NO];
@@ -2765,7 +2765,7 @@
   DSACharacterHero *model = (DSACharacterHero *)document.model;
   DSACharacter *targetCharacter = [[DSACharacter alloc] init];
   DSACharacter *originCharacter = [[DSACharacter alloc] init];
-  DSASpellResult *spellResult;
+  DSAActionResult *spellResult;
 
   targetCharacter.mrBonus = [self.fieldSpellMagicResistance integerValue];
   originCharacter.level = [self.fieldSpellCreatorLevel integerValue];
@@ -2779,7 +2779,7 @@
                 currentAdventure: nil
             spellOriginCharacter: originCharacter];
 
-  NSMutableString *resultString = [NSMutableString stringWithFormat: @"%@", [DSASpellResult resultNameForResultValue: spellResult.result]];                        
+  NSString *resultString = [DSAActionResult resultNameForResultValue: spellResult.result];                        
   [self.fieldSpellFeedbackHeadline setStringValue: resultString];
   [self.fieldSpellFeedbackHeadline setHidden: NO];
   [self.fieldSpellFeedbackHeadline setStringValue: spellResult.resultDescription];
@@ -3130,16 +3130,16 @@
        ritualDurationVariant = [[self.popupRitualDurationVariantSelector selectedItem] title];
     }
       
-  DSASpellResult *spellResult = [model castRitual: ritualName
-                                        ofVariant: ritualVariant
-                                ofDurationVariant: ritualDurationVariant
-                                         onTarget: targetCharacter
-                                       atDistance: [self.fieldRitualDistance integerValue]
-                                      investedASP: [self.fieldRitualInvestedASP integerValue]
-                                 currentAdventure: nil       
-                             spellOriginCharacter: nil];
+  DSAActionResult *spellResult = [model castRitual: ritualName
+                                         ofVariant: ritualVariant
+                                 ofDurationVariant: ritualDurationVariant
+                                          onTarget: targetCharacter
+                                        atDistance: [self.fieldRitualDistance integerValue]
+                                       investedASP: [self.fieldRitualInvestedASP integerValue]
+                                  currentAdventure: nil       
+                              spellOriginCharacter: nil];
   
-  NSMutableString *resultString = [NSMutableString stringWithFormat: @"%@", [DSASpellResult resultNameForResultValue: spellResult.result]];
+  NSString *resultString = [DSAActionResult resultNameForResultValue: spellResult.result];
   [self.fieldRitualFeedbackHeadline setStringValue: resultString];
   [self.fieldRitualFeedbackHeadline setHidden: NO];  
   [self.fieldRitualFeedback setStringValue: spellResult.resultDescription];
@@ -3147,9 +3147,5 @@
 }
 
 // End of cast Rituals related methods
-
-
-
-
 
 @end

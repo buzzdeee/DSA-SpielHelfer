@@ -96,16 +96,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #endif // _DSATALENT_H_
 
-@interface DSATalentResult : DSABaseObject
-@property (nonatomic, assign) DSAActionResultValue result;
-@property (nonatomic, strong) NSArray *diceResults;
-@property (nonatomic, assign) NSInteger remainingTalentPoints;
-
-+(NSString *) resultNameForResultValue: (DSAActionResultValue) value;
-@end
-// End of DSATalentResult
-
-
 @interface DSATalentManager : NSObject
 @property (nonatomic, strong, nullable) NSMutableDictionary <NSString *, NSMutableDictionary *> *talentsByCategory;
 @property (nonatomic, strong, nullable) NSMutableDictionary <NSString *, NSMutableDictionary *> *professionsByName;

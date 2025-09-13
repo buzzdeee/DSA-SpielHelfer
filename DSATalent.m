@@ -447,29 +447,6 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 @end
 // End of DSASpecialTalent
 
-@implementation DSATalentResult
--(instancetype)init
-{
-  self = [super init];
-  if (self)
-    {
-      _result = DSAActionResultNone;
-      _diceResults = [[NSMutableArray alloc] init];
-      _remainingTalentPoints = 0;
-    }
-  return self;
-}
-
-+(NSString *) resultNameForResultValue: (DSAActionResultValue) value
-{
-  NSArray *resultStrings = @[ _(@"Ohne Ergebnis"), _(@"Erfolg"), _(@"Automatischer Erfolg"),
-                              _(@"Epischer Erfolg!"), _(@"Mißerfolg"), _(@"Automatischer Mißerfolg"),
-                              _(@"Epischer Mißerfolg!") ];
-  return resultStrings[value];
-}
-@end
-// End of DSATalentResult
-
 @implementation DSATalentManager
 static DSATalentManager *sharedInstance = nil;
 + (instancetype)sharedManager {

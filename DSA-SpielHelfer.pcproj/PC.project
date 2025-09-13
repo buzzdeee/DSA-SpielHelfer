@@ -28,7 +28,6 @@
 	"Utils.m",
 	"DSASpell.m",
 	"DSAObject.m",
-	"DSASpellResult.m",
 	"DSATalent.m",
 	"DSATrait.m",
 	"NSMutableDictionary+Extras.m",
@@ -113,7 +112,8 @@
 	"DSAPoison.m",
 	"DSAActionChoiceQuestionController.m",
 	"DSAConsumption.m",
-	"DSABaseObject.m"
+	"DSABaseObject.m",
+	"DSAActionResult.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -134,7 +134,6 @@
 	"Utils.h",
 	"DSASpell.h",
 	"DSAObject.h",
-	"DSASpellResult.h",
 	"DSATalent.h",
 	"DSATrait.h",
 	"NSMutableDictionary+Extras.h",
@@ -220,7 +219,8 @@
 	"DSAPoison.h",
 	"DSAActionChoiceQuestionController.h",
 	"DSAConsumption.h",
-	"DSABaseObject.h"
+	"DSABaseObject.h",
+	"DSAActionResult.h"
     );
     IMAGES = (
 	"Aventurien.jpg",

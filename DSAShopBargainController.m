@@ -25,6 +25,7 @@
 #import "DSAShopBargainController.h"
 #import "DSAAdventureGroup.h"
 #import "DSACharacter.h"
+#import "DSAActionResult.h"
 
 
 @implementation DSAShopBargainController
@@ -65,11 +66,11 @@
     NSLog(@"DSAShopBargainController buttonConfirm");
     BOOL result = NO;
     DSACharacter *character = [[self.popupCharacter selectedItem] representedObject];
-    DSATalentResult *talentResult;
+    DSAActionResult *talentResult;
     if ([self.fieldPercentValue.stringValue floatValue] == 0)
       {
         NSLog(@"DSAShopBargainController buttonConfirmClicked, 0%%, no need to bargain");
-        talentResult = [[DSATalentResult alloc] init];
+        talentResult = [[DSAActionResult alloc] init];
         talentResult.result = DSAActionResultEpicSuccess;
       }
     else

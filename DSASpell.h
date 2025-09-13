@@ -28,7 +28,7 @@
 #import "DSABaseObject.h"
 #import "Utils.h"
 @class DSACharacter;
-@class DSASpellResult;
+@class DSAActionResult;
 @class DSAActionParameterDescriptor;
 
 @interface DSASpell : DSABaseObject <NSCoding>
@@ -105,19 +105,19 @@
         
 - (BOOL) levelUp;
 
-- (DSASpellResult *) castOnTarget: (id) target                        // The target of the spell, a DSACharacter or DSAObject
-                        ofVariant: (NSString *) variant               // Spells might have slight variations
-                ofDurationVariant: (NSString *) durationVariant       // might be of a "standard" time, or even permanent
-                       atDistance: (NSInteger) distance               // the distance the target is away in Schritt
-                      investedASP: (NSInteger) invested               // for some spells, the casting character can define how many ASP to invest
-                 currentAdventure: (DSAAdventure *) adventure         // the current adventure
-             spellOriginCharacter: (DSACharacter *) originCharacter   // character who spelled a cast on the target before
-            spellCastingCharacter: (DSACharacter *) castingCharacter; // the character actually casting the spell
+- (DSAActionResult *) castOnTarget: (id) target                        // The target of the spell, a DSACharacter or DSAObject
+                         ofVariant: (NSString *) variant               // Spells might have slight variations
+                 ofDurationVariant: (NSString *) durationVariant       // might be of a "standard" time, or even permanent
+                        atDistance: (NSInteger) distance               // the distance the target is away in Schritt
+                       investedASP: (NSInteger) invested               // for some spells, the casting character can define how many ASP to invest
+                  currentAdventure: (DSAAdventure *) adventure         // the current adventure
+              spellOriginCharacter: (DSACharacter *) originCharacter   // character who spelled a cast on the target before
+             spellCastingCharacter: (DSACharacter *) castingCharacter; // the character actually casting the spell
             
 // helper methods related to casting spells            
 - (BOOL) verifyDistance: (NSInteger) distance;  
 - (BOOL) verifyTarget: (id) target forCaster: (DSACharacter *) origin;  
-- (DSASpellResult *) testTraitsWithSpellLevel: (NSInteger) level castingCharacter: (DSACharacter *) castingCharacter;
+- (DSAActionResult *) testTraitsWithSpellLevel: (NSInteger) level castingCharacter: (DSACharacter *) castingCharacter;
 
 // in case, a descriptor of type choice, can't provide the choices on initialization time...
 - (NSDictionary<NSString *, id> *)choicesForDescriptor:(DSAActionParameterDescriptor *)descriptor

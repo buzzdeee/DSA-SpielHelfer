@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class DSAPositiveTrait;
 @class DSANegativeTrait;
 @class DSATalentResult;
-@class DSASpellResult;
+@class DSAActionResult;
 @class DSARegenerationResult;
 @class DSALocation;
 @class DSAWallet;
@@ -226,29 +226,29 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray <DSASpell *>*) activeSpellsWithNames: (NSArray <NSString *>*) names;
 - (NSArray <DSASpell *>*) activeRitualsWithNames: (NSArray <NSString *>*) names;
                      
-- (DSATalentResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty;
+- (DSAActionResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty;
 
-- (DSATalentResult *) useTalent: (DSATalent *) talent
+- (DSAActionResult *) useTalent: (DSATalent *) talent
                        onTarget: (id) target
                currentAdventure: (nullable DSAAdventure *) adventure;
 
-- (DSASpellResult *) castSpell: (DSASpell *) spell
-                     ofVariant: (nullable NSString *) variant 
-             ofDurationVariant: (nullable NSString *) durationVariant
-                      onTarget: (DSACharacter *) targetCharacter 
-                    atDistance: (NSInteger) distance
-                   investedASP: (NSInteger) investedASP 
-              currentAdventure: (nullable DSAAdventure *) adventure      
-          spellOriginCharacter: (nullable DSACharacter *) originCharacter;
-
-- (DSASpellResult *) castRitual: (NSString *) ritualName 
-                      ofVariant: (nullable NSString *) variant
+- (DSAActionResult *) castSpell: (DSASpell *) spell
+                      ofVariant: (nullable NSString *) variant 
               ofDurationVariant: (nullable NSString *) durationVariant
-                       onTarget: (id) target
+                       onTarget: (DSACharacter *) targetCharacter 
                      atDistance: (NSInteger) distance
                     investedASP: (NSInteger) investedASP 
-               currentAdventure: (nullable DSAAdventure *) adventure         
-           spellOriginCharacter: (nullable DSACharacter *) originCharacter;          
+               currentAdventure: (nullable DSAAdventure *) adventure      
+           spellOriginCharacter: (nullable DSACharacter *) originCharacter;
+
+- (DSAActionResult *) castRitual: (NSString *) ritualName 
+                       ofVariant: (nullable NSString *) variant
+               ofDurationVariant: (nullable NSString *) durationVariant
+                        onTarget: (id) target
+                      atDistance: (NSInteger) distance
+                     investedASP: (NSInteger) investedASP 
+                currentAdventure: (nullable DSAAdventure *) adventure         
+            spellOriginCharacter: (nullable DSACharacter *) originCharacter;          
           
 - (DSARegenerationResult *) regenerateBaseEnergiesForHours: (NSInteger) hours
                                               sleepQuality: (DSASleepQuality) quality;

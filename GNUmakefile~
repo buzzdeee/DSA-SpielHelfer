@@ -6157,7 +6157,6 @@ DSACharacterGenerationController.h \
 Utils.h \
 DSASpell.h \
 DSAObject.h \
-DSASpellResult.h \
 DSATalent.h \
 DSATrait.h \
 NSMutableDictionary+Extras.h \
@@ -6243,7 +6242,8 @@ DSAActionSliderQuestionController.h \
 DSAPoison.h \
 DSAActionChoiceQuestionController.h \
 DSAConsumption.h \
-DSABaseObject.h
+DSABaseObject.h \
+DSAActionResult.h
 
 #
 # Objective-C Class files
@@ -6260,7 +6260,6 @@ DSACharacterGenerationController.m \
 Utils.m \
 DSASpell.m \
 DSAObject.m \
-DSASpellResult.m \
 DSATalent.m \
 DSATrait.m \
 NSMutableDictionary+Extras.m \
@@ -6345,7 +6344,8 @@ DSAActionSliderQuestionController.m \
 DSAPoison.m \
 DSAActionChoiceQuestionController.m \
 DSAConsumption.m \
-DSABaseObject.m
+DSABaseObject.m \
+DSAActionResult.m
 
 #
 # Other sources

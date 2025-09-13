@@ -23,7 +23,7 @@
 */
 
 #import "DSASpellDruidRitual.h"
-#import "DSASpellResult.h"
+#import "DSAActionResult.h"
 #import "DSACharacter.h"
 #import "Utils.h"
 #import "DSAInventoryManager.h"
@@ -147,17 +147,17 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   return YES;
 }
 
-- (DSASpellResult *) castOnTarget: (id) target
-                        ofVariant: (NSString *) variant
-                ofDurationVariant: (NSString *) durationVariant
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target
+                         ofVariant: (NSString *) variant
+                 ofDurationVariant: (NSString *) durationVariant
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellDruidRitual castOnTarget for spell: %@ called! %@", self.name, self);
-  DSASpellResult *result = [[DSASpellResult alloc] init];
+  DSAActionResult *result = [[DSAActionResult alloc] init];
   result.resultDescription = [NSString stringWithFormat: _(@"%@ ist noch nicht implementiert."), self.name];
   return result;
 }
@@ -165,17 +165,17 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 // Herrschaftsrituale
 @implementation DSASpellDruidRitualHerrschaftsritualMiniatur
-- (DSASpellResult *) castOnTarget: (id) target
-                        ofVariant: (NSString *) variant
-                ofDurationVariant: (NSString *) durationVariant                        
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP 
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target
+                         ofVariant: (NSString *) variant
+                 ofDurationVariant: (NSString *) durationVariant                        
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP 
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellDruidRitualHerrschaftsritualMiniatur called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   if (![target isKindOfClass: [DSACharacter class]])
     {
@@ -217,17 +217,17 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of DSASpellDruidRitualHerrschaftsritualMiniatur
 
 @implementation DSASpellDruidRitualHerrschaftsritualAmulett
-- (DSASpellResult *) castOnTarget: (id) target
-                        ofVariant: (NSString *) variant
-                ofDurationVariant: (NSString *) durationVariant                        
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP 
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target
+                         ofVariant: (NSString *) variant
+                 ofDurationVariant: (NSString *) durationVariant                        
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP 
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellDruidRitualHerrschaftsritualAmulett called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   if (![target isKindOfClass: [DSACharacter class]])
     {
@@ -276,17 +276,17 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of DSASpellDruidRitualHerrschaftsritualAmulett
 
 @implementation DSASpellDruidRitualHerrschaftsritualWurzel
-- (DSASpellResult *) castOnTarget: (id) target
-                        ofVariant: (NSString *) variant
-                ofDurationVariant: (NSString *) durationVariant                        
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP 
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target
+                         ofVariant: (NSString *) variant
+                 ofDurationVariant: (NSString *) durationVariant                        
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP 
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellDruidRitualHerrschaftsritualWurzel called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   if (![target isKindOfClass: [DSACharacter class]])
     {
@@ -328,7 +328,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of DSASpellDruidRitualHerrschaftsritualWurzel
 
 @implementation DSASpellDruidRitualHerrschaftsritualKristall
-- (DSASpellResult *) castOnTarget: (id) target
+- (DSAActionResult *) castOnTarget: (id) target
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -338,7 +338,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellDruidRitualHerrschaftsritualKristall called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   if (![target isKindOfClass: [DSACharacter class]])
     {
@@ -385,17 +385,17 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 // Metamagie
 @implementation DSASpellDruidRitualMetamagieSumusBlut
-- (DSASpellResult *) castOnTarget: (id) target
-                        ofVariant: (NSString *) variant
-                ofDurationVariant: (NSString *) durationVariant                        
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP 
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target
+                         ofVariant: (NSString *) variant
+                 ofDurationVariant: (NSString *) durationVariant                        
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP 
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellDruidRitualMetamagieSumusBlut called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   if (castingCharacter.currentAstralEnergy < self.aspCost)  // need enough AE
     {
@@ -435,17 +435,17 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 // Dolchrituale
 @implementation DSASpellDruidRitualDolchritualEins
-- (DSASpellResult *) castOnTarget: (id) target_ignored
-                        ofVariant: (NSString *) variant
-                ofDurationVariant: (NSString *) durationVariant                        
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP 
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target_ignored
+                         ofVariant: (NSString *) variant
+                 ofDurationVariant: (NSString *) durationVariant                        
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP 
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellDruidRitualDolchritualEins called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Vulkanglasdolch" inModel: castingCharacter];  
@@ -495,16 +495,16 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 @end
 
 @implementation DSASpellDruidRitualDolchritualZwei
-- (DSASpellResult *) castOnTarget: (id) target_ignored
-                        ofVariant: (NSString *) variant
-                ofDurationVariant: (NSString *) durationVariant                        
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP 
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target_ignored
+                         ofVariant: (NSString *) variant
+                 ofDurationVariant: (NSString *) durationVariant                        
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP 
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Vulkanglasdolch" inModel: castingCharacter]; 
@@ -569,17 +569,17 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 @end
 
 @implementation DSASpellDruidRitualDolchritualDrei
-- (DSASpellResult *) castOnTarget: (id) target_ignored
-                        ofVariant: (NSString *) variant
-                ofDurationVariant: (NSString *) durationVariant                        
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP 
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target_ignored
+                         ofVariant: (NSString *) variant
+                 ofDurationVariant: (NSString *) durationVariant                        
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP 
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellDruidRitualDolchritualEins called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Vulkanglasdolch" inModel: castingCharacter]; 
@@ -637,16 +637,16 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 @end
 
 @implementation DSASpellDruidRitualDolchritualKraft
-- (DSASpellResult *) castOnTarget: (id) target_ignored
-                        ofVariant: (NSString *) variant
-                ofDurationVariant: (NSString *) durationVariant                        
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP 
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target_ignored
+                         ofVariant: (NSString *) variant
+                 ofDurationVariant: (NSString *) durationVariant                        
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP 
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Vulkanglasdolch" inModel: castingCharacter]; 
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
@@ -672,16 +672,16 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 @end
 
 @implementation DSASpellDruidRitualDolchritualWeg
-- (DSASpellResult *) castOnTarget: (id) target_ignored
-                        ofVariant: (NSString *) variant
-                ofDurationVariant: (NSString *) durationVariant                        
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP 
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target_ignored
+                         ofVariant: (NSString *) variant
+                 ofDurationVariant: (NSString *) durationVariant                        
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP 
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Vulkanglasdolch" inModel: castingCharacter]; 
   if (![target.ownerUUID isEqual: castingCharacter.modelID])
@@ -698,16 +698,16 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 }
 @end
 @implementation DSASpellDruidRitualDolchritualLicht
-- (DSASpellResult *) castOnTarget: (id) target_ignored
-                        ofVariant: (NSString *) variant
-                ofDurationVariant: (NSString *) durationVariant                        
-                       atDistance: (NSInteger) distance
-                      investedASP: (NSInteger) investedASP 
-                 currentAdventure: (DSAAdventure *) adventure                      
-             spellOriginCharacter: (DSACharacter *) originCharacter
-            spellCastingCharacter: (DSACharacter *) castingCharacter
+- (DSAActionResult *) castOnTarget: (id) target_ignored
+                         ofVariant: (NSString *) variant
+                 ofDurationVariant: (NSString *) durationVariant                        
+                        atDistance: (NSInteger) distance
+                       investedASP: (NSInteger) investedASP 
+                  currentAdventure: (DSAAdventure *) adventure                      
+              spellOriginCharacter: (DSACharacter *) originCharacter
+             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Vulkanglasdolch" inModel: castingCharacter]; 
   if (![target.ownerUUID isEqual: castingCharacter.modelID])

@@ -54,7 +54,7 @@
 #import "DSAConversationDialogSheetController.h"
 #import "DSAActionViewController.h"
 #import "DSASpell.h"
-#import "DSASpellResult.h"
+#import "DSAActionResult.h"
 #import "DSAActionParameterDescriptor.h"
 #import "DSAActionSliderQuestionController.h"
 #import "DSAActionChoiceQuestionController.h"
@@ -1822,90 +1822,6 @@ inventoryIdentifier: (NSString *)sourceInventory
     };
     [windowController.window beginSheet:selector.window completionHandler:nil];     
 }
-
-/*
-- (void)handleEvent {
-    NSLog(@"DSAActionIconMagic handleEvent called");
-
-    DSAAdventureWindowController *windowController = self.window.windowController;
-    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
-        NSLog(@"Invalid window controller class");
-        return;
-    }
-
-    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
-    DSAAdventure *adventure = document.model;
-    DSAAdventureGroup *activeGroup = adventure.activeGroup;
-    DSAPosition *currentPosition = activeGroup.position;
-
-    DSAActionContext currentContext = currentPosition.context;
-    NSArray *availableSpells = adventure.availableSpellsByContext[currentContext];
-
-    DSAActionViewController *selector =
-        [[DSAActionViewController alloc] initWithWindowNibName:@"DSAActionView"];
-    selector.viewMode = DSAActionViewModeSpell;
-    selector.activeGroup = activeGroup;
-    selector.spells = availableSpells;
-    [selector window]; // .gorm laden
-
-    __weak typeof(selector) weakSelector = selector;
-    selector.completionHandler = ^(BOOL result) {
-        typeof(weakSelector) selector = weakSelector;
-        if (!selector || !result) {
-            NSLog(@"DSAActionIconMagic: Auswahl abgebrochen.");
-            return; // ✅ Kein weiterer Code wird mehr ausgeführt.
-        }
-
-        DSACharacter *selectedCharacter = (DSACharacter *)[[selector.popupActors selectedItem] representedObject];
-        DSASpell *selectedSpell = (DSASpell *)[[selector.popupActions selectedItem] representedObject];
-        id selectedTarget = [selector.popupTargets isHidden] ? nil : [[selector.popupTargets selectedItem] representedObject];
-
-        NSLog(@"DSAActionIconMagic sheet completion handler called.... ");
-
-        [self askForParameters:selectedSpell.parameterDescriptors
-                       atIndex:0
-                         spell:selectedSpell
-                      character:selectedCharacter
-                         target:selectedTarget
-                      adventure:adventure
-               windowController:windowController
-                     completion:^(BOOL cancelled) {
-            if (cancelled) {
-                NSLog(@"DSAActionIconMagic: Parameterabfrage abgebrochen.");
-                return;
-            }
-
-            DSASpellResult *spellResult = [selectedCharacter castSpell:selectedSpell
-                                                             ofVariant:nil
-                                                     ofDurationVariant:nil
-                                                              onTarget:selectedTarget
-                                                            atDistance:1
-                                                           investedASP:0
-                                                      currentAdventure:adventure
-                                                  spellOriginCharacter:nil];
-
-            NSLog(@"SpellResult: %@", spellResult);
-
-            DSAConversationController *conversationSelector =
-                [[DSAConversationController alloc] initWithWindowNibName:@"DSAConversationTextOnly"];
-            [conversationSelector window];
-            conversationSelector.window.title = selectedSpell.name;
-            conversationSelector.fieldText.stringValue = spellResult.resultDescription;
-            conversationSelector.completionHandler = ^(BOOL result) {
-                if (result) {
-                    NSLog(@"Spell cast complete.");
-                }
-            };
-
-            [windowController.window beginSheet:conversationSelector.window completionHandler:nil];
-            [adventure.gameClock advanceTimeByMinutes:round(spellResult.spellingDuration / 60)];
-        }];
-    };
-
-    [windowController.window beginSheet:selector.window completionHandler:nil];
-}
-*/
-
 @end
 @implementation DSAActionIconMagic
 - (instancetype)initWithImageSize: (NSString *)size
@@ -2099,14 +2015,14 @@ inventoryIdentifier: (NSString *)sourceInventory
                 return;
             }
 
-            DSASpellResult *spellResult = [selectedCharacter castSpell:selectedSpell
-                                                             ofVariant:nil
-                                                     ofDurationVariant:nil
-                                                              onTarget:selectedTarget
-                                                            atDistance:1
-                                                           investedASP:0
-                                                      currentAdventure:adventure
-                                                  spellOriginCharacter:nil];
+            DSAActionResult *spellResult = [selectedCharacter castSpell:selectedSpell
+                                                              ofVariant:nil
+                                                      ofDurationVariant:nil
+                                                               onTarget:selectedTarget
+                                                             atDistance:1
+                                                            investedASP:0
+                                                       currentAdventure:adventure
+                                                   spellOriginCharacter:nil];
 
             NSLog(@"SpellResult: %@", spellResult);
 
@@ -2122,7 +2038,7 @@ inventoryIdentifier: (NSString *)sourceInventory
             };
 
             [windowController.window beginSheet:conversationSelector.window completionHandler:nil];
-            [adventure.gameClock advanceTimeByMinutes:round(spellResult.spellingDuration / 60)];
+            [adventure.gameClock advanceTimeByMinutes:round(spellResult.actionDuration / 60)];
         }];
     };
 
@@ -2190,16 +2106,16 @@ inventoryIdentifier: (NSString *)sourceInventory
         return;
       }
     
-    DSASpellResult *ritualResult = [selectedCharacter castRitual: selectedRitual.name
-                                                       ofVariant: nil
-                                               ofDurationVariant: nil
-                                                        onTarget: selectedTarget
-                                                      atDistance: 0
-                                                     investedASP: 0
-                                                currentAdventure: adventure
-                                            spellOriginCharacter: nil];
+    DSAActionResult *ritualResult = [selectedCharacter castRitual: selectedRitual.name
+                                                        ofVariant: nil
+                                                ofDurationVariant: nil
+                                                         onTarget: selectedTarget
+                                                       atDistance: 0
+                                                      investedASP: 0
+                                                 currentAdventure: adventure
+                                             spellOriginCharacter: nil];
     NSString *resultString = [NSString stringWithFormat: @"%@. %@", 
-                                         [DSASpellResult resultNameForResultValue: ritualResult.result],
+                                         [DSAActionResult resultNameForResultValue: ritualResult.result],
                                          ritualResult.resultDescription];
     DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName: @"DSAConversationTextOnly"];
     [conversationSelector window];  // trigger loading .gorm file

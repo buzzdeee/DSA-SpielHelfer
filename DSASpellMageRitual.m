@@ -23,7 +23,7 @@
 */
 
 #import "DSASpellMageRitual.h"
-#import "DSASpellResult.h"
+#import "DSAActionResult.h"
 #import "DSACharacter.h"
 #import "Utils.h"
 #import "DSAInventoryManager.h"
@@ -160,7 +160,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   return YES;
 }
 
-- (DSASpellResult *) castOnTarget: (id) target
+- (DSAActionResult *) castOnTarget: (id) target
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant
                        atDistance: (NSInteger) distance
@@ -170,7 +170,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitual castOnTarget for spell: %@ called! %@", self.name, self);
-  DSASpellResult *result = [[DSASpellResult alloc] init];
+  DSAActionResult *result = [[DSAActionResult alloc] init];
   result.resultDescription = [NSString stringWithFormat: _(@"%@ ist noch nicht implementiert."), self.name];
   return result;
 }
@@ -179,7 +179,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 // Stabzauber
 @implementation DSASpellMageRitualStabzauberEins
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -189,7 +189,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualStabzauberEins castOnTarget called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
 
   if (!variant)
     {
@@ -257,7 +257,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of DSASpellStabzauberEins
 
 @implementation DSASpellMageRitualStabzauberZwei
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -267,7 +267,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualStabzauberZwei called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
@@ -335,7 +335,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of Stabzauber Zwei
 
 @implementation DSASpellMageRitualStabzauberDrei
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -345,7 +345,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualStabzauberDrei called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
@@ -409,7 +409,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of Stabzauber Drei
 
 @implementation DSASpellMageRitualStabzauberVier
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -419,7 +419,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualStabzauberVier called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
@@ -470,7 +470,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of Stabzauber Vier
 
 @implementation DSASpellMageRitualStabzauberFuenf
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -480,7 +480,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualStabzauberFuenf called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
@@ -549,7 +549,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of Stabzauber Fünf
 
 @implementation DSASpellMageRitualStabzauberSechs
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -559,7 +559,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualStabzauberSechs called! %@ %@", self, [[[[Utils getMageRitualsDict] objectForKey: @"Stabzauber"] objectForKey: self.name] objectForKey: @"Varianten" ]);
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
@@ -633,7 +633,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of Stabzauber Sechs
 
 @implementation DSASpellMageRitualStabzauberSieben
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant
                        atDistance: (NSInteger) distance
@@ -643,7 +643,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualStabzauberSieben called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
@@ -707,7 +707,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of Stabzauber Sieben
 
 @implementation DSASpellMageRitualStabzauberFackel
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                 
                        atDistance: (NSInteger) distance
@@ -717,7 +717,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualStabzauberFackel castOnTarget called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
@@ -751,7 +751,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of DSASpellStabzauberFackel
 
 @implementation DSASpellMageRitualStabzauberSeil
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -761,7 +761,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualStabzauberSeil castOnTarget called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
@@ -794,7 +794,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 @end
 
 @implementation DSASpellMageRitualStabzauberTierverwandlung
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -804,7 +804,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualStabzauberTierverwandlung castOnTarget called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   NSString *article, *article2;
   if (variant == nil)
@@ -856,7 +856,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 
 @implementation DSASpellMageRitualStabzauberHerbeirufen
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -865,7 +865,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierstab" inModel: castingCharacter];
@@ -886,7 +886,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 // Schwertzauber
 @implementation DSASpellMageRitualSchwertzauber
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -896,7 +896,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualSchwertzauber called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
 
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierschwert" inModel: castingCharacter];
   if (![self verifyTarget: target forCaster: castingCharacter])
@@ -952,7 +952,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 // Schalenzauber
 @implementation DSASpellMageRitualSchalenzauber
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -962,7 +962,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualSchalenzauber called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
 
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Magierschale" inModel: castingCharacter];
   if (![self verifyTarget: target forCaster: castingCharacter])
@@ -1006,7 +1006,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 // Kugelzauber
 @implementation DSASpellMageRitualKugelzauberEins
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -1016,7 +1016,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualKugelzauberEins castOnTarget called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
@@ -1064,7 +1064,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of DSASpellKugelzauberEins
 
 @implementation DSASpellMageRitualKugelzauberZwei
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -1074,7 +1074,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualKugelzauberZwei castOnTarget called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
@@ -1138,7 +1138,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of DSASpellKugelzauberZwei
 
 @implementation DSASpellMageRitualKugelzauberDrei
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -1148,7 +1148,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualKugelzauberDrei called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
@@ -1223,7 +1223,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of Kugelzauber Drei
 
 @implementation DSASpellMageRitualKugelzauberVier
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -1233,7 +1233,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualKugelzauberVier called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
@@ -1297,7 +1297,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of Kugelzauber Vier
 
 @implementation DSASpellMageRitualKugelzauberFuenf
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -1307,7 +1307,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellMageRitualKugelzauberFuenf called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
@@ -1372,7 +1372,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 
 @implementation DSASpellMageRitualKugelzauberBrennglas
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -1382,7 +1382,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellKugelzauberBrennglas castOnTarget called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
@@ -1417,7 +1417,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of DSASpellKugelzauberBrennglas
 
 @implementation DSASpellMageRitualKugelzauberSchutzfeld
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -1427,7 +1427,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellKugelzauberSchutzfeld castOnTarget called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
@@ -1461,7 +1461,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of DSASpellKugelzauberSchutzfeld
 
 @implementation DSASpellMageRitualKugelzauberWarnung
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -1471,7 +1471,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
   NSLog(@"DSASpellKugelzauberWarnung castOnTarget called!");
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
 
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
@@ -1505,7 +1505,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of DSASpellKugelzauberWarnung
 
 @implementation DSASpellMageRitualKugelzauberHerbeirufen
-- (DSASpellResult *) castOnTarget: (id) target_ignored
+- (DSAActionResult *) castOnTarget: (id) target_ignored
                         ofVariant: (NSString *) variant
                 ofDurationVariant: (NSString *) durationVariant                        
                        atDistance: (NSInteger) distance
@@ -1514,7 +1514,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
              spellOriginCharacter: (DSACharacter *) originCharacter
             spellCastingCharacter: (DSACharacter *) castingCharacter
 {
-  DSASpellResult *spellResult = [[DSASpellResult alloc] init];
+  DSAActionResult *spellResult = [[DSAActionResult alloc] init];
   
   // we ignore any target we got
   DSAObject *target = [[DSAInventoryManager sharedManager] findItemWithName: @"Kristallkugel" inModel: castingCharacter];
