@@ -113,7 +113,8 @@
 	"DSAActionChoiceQuestionController.m",
 	"DSAConsumption.m",
 	"DSABaseObject.m",
-	"DSAActionResult.m"
+	"DSAActionResult.m",
+	"DSAEvent.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -220,7 +221,8 @@
 	"DSAActionChoiceQuestionController.h",
 	"DSAConsumption.h",
 	"DSABaseObject.h",
-	"DSAActionResult.h"
+	"DSAActionResult.h",
+	"DSAEvent.h"
     );
     IMAGES = (
 	"Aventurien.jpg",

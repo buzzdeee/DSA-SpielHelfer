@@ -230,7 +230,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (DSAActionResult *) useTalent: (DSATalent *) talent
                        onTarget: (id) target
-               currentAdventure: (nullable DSAAdventure *) adventure;
+               currentAdventure: (nullable DSAAdventure *) adventure;               
 
 - (DSAActionResult *) castSpell: (DSASpell *) spell
                       ofVariant: (nullable NSString *) variant 

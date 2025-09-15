@@ -28,6 +28,8 @@
 #import "DSABaseObject.h"
 #import "DSADefinitions.h"
 @class DSACharacter;
+@class DSAActionResult;
+@class DSAAdventure;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -71,6 +73,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL) levelUp;
 
+- (DSAActionResult *) useWithPenalty: (NSInteger) penalty
+                         byCharacter: (DSACharacter *) character;
+
+- (DSAActionResult *) useOnTarget: (id) target
+                      byCharacter: (DSACharacter *) character
+                 currentAdventure: (DSAAdventure *) adventure;
 @end
 // End of DSATalent
 
@@ -80,9 +88,11 @@ NS_ASSUME_NONNULL_BEGIN
 // End of DSAFightingTalent
 
 @interface DSAGeneralTalent : DSATalent                          
-
 @end
-// End of DSAGeneralTalent
+@interface DSAGeneralTalentTaschendiebstahl: DSAGeneralTalent
+@end
+
+// End of DSAGeneralTalent subtalents
 
 @interface DSAProfession : DSAGeneralTalent
 

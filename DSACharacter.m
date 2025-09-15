@@ -1310,117 +1310,19 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 - (DSAActionResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty
 {
   NSLog(@"DSACharacter useTalent withPenalty called");
-  DSAActionResult *talentResult = [[DSAActionResult alloc] init];
-  DSATalent *talent = self.currentTalents[talentName];
-  NSInteger level = talent.level - penalty;
-  NSInteger initialLevel = level;
-  NSMutableDictionary *resultsDict = [[NSMutableDictionary alloc] init];
-  NSInteger oneCounter = 0;
-  NSInteger twentyCounter = 0;
-  BOOL earlyFailure = NO;
-  NSInteger counter = 0;
-  for (NSString *trait in talent.test)
-    {
-      NSInteger traitLevel = [[self.positiveTraits objectForKey: trait] level];
-      NSInteger result = [Utils rollDice: @"1W20"];
-      [resultsDict setObject: @(result) forKey: trait];
-              
-      if (result == 1)
-        {
-          oneCounter += 1;
-        }
-      else if (result == 20)
-        {
-          twentyCounter += 1;
-        }
-      if (initialLevel >= 0)
-        {
-          NSLog(@"%@ initial Level > 0 current Level: %ld", trait, (signed long) level);
-          if (result <= traitLevel)  // potential failure, but we may have enough talent
-            {
-              NSLog(@"result was <= traitLevel");
-            }
-          else
-            {
-              NSLog(@"result was > traitLevel");
-              level = level - (result - traitLevel);
-              if (level < 0)
-                {
-                  earlyFailure = YES;
-                }                      
-            }
-        }
-       else  // initialLevel < 0
-        {
-           NSLog(@"%@ initial Level < 0 current Level: %ld", trait, (signed long) level);
-          if (result <= traitLevel)
-            {
-              NSLog(@"result was <= traitLevel");
-              level = level + (traitLevel - result);
-              if (level < 0 && counter == 2)
-                {
-                   NSLog(@"setting early failure becaue counter == 2");
-                   earlyFailure = YES;
-                }
-            }
-           else
-            {
-              NSLog(@"result was > traitLevel");
-              earlyFailure = YES;
-            }
-        }
-      counter += 1;        
-    }
-  if (oneCounter >= 2)
-    {
-      if (oneCounter == 2)
-        {
-           talentResult.result = DSAActionResultAutoSuccess;
-           talentResult.remainingActionPoints = level;
-        }
-      else
-        {
-           talentResult.result = DSAActionResultEpicSuccess;
-           talentResult.remainingActionPoints = level;
-        }
-    }
-  else if (twentyCounter >= 2)
-    {
-      if (twentyCounter == 2)
-        {
-           talentResult.result = DSAActionResultAutoFailure;
-           talentResult.remainingActionPoints = level;
-        }
-      else
-       {
-          talentResult.result = DSAActionResultEpicFailure;
-          talentResult.remainingActionPoints = level;
-       }              
-    }
-  else
-    {
-      if (earlyFailure == YES)
-        {
-           talentResult.result = DSAActionResultFailure;
-           talentResult.remainingActionPoints = level;                                    
-        }
-      else
-        {
-           talentResult.result = DSAActionResultSuccess;
-           talentResult.remainingActionPoints = level;                
-        }
-    }
-  talentResult.diceResults = resultsDict;
-  
-  return talentResult;
+  DSATalent *talent = self.currentTalents[talentName];  
+  return [talent useWithPenalty: penalty
+                    byCharacter: self];
 }
 
 
-- (DSATalentResult *) useTalent: (DSATalent *) talent
+- (DSAActionResult *) useTalent: (DSATalent *) talent
                        onTarget: (id) target
                currentAdventure: (nullable DSAAdventure *) adventure
 {
-  return nil;
+  return [talent useOnTarget: target
+                 byCharacter: self
+            currentAdventure: adventure];
 }               
 
 // end of talent usage related methods

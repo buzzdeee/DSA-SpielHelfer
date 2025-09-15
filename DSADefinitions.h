@@ -92,6 +92,13 @@ typedef NS_ENUM(NSUInteger, DSAActionParameterType) {
     DSAActionParameterTypeActiveGroup          // no need to ask the user
 };
 
+// Event types used in DSAEvent class
+typedef NS_ENUM(NSInteger, DSAEventType) {
+    DSAEventTypeUnknown = 0,
+    DSAEventTypeHausverbot
+    // ... add more when needed
+};
+
 NSArray<NSString *> *DSAShopGeneralStoreCategories(void);
 NSArray<NSString *> *DSAShopHerbsStoreCategories(void);
 NSArray<NSString *> *DSAShopWeaponStoreCategories(void);

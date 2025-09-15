@@ -26,7 +26,8 @@
 #import "DSAAdventureClock.h"
 #import "DSAAdventureGroup.h"
 #import "DSAGod.h"
-
+#import "DSAEvent.h"
+#import "DSALocation.h"
 
 DSAActionContext const DSAActionContextResting = @"Rasten";
 DSAActionContext const DSAActionContextPrivateRoom = @"Zimmer";
@@ -91,6 +92,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     if (self = [super init]) {
         _groups = [NSMutableArray array];
         _discoveredCoordinates = [NSMutableDictionary dictionary];
+        _eventsByPosition = [NSMutableDictionary dictionary];
         NSLog(@"DSAAdventure init before _gameClock");
         _gameClock = [[DSAAdventureClock alloc] init];
         
@@ -158,6 +160,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
   [coder encodeObject:self.groups forKey:@"groups"];
   NSLog(@"DSAAdventure encodeWithCoder: encoded self.groups: %@", self.groups);
   [coder encodeObject:self.discoveredCoordinates forKey:@"discoveredCoordinates"];
+  [coder encodeObject:self.eventsByPosition forKey:@"eventsByPosition"];
   [coder encodeObject:self.gameClock forKey:@"gameClock"];
   [coder encodeObject:self.gods forKey:@"gods"];
   NSLog(@"DSAAdventure encodeWithCoder called, saved gameClock: %@", self.gameClock);
@@ -178,6 +181,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
       _groups = [coder decodeObjectForKey:@"groups"];
       NSLog(@"DSAAdventure initWithCoder: decoded self.groups: %@", _groups);
       _discoveredCoordinates = [coder decodeObjectForKey:@"discoveredCoordinates"];
+      _eventsByPosition = [coder decodeObjectForKey:@"eventsByPosition"];
       _gameClock = [coder decodeObjectForKey:@"gameClock"];
       // load the gods, and build up the lookup caches
       _gods = [coder decodeObjectForKey:@"gods"];
@@ -288,6 +292,54 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 - (BOOL)isCoordinateDiscovered:(DSAMapCoordinate *)coord forLocation:(NSString *)location {
     return [self.discoveredCoordinates[location] containsObject:coord];
 }
+
+// Saved events related 
+- (void)addEvent:(DSAEvent *)event {
+    if (!event.position) return;
+
+    NSMutableArray<DSAEvent *> *eventsAtPosition = self.eventsByPosition[event.position];
+    if (!eventsAtPosition) {
+        eventsAtPosition = [NSMutableArray array];
+        self.eventsByPosition[event.position] = eventsAtPosition;
+    }
+
+    [eventsAtPosition addObject:event];
+}
+
+- (NSArray<DSAEvent *> *)activeEventsAtPosition:(DSAPosition *)position forDate:(DSAAventurianDate *)date {
+    NSMutableArray<DSAEvent *> *eventsAtPosition = self.eventsByPosition[position];
+    if (!eventsAtPosition) return @[];
+
+    NSMutableArray<DSAEvent *> *activeEvents = [NSMutableArray array];
+    for (DSAEvent *event in eventsAtPosition) {
+        if ([event isActiveAtDate:date]) {
+            [activeEvents addObject:event];
+        }
+    }
+    return activeEvents;
+}
+
+- (void)removeExpiredEventsAtPosition:(DSAPosition *)position forDate:(DSAAventurianDate *)date {
+    NSMutableArray<DSAEvent *> *eventsAtPosition = self.eventsByPosition[position];
+    if (!eventsAtPosition) return;
+
+    NSIndexSet *expiredIndexes = [eventsAtPosition indexesOfObjectsPassingTest:^BOOL(DSAEvent * _Nonnull event, NSUInteger idx, BOOL * _Nonnull stop) {
+        return ![event isActiveAtDate:date];
+    }];
+    [eventsAtPosition removeObjectsAtIndexes:expiredIndexes];
+
+    if (eventsAtPosition.count == 0) {
+        [self.eventsByPosition removeObjectForKey:position];
+    }
+}
+
+- (void)removeAllExpiredEventsForDate:(DSAAventurianDate *)date {
+    NSArray<DSAPosition<NSCopying> *> *allPositions = [self.eventsByPosition allKeys];
+    for (DSAPosition *pos in allPositions) {
+        [self removeExpiredEventsAtPosition:pos forDate:date];
+    }
+}
+
 @end
 
 

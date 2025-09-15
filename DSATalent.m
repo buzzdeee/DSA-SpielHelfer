@@ -23,6 +23,8 @@
 */
 
 #import "DSATalent.h"
+#import "DSAActionResult.h"
+#import "DSATrait.h"
 #import "Utils.h"
 #import "NSMutableDictionary+Extras.h"
 
@@ -123,7 +125,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 _(@"Sternkunde"): [DSAGeneralTalent class],
                 _(@"Stimmen Imitieren"): [DSAGeneralTalent class],
                 _(@"Tanzen"): [DSAGeneralTalent class],
-                _(@"Taschendiebstahl"): [DSAGeneralTalent class],
+                _(@"Taschendiebstahl"): [DSAGeneralTalentTaschendiebstahl class],
                 _(@"Tierkunde"): [DSAGeneralTalent class],
                 _(@"Töpfern"): [DSAGeneralTalent class],
                 _(@"Wettervorhersage"): [DSAGeneralTalent class],
@@ -424,6 +426,122 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       return NO;
     }
 }
+
+- (DSAActionResult *) useWithPenalty: (NSInteger) penalty
+                         byCharacter: (DSACharacter *) character
+{
+  NSLog(@"DSATalent useWithPenalty called");
+  DSAActionResult *talentResult = [[DSAActionResult alloc] init];
+  NSInteger level = self.level - penalty;
+  NSInteger initialLevel = level;
+  NSMutableDictionary *resultsDict = [[NSMutableDictionary alloc] init];
+  NSInteger oneCounter = 0;
+  NSInteger twentyCounter = 0;
+  BOOL earlyFailure = NO;
+  NSInteger counter = 0;
+  for (NSString *trait in self.test)
+    {
+      NSInteger traitLevel = [[character.positiveTraits objectForKey: trait] level];
+      NSInteger result = [Utils rollDice: @"1W20"];
+      [resultsDict setObject: @(result) forKey: trait];
+              
+      if (result == 1)
+        {
+          oneCounter += 1;
+        }
+      else if (result == 20)
+        {
+          twentyCounter += 1;
+        }
+      if (initialLevel >= 0)
+        {
+          NSLog(@"DSATalent useWithPenalty %@ initial Level > 0 current Level: %ld", trait, (signed long) level);
+          if (result <= traitLevel)  // potential failure, but we may have enough talent
+            {
+              NSLog(@"result was <= traitLevel");
+            }
+          else
+            {
+              NSLog(@"DSATalent useWithPenalty result was > traitLevel");
+              level = level - (result - traitLevel);
+              if (level < 0)
+                {
+                  earlyFailure = YES;
+                }                      
+            }
+        }
+       else  // initialLevel < 0
+        {
+           NSLog(@"DSATalent useWithPenalty %@ initial Level < 0 current Level: %ld", trait, (signed long) level);
+          if (result <= traitLevel)
+            {
+              NSLog(@"DSATalent useWithPenalty result was <= traitLevel");
+              level = level + (traitLevel - result);
+              if (level < 0 && counter == 2)
+                {
+                   NSLog(@"setting early failure becaue counter == 2");
+                   earlyFailure = YES;
+                }
+            }
+           else
+            {
+              NSLog(@"DSATalent useWithPenalty result was > traitLevel");
+              earlyFailure = YES;
+            }
+        }
+      counter += 1;        
+    }
+  if (oneCounter >= 2)
+    {
+      if (oneCounter == 2)
+        {
+           talentResult.result = DSAActionResultAutoSuccess;
+           talentResult.remainingActionPoints = level;
+        }
+      else
+        {
+           talentResult.result = DSAActionResultEpicSuccess;
+           talentResult.remainingActionPoints = level;
+        }
+    }
+  else if (twentyCounter >= 2)
+    {
+      if (twentyCounter == 2)
+        {
+           talentResult.result = DSAActionResultAutoFailure;
+           talentResult.remainingActionPoints = level;
+        }
+      else
+       {
+          talentResult.result = DSAActionResultEpicFailure;
+          talentResult.remainingActionPoints = level;
+       }              
+    }
+  else
+    {
+      if (earlyFailure == YES)
+        {
+           talentResult.result = DSAActionResultFailure;
+           talentResult.remainingActionPoints = level;                                    
+        }
+      else
+        {
+           talentResult.result = DSAActionResultSuccess;
+           talentResult.remainingActionPoints = level;                
+        }
+    }
+  talentResult.diceResults = resultsDict;
+  
+  return talentResult;
+}
+
+- (DSAActionResult *) useOnTarget: (id) target
+                      byCharacter: (DSACharacter *) character
+                 currentAdventure: (DSAAdventure *) adventure
+{
+  NSLog(@"DSATalent useOnTarget: byCharacter: currentAdventure shall be implemented in the subclass: %@", [self class]);
+  return nil;
+}                 
 @end
 // End of DSATalent
 
@@ -433,9 +551,53 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 // End of DSAFightingTalent
 
 @implementation DSAGeneralTalent
-
 @end
-// End of DSAGeneralTalent
+
+@implementation DSAGeneralTalentTaschendiebstahl
+- (DSAActionResult *) useOnTarget: (id) target
+                      byCharacter: (DSACharacter *) character
+                 currentAdventure: (DSAAdventure *) adventure
+{
+/*  NSLog(@"DSAGeneralTalentTaschendiebstahl useOnTarget: byCharacter: currentAdventure called");
+  DSAAdventureGroup *activeGroup = adventure.activeGroup;
+  DSAPosition *currentPosition = activeGroup.position;
+  DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName: ofType: @"local"];
+  
+  NSInteger penalty = 0;
+  if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
+    {
+      DSALocalMapLocation *lml (DSALocalMapLocation *)currentLocation;
+      DSALocalMapTile *currentTile = [lml tileAtCoordinate: currentPosition.mapCoordinate];
+      if ([currentTile isKindOfClass: [DSALocalMapTileBuildingInn class]] &&
+          [currentPosition.context isEqualToString: DSAActionContextTavern])
+        {
+           if 
+        }
+      else
+        {
+          NSLog(@"DSAGeneralTalentTaschendiebstahl useOnTarget: byCharacter: currentAdventure no special penalty defined for currentTile class: %@", [currentTileClass]);
+          DSALocalMapTileBuildingInnFillLevel fillLevel = [(DSALocalMapTileBuildingInn*)currentTile tavernFillLevel];
+          switch(fillLevel)
+            {
+              case DSALocalMapTileBuildingInnFillLevelEmpty: penalty = -1;
+              case DSALocalMapTileBuildingInnFillLevelNormal: penalty = 0;
+              case DSALocalMapTileBuildingInnFillLevelBusy: penalty = 1;              
+              case DSALocalMapTileBuildingInnFillLevelPacked: penalty = 2;              
+            }
+        }
+    }
+  else
+    {
+      NSLog(@"DSAGeneralTalentTaschendiebstahl useOnTarget: byCharacter: currentAdventure no penalty defined when used outside DSALocalMapLocation");
+    }
+  
+  DSAActionResult *talentResult = [self useWithPenalty: penalty
+                                           byCharacter: character];
+                                           
+*/
+}
+@end
+// End of DSAGeneralTalent related subclasses
 
 @implementation DSAProfession
                        

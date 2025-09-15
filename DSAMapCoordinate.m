@@ -51,17 +51,24 @@
     if (![object isKindOfClass:[DSAMapCoordinate class]]) {
         return NO;
     }
-    return [self isEqualToMapCoordinate:(DSAMapCoordinate *)object];
+    return [self isEqualToMapCoordinate: (DSAMapCoordinate *) object];
 }
 
-- (BOOL)isEqualToMapCoordinate:(DSAMapCoordinate *)other {
-    if (!other) return NO;
-    return self.x == other.x && self.y == other.y && self.level == other.level;
+- (BOOL)isEqualToMapCoordinate:(DSAMapCoordinate *)other { 
+  if (!other) return NO; 
+  return self.x == other.x && 
+         self.y == other.y && 
+         self.level == other.level;
 }
 
 - (NSUInteger)hash {
-    // Basic hash combining strategy
-    return (NSUInteger)(self.x ^ (self.y << 8) ^ (self.level << 16));
+    // einfacher aber robuster Hash-Mix der drei Werte
+    NSUInteger prime = 31;
+    NSUInteger result = 1;
+    result = prime * result + self.x;
+    result = prime * result + self.y;
+    result = prime * result + self.level;
+    return result;
 }
 
 #pragma mark - NSSecureCoding
@@ -102,4 +109,5 @@
     NSInteger dz = labs(self.level - other.level);
     return MAX(dx, MAX(dy, dz));
 }
+
 @end

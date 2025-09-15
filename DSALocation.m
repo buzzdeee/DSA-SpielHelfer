@@ -673,35 +673,58 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
                                           context:self.context];
 }
 
+- (NSString *)roomKey
+{
+    DSAMapCoordinate *coord = self.mapCoordinate;
+    NSString *locationName = self.localLocationName ?: @"UnknownLocation";
+
+    NSString *roomKey = [NSString stringWithFormat:@"INN:%@:%ld:%ld:%ld",
+                         locationName,
+                         coord.x,
+                         coord.y,
+                         coord.level];
+    return roomKey;
+}
 
 #pragma mark - Equality
 
 - (BOOL)isEqual:(id)object {
-    if (self == object) return YES;
-    if (![object isKindOfClass:[DSAPosition class]]) return NO;
-    return [self isEqualToPosition:(DSAPosition *)object];
+    if (self == object) {
+        return YES;
+    }
+    if (![object isKindOfClass:[DSAPosition class]]) {
+        return NO;
+    }
+    return [self isEqualToPosition: (DSAPosition *)object];
 }
 
-- (BOOL)isEqualToPosition:(DSAPosition *)other {
-    if (!other) return NO;
+- (BOOL)isEqualToPosition:(DSAPosition *)other { 
+  if (!other) return NO; 
+    BOOL coordsEqual = (!self.mapCoordinate && !other.mapCoordinate)
+        || [self.mapCoordinate isEqual:other.mapCoordinate];
 
-    BOOL coordinatesEqual = (!self.mapCoordinate && !other.mapCoordinate) ||
-                            [self.mapCoordinate isEqual:other.mapCoordinate];
+    BOOL contextEqual = (!self.context && !other.context)
+        || [self.context isEqual:other.context];
 
-    BOOL globalEqual = (!self.globalLocationName && !other.globalLocationName) ||
-                       [self.globalLocationName isEqualToString:other.globalLocationName];
+    BOOL globalEqual = (!self.globalLocationName && !other.globalLocationName)
+        || [self.globalLocationName isEqualToString:other.globalLocationName];
 
-    BOOL localEqual = (!self.localLocationName && !other.localLocationName) ||
-                      [self.localLocationName isEqualToString:other.localLocationName];
+    BOOL localEqual = (!self.localLocationName && !other.localLocationName)
+        || [self.localLocationName isEqualToString:other.localLocationName];
 
-    return coordinatesEqual && globalEqual && localEqual;
+    return coordsEqual && contextEqual && globalEqual && localEqual;
 }
 
 - (NSUInteger)hash {
-    return self.mapCoordinate.hash ^
-           self.globalLocationName.hash ^
-           self.localLocationName.hash ^
-           self.context.hash;
+    NSUInteger prime = 31;
+    NSUInteger result = 1;
+
+    result = prime * result + self.mapCoordinate.hash;
+    result = prime * result + self.context.hash;
+    result = prime * result + self.globalLocationName.hash;
+    result = prime * result + self.localLocationName.hash;
+
+    return result;
 }
 
 #pragma mark - NSSecureCoding
@@ -727,16 +750,4 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
     return [self initWithMapCoordinate:coord globalLocationName:globalName localLocationName:localName context: context];
 }
 
-- (NSString *)roomKey
-{
-    DSAMapCoordinate *coord = self.mapCoordinate;
-    NSString *locationName = self.localLocationName ?: @"UnknownLocation";
-
-    NSString *roomKey = [NSString stringWithFormat:@"INN:%@:%ld:%ld:%ld",
-                         locationName,
-                         coord.x,
-                         coord.y,
-                         coord.level];
-    return roomKey;
-}
 @end

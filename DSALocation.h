@@ -156,7 +156,7 @@ NS_INLINE NSString * DSADirectionToString(DSADirection direction) {
 - (BOOL) hasTileOfType: (NSString *) tileType;
 @end
 
-@interface DSAPosition : DSABaseObject <NSCoding>
+@interface DSAPosition : DSABaseObject <NSCoding, NSCopying>
 @property (nonatomic, strong) DSAMapCoordinate *mapCoordinate;
 @property (nonatomic, strong, nullable) DSAActionContext context;          // some buildings have multiple rooms, i.e. Inns
 @property (nonatomic, strong) NSString *globalLocationName;      // to refer to DSAGlobalMapLocation info

@@ -35,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class DSAAdventureGroup;
 @class DSAMapCoordinate;
 @class DSAGod;
+@class DSAEvent;
+@class DSAPosition;
 
 typedef NSString * DSAActionContext;
 
@@ -50,6 +52,7 @@ extern DSAActionContext const DSAActionContextReception;
 
 @property (nonatomic, strong) NSMutableArray<DSAAdventureGroup *> *groups; // index 0 = aktiv
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSMutableSet<DSAMapCoordinate *> *> *discoveredCoordinates;
+@property (nonatomic, strong) NSMutableDictionary<DSAPosition<NSCopying> *, NSMutableArray<DSAEvent *> *> *eventsByPosition;
 
 // Convenience Accessor
 @property (nonatomic, readonly) DSAAdventureGroup *activeGroup;
@@ -60,6 +63,7 @@ extern DSAActionContext const DSAActionContextReception;
 @property (nonatomic, strong) NSDictionary<NSNumber *, DSAGod *> *godsByType;
 @property (nonatomic, strong) NSDictionary<NSString *, DSAGod *> *godsByName;
 
+// Is it really a good idea to have this in DSAAdventure???
 @property (nonatomic, copy) NSDictionary<DSAActionContext, NSArray<NSString *> *> *availableTalentsByContext;
 @property (nonatomic, copy) NSDictionary<DSAActionContext, NSArray<NSString *> *> *availableSpellsByContext;
 @property (nonatomic, copy) NSDictionary<DSAActionContext, NSArray<NSString *> *> *availableRitualsByContext;
@@ -75,6 +79,15 @@ extern DSAActionContext const DSAActionContextReception;
 - (void)moveCharacter: (NSUUID *) characterUUID toGroup: (DSAAdventureGroup *) targetGroup;  // move from active group
 - (void)discoverCoordinate:(DSAMapCoordinate *)coord forLocation:(NSString *)location;
 - (BOOL)isCoordinateDiscovered:(DSAMapCoordinate *)coord forLocation:(NSString *)location;
+
+/// Fügt ein Event hinzu (erstellt das Array bei Bedarf)
+- (void)addEvent:(DSAEvent *)event;
+/// Gibt alle aktiven Events an einer Position zurück
+- (NSArray<DSAEvent *> *)activeEventsAtPosition:(DSAPosition *)position forDate:(DSAAventurianDate *)date;
+/// Entfernt alle abgelaufenen Events an einer Position
+- (void)removeExpiredEventsAtPosition:(DSAPosition *)position forDate:(DSAAventurianDate *)date;
+/// Entfernt alle abgelaufenen Events global
+- (void)removeAllExpiredEventsForDate:(DSAAventurianDate *)date;
 
 @end
 

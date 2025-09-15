@@ -1814,7 +1814,7 @@ inventoryIdentifier: (NSString *)sourceInventory
           {
             NSLog(@"DSAActionIconTalent handleEvent: currentLocation not kindOfClass DSALocalMapLocation not handled yet, no BONUS/MALUS");
           }
-        DSATalentResult *talentResult = [selectedCharacter useTalent: selectedTalent.name withPenalty: penalty];
+        DSAActionResult *talentResult = [selectedCharacter useTalent: selectedTalent.name withPenalty: penalty];
         NSLog(@"DSAActionIconTalent got talentResult: %@", talentResult);
         NSLog(@"DSAActionIconTalent sheet completion handler called.... XXX ");
 
