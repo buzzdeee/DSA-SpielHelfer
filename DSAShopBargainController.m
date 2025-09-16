@@ -66,16 +66,16 @@
     NSLog(@"DSAShopBargainController buttonConfirm");
     BOOL result = NO;
     DSACharacter *character = [[self.popupCharacter selectedItem] representedObject];
-    DSAActionResult *talentResult;
+    
     if ([self.fieldPercentValue.stringValue floatValue] == 0)
       {
         NSLog(@"DSAShopBargainController buttonConfirmClicked, 0%%, no need to bargain");
-        talentResult = [[DSAActionResult alloc] init];
-        talentResult.result = DSAActionResultEpicSuccess;
+        self.bargainResult = [[DSAActionResult alloc] init];
+        self.bargainResult.result = DSAActionResultEpicSuccess;
       }
     else
       {
-        talentResult = [character useTalent: @"Feilschen" withPenalty: roundf([self.fieldPercentValue.stringValue floatValue] / 10)];
+        self.bargainResult = [character useTalent: @"Feilschen" withPenalty: roundf([self.fieldPercentValue.stringValue floatValue] / 10)];
       }
     NSArray *failedBargainResponses = @[
       @"Das ist leider zu wenig – das kann ich nicht machen.",
@@ -98,7 +98,21 @@
       @"Bei den Zwölfen – du willst wohl meinen Ruin!",
       @"Thorwaler mögen’s hart, aber nicht dumm. Kein Handel.",
       @"Das ist kein Basar, das ist ein Geschäft!"
-    ];    
+    ];
+    
+    NSArray *finalFailedBargainResponses = @[
+      @"Jetzt reicht’s – raus aus meinem Laden!",
+      @"Mit dir handel ich nicht mehr – such dir einen anderen Händler!",
+      @"Genug! Deine Frechheit kostet dich Hausverbot.",
+      @"Du treibst’s zu weit – verschwinde, bevor ich die Wache rufe!",
+      @"Kein Geschäft und kein Wort mehr – mach, dass du fortkommst!",
+  
+      @"So ein unverschämtes Gebaren! Du siehst meinen Laden nie wieder.",
+      @"Das Maß ist voll – hier gibt es nichts mehr für dich!",
+      @"Du beleidigst meine Ehre als Händler – hinaus mit dir!",
+      @"Ich will dein Gesicht hier nicht noch einmal sehen.",
+      @"Noch ein Wort, und du lernst meine Keule kennen!"
+    ];      
     
     NSArray *successfulBargainResponses = @[
       @"Na schön, du hast mich überzeugt – der Handel steht!",
@@ -119,11 +133,12 @@
       @"Du bist ein besserer Feilscher als ich dachte.",
       @"Ein guter Handel – für uns beide!"
     ];  
-    if (talentResult.result == DSAActionResultSuccess ||
-        talentResult.result == DSAActionResultAutoSuccess ||
-        talentResult.result == DSAActionResultEpicSuccess)
+    if (self.bargainResult.result == DSAActionResultSuccess ||
+        self.bargainResult.result == DSAActionResultAutoSuccess ||
+        self.bargainResult.result == DSAActionResultEpicSuccess)
       {
         [self.fieldBargainResult setStringValue: successfulBargainResponses[arc4random_uniform((uint32_t)successfulBargainResponses.count)]];
+        NSLog(@"DSAShopBargainController result was kind of success");
         result = YES;
       }
     
@@ -134,6 +149,11 @@
         if (self.bargainRound < 3)
           {
             return;  // Three chances!!!
+          }
+        else
+          {
+            NSLog(@"DSAShopBargainController bargain round 3 reached, but with failure!");
+            [self.fieldBargainResult setStringValue: finalFailedBargainResponses[arc4random_uniform((uint32_t)finalFailedBargainResponses.count)]];
           }
       }
       

@@ -30,6 +30,7 @@
 
 @class DSAAdventureGroup;
 @class DSAShoppingCart;
+@class DSAActionResult;
 
 @interface DSAShopBargainController : NSWindowController
 
@@ -46,6 +47,7 @@
 // max three rounds ...
 @property (nonatomic, assign) NSInteger bargainRound;
 @property (nonatomic, weak) DSAAdventureGroup *activeGroup;
+@property (nonatomic, strong) DSAActionResult *bargainResult;
 
 @end
 

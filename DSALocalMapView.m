@@ -28,6 +28,8 @@
 #import "DSAMapCoordinate.h"
 #import "DSAAdventure.h"
 #import "DSAAdventureGroup.h"
+#import "DSAAdventureClock.h"
+#import "DSAEvent.h"
 
 #define TILE_SIZE 32.0
 
@@ -353,8 +355,6 @@
 
     [self discoverVisibleTilesAroundPosition:newPosition];
 
-    
-    
     // Get current and target tiles
     DSALocalMapTile *fromTile = [self tileAtPosition:current];
     DSALocalMapTile *toTile = [self tileAtPosition:newPosition];
@@ -365,6 +365,18 @@
         return;
     }
 
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    NSArray<DSAEvent *> *activeEvents = [adventure activeEventsAtPosition:newPosition 
+                                                                  forDate:adventure.gameClock.currentDate];
+    for (DSAEvent *event in activeEvents)
+      {
+        if (event.eventType == DSAEventTypeHausverbot)
+          {
+            NSLog(@"DSALocalMapView moveGroupInDirection: we're not allowed to get in: Hausverbot!");
+            NSBeep();
+            return;
+          }
+      }                                                          
     // EXITING a building?
     if ([fromTile isKindOfClass:[DSALocalMapTileBuilding class]]) {
         DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding *)fromTile;

@@ -58,6 +58,7 @@
 #import "DSAActionParameterDescriptor.h"
 #import "DSAActionSliderQuestionController.h"
 #import "DSAActionChoiceQuestionController.h"
+#import "DSAEvent.h"
 
 
 @implementation DSAActionIcon
@@ -1217,7 +1218,8 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAAdventure *adventure = document.model;
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
     DSAPosition *currentPosition = activeGroup.position;
-    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];    
+    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
+    DSALocalMapTile *currentTile = [currentLocation tileAtCoordinate: currentPosition.mapCoordinate];  
     NSString *shopType;
     if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
       {
@@ -1272,9 +1274,11 @@ inventoryIdentifier: (NSString *)sourceInventory
     __block float finalPercent = 0;
     __block NSString *finalComment;
     __block float finalPrice;
+    __block DSAActionResult *bargainResult;
     bargainSelector.completionHandler = ^(BOOL result) {
         finalPercent = [bargainSelector.fieldPercentValue.stringValue floatValue];
-        finalComment = bargainSelector.fieldBargainResult.stringValue;    
+        finalComment = bargainSelector.fieldBargainResult.stringValue;
+        bargainResult = bargainSelector.bargainResult;    
       if (result)
         {
           finalPrice = localShoppingCart.totalSum - (localShoppingCart.totalSum * finalPercent / 100);
@@ -1287,17 +1291,71 @@ inventoryIdentifier: (NSString *)sourceInventory
     [windowController.window beginSheet:bargainSelector.window completionHandler:nil];
     NSLog(@"DSAActionIconBuy handleEvent: final percent is %.2f, finalComment: %@", finalPercent, finalComment);
     
-    // float finalPrice = localShoppingCart.totalSum - (localShoppingCart.totalSum * finalPercent / 100);
-    
-    [activeGroup subtractSilber: finalPrice];
-    for (NSDictionary *cartItem in [localShoppingCart.cartContents allValues])
+    DSAAventurianDate *now = adventure.gameClock.currentDate;
+    DSAEvent *hausverbot;
+    if (bargainResult.result == DSAActionResultFailure)  // we could not agree on a price ;)
       {
-        [activeGroup distributeItems:[[cartItem objectForKey: @"items"] objectAtIndex: 0] count: [[cartItem objectForKey: @"items"] count]];
+        NSLog(@"DSAActionIconSell handleEvent DSAActionResultFailure");
+        hausverbot = [DSAEvent eventWithType: DSAEventTypeHausverbot
+                                    position: currentPosition
+                                   expiresAt: [now dateByAddingYears: 0
+                                                                days: 7
+                                                               hours: 0
+                                                             minutes: 0]
+                                    userInfo: nil];
       }
-      
+    else if (bargainResult.result == DSAActionResultAutoFailure)
+      {
+        NSLog(@"DSAActionIconSell handleEvent DSAActionResultAutoFailure");      
+        hausverbot = [DSAEvent eventWithType: DSAEventTypeHausverbot
+                                    position: currentPosition
+                                   expiresAt: [now dateByAddingYears: 0
+                                                                days: 30     // 1 month
+                                                               hours: 0
+                                                             minutes: 0]
+                                    userInfo: nil];        
+      }
+    else if (bargainResult.result == DSAActionResultEpicFailure)
+      {
+        NSLog(@"DSAActionIconSell handleEvent DSAActionResultEpicFailure");      
+        hausverbot = [DSAEvent eventWithType: DSAEventTypeHausverbot
+                                    position: currentPosition
+                                   expiresAt: nil                            // until eternity
+                                    userInfo: nil];      
+
+      }
+    else
+      {
+        NSLog(@"DSAActionIconSell handleEvent some kind of success %@", bargainResult);
+      }
+    if (bargainResult.result == DSAActionResultFailure ||
+        bargainResult.result == DSAActionResultAutoFailure ||
+        bargainResult.result == DSAActionResultEpicFailure)
+      {
+        [adventure addEvent: hausverbot];      
+        NSLog(@"DSAActionIconSell handleEvent we're going to be thrown out");                                        
+        if ([currentTile isKindOfClass: [DSALocalMapTileBuilding class]])
+          {
+            DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding*)currentTile;
+            DSADirection direction = buildingTile.door;
+            activeGroup.position = nil;
+            activeGroup.position = [currentPosition positionByMovingInDirection: direction steps: 1];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];
+            NSLog(@"DSAActionIconSell handleEvent we're now thrown out");
+          }
+      }
+    else
+      {    
+        [activeGroup subtractSilber: finalPrice];
+        for (NSDictionary *cartItem in [localShoppingCart.cartContents allValues])
+          {
+            [activeGroup distributeItems:[[cartItem objectForKey: @"items"] objectAtIndex: 0] count: [[cartItem objectForKey: @"items"] count]];
+          }
+        finalComment = [NSString stringWithFormat: @"Finaler Preis: %.2f Silber. %@", finalPrice, finalComment];
+      }      
     DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName: @"DSAConversationTextOnly"];
     [conversationSelector window];  // trigger loading .gorm file
-    conversationSelector.fieldText.stringValue = [NSString stringWithFormat: @"Finaler Preis: %.2f Silber. %@", finalPrice, finalComment];
+    conversationSelector.fieldText.stringValue = finalComment;
     NSLog(@"DSAActionIcon, handleEvent: conversationSelector.fieldText.stringValue %@", conversationSelector.fieldText.stringValue);
     conversationSelector.completionHandler = ^(BOOL result) {
       if (result)
@@ -1333,6 +1391,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAPosition *currentPosition = activeGroup.position;
     NSLog(@"DSAActionIconSell isActive currentPosition: %@", currentPosition);
     DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
+    
     NSLog(@"DSAActionIconSell isActive currentLocation: %@, %@", [currentLocation class], currentLocation.name);   
     if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
       {
@@ -1359,7 +1418,8 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAAdventure *adventure = document.model;
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
     DSAPosition *currentPosition = activeGroup.position;
-    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];    
+    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
+    DSALocalMapTile *currentTile = [currentLocation tileAtCoordinate: currentPosition.mapCoordinate];       
     NSString *shopType;
     if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
       {
@@ -1411,9 +1471,11 @@ inventoryIdentifier: (NSString *)sourceInventory
     __block float finalPercent = 0;
     __block NSString *finalComment;
     __block float finalPrice;
+    __block DSAActionResult *bargainResult;
     bargainSelector.completionHandler = ^(BOOL result) {
         finalPercent = [bargainSelector.fieldPercentValue.stringValue floatValue];
-        finalComment = bargainSelector.fieldBargainResult.stringValue;    
+        finalComment = bargainSelector.fieldBargainResult.stringValue;
+        bargainResult = bargainSelector.bargainResult;
       if (result)
         {
           finalPrice = localShoppingCart.totalSum + (localShoppingCart.totalSum * finalPercent / 100);
@@ -1428,39 +1490,96 @@ inventoryIdentifier: (NSString *)sourceInventory
     
     // float finalPrice = localShoppingCart.totalSum - (localShoppingCart.totalSum * finalPercent / 100);
     
-    [activeGroup addSilber: finalPrice];
-    for (NSString *key in [localShoppingCart.cartContents allKeys])
-      {        
-        NSArray<NSString *> *components = [key componentsSeparatedByString:@"|"];
-        NSInteger quantity = [[localShoppingCart.cartContents[key] objectForKey: @"items"] count];
-        //NSString *itemName;
-        NSString *slotID;
-        if (components.count == 2) {
-           //itemName = components[0];
-           slotID = components[1];
-        } else {
-           NSLog(@"DSAActionIconSell, handleEvent: invalid key: %@", key);
-        }
-        DSASlot *slot = [DSASlot slotWithSlotID: [[NSUUID alloc] initWithUUIDString:slotID]];
-        __unused NSInteger remainder = [slot removeObjectWithQuantity: quantity];
-        NSLog(@"DSAActionIconSell handleEvent going to enumerate model IDs");
-        for (NSUUID *modelID in [activeGroup allMembers])
+    DSAAventurianDate *now = adventure.gameClock.currentDate;
+    DSAEvent *hausverbot;
+    if (bargainResult.result == DSAActionResultFailure)  // we could not agree on a price ;)
+      {
+        NSLog(@"DSAActionIconSell handleEvent DSAActionResultFailure");
+        hausverbot = [DSAEvent eventWithType: DSAEventTypeHausverbot
+                                    position: currentPosition
+                                   expiresAt: [now dateByAddingYears: 0
+                                                                days: 7
+                                                               hours: 0
+                                                             minutes: 0]
+                                    userInfo: nil];
+      }
+    else if (bargainResult.result == DSAActionResultAutoFailure)
+      {
+        NSLog(@"DSAActionIconSell handleEvent DSAActionResultAutoFailure");      
+        hausverbot = [DSAEvent eventWithType: DSAEventTypeHausverbot
+                                    position: currentPosition
+                                   expiresAt: [now dateByAddingYears: 0
+                                                                days: 30     // 1 month
+                                                               hours: 0
+                                                             minutes: 0]
+                                    userInfo: nil];        
+      }
+    else if (bargainResult.result == DSAActionResultEpicFailure)
+      {
+        NSLog(@"DSAActionIconSell handleEvent DSAActionResultEpicFailure");      
+        hausverbot = [DSAEvent eventWithType: DSAEventTypeHausverbot
+                                    position: currentPosition
+                                   expiresAt: nil                            // until eternity
+                                    userInfo: nil];      
+
+      }
+    else
+      {
+        NSLog(@"DSAActionIconSell handleEvent some kind of success %@", bargainResult);
+      }
+    if (bargainResult.result == DSAActionResultFailure ||
+        bargainResult.result == DSAActionResultAutoFailure ||
+        bargainResult.result == DSAActionResultEpicFailure)
+      {
+        [adventure addEvent: hausverbot];      
+        NSLog(@"DSAActionIconSell handleEvent we're going to be thrown out");                                        
+        if ([currentTile isKindOfClass: [DSALocalMapTileBuilding class]])
           {
-            NSLog(@"DSAActionIconSell handleEvent enumerating model with ID: %@", [modelID UUIDString]);
-            DSACharacter *character = [DSACharacter characterWithModelID: modelID];
-            if ([[DSAInventoryManager sharedManager] isSlotWithID: slotID inModel: character])
-              {
-                [[DSAInventoryManager sharedManager] postDSAInventoryChangedNotificationForSourceModel: character 
-                                                                                           targetModel: character];
-                break;
-              }
+            DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding*)currentTile;
+            DSADirection direction = buildingTile.door;
+            activeGroup.position = nil;
+            activeGroup.position = [currentPosition positionByMovingInDirection: direction steps: 1];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];
+            NSLog(@"DSAActionIconSell handleEvent we're now thrown out");
           }
+      }
+    else
+      {
+        [activeGroup addSilber: finalPrice];
+        for (NSString *key in [localShoppingCart.cartContents allKeys])
+          {        
+            NSArray<NSString *> *components = [key componentsSeparatedByString:@"|"];
+            NSInteger quantity = [[localShoppingCart.cartContents[key] objectForKey: @"items"] count];
+            //NSString *itemName;
+            NSString *slotID;
+            if (components.count == 2) {
+               //itemName = components[0];
+               slotID = components[1];
+            } else {
+               NSLog(@"DSAActionIconSell, handleEvent: invalid key: %@", key);
+            }
+            DSASlot *slot = [DSASlot slotWithSlotID: [[NSUUID alloc] initWithUUIDString:slotID]];
+            __unused NSInteger remainder = [slot removeObjectWithQuantity: quantity];
+            NSLog(@"DSAActionIconSell handleEvent going to enumerate model IDs");
+            for (NSUUID *modelID in [activeGroup allMembers])
+              {
+                NSLog(@"DSAActionIconSell handleEvent enumerating model with ID: %@", [modelID UUIDString]);
+                DSACharacter *character = [DSACharacter characterWithModelID: modelID];
+                if ([[DSAInventoryManager sharedManager] isSlotWithID: slotID inModel: character])
+                  {
+                    [[DSAInventoryManager sharedManager] postDSAInventoryChangedNotificationForSourceModel: character 
+                                                                                               targetModel: character];
+                    break;
+                  }
+              }
         
+          }
+        finalComment = [NSString stringWithFormat: @"Finaler Preis: %.2f. %@", finalPrice, finalComment];
       }
       
     DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName: @"DSAConversationTextOnly"];
     [conversationSelector window];  // trigger loading .gorm file
-    conversationSelector.fieldText.stringValue = [NSString stringWithFormat: @"Finaler Preis: %.2f. %@", finalPrice, finalComment];
+    conversationSelector.fieldText.stringValue = finalComment;
     NSLog(@"DSAActionIcon, handleEvent: conversationSelector.fieldText.stringValue %@", conversationSelector.fieldText.stringValue);
     conversationSelector.completionHandler = ^(BOOL result) {
       if (result)
