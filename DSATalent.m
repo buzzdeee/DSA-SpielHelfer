@@ -27,6 +27,9 @@
 #import "DSATrait.h"
 #import "Utils.h"
 #import "NSMutableDictionary+Extras.h"
+#import "DSAAdventure.h"
+#import "DSAAdventureGroup.h"
+#import "DSALocations.h"
 
 @implementation DSATalent
 
@@ -220,7 +223,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   Class subclass = [typeToClassMap objectForKey: talentName];
   if (subclass)
     {
-      if (subclass == [DSAProfession class])
+      if ([subclass isSubclassOfClass: [DSAProfession class]])
         {
           NSLog(@"DSATalent: talentWithName: %@ going to call initTalent for a profession", talentName);
           NSDictionary *professionDict = [[[DSATalentManager sharedManager] getProfessionsDict] 
@@ -235,7 +238,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                               withLevelUpCost: 0
                        influencesOtherTalents: [professionDict objectForKey: @"Bonus"]];
        }
-     else if (subclass == [DSAFightingTalent class])
+     else if ([subclass isSubclassOfClass: [DSAFightingTalent class]])
        {
           NSLog(@"DSATalent: talentWithName: %@ going to call initTalent for a fighting talent", talentName);
           NSDictionary *talentDict = [[[DSATalentManager sharedManager] 
@@ -253,7 +256,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                               withLevelUpCost: 1
                        influencesOtherTalents: nil];
        }
-     else if (subclass == [DSASpecialTalent class])
+     else if ([subclass isSubclassOfClass: [DSASpecialTalent class]])
        {
           NSLog(@"DSATalent: talentWithName: %@ going to call initTalent for a special talent", talentName);
           return [[subclass alloc] initTalent: talentName
@@ -266,7 +269,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                               withLevelUpCost: 0
                        influencesOtherTalents: nil];
        }
-     else if (subclass == [DSAGeneralTalent class])
+     else if ([subclass isSubclassOfClass: [DSAGeneralTalent class]])
        {
           NSLog(@"DSATalent: talentWithName: %@ going to call initTalent for a general talent", talentName);
           NSDictionary *talentDict = [[[DSATalentManager sharedManager] 
@@ -558,24 +561,20 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                       byCharacter: (DSACharacter *) character
                  currentAdventure: (DSAAdventure *) adventure
 {
-/*  NSLog(@"DSAGeneralTalentTaschendiebstahl useOnTarget: byCharacter: currentAdventure called");
+  NSLog(@"DSAGeneralTalentTaschendiebstahl useOnTarget: byCharacter: currentAdventure called");
   DSAAdventureGroup *activeGroup = adventure.activeGroup;
   DSAPosition *currentPosition = activeGroup.position;
-  DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName: ofType: @"local"];
+  DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
   
   NSInteger penalty = 0;
   if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
     {
-      DSALocalMapLocation *lml (DSALocalMapLocation *)currentLocation;
+      DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;
       DSALocalMapTile *currentTile = [lml tileAtCoordinate: currentPosition.mapCoordinate];
       if ([currentTile isKindOfClass: [DSALocalMapTileBuildingInn class]] &&
           [currentPosition.context isEqualToString: DSAActionContextTavern])
         {
-           if 
-        }
-      else
-        {
-          NSLog(@"DSAGeneralTalentTaschendiebstahl useOnTarget: byCharacter: currentAdventure no special penalty defined for currentTile class: %@", [currentTileClass]);
+          NSLog(@"DSAGeneralTalentTaschendiebstahl useOnTarget: byCharacter: currentAdventure no special penalty defined for currentTile class: %@", [currentTile class]);
           DSALocalMapTileBuildingInnFillLevel fillLevel = [(DSALocalMapTileBuildingInn*)currentTile tavernFillLevel];
           switch(fillLevel)
             {
@@ -584,6 +583,10 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
               case DSALocalMapTileBuildingInnFillLevelBusy: penalty = 1;              
               case DSALocalMapTileBuildingInnFillLevelPacked: penalty = 2;              
             }
+        }
+      else
+        {
+          NSLog(@"no special penalty/bonus ouside Inns for Taschendiebstahl defined yet!");
         }
     }
   else
@@ -594,7 +597,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   DSAActionResult *talentResult = [self useWithPenalty: penalty
                                            byCharacter: character];
                                            
-*/
+  return talentResult;
 }
 @end
 // End of DSAGeneralTalent related subclasses

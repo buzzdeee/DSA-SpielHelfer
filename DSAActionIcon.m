@@ -1901,39 +1901,10 @@ inventoryIdentifier: (NSString *)sourceInventory
         DSACharacter *selectedCharacter = (DSACharacter *)[[selector.popupActors selectedItem] representedObject];
         DSATalent *selectedTalent = (DSATalent *)[[selector.popupActions selectedItem] representedObject];
         id selectedTarget = [selector.popupTargets isHidden] ? nil : [[selector.popupTargets selectedItem] representedObject];
-        NSInteger penalty = 0;
-        
-        if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
-          {
-            DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;
-            DSALocalMapTile *currentTile = [lml tileAtCoordinate: currentPosition.mapCoordinate];
-            if ([currentTile isKindOfClass: [DSALocalMapTileBuildingInn class]])
-              {
-                if ([currentPosition.context isEqualToString: DSAActionContextTavern])
-                  {
-                    DSALocalMapTileBuildingInnFillLevel fillLevel = [(DSALocalMapTileBuildingInn*)currentTile tavernFillLevel];
-                    switch (fillLevel) {
-                      case DSALocalMapTileBuildingInnFillLevelEmpty: penalty = -1;
-                      case DSALocalMapTileBuildingInnFillLevelNormal: penalty = 0;
-                      case DSALocalMapTileBuildingInnFillLevelBusy: penalty = 1;
-                      case DSALocalMapTileBuildingInnFillLevelPacked: penalty = 2;
-                    }
-                  }
-                else if ([currentPosition.context isEqualToString: DSAActionContextPrivateRoom])
-                  {
-                    NSLog(@"DSAActionIconTalent handleEvent BONUS/MALUS for DSAActionContextPrivateRoom not yet implemented");
-                  }
-              }
-            else
-              {
-                NSLog(@"DSAActionIconTalent handleEvent BONUS/MALUS for anything else than currentTile class DSALocalMapTileBuildingInn not yet implemented");
-              }
-          }
-        else
-          {
-            NSLog(@"DSAActionIconTalent handleEvent: currentLocation not kindOfClass DSALocalMapLocation not handled yet, no BONUS/MALUS");
-          }
-        DSAActionResult *talentResult = [selectedCharacter useTalent: selectedTalent.name withPenalty: penalty];
+
+        DSAActionResult *talentResult = [selectedCharacter useTalent: selectedTalent 
+                                                            onTarget: selectedTarget
+                                                    currentAdventure: adventure];
         NSLog(@"DSAActionIconTalent got talentResult: %@", talentResult);
         NSLog(@"DSAActionIconTalent sheet completion handler called.... XXX ");
 

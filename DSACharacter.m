@@ -1274,7 +1274,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
      {
        if (self.currentTalents[name] && [self canUseTalentWithName: name])
          {
-           [talents addObject: self.talents[name]];
+           [talents addObject: self.currentTalents[name]];
          }
      }
    return talents;
@@ -1286,7 +1286,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
      {
        if (self.currentSpells[name] && [self canCastSpellWithName: name])
          {
-           [spells addObject: self.spells[name]];
+           [spells addObject: self.currentSpells[name]];
          }
      }
    return spells;
