@@ -36,6 +36,9 @@
 @property (nonatomic, assign) NSInteger actionDuration;                            // in seconds
 @property (nonatomic, assign) NSInteger costAE;                                    // specifically for spells, the used AE may be different depending on outcome of the action
 
+// Alle Folge-Deskriptoren von actions/events in a list
+@property (nonatomic, strong) NSArray<id<DSAExecutableDescriptor>> *followUps;
+
 +(NSString *) resultNameForResultValue: (DSAActionResultValue) value;
 
 @end

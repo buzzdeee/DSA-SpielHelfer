@@ -114,7 +114,8 @@
 	"DSAConsumption.m",
 	"DSABaseObject.m",
 	"DSAActionResult.m",
-	"DSAEvent.m"
+	"DSAEvent.m",
+	"DSAExecutionManager.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -222,7 +223,8 @@
 	"DSAConsumption.h",
 	"DSABaseObject.h",
 	"DSAActionResult.h",
-	"DSAEvent.h"
+	"DSAEvent.h",
+	"DSAExecutionManager.h"
     );
     IMAGES = (
 	"Aventurien.jpg",

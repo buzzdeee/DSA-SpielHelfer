@@ -370,7 +370,7 @@
                                                                   forDate:adventure.gameClock.currentDate];
     for (DSAEvent *event in activeEvents)
       {
-        if (event.eventType == DSAEventTypeHausverbot)
+        if (event.eventType == DSAEventTypeLocationBan)
           {
             NSLog(@"DSALocalMapView moveGroupInDirection: we're not allowed to get in: Hausverbot!");
             NSBeep();

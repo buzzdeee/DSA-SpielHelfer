@@ -1296,7 +1296,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     if (bargainResult.result == DSAActionResultFailure)  // we could not agree on a price ;)
       {
         NSLog(@"DSAActionIconSell handleEvent DSAActionResultFailure");
-        hausverbot = [DSAEvent eventWithType: DSAEventTypeHausverbot
+        hausverbot = [DSAEvent eventWithType: DSAEventTypeLocationBan
                                     position: currentPosition
                                    expiresAt: [now dateByAddingYears: 0
                                                                 days: 7
@@ -1307,7 +1307,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     else if (bargainResult.result == DSAActionResultAutoFailure)
       {
         NSLog(@"DSAActionIconSell handleEvent DSAActionResultAutoFailure");      
-        hausverbot = [DSAEvent eventWithType: DSAEventTypeHausverbot
+        hausverbot = [DSAEvent eventWithType: DSAEventTypeLocationBan
                                     position: currentPosition
                                    expiresAt: [now dateByAddingYears: 0
                                                                 days: 30     // 1 month
@@ -1318,7 +1318,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     else if (bargainResult.result == DSAActionResultEpicFailure)
       {
         NSLog(@"DSAActionIconSell handleEvent DSAActionResultEpicFailure");      
-        hausverbot = [DSAEvent eventWithType: DSAEventTypeHausverbot
+        hausverbot = [DSAEvent eventWithType: DSAEventTypeLocationBan
                                     position: currentPosition
                                    expiresAt: nil                            // until eternity
                                     userInfo: nil];      
@@ -1495,7 +1495,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     if (bargainResult.result == DSAActionResultFailure)  // we could not agree on a price ;)
       {
         NSLog(@"DSAActionIconSell handleEvent DSAActionResultFailure");
-        hausverbot = [DSAEvent eventWithType: DSAEventTypeHausverbot
+        hausverbot = [DSAEvent eventWithType: DSAEventTypeLocationBan
                                     position: currentPosition
                                    expiresAt: [now dateByAddingYears: 0
                                                                 days: 7
@@ -1506,7 +1506,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     else if (bargainResult.result == DSAActionResultAutoFailure)
       {
         NSLog(@"DSAActionIconSell handleEvent DSAActionResultAutoFailure");      
-        hausverbot = [DSAEvent eventWithType: DSAEventTypeHausverbot
+        hausverbot = [DSAEvent eventWithType: DSAEventTypeLocationBan
                                     position: currentPosition
                                    expiresAt: [now dateByAddingYears: 0
                                                                 days: 30     // 1 month
@@ -1517,7 +1517,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     else if (bargainResult.result == DSAActionResultEpicFailure)
       {
         NSLog(@"DSAActionIconSell handleEvent DSAActionResultEpicFailure");      
-        hausverbot = [DSAEvent eventWithType: DSAEventTypeHausverbot
+        hausverbot = [DSAEvent eventWithType: DSAEventTypeLocationBan
                                     position: currentPosition
                                    expiresAt: nil                            // until eternity
                                     userInfo: nil];      

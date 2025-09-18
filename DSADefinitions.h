@@ -27,6 +27,34 @@
 
 #import <Foundation/Foundation.h>
 
+#pragma mark - Executable Descriptor Protocol
+
+@protocol DSAExecutableDescriptor <NSObject>
+
+/// Reihenfolge der Ausführung.
+/// Niedrigere Werte werden zuerst ausgeführt.
+/// Gleiche Werte bedeuten "gleichzeitig / parallel".
+@property (nonatomic, assign, readonly) NSInteger order;
+
+@end
+
+
+typedef NS_ENUM(NSInteger, DSAActionType) {
+    DSAActionTypeUnknown = 0,
+    DSAActionTypeGainItem,
+    DSAActionTypeLeaveLocation,                      // leaving a position, i.e. a building or dungeon
+    // weitere ActionTypes …
+};
+
+#pragma mark - Event Types
+
+typedef NS_ENUM(NSInteger, DSAEventType) {
+    DSAEventTypeUnknown = 0,
+    DSAEventTypeLocationBan,                         // we're banned at a given Location/position
+    // weitere EventTypes …
+};
+
+
 typedef NS_ENUM(NSInteger, LogSeverity) {
     LogSeverityInfo,
     LogSeverityHappy,
@@ -90,13 +118,6 @@ typedef NS_ENUM(NSUInteger, DSAActionParameterType) {
     DSAActionParameterTypeChoice,
     DSAActionParameterTypeText,
     DSAActionParameterTypeActiveGroup          // no need to ask the user
-};
-
-// Event types used in DSAEvent class
-typedef NS_ENUM(NSInteger, DSAEventType) {
-    DSAEventTypeUnknown = 0,
-    DSAEventTypeHausverbot
-    // ... add more when needed
 };
 
 NSArray<NSString *> *DSAShopGeneralStoreCategories(void);

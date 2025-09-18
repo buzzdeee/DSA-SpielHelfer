@@ -6244,7 +6244,8 @@ DSAActionChoiceQuestionController.h \
 DSAConsumption.h \
 DSABaseObject.h \
 DSAActionResult.h \
-DSAEvent.h
+DSAEvent.h \
+DSAExecutionManager.h
 
 #
 # Objective-C Class files
@@ -6347,7 +6348,8 @@ DSAActionChoiceQuestionController.m \
 DSAConsumption.m \
 DSABaseObject.m \
 DSAActionResult.m \
-DSAEvent.m
+DSAEvent.m \
+DSAExecutionManager.m
 
 #
 # Other sources
