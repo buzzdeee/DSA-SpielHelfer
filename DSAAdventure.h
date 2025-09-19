@@ -76,6 +76,10 @@ extern DSAActionContext const DSAActionContextReception;
 - (void)addCharacterToActiveGroup:(NSUUID *)characterUUID;
 - (void)removeCharacterFromActiveGroup:(NSUUID *)characterUUID;
 
+
+- (DSAAventurianDate *) now;         // returns current adventure date
+- (DSAPosition *) position;          // returns position of active group
+
 - (void)moveCharacter: (NSUUID *) characterUUID toGroup: (DSAAdventureGroup *) targetGroup;  // move from active group
 - (void)discoverCoordinate:(DSAMapCoordinate *)coord forLocation:(NSString *)location;
 - (BOOL)isCoordinateDiscovered:(DSAMapCoordinate *)coord forLocation:(NSString *)location;

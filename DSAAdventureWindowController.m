@@ -155,10 +155,10 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
   DSAPosition *currentPosition = activeGroup.position;
   DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
   
-  NSLog(@"DSAAdventureWindowController setupActionIcons: currentAdventure: %@", adventure);
-  NSLog(@"DSAAdventureWindowController setupActionIcons: activeGroup: %@", activeGroup);
-  NSLog(@"DSAAdventureWindowController setupActionIcons: currentPosition: %@", currentPosition);
-  NSLog(@"DSAAdventureWindowController setupActionIcons: currentLocation: %@", currentLocation);  
+//  NSLog(@"DSAAdventureWindowController setupActionIcons: currentAdventure: %@", adventure);
+//  NSLog(@"DSAAdventureWindowController setupActionIcons: activeGroup: %@", activeGroup);
+//  NSLog(@"DSAAdventureWindowController setupActionIcons: currentPosition: %@", currentPosition);
+//  NSLog(@"DSAAdventureWindowController setupActionIcons: currentLocation: %@", currentLocation);  
   if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
     {
       DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;

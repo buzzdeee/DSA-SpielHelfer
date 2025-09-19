@@ -352,6 +352,7 @@
 - (void)moveGroupInDirection:(DSADirection)direction {
     DSAPosition *current = self.adventure.activeGroup.position;
     DSAPosition *newPosition = [current positionByMovingInDirection:direction steps:1];
+    NSLog(@"DSALocalMapView moveGroupInDirection: newPosition: %@", newPosition);
 
     [self discoverVisibleTilesAroundPosition:newPosition];
 
@@ -359,6 +360,29 @@
     DSALocalMapTile *fromTile = [self tileAtPosition:current];
     DSALocalMapTile *toTile = [self tileAtPosition:newPosition];
 
+    if ([toTile isMemberOfClass:[DSALocalMapTileBuildingInn class]])
+      {
+        NSString *inType = [toTile type];
+        if ([inType isEqualToString: DSALocalMapTileBuildingInnTypeHerberge] || 
+            [inType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne])
+          {
+             newPosition.context = DSAActionContextReception;
+          }
+        else if ([inType isEqualToString: DSALocalMapTileBuildingInnTypeTaverne])
+          {
+            newPosition.context = DSAActionContextTavern;
+          }
+        else
+          {
+            NSLog(@"DSALocalMapViewAdventure moveGroupInDirection: unknown inType: %@, aborting!", inType);
+            abort();
+          }
+      }
+    else
+      {
+        newPosition.context = nil;
+      }    
+    
     // Check if destination is walkable
     if (!toTile.walkable) {
         NSBeep();
@@ -368,11 +392,19 @@
     DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
     NSArray<DSAEvent *> *activeEvents = [adventure activeEventsAtPosition:newPosition 
                                                                   forDate:adventure.gameClock.currentDate];
+
+    NSLog(@"LocalMapView moveGroupInDirection: activeEvents: %@", activeEvents);                                                                  
     for (DSAEvent *event in activeEvents)
       {
         if (event.eventType == DSAEventTypeLocationBan)
           {
             NSLog(@"DSALocalMapView moveGroupInDirection: we're not allowed to get in: Hausverbot!");
+            NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
+                                         @"message": @"Wir haben hier leider Hausverbot!"
+                                      };
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                                object: nil
+                                                              userInfo: userInfo];
             NSBeep();
             return;
           }
@@ -405,28 +437,7 @@
 
     // Move group
     self.adventure.activeGroup.position = newPosition;
-    if ([toTile isMemberOfClass:[DSALocalMapTileBuildingInn class]])
-      {
-        NSString *inType = [toTile type];
-        if ([inType isEqualToString: DSALocalMapTileBuildingInnTypeHerberge] || 
-            [inType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne])
-          {
-             self.adventure.activeGroup.position.context = DSAActionContextReception;
-          }
-        else if ([inType isEqualToString: DSALocalMapTileBuildingInnTypeTaverne])
-          {
-            self.adventure.activeGroup.position.context = DSAActionContextTavern;
-          }
-        else
-          {
-            NSLog(@"DSALocalMapViewAdventure moveGroupInDirection: unknown inType: %@, aborting!", inType);
-            abort();
-          }
-      }
-    else
-      {
-        self.adventure.activeGroup.position.context = nil;
-      }
+
     [self setGroupPosition:newPosition];
     [self setNeedsDisplay:YES];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];

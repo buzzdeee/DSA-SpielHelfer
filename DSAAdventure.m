@@ -280,6 +280,18 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     }
 }
 
+
+- (DSAAventurianDate *) now
+{
+  return self.gameClock.currentDate;
+}
+
+- (DSAPosition *) position
+{
+  return self.activeGroup.position;
+}
+
+
 - (void)discoverCoordinate:(DSAMapCoordinate *)coord forLocation:(NSString *)location {
     NSMutableSet *discoveredSet = self.discoveredCoordinates[location];
     if (!discoveredSet) {

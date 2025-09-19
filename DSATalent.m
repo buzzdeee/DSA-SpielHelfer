@@ -30,6 +30,7 @@
 #import "DSAAdventure.h"
 #import "DSAAdventureGroup.h"
 #import "DSALocations.h"
+#import "DSAExecutionManager.h"
 
 @implementation DSATalent
 
@@ -76,7 +77,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 _(@"Etikette"): [DSAGeneralTalent class],
                 _(@"Fahrzeug Lenken"): [DSAGeneralTalent class],
                 _(@"Fallenstellen"): [DSAGeneralTalent class],
-                _(@"Falschspiel"): [DSAGeneralTalent class],
+                _(@"Falschspiel"): [DSAGeneralTalentFalschspiel class],
                 _(@"Feilschen"): [DSAGeneralTalent class],
                 _(@"Fesseln/Entfesseln"): [DSAGeneralTalent class],
                 _(@"Fischen/Angeln"): [DSAGeneralTalent class],
@@ -221,6 +222,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                   forCharacter: (DSACharacter *) character
 {
   Class subclass = [typeToClassMap objectForKey: talentName];
+  NSLog(@"DSATalent talentWithName: %@ called, got subclass: %@", talentName, [subclass class]);
   if (subclass)
     {
       if ([subclass isSubclassOfClass: [DSAProfession class]])
@@ -244,8 +246,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
           NSDictionary *talentDict = [[[DSATalentManager sharedManager] 
                       getTalentsDictForCharacter: character] 
                                              objectForKey: talentName];
-          NSLog(@"DSATalent: talentWithName: going to call initTalent for a fighting talent from dict: %@", [[DSATalentManager sharedManager] 
-                      getTalentsDictForCharacter: character]);                                             
+          //NSLog(@"DSATalent: talentWithName: going to call initTalent for a fighting talent from dict: %@", [[DSATalentManager sharedManager] getTalentsDictForCharacter: character]);                                             
           return [[subclass alloc] initTalent: talentName
                                 inSubCategory: [talentDict objectForKey: @"subCategory"]
                                    ofCategory: [talentDict objectForKey: @"category"]
@@ -275,7 +276,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
           NSDictionary *talentDict = [[[DSATalentManager sharedManager] 
                       getTalentsDictForCharacter: character] 
                                              objectForKey: talentName];
-          NSLog(@"DSATalent: talentWithName: going to call initTalent for a fighting talent from dict: %@", talentDict);                                             
+          //NSLog(@"DSATalent: talentWithName: going to call initTalent for a fighting talent from dict: %@", talentDict);                                             
           return [[subclass alloc] initTalent: talentName
                                 inSubCategory: nil
                                    ofCategory: [talentDict objectForKey: @"category"]
@@ -556,6 +557,147 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 @implementation DSAGeneralTalent
 @end
 
+@implementation DSAGeneralTalentFalschspiel
+- (DSAActionResult *) useOnTarget: (id) target
+                      byCharacter: (DSACharacter *) character
+                 currentAdventure: (DSAAdventure *) adventure
+{
+  NSLog(@"DSAGeneralTalentFalschspiel useOnTarget: byCharacter: currentAdventure called");
+  DSAAdventureGroup *activeGroup = adventure.activeGroup;
+  DSAPosition *currentPosition = activeGroup.position;
+  DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
+  
+  NSInteger penalty = 0;
+  if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
+    {
+      DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;
+      DSALocalMapTile *currentTile = [lml tileAtCoordinate: currentPosition.mapCoordinate];
+      if ([currentTile isKindOfClass: [DSALocalMapTileBuildingInn class]] &&
+          [currentPosition.context isEqualToString: DSAActionContextTavern])
+        {
+          DSALocalMapTileBuildingInnFillLevel fillLevel = [(DSALocalMapTileBuildingInn*)currentTile tavernFillLevel];
+          switch(fillLevel)
+            {
+              case DSALocalMapTileBuildingInnFillLevelEmpty: penalty = -1;
+              case DSALocalMapTileBuildingInnFillLevelNormal: penalty = 0;
+              case DSALocalMapTileBuildingInnFillLevelBusy: penalty = 1;              
+              case DSALocalMapTileBuildingInnFillLevelPacked: penalty = 2;              
+            }
+        }
+      else
+        {
+          NSLog(@"no special penalty/bonus ouside Inns for Taschendiebstahl defined yet!");
+        }
+    }
+  else
+    {
+      NSLog(@"DSAGeneralTalentTaschendiebstahl useOnTarget: byCharacter: currentAdventure no penalty defined when used outside DSALocalMapLocation");
+    }
+  
+  DSAActionResult *talentResult = [self useWithPenalty: penalty
+                                           byCharacter: character];
+                                           
+  switch (talentResult.result) {
+    case DSAActionResultNone: {
+        NSLog(@"DSAGeneralTalentFalschspiel useOnTarget: ... DSAActionResultNone should never happen!");
+        abort();
+        break;
+    }
+
+    // ✅ normale + besondere Erfolge
+    case DSAActionResultSuccess:
+    case DSAActionResultAutoSuccess:
+    case DSAActionResultEpicSuccess: {
+        NSInteger bonus = 0;
+        NSString *flavorFormat = nil;
+        switch (talentResult.result) {
+            case DSAActionResultSuccess:
+                flavorFormat = @"Mit einem listigen Lächeln schiebst du die Würfel "
+                               @"so, dass niemand Verdacht schöpft. "
+                               @"Am Ende des Spiels wandern %ld Silber unauffällig in deine Tasche.";            
+                bonus = 0; break;
+            case DSAActionResultAutoSuccess:
+                flavorFormat = @"Deine Fingerfertigkeit ist meisterhaft – die Karten tanzen beinahe von selbst. "
+                               @"Die Gegner schwören, so ein Pech noch nie gehabt zu haben. "
+                               @"Du streichst %ld Silber Gewinn ein.";            
+                bonus = 10; break;
+            case DSAActionResultEpicSuccess:
+                flavorFormat = @"Ein epischer Coup! Mit einer perfekten Mischung aus Bluff, "
+                               @"gezinkten Karten und unschuldigem Lächeln "
+                               @"räumst du den ganzen Tisch leer. "
+                               @"Lachend kassierst du %ld Silber ein.";            
+                bonus = 50; break;
+            default: break;
+        }
+
+        NSInteger silver = [Utils rollDice:@"1W6"] + bonus;
+        talentResult.resultDescription = [NSString stringWithFormat: flavorFormat, (long)silver];
+
+        // Beispiel: Folge-Action "Geld ins Inventar"
+        DSAActionDescriptor *gain = [DSAActionDescriptor new];
+        gain.type = DSAActionTypeGainMoney;
+        gain.parameters = @{ @"amount": @(silver) };
+        gain.order = 0;
+
+        talentResult.followUps = @[gain];
+        break;
+    }
+
+    // ❌ Fehlschläge
+    case DSAActionResultFailure:
+    case DSAActionResultAutoFailure:
+    case DSAActionResultEpicFailure: {
+        NSInteger days = 0;
+        NSString *flavor = nil;
+        switch (talentResult.result) {
+            case DSAActionResultFailure:
+                days = 7;
+                flavor = @"Deine Tricks mit den Würfeln fliegen auf. "
+                         @"Die Mitspieler werden misstrauisch und einer packt dich am Kragen. "
+                         @"Du wirst unsanft aus der Runde geworfen – Hausverbot für eine Woche.";               
+                 break;
+            case DSAActionResultAutoFailure:
+                days = 30;
+                flavor = @"Du wirst beim Falschspiel eindeutig überführt. "
+                         @"Die Gäste johlen, als die gezinkten Karten auf den Tisch fallen. "
+                         @"Der Wirt wirft dich hochkant hinaus – ein Monat Hausverbot.";
+                break;
+            case DSAActionResultEpicFailure:
+                days = NSIntegerMax;
+                flavor = @"Episches Scheitern! "
+                         @"Du versuchst, die Karten unter dem Tisch zu tauschen, "
+                         @"doch der Stapel rutscht dir aus der Hand und verteilt sich über den ganzen Raum. "
+                         @"Die Menge tobt, Stühle fliegen, und der Wirt schwört dich nie wieder hineinzulassen. "
+                         @"Lebenslanges Hausverbot!";
+                break;
+            default: break;
+        }
+
+        talentResult.resultDescription = flavor;
+
+        // Folge-Events/Actions: rauswurf + Hausverbot
+        DSAActionDescriptor *leave = [DSAActionDescriptor new];
+        leave.type = DSAActionTypeLeaveLocation;
+        leave.parameters = @{ @"position": [currentPosition copy] };
+        leave.order = 0;
+
+        DSAEventDescriptor *ban = [DSAEventDescriptor new];
+        ban.type = DSAEventTypeLocationBan;
+        ban.parameters = @{
+            @"position": [currentPosition copy],
+            @"durationDays": @(days)
+        };
+        ban.order = 1;
+
+        talentResult.followUps = @[leave, ban];
+        break;
+    }
+  }
+                                           
+  return talentResult;
+}
+@end
+
 @implementation DSAGeneralTalentTaschendiebstahl
 - (DSAActionResult *) useOnTarget: (id) target
                       byCharacter: (DSACharacter *) character
@@ -596,6 +738,105 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   
   DSAActionResult *talentResult = [self useWithPenalty: penalty
                                            byCharacter: character];
+                                           
+  switch (talentResult.result) {
+    case DSAActionResultNone: {
+        NSLog(@"[ERROR] DSAActionResultNone should never happen!");
+        abort();
+        break;
+    }
+
+    // ✅ normale + besondere Erfolge
+    case DSAActionResultSuccess:
+    case DSAActionResultAutoSuccess:
+    case DSAActionResultEpicSuccess: {
+        NSInteger bonus = 0;
+        NSString *flavorFormat = nil;
+        switch (talentResult.result) {
+            case DSAActionResultSuccess:
+                flavorFormat = @"Mit ruhiger Hand greifst du unauffällig zu. "
+                               @"Das Opfer merkt nichts, während du %ld Silber "
+                               @"geschickt verschwinden lässt.";            
+                bonus = 0; break;
+            case DSAActionResultAutoSuccess:
+                flavorFormat = @"Ein perfekter Griff – fast schon elegant. "
+                               @"Noch ehe jemand blinzeln kann, wandern %ld Silber "
+                               @"in deine Tasche, und niemand schöpft Verdacht.";            
+                bonus = 10; break;
+            case DSAActionResultEpicSuccess:
+                flavorFormat = @"Ein episches Meisterstück! "
+                               @"Du stiehlst nicht nur mit atemberaubender Leichtigkeit, "
+                               @"sondern nutzt auch die Gelegenheit, gleich mehrere Börsen zu erwischen. "
+                               @"Insgesamt erbeutest du %ld Silber – "
+                               @"und niemand hat die geringste Ahnung.";            
+                bonus = 50; break;
+            default: break;
+        }
+
+        NSInteger silver = [Utils rollDice:@"1W6"] + bonus;
+        talentResult.resultDescription = [NSString stringWithFormat: flavorFormat, (long)silver];
+
+        // Beispiel: Folge-Action "Geld ins Inventar"
+        DSAActionDescriptor *gain = [DSAActionDescriptor new];
+        gain.type = DSAActionTypeGainMoney;
+        gain.parameters = @{ @"amount": @(silver) };
+        gain.order = 0;
+
+        talentResult.followUps = @[gain];
+        break;
+    }
+
+    // ❌ Fehlschläge
+    case DSAActionResultFailure:
+    case DSAActionResultAutoFailure:
+    case DSAActionResultEpicFailure: {
+        NSInteger days = 0;
+        NSString *flavor = nil;
+        switch (talentResult.result) {
+            case DSAActionResultFailure:
+                days = 7;
+                flavor = @"Du wurdest auf frischer Tat ertappt! "
+                         @"Die Wirtin schreit laut, Gäste drehen sich um, "
+                         @"und du wirst unsanft zur Tür hinausbefördert. "
+                         @"Hausverbot für eine Woche.";                
+                 break;
+            case DSAActionResultAutoFailure:
+                days = 30;
+                flavor = @"Dein Versuch endet im völligen Desaster. "
+                         @"Die Menge johlt, als dich zwei kräftige Gäste packen "
+                         @"und vor die Tür setzen. "
+                         @"Die Wirtin schwört, dich für mindestens einen Monat nicht wieder hereinzulassen.";
+                break;
+            case DSAActionResultEpicFailure:
+                days = NSIntegerMax;
+                flavor = @"Dein Versuch endet im völligen Desaster. "
+                         @"Die Menge johlt, als dich zwei kräftige Gäste packen "
+                         @"und vor die Tür setzen. "
+                         @"Die Wirtin schwört, dich für mindestens einen Monat nicht wieder hereinzulassen.";
+                break;
+            default: break;
+        }
+
+        talentResult.resultDescription = flavor;
+
+        // Folge-Events/Actions: rauswurf + Hausverbot
+        DSAActionDescriptor *leave = [DSAActionDescriptor new];
+        leave.type = DSAActionTypeLeaveLocation;
+        leave.parameters = @{ @"position": [currentPosition copy] };
+        leave.order = 0;
+
+        DSAEventDescriptor *ban = [DSAEventDescriptor new];
+        ban.type = DSAEventTypeLocationBan;
+        ban.parameters = @{
+            @"position": [currentPosition copy],
+            @"durationDays": @(days)
+        };
+        ban.order = 1;
+
+        talentResult.followUps = @[leave, ban];
+        break;
+    }
+  }
                                            
   return talentResult;
 }

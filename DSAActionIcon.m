@@ -59,6 +59,7 @@
 #import "DSAActionSliderQuestionController.h"
 #import "DSAActionChoiceQuestionController.h"
 #import "DSAEvent.h"
+#import "DSAExecutionManager.h"
 
 
 @implementation DSAActionIcon
@@ -1876,7 +1877,6 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAAdventure *adventure = document.model;
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
     DSAPosition *currentPosition = activeGroup.position;
-    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
     
     DSAActionContext currentContext = currentPosition.context;
     NSLog(@"DSAActionIconTalent handleEvent: currentContext: %@", currentContext);
@@ -1890,6 +1890,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     selector.talents = availableTalents;
     [selector window];  // .gorm laden
 
+    __block DSAActionResult *talentResult;
     __weak typeof(selector) weakSelector = selector;
     selector.completionHandler = ^(BOOL result) {
         typeof(weakSelector) selector = weakSelector;
@@ -1902,17 +1903,33 @@ inventoryIdentifier: (NSString *)sourceInventory
         DSATalent *selectedTalent = (DSATalent *)[[selector.popupActions selectedItem] representedObject];
         id selectedTarget = [selector.popupTargets isHidden] ? nil : [[selector.popupTargets selectedItem] representedObject];
 
-        DSAActionResult *talentResult = [selectedCharacter useTalent: selectedTalent 
-                                                            onTarget: selectedTarget
-                                                    currentAdventure: adventure];
+        talentResult = [selectedCharacter useTalent: selectedTalent 
+                                           onTarget: selectedTarget
+                                   currentAdventure: adventure];
         NSLog(@"DSAActionIconTalent got talentResult: %@", talentResult);
         NSLog(@"DSAActionIconTalent sheet completion handler called.... XXX ");
 
       
     };
-    [windowController.window beginSheet:selector.window completionHandler:nil];     
+    [windowController.window beginSheet:selector.window completionHandler:nil];
+    
+    DSAExecutionManager *executionManager = [[DSAExecutionManager alloc] init];
+    [executionManager processActionResult: talentResult];
+        
+    DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName: @"DSAConversationTextOnly"];
+    [conversationSelector window];  // trigger loading .gorm file
+    conversationSelector.fieldText.stringValue = talentResult.resultDescription;
+    NSLog(@"DSAActionIcon, handleEvent: conversationSelector.fieldText.stringValue %@", conversationSelector.fieldText.stringValue);
+    conversationSelector.completionHandler = ^(BOOL result) {
+      if (result)
+        {
+           NSLog(@"DSAActionIcon, handleEvent: finally, shopping finished");
+        }
+    };
+    [windowController.window beginSheet: conversationSelector.window completionHandler:nil];       
 }
 @end
+
 @implementation DSAActionIconMagic
 - (instancetype)initWithImageSize: (NSString *)size
 {

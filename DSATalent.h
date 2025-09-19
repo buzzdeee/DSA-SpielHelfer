@@ -89,6 +89,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DSAGeneralTalent : DSATalent                          
 @end
+@interface DSAGeneralTalentFalschspiel: DSAGeneralTalent
+@end
 @interface DSAGeneralTalentTaschendiebstahl: DSAGeneralTalent
 @end
 

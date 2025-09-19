@@ -42,6 +42,7 @@
 typedef NS_ENUM(NSInteger, DSAActionType) {
     DSAActionTypeUnknown = 0,
     DSAActionTypeGainItem,
+    DSAActionTypeGainMoney,
     DSAActionTypeLeaveLocation,                      // leaving a position, i.e. a building or dungeon
     // weitere ActionTypes …
 };

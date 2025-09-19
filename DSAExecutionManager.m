@@ -24,6 +24,11 @@
 
 #import "DSAExecutionManager.h"
 #import "DSAActionResult.h"
+#import "DSAAdventure.h"
+#import "DSAEvent.h"
+#import "DSAAdventureGroup.h"
+#import "DSALocations.h"
+
 
 #pragma mark - Action Descriptor Implementation
 
@@ -40,6 +45,7 @@
 @implementation DSAExecutionManager
 
 - (void)processActionResult:(DSAActionResult *)result {
+    NSLog(@"DSAExecutionManager processActionResult called with result: %@", result);
     NSArray<id<DSAExecutableDescriptor>> *sorted =
         [result.followUps sortedArrayUsingComparator:^NSComparisonResult(id<DSAExecutableDescriptor> a,
                                                                          id<DSAExecutableDescriptor> b) {
@@ -66,26 +72,104 @@
 - (void)executeAction:(DSAActionDescriptor *)action {
     switch (action.type) {
         case DSAActionTypeGainItem:
-            NSLog(@"[Action] Gain item: %@", action.parameters);
+            NSLog(@"DSAExecutionManager executeAction: Gain item: %@ not yet implemented, aborting", action.parameters);
+            abort();
             break;
+        case DSAActionTypeGainMoney:
+            NSLog(@"DSAExecutionManager executeAction: Gain money: %@", action.parameters);
+            [self executeGainMoneyAction: action];
+            break;            
         case DSAActionTypeLeaveLocation:
-            NSLog(@"[Action] Leave location: %@", action.parameters);
+            NSLog(@"DSAExecutionManager executeAction: Leave location: %@", action.parameters);
+            [self executeLeaveLocationAction: (DSAActionDescriptor *) action];
             break;
         default:
-            NSLog(@"[Action] Unknown action type: %ld", (long)action.type);
+            NSLog(@"[Action] Unknown action type: %ld aborting!", (long)action.type);
+            abort();
             break;
+    }
+}
+
+- (void)executeGainMoneyAction: (DSAActionDescriptor *)action
+{
+  DSAAdventureGroup *activeGroup = [DSAAdventureManager sharedManager].currentAdventure.activeGroup;
+  NSInteger silver = [action.parameters[@"amount"] integerValue];
+  [activeGroup addSilber: silver];
+}
+
+- (void) executeLeaveLocationAction: (DSAActionDescriptor *)action
+{
+  DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+  DSAAdventureGroup *activeGroup = adventure.activeGroup;
+  DSAPosition *currentPosition = adventure.position;
+  DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
+  DSALocalMapTile *currentTile = [currentLocation tileAtCoordinate: currentPosition.mapCoordinate];  
+  if ([currentTile isKindOfClass: [DSALocalMapTileBuilding class]])
+    {
+      DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding*)currentTile;
+      DSADirection direction = buildingTile.door;
+      activeGroup.position = nil;
+      activeGroup.position = [currentPosition positionByMovingInDirection: direction steps: 1];
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];
+      NSLog(@"DSAExecutionManager executeLeaveLocationAction we're now thrown out.");
+    }
+  else
+    {
+      NSLog(@"DSAExecutionManager executeLeaveLocationAction not implemented for current tile class: %@ aborting", [currentTile class]);
+      abort();
     }
 }
 
 - (void)triggerEvent:(DSAEventDescriptor *)event {
     switch (event.type) {
         case DSAEventTypeLocationBan:
-            NSLog(@"[Event] Tavern ban: %@", event.parameters);
+            NSLog(@"DSAExecutionManager triggerEvent: Location ban: %@", event.parameters);
+            [self triggerLocationBan: event];
             break;
         default:
-            NSLog(@"[Event] Unknown event type: %ld", (long)event.type);
+            NSLog(@"DSAExecutionManager triggerEvent: Unknown event type: %ld aborting!", (long)event.type);
+            abort();
             break;
     }
 }
+
+-(void)triggerLocationBan: (DSAEventDescriptor *)event {
+  NSLog(@"DSAEventManager triggerLocationBan: Location ban: %@", event.parameters);
+
+  DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+  
+  DSAPosition<NSCopying> *position = event.parameters[@"position"];
+  NSNumber *durationDays = event.parameters[@"durationDays"];
+
+  if (!position || !durationDays) {
+      NSLog(@"DSAEventManager triggerLocationBan: LocationBan missing parameters!");
+      abort();
+  }
+
+  // Ablaufdatum setzen
+  DSAAventurianDate *expiresAt = durationDays ? [[adventure now]
+                                                 dateByAddingYears: 0
+                                                              days: [durationDays integerValue]
+                                                             hours: 0
+                                                           minutes: 0] 
+                                               : nil;
+
+  // Event erzeugen
+  DSAEvent *banEvent = [DSAEvent eventWithType:DSAEventTypeLocationBan
+                                      position:position
+                                     expiresAt:expiresAt
+                                      userInfo:nil];
+
+  // Event ins Adventure eintragen
+  if (!adventure.eventsByPosition[position]) {
+      adventure.eventsByPosition[position] = [NSMutableArray array];
+  }
+  [adventure addEvent:banEvent];
+  NSLog(@"DSAEventManager triggerLocationBan: Added LocationBan for %@ until %@", position, expiresAt);
+  NSLog(@"DSAEventManager triggerLocationBan: eventsByPosition in adventure: %@", adventure.eventsByPosition);
+  
+
+}  
+
 
 @end

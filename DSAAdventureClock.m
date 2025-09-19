@@ -23,6 +23,7 @@
 */
 
 #import "DSAAdventureClock.h"
+#import "DSAAdventure.h"
 
 @implementation DSAAdventureClock
 
