@@ -992,6 +992,119 @@
     return [self findObjectWithName:name inBodyParts: model.bodyParts];
 }
 
+- (NSArray<DSAObject *> *)findObjectsByCategory:(NSString *)category
+                                        inSlots:(NSArray<DSASlot *> *)slots
+{
+    NSMutableArray<DSAObject *> *results = [NSMutableArray array];
+
+    for (DSASlot *slot in slots) {
+        DSAObject *object = slot.object;
+        if (!object) continue;
+
+        // Kategorie prüfen
+        if ([object.category isEqualToString:category]) {
+            [results addObject:object];
+        }
+
+        // Falls Container → rekursiv dessen Slots durchsuchen
+        if ([object isKindOfClass:[DSAObjectContainer class]]) {
+            DSAObjectContainer *container = (DSAObjectContainer *)object;
+            [results addObjectsFromArray:[self findObjectsByCategory:category
+                                                            inSlots:container.slots]];
+        }
+    }
+
+    return results;
+}
+
+// 🔍 Hilfsmethode: durchsucht ein Inventory
+- (NSArray<DSAObject *> *)findObjectsByCategory:(NSString *)category
+                                     inInventory:(DSAInventory *)inventory
+{
+    if (!inventory) return @[];
+    return [self findObjectsByCategory:category inSlots:inventory.slots];
+}
+
+// 🔍 Hauptmethode: durchsucht Model (Charakter)
+- (NSArray<DSAObject *> *)findItemsByCategory:(NSString *)category
+                                      inModel:(DSACharacter *)model
+{
+    NSMutableArray<DSAObject *> *results = [NSMutableArray array];
+
+    // 1. Allgemeines Inventar
+    [results addObjectsFromArray:[self findObjectsByCategory:category
+                                                 inInventory:model.inventory]];
+
+    // 2. Inventories in BodyParts
+    for (NSString *propertyName in model.bodyParts.inventoryPropertyNames) {
+        DSAInventory *inventory = [model.bodyParts valueForKey:propertyName];
+        if (inventory) {
+            [results addObjectsFromArray:[self findObjectsByCategory:category
+                                                         inInventory:inventory]];
+        }
+    }
+
+    return results;
+}
+
+
+// 🔍 Hilfsmethode: durchsucht Slots rekursiv nach subCategory
+- (NSArray<DSAObject *> *)findObjectsBySubCategory:(NSString *)subCategory
+                                           inSlots:(NSArray<DSASlot *> *)slots
+{
+    NSMutableArray<DSAObject *> *results = [NSMutableArray array];
+
+    for (DSASlot *slot in slots) {
+        DSAObject *object = slot.object;
+        if (!object) continue;
+
+        // SubCategory prüfen
+        if ([object.subCategory isEqualToString:subCategory]) {
+            [results addObject:object];
+        }
+
+        // Falls Container → rekursiv dessen Slots durchsuchen
+        if ([object isKindOfClass:[DSAObjectContainer class]]) {
+            DSAObjectContainer *container = (DSAObjectContainer *)object;
+            [results addObjectsFromArray:[self findObjectsBySubCategory:subCategory
+                                                               inSlots:container.slots]];
+        }
+    }
+
+    return results;
+}
+
+// 🔍 Hilfsmethode: durchsucht ein Inventory
+- (NSArray<DSAObject *> *)findObjectsBySubCategory:(NSString *)subCategory
+                                       inInventory:(DSAInventory *)inventory
+{
+    if (!inventory) return @[];
+    return [self findObjectsBySubCategory:subCategory inSlots:inventory.slots];
+}
+
+// 🔍 Hauptmethode: durchsucht das gesamte Model (Charakter)
+- (NSArray<DSAObject *> *)findItemsBySubCategory:(NSString *)subCategory
+                                         inModel:(DSACharacter *)model
+{
+    NSMutableArray<DSAObject *> *results = [NSMutableArray array];
+
+    // 1. Allgemeines Inventar
+    [results addObjectsFromArray:[self findObjectsBySubCategory:subCategory
+                                                    inInventory:model.inventory]];
+
+    // 2. Inventories in BodyParts
+    for (NSString *propertyName in model.bodyParts.inventoryPropertyNames) {
+        DSAInventory *inventory = [model.bodyParts valueForKey:propertyName];
+        if (inventory) {
+            [results addObjectsFromArray:[self findObjectsBySubCategory:subCategory
+                                                            inInventory:inventory]];
+        }
+    }
+
+    return results;
+}
+
+
 - (DSASlot *)findFreeBodySlotOfType:(NSInteger)slotType inModel:(DSACharacter *)model {
     for (NSString *propertyName in model.bodyParts.inventoryPropertyNames) {
         DSAInventory *inventory = [model.bodyParts valueForKey:propertyName];

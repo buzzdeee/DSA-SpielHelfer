@@ -41,8 +41,8 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultTalentsByCo
     return @{
           DSAActionContextResting: @[@"Heilkunde Wunden", @"Heilkunde Gift", @"Heilkunde Krankheiten", @"Heilkunde Seele" ],
           DSAActionContextPrivateRoom: @[@"Heilkunde Wunden", @"Heilkunde Gift", @"Heilkunde Krankheiten", @"Heilkunde Seele" ],
-          DSAActionContextTavern: @[@"Falschspiel", @"Taschendiebstahl", @"Musizieren", @"Singen", @"Tanzen", @"Gaukeleien" ],
-          DSAActionContextMarket: @[@"Falschspiel", @"Taschendiebstahl", @"Musizieren", @"Singen", @"Tanzen", @"Gaukeleien"]
+          DSAActionContextTavern: @[@"Falschspiel", @"Taschendiebstahl", @"Musizieren", @"Singen", @"Tanzen", @"Akrobatik", @"Gaukeleien" ],
+          DSAActionContextMarket: @[@"Falschspiel", @"Taschendiebstahl", @"Musizieren", @"Singen", @"Tanzen", @"Akrobatik", @"Gaukeleien" ]
     };
 }
 static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultSpellsByContext(void)

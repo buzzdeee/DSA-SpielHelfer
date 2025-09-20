@@ -89,7 +89,17 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DSAGeneralTalent : DSATalent                          
 @end
+@interface DSAGeneralTalentAkrobatik: DSAGeneralTalent
+@end
 @interface DSAGeneralTalentFalschspiel: DSAGeneralTalent
+@end
+@interface DSAGeneralTalentGaukeleien: DSAGeneralTalent
+@end
+@interface DSAGeneralTalentMusizieren: DSAGeneralTalent
+@end
+@interface DSAGeneralTalentSingen: DSAGeneralTalent
+@end
+@interface DSAGeneralTalentTanzen: DSAGeneralTalent
 @end
 @interface DSAGeneralTalentTaschendiebstahl: DSAGeneralTalent
 @end

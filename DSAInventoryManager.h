@@ -50,6 +50,14 @@ NS_ASSUME_NONNULL_BEGIN
 - (DSAObject *) findItemWithName: (NSString *) name 
                          inModel: (DSACharacter *) model;                     
 
+/// searches and finds all items by its category in all inventories of a given model                         
+- (NSArray<DSAObject *> *)findItemsByCategory:(NSString *)category
+                                      inModel:(DSACharacter *)model;                        
+
+/// searches and finds all items by its subCategory in all inventories of a given model                         
+- (NSArray<DSAObject *> *)findItemsBySubCategory:(NSString *)subCategory
+                                         inModel:(DSACharacter *)model;                                      
+                                                               
 // Searches for the DSASlot given inventoryIdentifier, model and slotIndex.                                              
 - (DSASlot *) findSlotInModel:(DSACharacter *)model 
       withInventoryIdentifier:(NSString *)inventoryIdentifier 
