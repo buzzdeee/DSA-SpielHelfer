@@ -91,10 +91,10 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 _(@"Geschichtswissen"): [DSAGeneralTalent class],
                 _(@"Glücksspiel"): [DSAGeneralTalent class],
                 _(@"Götter und Kulte"): [DSAGeneralTalent class],
-                _(@"Heilkunde Gift"): [DSAGeneralTalent class],
-                _(@"Heilkunde Krankheiten"): [DSAGeneralTalent class],
-                _(@"Heilkunde Seele"): [DSAGeneralTalent class],
-                _(@"Heilkunde Wunden"): [DSAGeneralTalent class],
+                _(@"Heilkunde Gift"): [DSAGeneralTalentHeilkundeGift class],
+                _(@"Heilkunde Krankheiten"): [DSAGeneralTalentHeilkundeKrankheiten class],
+                _(@"Heilkunde Seele"): [DSAGeneralTalentHeilkundeSeele class],
+                _(@"Heilkunde Wunden"): [DSAGeneralTalentHeilkundeWunden class],
                 _(@"Holzbearbeitung"): [DSAGeneralTalent class],
                 _(@"Klettern"): [DSAGeneralTalent class],
                 _(@"Kochen"): [DSAGeneralTalent class],
@@ -350,7 +350,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.maxUpPerLevel = maxUpPerLevel;
       self.levelUpCost = levelUpCost;
       self.influencesTalents = otherInfluencedTalents;
-      self.isPersonalTalent = NO;      
+      self.isPersonalTalent = NO;
+      self.targetType = DSAActionTargetTypeNone;    
     }
   return self;
 }    
@@ -382,7 +383,12 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
         self.isPersonalTalent = [coder decodeBoolForKey:@"isPersonalTalent"];
         
         self.influencesTalents = [coder decodeObjectForKey:@"influencesTalents"];
+        
         self.targetType = [coder decodeIntegerForKey:@"targetType"];
+        self.targetTypeDescription = [coder decodeObjectForKey:@"targetTypeDescription"];      
+        self.allowedTargetTypes = [coder decodeObjectForKey:@"allowedTargetTypes"];
+        self.targetTypeRestrictions = [coder decodeObjectForKey:@"targetTypeRestrictions"];        
+        
         self.talentDescription = [coder decodeObjectForKey:@"talentDescription"];
         
       }
@@ -404,7 +410,12 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   [coder encodeBool:self.isPersonalTalent forKey:@"isPersonalTalent"]; 
        
   [coder encodeObject:self.influencesTalents forKey:@"influencesTalents"];
+
   [coder encodeInteger:self.targetType forKey:@"targetType"];
+  [coder encodeObject:self.targetTypeDescription forKey:@"targetTypeDescription"];  
+  [coder encodeObject:self.allowedTargetTypes forKey:@"allowedTargetTypes"];
+  [coder encodeObject:self.targetTypeRestrictions forKey:@"targetTypeRestrictions"];  
+  
   [coder encodeObject:self.talentDescription forKey:@"talentDescription"];
   
 }
@@ -1148,6 +1159,132 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     return talentResult;
 }
 @end
+
+@implementation DSAGeneralTalentHeilkundeGift
+- (instancetype)initTalent: (NSString *) name
+             inSubCategory: (nullable NSString *) subCategory
+                ofCategory: (NSString *) category
+                   onLevel: (NSInteger) level
+                  withTest: (nullable NSArray *) test
+    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
+           withLevelUpCost: (NSInteger) levelUpCost
+    influencesOtherTalents: (nullable NSMutableDictionary *)otherInfluencedTalents
+{
+  self = [super init];
+  if (self)
+    {
+      self.name = name;
+      self.subCategory = subCategory;
+      self.category = category;
+      self.level = level;
+      self.test = test;
+      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
+      self.maxUpPerLevel = maxUpPerLevel;
+      self.levelUpCost = levelUpCost;
+      self.influencesTalents = otherInfluencedTalents;
+      self.isPersonalTalent = NO;
+      self.targetType = DSAActionTargetTypeActiveGroupMember;
+      self.targetTypeDescription = @"Wer soll von Gift geheilt werden?";
+      self.allowedTargetTypes = @[ @"DSACharacter" ];
+    }
+  return self;
+}
+@end
+@implementation DSAGeneralTalentHeilkundeKrankheiten
+- (instancetype)initTalent: (NSString *) name
+             inSubCategory: (nullable NSString *) subCategory
+                ofCategory: (NSString *) category
+                   onLevel: (NSInteger) level
+                  withTest: (nullable NSArray *) test
+    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
+           withLevelUpCost: (NSInteger) levelUpCost
+    influencesOtherTalents: (nullable NSMutableDictionary *)otherInfluencedTalents
+{
+  self = [super init];
+  if (self)
+    {
+      self.name = name;
+      self.subCategory = subCategory;
+      self.category = category;
+      self.level = level;
+      self.test = test;
+      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
+      self.maxUpPerLevel = maxUpPerLevel;
+      self.levelUpCost = levelUpCost;
+      self.influencesTalents = otherInfluencedTalents;
+      self.isPersonalTalent = NO;
+      self.targetType = DSAActionTargetTypeActiveGroupMember;
+      self.targetTypeDescription = @"Wer soll von Krankheiten geheilt werden?";
+      self.allowedTargetTypes = @[ @"DSACharacter" ];
+    }
+  return self;
+}
+@end
+@implementation DSAGeneralTalentHeilkundeSeele
+- (instancetype)initTalent: (NSString *) name
+             inSubCategory: (nullable NSString *) subCategory
+                ofCategory: (NSString *) category
+                   onLevel: (NSInteger) level
+                  withTest: (nullable NSArray *) test
+    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
+           withLevelUpCost: (NSInteger) levelUpCost
+    influencesOtherTalents: (nullable NSMutableDictionary *)otherInfluencedTalents
+{
+  self = [super init];
+  if (self)
+    {
+      self.name = name;
+      self.subCategory = subCategory;
+      self.category = category;
+      self.level = level;
+      self.test = test;
+      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
+      self.maxUpPerLevel = maxUpPerLevel;
+      self.levelUpCost = levelUpCost;
+      self.influencesTalents = otherInfluencedTalents;
+      self.isPersonalTalent = NO;
+      self.targetType = DSAActionTargetTypeActiveGroupMember;
+      self.targetTypeDescription = @"Wessen Seele soll geheilt werden?";
+      self.allowedTargetTypes = @[ @"DSACharacter" ];
+    }
+  return self;
+}
+@end
+@implementation DSAGeneralTalentHeilkundeWunden
+- (instancetype)initTalent: (NSString *) name
+             inSubCategory: (nullable NSString *) subCategory
+                ofCategory: (NSString *) category
+                   onLevel: (NSInteger) level
+                  withTest: (nullable NSArray *) test
+    withMaxTriesPerLevelUp: (NSInteger) maxTriesPerLevelUp
+         withMaxUpPerLevel: (NSInteger) maxUpPerLevel
+           withLevelUpCost: (NSInteger) levelUpCost
+    influencesOtherTalents: (nullable NSMutableDictionary *)otherInfluencedTalents
+{
+  self = [super init];
+  if (self)
+    {
+      self.name = name;
+      self.subCategory = subCategory;
+      self.category = category;
+      self.level = level;
+      self.test = test;
+      self.maxTriesPerLevelUp = maxTriesPerLevelUp;
+      self.maxUpPerLevel = maxUpPerLevel;
+      self.levelUpCost = levelUpCost;
+      self.influencesTalents = otherInfluencedTalents;
+      self.isPersonalTalent = NO;
+      self.targetType = DSAActionTargetTypeActiveGroupMember;
+      self.targetTypeDescription = @"Wessen Wunden sollen versorgt werden?";
+      self.allowedTargetTypes = @[ @"DSACharacter" ];
+    }
+  return self;
+}
+@end
+
 @implementation DSAGeneralTalentSingen
 - (DSAActionResult *)useOnTarget:(id)target
                      byCharacter:(DSACharacter *)character

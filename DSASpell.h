@@ -34,8 +34,6 @@
 @interface DSASpell : DSABaseObject <NSCoding>
 
 @property (nonatomic, assign) NSInteger level;
-@property (nonatomic, assign) DSAActionTargetType targetType;           // the target type of a spell
-@property (nonatomic, strong) NSString *targetTypeDescription;          // a description of target type, used in the UI when selecting the spell 
 @property (nonatomic, strong) NSArray<DSAActionParameterDescriptor *> *parameterDescriptors;     // describing optional parameters, giving hints to the controller and UI
 @property (nonatomic, strong) NSMutableDictionary<NSString *, id> *parameterValues;   // optional parameters passed back from controller and UI
 @property (nonatomic, strong) NSArray *origin;
@@ -66,8 +64,12 @@
 @property (nonatomic, assign) NSInteger maxUpPerLevel;
 @property (nonatomic, assign) NSInteger maxTriesPerLevelUp;
 @property (nonatomic) BOOL canCastOnSelf;
+
+@property (nonatomic, assign) DSAActionTargetType targetType;           // the target type of a spell
+@property (nonatomic, strong) NSString *targetTypeDescription;          // a description of target type, used in the UI when selecting the spell 
 @property (nonatomic, strong) NSArray<NSString *> *allowedTargetTypes;   // Strings of class names target types
 @property (nonatomic, strong) NSDictionary *targetTypeRestrictions; // eventual restrictions applied to target types, i.e. DSAObject but only when name == XXX
+
 @property (nonatomic) BOOL everLeveledUp;
 @property (nonatomic) BOOL isTraditionSpell;
 @property (nonatomic, readonly) BOOL isActiveSpell;

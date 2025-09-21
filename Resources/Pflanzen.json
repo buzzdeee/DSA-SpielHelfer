@@ -1,0 +1,169 @@
+{
+  "Donf": {
+    "Bekanntheit": 8,
+    "category": "Pflanzen",
+    "subCategory": "Heilpflanzen",
+    "Preis": 3,
+    "Verbreitungsgebiet": [ "südlich von Gerasim" ],
+    "Verbreitungsraum": {
+      "gelegentlich": [ "Sumpflöcher" ],
+      "selten": [ "Sumpf", "Seeufer" ],
+      "sehr selten": [ "Flußauen" ]
+    },
+    "Ernte": {
+      "was": [ "Stengel" ],
+      "wann": [ "ganzjährig" ]
+    }
+  },
+  "Gulmond": {
+    "Bekanntheit": 8,
+    "category": "Pflanzen",
+    "subCategory": "Heilpflanzen",
+    "Preis": 8,
+    "Verbreitungsgebiet": [ "Nordaventurien bis Nostria - Vallusa" ],
+    "Verbreitungsraum": {
+      "selten": [ "Steppe", "Wald" ],
+      "sehr selten": [ "Hochland" ]
+    },
+    "Ernte": {
+      "was": [ "Blätter" ],
+      "wann": [ "Phex", "Peraine", "Ingerimm", "Rahja", "Praios", "Rondra", "Efferd", "Travia", "Boron" ]
+    }
+  },
+  "Joruga": {
+    "Bekanntheit": 10,
+    "category": "Pflanzen",
+    "subCategory": "Heilpflanzen",
+    "Preis": 8,
+    "Verbreitungsgebiet": [ "Nostria", "Andergast", "Albernia", "Nordmarken" ],
+    "Verbreitungsraum": {
+      "gelegentlich": [ "Wald" ],
+      "selten": [ "Wiesen" ],
+      "sehr selten": [ "Gebirge" ]
+    },
+    "Ernte": {
+      "was": [ "Wurzel" ],
+      "wann": [ "Rahja", "Praios", "Rondra", "Efferd", "Travia", "Boron" ]
+    }
+  },
+  "Lulanie": {
+    "Bekanntheit": 18,
+    "category": "Pflanzen",
+    "subCategory": "Heilpflanzen",
+    "Preis": 12,
+    "Verbreitungsgebiet": [ "Mittelaventurien" ],
+    "Verbreitungsraum": {
+      "selten": [ "Wald" ],
+      "sehr selten": [ "Waldränder" ]
+    },
+    "Ernte": {
+      "was": [ "Blüten" ],
+      "wann": [ "Rahja", "Praios", "Rondra" ]
+    }
+  },
+  "Neckerkraut": {
+    "Bekanntheit": 4,
+    "category": "Pflanzen",
+    "subCategory": "Heilpflanzen",
+    "Preis": 5,
+    "Verbreitungsgebiet": [ "Westküste Aventuriens" ],
+    "Verbreitungsraum": {
+      "gelegentlich": [ "Strand" ],
+      "selten": [ "Wiesen" ],
+      "sehr selten": [ "feuchte Wiesen", "Sumpf" ]
+    },
+    "Ernte": {
+      "was": [ "Blatt" ],
+      "wann": [ "ganzjährig" ]
+    }
+  },
+  "Olginwurz": {
+    "Bekanntheit": 25,
+    "category": "Pflanzen",
+    "subCategory": "Heilpflanzen",
+    "Preis": 30,
+    "Verbreitungsgebiet": [ "Raschtulswall" ],
+    "Verbreitungsraum": {
+      "sehr selten": [ "Hochland", "Gebirge", "Wald" ]
+    },
+    "Ernte": {
+      "was": [ "Wurzel" ],
+      "wann": [ "ganzjährig" ]
+    }
+  },
+  "Quinja": {
+    "Bekanntheit": 10,
+    "category": "Pflanzen",
+    "subCategory": "Heilpflanzen",
+    "Preis": 4,
+    "Verbreitungsgebiet": [ "Südlich von Loch Harold" ],
+    "Verbreitungsraum": {
+      "häufig": [ "Regenwald" ],
+      "gelegentlich": [ "Wald" ],
+      "selten": [ "Waldränder" ]
+    },
+    "Ernte": {
+      "was": [ "Beeren" ],
+      "wann": [ "Ingerimm", "Rahja", "Praios", "Rondra", "Efferd", "Travia" ]
+    }
+  },
+  "Sansaro": {
+    "Bekanntheit": 18,
+    "category": "Pflanzen",
+    "subCategory": "Heilpflanzen",
+    "Preis": 1,
+    "Verbreitungsgebiet": [ "Perlenmeer zwischen Selem und Charypso" ],
+    "Verbreitungsraum": {
+      "häufig": [ "Küstengewässer" ],
+      "sehr selten": [ "Offenes Meer" ]
+    },
+    "Ernte": {
+      "was": [ "ganze Pflanze" ],
+      "wann": [ "ganzjährig" ]
+    }
+  },
+  "Traschbart": {
+    "Bekanntheit": 6,
+    "category": "Pflanzen",
+    "subCategory": "Heilpflanzen",
+    "Preis": 0.1,
+    "Verbreitungsgebiet": [ "Steineichenwald", "Finsterkamm", "Koschberge", "Eisenwald" ],
+    "Verbreitungsraum": {
+      "häufig": [ "Wald" ],
+      "gelegentlich": [ "Sumpfgebiete" ]
+    },
+    "Ernte": {
+      "was": [ "ganze Pflanze" ],
+      "wann": [ "ganzjährig" ]
+    }
+  },
+  "Xordai": {
+    "Bekanntheit": 21,
+    "category": "Pflanzen",
+    "subCategory": "Heilpflanzen",
+    "Preis": 400,
+    "Verbreitungsgebiet": [ "Maraskan" ],
+    "Verbreitungsraum": {
+      "sehr selten": [ "Regenwald" ]
+    },
+    "Ernte": {
+      "was": [ "Rinde" ],
+      "wann": [ "ganzjährig" ]
+    }
+  },
+  "Yagan": {
+    "Bekanntheit": 6,
+    "category": "Pflanzen",
+    "subCategory": "Heilpflanzen",
+    "Preis": 30,
+    "Verbreitungsgebiet": [ "Maraskan", "Aranische Küste" ],
+    "Verbreitungsraum": {
+      "gelegentlich": [ "Wald" ],
+      "selten": [ "Hochland" ]
+    },
+    "Ernte": {
+      "was": [ "Nuss" ],
+      "wann": [ "Boron" ]
+    }
+  }
+}

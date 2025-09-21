@@ -2164,6 +2164,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     }
     return self;
 }
+
 - (void)handleEvent {
     NSLog(@"DSAActionIconRitual handleEvent called");
 
@@ -2174,14 +2175,15 @@ inventoryIdentifier: (NSString *)sourceInventory
         return;
     }
             
-    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
-    DSAAdventure *adventure = document.model;
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
     DSAPosition *currentPosition = activeGroup.position;
     
     DSAActionContext currentContext = currentPosition.context;
     NSArray *availableRituals = adventure.availableRitualsByContext[currentContext];
     NSLog(@"DSAActionIconRitual handleEvent, availableRituals: %@", availableRituals);
+
+    // Ritual-Selector vorbereiten
     DSAActionViewController *selector =
         [[DSAActionViewController alloc] initWithWindowNibName:@"DSAActionView"];
     selector.viewMode = DSAActionViewModeRitual;
@@ -2189,57 +2191,61 @@ inventoryIdentifier: (NSString *)sourceInventory
     selector.rituals = availableRituals;
     [selector window];  // .gorm laden
 
-    __block BOOL cancel = NO;
-    __block DSASpell *selectedRitual;
-    __block DSACharacter *selectedCharacter;
-    __block id selectedTarget;
-    
     __weak typeof(selector) weakSelector = selector;
     selector.completionHandler = ^(BOOL result) {
         typeof(selector) strongSelf = weakSelector;
         if (!strongSelf || !result) {
-            cancel = YES;
+            NSLog(@"Ritualauswahl abgebrochen, nichts weiter tun.");
             return;
         }
-        selectedCharacter = (DSACharacter *)[[selector.popupActors selectedItem] representedObject];
-        selectedRitual = (DSASpell *)[[selector.popupActions selectedItem] representedObject];
-        selectedTarget = [selector.popupTargets isHidden] ? nil : [[selector.popupTargets selectedItem] representedObject];
-        NSLog(@"DSAActionIconRitual sheet completion handler called.... ");
-    };    
-    [windowController.window beginSheet:selector.window completionHandler:nil];
-    
-    if (cancel)
-      {
-        return;
-      }
-    
-    DSAActionResult *ritualResult = [selectedCharacter castRitual: selectedRitual.name
-                                                        ofVariant: nil
-                                                ofDurationVariant: nil
-                                                         onTarget: selectedTarget
-                                                       atDistance: 0
-                                                      investedASP: 0
-                                                 currentAdventure: adventure
-                                             spellOriginCharacter: nil];
-    NSString *resultString = [NSString stringWithFormat: @"%@. %@", 
-                                         [DSAActionResult resultNameForResultValue: ritualResult.result],
-                                         ritualResult.resultDescription];
-    DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName: @"DSAConversationTextOnly"];
-    [conversationSelector window];  // trigger loading .gorm file
-    [conversationSelector.window setTitle: @"Ergebnis"];
-    conversationSelector.fieldText.stringValue = resultString;
-    NSLog(@"DSAActionIconRitual, handleEvent: conversationSelector.fieldText.stringValue %@", conversationSelector.fieldText.stringValue);
-    conversationSelector.completionHandler = ^(BOOL result) {
-      if (result)
-        {
-           NSLog(@"DSAActionIconRitual, handleEvent: finally, ritual speaking finished");
-        }
+
+        DSACharacter *selectedCharacter = (DSACharacter *)[[strongSelf.popupActors selectedItem] representedObject];
+        DSASpell *selectedRitual = (DSASpell *)[[strongSelf.popupActions selectedItem] representedObject];
+        id selectedTarget = [strongSelf.popupTargets isHidden] ? nil : [[strongSelf.popupTargets selectedItem] representedObject];
+
+        NSLog(@"DSAActionIconRitual sheet completion handler called: %@ durch %@", selectedRitual, selectedCharacter);
+
+        // Ritual ausführen
+        DSAActionResult *ritualResult = [selectedCharacter castRitual:selectedRitual.name
+                                                           ofVariant:nil
+                                                   ofDurationVariant:nil
+                                                            onTarget:selectedTarget
+                                                          atDistance:0
+                                                         investedASP:0
+                                                    currentAdventure:adventure
+                                                spellOriginCharacter:nil];
+
+        NSString *resultString = [NSString stringWithFormat:@"%@. %@", 
+                                  [DSAActionResult resultNameForResultValue:ritualResult.result],
+                                  ritualResult.resultDescription];
+
+        // Ergebnis-Fenster anzeigen
+        DSAConversationController *conversationSelector =
+            [[DSAConversationController alloc] initWithWindowNibName:@"DSAConversationTextOnly"];
+        [conversationSelector window];  // trigger loading .gorm file
+        [conversationSelector.window setTitle:@"Ergebnis"];
+        conversationSelector.fieldText.stringValue = resultString;
+
+        NSLog(@"DSAActionIconRitual, Ergebnis: %@", conversationSelector.fieldText.stringValue);
+
+        conversationSelector.completionHandler = ^(BOOL result) {
+            if (result) {
+                NSLog(@"DSAActionIconRitual, handleEvent: finally, ritual speaking finished");
+            }
+        };
+
+        [windowController.window beginSheet:conversationSelector.window completionHandler:nil];
+
+        // Zeit fortschreiten lassen
+        [adventure.gameClock advanceTimeByHours:6];
+        NSLog(@"DSAActionIconRitual handle event: using hardcoded duration for all rituals!");
     };
-    [windowController.window beginSheet: conversationSelector.window completionHandler:nil];
-    [adventure.gameClock advanceTimeByHours: 6];
-    NSLog(@"DSAActionIconRitual handle event: using hardcoded duration for all rituals!");
+
+    // Erstes Sheet starten
+    [windowController.window beginSheet:selector.window completionHandler:nil];
 }
 @end
+
 @implementation DSAActionIconMeal
 - (instancetype)initWithImageSize: (NSString *)size
 {

@@ -74,17 +74,7 @@
     [item setRepresentedObject:talent];
   }
   [self populateTargetForTalentAction];
-/*  DSATalent *selectedTalent = (DSATalent *)[[self.popupActions selectedItem] representedObject];
-  switch (selectedTalent.targetType)
-    {
-      case DSAActionTargetTypeNone: {
-        [self disableTargets];
-        break;
-      }
-      default: {
-        [self enableTargetsForType: selectedTalent.targetType];
-      }
-    } */
+
   self.buttonCancel.title = @"Abbrechen";
   self.buttonDoIt.title = @"Anwenden";
 }
@@ -114,19 +104,7 @@
     [item setRepresentedObject:spell];
   }
   [self populateTargetForSpellAction];
-/*  DSASpell *selectedSpell = (DSASpell *)[[self.popupActions selectedItem] representedObject];
-  NSLog(@"DSAActionViewController initializeViewForSpells: %@ TargetType: %ld", selectedSpell.name, selectedSpell.targetType);
-  switch (selectedSpell.targetType)
-    {
-      case DSAActionTargetTypeNone: {
-        [self disableTargets];
-        break;
-      }
-      default: {
-        [self enableTargetsForType: selectedSpell.targetType];
-      }
-    }
-*/
+
   self.buttonCancel.title = @"Abbrechen";
   self.buttonDoIt.title = @"Anwenden";
 }
@@ -157,17 +135,7 @@
     [item setRepresentedObject:spell];
   }
   [self populateTargetForSpellAction];
-/*  DSASpell *selectedSpell = (DSASpell *)[[self.popupActions selectedItem] representedObject];
-  switch (selectedSpell.targetType)
-    {
-      case DSAActionTargetTypeNone: {
-        [self disableTargets];
-        break;
-      }
-      default: {
-        [self enableTargetsForType: selectedSpell.targetType];
-      }
-    }  */
+
   self.buttonCancel.title = @"Abbrechen";
   self.buttonDoIt.title = @"Anwenden";
 }
@@ -188,24 +156,31 @@
     case DSAActionTargetTypeAlly:
     case DSAActionTargetTypeActiveGroupMember: {
       [self.fieldActionQuestionTarget setHidden: NO];
-      switch (self.viewMode) {
-        case DSAActionViewModeTalent: {
-          self.fieldActionQuestionTarget.stringValue = @"Auf wen soll das Talent angewendet werden?";
-          break;
-        }
-        case DSAActionViewModeSpell: {
-          DSASpell *selectedSpell = (DSASpell *)[[self.popupActions selectedItem] representedObject];
-          self.fieldActionQuestionTarget.stringValue = selectedSpell.targetTypeDescription != nil ? selectedSpell.targetTypeDescription 
-                                                                                                  : @"Auf wen soll der Spruch angewendet werden?";
-          break;
-        }
-        case DSAActionViewModeRitual: {
-          DSASpell *selectedSpell = (DSASpell *)[[self.popupActions selectedItem] representedObject];
-          self.fieldActionQuestionTarget.stringValue = selectedSpell.targetTypeDescription != nil ? selectedSpell.targetTypeDescription 
-                                                                                                  : @"Auf wen soll das Ritual angewendet werden?";        
-          break;
-        }
+      id representedObject = [[self.popupActions selectedItem] representedObject];
+      NSString *targetDescription = nil;
+
+      // Wenn das Objekt eine targetTypeDescription-Eigenschaft hat, nutze sie
+      if ([representedObject respondsToSelector:@selector(targetTypeDescription)]) {
+          targetDescription = [representedObject valueForKey:@"targetTypeDescription"];
       }
+
+      NSString *fallback = nil;
+      switch (self.viewMode) {
+           case DSAActionViewModeTalent:
+               fallback = @"Auf wen soll das Talent angewendet werden?";
+               break;
+           case DSAActionViewModeSpell:
+               fallback = @"Auf wen soll der Spruch angewendet werden?";
+               break;
+           case DSAActionViewModeRitual:
+               fallback = @"Auf wen soll das Ritual angewendet werden?";
+               break;
+           default:
+               fallback = @"Auf wen soll das angewendet werden?";
+               break;
+       }
+      self.fieldActionQuestionTarget.stringValue = targetDescription ?: fallback;
+      
       [self.popupTargets removeAllItems];
       [self.popupTargets setEnabled: YES];
       [self.popupTargets setHidden: NO];

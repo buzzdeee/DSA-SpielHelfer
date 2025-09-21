@@ -155,8 +155,6 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     {
       self.name = [coder decodeObjectForKey:@"name"];
       self.level = [coder decodeIntegerForKey:@"level"];
-      self.targetType = [coder decodeIntegerForKey:@"targetType"];
-      self.targetTypeDescription = [coder decodeObjectForKey:@"targetTypeDescription"];
       self.parameterDescriptors = [coder decodeObjectForKey:@"parameterDescriptors"];
       self.parameterValues = [coder decodeObjectForKey:@"parameterValues"];
       if (!self.parameterValues)
@@ -173,7 +171,9 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
       self.variant = [coder decodeObjectForKey:@"variant"];
       self.durationVariants = [coder decodeObjectForKey:@"durationVariants"];
       self.durationVariant = [coder decodeObjectForKey:@"durationVariant"];      
-      
+
+      self.targetType = [coder decodeIntegerForKey:@"targetType"];
+      self.targetTypeDescription = [coder decodeObjectForKey:@"targetTypeDescription"];      
       self.allowedTargetTypes = [coder decodeObjectForKey:@"allowedTargetTypes"];
       self.targetTypeRestrictions = [coder decodeObjectForKey:@"targetTypeRestrictions"];
            
@@ -201,8 +201,6 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 {
   [coder encodeObject:self.name forKey:@"name"];
   [coder encodeInteger:self.level forKey:@"level"];
-  [coder encodeInteger:self.targetType forKey:@"targetType"];
-  [coder encodeObject:self.targetTypeDescription forKey:@"targetTypeDescription"];
   [coder encodeObject:self.parameterDescriptors forKey:@"parameterDescriptors"];
   [coder encodeObject:self.parameterValues forKey:@"parameterValues"];
   if (!self.parameterValues)
@@ -220,6 +218,8 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
   [coder encodeObject:self.durationVariants forKey:@"durationVariants"];
   [coder encodeObject:self.durationVariant forKey:@"durationVariant"];
     
+  [coder encodeInteger:self.targetType forKey:@"targetType"];
+  [coder encodeObject:self.targetTypeDescription forKey:@"targetTypeDescription"];  
   [coder encodeObject:self.allowedTargetTypes forKey:@"allowedTargetTypes"];
   [coder encodeObject:self.targetTypeRestrictions forKey:@"targetTypeRestrictions"];
   

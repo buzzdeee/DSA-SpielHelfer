@@ -36,7 +36,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DSATalent : DSABaseObject <NSCoding>
 
 @property (nonatomic, assign) NSInteger level;
-@property (nonatomic, assign) DSAActionTargetType targetType;           // the target type of a talent
 @property (nonatomic, assign) NSInteger maxUpPerLevel;
 @property (nonatomic, assign) NSInteger maxTriesPerLevelUp;
 @property (nonatomic, assign) NSInteger levelUpCost;
@@ -47,6 +46,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray *test;
 @property (nonatomic) BOOL isPersonalTalent;              // set to YES, for i.e. Musizieren for Skald or Bard
 @property (nonatomic, strong) NSMutableDictionary *influencesTalents;
+
+@property (nonatomic, assign) DSAActionTargetType targetType;           // the target type of a spell
+@property (nonatomic, strong) NSString *targetTypeDescription;          // a description of target type, used in the UI when selecting the spell 
+@property (nonatomic, strong) NSArray<NSString *> *allowedTargetTypes;   // Strings of class names target types
+@property (nonatomic, strong) NSDictionary *targetTypeRestrictions; // eventual restrictions applied to target types, i.e. DSAObject but only when name == XXX
 
 + (instancetype)talentWithName: (NSString *) talentName
                   forCharacter: (nullable DSACharacter *) character;
@@ -94,6 +98,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DSAGeneralTalentFalschspiel: DSAGeneralTalent
 @end
 @interface DSAGeneralTalentGaukeleien: DSAGeneralTalent
+@end
+@interface DSAGeneralTalentHeilkundeGift: DSAGeneralTalent
+@end
+@interface DSAGeneralTalentHeilkundeKrankheiten: DSAGeneralTalent
+@end
+@interface DSAGeneralTalentHeilkundeSeele: DSAGeneralTalent
+@end
+@interface DSAGeneralTalentHeilkundeWunden: DSAGeneralTalent
 @end
 @interface DSAGeneralTalentMusizieren: DSAGeneralTalent
 @end

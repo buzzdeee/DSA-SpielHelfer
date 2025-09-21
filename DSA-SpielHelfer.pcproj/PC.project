@@ -6354,7 +6354,8 @@
 	"dialogue_shopkeeper_weapon.json",
 	"dialogue_tavern.json",
 	"dialogue_temple_priest.json",
-	"Gifte.json"
+	"Gifte.json",
+	"Pflanzen.json"
     );
     "OTHER_SOURCES" = (
 	"DSA-SpielHelfer_main.m"
