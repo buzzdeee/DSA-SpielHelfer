@@ -66,6 +66,17 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary *)drunkennessOffsets;
 @end
 
+@interface DSAWoundedEffect : DSACharacterEffect <NSCoding>
+@property (nonatomic, assign) DSASeverityLevel woundLevel; // beschreibt den höchsten Schweregrad der kumulierten Wunden
+@property (nonatomic, strong) NSMutableArray<NSNumber *> *woundSources; // Liste von DSAWoundSource-Werten (NSNumber wg. ObjC Collections)
+@property (nonatomic, strong, nullable) NSMutableArray<NSNumber *> *animalSources; // nur relevant wenn woundSources AnimalBite oder Claw enthalten
+// Convenience methods
+- (void)addWoundSource:(DSAWoundSource)source;
+- (void)addAnimalSource:(DSAAnimalType)animal;
+- (BOOL)hasWoundSource:(DSAWoundSource)source;
+- (BOOL)hasAnimalSource:(DSAAnimalType)animal;
+@end
+
 @interface DSAPoisonEffect : DSACharacterEffect <NSCoding>
 @property (nonatomic, assign) NSInteger beforePoisonActiveCounter;
 @property (nonatomic, assign) NSInteger oncePoisonActiveCounter;
@@ -182,10 +193,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (BOOL) isDead;
 - (BOOL) isIll;
 - (BOOL) isPoisoned;
+- (BOOL) isWounded;
+- (BOOL) isDrunken;
 
 - (DSAIllnessEffect *) activeIllnessEffect;
 - (DSAPoisonEffect *) activePoisonEffect;
 - (DSADrunkenEffect *) activeDrunkenEffect;
+- (DSAWoundedEffect *) activeWoundedEffect;
 
 // used to decide, if a body inventory slot can hold a given item, based on character constraints
 - (BOOL) canUseItem: (DSAObject *) item;
@@ -213,6 +227,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addEffect:(DSACharacterEffect *)effect;                       // To add any type of effect, that doesn't need to apply anything special
 - (BOOL) applyIllnessEffect: (DSAIllnessEffect *) illnessEffect;      // To apply illnesses to characters
 - (BOOL) applyPoisonEffect: (DSAPoisonEffect *) poisonEffect;         // To apply poisons to characters
+
+- (void)addOrUpdateWoundedEffectWithSource:(DSAWoundSource)source 
+                                    animal:(DSAAnimalType)animal 
+                               damageValue:(NSInteger)damage;
 
 - (BOOL) applyMiracleEffect: (DSAMiracleResult *) miracleResult;      // to add miracle effects, which may change some values when applying
 - (BOOL) hasAppliedCharacterEffectWithKey: (NSString *)key;

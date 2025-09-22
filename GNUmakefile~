@@ -6139,7 +6139,8 @@ Resources/dialogue_shopkeeper_herbs.json \
 Resources/dialogue_shopkeeper_weapon.json \
 Resources/dialogue_tavern.json \
 Resources/dialogue_temple_priest.json \
-Resources/Gifte.json 
+Resources/Gifte.json \
+Resources/Pflanzen.json 
 
 
 #

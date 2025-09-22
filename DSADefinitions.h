@@ -350,5 +350,28 @@ typedef NS_ENUM(NSInteger, DSALocalMapTileBuildingInnFillLevel) {
     DSALocalMapTileBuildingInnFillLevelPacked = 3        // completely full
 };
 
+// used to describe origin/source of a wound
+typedef NS_ENUM(NSInteger, DSAWoundSource) {
+    DSAWoundSourceUnknown = 0,
+    DSAWoundSourceWeapon,
+    DSAWoundSourceAnimalBite,
+    DSAWoundSourceClaw,
+    DSAWoundSourceAccident,
+    DSAWoundSourceBurn,
+    DSAWoundSourcePoison,
+    DSAWoundSourceMagic,
+};
+
+// in case the wound if of an animal, describe it here
+typedef NS_ENUM(NSInteger, DSAAnimalType) {
+    DSAAnimalTypeUnknown = 0,
+    DSAAnimalTypeWolf,
+    DSAAnimalTypeRat,
+    DSAAnimalTypeBat,
+    DSAAnimalTypeBear,
+    DSAAnimalTypeDog,
+    DSAAnimalTypeCat,
+};
+
 #endif // _DSADEFINITIONS_H_
 

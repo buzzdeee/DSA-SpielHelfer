@@ -149,6 +149,77 @@ static NSDictionary *_drunkennessOffsets = nil;
 }
 @end
 
+@implementation DSAWoundedEffect
+- (instancetype)init {
+    self = [super init];
+    if (self) {
+        _woundLevel = DSASeverityLevelNone;
+        _woundSources = [NSMutableArray array];
+        _animalSources = [NSMutableArray array];
+    }
+    return self;
+}
+
+#pragma mark - NSSecureCoding
+
++ (BOOL)supportsSecureCoding {
+    return YES;
+}
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [super encodeWithCoder:coder];
+    
+    [coder encodeInteger:self.woundLevel forKey:@"woundLevel"];
+    [coder encodeObject:self.woundSources forKey:@"woundSources"];
+    [coder encodeObject:self.animalSources forKey:@"animalSources"];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)decoder {
+    self = [super initWithCoder:decoder];
+    if (self) {
+        _woundLevel = [decoder decodeIntegerForKey:@"woundLevel"];
+        
+        NSSet *allowedArrayClasses = [NSSet setWithObjects:[NSArray class], [NSMutableArray class], [NSNumber class], nil];
+        
+        NSArray *decodedWoundSources = [decoder decodeObjectOfClasses:allowedArrayClasses forKey:@"woundSources"];
+        _woundSources = decodedWoundSources ? [decodedWoundSources mutableCopy] : [NSMutableArray array];
+        
+        NSArray *decodedAnimalSources = [decoder decodeObjectOfClasses:allowedArrayClasses forKey:@"animalSources"];
+        _animalSources = decodedAnimalSources ? [decodedAnimalSources mutableCopy] : [NSMutableArray array];
+    }
+    return self;
+}
+
+#pragma mark - Convenience methods
+
+- (void)addWoundSource:(DSAWoundSource)source {
+    NSNumber *wrapped = @(source);
+    if (![self.woundSources containsObject:wrapped]) {
+        [self.woundSources addObject:wrapped];
+    }
+}
+
+- (void)addAnimalSource:(DSAAnimalType)animal {
+    if (!self.animalSources) {
+        self.animalSources = [NSMutableArray array];
+    }
+    NSNumber *wrapped = @(animal);
+    if (![self.animalSources containsObject:wrapped]) {
+        [self.animalSources addObject:wrapped];
+    }
+}
+
+- (BOOL)hasWoundSource:(DSAWoundSource)source {
+    return [self.woundSources containsObject:@(source)];
+}
+
+- (BOOL)hasAnimalSource:(DSAAnimalType)animal {
+    return [self.animalSources containsObject:@(animal)];
+}
+
+
+@end
+
 @implementation DSAPoisonEffect
 
 + (BOOL)supportsSecureCoding {
@@ -1093,6 +1164,52 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
 }
 
+- (BOOL)isWounded {
+    DSAWoundedEffect *wound = [self activeWoundedEffect];
+    return (wound != nil);
+}
+
+- (BOOL)isDrunken {
+    DSADrunkenEffect *drunk = [self activeDrunkenEffect];
+    return (drunk != nil);
+}
+
+- (void)addOrUpdateWoundedEffectWithSource:(DSAWoundSource)source 
+                                    animal:(DSAAnimalType)animal 
+                               damageValue:(NSInteger)damage
+{
+    
+    if (damage < 5)  // we don't care about small scratches
+      {
+        return;
+      }
+                               
+    DSAWoundedEffect *wound = [self activeWoundedEffect];
+    
+    if (!wound) {
+        wound = [DSAWoundedEffect new];
+        wound.uniqueKey = @"Wounded"; // fixer Key für Wunden
+        [self addEffect:wound];
+    }
+    
+    // Quelle hinzufügen
+    [wound addWoundSource:source];
+    
+    // Tier ggf. hinzufügen
+    if (animal != DSAAnimalTypeUnknown) {
+        [wound addAnimalSource:animal];
+    }
+    
+    // Wundlevel hochstufen, wenn Schaden > 5
+    if (wound.woundLevel == DSASeverityLevelNone) {
+        wound.woundLevel = DSASeverityLevelMild;
+    } else if (wound.woundLevel == DSASeverityLevelMild) {
+        wound.woundLevel = DSASeverityLevelModerate;
+    } else if (wound.woundLevel == DSASeverityLevelModerate) {
+        wound.woundLevel = DSASeverityLevelSevere;
+    }
+}
+
 - (DSAIllnessEffect *) activeIllnessEffect
 {
   for (NSString *key in [self.appliedEffects allKeys])
@@ -1139,6 +1256,22 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   else
     {
       NSLog(@"DSACharacter activeDrunkenEffect not found");
+      return nil;
+    }
+}
+
+- (DSAWoundedEffect *) activeWoundedEffect
+{
+  NSLog(@"DSACharacter activeWoundedEffect checking all applied effects: %@", [self.appliedEffects allKeys]);
+  DSAWoundedEffect *woundedEffect = (DSAWoundedEffect*)[self.appliedEffects objectForKey: @"Wounded"];
+  if (woundedEffect)
+    {
+      NSLog(@"DSACharacter activeWoundedEffect found effect: %@", woundedEffect);
+      return woundedEffect;
+    }
+  else
+    {
+      NSLog(@"DSACharacter activeWoundedEffect not found");
       return nil;
     }
 }
