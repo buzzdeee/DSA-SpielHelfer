@@ -1283,6 +1283,36 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     }
   return self;
 }
+
+- (DSAActionResult *)useOnTarget:(id)target
+                     byCharacter:(DSACharacter *)character
+                currentAdventure:(DSAAdventure *)adventure
+{
+    NSLog(@"DSAGeneralTalentHeilkundeWunden useOnTarget: byCharacter: currentAdventure called");
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName:currentPosition.localLocationName ofType:@"local"];
+    DSAActionResult *result = [[DSAActionResult alloc] init];
+    
+    if (![target isKindOfClass: [DSACharacter class]])
+      {
+        NSLog(@"DSAGeneralTalentHeilkundeWunden useOnTarget: target is not a character %@", [target class]);
+        result.resultDescription = @"Heilkunde Wunden kann nur auf Charactere angewendet werden.";
+        return result;
+      }
+    DSACharacter *targetCharacter = (DSACharacter *)target;
+    if (![target isWounded])
+      {
+        NSLog(@"DSAGeneralTalentHeilkundeWunden useOnTarget: %@ ist doch garnicht verwundet.", targetCharacter.name);
+        result.resultDescription = [NSString stringWithFormat: @"%@ ist doch garnicht verwundet", targetCharacter.name];
+        return result;
+      }
+    DSAIllnessEffect *illnessEffect = [targetCharacter activeIllnessEffect];
+    
+    NSLog(@"DSAGeneralTalentHeilkundeWunden useOnTarget: got illness effect: %@", illnessEffect);
+    
+    return result;
+}
 @end
 
 @implementation DSAGeneralTalentSingen

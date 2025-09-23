@@ -4175,6 +4175,12 @@
     "Morgenstern_1-64x64.webp",
     "Morgenstern_1-512x512.webp"
   ],
+  "Donf": [
+    "Donf_1.webp",
+    "Donf_1-32x32.webp",
+    "Donf_1-64x64.webp",
+    "Donf_1-512x512.webp"
+  ],
   "Dreschflegel": [
     "Dreschflegel_1-512x512.webp",
     "Dreschflegel_1-32x32.webp",
@@ -4389,6 +4395,12 @@
     "Basiliskenzunge_meisterlich_1-64x64.webp",
     "Basiliskenzunge_meisterlich_1-512x512.webp"
   ],
+  "Gulmond": [
+    "Gulmond_1.webp",
+    "Gulmond_1-32x32.webp",
+    "Gulmond_1-64x64.webp",
+    "Gulmond_1-512x512.webp"
+  ],
   "Schlagring": [
     "Schlagring_1.webp",
     "Schlagring_1-32x32.webp",
@@ -4470,5 +4482,63 @@
     "Drachenzahn_1-32x32.webp",
     "Drachenzahn_1-64x64.webp",
     "Drachenzahn_1-512x512.webp"
+  ],
+  "Joruga": [
+    "Joruga_1.webp",
+    "Joruga_1-32x32.webp",
+    "Joruga_1-64x64.webp",
+    "Joruga_1-512x512.webp"
+  ],
+  "Lulanie": [
+    "Lulanie_1.webp",
+    "Lulanie_1-32x32.webp",
+    "Lulanie_1-64x64.webp",
+    "Lulanie_1-512x512.webp"
+  ],
+  "Quinja": [
+    "Quinja_1.webp",
+    "Quinja_1-32x32.webp",
+    "Quinja_1-64x64.webp",
+    "Quinja_1-512x512.webp"
+  ],
+  "Neckerkraut": [
+    "Neckerkraut_1.webp",
+    "Neckerkraut_1-32x32.webp",
+    "Neckerkraut_1-64x64.webp",
+    "Neckerkraut_1-512x512.webp"
+  ],
+  "Sansaro": [
+    "Sansaro_1.webp",
+    "Sansaro_1-32x32.webp",
+    "Sansaro_1-64x64.webp",
+    "Sansaro_1-512x512.webp"
+  ],
+  "Olginwurz": [
+    "Olginwurz_1.webp",
+    "Olginwurz_1-32x32.webp",
+    "Olginwurz_1-64x64.webp",
+    "Olginwurz_1-512x512.webp"
+  ],
+  "Xordai": [
+    "Xordai_1.webp",
+    "Xordai_1-32x32.webp",
+    "Xordai_1-64x64.webp",
+    "Xordai_1-512x512.webp"
+  ],
+  "Yagan": [
+    "Yagan_1.webp",
+    "Yagan_1-32x32.webp",
+    "Yagan_1-64x64.webp",
+    "Yagan_1-512x512.webp"
+  ],
+  "Traschbart": [
+    "Traschbart_1.webp",
+    "Traschbart_2.webp",
+    "Traschbart_1-32x32.webp",
+    "Traschbart_1-64x64.webp",
+    "Traschbart_1-512x512.webp",
+    "Traschbart_2-32x32.webp",
+    "Traschbart_2-64x64.webp",
+    "Traschbart_2-512x512.webp"
   ]
 }
