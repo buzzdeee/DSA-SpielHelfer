@@ -60,7 +60,7 @@ NSArray<NSString *> *DSAShopHerbsStoreCategories(void) {
     static NSArray<NSString *> *categories = nil;
     if (categories == nil) {
         categories = [[NSArray alloc] initWithObjects:
-            @"Gift",
+            @"Gift", @"Pflanzen",
             nil];
     }
     NSLog(@"Utils.m DSAShopHerbsStoreCategories(): returning categories: %@", categories);

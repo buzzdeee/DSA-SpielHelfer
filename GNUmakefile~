@@ -6318,7 +6318,8 @@ DSAConsumption.h \
 DSABaseObject.h \
 DSAActionResult.h \
 DSAEvent.h \
-DSAExecutionManager.h
+DSAExecutionManager.h \
+DSAPlant.h
 
 #
 # Objective-C Class files
@@ -6422,7 +6423,8 @@ DSAConsumption.m \
 DSABaseObject.m \
 DSAActionResult.m \
 DSAEvent.m \
-DSAExecutionManager.m
+DSAExecutionManager.m \
+DSAPlant.m
 
 #
 # Other sources

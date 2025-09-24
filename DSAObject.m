@@ -1513,7 +1513,25 @@ static DSAObjectManager *sharedInstance = nil;
               poisonDict[@"category"] = @"Gift";
               [_objectsByName setObject: poisonDict forKey: key];
             }
-        }      
+        } 
+      filePath = [[NSBundle mainBundle] pathForResource:@"Pflanzen" ofType:@"json"];
+      NSMutableDictionary *plantsDict = [NSJSONSerialization JSONObjectWithData: [NSData dataWithContentsOfFile: filePath]
+                                                                        options: NSJSONReadingMutableContainers
+                                                                          error: &e];
+      if (e)
+        {
+           NSLog(@"DSAObjectManager init: Error loading JSON: %@", e.localizedDescription);
+        }
+      else
+        {
+          for (NSString *key in [plantsDict allKeys])
+            {
+              NSMutableDictionary *plantDict = [[NSMutableDictionary alloc] init];
+              plantDict = [plantsDict[key] mutableCopy];
+              plantDict[@"Name"] = key;
+              [_objectsByName setObject: plantDict forKey: key];
+            }
+        }             
       
     }
   return self;
@@ -1760,8 +1778,6 @@ static DSAObjectManager *sharedInstance = nil;
 
 - (NSArray<DSAObject *> *)getAllDSAObjectsForShop:(NSString *)shopType
 {
-    NSDictionary *allObjectsDict = _objectsByName;
-    //NSLog(@"DSAObjectManager getAllDSAObjectsForShop allObjectsDict: %@", allObjectsDict);
     NSMutableArray *objectsArr = [[NSMutableArray alloc] init];
 
     NSArray<NSString *> *relevantCategories = nil;
