@@ -27,8 +27,8 @@
 @interface DSARoutePlanner ()
 
 @property (nonatomic, strong) NSDictionary *routesData;
-@property (nonatomic, strong) NSDictionary *locationsData;
-@property (nonatomic, strong) NSMutableDictionary *graph;
+//@property (nonatomic, strong) NSDictionary *locationsData;
+//@property (nonatomic, strong) NSMutableDictionary *graph;
 
 @end
 
@@ -37,12 +37,12 @@
 - (instancetype)initWithBundleFiles {
     self = [super init];
     if (self) {
-        NSString *routesPath = [[NSBundle mainBundle] pathForResource:@"routes" ofType:@"geojson"];
-        NSString *locationsPath = [[NSBundle mainBundle] pathForResource:@"Orte" ofType:@"json"];
+        NSString *routesPath = [[NSBundle mainBundle] pathForResource:@"Strassen" ofType:@"geojson"];
+//        NSString *locationsPath = [[NSBundle mainBundle] pathForResource:@"Orte" ofType:@"json"];
         
         [self loadRoutesData:routesPath];
-        [self loadLocationsData:locationsPath];
-        [self buildGraph];
+//        [self loadLocationsData:locationsPath];
+//        [self buildGraph];
     }
     return self;
 }
@@ -50,16 +50,18 @@
 #pragma mark - Data Loading
 
 - (void)loadRoutesData:(NSString *)filePath {
-    NSLog(@"Loading routes data from: %@", filePath);
+    NSLog(@"DSARoutePlanner loadRoutesData: Loading routes data from: %@", filePath);
     NSData *data = [NSData dataWithContentsOfFile:filePath];
     if (!data) {
-        NSLog(@"❌ ERROR: Could not load routes data.");
+        NSLog(@"DSARoutePlanner loadRoutesData: ERROR: Could not load routes data.");
         return;
     }
-    self.routesData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    NSLog(@"✅ Routes data loaded successfully.");
+    NSDictionary *geojson = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    self.routesData = geojson[@"features"];
+    
+    NSLog(@"DSARoutePlanner loadRoutesData: Routes data loaded successfully.");
 }
-
+/*
 - (void)loadLocationsData:(NSString *)filePath {
     NSLog(@"Loading locations data from: %@", filePath);
     NSData *data = [NSData dataWithContentsOfFile:filePath];
@@ -108,9 +110,9 @@
     }
     NSLog(@"✅ Graph built successfully. Total roads processed: %lu, Total nodes: %lu", (unsigned long)roadCount, (unsigned long)self.graph.count);
 }
-
+*/
 #pragma mark - Pathfinding
-
+/*
 - (NSArray<NSValue *> *)findShortestPathFrom:(NSString *)startName to:(NSString *)destinationName {
     NSLog(@"🚀 Starting pathfinding from '%@' to '%@'...", startName, destinationName);
     NSLog(@"🔍 Debug: self.locationsData: %@", self.locationsData);    
@@ -288,6 +290,117 @@ NSLog(@"self.locationsData: %@", self.locationsData);
     CGFloat dx = [p1[0] floatValue] - [p2[0] floatValue];
     CGFloat dy = [p1[1] floatValue] - [p2[1] floatValue];
     return sqrt(dx * dx + dy * dy);
+}
+*/
+
+- (NSArray<NSValue *> *)findShortestPathFrom:(NSString *)startName to:(NSString *)destinationName {
+    if (!self.routesData || self.routesData.count == 0) return nil;
+
+    // 1. Graph aufbauen: Dictionary von Ort -> Array von Nachbarn (NSDictionary mit Ziel und Kosten)
+    NSMutableDictionary<NSString *, NSMutableArray *> *graph = [NSMutableDictionary dictionary];
+
+    for (NSDictionary *feature in self.routesData) {
+        NSDictionary *props = feature[@"properties"];
+        NSString *begin = props[@"begin"];
+        NSString *end = props[@"end"];
+
+        // Koordinaten der Straße abrufen
+        NSArray *coordsArray = feature[@"geometry"][@"coordinates"][0]; // MultiLineString -> erstes Array
+        double length = 0;
+        for (NSInteger i = 1; i < coordsArray.count; i++) {
+            NSArray *p1 = coordsArray[i-1];
+            NSArray *p2 = coordsArray[i];
+            double dx = [p2[0] doubleValue] - [p1[0] doubleValue];
+            double dy = [p2[1] doubleValue] - [p1[1] doubleValue];
+            length += sqrt(dx*dx + dy*dy);
+        }
+
+        // Hinzufügen zum Graph (gerichtet)
+        if (!graph[begin]) graph[begin] = [NSMutableArray array];
+        [graph[begin] addObject:@{@"target": end, @"length": @(length), @"coords": coordsArray}];
+
+        // Optional: auch in Gegenrichtung, falls Straßen beidseitig befahrbar
+        if (!graph[end]) graph[end] = [NSMutableArray array];
+        NSArray *reversed = [[coordsArray reverseObjectEnumerator] allObjects];
+        NSMutableArray *revCoords = [NSMutableArray arrayWithArray:reversed];
+        [graph[end] addObject:@{@"target": begin, @"length": @(length), @"coords": revCoords}];
+    }
+
+    // 2. Dijkstra vorbereiten
+    NSMutableDictionary<NSString *, NSNumber *> *distances = [NSMutableDictionary dictionary];
+    NSMutableDictionary<NSString *, NSString *> *previous = [NSMutableDictionary dictionary];
+    NSMutableSet<NSString *> *visited = [NSMutableSet set];
+    NSMutableArray<NSString *> *queue = [NSMutableArray array];
+
+    for (NSString *node in graph) {
+        distances[node] = @(INFINITY);
+        [queue addObject:node];
+    }
+    distances[startName] = @(0);
+
+    while (queue.count > 0) {
+        // Node mit kleinster Distanz auswählen
+        NSString *current = nil;
+        double minDist = INFINITY;
+        for (NSString *node in queue) {
+            if ([distances[node] doubleValue] < minDist) {
+                minDist = [distances[node] doubleValue];
+                current = node;
+            }
+        }
+        if (!current) break;
+
+        [queue removeObject:current];
+        [visited addObject:current];
+
+        if ([current isEqualToString:destinationName]) break;
+
+        // Nachbarn durchlaufen
+        for (NSDictionary *neighbor in graph[current]) {
+            NSString *target = neighbor[@"target"];
+            double edgeLength = [neighbor[@"length"] doubleValue];
+            if ([visited containsObject:target]) continue;
+
+            double newDist = [distances[current] doubleValue] + edgeLength;
+            if (newDist < [distances[target] doubleValue]) {
+                distances[target] = @(newDist);
+                previous[target] = current;
+            }
+        }
+    }
+
+    // 3. Route zurückverfolgen
+    NSMutableArray<NSString *> *routeNodes = [NSMutableArray array];
+    NSString *node = destinationName;
+    while (node) {
+        [routeNodes insertObject:node atIndex:0];
+        node = previous[node];
+    }
+
+    if (routeNodes.count < 2) return nil; // Keine Route gefunden
+
+    // 4. Koordinaten für die Route zusammenfügen
+    NSMutableArray<NSValue *> *routePoints = [NSMutableArray array];
+    for (NSInteger i = 0; i < routeNodes.count - 1; i++) {
+        NSString *from = routeNodes[i];
+        NSString *to = routeNodes[i+1];
+        NSArray *edges = graph[from];
+        NSDictionary *edge = nil;
+        for (NSDictionary *e in edges) {
+            if ([e[@"target"] isEqualToString:to]) {
+                edge = e;
+                break;
+            }
+        }
+        if (!edge) continue;
+
+        for (NSArray *coord in edge[@"coords"]) {
+            NSPoint point = NSMakePoint([coord[0] doubleValue], [coord[1] doubleValue]);
+            [routePoints addObject:[NSValue valueWithPoint:point]];
+        }
+    }
+
+    return routePoints;
 }
 
 @end

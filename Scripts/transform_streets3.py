@@ -97,9 +97,9 @@ def transform_geojson(geojson_file, lon_min, lat_min, lon_max, lat_max, width, h
     
     return data
 
-regions_transformed = transform_geojson('../qgis/regions.geojson', lon_min, lat_min, lon_max, lat_max, image_width, image_height)
+regions_transformed = transform_geojson('../qgis/aventurische_pfade2.geojson', lon_min, lat_min, lon_max, lat_max, image_width, image_height)
 
-with open('regions_transformed.geojson', 'w') as f:
+with open('streets_transformed.geojson', 'w') as f:
     json.dump(regions_transformed, f)
 
 print("Transformation complete. Transformed GeoJSON files saved.")

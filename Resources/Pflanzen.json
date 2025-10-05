@@ -15,6 +15,10 @@
       "was": [ "Stengel" ],
       "wann": [ "ganzjährig" ]
     },
+    "Haltbarkeit": {
+      "Stunden": 6,
+      "Wuerfel": "1W6"
+    },    
     "Icon": [ "Donf_1" ]
   },
   "Gulmond": {
@@ -32,6 +36,10 @@
       "was": [ "Blätter" ],
       "wann": [ "Phex", "Peraine", "Ingerimm", "Rahja", "Praios", "Rondra", "Efferd", "Travia", "Boron" ]
     },
+    "Haltbarkeit": {
+      "Stunden": 24,
+      "Wuerfel": "1W6"
+    },    
     "Icon": [ "Gulmond_1" ]
   },
   "Joruga": {
@@ -50,6 +58,10 @@
       "was": [ "Wurzel" ],
       "wann": [ "Rahja", "Praios", "Rondra", "Efferd", "Travia", "Boron" ]
     },
+    "Haltbarkeit": {
+      "Tage": 2,
+      "Wuerfel": "1W3"
+    },     
     "Icon": [ "Joruga_1" ]
   },
   "Lulanie": {
@@ -67,6 +79,10 @@
       "was": [ "Blüten" ],
       "wann": [ "Rahja", "Praios", "Rondra" ]
     },
+    "Haltbarkeit": {
+      "Tage": 5,
+      "Wuerfel": "1W3"
+    },    
     "Icon": [ "Lulanie_1" ]
   },
   "Neckerkraut": {
@@ -85,6 +101,10 @@
       "was": [ "Blatt" ],
       "wann": [ "ganzjährig" ]
     },
+    "Haltbarkeit": {
+      "Wochen": 3,
+      "Wuerfel": "1W3"
+    },     
     "Icon": [ "Neckerkraut_1" ]
   },
   "Olginwurz": {
@@ -101,6 +121,10 @@
       "was": [ "Wurzel" ],
       "wann": [ "ganzjährig" ]
     },
+    "Haltbarkeit": {
+      "Stunden": 12,
+      "Wuerfel": "2W6"
+    },    
     "Icon": [ "Olginwurz_1" ]
   },
   "Quinja": {
@@ -119,6 +143,10 @@
       "was": [ "Beeren" ],
       "wann": [ "Ingerimm", "Rahja", "Praios", "Rondra", "Efferd", "Travia" ]
     },
+    "Haltbarkeit": {
+      "Stunden": 18,
+      "Wuerfel": "2W6"
+    },    
     "Icon": [ "Quinja_1" ]
   },
   "Sansaro": {
@@ -153,6 +181,10 @@
       "was": [ "ganze Pflanze" ],
       "wann": [ "ganzjährig" ]
     },
+    "Haltbarkeit": {
+      "Stunden": 24,
+      "Wuerfel": "1W6"
+    },    
     "Icon": [ "Traschbart_1", "Traschbart_2" ]
   },
   "Xordai": {
@@ -169,6 +201,10 @@
       "was": [ "Rinde" ],
       "wann": [ "ganzjährig" ]
     },
+    "Haltbarkeit": {
+      "Wochen": 4,
+      "Wuerfel": "1W6"
+    },    
     "Icon": [ "Xordai_1" ]
   },
   "Yagan": {
@@ -186,6 +222,10 @@
       "was": [ "Nuss" ],
       "wann": [ "Boron" ]
     },
+    "Haltbarkeit": {
+      "Tage": 210,
+      "Wuerfel": "1W180"
+    },    
     "Icon": [ "Yagan_1" ]
   }
 }
