@@ -16,6 +16,10 @@
 #import "DSALocation.h"
 #import "DSALocations.h"
 #import "DSAPricingEngine.h"
+#import "DSADialog.h"
+#import "DSADialogManager.h"
+#import "DSAConversationDialogSheetController.h"
+#import "DSAActionChoiceQuestionController.h"
 
 extern NSString * const DSACharacterHighlightedNotification;
 
@@ -673,6 +677,8 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 - (void)updateMainImageView
 {
     DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
+    BOOL showBuildingDialog = NO;
+    BOOL showRouteDialog = NO;
     DSAAdventureGroup *activeGroup = adventureDoc.model.activeGroup;
     DSAPosition *currentPosition = activeGroup.position;
     DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType:@"local"];
@@ -761,6 +767,15 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
                [currentTile isKindOfClass:[DSALocalMapTileRoute class]]) {
         NSString *buildingType = [(DSALocalMapTileBuilding *)currentTile type];
         
+        if ([currentTile isMemberOfClass:[DSALocalMapTileBuilding class]])
+          {
+            showBuildingDialog = YES;
+          }
+        else if ([currentTile isKindOfClass:[DSALocalMapTileRoute class]]) 
+          {
+            showRouteDialog = YES;
+          }
+        
         // 👉 Umlaute ersetzen
         NSDictionary *replacements = @{ @"ä": @"ae", @"ö": @"oe", @"ü": @"ue",
                                         @"Ä": @"Ae", @"Ö": @"Oe", @"Ü": @"Ue" };
@@ -810,6 +825,71 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     } else {
         NSLog(@"Keine passenden Bilder gefunden für Key: %@", selectedKey);
     }
+    
+    if (showBuildingDialog)
+      {
+        [self showBuildingDialogSheet];        
+      }
+    else if (showRouteDialog)
+      {
+        NSLog(@"DASAdventureWindowController updateMainImageView: showing route dialog.");        
+        [self showRouteDialogSheet];
+      }
+}
+
+- (void)showBuildingDialogSheet
+{
+        NSLog(@"DASAdventureWindowController showBuildingDialogSheet: showing building dialog.");
+        // Dialog laden
+        DSADialogManager *manager = [[DSADialogManager alloc] init];
+        NSString *dialogFileName = @"dialogue_general_building";
+        if (![manager loadDialogFromFile: dialogFileName]) {
+            NSLog(@"DASAdventureWindowController showBuildingDialogSheet: DSAActionIconChat handleEvent: unable to load dialog file: %@", dialogFileName);
+            return;
+        }
+
+        manager.currentNodeID = manager.currentDialog.startNodeID;
+
+        // Dialog UI anzeigen als Sheet
+        DSAConversationDialogSheetController *dialogController = [[DSAConversationDialogSheetController alloc] initWithDialogManager:manager];
+
+        // Present dialogController.window as sheet attached to main window
+        [self.window beginSheet:dialogController.window completionHandler:^(NSModalResponse returnCode) {
+            // Optional: handle sheet dismissal here
+            NSLog(@"DASAdventureWindowController showBuildingDialogSheet: Dialog sheet closed");
+        }];
+}
+
+- (void)showRouteDialogSheet
+{
+  DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+  DSAAdventureGroup *activeGroup = adventure.activeGroup;
+  DSAPosition *currentPosition = activeGroup.position;
+  DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
+  DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;
+  DSALocalMapTile *currentTile = [lml tileAtCoordinate: currentPosition.mapCoordinate];
+      
+   DSAActionChoiceQuestionController *choiceWindow =
+       [[DSAActionChoiceQuestionController alloc] initWithWindowNibName:@"DSAActionChoiceQuestionView"];
+   [choiceWindow window];
+
+   choiceWindow.fieldHeadline.stringValue = @"Reisen";
+   choiceWindow.fieldQuestion.stringValue = @"Wohin soll die Reise gehen?";
+   choiceWindow.buttonCancel.title = @"Abbrechen";
+   choiceWindow.buttonConfirm.title = @"Bestätigen";
+   [choiceWindow.popupChoice removeAllItems];
+   [choiceWindow.popupChoice addItemsWithTitles: [(DSALocalMapTileRoute *)currentTile destinations]];
+   
+   __weak typeof(choiceWindow) weakWindow = choiceWindow;
+   choiceWindow.completionHandler = ^(BOOL result) {
+       if (!result) {
+           return;
+       }
+       NSMenuItem *item = (NSMenuItem *)weakWindow.popupChoice.selectedItem;
+       NSLog(@"DSAAdventureWindowController showRouteDialogSheet: selected destionation: %@", item.title);
+   };
+
+   [self.window beginSheet:choiceWindow.window completionHandler:nil];  
 }
 
 - (void)characterHighlighted:(DSACharacterDocument *) selectedCharacter {
