@@ -459,6 +459,11 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
   return nil;
 }
 
+- (DSALocalMapTile *) tileAtPosition: (DSAPosition *) position
+{
+  return [ self tileAtCoordinate: position.mapCoordinate];
+}
+
 - (DSALocalMapTile *) tileAtCoordinate: (DSAMapCoordinate *) coordinate
 {
   NSLog(@"DSALocation subclasses should override tileAtCoordinate!");

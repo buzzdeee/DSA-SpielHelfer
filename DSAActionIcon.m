@@ -842,47 +842,17 @@ inventoryIdentifier: (NSString *)sourceInventory
     return NO;
 }
 
-- (void)handleEvent {
+- (void)handleEvent
+{
     NSLog(@"DSAActionIconLeave handleEvent called");
-    // Step 1: Get access to the model
-    DSAAdventureWindowController *windowController = self.window.windowController;
-    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
-        NSLog(@"Invalid window controller class");
-        return;
-    }
-    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
-    DSAAdventure *adventure = document.model;
+
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
-    DSAPosition *currentPosition = activeGroup.position;
-    NSLog(@"DSAActionIconLeave handleEvent currentPosition before leaving: %@", currentPosition);
-    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
     
-    DSALocalMapTile *currentTile = [currentLocation tileAtCoordinate: currentPosition.mapCoordinate];
-    
-    if ([currentTile isKindOfClass:[DSALocalMapTileBuildingInn class]])
-      {
-        DSALocalMapTileBuildingInn *innTile = (DSALocalMapTileBuildingInn*) currentTile;
-        if ([@[DSALocalMapTileBuildingInnTypeHerberge, DSALocalMapTileBuildingInnTypeHerbergeMitTaverne] containsObject:innTile.type] && 
-            [@[DSAActionContextPrivateRoom, DSAActionContextTavern] containsObject: currentPosition.context])
-          {
-            currentPosition.context = DSAActionContextReception;
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];
-            return;
-          }
-      }
-    
-    NSLog(@"DSAActionIconLeave handleEvent currentTile: %@", currentTile);
-    if ([currentTile isKindOfClass: [DSALocalMapTileBuilding class]])
-      {
-        DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding*)currentTile;
-        DSADirection direction = buildingTile.door;
-        activeGroup.position = nil;
-        activeGroup.position = [currentPosition positionByMovingInDirection: direction steps: 1];
-      }
-    NSLog(@"DSAActionIconLeave handleEvent currentPosition after leaving: %@", activeGroup.position);
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];     
+    [activeGroup leaveLocation];
 }
 @end
+
 @implementation DSAActionIconChat
 - (instancetype)initWithImageSize: (NSString *)size
 {
@@ -1341,7 +1311,10 @@ inventoryIdentifier: (NSString *)sourceInventory
             DSADirection direction = buildingTile.door;
             activeGroup.position = nil;
             activeGroup.position = [currentPosition positionByMovingInDirection: direction steps: 1];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];
+            NSDictionary *userInfo = @{ @"position": activeGroup.position };
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"DSAAdventureLocationUpdated" 
+                                                                object: self
+                                                              userInfo: userInfo];
             NSLog(@"DSAActionIconSell handleEvent we're now thrown out");
           }
       }
@@ -1540,7 +1513,10 @@ inventoryIdentifier: (NSString *)sourceInventory
             DSADirection direction = buildingTile.door;
             activeGroup.position = nil;
             activeGroup.position = [currentPosition positionByMovingInDirection: direction steps: 1];
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];
+            NSDictionary *userInfo = @{ @"position": activeGroup.position };
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"DSAAdventureLocationUpdated" 
+                                                                object: self
+                                                              userInfo: userInfo];
             NSLog(@"DSAActionIconSell handleEvent we're now thrown out");
           }
       }
@@ -1640,7 +1616,10 @@ inventoryIdentifier: (NSString *)sourceInventory
     NSLog(@"DSAActionIconRoom handleEvent membersWithRoom: %ld", membersWithRoom);                   
     if (groupMembers == membersWithRoom) {                    // everyone has a room, we go onto the room
         activeGroup.position.context = DSAActionContextPrivateRoom;
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];
+        NSDictionary *userInfo = @{ @"position": activeGroup.position };
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"DSAAdventureLocationUpdated" 
+                                                            object: self
+                                                          userInfo: userInfo];
         return;
     }
 
@@ -1842,7 +1821,10 @@ inventoryIdentifier: (NSString *)sourceInventory
                 [@[DSAActionContextPrivateRoom, DSAActionContextTavern] containsObject: currentPosition.context])
               {
                 currentPosition.context = DSAActionContextReception;
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];
+                NSDictionary *userInfo = @{ @"position": currentPosition };
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"DSAAdventureLocationUpdated" 
+                                                                    object: self
+                                                                  userInfo: userInfo];
               }
           }       
     };

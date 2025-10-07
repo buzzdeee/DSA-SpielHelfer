@@ -35,6 +35,10 @@
 @class DSACharacter;
 @class DSAMiracleResult;
 
+extern NSString * const DSALocalMapTileBuildingInnTypeHerberge;
+extern NSString * const DSALocalMapTileBuildingInnTypeHerbergeMitTaverne;
+extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
+
 @interface DSAAdventureGroup : DSABaseObject <NSCoding>
 
 @property (nonatomic, strong) NSMutableArray<NSUUID *> *partyMembers;
@@ -73,6 +77,11 @@
 - (void)applyMiracle:(DSAMiracleResult *)miracleResult;        // to all, or an individual of the group
 
 @end                             
+
+@interface DSAAdventureGroup (moveGroup)
+- (DSAPosition *)moveGroupInDirection:(DSADirection)direction;
+- (void) leaveLocation;
+@end
 
 #endif // _DSAADVENTUREGROUP_H_
 

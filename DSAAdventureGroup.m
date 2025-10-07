@@ -30,6 +30,11 @@
 #import "DSAInventoryManager.h"
 #import "Utils.h"
 #import "DSAGod.h"
+#import "DSAAdventure.h"
+#import "DSAMapCoordinate.h"
+#import "DSAEvent.h"
+#import "DSALocations.h"
+#import "DSAAdventureClock.h"
 
 @implementation DSAAdventureGroup
 
@@ -498,5 +503,170 @@
 
   return descriptionString;
 }
+@end // DSAAdventureGroup
 
-@end
+@implementation DSAAdventureGroup (moveGroup)
+- (void)discoverVisibleTilesAroundPosition:(DSAPosition *)position {
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    if (!adventure) return;
+
+    DSAMapCoordinate *center = position.mapCoordinate;
+    NSString *mapName = position.localLocationName;
+
+    for (NSInteger dx = -1; dx <= 1; dx++) {
+        for (NSInteger dy = -1; dy <= 1; dy++) {
+            DSAMapCoordinate *coord = [[DSAMapCoordinate alloc] initWithX:center.x + dx
+                                                                          y:center.y + dy
+                                                                      level:center.level];
+            [adventure discoverCoordinate:coord forLocation:mapName];
+        }
+    }
+}
+
+- (DSAPosition *)moveGroupInDirection:(DSADirection)direction {
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    DSAPosition *current = self.position;
+    DSAPosition *newPosition = [current positionByMovingInDirection:direction steps:1];
+    NSLog(@"DSAAdventureGroup moveGroupInDirection: newPosition: %@", newPosition);
+
+    [self discoverVisibleTilesAroundPosition:newPosition];
+
+    DSALocation *localMapLocation = [[DSALocations sharedInstance] locationWithName: current.localLocationName ofType: @"local"];
+    
+    DSALocalMapTile *fromTile = [localMapLocation tileAtPosition:current];
+    DSALocalMapTile *toTile = [localMapLocation tileAtPosition:newPosition];
+
+    if ([toTile isMemberOfClass:[DSALocalMapTileBuildingInn class]])
+      {
+        NSString *inType = [toTile type];
+        if ([inType isEqualToString: DSALocalMapTileBuildingInnTypeHerberge] || 
+            [inType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne])
+          {
+             newPosition.context = DSAActionContextReception;
+          }
+        else if ([inType isEqualToString: DSALocalMapTileBuildingInnTypeTaverne])
+          {
+            newPosition.context = DSAActionContextTavern;
+          }
+        else
+          {
+            NSLog(@"DSAAdventureGroup moveGroupInDirection: unknown inType: %@, aborting!", inType);
+            abort();
+          }
+      }
+    else
+      {
+        newPosition.context = nil;
+      }    
+    
+    // Check if destination is walkable
+    if (!toTile.walkable) {
+        NSBeep();
+        return nil;
+    }
+
+    
+    NSArray<DSAEvent *> *activeEvents = [adventure activeEventsAtPosition:newPosition 
+                                                                  forDate:adventure.gameClock.currentDate];
+
+    NSLog(@"DSAAdventureGroup moveGroupInDirection: activeEvents: %@", activeEvents);                                                                  
+    for (DSAEvent *event in activeEvents)
+      {
+        if (event.eventType == DSAEventTypeLocationBan)
+          {
+            NSLog(@"DSALocalMapView moveGroupInDirection: we're not allowed to get in: Hausverbot!");
+            NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
+                                         @"message": @"Wir haben hier leider Hausverbot!"
+                                      };
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                                object: nil
+                                                              userInfo: userInfo];
+            NSBeep();
+            return nil;
+          }
+      }                                                          
+    // EXITING a building?
+    if ([fromTile isKindOfClass:[DSALocalMapTileBuilding class]]) {
+        DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding *)fromTile;
+        if (direction != buildingTile.door) {
+            NSLog(@"DSAAdventureGroup moveGroupInDirection: Cannot exit building facing %@ by moving %@",
+                  DSADirectionToString(buildingTile.door),
+                  DSADirectionToString(direction));
+            NSBeep();
+            return nil;
+        }
+    }
+
+    // ENTERING a building?
+    if ([toTile isKindOfClass:[DSALocalMapTileBuilding class]]) {
+        DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding *)toTile;
+        DSADirection requiredApproach = [self oppositeDirection:buildingTile.door];
+        if (direction != requiredApproach) {
+            NSLog(@"DSAAdventureGroup moveGroupInDirection: Cannot enter building with door %@ by moving %@ (required: %@)",
+                  DSADirectionToString(buildingTile.door),
+                  DSADirectionToString(direction),
+                  DSADirectionToString(requiredApproach));
+            NSBeep();
+            return nil;
+        }
+    }
+
+    // Move group
+    self.position = newPosition;
+    NSDictionary *userInfo = @{ @"position" : newPosition };
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"DSAAdventureLocationUpdated" 
+                                                        object: self
+                                                      userInfo: userInfo];
+    return newPosition;
+}
+
+- (DSADirection)oppositeDirection:(DSADirection)direction {
+    switch (direction) {
+        case DSADirectionNorth: return DSADirectionSouth;
+        case DSADirectionSouth: return DSADirectionNorth;
+        case DSADirectionEast:  return DSADirectionWest;
+        case DSADirectionWest:  return DSADirectionEast;
+        case DSADirectionNortheast: return DSADirectionSouthwest;
+        case DSADirectionSoutheast: return DSADirectionNorthwest;
+        case DSADirectionSouthwest: return DSADirectionNortheast;
+        case DSADirectionNorthwest: return DSADirectionSoutheast;
+        default: return DSADirectionInvalid;
+    }
+}
+
+-(void) leaveLocation
+{
+    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: self.position.localLocationName ofType: @"local"];
+    DSALocalMapTile *currentTile = [currentLocation tileAtPosition: self.position];
+    
+    if ([currentTile isKindOfClass:[DSALocalMapTileBuildingInn class]])
+      {
+        DSALocalMapTileBuildingInn *innTile = (DSALocalMapTileBuildingInn*) currentTile;
+        if ([@[DSALocalMapTileBuildingInnTypeHerberge, DSALocalMapTileBuildingInnTypeHerbergeMitTaverne] containsObject:innTile.type] && 
+            [@[DSAActionContextPrivateRoom, DSAActionContextTavern] containsObject: self.position.context])
+          {
+            self.position.context = DSAActionContextReception;
+            NSDictionary *userInfo = @{ @"position" : self.position };
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"DSAAdventureLocationUpdated" 
+                                                                object: self
+                                                              userInfo: userInfo];
+            return;
+          }
+      }
+    
+    NSLog(@"DSAAdventureGroup leaveLocation currentTile: %@", currentTile);
+    if ([currentTile isKindOfClass: [DSALocalMapTileBuilding class]])
+      {
+        DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding*)currentTile;
+        DSADirection direction = buildingTile.door;
+        DSAPosition *currentPosition = self.position;
+        self.position = nil;
+        self.position = [currentPosition positionByMovingInDirection: direction steps: 1];
+        NSDictionary *userInfo = @{ @"position" : self.position };
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"DSAAdventureLocationUpdated" 
+                                                            object: self
+                                                          userInfo: userInfo];        
+      }
+    NSLog(@"DSAAdventureGroup leaveLocation currentPosition after leaving: %@", self.position);
+}
+@end // DSAAdventureGroup (moveGroup)

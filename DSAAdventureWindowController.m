@@ -100,7 +100,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
                                                  name:@"DSAAdventureCharactersUpdated"
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateActionIcons)
+                                             selector:@selector(updateActionIcons:)
                                                  name:@"DSAAdventureLocationUpdated"
                                                object:nil];                                               
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -134,10 +134,10 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     width = self.imageVerticalRuler0.frame.size.width;
     height = self.imageVerticalRuler0.frame.size.height;
     NSLog(@"imageVerticalRuler0 dimensions: %.2f x %.2f", width, height);
-    [self updateMainImageView];
+    [self updateMainImageView: nil];
     [self handleCharacterChanges];
-    [self setupActionIcons];
-    [self updateActionIcons];
+    [self setupActionIcons: nil];
+    [self updateActionIcons: nil];
      
 }
 
@@ -150,13 +150,19 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     return emptyIcon;
 }
 
-- (void) setupActionIcons
+- (void) setupActionIcons: (DSAPosition *) position
 {
-  //DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
-  //DSAAdventure *adventure = adventureDoc.model;
-  DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
-  DSAAdventureGroup *activeGroup = adventure.activeGroup;
-  DSAPosition *currentPosition = activeGroup.position;
+  DSAPosition *currentPosition;
+  if (position)
+    {
+      currentPosition = position;
+    }
+  else
+    {
+      DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+      DSAAdventureGroup *activeGroup = adventure.activeGroup;
+      currentPosition = activeGroup.position;
+     }
   DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
   
 //  NSLog(@"DSAAdventureWindowController setupActionIcons: currentAdventure: %@", adventure);
@@ -611,12 +617,14 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
   
 }
 
-- (void) updateActionIcons
+- (void) updateActionIcons: (NSNotification *)notification
 {
     NSLog(@"DSAAdventureWindowController updateActionIcons called!!!!");
-    [self setupActionIcons];
+    NSDictionary *userInfo = notification.userInfo;
+    DSAPosition *position = userInfo[@"position"];
+    [self setupActionIcons: position];
     
-    [self updateMainImageView];
+    [self updateMainImageView: position];
 }
 
 - (void)replaceView:(NSView *)oldView withView:(NSView *)newView {
@@ -671,16 +679,24 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
             imageView.toolTip = @"";
         }
     }
-    [self updateActionIcons];
+    [self updateActionIcons: nil];
 }
 
-- (void)updateMainImageView
+- (void)updateMainImageView: (DSAPosition *)position
 {
-    DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
     BOOL showBuildingDialog = NO;
     BOOL showRouteDialog = NO;
-    DSAAdventureGroup *activeGroup = adventureDoc.model.activeGroup;
-    DSAPosition *currentPosition = activeGroup.position;
+    DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
+    DSAAdventureGroup *activeGroup = adventureDoc.model.activeGroup;    
+    DSAPosition *currentPosition;
+    if (position)
+      {
+        currentPosition = position;
+      }
+    else
+      {
+        currentPosition = activeGroup.position;
+      }
     DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType:@"local"];
     DSALocation *globalLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.globalLocationName ofType:@"global"];
     NSLog(@"DSAAdventureWindowController updateMainImageView called!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");

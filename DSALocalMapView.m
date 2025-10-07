@@ -229,7 +229,25 @@
 
 - (void)viewDidMoveToWindow {
     [super viewDidMoveToWindow];
+    
+    if (self.window) {
+        // View added to a window — add observer
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(handleLocationUpdate:)
+                                                     name:@"DSAAdventureLocationUpdated"
+                                                   object:nil];
+    } else {
+        // View removed from window — remove observer
+        [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                        name:@"DSAAdventureLocationUpdated"
+                                                      object:nil];
+    }    
+    
     [[self window] makeFirstResponder:self];
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)drawRect:(NSRect)dirtyRect {
@@ -349,119 +367,20 @@
     }
 }
 
-- (void)moveGroupInDirection:(DSADirection)direction {
-    DSAPosition *current = self.adventure.activeGroup.position;
-    DSAPosition *newPosition = [current positionByMovingInDirection:direction steps:1];
-    NSLog(@"DSALocalMapView moveGroupInDirection: newPosition: %@", newPosition);
-
-    [self discoverVisibleTilesAroundPosition:newPosition];
-
-    // Get current and target tiles
-    DSALocalMapTile *fromTile = [self tileAtPosition:current];
-    DSALocalMapTile *toTile = [self tileAtPosition:newPosition];
-
-    if ([toTile isMemberOfClass:[DSALocalMapTileBuildingInn class]])
-      {
-        NSString *inType = [toTile type];
-        if ([inType isEqualToString: DSALocalMapTileBuildingInnTypeHerberge] || 
-            [inType isEqualToString: DSALocalMapTileBuildingInnTypeHerbergeMitTaverne])
-          {
-             newPosition.context = DSAActionContextReception;
-          }
-        else if ([inType isEqualToString: DSALocalMapTileBuildingInnTypeTaverne])
-          {
-            newPosition.context = DSAActionContextTavern;
-          }
-        else
-          {
-            NSLog(@"DSALocalMapViewAdventure moveGroupInDirection: unknown inType: %@, aborting!", inType);
-            abort();
-          }
-      }
-    else
-      {
-        newPosition.context = nil;
-      }    
-    
-    // Check if destination is walkable
-    if (!toTile.walkable) {
-        NSBeep();
-        return;
-    }
-
-    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
-    NSArray<DSAEvent *> *activeEvents = [adventure activeEventsAtPosition:newPosition 
-                                                                  forDate:adventure.gameClock.currentDate];
-
-    NSLog(@"LocalMapView moveGroupInDirection: activeEvents: %@", activeEvents);                                                                  
-    for (DSAEvent *event in activeEvents)
-      {
-        if (event.eventType == DSAEventTypeLocationBan)
-          {
-            NSLog(@"DSALocalMapView moveGroupInDirection: we're not allowed to get in: Hausverbot!");
-            NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
-                                         @"message": @"Wir haben hier leider Hausverbot!"
-                                      };
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
-                                                                object: nil
-                                                              userInfo: userInfo];
-            NSBeep();
-            return;
-          }
-      }                                                          
-    // EXITING a building?
-    if ([fromTile isKindOfClass:[DSALocalMapTileBuilding class]]) {
-        DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding *)fromTile;
-        if (direction != buildingTile.door) {
-            NSLog(@"Cannot exit building facing %@ by moving %@",
-                  DSADirectionToString(buildingTile.door),
-                  DSADirectionToString(direction));
-            NSBeep();
-            return;
-        }
-    }
-
-    // ENTERING a building?
-    if ([toTile isKindOfClass:[DSALocalMapTileBuilding class]]) {
-        DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding *)toTile;
-        DSADirection requiredApproach = [self oppositeDirection:buildingTile.door];
-        if (direction != requiredApproach) {
-            NSLog(@"Cannot enter building with door %@ by moving %@ (required: %@)",
-                  DSADirectionToString(buildingTile.door),
-                  DSADirectionToString(direction),
-                  DSADirectionToString(requiredApproach));
-            NSBeep();
-            return;
-        }
-    }
-
-    // Move group
-    self.adventure.activeGroup.position = newPosition;
-
-    [self setGroupPosition:newPosition];
-    [self setNeedsDisplay:YES];
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];
+- (void)moveGroupInDirection: (DSADirection) direction
+{
+  DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+  DSAAdventureGroup *activeGroup = adventure.activeGroup;
+  [activeGroup moveGroupInDirection: direction];
 }
 
-- (DSALocalMapTile *)tileAtPosition:(DSAPosition *)position {
-    DSALocations *locations = [DSALocations sharedInstance];
-    DSALocalMapLevel *level = [locations getLocalLocationMapWithName:position.localLocationName
-                                                             ofLevel:position.mapCoordinate.level];
-    return [level tileAtCoordinate:position.mapCoordinate];
-}
-
-- (DSADirection)oppositeDirection:(DSADirection)direction {
-    switch (direction) {
-        case DSADirectionNorth: return DSADirectionSouth;
-        case DSADirectionSouth: return DSADirectionNorth;
-        case DSADirectionEast:  return DSADirectionWest;
-        case DSADirectionWest:  return DSADirectionEast;
-        case DSADirectionNortheast: return DSADirectionSouthwest;
-        case DSADirectionSoutheast: return DSADirectionNorthwest;
-        case DSADirectionSouthwest: return DSADirectionNortheast;
-        case DSADirectionNorthwest: return DSADirectionSoutheast;
-        default: return DSADirectionInvalid;
-    }
+- (void)handleLocationUpdate:(NSNotification *) notification
+{
+  // id sender = notification.object; // not used here...
+  NSDictionary *userInfo = notification.userInfo;
+  DSAPosition *newPosition = userInfo[@"position"];
+  [self setGroupPosition:newPosition];
+  [self needsDisplay];
 }
 
 @end

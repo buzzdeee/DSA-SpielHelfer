@@ -101,6 +101,9 @@
 {
   DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
   DSAAdventureGroup *activeGroup = adventure.activeGroup;
+  
+  [activeGroup leaveLocation];
+/*  
   DSAPosition *currentPosition = adventure.position;
   DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
   DSALocalMapTile *currentTile = [currentLocation tileAtCoordinate: currentPosition.mapCoordinate];  
@@ -117,7 +120,7 @@
     {
       NSLog(@"DSAExecutionManager executeLeaveLocationAction not implemented for current tile class: %@ aborting", [currentTile class]);
       abort();
-    }
+    } */
 }
 
 - (void)triggerEvent:(DSAEventDescriptor *)event {

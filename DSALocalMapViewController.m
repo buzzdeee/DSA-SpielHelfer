@@ -64,10 +64,11 @@
                                          selector:@selector(redrawMap)
                                              name:@"DSAAdventureCharactersUpdated"
                                            object:nil];
+// The view itself also receives this notifications and redraws...                                          
             [[NSNotificationCenter defaultCenter] addObserver:self
                                          selector:@selector(redrawMap)
                                              name:@"DSAAdventureLocationUpdated"
-                                           object:nil];                                           
+                                           object:nil];                                            
             break;
     }
 }

@@ -29,6 +29,7 @@
 #import "DSADefinitions.h"
 
 @class DSAMapCoordinate;
+@class DSAPosition;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -137,6 +138,7 @@ NS_INLINE NSString * DSADirectionToString(DSADirection direction) {
 - (instancetype)initWithDictionary:(NSDictionary *)dict;
 - (NSString *)fullDescription;
 - (DSALocalMapTile *) tileAtCoordinate: (DSAMapCoordinate *) coordinate;
+- (DSALocalMapTile *) tileAtPosition: (DSAPosition *) position;
 @end
 
 @interface DSAGlobalMapLocation : DSALocation <NSCoding>

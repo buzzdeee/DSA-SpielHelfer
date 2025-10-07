@@ -28,6 +28,7 @@
 #import <AppKit/AppKit.h>
 #import "DSALocation.h"
 @class DSALocalMapTile;
+@class DSALocalMap;
 @class DSAAdventure;
 
 extern NSString * const DSALocalMapTileBuildingInnTypeHerberge;
@@ -36,6 +37,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 
 @interface DSALocalMapView : NSView
 @property (nonatomic, strong) NSArray<NSArray<DSALocalMapTile *> *> *mapArray;
+@property (nonatomic, strong) DSALocalMap *localMap;
 - (void)setMapArray:(NSArray<NSArray<DSALocalMapTile *> *> *)mapArray;
 @end
 
