@@ -23,6 +23,11 @@
 */
 
 #import "DSARoutePlanner.h"
+#import "DSALocations.h"
+#import "DSALocation.h"
+#import "DSAMapCoordinate.h"
+
+#define SCALE_FACTOR 0.2787
 
 @interface DSARoutePlanner ()
 
@@ -400,7 +405,67 @@ NSLog(@"self.locationsData: %@", self.locationsData);
         }
     }
 
+    [self airDistanceFrom: startName to: destinationName];
+    [self routeDistanceWithPoints: routePoints];
     return routePoints;
+}
+
+-(CGFloat) airDistanceFrom: (NSString *) start to: (NSString *) destination
+{
+    DSALocation *startLocation = [[DSALocations sharedInstance] locationWithName: start ofType: @"global"];
+    DSALocation *destinationLocation = [[DSALocations sharedInstance] locationWithName: destination ofType: @"global"];
+  
+    // Sicherstellen, dass beide Locations existieren
+    if (!startLocation || !destinationLocation) {
+        return 0.0;
+    }
+    
+    // Pixelkoordinaten extrahieren
+    NSInteger x1 = startLocation.mapCoordinate.x;
+    NSInteger y1 = startLocation.mapCoordinate.y;
+    
+    NSInteger x2 = destinationLocation.mapCoordinate.x;
+    NSInteger y2 = destinationLocation.mapCoordinate.y;
+    
+    // Abstand in Pixeln berechnen (Pythagoras)
+    CGFloat deltaX = x2 - x1;
+    CGFloat deltaY = y2 - y1;
+    CGFloat distanceInPixels = sqrt(deltaX * deltaX + deltaY * deltaY);
+    
+    // Skalierung von Pixeln zu Meilen (basierend auf deinen Daten)
+    CGFloat pixelsToMiles = SCALE_FACTOR; // mi/px
+    
+    CGFloat distanceInMiles = distanceInPixels * pixelsToMiles;
+    
+    NSLog(@"DSARoutePlanner airDistanceFrom: %@ to %@ in Miles: %.2f", start, destination, (float)distanceInMiles);
+    
+    return distanceInMiles;
+}
+
+-(CGFloat) routeDistanceWithPoints:(NSArray<NSValue *> *)routePoints
+{
+    if (!routePoints || routePoints.count < 2) {
+        return 0.0;
+    }
+    
+    CGFloat totalDistanceInPixels = 0.0;
+    
+    for (NSInteger i = 0; i < routePoints.count - 1; i++) {
+        NSPoint p1 = [routePoints[i] pointValue];
+        NSPoint p2 = [routePoints[i+1] pointValue];
+        
+        CGFloat deltaX = p2.x - p1.x;
+        CGFloat deltaY = p2.y - p1.y;
+        
+        CGFloat segmentDistance = sqrt(deltaX * deltaX + deltaY * deltaY);
+        totalDistanceInPixels += segmentDistance;
+    }
+    
+    // Skalierung von Pixeln zu Meilen (wie bei der Luftlinie)
+    CGFloat pixelsToMiles = SCALE_FACTOR; // mi/px
+    CGFloat totalDistanceInMiles = totalDistanceInPixels * pixelsToMiles;
+    NSLog(@"DSARoutePlanner routeDistanceWithPoints: in Miles: %.2f", (float) totalDistanceInMiles);
+    return totalDistanceInMiles;
 }
 
 @end

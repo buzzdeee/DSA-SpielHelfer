@@ -16,7 +16,8 @@
 	    switchStreets,
 	    fieldLocationDestination,
 	    buttonCalucateRoute,
-	    locationInfos
+	    locationInfos,
+	    locationInfosScroll
 	);
 	Super = NSWindowController;
     };

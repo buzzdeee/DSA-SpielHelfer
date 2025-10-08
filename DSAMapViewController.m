@@ -138,6 +138,29 @@
     self.fieldLocationDestination.delegate = self;
     self.fieldLocationDestination.dataSource = self;   
       
+    
+    // Zugriff auf den NSTextView innerhalb des ScrollViews
+    NSTextView *textView = self.locationInfos;
+    NSScrollView *scrollView = self.locationInfosScroll;
+
+    // Größe des TextViews an die des ScrollViews anpassen
+    NSSize contentSize = scrollView.contentSize;
+    [textView setFrame:NSMakeRect(0, 0, contentSize.width, contentSize.height)];
+
+    // Autoresizing aktivieren, damit er bei Größenänderung mitwächst
+    textView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+
+    // Optional: Text-Einstellungen
+    textView.textContainer.widthTracksTextView = YES;
+    textView.textContainer.containerSize = NSMakeSize(contentSize.width, CGFLOAT_MAX);    
+    
+    self.locationInfos.editable = NO;
+    self.locationInfos.selectable = YES;    
+    
+    scrollView.hasVerticalScroller = NO;
+    scrollView.hasHorizontalScroller = NO; // oder YES, wenn du horizontalen Text erwartest
+    scrollView.autohidesScrollers = YES;    
+    
     // NSLog(@"Window loaded successfully.");
 }
 
@@ -440,7 +463,7 @@
     DSALocations *locations = [DSALocations sharedInstance];
     NSString *plainInfo = [locations plainInfoForLocationWithName: name];
     
-    self.locationInfos.stringValue = plainInfo;
+    self.locationInfos.string = plainInfo;
 }
 
 @end

@@ -38,7 +38,8 @@
 @property (nonatomic, strong) NSArray *locations;                 // stores the locations array read from Orte.json
 @property (nonatomic, strong) NSArray *regions;
 @property (nonatomic, strong) NSArray *streets;
-@property (nonatomic, weak) NSTextField *locationInfos;
+@property (nonatomic, weak) IBOutlet NSScrollView *locationInfosScroll;
+@property (nonatomic, weak) IBOutlet NSTextView *locationInfos;
 
 @property (nonatomic, strong) NSDictionary *mageAcademies;
 @property (nonatomic, strong) NSDictionary *warriorAcademies;
