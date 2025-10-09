@@ -28,12 +28,36 @@
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 
-@interface DSARoutePlanner : NSObject
+NS_ASSUME_NONNULL_BEGIN
 
-- (instancetype)initWithBundleFiles;
-- (NSArray<NSValue *> *)findShortestPathFrom:(NSString *)startName to:(NSString *)destinationName;
+@interface DSARouteResult : NSObject
+
+/// Die Punkte der Route (NSArray<NSValue *> mit NSPoint)
+@property (nonatomic, strong) NSArray<NSValue *> *routePoints;
+
+/// Die Weganweisungen (NSArray<NSString *>)
+@property (nonatomic, strong) NSArray<NSString *> *instructions;
+
+/// Luftlinie in Meilen
+@property (nonatomic, assign) CGFloat airDistance;
+
+/// Tatsächliche Routenlänge in Meilen
+@property (nonatomic, assign) CGFloat routeDistance;
+
+/// Convenience Initializer
+- (instancetype)initWithPoints:(NSArray<NSValue *> *)points
+                  instructions:(NSArray<NSString *> *)instructions
+                  airDistance:(CGFloat)airDistance
+                routeDistance:(CGFloat)routeDistance;
 
 @end
 
+@interface DSARoutePlanner : NSObject
+
+- (instancetype)initWithBundleFiles;
+- (DSARouteResult *)findShortestPathFrom:(NSString *)startName to:(NSString *)destinationName;
+@end
+
+NS_ASSUME_NONNULL_END
 #endif // _DSAROUTEPLANNER_H_
 

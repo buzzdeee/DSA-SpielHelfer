@@ -241,9 +241,10 @@
         return;
     }
 
-    NSArray<NSValue *> *path = [self.routePlanner findShortestPathFrom:startLocation to:destinationLocation];
+    DSARouteResult *route = [self.routePlanner findShortestPathFrom:startLocation to:destinationLocation];
 
-    if (!path || path.count < 2) {
+    
+    if (!route.routePoints || [route.routePoints count] < 2) {
         NSLog(@"No valid route found.");
         return;
     }
@@ -257,9 +258,75 @@
             break; // Found the Regions overlay, no need to continue
         }
     }    
-    [routeOverlay updateRouteWithPoints:path];
+    [routeOverlay updateRouteWithPoints:route.routePoints];
+    [self displayRouteNicely:route from:startLocation to:destinationLocation];
+
 }
 
+- (void)displayRouteNicely:(DSARouteResult *)route
+                     from:(NSString *)startName
+                       to:(NSString *)destinationName
+{
+    if (!route) {
+        self.locationInfos.string = @"Keine Route vorhanden.";
+        return;
+    }
+
+    NSMutableAttributedString *attrText = [[NSMutableAttributedString alloc] init];
+
+    // 1️⃣ Fonts: nur mit konkreten Namen
+    NSFont *boldFont = [NSFont fontWithName:@"Helvetica-Bold" size:16];
+    if (!boldFont) boldFont = [NSFont systemFontOfSize:16];
+
+    NSFont *italicFont = [NSFont fontWithName:@"Helvetica-Oblique" size:13];
+    if (!italicFont) italicFont = [NSFont systemFontOfSize:13];
+
+    NSFont *normalFont = [NSFont systemFontOfSize:14];
+
+    // 2️⃣ Titel
+    NSString *title = [NSString stringWithFormat:@"Route von %@ nach %@\n\n", startName, destinationName];
+    [attrText appendAttributedString:[[NSAttributedString alloc] initWithString:title
+                                                                      attributes:@{NSFontAttributeName: boldFont}]];
+
+    // 3️⃣ Luftlinie & Gesamtstrecke
+    NSString *distances = [NSString stringWithFormat:@"Luftlinie: %.2f Meilen\nGesamtstrecke: %.2f Meilen\n\n",
+                           route.airDistance, route.routeDistance];
+    [attrText appendAttributedString:[[NSAttributedString alloc] initWithString:distances
+                                                                      attributes:@{NSFontAttributeName: italicFont}]];
+
+    // 4️⃣ Bullet-Points normal (kein Fett, keine Traits)
+    for (NSString *line in route.instructions) {
+        NSString *bulletLine = [NSString stringWithFormat:@"* %@\n", line];
+        NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+        paragraphStyle.headIndent = 10.0;
+        paragraphStyle.firstLineHeadIndent = 0;
+
+        [attrText appendAttributedString:[[NSAttributedString alloc] initWithString:bulletLine
+                                                                          attributes:@{
+            NSFontAttributeName: normalFont,
+            NSParagraphStyleAttributeName: paragraphStyle
+        }]];
+    }
+
+    // 5️⃣ Setzen im TextView
+    self.locationInfos.textStorage.attributedString = attrText;
+}
+
+- (void)displayRoute:(DSARouteResult *)route
+         from:(NSString *)startName
+           to:(NSString *)destinationName
+{
+    NSMutableString *infoText = [NSMutableString stringWithFormat:
+        @"Route von %@ nach %@\n", startName, destinationName];
+    [infoText appendFormat:@"Luftlinie: %.2f Meilen\n", route.airDistance];
+    [infoText appendFormat:@"Gesamtstrecke: %.2f Meilen\n\n", route.routeDistance];
+
+    for (NSString *line in route.instructions) {
+        [infoText appendFormat:@"• %@\n", line];
+    }
+
+    self.locationInfos.string = infoText;
+}
 
 - (void)loadStreets {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"Strassen" ofType:@"geojson"];
@@ -458,12 +525,21 @@
       }
 }
 
-- (void)showInfosForLocationWithName: (NSString *) name {
+- (void)showInfosForLocationWithName:(NSString *)name {
     NSLog(@"DSAMapViewController showInfosForLocationWithName %@", name);
     DSALocations *locations = [DSALocations sharedInstance];
-    NSString *plainInfo = [locations plainInfoForLocationWithName: name];
-    
-    self.locationInfos.string = plainInfo;
+    NSString *plainInfo = [locations plainInfoForLocationWithName:name];
+
+    // Neues NSAttributedString mit Standard-Formatierung
+    NSDictionary *attrs = @{
+        NSFontAttributeName: [NSFont systemFontOfSize:12.0], // normale Schriftgröße
+        NSForegroundColorAttributeName: [NSColor labelColor]  // normale Textfarbe
+    };
+    NSAttributedString *attributedInfo = [[NSAttributedString alloc] initWithString:plainInfo attributes:attrs];
+
+    //self.locationInfos.textStorage.mutableString = [NSMutableString string]; // clear previous content
+    self.locationInfos.textStorage.attributedString = attributedInfo;
+    //[self.locationInfos.textStorage appendAttributedString:attributedInfo];
 }
 
 @end

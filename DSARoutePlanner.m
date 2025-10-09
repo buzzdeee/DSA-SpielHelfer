@@ -29,9 +29,41 @@
 
 #define SCALE_FACTOR 0.2787
 
+
+@implementation DSARouteResult
+
+- (instancetype)initWithPoints:(NSArray<NSValue *> *)points
+                  instructions:(NSArray<NSString *> *)instructions
+                  airDistance:(CGFloat)airDistance
+                routeDistance:(CGFloat)routeDistance
+{
+    self = [super init];
+    if (self) {
+        _routePoints = points;
+        _instructions = instructions;
+        _airDistance = airDistance;
+        _routeDistance = routeDistance;
+    }
+    return self;
+}
+
+- (NSString *)description {
+    NSMutableString *desc = [NSMutableString stringWithFormat:
+        @"<DSARouteResult: airDistance=%.2f mi, routeDistance=%.2f mi>\n",
+        self.airDistance, self.routeDistance];
+    for (NSString *line in self.instructions) {
+        [desc appendFormat:@"%@\n", line];
+    }
+    return desc;
+}
+
+@end
+
+
 @interface DSARoutePlanner ()
 
-@property (nonatomic, strong) NSDictionary *routesData;
+//@property (nonatomic, strong) NSDictionary *routesData;
+@property (nonatomic, strong) NSMutableArray *routesData;
 //@property (nonatomic, strong) NSDictionary *locationsData;
 //@property (nonatomic, strong) NSMutableDictionary *graph;
 
@@ -39,15 +71,35 @@
 
 @implementation DSARoutePlanner
 
++ (DSARouteType)routeTypeFromString:(NSString *)typeString {
+    static NSDictionary<NSString *, NSNumber *> *mapping = nil;
+    if (!mapping) {
+        mapping = @{
+            @"Weg": @(DSARouteTypeWeg),
+            @"LS": @(DSARouteTypeLS),
+            @"RS": @(DSARouteTypeRS),
+            @"Fähre": @(DSARouteTypeFaehre),
+            @"Gebirgspass": @(DSARouteTypeGebirgspass),
+            @"Offenes Gelände": @(DSARouteTypeOffenesGelaende),
+            @"Wald": @(DSARouteTypeWald),
+        };
+    }
+    
+    NSNumber *typeNumber = mapping[typeString];
+    if (!typeNumber) {
+        NSLog(@"DSARoutePlanner routeTypeFromString: error unknown route type: %@", typeString);
+        abort();
+    }
+    
+    return typeNumber.integerValue;
+}
+
+
 - (instancetype)initWithBundleFiles {
     self = [super init];
     if (self) {
-        NSString *routesPath = [[NSBundle mainBundle] pathForResource:@"Strassen" ofType:@"geojson"];
-//        NSString *locationsPath = [[NSBundle mainBundle] pathForResource:@"Orte" ofType:@"json"];
-        
+        NSString *routesPath = [[NSBundle mainBundle] pathForResource:@"Strassen" ofType:@"geojson"];        
         [self loadRoutesData:routesPath];
-//        [self loadLocationsData:locationsPath];
-//        [self buildGraph];
     }
     return self;
 }
@@ -56,252 +108,56 @@
 
 - (void)loadRoutesData:(NSString *)filePath {
     NSLog(@"DSARoutePlanner loadRoutesData: Loading routes data from: %@", filePath);
+    
     NSData *data = [NSData dataWithContentsOfFile:filePath];
     if (!data) {
         NSLog(@"DSARoutePlanner loadRoutesData: ERROR: Could not load routes data.");
         return;
     }
-    NSDictionary *geojson = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    self.routesData = geojson[@"features"];
     
-    NSLog(@"DSARoutePlanner loadRoutesData: Routes data loaded successfully.");
-}
-/*
-- (void)loadLocationsData:(NSString *)filePath {
-    NSLog(@"Loading locations data from: %@", filePath);
-    NSData *data = [NSData dataWithContentsOfFile:filePath];
-    if (!data) {
-        NSLog(@"❌ ERROR: Could not load locations data.");
+    NSError *jsonError = nil;
+    NSDictionary *geojson = [NSJSONSerialization JSONObjectWithData:data options:0 error:&jsonError];
+    if (jsonError) {
+        NSLog(@"DSARoutePlanner loadRoutesData: ERROR: JSON parsing failed: %@", jsonError);
         return;
     }
-    self.locationsData = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
-    NSLog(@"✅ Locations data loaded successfully.");
-}
-
-#pragma mark - Graph Construction
-
-- (void)buildGraph {
-    NSLog(@"🔧 Building road network graph...");
-    self.graph = [NSMutableDictionary dictionary];
-
-    NSUInteger roadCount = 0;
-    for (NSDictionary *feature in self.routesData[@"features"]) {
-        if (![feature[@"geometry"][@"type"] isEqualToString:@"LineString"]) {
-            continue;
-        }
-
-        NSArray *coordinates = feature[@"geometry"][@"coordinates"];
-        roadCount++;
-
-        for (NSUInteger i = 0; i < coordinates.count - 1; i++) {
-            NSArray *start = coordinates[i];
-            NSArray *end = coordinates[i + 1];
-
-            NSString *startKey = [NSString stringWithFormat:@"%@,%@", start[0], start[1]];
-            NSString *endKey = [NSString stringWithFormat:@"%@,%@", end[0], end[1]];
-
-            CGFloat distance = [self distanceBetweenPoint:start andPoint:end];
-
-            if (!self.graph[startKey]) {
-                self.graph[startKey] = [NSMutableDictionary dictionary];
-            }
-            if (!self.graph[endKey]) {
-                self.graph[endKey] = [NSMutableDictionary dictionary];
-            }
-
-            self.graph[startKey][endKey] = @(distance);
-            self.graph[endKey][startKey] = @(distance);
-        }
-    }
-    NSLog(@"✅ Graph built successfully. Total roads processed: %lu, Total nodes: %lu", (unsigned long)roadCount, (unsigned long)self.graph.count);
-}
-*/
-#pragma mark - Pathfinding
-/*
-- (NSArray<NSValue *> *)findShortestPathFrom:(NSString *)startName to:(NSString *)destinationName {
-    NSLog(@"🚀 Starting pathfinding from '%@' to '%@'...", startName, destinationName);
-    NSLog(@"🔍 Debug: self.locationsData: %@", self.locationsData);    
-
-    NSDictionary *startLocation = [self locationForName:startName];
-    NSDictionary *endLocation = [self locationForName:destinationName];
-
-    if (!startLocation) {
-        NSLog(@"❌ ERROR: Location '%@' not found in Orte.json", startName);
-        return @[];
-    }
-    if (!endLocation) {
-        NSLog(@"❌ ERROR: Location '%@' not found in Orte.json", destinationName);
-        return @[];
-    }
-
-    NSLog(@"📍 Mapped locations: '%@' -> %@, '%@' -> %@", startName, startLocation, destinationName, endLocation);
-
-    NSString *startKey = [self nearestRoadPointForLocation:@[@([startLocation[@"x"] floatValue]), @([startLocation[@"y"] floatValue])]];
-    NSString *endKey = [self nearestRoadPointForLocation:@[@([endLocation[@"x"] floatValue]), @([endLocation[@"y"] floatValue])]];
-
-    if (!startKey || !endKey) {
-        NSLog(@"❌ ERROR: No nearby roads found for '%@' or '%@'.", startName, destinationName);
-        return @[];
-    }
-
-    NSLog(@"🛣️ Nearest road points: Start: %@ -> %@, Destination: %@ -> %@", startName, startKey, destinationName, endKey);
-
-    return [self dijkstraFrom:startKey to:endKey];
-}
-
-- (NSArray<NSValue *> *)findShortestPathFromXXX:(NSString *)startName to:(NSString *)destinationName {
-    NSLog(@"🚀 Starting pathfinding from '%@' to '%@'...", startName, destinationName);
-
-NSLog(@"self.locationsData: %@", self.locationsData);    
     
-    NSArray *startLocation = self.locationsData[startName];
-    NSArray *endLocation = self.locationsData[destinationName];
-
-    NSLog(@"startLocation: %@, endLocation: %@", startLocation, endLocation);
+    NSArray *features = geojson[@"features"];
+    if (!features) {
+        NSLog(@"DSARoutePlanner loadRoutesData: ERROR: No features found in GeoJSON.");
+        return;
+    }
     
-    if (!startLocation) {
-        NSLog(@"❌ ERROR: Location '%@' not found in Orte.json", startName);
-        return @[];
+    // Neue Mutable Kopie der Features, damit wir die Enum-Werte einfügen können
+    NSMutableArray *processedFeatures = [NSMutableArray arrayWithCapacity:features.count];
+    
+    for (NSDictionary *feature in features) {
+        NSMutableDictionary *mutableFeature = [feature mutableCopy];
+        NSDictionary *properties = mutableFeature[@"properties"];
+        NSString *typeString = properties[@"type"];
+        
+        // Enum-Wert aus String
+        DSARouteType routeType = [DSARoutePlanner routeTypeFromString:typeString];
+        
+        // Enum im Feature speichern
+        mutableFeature[@"routeTypeEnum"] = @(routeType);
+        
+        [processedFeatures addObject:mutableFeature];
     }
-    if (!endLocation) {
-        NSLog(@"❌ ERROR: Location '%@' not found in Orte.json", destinationName);
-        return @[];
-    }
-
-    NSLog(@"📍 Mapped locations: '%@' -> %@, '%@' -> %@", startName, startLocation, destinationName, endLocation);
-
-    NSString *startKey = [self nearestRoadPointForLocation:startLocation];
-    NSString *endKey = [self nearestRoadPointForLocation:endLocation];
-
-    if (!startKey || !endKey) {
-        NSLog(@"❌ ERROR: No nearby roads found for '%@' or '%@'.", startName, destinationName);
-        return @[];
-    }
-
-    NSLog(@"🛣️ Nearest road points: Start: %@ -> %@, Destination: %@ -> %@", startName, startKey, destinationName, endKey);
-
-    return [self dijkstraFrom:startKey to:endKey];
+    
+    // Ganze GeoJSON-Kopie erstellen und Features ersetzen
+    //NSMutableDictionary *mutableGeoJSON = [geojson mutableCopy];
+    //mutableGeoJSON = processedFeatures;
+    self.routesData = processedFeatures;
+    
+    NSLog(@"DSARoutePlanner loadRoutesData: Routes data loaded successfully with %lu features.", (unsigned long)processedFeatures.count);
 }
 
-- (NSString *)nearestRoadPointForLocation:(NSArray *)location {
-    NSLog(@"🔍 Finding nearest road point for location: %@", location);
-    CGFloat minDistance = CGFLOAT_MAX;
-    NSString *nearestPointKey = nil;
 
-    for (NSString *key in self.graph) {
-        NSArray *coords = [key componentsSeparatedByString:@","];
-        if (coords.count < 2) continue;
-
-        NSArray *roadPoint = @[@([coords[0] floatValue]), @([coords[1] floatValue])];
-        CGFloat distance = [self distanceBetweenPoint:location andPoint:roadPoint];
-
-        if (distance < minDistance) {
-            minDistance = distance;
-            nearestPointKey = key;
-        }
-    }
-
-    NSLog(@"✅ Nearest road point found: %@", nearestPointKey);
-    return nearestPointKey;
-}
-
-- (NSArray<NSValue *> *)dijkstraFrom:(NSString *)startKey to:(NSString *)endKey {
-    NSLog(@"🔄 Running Dijkstra's algorithm from %@ to %@...", startKey, endKey);
-
-    NSMutableDictionary *distances = [NSMutableDictionary dictionary];
-    NSMutableDictionary *previous = [NSMutableDictionary dictionary];
-    NSMutableArray *queue = [NSMutableArray array];
-
-    for (NSString *key in self.graph) {
-        distances[key] = @(INFINITY);
-        previous[key] = [NSNull null];
-        [queue addObject:key];
-    }
-    distances[startKey] = @(0);
-
-    while (queue.count > 0) {
-        NSString *currentKey = [queue firstObject];
-        for (NSString *node in queue) {
-            if ([distances[node] floatValue] < [distances[currentKey] floatValue]) {
-                currentKey = node;
-            }
-        }
-
-        NSLog(@"📍 Processing node: %@ (distance: %@)", currentKey, distances[currentKey]);
-        [queue removeObject:currentKey];
-
-        if ([currentKey isEqualToString:endKey]) {
-            NSLog(@"🏁 Destination reached: %@", endKey);
-            break;
-        }
-
-        NSDictionary *neighbors = self.graph[currentKey];
-        if (!neighbors) {
-            NSLog(@"⚠️ No neighbors found for node %@", currentKey);
-            continue;
-        }
-
-        for (NSString *neighbor in neighbors) {
-            float alt = [distances[currentKey] floatValue] + [neighbors[neighbor] floatValue];
-
-            if (alt < [distances[neighbor] floatValue]) {
-                distances[neighbor] = @(alt);
-                previous[neighbor] = currentKey;
-                NSLog(@"🔄 Updated distance: %@ -> %@, new cost: %f", currentKey, neighbor, alt);
-            }
-        }
-    }
-
-    NSMutableArray<NSValue *> *path = [NSMutableArray array];
-    NSString *step = endKey;
-
-    NSLog(@"🔄 Starting path reconstruction from %@", endKey);
-    while (step && ![step isEqual:[NSNull null]]) {
-        NSArray *coords = [step componentsSeparatedByString:@","];
-        if (coords.count < 2) {
-            NSLog(@"❌ ERROR: Invalid coordinate format: %@", step);
-            break;
-        }
-
-        NSPoint point = NSMakePoint([coords[0] floatValue], [coords[1] floatValue]);
-        [path insertObject:[NSValue valueWithPoint:point] atIndex:0];
-        NSLog(@"🛤️ Path step: %@ at %@", step, NSStringFromPoint(point));
-
-        step = previous[step];
-    }
-
-    NSLog(@"✅ Pathfinding complete. Total steps: %lu", (unsigned long)path.count);
-    return path;
-}
-
-#pragma mark - Utility Methods
-
-// Helper function to find location by name
-- (NSDictionary *)locationForName:(NSString *)locationName {
-    for (NSDictionary *location in self.locationsData) {
-        if ([location[@"name"] isEqualToString:locationName]) {
-            return location;
-        }
-    }
-    return nil; // Return nil if not found
-}
-
-- (CGFloat)distanceBetweenPoint:(NSArray *)p1 andPoint:(NSArray *)p2 {
-    if (p1.count < 2 || p2.count < 2) {
-        NSLog(@"❌ ERROR: Invalid coordinate format in distance calculation.");
-        return CGFLOAT_MAX;
-    }
-
-    CGFloat dx = [p1[0] floatValue] - [p2[0] floatValue];
-    CGFloat dy = [p1[1] floatValue] - [p2[1] floatValue];
-    return sqrt(dx * dx + dy * dy);
-}
-*/
-
-- (NSArray<NSValue *> *)findShortestPathFrom:(NSString *)startName to:(NSString *)destinationName {
+- (DSARouteResult *)findShortestPathFrom:(NSString *)startName to:(NSString *)destinationName {
     if (!self.routesData || self.routesData.count == 0) return nil;
 
-    // 1. Graph aufbauen: Dictionary von Ort -> Array von Nachbarn (NSDictionary mit Ziel und Kosten)
+    // 1. Graph aufbauen
     NSMutableDictionary<NSString *, NSMutableArray *> *graph = [NSMutableDictionary dictionary];
 
     for (NSDictionary *feature in self.routesData) {
@@ -309,8 +165,7 @@ NSLog(@"self.locationsData: %@", self.locationsData);
         NSString *begin = props[@"begin"];
         NSString *end = props[@"end"];
 
-        // Koordinaten der Straße abrufen
-        NSArray *coordsArray = feature[@"geometry"][@"coordinates"][0]; // MultiLineString -> erstes Array
+        NSArray *coordsArray = feature[@"geometry"][@"coordinates"][0]; // MultiLineString
         double length = 0;
         for (NSInteger i = 1; i < coordsArray.count; i++) {
             NSArray *p1 = coordsArray[i-1];
@@ -320,15 +175,23 @@ NSLog(@"self.locationsData: %@", self.locationsData);
             length += sqrt(dx*dx + dy*dy);
         }
 
-        // Hinzufügen zum Graph (gerichtet)
-        if (!graph[begin]) graph[begin] = [NSMutableArray array];
-        [graph[begin] addObject:@{@"target": end, @"length": @(length), @"coords": coordsArray}];
+        // Enum-Wert aus Feature
+        NSNumber *typeEnumNumber = feature[@"routeTypeEnum"];
+        if (!typeEnumNumber) typeEnumNumber = @(DSARouteTypeWeg); // fallback
 
-        // Optional: auch in Gegenrichtung, falls Straßen beidseitig befahrbar
+        // beidseitig
+        if (!graph[begin]) graph[begin] = [NSMutableArray array];
+        [graph[begin] addObject:@{@"target": end,
+                                  @"length": @(length),
+                                  @"coords": coordsArray,
+                                  @"typeEnum": typeEnumNumber}];
+
         if (!graph[end]) graph[end] = [NSMutableArray array];
         NSArray *reversed = [[coordsArray reverseObjectEnumerator] allObjects];
-        NSMutableArray *revCoords = [NSMutableArray arrayWithArray:reversed];
-        [graph[end] addObject:@{@"target": begin, @"length": @(length), @"coords": revCoords}];
+        [graph[end] addObject:@{@"target": begin,
+                                @"length": @(length),
+                                @"coords": reversed,
+                                @"typeEnum": typeEnumNumber}];
     }
 
     // 2. Dijkstra vorbereiten
@@ -344,7 +207,6 @@ NSLog(@"self.locationsData: %@", self.locationsData);
     distances[startName] = @(0);
 
     while (queue.count > 0) {
-        // Node mit kleinster Distanz auswählen
         NSString *current = nil;
         double minDist = INFINITY;
         for (NSString *node in queue) {
@@ -360,7 +222,6 @@ NSLog(@"self.locationsData: %@", self.locationsData);
 
         if ([current isEqualToString:destinationName]) break;
 
-        // Nachbarn durchlaufen
         for (NSDictionary *neighbor in graph[current]) {
             NSString *target = neighbor[@"target"];
             double edgeLength = [neighbor[@"length"] doubleValue];
@@ -374,7 +235,7 @@ NSLog(@"self.locationsData: %@", self.locationsData);
         }
     }
 
-    // 3. Route zurückverfolgen
+    // 3. Route rekonstruieren
     NSMutableArray<NSString *> *routeNodes = [NSMutableArray array];
     NSString *node = destinationName;
     while (node) {
@@ -382,10 +243,15 @@ NSLog(@"self.locationsData: %@", self.locationsData);
         node = previous[node];
     }
 
-    if (routeNodes.count < 2) return nil; // Keine Route gefunden
+    if (routeNodes.count < 2) {
+        NSLog(@"Keine Route von %@ nach %@ gefunden.", startName, destinationName);
+        return nil;
+    }
 
-    // 4. Koordinaten für die Route zusammenfügen
+    // 4. Punkte und Typen sammeln
     NSMutableArray<NSValue *> *routePoints = [NSMutableArray array];
+    NSMutableArray<NSNumber *> *routeTypes = [NSMutableArray array];
+
     for (NSInteger i = 0; i < routeNodes.count - 1; i++) {
         NSString *from = routeNodes[i];
         NSString *to = routeNodes[i+1];
@@ -403,11 +269,67 @@ NSLog(@"self.locationsData: %@", self.locationsData);
             NSPoint point = NSMakePoint([coord[0] doubleValue], [coord[1] doubleValue]);
             [routePoints addObject:[NSValue valueWithPoint:point]];
         }
+
+        DSARouteType typeEnum = [edge[@"typeEnum"] integerValue];
+        [routeTypes addObject:@(typeEnum)];
     }
 
-    [self airDistanceFrom: startName to: destinationName];
-    [self routeDistanceWithPoints: routePoints];
-    return routePoints;
+    // 5. Distanzwerte berechnen
+    CGFloat airDistance = [self airDistanceFrom:startName to:destinationName];
+    CGFloat routeDistance = [self routeDistanceWithPoints:routePoints];
+
+    // 6. Weganweisungen erstellen
+    NSMutableArray<NSString *> *instructions = [NSMutableArray array];
+
+    for (NSInteger i = 0; i < routeNodes.count - 1; i++) {
+        NSString *to = routeNodes[i+1];
+        NSArray *edges = graph[routeNodes[i]];
+        NSDictionary *edge = nil;
+        for (NSDictionary *e in edges) {
+            if ([e[@"target"] isEqualToString:to]) {
+                edge = e;
+                break;
+            }
+        }
+        if (!edge) continue;
+
+        NSArray *coords = edge[@"coords"];
+        NSMutableArray<NSValue *> *segmentPoints = [NSMutableArray array];
+        for (NSArray *coord in coords) {
+            NSPoint point = NSMakePoint([coord[0] doubleValue], [coord[1] doubleValue]);
+            [segmentPoints addObject:[NSValue valueWithPoint:point]];
+        }
+
+        CGFloat miles = [self routeDistanceWithPoints:segmentPoints];
+
+        // Enum in String übersetzen
+        DSARouteType typeEnum = [edge[@"typeEnum"] integerValue];
+        NSString *typeName = nil;
+        switch (typeEnum) {
+            case DSARouteTypeRS: typeName = @"der Reichsstraße"; break;
+            case DSARouteTypeLS: typeName = @"der Landstraße"; break;
+            case DSARouteTypeFaehre: typeName = @"der Fähre"; break;
+            case DSARouteTypeGebirgspass: typeName = @"dem Gebirgspass"; break;
+            case DSARouteTypeOffenesGelaende: typeName = @"dem offenen Gelände"; break;
+            case DSARouteTypeWald: typeName = @"dem Wald"; break;
+            case DSARouteTypeWeg: typeName = @"dem Weg"; break;
+            default:
+                NSLog(@"DSARoutePlanner findShortestPathFrom: error unknown DSARouteType aborting.");
+                abort();
+                break;
+        }
+
+        NSString *instruction = [NSString stringWithFormat:@"Folge %@ für %.2f Meilen bis %@.", typeName, miles, to];
+        [instructions addObject:instruction];
+    }
+
+    // 7. Ergebnis erstellen
+    DSARouteResult *result = [[DSARouteResult alloc] initWithPoints:routePoints
+                                                       instructions:instructions
+                                                        airDistance:airDistance
+                                                      routeDistance:routeDistance];
+
+    return result;
 }
 
 -(CGFloat) airDistanceFrom: (NSString *) start to: (NSString *) destination

@@ -373,5 +373,17 @@ typedef NS_ENUM(NSInteger, DSAAnimalType) {
     DSAAnimalTypeCat,
 };
 
+typedef NS_ENUM(NSInteger, DSARouteType) {
+    DSARouteTypeWeg,       // "Weg"
+    DSARouteTypeLS,        // "LS"
+    DSARouteTypeRS,        // "RS"
+    DSARouteTypeFaehre,    // "Fähre"
+    DSARouteTypeGebirgspass,
+    DSARouteTypeOffenesGelaende,
+    DSARouteTypeWald
+};
+
+
+
 #endif // _DSADEFINITIONS_H_
 
