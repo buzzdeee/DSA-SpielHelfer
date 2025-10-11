@@ -8,9 +8,13 @@
 @class DSAClockAnimationView;
 @class DSAActionIcon;
 @class DSALocalMapViewController;
+@class DSAMapViewController;
 @class DSAShopViewController;
 
 @interface DSAAdventureWindowController : NSWindowController <NSWindowDelegate>
+
+@property (nonatomic, strong) DSAMapViewController *mapViewController; // Retain the map view controller
+
 @property (weak) IBOutlet NSTextField *fieldLogs;
 
 @property (strong) IBOutletCollection(NSImageView) NSArray *partyMemberImages;
@@ -43,6 +47,8 @@
 //- (void) handleCharacterChanges;
 
 @property (strong) DSALocalMapViewController *adventureMapViewController;
+@property (nonatomic, strong) DSAMapViewController *globalMapViewController;
+
 @property (strong) DSAShopViewController *shopViewController;
 
 @end

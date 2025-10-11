@@ -6326,7 +6326,19 @@
 	"Yagan_1-32x32.webp",
 	"Yagan_1-512x512.webp",
 	"Yagan_1-64x64.webp",
-	"Yagan_1.webp"
+	"Yagan_1.webp",
+	"Reisen_Strasse_1-128x128.webp",
+	"Reisen_Strasse_1-256x256.webp",
+	"Reisen_Strasse_1-32x32.webp",
+	"Reisen_Strasse_1-512x512.webp",
+	"Reisen_Strasse_1-64x64.webp",
+	"Reisen_Strasse_1.webp",
+	"Reisen_Wald_1-128x128.webp",
+	"Reisen_Wald_1-256x256.webp",
+	"Reisen_Wald_1-32x32.webp",
+	"Reisen_Wald_1-512x512.webp",
+	"Reisen_Wald_1-64x64.webp",
+	"Reisen_Wald_1.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;

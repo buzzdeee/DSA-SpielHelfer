@@ -57,8 +57,12 @@
 @property (strong) NSArray<NSString *> *locationsArray;
 @property (strong) NSArray<NSString *> *filteredLocations;
 
++ (DSAMapViewController *)sharedMapController;
+
 //- (void)setupMapView; // Method to setup the map
 - (void)jumpToLocationWithCoordinates:(NSPoint)coordinates; // Method to jump to a location
+- (void)zoomToRegionFrom:(NSPoint)startPoint to:(NSPoint)endPoint;
+
 
 // Actions for slider and search
 - (IBAction)zoomChanged:(id)sender; // Action for zoom slider

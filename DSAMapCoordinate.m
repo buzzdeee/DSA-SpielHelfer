@@ -109,5 +109,15 @@
     NSInteger dz = labs(self.level - other.level);
     return MAX(dx, MAX(dy, dz));
 }
+@end
+
+@implementation DSAMapCoordinate (MapPoint)
+
+- (NSPoint)asPoint {
+    // Falls nötig: flip Y hier, wenn eure MapImageView Y von unten misst
+    // CGFloat flippedY = mapHeight - self.y; // mapHeight ggf. als Parameter oder extern
+    return NSMakePoint((CGFloat)self.x, (CGFloat)self.y);
+}
+
 
 @end

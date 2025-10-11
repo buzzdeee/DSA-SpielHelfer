@@ -20,6 +20,8 @@
 #import "DSADialogManager.h"
 #import "DSAConversationDialogSheetController.h"
 #import "DSAActionChoiceQuestionController.h"
+#import "DSAMapViewController.h"
+#import "DSAMapCoordinate.h"
 
 extern NSString * const DSACharacterHighlightedNotification;
 
@@ -903,9 +905,21 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
        }
        NSMenuItem *item = (NSMenuItem *)weakWindow.popupChoice.selectedItem;
        NSLog(@"DSAAdventureWindowController showRouteDialogSheet: selected destionation: %@", item.title);
+       
+       self.globalMapViewController = [DSAMapViewController sharedMapController];
+       [self.globalMapViewController.fieldLocationSearch setStringValue:currentPosition.localLocationName];
+       [self.globalMapViewController.fieldLocationDestination setStringValue:item.title];
+
+       // Optional: direkt zentrieren auf Start & Ziel
+       DSALocation *startLoc = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"global"];
+       DSALocation *endLoc = [[DSALocations sharedInstance] locationWithName: item.title ofType: @"global"];
+       NSPoint startPoint = startLoc.mapCoordinate.asPoint;
+       NSPoint endPoint   = endLoc.mapCoordinate.asPoint;
+       [self.globalMapViewController zoomToRegionFrom:startPoint to:endPoint];        
+       
    };
 
-   [self.window beginSheet:choiceWindow.window completionHandler:nil];  
+   [self.window beginSheet:choiceWindow.window completionHandler:nil];
 }
 
 - (void)characterHighlighted:(DSACharacterDocument *) selectedCharacter {

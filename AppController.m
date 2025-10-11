@@ -74,8 +74,8 @@
 {
   NSLog(@"AppController openMap called!!!");
   // Initialize and retain the DSAMapViewController
-  self.mapViewController = [[DSAMapViewController alloc] init];
-    
+  self.mapViewController = [DSAMapViewController sharedMapController];
+  //self.mapViewController = [[DSAMapViewController alloc] init];  
   // Show the window
   [self.mapViewController showWindow:self];
 }

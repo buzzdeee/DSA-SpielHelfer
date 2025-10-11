@@ -28,6 +28,30 @@
 
 @implementation DSAMapViewController 
 
++ (DSAMapViewController *)sharedMapController
+{
+    DSAMapViewController *sharedController = nil;
+
+    // Prüfen, ob ein Fenster mit diesem Controller offen ist
+    for (NSWindow *window in [NSApp windows]) {
+        if ([[window windowController] isKindOfClass:[DSAMapViewController class]]) {
+            sharedController = (DSAMapViewController *)[window windowController];
+            break;
+        }
+    }
+
+    // Wenn keins offen ist → neues öffnen
+    if (!sharedController) {
+        sharedController = [[DSAMapViewController alloc] init];
+        [sharedController showWindow:nil];
+    }
+
+    // Map-Fenster nach vorne bringen
+    [[sharedController window] makeKeyAndOrderFront:nil];
+
+    return sharedController;
+}
+
 - (instancetype)init
 {
   self = [super initWithWindowNibName:@"DSAMapViewer"];
@@ -260,6 +284,16 @@
     }    
     [routeOverlay updateRouteWithPoints:route.routePoints];
     [self displayRouteNicely:route from:startLocation to:destinationLocation];
+    // --- Jetzt automatisch auf Start/Ziel zentrieren ---
+    NSValue *firstValue = [route.routePoints firstObject];
+    NSValue *lastValue  = [route.routePoints lastObject];
+    if (firstValue && lastValue) {
+        NSPoint startPoint = [firstValue pointValue];
+        NSPoint endPoint   = [lastValue pointValue];
+        [self zoomToRegionFrom:startPoint to:endPoint];
+    } else {
+        NSLog(@"DSAMapViewController calculateRoute: Warning: Route has no valid start or end point for zooming.");
+    }
 
 }
 
@@ -458,6 +492,66 @@
     }
 
     // 5. Scroll to the calculated point
+    [[scrollView contentView] scrollToPoint:targetPoint];
+    [scrollView reflectScrolledClipView:[scrollView contentView]];
+}
+
+- (void)zoomToRegionFrom:(NSPoint)startPoint to:(NSPoint)endPoint
+{
+    // 1. Zoom-Faktor lesen
+    CGFloat zoomFactor = [self.sliderZoom doubleValue];
+    
+    // 2. Punkte ins aktuelle Zoom-Level skalieren
+    NSPoint scaledStart = NSMakePoint(startPoint.x * zoomFactor, startPoint.y * zoomFactor);
+    NSPoint scaledEnd   = NSMakePoint(endPoint.x   * zoomFactor, endPoint.y   * zoomFactor);
+    
+    // 3. Rechteck berechnen, das beide Punkte umschließt
+    CGFloat minX = MIN(scaledStart.x, scaledEnd.x);
+    CGFloat minY = MIN(scaledStart.y, scaledEnd.y);
+    CGFloat maxX = MAX(scaledStart.x, scaledEnd.x);
+    CGFloat maxY = MAX(scaledStart.y, scaledEnd.y);
+    
+    NSRect region = NSMakeRect(minX, minY, maxX - minX, maxY - minY);
+    
+    // 4. Etwas Rand hinzufügen, damit Start/Ziel nicht am Rand kleben
+    CGFloat padding = 100.0 * zoomFactor;
+    region = NSInsetRect(region, -padding, -padding);
+    
+    // 5. Falls der Ausschnitt größer als der sichtbare Bereich ist → leicht herauszoomen
+    NSScrollView *scrollView = self.mapScrollView;
+    NSSize contentSize = scrollView.contentSize;
+    if (region.size.width > contentSize.width || region.size.height > contentSize.height) {
+        // Zoom-Faktor schrittweise verringern, bis es passt
+        while ((region.size.width > contentSize.width || region.size.height > contentSize.height) &&
+               zoomFactor > 0.2) {
+            zoomFactor *= 0.9;
+            region.origin.x *= 0.9;
+            region.origin.y *= 0.9;
+            region.size.width *= 0.9;
+            region.size.height *= 0.9;
+        }
+        [self.sliderZoom setDoubleValue:zoomFactor];
+        [self setImageViewScale:zoomFactor];
+    }
+    
+    // 6. Mittelpunkt bestimmen, um darauf zu zentrieren
+    NSPoint centerPoint = NSMakePoint(NSMidX(region), NSMidY(region));
+    
+    // 7. Zielpunkt berechnen, sodass centerPoint in der Mitte der View ist
+    NSSize viewSize = scrollView.contentSize;
+    NSPoint targetPoint = NSMakePoint(centerPoint.x - viewSize.width / 2.0,
+                                      centerPoint.y - viewSize.height / 2.0);
+    
+    // 8. Begrenzen auf den sichtbaren Bildbereich
+    NSRect imageBounds = self.mapImageView.bounds;
+    if (targetPoint.x < imageBounds.origin.x) targetPoint.x = imageBounds.origin.x;
+    if (targetPoint.y < imageBounds.origin.y) targetPoint.y = imageBounds.origin.y;
+    if (targetPoint.x + viewSize.width > NSMaxX(imageBounds))
+        targetPoint.x = NSMaxX(imageBounds) - viewSize.width;
+    if (targetPoint.y + viewSize.height > NSMaxY(imageBounds))
+        targetPoint.y = NSMaxY(imageBounds) - viewSize.height;
+    
+    // 9. Scrollen und anzeigen
     [[scrollView contentView] scrollToPoint:targetPoint];
     [scrollView reflectScrolledClipView:[scrollView contentView]];
 }

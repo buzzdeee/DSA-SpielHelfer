@@ -44,5 +44,11 @@
 
 @end
 
+@interface DSAMapCoordinate (MapPoint)
+
+- (NSPoint)asPoint;
+
+@end
+
 #endif // _DSAMAPCOORDINATE_H_
 
