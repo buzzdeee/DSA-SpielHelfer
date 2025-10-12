@@ -28,6 +28,8 @@
 #import "DSAGod.h"
 #import "DSAEvent.h"
 #import "DSALocation.h"
+#import "DSALocations.h"
+#import "DSAMapCoordinate.h"
 
 DSAActionContext const DSAActionContextResting = @"Rasten";
 DSAActionContext const DSAActionContextPrivateRoom = @"Zimmer";
@@ -133,6 +135,11 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
                                              selector:@selector(handleGameTimeAdvancedNotification:)
                                                  name:@"DSAGameTimeAdvanced"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleDSAAdventureTravelEndNotification:)
+                                                 name:@"DSAAdventureTravelEnd"
+                                               object:nil];                                               
+                                               [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureTravelEnd" object:self];
     [_gameClock startClock];                                               
 }
 
@@ -221,6 +228,11 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     }
 }
 
+-(void)handleDSAAdventureTravelEndNotification:(NSNotification *)notification
+{
+  [self.gameClock setTravelModeEnabled: NO];
+}
+
 - (DSAAdventureGroup *)activeGroup {
     return self.groups.firstObject;
 }
@@ -289,6 +301,28 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 - (DSAPosition *) position
 {
   return self.activeGroup.position;
+}
+
+// trigger activeGroup to travel from: to:
+- (void) travelFrom: (NSString *) startName to: (NSString *) destName
+{
+  // Optional: direkt zentrieren auf Start & Ziel
+  DSALocation *startLoc = [[DSALocations sharedInstance] locationWithName: startName ofType: @"global"];
+  DSALocation *endLoc = [[DSALocations sharedInstance] locationWithName: destName ofType: @"global"];
+  NSPoint startPoint = startLoc.mapCoordinate.asPoint;
+  NSPoint endPoint   = endLoc.mapCoordinate.asPoint;
+  
+  [self.gameClock setTravelModeEnabled: YES];
+  
+  NSDictionary *userInfo = @{ @"position": self.position,
+                              @"startLoc": startLoc,
+                              @"endLoc": endLoc };
+                              
+  [[NSNotificationCenter defaultCenter] postNotificationName: @"DSAAdventureTravelStart" 
+                                                      object: self
+                                                    userInfo: userInfo];       
+       
+
 }
 
 

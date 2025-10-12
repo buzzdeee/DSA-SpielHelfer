@@ -37,6 +37,8 @@
 @property (nonatomic, weak) IBOutlet NSButton *buttonCancel;
 @property (nonatomic, weak) IBOutlet NSButton *buttonConfirm;
 
+@property (nonatomic, strong) NSString *notificationName;
+
 @end
 
 #endif // _DSAACTIONCHOICEQUESTIONCONTROLLER_H_

@@ -70,7 +70,18 @@
             return;
         }
         [strongSelf timerUpdate];
-    }];                                                                                                      
+    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleTravelStart:)
+                                                 name:@"DSAAdventureTravelStart"
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleTravelEnd:)
+                                                 name:@"DSAAdventureTravelEnd"
+                                               object:nil];    
+                                                                                                         
 }
 
 - (void) dealloc
@@ -81,12 +92,51 @@
         self.updateTimer = nil;
         //NSLog(@"DSAClockAnimationView: dealloc: Timer stopped.");
     }    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];    
 }
 
 - (void) viewWillDisappear {
     // NSLog(@"DSAClockAnimationView viewWillDisappear called");
     [self.updateTimer invalidate];
     self.updateTimer = nil;
+}
+
+- (void)handleTravelStart:(NSNotification *)notification {
+    NSLog(@"DSAClockAnimationView handleTravelStart: going to update clock animation view faster");
+    if (self.updateTimer) {
+        [self.updateTimer invalidate];
+    }
+
+    __weak typeof(self) weakSelf = self;                                              
+    self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:1.0   // z.B. 12x schneller
+                                                       repeats:YES
+                                                         block:^(NSTimer * _Nonnull timer) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) {
+            [timer invalidate];
+            return;
+        }
+        [strongSelf timerUpdate];
+    }];
+}
+
+- (void)handleTravelEnd:(NSNotification *)notification {
+    NSLog(@"DSAClockAnimationView handleTravelStart: going to update clock animation view normal");
+    if (self.updateTimer) {
+        [self.updateTimer invalidate];
+    }
+
+    __weak typeof(self) weakSelf = self;                                              
+    self.updateTimer = [NSTimer scheduledTimerWithTimeInterval:60.0   // wieder normal
+                                                       repeats:YES
+                                                         block:^(NSTimer * _Nonnull timer) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (!strongSelf) {
+            [timer invalidate];
+            return;
+        }
+        [strongSelf timerUpdate];
+    }];
 }
 
 - (void)updateFromAdventureClock {

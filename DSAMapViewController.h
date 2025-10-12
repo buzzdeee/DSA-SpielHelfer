@@ -57,6 +57,12 @@
 @property (strong) NSArray<NSString *> *locationsArray;
 @property (strong) NSArray<NSString *> *filteredLocations;
 
+@property (nonatomic, strong) NSArray<NSValue *> *travelRoutePoints;
+@property (nonatomic, strong) NSTimer *travelTimer;
+@property (nonatomic, assign) NSUInteger travelCurrentIndex;
+@property (nonatomic, assign) CGFloat travelProgress;  // 0.0 – 1.0 innerhalb eines Segments
+@property (nonatomic, assign) NSTimeInterval travelDurationPerDay; // z.B. 20s für 12h
+
 + (DSAMapViewController *)sharedMapController;
 
 //- (void)setupMapView; // Method to setup the map

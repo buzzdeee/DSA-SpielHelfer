@@ -25,11 +25,14 @@
 #import "DSAAdventureClock.h"
 #import "DSAAdventure.h"
 
+static const double DSAGameSpeedNormal = 4.0;      // Normal
+static const double DSAGameSpeedTravel = 2160.0;   // Reisegeschwindigkeit
+
 @implementation DSAAdventureClock
 
 - (instancetype)init {
     if (self = [super init]) {
-        _gameSpeedMultiplier = 4.0; // Game time runs at 2x speed
+        _gameSpeedMultiplier = 4.0; // Game time runs at 4x speed
         _currentDate = [[DSAAventurianDate alloc] initWithYear:1030 
                                                          month:DSAAventurianMonthPraios 
                                                            day:1 
@@ -62,13 +65,23 @@
                 return;
             }
             [strongSelf updateGameTime];
-        }];                                                         
+        }];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameClockStarted"
+                                                            object:self
+                                                          userInfo:nil];                                                        
     }
 }
 
-- (void)pauseClock {
-    [self.gameTimer invalidate];
-    self.gameTimer = nil;
+- (void)pauseClock
+{
+  if (self.gameTimer != nil)
+    {
+      [self.gameTimer invalidate];
+      self.gameTimer = nil;
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameClockPaused"
+                                                          object:self
+                                                        userInfo:nil];    
+    }
 }
 
 - (void)updateGameTime {
@@ -122,6 +135,29 @@
                                                         object:self
                                                       userInfo:@{ @"currentDate": [self.currentDate copy] }];    
 }
+
+- (void)setGameSpeedMultiplier:(double)newMultiplier {
+    if (_gameSpeedMultiplier != newMultiplier) {
+        _gameSpeedMultiplier = newMultiplier;
+        if (self.gameTimer) {
+            [self pauseClock];
+            [self startClock];
+        }
+        NSLog(@"DSAAdventureClock: Game speed changed to %.1fx", newMultiplier);
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameSpeedChanged"
+                                                            object:self
+                                                          userInfo:@{ @"multiplier": @(newMultiplier) }];
+    }
+}
+
+- (void)setTravelModeEnabled:(BOOL)enabled {
+    if (enabled) {
+        [self setGameSpeedMultiplier:DSAGameSpeedTravel];
+    } else {
+        [self setGameSpeedMultiplier:DSAGameSpeedNormal];
+    }
+}
+
 
 - (void) encodeWithCoder:(NSCoder *)coder
 {

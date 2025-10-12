@@ -25,6 +25,7 @@
 #import "DSAMapViewController.h"
 #import "DSAMapOverlayView.h"
 #import "DSALocations.h"
+#import "DSAMapCoordinate.h"
 
 @implementation DSAMapViewController 
 
@@ -60,6 +61,10 @@
       self.currentZoomLevel = 0.5; // Set the default zoom level, to be the same as in DSAMapOverlayView
     }
   return self;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)windowDidLoad {
@@ -185,6 +190,16 @@
     scrollView.hasHorizontalScroller = NO; // oder YES, wenn du horizontalen Text erwartest
     scrollView.autohidesScrollers = YES;    
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleAdventureTravelStart:)
+                                                 name:@"DSAAdventureTravelStart"
+                                               object:nil];   
+   
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleRouteDestinationChanged:)
+                                                 name:@"DSARouteDestinationChanged"
+                                               object:nil];
+                                                 
     // NSLog(@"Window loaded successfully.");
 }
 
@@ -254,6 +269,137 @@
             break; // Found the Regions overlay, no need to continue
         }
     }
+}
+
+- (void)handleAdventureTravelStart:(NSNotification *)notification {
+    NSDictionary *userInfo = notification.userInfo;
+    DSALocation *startLoc = userInfo[@"startLoc"];
+    DSALocation *endLoc   = userInfo[@"endLoc"];
+
+    if (!startLoc || !endLoc) {
+        NSLog(@"⚠️ handleAdventureTravelStart: Start oder Ziel fehlen.");
+        return;
+    }
+
+    NSString *startName = startLoc.name;
+    NSString *endName   = endLoc.name;
+
+    NSLog(@"📍 Reise gestartet von %@ nach %@", startName, endName);
+
+    // Karte passend anzeigen
+    [self zoomToRegionFrom:startLoc.mapCoordinate.asPoint to:endLoc.mapCoordinate.asPoint];
+
+    // Route berechnen
+    DSARouteResult *route = [self.routePlanner findShortestPathFrom:startName to:endName];
+    if (!route || route.routePoints.count < 2) {
+        NSLog(@"⚠️ Keine Route gefunden zwischen %@ und %@", startName, endName);
+        return;
+    }
+
+    // RouteOverlay holen oder erstellen
+    DSARouteOverlayView *routeOverlay = nil;
+    for (DSAMapOverlayView *overlay in ((DSAPannableScrollView *)self.mapScrollView).overlays) {
+        if ([overlay isKindOfClass:[DSARouteOverlayView class]]) {
+            routeOverlay = (DSARouteOverlayView *)overlay;
+            break;
+        }
+    }
+    if (!routeOverlay) {
+        routeOverlay = [[DSARouteOverlayView alloc] initWithFrame:self.mapImageView.bounds features:@[]];
+        [self.mapScrollView addOverlay:routeOverlay];
+    }
+
+    [routeOverlay updateRouteWithPoints:route.routePoints];
+    routeOverlay.hidden = NO;
+
+    // Animation starten
+    [self startTravelAnimationWithRoute:route.routePoints];
+}
+
+- (void)startTravelAnimationWithRoute:(NSArray<NSValue *> *)routePoints {
+    if (routePoints.count < 2) return;
+
+    self.travelRoutePoints = routePoints;
+    self.travelCurrentIndex = 0;
+    self.travelProgress = 0.0;
+    self.travelDurationPerDay = 20.0; // Ein „Ingame-Tag“ = 20s
+
+    [self.travelTimer invalidate];
+    self.travelTimer = [NSTimer scheduledTimerWithTimeInterval:0.02
+                                                        target:self
+                                                      selector:@selector(updateTravelAnimation)
+                                                      userInfo:nil
+                                                       repeats:YES];
+}
+
+- (void)updateTravelAnimation {
+    if (self.travelCurrentIndex >= self.travelRoutePoints.count - 1) {
+        [self endTravelSimulation];
+        return;
+    }
+
+    NSPoint start = [self.travelRoutePoints[self.travelCurrentIndex] pointValue];
+    NSPoint end   = [self.travelRoutePoints[self.travelCurrentIndex + 1] pointValue];
+
+    // Fortschritt erhöhen
+    CGFloat segmentLength = hypot(end.x - start.x, end.y - start.y);
+    CGFloat speed = segmentLength / self.travelDurationPerDay; // Pixel pro Sekunde
+    self.travelProgress += speed * self.travelTimer.timeInterval;
+
+    if (self.travelProgress >= 1.0) {
+        self.travelProgress = 0.0;
+        self.travelCurrentIndex++;
+    }
+
+    // Position auf der Linie interpolieren
+    CGFloat x = start.x + (end.x - start.x) * self.travelProgress;
+    CGFloat y = start.y + (end.y - start.y) * self.travelProgress;
+    NSPoint currentPosition = NSMakePoint(x, y);
+
+    [self drawTravelProgressToPoint:currentPosition];
+
+    // Optional: Kamera leicht nachziehen
+    [self jumpToLocationWithCoordinates:currentPosition];
+}
+
+- (void)drawTravelProgressToPoint:(NSPoint)currentPosition {
+    // Temporary mutable copy der bisherigen Route
+    NSMutableArray<NSValue *> *pointsToDraw = [NSMutableArray array];
+    for (NSUInteger i = 0; i <= self.travelCurrentIndex; i++) {
+        [pointsToDraw addObject:self.travelRoutePoints[i]];
+    }
+    [pointsToDraw addObject:[NSValue valueWithPoint:currentPosition]];
+
+    DSARouteOverlayView *routeOverlay;
+    for (DSARouteOverlayView *overlay in ((DSAPannableScrollView *)self.mapScrollView).overlays) {
+        if ([overlay isKindOfClass:[DSARouteOverlayView class]]) {
+            overlay.hidden = NO;
+            routeOverlay = overlay;
+            break; // Found the Regions overlay, no need to continue
+        }
+    }
+    
+    [routeOverlay updateRouteWithPoints:pointsToDraw];
+}
+
+- (void)endTravelSimulation {
+    [self.travelTimer invalidate];
+    self.travelTimer = nil;
+    self.travelRoutePoints = nil;
+    self.travelCurrentIndex = 0;
+    self.travelProgress = 0;
+
+    NSLog(@"🌙 Reise beendet");
+
+    // Notification, dass die Reise vorbei ist
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureTravelEnd" object:self];
+}
+
+- (void) handleRouteDestinationChanged: (NSNotification *)notification
+{
+  NSDictionary *userInfo = notification.userInfo;
+  [self.fieldLocationDestination setStringValue: userInfo[@"selectedItem"]];
+  [self calculateRoute: nil];
 }
 
 - (IBAction)calculateRoute:(id)sender {

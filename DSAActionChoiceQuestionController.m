@@ -50,4 +50,17 @@
     [NSApp endSheet:self.window];
     [self.window orderOut:nil];
 }
+
+- (IBAction) selectionDone: (id)sender
+{
+  if (self.notificationName != nil)
+    {
+      NSMenuItem *item = (NSMenuItem *)self.popupChoice.selectedItem;
+      [[NSNotificationCenter defaultCenter] postNotificationName: self.notificationName
+                                                          object:self
+                                                        userInfo:@{ @"selectedItem" : item.title }];
+    }
+
+}
+
 @end

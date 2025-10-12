@@ -3,7 +3,9 @@
     DSAActionQuestionChoiceController = {
 	Actions = (
 	    "confirmAction:",
-	    "cancelAction:"
+	    "cancelAction:",
+	    "selectionDone:",
+	    "newAction:"
 	);
 	Outlets = (
 	    fieldHeadline,
@@ -16,8 +18,10 @@
     };
     FirstResponder = {
 	Actions = (
+	    "cancelAction:",
 	    "confirmAction:",
-	    "cancelAction:"
+	    "selectionDone:",
+	    "newAction:"
 	);
 	Super = NSObject;
     };

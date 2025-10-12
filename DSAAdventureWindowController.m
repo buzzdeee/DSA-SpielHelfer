@@ -891,10 +891,17 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
        [[DSAActionChoiceQuestionController alloc] initWithWindowNibName:@"DSAActionChoiceQuestionView"];
    [choiceWindow window];
 
+   self.globalMapViewController = [DSAMapViewController sharedMapController];
+   [self.globalMapViewController.fieldLocationSearch setStringValue:currentPosition.localLocationName];
+   DSALocation *startLoc = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"global"];
+   NSPoint startPoint = startLoc.mapCoordinate.asPoint;
+   [self.globalMapViewController jumpToLocationWithCoordinates: startPoint];
+   
    choiceWindow.fieldHeadline.stringValue = @"Reisen";
    choiceWindow.fieldQuestion.stringValue = @"Wohin soll die Reise gehen?";
    choiceWindow.buttonCancel.title = @"Abbrechen";
    choiceWindow.buttonConfirm.title = @"Bestätigen";
+   choiceWindow.notificationName = @"DSARouteDestinationChanged";
    [choiceWindow.popupChoice removeAllItems];
    [choiceWindow.popupChoice addItemsWithTitles: [(DSALocalMapTileRoute *)currentTile destinations]];
    
@@ -905,18 +912,9 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
        }
        NSMenuItem *item = (NSMenuItem *)weakWindow.popupChoice.selectedItem;
        NSLog(@"DSAAdventureWindowController showRouteDialogSheet: selected destionation: %@", item.title);
-       
-       self.globalMapViewController = [DSAMapViewController sharedMapController];
-       [self.globalMapViewController.fieldLocationSearch setStringValue:currentPosition.localLocationName];
-       [self.globalMapViewController.fieldLocationDestination setStringValue:item.title];
 
-       // Optional: direkt zentrieren auf Start & Ziel
-       DSALocation *startLoc = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"global"];
-       DSALocation *endLoc = [[DSALocations sharedInstance] locationWithName: item.title ofType: @"global"];
-       NSPoint startPoint = startLoc.mapCoordinate.asPoint;
-       NSPoint endPoint   = endLoc.mapCoordinate.asPoint;
-       [self.globalMapViewController zoomToRegionFrom:startPoint to:endPoint];        
        
+       [adventure travelFrom: currentPosition.localLocationName to: item.title];    
    };
 
    [self.window beginSheet:choiceWindow.window completionHandler:nil];

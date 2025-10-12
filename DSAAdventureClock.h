@@ -50,6 +50,7 @@ typedef NS_ENUM(NSUInteger, DSAMoonPhase) {
 - (void)advanceTimeByMinutes:(NSUInteger)minutes;
 - (void)advanceTimeByHours:(NSUInteger)hours;
 - (void)advanceTimeByDays:(NSUInteger)days;
+- (void)setTravelModeEnabled:(BOOL)enabled;
 
 //- (NSString *)monthNameForMonth:(DSAAventurianMonth)month;
 //- (DSAAventurianMonth)monthForString:(NSString *)monthName;
