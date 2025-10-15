@@ -26,6 +26,7 @@
 #import "DSAMapOverlayView.h"
 #import "DSALocations.h"
 #import "DSAMapCoordinate.h"
+#import "DSAAdventure.h"
 
 @implementation DSAMapViewController 
 
@@ -189,12 +190,28 @@
     scrollView.hasVerticalScroller = NO;
     scrollView.hasHorizontalScroller = NO; // oder YES, wenn du horizontalen Text erwartest
     scrollView.autohidesScrollers = YES;    
-    
+/*    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleAdventureTravelStart:)
                                                  name:@"DSAAdventureTravelStart"
                                                object:nil];   
-   
+*/
+                                               
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleTravelDidBegin:)
+                                                 name:DSAAdventureTravelDidBeginNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleTravelDidProgress:)
+                                                 name:DSAAdventureTravelDidProgressNotification
+                                               object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleTravelDidEnd:)
+                                                 name:DSAAdventureTravelDidEndNotification
+                                               object:nil];                                               
+                                                  
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleRouteDestinationChanged:)
                                                  name:@"DSARouteDestinationChanged"
@@ -271,6 +288,7 @@
     }
 }
 
+/*
 - (void)handleAdventureTravelStart:(NSNotification *)notification {
     NSDictionary *userInfo = notification.userInfo;
     DSALocation *startLoc = userInfo[@"startLoc"];
@@ -315,7 +333,69 @@
     // Animation starten
     [self startTravelAnimationWithRoute:route.routePoints];
 }
+*/
 
+#pragma mark - Travel Handlers
+
+- (void)handleTravelDidBegin:(NSNotification *)notification {
+    DSALocation *startLoc = notification.userInfo[@"startLoc"];
+    DSALocation *endLoc   = notification.userInfo[@"endLoc"];
+
+    NSLog(@"📍 Reise begonnen: %@ → %@", startLoc.name, endLoc.name);
+
+    [self zoomToRegionFrom:startLoc.mapCoordinate.asPoint to:endLoc.mapCoordinate.asPoint];
+
+    DSARouteResult *route = [self.routePlanner findShortestPathFrom:startLoc.name to:endLoc.name];
+    if (!route) {
+        NSLog(@"⚠️ Keine Route gefunden zwischen %@ und %@", startLoc.name, endLoc.name);
+        return;
+    }
+
+    self.travelRoutePoints = route.routePoints; // gesamte Route im Model speichern
+    self.travelCurrentIndex = 0;
+    self.travelProgress = 0.0;
+
+    // Bestehendes Overlay suchen
+    DSARouteOverlayView *routeOverlay = nil;
+    for (DSARouteOverlayView *overlay in ((DSAPannableScrollView *)self.mapScrollView).overlays) {
+        if ([overlay isKindOfClass:[DSARouteOverlayView class]]) {
+            routeOverlay = overlay;
+            break;
+        }
+    }
+
+    if (!routeOverlay) {
+        NSLog(@"⚠️ Kein RouteOverlay gefunden!");
+        return;
+    }
+
+    // Overlay zurücksetzen → nur Startpunkt
+    [routeOverlay updateRouteWithPoints:@[[NSValue valueWithPoint:[self.travelRoutePoints.firstObject pointValue]]]];
+    routeOverlay.hidden = NO;
+}
+
+
+- (void)handleTravelDidProgress:(NSNotification *)notification {
+    CGFloat progress = [notification.userInfo[@"progress"] floatValue];
+    NSLog(@"🚶‍♂️ Reise-Fortschritt: %.0f%%", progress * 100);
+
+    [self updateTravelAnimationWithProgress:progress];
+}
+
+- (void)handleTravelDidEnd:(NSNotification *)notification {
+    DSALocation *destination = notification.userInfo[@"destination"];
+    NSLog(@"✅ Reise beendet. Ankunft in %@", destination.name);
+    DSARouteOverlayView *routeOverlay = nil;
+    for (DSARouteOverlayView *overlay in ((DSAPannableScrollView *)self.mapScrollView).overlays) {
+        if ([overlay isKindOfClass:[DSARouteOverlayView class]]) {
+            routeOverlay = overlay;
+            break;
+        }
+    }
+    [routeOverlay fadeOut];
+    [self showArrivalAtLocation:destination];
+}
+/*
 - (void)startTravelAnimationWithRoute:(NSArray<NSValue *> *)routePoints {
     if (routePoints.count < 2) return;
 
@@ -361,27 +441,67 @@
     // Optional: Kamera leicht nachziehen
     [self jumpToLocationWithCoordinates:currentPosition];
 }
+*/
+
+- (void)updateTravelAnimationWithProgressXXX:(CGFloat)progress
+{
+
+}
+
+- (void)updateTravelAnimationWithProgress:(CGFloat)progress {
+    if (!self.travelRoutePoints || self.travelRoutePoints.count < 2) return;
+
+    CGFloat totalSegments = (CGFloat)(self.travelRoutePoints.count - 1);
+    CGFloat exactIndex = progress * totalSegments;
+    NSUInteger segmentIndex = floor(exactIndex);
+    CGFloat localProgress = exactIndex - segmentIndex;
+
+    if (segmentIndex >= self.travelRoutePoints.count - 1) {
+        segmentIndex = self.travelRoutePoints.count - 2;
+        localProgress = 1.0;
+    }
+
+    self.travelCurrentIndex = segmentIndex;
+    self.travelProgress = localProgress;
+
+    NSPoint start = [self.travelRoutePoints[segmentIndex] pointValue];
+    NSPoint end   = [self.travelRoutePoints[segmentIndex + 1] pointValue];
+
+    CGFloat x = start.x + (end.x - start.x) * localProgress;
+    CGFloat y = start.y + (end.y - start.y) * localProgress;
+    NSPoint currentPosition = NSMakePoint(x, y);
+
+    [self drawTravelProgressToPoint:currentPosition];
+
+    //[self jumpToLocationWithCoordinates:currentPosition];
+}
 
 - (void)drawTravelProgressToPoint:(NSPoint)currentPosition {
-    // Temporary mutable copy der bisherigen Route
+    if (!self.travelRoutePoints || self.travelRoutePoints.count == 0) return;
+
     NSMutableArray<NSValue *> *pointsToDraw = [NSMutableArray array];
-    for (NSUInteger i = 0; i <= self.travelCurrentIndex; i++) {
+
+    for (NSUInteger i = 0; i < self.travelCurrentIndex; i++) {
         [pointsToDraw addObject:self.travelRoutePoints[i]];
     }
+
+    [pointsToDraw addObject:self.travelRoutePoints[self.travelCurrentIndex]];
     [pointsToDraw addObject:[NSValue valueWithPoint:currentPosition]];
 
-    DSARouteOverlayView *routeOverlay;
+    // Overlay suchen
+    DSARouteOverlayView *routeOverlay = nil;
     for (DSARouteOverlayView *overlay in ((DSAPannableScrollView *)self.mapScrollView).overlays) {
         if ([overlay isKindOfClass:[DSARouteOverlayView class]]) {
-            overlay.hidden = NO;
             routeOverlay = overlay;
-            break; // Found the Regions overlay, no need to continue
+            break;
         }
     }
-    
+
+    if (!routeOverlay) return;
     [routeOverlay updateRouteWithPoints:pointsToDraw];
 }
 
+/*
 - (void)endTravelSimulation {
     [self.travelTimer invalidate];
     self.travelTimer = nil;
@@ -393,6 +513,26 @@
 
     // Notification, dass die Reise vorbei ist
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureTravelEnd" object:self];
+}
+*/
+
+- (void)showArrivalAtLocation:(DSALocation *)destination
+{
+    if (!destination) return;
+    NSLog(@"🎯 Ankunft in %@", destination.name);
+
+    // Beispiel: Nachricht ans Spiel-UI oder Popup
+    NSAlert *alert = [[NSAlert alloc] init];
+    alert.messageText = [NSString stringWithFormat:@"Ankunft in %@", destination.name];
+    alert.informativeText = @"Die Reise ist beendet.";
+    [alert addButtonWithTitle:@"OK"];
+    [alert runModal];
+/*
+    // Optional: Overlay ausblenden
+    if (self.routeOverlay) {
+        self.routeOverlay.hidden = YES;
+    }
+*/    
 }
 
 - (void) handleRouteDestinationChanged: (NSNotification *)notification

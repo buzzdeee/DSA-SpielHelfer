@@ -215,6 +215,10 @@
     [self setNeedsDisplay:YES]; // Trigger re-draw
 }
 
+- (void)fadeOut {
+    self.hidden = YES;
+}
+
 - (void)drawRect:(NSRect)dirtyRect {
     [super drawRect:dirtyRect];
 

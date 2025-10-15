@@ -47,6 +47,9 @@ extern DSAActionContext const DSAActionContextMarket;
 extern DSAActionContext const DSAActionContextOnTheRoad;
 extern DSAActionContext const DSAActionContextReception;
 
+extern NSString * const DSAAdventureTravelDidBeginNotification;
+extern NSString * const DSAAdventureTravelDidProgressNotification;
+extern NSString * const DSAAdventureTravelDidEndNotification;
 
 @interface DSAAdventure : DSABaseObject <NSCoding>
 
@@ -68,6 +71,11 @@ extern DSAActionContext const DSAActionContextReception;
 @property (nonatomic, copy) NSDictionary<DSAActionContext, NSArray<NSString *> *> *availableSpellsByContext;
 @property (nonatomic, copy) NSDictionary<DSAActionContext, NSArray<NSString *> *> *availableRitualsByContext;
 
+// Travel related properties
+@property (nonatomic, strong, nullable) DSALocation *currentStartLocation;
+@property (nonatomic, strong, nullable) DSALocation *currentDestinationLocation;
+@property (nonatomic, assign, getter=isTraveling) BOOL traveling;
+@property (nonatomic, assign) CGFloat travelProgress;
 
 @property (strong) NSMutableDictionary<NSString *, NSString *> *characterFilePaths;
 
@@ -79,7 +87,6 @@ extern DSAActionContext const DSAActionContextReception;
 
 - (DSAAventurianDate *) now;         // returns current adventure date
 - (DSAPosition *) position;          // returns position of active group
-- (void) travelFrom: (NSString *) startName to: (NSString *) destName;
 
 
 - (void)moveCharacter: (NSUUID *) characterUUID toGroup: (DSAAdventureGroup *) targetGroup;  // move from active group
@@ -94,7 +101,12 @@ extern DSAActionContext const DSAActionContextReception;
 - (void)removeExpiredEventsAtPosition:(DSAPosition *)position forDate:(DSAAventurianDate *)date;
 /// Entfernt alle abgelaufenen Events global
 - (void)removeAllExpiredEventsForDate:(DSAAventurianDate *)date;
+@end
 
+@interface DSAAdventure (travel)
+- (void)beginTravelFrom:(NSString *)startName to:(NSString *)destName;
+- (void)updateTravelProgress:(CGFloat)progress;
+- (void)endTravel;
 @end
 
 @interface DSAAdventureManager : NSObject

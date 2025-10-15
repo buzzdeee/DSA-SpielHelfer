@@ -910,11 +910,11 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
        if (!result) {
            return;
        }
-       NSMenuItem *item = (NSMenuItem *)weakWindow.popupChoice.selectedItem;
-       NSLog(@"DSAAdventureWindowController showRouteDialogSheet: selected destionation: %@", item.title);
+       NSMenuItem *destination = (NSMenuItem *)weakWindow.popupChoice.selectedItem;
+       NSLog(@"DSAAdventureWindowController showRouteDialogSheet: selected destionation: %@", destination.title);
 
        
-       [adventure travelFrom: currentPosition.localLocationName to: item.title];    
+       [adventure beginTravelFrom: currentPosition.localLocationName to: destination.title];
    };
 
    [self.window beginSheet:choiceWindow.window completionHandler:nil];

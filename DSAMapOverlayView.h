@@ -43,6 +43,7 @@
 @interface DSARouteOverlayView : DSAMapOverlayView
 @property (nonatomic, strong) NSArray<NSValue *> *routePoints; // Points along the route
 - (void)updateRouteWithPoints:(NSArray<NSValue *> *)points;
+-(void)fadeOut;
 @end
 
 

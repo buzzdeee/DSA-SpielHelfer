@@ -38,6 +38,11 @@ DSAActionContext const DSAActionContextMarket = @"Markt";
 DSAActionContext const DSAActionContextOnTheRoad = @"Unterwegs";
 DSAActionContext const DSAActionContextReception = @"Rezeption";
 
+NSString * const DSAAdventureTravelDidBeginNotification = @"DSAAdventureTravelDidBegin";
+NSString * const DSAAdventureTravelDidProgressNotification = @"DSAAdventureTravelDidProgress";
+NSString * const DSAAdventureTravelDidEndNotification = @"DSAAdventureTravelDidEnd";
+
+
 static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultTalentsByContext(void)
 {
     return @{
@@ -87,6 +92,10 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
                                           @"Schalenzauber" ]
     };
 }
+
+@interface DSAAdventure ()
+@property (nonatomic, strong) NSTimer *travelTimer;
+@end
 
 @implementation DSAAdventure
 
@@ -174,6 +183,12 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
   [coder encodeObject:self.gameWeather forKey:@"gameWeather"];
   
   [coder encodeObject:self.characterFilePaths forKey:@"characterFilePaths"];
+  
+  [coder encodeObject:self.currentStartLocation forKey:@"currentStartLocation"];  
+  [coder encodeObject:self.currentDestinationLocation forKey:@"currentDestinationLocation"];
+  [coder encodeBool:self.traveling forKey:@"traveling"];
+  [coder encodeDouble:(double)self.travelProgress forKey:@"travelProgress"];
+  
  }
 
 - (instancetype) initWithCoder:(NSCoder *)coder
@@ -208,6 +223,10 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
       
       _characterFilePaths = [coder decodeObjectForKey:@"characterFilePaths"] ?: [NSMutableArray array];
       NSLog(@"DSAAdventure initWithCoder, going to start gameClock");
+      _currentStartLocation = [coder decodeObjectForKey:@"currentStartLocation"];
+      _currentDestinationLocation = [coder decodeObjectForKey:@"currentDestinationLocation"];
+      _traveling = [coder decodeBoolForKey:@"traveling"];
+      _travelProgress = (CGFloat)[coder decodeDoubleForKey:@"travelProgress"];
       [self finalizeInitialization];
     }
   NSLog(@"DSAAdventure loaded groups: %@ and characterFilePaths: %@", _groups, _characterFilePaths);
@@ -302,7 +321,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 {
   return self.activeGroup.position;
 }
-
+/*
 // trigger activeGroup to travel from: to:
 - (void) travelFrom: (NSString *) startName to: (NSString *) destName
 {
@@ -324,7 +343,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
        
 
 }
-
+*/
 
 - (void)discoverCoordinate:(DSAMapCoordinate *)coord forLocation:(NSString *)location {
     NSMutableSet *discoveredSet = self.discoveredCoordinates[location];
@@ -388,6 +407,87 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 
 @end
 
+@implementation DSAAdventure (travel)
+- (void)beginTravelFrom:(NSString *)startName to:(NSString *)destName {
+    if (self.traveling) {
+        NSLog(@"⚠️ Already traveling — ignoring new travel request.");
+        return;
+    }
+
+    self.currentStartLocation = [[DSALocations sharedInstance] locationWithName:startName ofType:@"global"];
+    self.currentDestinationLocation = [[DSALocations sharedInstance] locationWithName:destName ofType:@"global"];
+
+    if (!self.currentStartLocation || !self.currentDestinationLocation) {
+        NSLog(@"❌ Invalid travel start or destination");
+        return;
+    }
+
+    self.traveling = YES;
+    self.travelProgress = 0.0;
+
+    NSLog(@"🚀 Travel started: %@ → %@", startName, destName);
+    [self.gameClock setTravelModeEnabled:YES];
+
+    NSDictionary *userInfo = @{
+        @"adventure": self,
+        @"startLoc": self.currentStartLocation,
+        @"endLoc": self.currentDestinationLocation
+    };
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:DSAAdventureTravelDidBeginNotification
+                                                        object:self
+                                                      userInfo:userInfo];
+
+    // Simulierter Reiseverlauf (z. B. Fortschritt alle 0.5 Sek.)
+    self.travelTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
+                                                        repeats:YES
+                                                          block:^(NSTimer * _Nonnull timer) {
+        self.travelProgress += 0.1;
+        [self updateTravelProgress:self.travelProgress];
+        if (self.travelProgress >= 1.0) {
+            [self endTravel];
+        }
+    }];
+}
+
+- (void)updateTravelProgress:(CGFloat)progress {
+    if (!self.traveling) return;
+    self.travelProgress = MIN(progress, 1.0);
+
+    NSDictionary *userInfo = @{ @"progress": @(self.travelProgress) };
+    [[NSNotificationCenter defaultCenter] postNotificationName:DSAAdventureTravelDidProgressNotification
+                                                        object:self
+                                                      userInfo:userInfo];
+}
+
+- (void)endTravel {
+    if (!self.traveling) return;
+
+    [self.travelTimer invalidate];
+    self.travelTimer = nil;
+    self.traveling = NO;
+    self.travelProgress = 1.0;
+
+    [self.gameClock setTravelModeEnabled:NO];
+
+    NSLog(@"🏁 Travel ended: arrived at %@", self.currentDestinationLocation.name);
+
+    NSDictionary *userInfo = @{
+        @"adventure": self,
+        @"destination": self.currentDestinationLocation ?: [NSNull null]
+    };
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:DSAAdventureTravelDidEndNotification
+                                                        object:self
+                                                      userInfo:userInfo];
+
+    // Optional: Spielerposition aktualisieren
+    self.activeGroup.position.localLocationName = self.currentDestinationLocation.name;
+
+    self.currentStartLocation = nil;
+    self.currentDestinationLocation = nil;
+}
+@end
 
 @implementation DSAAdventureManager
 static DSAAdventureManager *sharedInstance = nil;
