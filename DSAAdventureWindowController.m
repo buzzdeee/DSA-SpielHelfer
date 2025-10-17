@@ -104,7 +104,15 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updateActionIcons:)
                                                  name:@"DSAAdventureLocationUpdated"
-                                               object:nil];                                               
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleTravelDidBegin)
+                                                 name:DSAAdventureTravelDidBeginNotification
+                                               object:nil];                                             
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateActionIcons:)
+                                                 name:DSAAdventureTravelDidEndNotification
+                                               object:nil];                                                                                             
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleLogsMessage:)
                                                  name:@"DSACharacterEventLog"
@@ -619,6 +627,12 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
   
 }
 
+- (void) handleTravelDidBegin
+{
+  NSLog(@"DSAAdventureWindowController handleTravelDidBegin called");
+  [self updateMainImageView: nil];
+}
+
 - (void) updateActionIcons: (NSNotification *)notification
 {
     NSLog(@"DSAAdventureWindowController updateActionIcons called!!!!");
@@ -702,10 +716,50 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType:@"local"];
     DSALocation *globalLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.globalLocationName ofType:@"global"];
     NSLog(@"DSAAdventureWindowController updateMainImageView called!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    if (!currentLocation || !globalLocation) {
-        NSLog(@"Fehlende Location-Daten");
+    if (!currentLocation && !globalLocation) {
+        NSLog(@"DSAAdventureWindowController updateMainImageView : Fehlende Location-Daten");
         return;
     }
+    
+    //NSLog(@"THE CURRENT LOCATION: %@", currentLocation);
+    
+    
+
+    if (!currentLocation)  // we only have a global location
+      {
+        NSString *selectedKey;
+        NSString *seed;        
+        if ([currentPosition.context isEqualToString: DSAActionContextTravel])
+          {
+            selectedKey = @"Reisen_Strasse";
+          }
+        else if ([currentPosition.context isEqualToString: DSAActionContextResting])
+          {
+            selectedKey = @"Lagerfeuer";
+          }
+        else
+          {
+            NSLog(@"DSAAdventure updateMainImageView: unknown global position context: %@, aborting", currentPosition.context);
+            abort();
+          }
+        seed = currentPosition.mapCoordinate.description;
+        NSString *imageName = [Utils randomImageNameForKey:selectedKey
+                                            withSizeSuffix: nil
+                                                seedString:seed];   
+        // ️ Bild laden und anzeigen
+        if (imageName) {
+            NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:nil];
+            if (imagePath) {
+                NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
+                [self.imageMain setImage:image];
+            } else {
+                NSLog(@"DSAAdventureWindowController updateMainImageView: image not found in Bundle: %@", imageName);
+            }
+        } else {
+            NSLog(@"DSAAdventureWindowController updateMainImageView: no image found for Key: %@", selectedKey);
+        }
+        return;                                                   
+      }
 
     DSALocalMapLocation *localMapLocation = (DSALocalMapLocation *)currentLocation;
     DSALocalMapTile *currentTile = [localMapLocation tileAtCoordinate:currentPosition.mapCoordinate];

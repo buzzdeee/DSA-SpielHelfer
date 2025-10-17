@@ -71,6 +71,17 @@
 
 @implementation DSARoutePlanner
 
+static DSARoutePlanner *_sharedRoutePlanner = nil;
+
++ (instancetype)sharedRoutePlanner {
+    @synchronized(self) {
+        if (_sharedRoutePlanner == nil) {
+            _sharedRoutePlanner = [[self alloc] initWithBundleFiles];
+        }
+    }
+    return _sharedRoutePlanner;
+}
+
 + (DSARouteType)routeTypeFromString:(NSString *)typeString {
     static NSDictionary<NSString *, NSNumber *> *mapping = nil;
     if (!mapping) {
@@ -98,8 +109,12 @@
 - (instancetype)initWithBundleFiles {
     self = [super init];
     if (self) {
-        NSString *routesPath = [[NSBundle mainBundle] pathForResource:@"Strassen" ofType:@"geojson"];        
-        [self loadRoutesData:routesPath];
+        NSString *routesPath = [[NSBundle mainBundle] pathForResource:@"Strassen" ofType:@"geojson"];
+        if (routesPath) {
+            [self loadRoutesData:routesPath];
+        } else {
+            NSLog(@"DSARoutePlanner initWithBundleFiles: 'Strassen.geojson' not found in bundle!");
+        }
     }
     return self;
 }

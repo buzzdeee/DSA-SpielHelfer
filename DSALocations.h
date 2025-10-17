@@ -47,6 +47,8 @@
 - (NSArray<NSString *> *)getLocalLocationNamesOfCategory: (NSString *) category;
 - (NSArray<NSString *> *)getLocalLocationMapLevelsOfMap: (NSString *) mapName;
 - (DSALocalMapLevel *)getLocalLocationMapWithName: (NSString *) mapName ofLevel: (NSInteger) level;
+- (DSAPosition *) arrivalTileInLocalLocationWithDestinationName:(NSString *)destinationName
+                                                 fromOriginName:(NSString *)originName;
 - (NSString *) htmlInfoForLocationWithName: (NSString *) name;
 - (NSString *) plainInfoForLocationWithName: (NSString *) name;
 - (NSArray<NSString *> *)locationNamesOfType:(NSString *)type;

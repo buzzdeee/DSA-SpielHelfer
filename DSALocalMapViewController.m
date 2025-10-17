@@ -68,7 +68,15 @@
             [[NSNotificationCenter defaultCenter] addObserver:self
                                          selector:@selector(redrawMap)
                                              name:@"DSAAdventureLocationUpdated"
-                                           object:nil];                                            
+                                           object:nil];
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(handleTravelDidBegin)
+                                                         name:DSAAdventureTravelDidBeginNotification
+                                                       object:nil];                                         
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(handleTravelDidEnd)
+                                                         name:DSAAdventureTravelDidEndNotification
+                                                       object:nil];                                                                                      
             break;
     }
 }
@@ -147,6 +155,17 @@
 }
 
 #pragma mark - Adventure Mode
+
+- (void) handleTravelDidBegin
+{
+  [self.window close];
+}
+
+- (void) handleTravelDidEnd
+{
+  [self setupAdventureMode];
+  [self redrawMap];
+}
 
 - (void) redrawMap
 {

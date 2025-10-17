@@ -46,6 +46,7 @@ extern DSAActionContext const DSAActionContextTavern;
 extern DSAActionContext const DSAActionContextMarket;
 extern DSAActionContext const DSAActionContextOnTheRoad;
 extern DSAActionContext const DSAActionContextReception;
+extern DSAActionContext const DSAActionContextTravel;
 
 extern NSString * const DSAAdventureTravelDidBeginNotification;
 extern NSString * const DSAAdventureTravelDidProgressNotification;

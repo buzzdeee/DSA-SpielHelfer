@@ -74,12 +74,12 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleTravelStart:)
-                                                 name:@"DSAAdventureTravelStart"
+                                                 name:@"DSAAdventureTravelDidBegin"
                                                object:nil];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleTravelEnd:)
-                                                 name:@"DSAAdventureTravelEnd"
+                                                 name:@"DSAAdventureTravelDidEnd"
                                                object:nil];    
                                                                                                          
 }

@@ -162,7 +162,7 @@ NS_INLINE NSString * DSADirectionToString(DSADirection direction) {
 @property (nonatomic, strong) DSAMapCoordinate *mapCoordinate;
 @property (nonatomic, strong, nullable) DSAActionContext context;          // some buildings have multiple rooms, i.e. Inns
 @property (nonatomic, strong) NSString *globalLocationName;      // to refer to DSAGlobalMapLocation info
-@property (nonatomic, strong) NSString *localLocationName;       // to refer to DSALocalMapLocation info
+@property (nonatomic, strong, nullable) NSString *localLocationName;       // to refer to DSALocalMapLocation info
 
 + (instancetype)positionWithMapCoordinate:(DSAMapCoordinate *)coordinate
                        globalLocationName:(NSString *)globalLocationName

@@ -30,6 +30,7 @@
 #import "DSALocation.h"
 #import "DSALocations.h"
 #import "DSAMapCoordinate.h"
+#import "DSARoutePlanner.h"
 
 DSAActionContext const DSAActionContextResting = @"Rasten";
 DSAActionContext const DSAActionContextPrivateRoom = @"Zimmer";
@@ -37,6 +38,7 @@ DSAActionContext const DSAActionContextTavern = @"Taverne";
 DSAActionContext const DSAActionContextMarket = @"Markt";
 DSAActionContext const DSAActionContextOnTheRoad = @"Unterwegs";
 DSAActionContext const DSAActionContextReception = @"Rezeption";
+DSAActionContext const DSAActionContextTravel = @"Reisen";
 
 NSString * const DSAAdventureTravelDidBeginNotification = @"DSAAdventureTravelDidBegin";
 NSString * const DSAAdventureTravelDidProgressNotification = @"DSAAdventureTravelDidProgress";
@@ -408,6 +410,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 @end
 
 @implementation DSAAdventure (travel)
+
 - (void)beginTravelFrom:(NSString *)startName to:(NSString *)destName {
     if (self.traveling) {
         NSLog(@"⚠️ Already traveling — ignoring new travel request.");
@@ -422,12 +425,87 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
         return;
     }
 
+    DSARoutePlanner *routePlanner = [DSARoutePlanner sharedRoutePlanner];
+    DSARouteResult *routeResult = [routePlanner findShortestPathFrom:startName to:destName];
+    if (!routeResult) {
+        NSLog(@"❌ No route found from %@ to %@", startName, destName);
+        return;
+    }
+
+    // 💡 Reiseparameter
+    CGFloat milesPerDay = 30.0;
+    CGFloat totalDistance = routeResult.routeDistance;    // Meilen
+    CGFloat totalDays = totalDistance / milesPerDay;      // wie viele Tage?
+    CGFloat totalSeconds = totalDays * 24.0;              // z. B. 24 Sekunden pro "Tag" (für Demo)
+    
+    // Fortschritt pro Timerintervall
+    NSTimeInterval interval = 0.2;                        // 5x pro Sekunde
+    CGFloat progressIncrement = interval / totalSeconds;  // linearer Fortschritt
+
+    self.traveling = YES;
+    self.travelProgress = 0.0;
+    //self.currentRoute = routeResult;
+
+    NSLog(@"🚀 Travel started: %@ → %@ (%.1f Meilen, %.1f Tage simuliert)",
+          startName, destName, totalDistance, totalDays);
+
+    self.activeGroup.position.localLocationName = nil;
+    self.activeGroup.position.context = DSAActionContextTravel;
+    [self.gameClock setTravelModeEnabled:YES];
+
+    NSDictionary *userInfo = @{
+        @"adventure": self,
+        @"startLoc": self.currentStartLocation,
+        @"endLoc": self.currentDestinationLocation
+    };
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:DSAAdventureTravelDidBeginNotification
+                                                        object:self
+                                                      userInfo:userInfo];
+
+    // 🕒 Timer für Fortschritt
+    self.travelTimer = [NSTimer scheduledTimerWithTimeInterval:interval
+                                                        repeats:YES
+                                                          block:^(NSTimer * _Nonnull timer) {
+        if (!self.traveling) {
+            [timer invalidate];
+            return;
+        }
+
+        self.travelProgress += progressIncrement;
+        [self updateTravelProgress:self.travelProgress];
+
+        if (self.travelProgress >= 1.0) {
+            [timer invalidate];
+            [self endTravel];
+        }
+    }];
+}
+/*
+- (void)beginTravelFrom:(NSString *)startName to:(NSString *)destName {
+    if (self.traveling) {
+        NSLog(@"⚠️ Already traveling — ignoring new travel request.");
+        return;
+    }
+
+    self.currentStartLocation = [[DSALocations sharedInstance] locationWithName:startName ofType:@"global"];
+    self.currentDestinationLocation = [[DSALocations sharedInstance] locationWithName:destName ofType:@"global"];
+    DSARoutePlanner *routePlanner = [DSARoutePlanner sharedRoutePlanner];
+    DSARouteResult *routeResult = [routePlanner findShortestPathFrom: startName to: destName];
+    
+    if (!self.currentStartLocation || !self.currentDestinationLocation) {
+        NSLog(@"❌ Invalid travel start or destination");
+        return;
+    }
+
     self.traveling = YES;
     self.travelProgress = 0.0;
 
     NSLog(@"🚀 Travel started: %@ → %@", startName, destName);
+    self.activeGroup.position.localLocationName = nil;
+    self.activeGroup.position.context = DSAActionContextTravel;
     [self.gameClock setTravelModeEnabled:YES];
-
+    
     NSDictionary *userInfo = @{
         @"adventure": self,
         @"startLoc": self.currentStartLocation,
@@ -449,7 +527,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
         }
     }];
 }
-
+*/
 - (void)updateTravelProgress:(CGFloat)progress {
     if (!self.traveling) return;
     self.travelProgress = MIN(progress, 1.0);
@@ -470,20 +548,22 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 
     [self.gameClock setTravelModeEnabled:NO];
 
+    
     NSLog(@"🏁 Travel ended: arrived at %@", self.currentDestinationLocation.name);
 
+    // group position aktualisieren
+    DSAPosition *destPosition = [[DSALocations sharedInstance] arrivalTileInLocalLocationWithDestinationName: self.currentDestinationLocation.name
+                                                                                              fromOriginName: self.currentStartLocation.name];
+    self.activeGroup.position = destPosition;
+    
+    // notify others
     NSDictionary *userInfo = @{
         @"adventure": self,
         @"destination": self.currentDestinationLocation ?: [NSNull null]
-    };
-
+    };    
     [[NSNotificationCenter defaultCenter] postNotificationName:DSAAdventureTravelDidEndNotification
                                                         object:self
                                                       userInfo:userInfo];
-
-    // Optional: Spielerposition aktualisieren
-    self.activeGroup.position.localLocationName = self.currentDestinationLocation.name;
-
     self.currentStartLocation = nil;
     self.currentDestinationLocation = nil;
 }

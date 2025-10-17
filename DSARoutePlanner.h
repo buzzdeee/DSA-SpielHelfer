@@ -54,6 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DSARoutePlanner : NSObject
 
++ (instancetype)sharedRoutePlanner;
 - (instancetype)initWithBundleFiles;
 - (DSARouteResult *)findShortestPathFrom:(NSString *)startName to:(NSString *)destinationName;
 @end

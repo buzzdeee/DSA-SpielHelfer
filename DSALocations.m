@@ -192,6 +192,112 @@ static NSDictionary<NSString *, Class> *locationTypeToClassMap = nil;
     return nil; // Not found  
 }
 
+
+- (DSAPosition *)arrivalTileInLocalLocationWithDestinationName:(NSString *)destinationName
+                                                fromOriginName:(NSString *)originName
+{
+    DSALocation *destinationLocation = [self locationWithName:destinationName ofType:@"local"];
+    if (!destinationLocation) {
+        NSLog(@"Destination location '%@' not found", destinationName);
+        return nil;
+    }
+
+    if (![destinationLocation isKindOfClass:[DSALocalMapLocation class]]) {
+        NSLog(@"Destination '%@' is not a DSALocalMapLocation", destinationName);
+        return nil;
+    }
+
+    DSALocalMapLocation *localMapLocation = (DSALocalMapLocation *)destinationLocation;
+    DSALocalMap *localMap = localMapLocation.locationMap;
+
+    if (!localMap || localMap.mapLevels.count == 0) {
+        NSLog(@"Local map for '%@' is missing or has no levels", destinationName);
+        return nil;
+    }
+
+    DSALocalMapLevel *groundLevel = nil;
+    for (DSALocalMapLevel *level in localMap.mapLevels) {
+        if (level.level == 0) {
+            groundLevel = level;
+            break;
+        }
+    }
+
+    if (!groundLevel) {
+        NSLog(@"No level 0 found in local map for '%@'", destinationName);
+        return nil;
+    }
+
+    NSInteger rows = groundLevel.mapTiles.count;
+    if (rows == 0) return nil;
+    NSInteger cols = ((NSArray *)groundLevel.mapTiles.firstObject).count;
+
+    // 4. Über alle Tiles iterieren (2D-Array)
+    for (NSInteger y = 0; y < rows; y++) {
+        NSArray<DSALocalMapTile *> *row = groundLevel.mapTiles[y];
+        for (NSInteger x = 0; x < cols; x++) {
+            DSALocalMapTile *tile = row[x];
+
+            if (![tile isKindOfClass:[DSALocalMapTileRoute class]]) continue;
+            DSALocalMapTileRoute *routeTile = (DSALocalMapTileRoute *)tile;
+
+            if (!([routeTile.type isEqualToString:@"Wegweiser"] ||
+                  [routeTile.type isEqualToString:@"Hafen"])) continue;
+
+            if (![routeTile.destinations containsObject:originName]) continue;
+
+            // 👉 Hier: Nachbar-Tiles prüfen
+            NSArray<NSValue *> *neighborOffsets = @[
+                [NSValue valueWithPoint:NSMakePoint(-1,  0)],
+                [NSValue valueWithPoint:NSMakePoint( 1,  0)],
+                [NSValue valueWithPoint:NSMakePoint( 0, -1)],
+                [NSValue valueWithPoint:NSMakePoint( 0,  1)]
+            ];
+
+            for (NSValue *offsetValue in neighborOffsets) {
+                NSPoint offset = [offsetValue pointValue];
+                NSInteger nx = x + offset.x;
+                NSInteger ny = y + offset.y;
+
+                if (nx < 0 || ny < 0 || ny >= rows) continue;
+                NSArray *neighborRow = groundLevel.mapTiles[ny];
+                if (nx >= neighborRow.count) continue;
+
+                DSALocalMapTile *neighborTile = neighborRow[nx];
+
+                if ([neighborTile isKindOfClass:[DSALocalMapTileGreen class]] ||
+                    [neighborTile isKindOfClass:[DSALocalMapTileStreet class]]) {
+
+                    DSAPosition *position = [[DSAPosition alloc] init];
+                    position.mapCoordinate = neighborTile.tileCoordinate;
+                    position.localLocationName = destinationName;
+                    position.globalLocationName = destinationName;
+                    position.context = nil;
+
+                    NSLog(@"✅ Found arrival neighbor tile for '%@' from '%@' at coordinate %@",
+                          destinationName, originName, neighborTile.tileCoordinate);
+                    return position;
+                }
+            }
+/*
+            // Falls keine begehbare Nachbarschaft, nimm Wegweiser selbst (fallback)
+            DSAPosition *fallback = [[DSAPosition alloc] init];
+            fallback.mapCoordinate = routeTile.tileCoordinate;
+            fallback.localLocationName = destinationName;
+            fallback.globalLocationName = destinationName;
+            fallback.context = nil;
+
+            NSLog(@"⚠️ No walkable neighbor found, fallback to waypoint for '%@' from '%@'",
+                  destinationName, originName);
+            return fallback; */
+        }
+    }
+
+    NSLog(@"DSALocations arrivalTileInLocalLocationWithDestinationName: No arrival tile found in '%@' from '%@' aborting()", destinationName, originName);
+    abort();
+    return nil;
+}
+
 - (NSArray<NSString *> *)getLocalLocationCategories
 {
     NSMutableArray *locationTypes = [[NSMutableArray alloc] init];

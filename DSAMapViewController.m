@@ -149,7 +149,7 @@
       }
     [self.mapScrollView addOverlay:streetsOverlay];    
 
-    self.routePlanner = [[DSARoutePlanner alloc] initWithBundleFiles];
+    self.routePlanner = [DSARoutePlanner sharedRoutePlanner];
     DSARouteOverlayView  *routeOverlay = [[DSARouteOverlayView alloc] initWithFrame:self.mapImageView.bounds features:@[]];
     routeOverlay.hidden = YES; // Initially hidden until a route is calculated
     [self.mapScrollView addOverlay: routeOverlay];    
@@ -287,53 +287,6 @@
         }
     }
 }
-
-/*
-- (void)handleAdventureTravelStart:(NSNotification *)notification {
-    NSDictionary *userInfo = notification.userInfo;
-    DSALocation *startLoc = userInfo[@"startLoc"];
-    DSALocation *endLoc   = userInfo[@"endLoc"];
-
-    if (!startLoc || !endLoc) {
-        NSLog(@"⚠️ handleAdventureTravelStart: Start oder Ziel fehlen.");
-        return;
-    }
-
-    NSString *startName = startLoc.name;
-    NSString *endName   = endLoc.name;
-
-    NSLog(@"📍 Reise gestartet von %@ nach %@", startName, endName);
-
-    // Karte passend anzeigen
-    [self zoomToRegionFrom:startLoc.mapCoordinate.asPoint to:endLoc.mapCoordinate.asPoint];
-
-    // Route berechnen
-    DSARouteResult *route = [self.routePlanner findShortestPathFrom:startName to:endName];
-    if (!route || route.routePoints.count < 2) {
-        NSLog(@"⚠️ Keine Route gefunden zwischen %@ und %@", startName, endName);
-        return;
-    }
-
-    // RouteOverlay holen oder erstellen
-    DSARouteOverlayView *routeOverlay = nil;
-    for (DSAMapOverlayView *overlay in ((DSAPannableScrollView *)self.mapScrollView).overlays) {
-        if ([overlay isKindOfClass:[DSARouteOverlayView class]]) {
-            routeOverlay = (DSARouteOverlayView *)overlay;
-            break;
-        }
-    }
-    if (!routeOverlay) {
-        routeOverlay = [[DSARouteOverlayView alloc] initWithFrame:self.mapImageView.bounds features:@[]];
-        [self.mapScrollView addOverlay:routeOverlay];
-    }
-
-    [routeOverlay updateRouteWithPoints:route.routePoints];
-    routeOverlay.hidden = NO;
-
-    // Animation starten
-    [self startTravelAnimationWithRoute:route.routePoints];
-}
-*/
 
 #pragma mark - Travel Handlers
 
