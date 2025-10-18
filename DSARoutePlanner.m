@@ -29,6 +29,8 @@
 
 #define SCALE_FACTOR 0.2787
 
+@implementation DSARouteSegment
+@end
 
 @implementation DSARouteResult
 
@@ -86,13 +88,36 @@ static DSARoutePlanner *_sharedRoutePlanner = nil;
     static NSDictionary<NSString *, NSNumber *> *mapping = nil;
     if (!mapping) {
         mapping = @{
-            @"Weg": @(DSARouteTypeWeg),
-            @"LS": @(DSARouteTypeLS),
             @"RS": @(DSARouteTypeRS),
-            @"Fähre": @(DSARouteTypeFaehre),
-            @"Gebirgspass": @(DSARouteTypeGebirgspass),
+            @"LS": @(DSARouteTypeLS),                    
+            @"Weg": @(DSARouteTypeWeg),
+            @"Offenes Gelände, Pfad": @(DSARouteTypeOffenesGelaendePfad),
             @"Offenes Gelände": @(DSARouteTypeOffenesGelaende),
+            @"Lichter Wald, Pfad": @(DSARouteTypeLichterWaldPfad),
+            @"Lichter Wald": @(DSARouteTypeLichterWald),
+            @"Wald, Pfad": @(DSARouteTypeWaldPfad),
             @"Wald": @(DSARouteTypeWald),
+            @"Dichter Wald, Pfad": @(DSARouteTypeDichterWaldPfad),
+            @"Dichter Wald": @(DSARouteTypeDichterWald),
+            @"Gebirgspass": @(DSARouteTypeGebirgePassstrecke),
+            @"Gebirge, Pfad": @(DSARouteTypeGebirgePfad),                                                         
+            @"Gebirge, kein Klettern": @(DSARouteTypeGebirgeKeinKlettern),                                                                     
+            @"Hochgebirge, mit Klettern": @(DSARouteTypeHochgebirgeMitKlettern),  
+            @"Regenwald, Pfad": @(DSARouteTypeRegenwaldPfad),                                                                   
+            @"Regenwald": @(DSARouteTypeRegenwald),                                                                               
+            @"Regenwald, Gebirge": @(DSARouteTypeRegenwaldGebirge),
+            @"Sumpf, Knüppeldamm": @(DSARouteTypeSumpfKnueppeldamm),                                                                               
+            @"Sumpf, Pfad": @(DSARouteTypeSumpfPfad),            
+            @"Sumpf": @(DSARouteTypeSumpf),
+            @"Eisgebiet, freie Fläche": @(DSARouteTypeEisgebietFreieFlaeche),
+            @"Eisgebiet, Tiefschnee": @(DSARouteTypeEisgebietTiefschnee),
+            @"Eisgebiet, Eisfläche": @(DSARouteTypeEisgebietEisflaeche),
+            @"Eisgebirge, Gletscher": @(DSARouteTypeEisgebirgeGletscher),
+            @"Geröllwüste": @(DSARouteTypeGeroellwueste),
+            @"Sandwüste": @(DSARouteTypeSandwueste),
+            @"Fähre": @(DSARouteTypeFaehre),
+            @"Seeschiff": @(DSARouteTypeSeeschiff),
+            @"Flussschiff": @(DSARouteTypeFlussschiff),
         };
     }
     
@@ -169,6 +194,232 @@ static DSARoutePlanner *_sharedRoutePlanner = nil;
 }
 
 
+- (DSARouteResult *)findShortestPathFrom:(NSString *)startName to:(NSString *)destinationName {
+    if (!self.routesData || self.routesData.count == 0) return nil;
+
+    // 1. Graph aufbauen
+    NSMutableDictionary<NSString *, NSMutableArray *> *graph = [NSMutableDictionary dictionary];
+
+    for (NSDictionary *feature in self.routesData) {
+        NSDictionary *props = feature[@"properties"];
+        NSString *begin = props[@"begin"];
+        NSString *end = props[@"end"];
+
+        NSArray *coordsArray = feature[@"geometry"][@"coordinates"][0]; // MultiLineString
+        double length = 0;
+        for (NSInteger i = 1; i < coordsArray.count; i++) {
+            NSArray *p1 = coordsArray[i-1];
+            NSArray *p2 = coordsArray[i];
+            double dx = [p2[0] doubleValue] - [p1[0] doubleValue];
+            double dy = [p2[1] doubleValue] - [p1[1] doubleValue];
+            length += sqrt(dx*dx + dy*dy);
+        }
+
+        NSNumber *typeEnumNumber = feature[@"routeTypeEnum"];
+        if (!typeEnumNumber) typeEnumNumber = @(DSARouteTypeWeg); // fallback
+
+        // beidseitig
+        if (!graph[begin]) graph[begin] = [NSMutableArray array];
+        [graph[begin] addObject:@{@"target": end,
+                                  @"length": @(length),
+                                  @"coords": coordsArray,
+                                  @"typeEnum": typeEnumNumber}];
+
+        if (!graph[end]) graph[end] = [NSMutableArray array];
+        NSArray *reversed = [[coordsArray reverseObjectEnumerator] allObjects];
+        [graph[end] addObject:@{@"target": begin,
+                                @"length": @(length),
+                                @"coords": reversed,
+                                @"typeEnum": typeEnumNumber}];
+    }
+
+    // 2. Dijkstra vorbereiten
+    NSMutableDictionary<NSString *, NSNumber *> *distances = [NSMutableDictionary dictionary];
+    NSMutableDictionary<NSString *, NSString *> *previous = [NSMutableDictionary dictionary];
+    NSMutableSet<NSString *> *visited = [NSMutableSet set];
+    NSMutableArray<NSString *> *queue = [NSMutableArray array];
+
+    for (NSString *node in graph) {
+        distances[node] = @(INFINITY);
+        [queue addObject:node];
+    }
+    distances[startName] = @(0);
+
+    while (queue.count > 0) {
+        NSString *current = nil;
+        double minDist = INFINITY;
+        for (NSString *node in queue) {
+            if ([distances[node] doubleValue] < minDist) {
+                minDist = [distances[node] doubleValue];
+                current = node;
+            }
+        }
+        if (!current) break;
+
+        [queue removeObject:current];
+        [visited addObject:current];
+
+        if ([current isEqualToString:destinationName]) break;
+
+        for (NSDictionary *neighbor in graph[current]) {
+            NSString *target = neighbor[@"target"];
+            double edgeLength = [neighbor[@"length"] doubleValue];
+            if ([visited containsObject:target]) continue;
+
+            double newDist = [distances[current] doubleValue] + edgeLength;
+            if (newDist < [distances[target] doubleValue]) {
+                distances[target] = @(newDist);
+                previous[target] = current;
+            }
+        }
+    }
+
+    // 3. Route rekonstruieren
+    NSMutableArray<NSString *> *routeNodes = [NSMutableArray array];
+    NSString *node = destinationName;
+    while (node) {
+        [routeNodes insertObject:node atIndex:0];
+        node = previous[node];
+    }
+
+    if (routeNodes.count < 2) {
+        NSLog(@"Keine Route von %@ nach %@ gefunden.", startName, destinationName);
+        return nil;
+    }
+
+    // 4. Punkte, Typen und Segmente sammeln
+    NSMutableArray<NSValue *> *routePoints = [NSMutableArray array];
+    NSMutableArray<NSString *> *instructions = [NSMutableArray array];
+    NSMutableArray<DSARouteSegment *> *segments = [NSMutableArray array];
+
+    for (NSInteger i = 0; i < routeNodes.count - 1; i++) {
+        NSString *from = routeNodes[i];
+        NSString *to = routeNodes[i+1];
+        NSArray *edges = graph[from];
+        NSDictionary *edge = nil;
+        for (NSDictionary *e in edges) {
+            if ([e[@"target"] isEqualToString:to]) {
+                edge = e;
+                break;
+            }
+        }
+        if (!edge) continue;
+
+        NSArray *coords = edge[@"coords"];
+        NSMutableArray<NSValue *> *segmentPoints = [NSMutableArray array];
+        for (NSArray *coord in coords) {
+            NSPoint point = NSMakePoint([coord[0] doubleValue], [coord[1] doubleValue]);
+            [routePoints addObject:[NSValue valueWithPoint:point]];
+            [segmentPoints addObject:[NSValue valueWithPoint:point]];
+        }
+
+        CGFloat miles = [self routeDistanceWithPoints:segmentPoints];
+        DSARouteType typeEnum = [edge[@"typeEnum"] integerValue];
+
+        // Segment erzeugen
+        DSARouteSegment *segment = [[DSARouteSegment alloc] init];
+        segment.from = from;
+        segment.to = to;
+        segment.distanceMiles = miles;
+        segment.routeType = typeEnum;
+        segment.points = [segmentPoints copy];
+        [segments addObject:segment];
+
+        // Anweisungstext
+        NSString *typeName = nil;
+        switch (typeEnum) {
+            case DSARouteTypeRS: typeName = @"der Reichsstraße"; break;
+            case DSARouteTypeLS: typeName = @"der Landstraße"; break;
+            case DSARouteTypeWeg: typeName = @"dem Weg"; break;
+            case DSARouteTypeOffenesGelaendePfad: typeName = @"dem Pfad durchs offene Gelände"; break;
+            case DSARouteTypeOffenesGelaende: typeName = @"das offene Gelände"; break;
+            case DSARouteTypeLichterWaldPfad: typeName = @"dem Pfad durch den lichten Wald"; break;
+            case DSARouteTypeLichterWald: typeName = @"den lichten Wald"; break;
+            case DSARouteTypeWaldPfad: typeName = @"dem Pfad durch den Wald"; break;
+            case DSARouteTypeWald: typeName = @"den Wald"; break;
+            case DSARouteTypeDichterWaldPfad: typeName = @"dem Pfad durch den dichten Wald"; break;
+            case DSARouteTypeDichterWald: typeName = @"den dichten Wald"; break;
+            case DSARouteTypeGebirgePassstrecke: typeName = @"dem Paß durchs Gebirge"; break;
+            case DSARouteTypeGebirgePfad: typeName = @"dem Pfad durchs Gebirge"; break;
+            case DSARouteTypeGebirgeKeinKlettern: typeName = @"das Gebirge"; break;
+            case DSARouteTypeHochgebirgeMitKlettern: typeName = @"das Hochgebirge"; break;
+            case DSARouteTypeRegenwaldPfad: typeName = @"dem Pfad durch den Regenwald"; break;
+            case DSARouteTypeRegenwald: typeName = @"den Regenwald"; break;
+            case DSARouteTypeRegenwaldGebirge: typeName = @"den gebirgigen Regenwald"; break;
+            case DSARouteTypeSumpfKnueppeldamm: typeName = @"dem Knüppeldamm durch den Sumpf"; break;
+            case DSARouteTypeSumpfPfad: typeName = @"dem Pfad durch den Sumpf"; break;
+            case DSARouteTypeSumpf: typeName = @"den Sumpf"; break;
+            case DSARouteTypeEisgebietFreieFlaeche: typeName = @"die freie Fläche im Eisgebiet"; break;
+            case DSARouteTypeEisgebietTiefschnee: typeName = @"den Tiefschnee im Eisgebiet"; break;         
+            case DSARouteTypeEisgebietEisflaeche: typeName = @"die Eisflaeche im Eisgebiet"; break;
+            case DSARouteTypeEisgebirgeGletscher: typeName = @"den Gletscher"; break;            
+            case DSARouteTypeFaehre: typeName = @"die Fähre"; break;
+            case DSARouteTypeSeeschiff: typeName = @"das Schiff"; break;
+            case DSARouteTypeFlussschiff: typeName = @"das Schiff"; break;            
+            default: NSLog(@"DSARoutePlanner findShortestPathFrom: unknown path type while creating typeName, aborting"); abort();break;
+        }
+        NSString *instruction;
+        switch (typeEnum) {
+            case DSARouteTypeRS:
+            case DSARouteTypeLS:
+            case DSARouteTypeWeg:
+            case DSARouteTypeOffenesGelaendePfad:
+            case DSARouteTypeLichterWaldPfad:    
+            case DSARouteTypeWaldPfad:
+            case DSARouteTypeDichterWaldPfad:
+            case DSARouteTypeGebirgePassstrecke:
+            case DSARouteTypeGebirgePfad:
+            case DSARouteTypeRegenwaldPfad:
+            case DSARouteTypeSumpfKnueppeldamm:
+            case DSARouteTypeSumpfPfad:
+                     instruction = [NSString stringWithFormat:@"Folge %@ für %.2f Meilen bis %@.", typeName, miles, to];
+                     break;
+                    
+            case DSARouteTypeOffenesGelaende:
+            case DSARouteTypeLichterWald:
+            case DSARouteTypeWald:
+            case DSARouteTypeDichterWald:
+            case DSARouteTypeGebirgeKeinKlettern:
+            case DSARouteTypeHochgebirgeMitKlettern:
+            case DSARouteTypeRegenwald:
+            case DSARouteTypeRegenwaldGebirge:
+            case DSARouteTypeSumpf:
+            case DSARouteTypeEisgebietTiefschnee:     
+            
+                     instruction = [NSString stringWithFormat:@"Bahnt euch einen Weg durch %@ für %.2f Meilen bis %@.", typeName, miles, to];
+                     break;
+
+            case DSARouteTypeEisgebietFreieFlaeche:
+            case DSARouteTypeEisgebietEisflaeche:
+            case DSARouteTypeEisgebirgeGletscher:
+                     instruction = [NSString stringWithFormat:@"Bahnt euch einen Weg über %@ für %.2f Meilen bis %@.", typeName, miles, to];
+                     break;
+                                         
+            case DSARouteTypeFaehre:
+            case DSARouteTypeSeeschiff:
+            case DSARouteTypeFlussschiff:
+                     instruction = [NSString stringWithFormat:@"Nehmt %@ für %.2f Meilen nach %@.", typeName, miles, to];
+                     break;
+                                            
+            default: NSLog(@"DSARoutePlanner findShortestPathFrom: unknown path type while creating instructions, aborting"); abort();break;
+        }        
+        [instructions addObject:instruction];
+    }
+
+    // 5. Distanzwerte berechnen
+    CGFloat airDistance = [self airDistanceFrom:startName to:destinationName];
+    CGFloat routeDistance = [self routeDistanceWithPoints:routePoints];
+
+    // 6. Ergebnis erstellen
+    DSARouteResult *result = [[DSARouteResult alloc] initWithPoints:routePoints
+                                                       instructions:instructions
+                                                        airDistance:airDistance
+                                                      routeDistance:routeDistance];
+    result.segments = [segments copy];
+
+    return result;
+}
+/*
 - (DSARouteResult *)findShortestPathFrom:(NSString *)startName to:(NSString *)destinationName {
     if (!self.routesData || self.routesData.count == 0) return nil;
 
@@ -346,7 +597,7 @@ static DSARoutePlanner *_sharedRoutePlanner = nil;
 
     return result;
 }
-
+*/
 -(CGFloat) airDistanceFrom: (NSString *) start to: (NSString *) destination
 {
     DSALocation *startLocation = [[DSALocations sharedInstance] locationWithName: start ofType: @"global"];

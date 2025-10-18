@@ -373,14 +373,38 @@ typedef NS_ENUM(NSInteger, DSAAnimalType) {
     DSAAnimalTypeCat,
 };
 
+// See Enzyklopaedia Aventurica p. 69
 typedef NS_ENUM(NSInteger, DSARouteType) {
-    DSARouteTypeWeg,       // "Weg"
-    DSARouteTypeLS,        // "LS"
     DSARouteTypeRS,        // "RS"
-    DSARouteTypeFaehre,    // "Fähre"
-    DSARouteTypeGebirgspass,
+    DSARouteTypeLS,        // "LS"    
+    DSARouteTypeWeg,       // "Weg"
+    DSARouteTypeOffenesGelaendePfad,    // "Offenes Gelände, Pfad"
     DSARouteTypeOffenesGelaende,
-    DSARouteTypeWald
+    DSARouteTypeLichterWaldPfad,
+    DSARouteTypeLichterWald,
+    DSARouteTypeWaldPfad,
+    DSARouteTypeWald,
+    DSARouteTypeDichterWaldPfad,
+    DSARouteTypeDichterWald,
+    DSARouteTypeGebirgePassstrecke,    // Gebirgspass
+    DSARouteTypeGebirgePfad,
+    DSARouteTypeGebirgeKeinKlettern,
+    DSARouteTypeHochgebirgeMitKlettern,
+    DSARouteTypeRegenwaldPfad,
+    DSARouteTypeRegenwald,
+    DSARouteTypeRegenwaldGebirge,
+    DSARouteTypeSumpfKnueppeldamm,
+    DSARouteTypeSumpfPfad,
+    DSARouteTypeSumpf,
+    DSARouteTypeEisgebietFreieFlaeche,
+    DSARouteTypeEisgebietTiefschnee,
+    DSARouteTypeEisgebietEisflaeche,
+    DSARouteTypeEisgebirgeGletscher,
+    DSARouteTypeGeroellwueste,
+    DSARouteTypeSandwueste,
+    DSARouteTypeFaehre,                  // "Fähre"
+    DSARouteTypeSeeschiff,
+    DSARouteTypeFlussschiff,
 };
 
 

@@ -25,15 +25,26 @@
 #ifndef _DSAROUTEPLANNER_H_
 #define _DSAROUTEPLANNER_H_
 
-#import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
+#import "DSADefinitions.h"
 
 NS_ASSUME_NONNULL_BEGIN
+
+@interface DSARouteSegment : NSObject
+@property (nonatomic, copy) NSString *from;
+@property (nonatomic, copy) NSString *to;
+@property (nonatomic, assign) CGFloat distanceMiles;
+@property (nonatomic, assign) DSARouteType routeType;
+@property (nonatomic, strong) NSArray<NSValue *> *points; // NSPoint
+@end
+
 
 @interface DSARouteResult : NSObject
 
 /// Die Punkte der Route (NSArray<NSValue *> mit NSPoint)
 @property (nonatomic, strong) NSArray<NSValue *> *routePoints;
+/// Details zu den einzelnen Segmenten der Route
+@property (nonatomic, strong) NSMutableArray<DSARouteSegment *> *segments;
 
 /// Die Weganweisungen (NSArray<NSString *>)
 @property (nonatomic, strong) NSArray<NSString *> *instructions;
