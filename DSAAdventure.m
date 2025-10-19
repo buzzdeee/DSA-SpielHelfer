@@ -42,6 +42,7 @@ DSAActionContext const DSAActionContextTravel = @"Reisen";
 
 NSString * const DSAAdventureTravelDidBeginNotification = @"DSAAdventureTravelDidBegin";
 NSString * const DSAAdventureTravelDidProgressNotification = @"DSAAdventureTravelDidProgress";
+NSString * const DSAAdventureTravelRestingNotification = @"DSAAdventureTravelResting";
 NSString * const DSAAdventureTravelDidEndNotification = @"DSAAdventureTravelDidEnd";
 
 
@@ -434,6 +435,137 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 
     self.traveling = YES;
     self.travelProgress = 0.0;
+
+    CGFloat baseMilesPerDay = 30.0; // Basisgeschwindigkeit zu Fuß
+    CGFloat travelHoursPerDay = 12.0; // max. Stunden pro Tag aktiv reisen
+    CGFloat simulatedHoursPerSecond = 1.0; // 1 Sekunde = 1 Simulationsstunde (für Demo)
+    NSTimeInterval interval = 0.2; // Timerintervall in Sekunden
+
+    NSLog(@"🚀 Travel started: %@ → %@ (%.1f Meilen über %lu Segmente)",
+          startName, destName, routeResult.routeDistance, (unsigned long)routeResult.segments.count);
+
+    self.activeGroup.position.localLocationName = nil;
+    self.activeGroup.position.context = DSAActionContextTravel;
+    [self.gameClock setTravelModeEnabled:YES];
+
+    NSDictionary *userInfo = @{
+        @"adventure": self,
+        @"startLoc": self.currentStartLocation,
+        @"endLoc": self.currentDestinationLocation
+    };
+    [[NSNotificationCenter defaultCenter] postNotificationName:DSAAdventureTravelDidBeginNotification
+                                                        object:self
+                                                      userInfo:userInfo];
+
+    // Timer-Block-Variablen
+    __block NSInteger currentSegmentIndex = 0;
+    __block CGFloat segmentProgress = 0.0;
+    __block CGFloat travelHoursToday = 0.0;
+
+    __block DSARouteSegment *currentSegment = routeResult.segments.firstObject;
+    __block CGFloat currentSegmentMod = [self speedModifierForRouteType:currentSegment.routeType];
+    __block CGFloat currentSegmentMiles = currentSegment.distanceMiles;
+    __block CGFloat currentSegmentDays = currentSegmentMiles / (baseMilesPerDay * currentSegmentMod);
+    __block CGFloat currentSegmentTotalSeconds = currentSegmentDays * 24.0;
+    __block CGFloat segmentIncrement = interval / currentSegmentTotalSeconds;
+
+    self.travelTimer = [NSTimer scheduledTimerWithTimeInterval:interval
+                                                        repeats:YES
+                                                          block:^(NSTimer * _Nonnull timer) {
+        if (!self.traveling) {
+            [timer invalidate];
+            return;
+        }
+
+        // 🌙 Rastphase prüfen
+        if ([self.activeGroup.position.context isEqualToString:DSAActionContextTravel] &&
+            travelHoursToday >= travelHoursPerDay) {
+
+            NSLog(@"🌙 Gruppe rastet nach %.1f Stunden", travelHoursToday);
+            self.activeGroup.position.context = DSAActionContextResting;
+            [self.gameClock setTravelModeEnabled:NO]; // normale Uhr läuft
+            [[NSNotificationCenter defaultCenter] postNotificationName:DSAAdventureTravelRestingNotification
+                                                                object:self
+                                                              userInfo:userInfo];            
+            travelHoursToday = 0.0;
+            return;
+        }
+
+        // 🚶 Nur Fortschritt erhöhen, wenn unterwegs
+        if ([self.activeGroup.position.context isEqualToString:DSAActionContextTravel]) {
+            travelHoursToday += interval * simulatedHoursPerSecond;
+
+            segmentProgress += segmentIncrement;
+            CGFloat segmentFraction = segmentProgress;
+            CGFloat totalFraction = (currentSegmentIndex + segmentFraction) / (CGFloat)routeResult.segments.count;
+            [self updateTravelProgress:totalFraction];
+
+            // Nächstes Segment?
+            if (segmentProgress >= 1.0) {
+                currentSegmentIndex++;
+                if (currentSegmentIndex >= routeResult.segments.count) {
+                    [timer invalidate];
+                    [self endTravel];
+                    return;
+                }
+
+                currentSegment = routeResult.segments[currentSegmentIndex];
+                currentSegmentMod = [self speedModifierForRouteType:currentSegment.routeType];
+                currentSegmentMiles = currentSegment.distanceMiles;
+                currentSegmentDays = currentSegmentMiles / (baseMilesPerDay * currentSegmentMod);
+                currentSegmentTotalSeconds = currentSegmentDays * 24.0;
+                segmentIncrement = interval / currentSegmentTotalSeconds;
+                segmentProgress = 0.0;
+
+                NSLog(@"➡️ Neues Segment: %@ → %@ (%.2f Meilen, Typ=%ld, Mod=%.2f)",
+                      currentSegment.from, currentSegment.to,
+                      currentSegment.distanceMiles, (long)currentSegment.routeType, currentSegmentMod);
+            }
+        }
+    }];
+}
+
+- (void)sleepForHours:(NSUInteger)hours {
+    if (![self.activeGroup.position.context isEqualToString:DSAActionContextResting]) {
+        NSLog(@"⚠️ Kann nur im Rastmodus schlafen.");
+        return;
+    }
+
+    NSLog(@"😴 Gruppe schläft %lu Stunden...", (unsigned long)hours);
+
+    // GameClock vordrehen
+    [self.gameClock advanceTimeByHours:hours];
+
+    // Danach automatisch wieder Reisen
+    NSLog(@"☀️ Gruppe ist ausgeruht und reist weiter!");
+    self.activeGroup.position.context = DSAActionContextTravel;
+    [self.gameClock setTravelModeEnabled:YES];
+}
+
+/*
+- (void)beginTravelFrom:(NSString *)startName to:(NSString *)destName {
+    if (self.traveling) {
+        NSLog(@"⚠️ Already traveling — ignoring new travel request.");
+        return;
+    }
+
+    self.currentStartLocation = [[DSALocations sharedInstance] locationWithName:startName ofType:@"global"];
+    self.currentDestinationLocation = [[DSALocations sharedInstance] locationWithName:destName ofType:@"global"];
+
+    if (!self.currentStartLocation || !self.currentDestinationLocation) {
+        NSLog(@"❌ Invalid travel start or destination");
+        return;
+    }
+
+    DSARoutePlanner *routePlanner = [DSARoutePlanner sharedRoutePlanner];
+    DSARouteResult *routeResult = [routePlanner findShortestPathFrom:startName to:destName];
+    if (!routeResult || routeResult.segments.count == 0) {
+        NSLog(@"❌ No route found from %@ to %@", startName, destName);
+        return;
+    }
+
+    self.traveling = YES;
+    self.travelProgress = 0.0;
     //self.currentRoute = routeResult;
 
     // ⚙️ Basisgeschwindigkeit (Meilen pro Tag zu Fuß)
@@ -504,6 +636,9 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
         }
     }];
 }
+*/
+
+
 
 - (void)updateTravelProgress:(CGFloat)progress {
     if (!self.traveling) return;

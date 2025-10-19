@@ -348,58 +348,6 @@
     [routeOverlay fadeOut];
     [self showArrivalAtLocation:destination];
 }
-/*
-- (void)startTravelAnimationWithRoute:(NSArray<NSValue *> *)routePoints {
-    if (routePoints.count < 2) return;
-
-    self.travelRoutePoints = routePoints;
-    self.travelCurrentIndex = 0;
-    self.travelProgress = 0.0;
-    self.travelDurationPerDay = 20.0; // Ein „Ingame-Tag“ = 20s
-
-    [self.travelTimer invalidate];
-    self.travelTimer = [NSTimer scheduledTimerWithTimeInterval:0.02
-                                                        target:self
-                                                      selector:@selector(updateTravelAnimation)
-                                                      userInfo:nil
-                                                       repeats:YES];
-}
-
-- (void)updateTravelAnimation {
-    if (self.travelCurrentIndex >= self.travelRoutePoints.count - 1) {
-        [self endTravelSimulation];
-        return;
-    }
-
-    NSPoint start = [self.travelRoutePoints[self.travelCurrentIndex] pointValue];
-    NSPoint end   = [self.travelRoutePoints[self.travelCurrentIndex + 1] pointValue];
-
-    // Fortschritt erhöhen
-    CGFloat segmentLength = hypot(end.x - start.x, end.y - start.y);
-    CGFloat speed = segmentLength / self.travelDurationPerDay; // Pixel pro Sekunde
-    self.travelProgress += speed * self.travelTimer.timeInterval;
-
-    if (self.travelProgress >= 1.0) {
-        self.travelProgress = 0.0;
-        self.travelCurrentIndex++;
-    }
-
-    // Position auf der Linie interpolieren
-    CGFloat x = start.x + (end.x - start.x) * self.travelProgress;
-    CGFloat y = start.y + (end.y - start.y) * self.travelProgress;
-    NSPoint currentPosition = NSMakePoint(x, y);
-
-    [self drawTravelProgressToPoint:currentPosition];
-
-    // Optional: Kamera leicht nachziehen
-    [self jumpToLocationWithCoordinates:currentPosition];
-}
-*/
-
-- (void)updateTravelAnimationWithProgressXXX:(CGFloat)progress
-{
-
-}
 
 - (void)updateTravelAnimationWithProgress:(CGFloat)progress {
     if (!self.travelRoutePoints || self.travelRoutePoints.count < 2) return;
@@ -454,38 +402,10 @@
     [routeOverlay updateRouteWithPoints:pointsToDraw];
 }
 
-/*
-- (void)endTravelSimulation {
-    [self.travelTimer invalidate];
-    self.travelTimer = nil;
-    self.travelRoutePoints = nil;
-    self.travelCurrentIndex = 0;
-    self.travelProgress = 0;
-
-    NSLog(@"🌙 Reise beendet");
-
-    // Notification, dass die Reise vorbei ist
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureTravelEnd" object:self];
-}
-*/
-
 - (void)showArrivalAtLocation:(DSALocation *)destination
 {
     if (!destination) return;
-    NSLog(@"DSAMapViewController showArrivalAtLocation: Ankunft in %@", destination.name);
-
-    // Beispiel: Nachricht ans Spiel-UI oder Popup
-/*    NSAlert *alert = [[NSAlert alloc] init];
-    alert.messageText = [NSString stringWithFormat:@"Ankunft in %@", destination.name];
-    alert.informativeText = @"Die Reise ist beendet.";
-    [alert addButtonWithTitle:@"OK"];
-    [alert runModal]; */
-/*
-    // Optional: Overlay ausblenden
-    if (self.routeOverlay) {
-        self.routeOverlay.hidden = YES;
-    }
-*/    
+    NSLog(@"DSAMapViewController showArrivalAtLocation: Ankunft in %@", destination.name);    
 }
 
 - (void) handleRouteDestinationChanged: (NSNotification *)notification

@@ -50,6 +50,7 @@ extern DSAActionContext const DSAActionContextTravel;
 
 extern NSString * const DSAAdventureTravelDidBeginNotification;
 extern NSString * const DSAAdventureTravelDidProgressNotification;
+extern NSString * const DSAAdventureTravelRestingNotification;
 extern NSString * const DSAAdventureTravelDidEndNotification;
 
 @interface DSAAdventure : DSABaseObject <NSCoding>

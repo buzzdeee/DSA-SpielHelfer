@@ -108,7 +108,11 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleTravelDidBegin)
                                                  name:DSAAdventureTravelDidBeginNotification
-                                               object:nil];                                             
+                                               object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleTravelResting)
+                                                 name:DSAAdventureTravelRestingNotification
+                                               object:nil];                                                                                           
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(updateActionIcons:)
                                                  name:DSAAdventureTravelDidEndNotification
@@ -630,6 +634,12 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 - (void) handleTravelDidBegin
 {
   NSLog(@"DSAAdventureWindowController handleTravelDidBegin called");
+  [self updateMainImageView: nil];
+}
+
+- (void) handleTravelResting
+{
+  NSLog(@"DSAAdventureWindowController handleTravelResting called");
   [self updateMainImageView: nil];
 }
 
