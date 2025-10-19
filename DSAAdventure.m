@@ -427,27 +427,20 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 
     DSARoutePlanner *routePlanner = [DSARoutePlanner sharedRoutePlanner];
     DSARouteResult *routeResult = [routePlanner findShortestPathFrom:startName to:destName];
-    if (!routeResult) {
+    if (!routeResult || routeResult.segments.count == 0) {
         NSLog(@"❌ No route found from %@ to %@", startName, destName);
         return;
     }
-
-    // 💡 Reiseparameter
-    CGFloat milesPerDay = 30.0;
-    CGFloat totalDistance = routeResult.routeDistance;    // Meilen
-    CGFloat totalDays = totalDistance / milesPerDay;      // wie viele Tage?
-    CGFloat totalSeconds = totalDays * 24.0;              // z. B. 24 Sekunden pro "Tag" (für Demo)
-    
-    // Fortschritt pro Timerintervall
-    NSTimeInterval interval = 0.2;                        // 5x pro Sekunde
-    CGFloat progressIncrement = interval / totalSeconds;  // linearer Fortschritt
 
     self.traveling = YES;
     self.travelProgress = 0.0;
     //self.currentRoute = routeResult;
 
-    NSLog(@"🚀 Travel started: %@ → %@ (%.1f Meilen, %.1f Tage simuliert)",
-          startName, destName, totalDistance, totalDays);
+    // ⚙️ Basisgeschwindigkeit (Meilen pro Tag zu Fuß)
+    CGFloat baseMilesPerDay = 30.0;
+
+    NSLog(@"🚀 Travel started: %@ → %@ (%.1f Meilen über %lu Segmente)",
+          startName, destName, routeResult.routeDistance, (unsigned long)routeResult.segments.count);
 
     self.activeGroup.position.localLocationName = nil;
     self.activeGroup.position.context = DSAActionContextTravel;
@@ -458,12 +451,22 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
         @"startLoc": self.currentStartLocation,
         @"endLoc": self.currentDestinationLocation
     };
-
     [[NSNotificationCenter defaultCenter] postNotificationName:DSAAdventureTravelDidBeginNotification
                                                         object:self
                                                       userInfo:userInfo];
 
-    // 🕒 Timer für Fortschritt
+    // ⏱️ Timer-Setup
+    NSTimeInterval interval = 0.2; // alle 0.2 Sekunde Fortschritt prüfen
+    __block NSInteger currentSegmentIndex = 0;
+    __block CGFloat segmentProgress = 0.0;
+
+    __block DSARouteSegment *currentSegment = routeResult.segments.firstObject;
+    __block CGFloat currentSegmentMod = [self speedModifierForRouteType:currentSegment.routeType];
+    __block CGFloat currentSegmentMiles = currentSegment.distanceMiles;
+    __block CGFloat currentSegmentDays = currentSegmentMiles / (baseMilesPerDay * currentSegmentMod);
+    __block CGFloat currentSegmentTotalSeconds = currentSegmentDays * 24.0;
+    __block CGFloat segmentIncrement = interval / currentSegmentTotalSeconds;
+
     self.travelTimer = [NSTimer scheduledTimerWithTimeInterval:interval
                                                         repeats:YES
                                                           block:^(NSTimer * _Nonnull timer) {
@@ -472,62 +475,36 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
             return;
         }
 
-        self.travelProgress += progressIncrement;
-        [self updateTravelProgress:self.travelProgress];
+        segmentProgress += segmentIncrement;
+        CGFloat segmentFraction = segmentProgress;
+        CGFloat totalFraction = (currentSegmentIndex + segmentFraction) / (CGFloat)routeResult.segments.count;
 
-        if (self.travelProgress >= 1.0) {
-            [timer invalidate];
-            [self endTravel];
+        [self updateTravelProgress:totalFraction];
+
+        if (segmentProgress >= 1.0) {
+            currentSegmentIndex++;
+            if (currentSegmentIndex >= routeResult.segments.count) {
+                [timer invalidate];
+                [self endTravel];
+                return;
+            }
+
+            // ➡️ Nächstes Segment laden
+            currentSegment = routeResult.segments[currentSegmentIndex];
+            currentSegmentMod = [self speedModifierForRouteType:currentSegment.routeType];
+            currentSegmentMiles = currentSegment.distanceMiles;
+            currentSegmentDays = currentSegmentMiles / (baseMilesPerDay * currentSegmentMod);
+            currentSegmentTotalSeconds = currentSegmentDays * 24.0;
+            segmentIncrement = interval / currentSegmentTotalSeconds;
+            segmentProgress = 0.0;
+
+            NSLog(@"➡️ Neues Segment: %@ → %@ (%.2f Meilen, Typ=%ld, Mod=%.2f)",
+                  currentSegment.from, currentSegment.to,
+                  currentSegment.distanceMiles, (long)currentSegment.routeType, currentSegmentMod);
         }
     }];
 }
-/*
-- (void)beginTravelFrom:(NSString *)startName to:(NSString *)destName {
-    if (self.traveling) {
-        NSLog(@"⚠️ Already traveling — ignoring new travel request.");
-        return;
-    }
 
-    self.currentStartLocation = [[DSALocations sharedInstance] locationWithName:startName ofType:@"global"];
-    self.currentDestinationLocation = [[DSALocations sharedInstance] locationWithName:destName ofType:@"global"];
-    DSARoutePlanner *routePlanner = [DSARoutePlanner sharedRoutePlanner];
-    DSARouteResult *routeResult = [routePlanner findShortestPathFrom: startName to: destName];
-    
-    if (!self.currentStartLocation || !self.currentDestinationLocation) {
-        NSLog(@"❌ Invalid travel start or destination");
-        return;
-    }
-
-    self.traveling = YES;
-    self.travelProgress = 0.0;
-
-    NSLog(@"🚀 Travel started: %@ → %@", startName, destName);
-    self.activeGroup.position.localLocationName = nil;
-    self.activeGroup.position.context = DSAActionContextTravel;
-    [self.gameClock setTravelModeEnabled:YES];
-    
-    NSDictionary *userInfo = @{
-        @"adventure": self,
-        @"startLoc": self.currentStartLocation,
-        @"endLoc": self.currentDestinationLocation
-    };
-
-    [[NSNotificationCenter defaultCenter] postNotificationName:DSAAdventureTravelDidBeginNotification
-                                                        object:self
-                                                      userInfo:userInfo];
-
-    // Simulierter Reiseverlauf (z. B. Fortschritt alle 0.5 Sek.)
-    self.travelTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
-                                                        repeats:YES
-                                                          block:^(NSTimer * _Nonnull timer) {
-        self.travelProgress += 0.1;
-        [self updateTravelProgress:self.travelProgress];
-        if (self.travelProgress >= 1.0) {
-            [self endTravel];
-        }
-    }];
-}
-*/
 - (void)updateTravelProgress:(CGFloat)progress {
     if (!self.traveling) return;
     self.travelProgress = MIN(progress, 1.0);
@@ -564,9 +541,52 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     [[NSNotificationCenter defaultCenter] postNotificationName:DSAAdventureTravelDidEndNotification
                                                         object:self
                                                       userInfo:userInfo];
+    userInfo = @{ @"severity": @(LogSeverityInfo),
+                   @"message": [NSString stringWithFormat: @"Ankunft in %@", self.currentDestinationLocation.name]
+                };
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                        object: nil
+                                                      userInfo: userInfo];                                                      
     self.currentStartLocation = nil;
     self.currentDestinationLocation = nil;
 }
+
+- (CGFloat)speedModifierForRouteType:(DSARouteType)type {
+    switch (type) {
+        case DSARouteTypeRS:                     return 1.10; // Reichsstraße
+        case DSARouteTypeLS:                     return 1.00; // Landstraße
+        case DSARouteTypeWeg:                    return 0.80;
+        case DSARouteTypeOffenesGelaendePfad:    return 0.80;
+        case DSARouteTypeOffenesGelaende:        return 0.75;        
+        case DSARouteTypeLichterWaldPfad:        return 0.75;
+        case DSARouteTypeLichterWald:            return 0.60;
+        case DSARouteTypeWaldPfad:               return 0.60;
+        case DSARouteTypeWald:                   return 0.50;
+        case DSARouteTypeDichterWaldPfad:        return 0.50;
+        case DSARouteTypeDichterWald:            return 0.20;
+        case DSARouteTypeGebirgePassstrecke:     return 0.40;
+        case DSARouteTypeGebirgePfad:            return 0.30;
+        case DSARouteTypeGebirgeKeinKlettern:    return 0.20;
+        case DSARouteTypeHochgebirgeMitKlettern: return 0.10;
+        case DSARouteTypeRegenwaldPfad:          return 0.40;
+        case DSARouteTypeRegenwald:              return 0.20;
+        case DSARouteTypeRegenwaldGebirge:       return 0.10;
+        case DSARouteTypeSumpfKnueppeldamm:      return 0.50;
+        case DSARouteTypeSumpfPfad:              return 0.30;
+        case DSARouteTypeSumpf:                  return 0.10;
+        case DSARouteTypeEisgebietFreieFlaeche:  return 0.70;
+        case DSARouteTypeEisgebietTiefschnee:    return 0.40;
+        case DSARouteTypeEisgebietEisflaeche:    return 0.20;
+        case DSARouteTypeEisgebirgeGletscher:    return 0.10;
+        case DSARouteTypeGeroellwueste:          return 0.60;
+        case DSARouteTypeSandwueste:             return 0.50;
+        case DSARouteTypeFaehre:                 return 1.00;
+        case DSARouteTypeSeeschiff:              return 1.50;
+        case DSARouteTypeFlussschiff:            return 1.30;
+
+    }
+}
+
 @end
 
 @implementation DSAAdventureManager

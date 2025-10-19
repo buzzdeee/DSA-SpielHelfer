@@ -160,7 +160,9 @@
             [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
                                                                 object: sourceModel
                                                               userInfo: userInfo];
-               [self postDSAInventoryChangedNotificationForSourceModel: sourceModel targetModel: targetModel];
+                                                              
+            [self postDSAInventoryChangedNotificationForSourceModel: sourceModel 
+                                                        targetModel: targetModel];
             return YES;
          }
          return NO;

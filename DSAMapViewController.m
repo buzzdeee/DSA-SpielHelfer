@@ -472,14 +472,14 @@
 - (void)showArrivalAtLocation:(DSALocation *)destination
 {
     if (!destination) return;
-    NSLog(@"🎯 Ankunft in %@", destination.name);
+    NSLog(@"DSAMapViewController showArrivalAtLocation: Ankunft in %@", destination.name);
 
     // Beispiel: Nachricht ans Spiel-UI oder Popup
-    NSAlert *alert = [[NSAlert alloc] init];
+/*    NSAlert *alert = [[NSAlert alloc] init];
     alert.messageText = [NSString stringWithFormat:@"Ankunft in %@", destination.name];
     alert.informativeText = @"Die Reise ist beendet.";
     [alert addButtonWithTitle:@"OK"];
-    [alert runModal];
+    [alert runModal]; */
 /*
     // Optional: Overlay ausblenden
     if (self.routeOverlay) {
