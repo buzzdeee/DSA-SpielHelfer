@@ -68,7 +68,7 @@
 // they are all calculated
 - (id)copyWithZone:(NSZone *)zone
 {
-    NSLog(@"DSABaseObject copyWithZone called!");
+    //NSLog(@"DSABaseObject copyWithZone called!");
     // Neues Objekt vom selben Typ erzeugen
     DSABaseObject *copy = [[[self class] allocWithZone:zone] init];
 

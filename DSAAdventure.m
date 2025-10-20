@@ -525,6 +525,26 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     }];
 }
 
+- (void)continueTravel
+{
+    if (![self.activeGroup.position.context isEqualToString:DSAActionContextResting]) {
+        NSLog(@"DSAAdventure continueTravel: Not in resting mode!");
+        return;
+    }
+    NSLog(@"☀️ Gruppe ist ausgeruht und reist weiter!");
+    self.activeGroup.position.context = DSAActionContextTravel;
+    [self.gameClock setTravelModeEnabled:YES];
+    NSDictionary *userInfo = @{
+        @"adventure": self,
+        @"startLoc": self.currentStartLocation,
+        @"endLoc": self.currentDestinationLocation
+    };
+    [[NSNotificationCenter defaultCenter] postNotificationName:DSAAdventureTravelDidBeginNotification
+                                                        object:self
+                                                      userInfo:userInfo];        
+}
+
+// unused method
 - (void)sleepForHours:(NSUInteger)hours {
     if (![self.activeGroup.position.context isEqualToString:DSAActionContextResting]) {
         NSLog(@"⚠️ Kann nur im Rastmodus schlafen.");

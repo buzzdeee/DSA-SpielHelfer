@@ -6338,7 +6338,31 @@
 	"Reisen_Wald_1-32x32.webp",
 	"Reisen_Wald_1-512x512.webp",
 	"Reisen_Wald_1-64x64.webp",
-	"Reisen_Wald_1.webp"
+	"Reisen_Wald_1.webp",
+	"go_hunting-128x128.webp",
+	"go_hunting-256x256.webp",
+	"go_hunting-32x32.webp",
+	"go_hunting-512x512.webp",
+	"go_hunting-64x64.webp",
+	"go_hunting.webp",
+	"kraeuter_suchen-128x128.webp",
+	"kraeuter_suchen-256x256.webp",
+	"kraeuter_suchen-32x32.webp",
+	"kraeuter_suchen-512x512.webp",
+	"kraeuter_suchen-64x64.webp",
+	"kraeuter_suchen.webp",
+	"nachtlager_sleep-128x128.webp",
+	"nachtlager_sleep-256x256.webp",
+	"nachtlager_sleep-32x32.webp",
+	"nachtlager_sleep-512x512.webp",
+	"nachtlager_sleep-64x64.webp",
+	"nachtlager_sleep.webp",
+	"wachen_einteilen-128x128.webp",
+	"wachen_einteilen-256x256.webp",
+	"wachen_einteilen-32x32.webp",
+	"wachen_einteilen-512x512.webp",
+	"wachen_einteilen-64x64.webp",
+	"wachen_einteilen.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;

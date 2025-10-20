@@ -176,13 +176,133 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
       DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
       DSAAdventureGroup *activeGroup = adventure.activeGroup;
       currentPosition = activeGroup.position;
-     }
-  DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
-  
-//  NSLog(@"DSAAdventureWindowController setupActionIcons: currentAdventure: %@", adventure);
-//  NSLog(@"DSAAdventureWindowController setupActionIcons: activeGroup: %@", activeGroup);
-//  NSLog(@"DSAAdventureWindowController setupActionIcons: currentPosition: %@", currentPosition);
-//  NSLog(@"DSAAdventureWindowController setupActionIcons: currentLocation: %@", currentLocation);  
+    }
+
+    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType:@"local"];
+    DSALocation *globalLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.globalLocationName ofType:@"global"];
+    NSLog(@"DSAAdventureWindowController setupActionIcons called!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    if (!currentLocation && !globalLocation)
+      {
+        NSLog(@"DSAAdventureWindowController setupActionIcons : Fehlende Location-Daten");
+        return;
+      }
+    
+    if (!currentLocation)  // we only have a global location
+      {       
+        if ([currentPosition.context isEqualToString: DSAActionContextTravel])
+          {
+            NSLog(@"DSAAdventureWindowController setupActionIcons for global location in travel context not yet implemented!");
+          }
+        else if ([currentPosition.context isEqualToString: DSAActionContextResting])
+          {
+            if ([self.imageActionIcon0 isKindOfClass: [DSAActionIconChat class]])
+              {
+                [self.imageActionIcon0 updateAppearance];
+              }
+            else
+              {
+                DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"chat" andSize:@"128x128"];
+                [self replaceView:self.imageActionIcon0 withView:newIcon];
+                self.imageActionIcon0 = newIcon;
+                [self.imageActionIcon0 updateAppearance];
+              }
+            if ([self.imageActionIcon1 isKindOfClass: [DSAActionIconGuardSelection class]])
+              {
+                [self.imageActionIcon1 updateAppearance];
+              }
+            else
+              {          
+                DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"selectGuards" andSize:@"128x128"];
+                [self replaceView:self.imageActionIcon1 withView:newIcon];
+                self.imageActionIcon1 = newIcon;
+                [self.imageActionIcon1 updateAppearance];
+              }
+            if ([self.imageActionIcon2 isKindOfClass: [DSAActionIconSleep class]])
+              {
+                [self.imageActionIcon2 updateAppearance];
+              }
+            else
+              {                     
+                DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"sleep" andSize:@"128x128"];
+                [self replaceView:self.imageActionIcon2 withView:newIcon];
+                self.imageActionIcon2 = newIcon;
+                [self.imageActionIcon2 updateAppearance];
+              }
+            if ([self.imageActionIcon3 isKindOfClass: [DSAActionIconTalent class]])
+              {
+                [self.imageActionIcon3 updateAppearance];
+              }
+            else
+              {                     
+                DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"useTalent" andSize:@"128x128"];
+                [self replaceView:self.imageActionIcon3 withView:newIcon];
+                self.imageActionIcon3 = newIcon;
+                [self.imageActionIcon3 updateAppearance];
+              } 
+            if ([self.imageActionIcon4 isKindOfClass: [DSAActionIconMagic class]])
+              {
+                [self.imageActionIcon4 updateAppearance];
+              }
+            else
+              {                     
+                DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"useMagic" andSize:@"128x128"];
+                [self replaceView:self.imageActionIcon4 withView:newIcon];
+                self.imageActionIcon4 = newIcon;
+                [self.imageActionIcon4 updateAppearance];
+              }
+            if ([self.imageActionIcon5 isKindOfClass: [DSAActionIconRitual class]])
+              {
+                [self.imageActionIcon5 updateAppearance];
+              }
+            else
+              {                     
+                DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"useRitual" andSize:@"128x128"];
+                [self replaceView:self.imageActionIcon5 withView:newIcon];
+                self.imageActionIcon5 = newIcon;
+                [self.imageActionIcon5 updateAppearance];
+              }                                    
+            if ([self.imageActionIcon6 isKindOfClass: [DSAActionIconSwitchActiveGroup class]])
+              {
+                [self.imageActionIcon6 updateAppearance];
+              }
+            else
+              {            
+                DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"switchActiveGroup" andSize:@"128x128"];
+                [self replaceView:self.imageActionIcon6 withView:newIcon];
+                self.imageActionIcon6 = newIcon;
+                [self.imageActionIcon6 updateAppearance];
+              }
+            if ([self.imageActionIcon7 isKindOfClass: [DSAActionIconHunt class]])
+              {
+                [self.imageActionIcon7 updateAppearance];
+              }
+            else
+              {            
+                DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"hunt" andSize:@"128x128"];
+                [self replaceView:self.imageActionIcon7 withView:newIcon];
+                self.imageActionIcon7 = newIcon;
+                [self.imageActionIcon7 updateAppearance];
+              }
+            if ([self.imageActionIcon8 isKindOfClass: [DSAActionIconCollectHerbs class]])
+              {
+                [self.imageActionIcon8 updateAppearance];
+              }
+            else
+              {            
+                DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"collectHerbs" andSize:@"128x128"];
+                [self replaceView:self.imageActionIcon8 withView:newIcon];
+                self.imageActionIcon8 = newIcon;
+                [self.imageActionIcon8 updateAppearance];
+              }                            
+          }
+        else
+          {
+            NSLog(@"DSAAdventure setupActionIcons: unknown global position context: %@, aborting", currentPosition.context);
+            abort();
+          }
+        return;                                                   
+      }
+  // Local map tiles related action icons
   if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
     {
       DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;
@@ -623,12 +743,6 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
           self.imageActionIcon8 = [self clearActionIcon:self.imageActionIcon8];
         }               
     }
-  else
-    {
-      NSLog(@"DSAAdventureWindowController setupActionIcons: for global locations not yet defined!!!");
-      abort();
-    }
-  
 }
 
 - (void) handleTravelDidBegin
@@ -641,6 +755,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 {
   NSLog(@"DSAAdventureWindowController handleTravelResting called");
   [self updateMainImageView: nil];
+  [self setupActionIcons: nil];
 }
 
 - (void) updateActionIcons: (NSNotification *)notification
@@ -731,10 +846,6 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
         return;
     }
     
-    //NSLog(@"THE CURRENT LOCATION: %@", currentLocation);
-    
-    
-
     if (!currentLocation)  // we only have a global location
       {
         NSString *selectedKey;

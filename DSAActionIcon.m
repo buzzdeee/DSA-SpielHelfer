@@ -91,7 +91,10 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                     _(@"useMagic"): [DSAActionIconMagic class],
                     _(@"useRitual"): [DSAActionIconRitual class],
                     _(@"orderMeal"): [DSAActionIconMeal class],
-                    _(@"map"): [DSAActionIconMap class],                             
+                    _(@"map"): [DSAActionIconMap class],
+                    _(@"hunt"): [DSAActionIconHunt class],
+                    _(@"collectHerbs"): [DSAActionIconCollectHerbs class],
+                    _(@"selectGuards"): [DSAActionIconGuardSelection class],
                 };
             }
         }
@@ -1728,7 +1731,18 @@ inventoryIdentifier: (NSString *)sourceInventory
 {
     self = [super init];
     if (self) {
-        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"go_to_sleep-%@", size] ofType: @"webp"];
+        DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+        DSAAdventureGroup *activeGroup = adventure.activeGroup;
+        DSAPosition *currentPosition = activeGroup.position;
+        NSString *imagePath;
+        if (!currentPosition.localLocationName && [currentPosition.context isEqualToString: DSAActionContextResting])
+          {
+             imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"nachtlager_sleep-%@", size] ofType: @"webp"];          
+          }
+        else
+          {
+             imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"go_to_sleep-%@", size] ofType: @"webp"];
+          }
         self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
         self.toolTip = _(@"Schlafen");
         [self updateAppearance];
@@ -1826,7 +1840,16 @@ inventoryIdentifier: (NSString *)sourceInventory
                                                                     object: self
                                                                   userInfo: userInfo];
               }
-          }       
+          }
+        else if (!currentPosition.localLocationName && [currentPosition.context isEqualToString: DSAActionContextResting])
+          {
+            [adventure continueTravel];
+          }
+        else
+          {
+            NSLog(@"DSAActionIconSleep unhandled else, aborting!");
+            abort();
+          }
     };
     [windowController.window beginSheet:selector.window completionHandler:nil];     
 }
@@ -1923,6 +1946,20 @@ inventoryIdentifier: (NSString *)sourceInventory
         [self updateAppearance];
     }
     return self;
+}
+
+- (BOOL)isActive
+{
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    
+    NSArray *magicians = [activeGroup charactersAbleToCastSpellsIncludingNPCs: YES];
+    
+    if ([magicians count] > 0)
+      {
+        return YES;
+      }
+    return NO;
 }
 
 - (void)askForParameters:(NSArray<DSAActionParameterDescriptor *> *)descriptors
@@ -2145,6 +2182,20 @@ inventoryIdentifier: (NSString *)sourceInventory
         [self updateAppearance];
     }
     return self;
+}
+
+- (BOOL)isActive
+{
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    
+    NSArray *magicians = [activeGroup charactersAbleToCastSpellsIncludingNPCs: YES];
+    
+    if ([magicians count] > 0)
+      {
+        return YES;
+      }
+    return NO;
 }
 
 - (void)handleEvent {
@@ -2434,5 +2485,69 @@ inventoryIdentifier: (NSString *)sourceInventory
     
     windowController.adventureMapViewController = [[DSALocalMapViewController alloc] initWithMode: DSALocalMapViewModeAdventure adventure: adventure];
     [windowController.adventureMapViewController showWindow:self];
+}
+@end
+
+@implementation DSAActionIconHunt
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"go_hunting-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Jagen und Wasser suchen");
+        [self updateAppearance];
+    }
+    return self;
+}
+- (BOOL)isActive {
+
+    return NO;
+}
+
+- (void)handleEvent {
+    NSLog(@"DSAActionIconHunt handleEvent called");
+}
+@end
+@implementation DSAActionIconGuardSelection
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"wachen_einteilen-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Wachen einteilen");
+        [self updateAppearance];
+    }
+    return self;
+}
+- (BOOL)isActive {
+
+    return NO;
+}
+
+- (void)handleEvent {
+    NSLog(@"DSAActionGuardSelection handleEvent called");
+}
+@end
+@implementation DSAActionIconCollectHerbs
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"kraeuter_suchen-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Kräuter suchen");
+        [self updateAppearance];
+    }
+    return self;
+}
+- (BOOL)isActive {
+
+    return NO;
+}
+
+- (void)handleEvent {
+    NSLog(@"DSAActionIconCollectHerbs handleEvent called");
 }
 @end
