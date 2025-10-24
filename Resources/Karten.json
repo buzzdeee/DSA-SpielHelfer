@@ -364,7 +364,7 @@
           [
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Weg" }, { "type": "Weg" },
 			{ "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" }, 
-			{ "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }
+			{ "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Gras" }, { "type": "Gras" }
           ],
           [
@@ -497,7 +497,7 @@
             { "type": "Weg" }, { "type": "Gras" }
           ],
           [
-            { "type": "Weg" }, { "type": "Haus", "door": "N }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Weg" }, { "type": "Haus", "door": "N" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Gras" }
@@ -525,7 +525,7 @@
           ],
           [
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Wegweiser", "destinations": [ "Tjoila" ] }, { "type": "Gras" },
-            { "type": "Haus", "door": "S" }, { "type": "Haus", "door": "S" }, { "type": "Haus": "door": "E" }, { "type": "Weg" },
+            { "type": "Haus", "door": "S" }, { "type": "Haus", "door": "S" }, { "type": "Haus", "door": "E" }, { "type": "Weg" },
             { "type": "Haus", "door": "S" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
           ],
@@ -561,7 +561,7 @@
           ],
           [
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Haus", "door": "E" }, { "type": "Weg" },
-            { "type": "Weg" },, { "type": "Herberge", "door": "E", "name": "Klein Thorwal" }, { "type": "Weg" }, { "type": "Weg" }, 
+            { "type": "Weg" }, { "type": "Herberge", "door": "E", "name": "Klein Thorwal" }, { "type": "Weg" }, { "type": "Weg" }, 
 			{ "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Gras" }
           ],
@@ -578,9 +578,9 @@
             { "type": "Weg" }, { "type": "Wegweiser", "destinations": [ "Peilinen" ] }, { "type": "Gras" }
           ],
           [
-            { "type": "Wegweiser", "destinations": "Serske" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Wegweiser", "destinations": [ "Serske" ] }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
-            { "type": "Haus", "door": "W" }, { "type": "Haus", "door": "N" }, { "type": "Haus": "door", "N" }, { "type": "Herberge", "door": "N", "name": "Wegkreuz" },
+            { "type": "Haus", "door": "W" }, { "type": "Haus", "door": "N" }, { "type": "Haus", "door": "N" }, { "type": "Herberge", "door": "N", "name": "Wegkreuz" },
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
           ],
           [
@@ -644,7 +644,7 @@
           ],
           [
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Haus", "door": "E" }, { "type": "Weg" },
-            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Krämer", "door": "E", "npc": "Salda Olriksdottir" },
+            { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Krämer", "door": "W", "npc": "Salda Olriksdottir" },
             { "type": "Gras" }
           ],		
           [
@@ -717,7 +717,8 @@
             { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Krämer", "door": "W", "npc": "Branda Bersisdottir" }, { "type": "Gras" },
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
             { "type": "Gras" }, { "type": "Gras" }
-          ],		            [
+          ],		            
+          [
             { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "E" }, { "type": "Weg" },
             { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Tempel", "door": "S", "Gott": "Swafnir" }, { "type": "Weg" },
             { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" }, 
@@ -739,7 +740,7 @@
             { "type": "Gras" }, { "type": "Gras" }
           ],		
           [
-            { "type": "Gras" }, { "type": "Wegweiser", "destinations": "Liskor" }, { "type": "Weg" }, { "type": "Weg" },
+            { "type": "Gras" }, { "type": "Wegweiser", "destinations": [ "Liskor" ] }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Haus", "door": "W" },
             { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" },
@@ -749,7 +750,7 @@
             { "type": "Gras" }, { "type": "Weg" }, { "type": "Haus", "door": "N" }, { "type": "Haus", "door": "N" },
             { "type": "Haus", "door": "N" }, { "type": "Weg" }, { "type": "Haus", "door": "N" }, { "type": "Krämer", "door": "N", "npc": "Karven Schlangenstecher" },
             { "type": "Weg" }, { "type": "Weg" }, { "type": "Weg" }, { "type": "Herberge", "door": "W", "name": "Travias Segen" },
-            { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Heiler", "door": "W", "name": "Urod vom Njurunsee" }, { "type": "Weg" },
+            { "type": "Haus", "door": "E" }, { "type": "Weg" }, { "type": "Heiler", "door": "W", "npc": "Urod vom Njurunsee" }, { "type": "Weg" },
             { "type": "Gras" }, { "type": "Gras" }
           ],	
           [
@@ -819,7 +820,7 @@
           [
             { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
-            { "type": "Wegweiser", "destinations": "Merske" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Wegweiser", "destinations": [ "Merske" ] }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
           ],
           [
@@ -841,7 +842,7 @@
             { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Gras" }
           ],
           [
-            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Waffenhändler", "door": "N", "npc": "Hjalla Akisdotter" }, { "type": "Haus", "door": "W" },
+            { "type": "Wasser" }, { "type": "Wasser" }, { "type": "Waffenhändler", "door": "N", "npc": "Hjalla Akisdotter" }, { "type": "Haus", "door": "E" },
             { "type": "Weg" }, { "type": "Haus", "door": "S" }, { "type": "Haus", "door": "S" }, { "type": "Taverne", "door": "S", "name": "Acht Jahre Zuchthaus" },
             { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Haus", "door": "N" },
             { "type": "Weg" }, { "type": "Haus", "door": "W" }, { "type": "Weg" }, { "type": "Gras" }
@@ -909,7 +910,7 @@
           [
             { "type": "Wasser" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
-            { "type": "Wegweiser", "destinations": "Svafdûn" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
+            { "type": "Wegweiser", "destinations": [ "Svafdûn" ] }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" },
             { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }, { "type": "Gras" }
           ],
           [
