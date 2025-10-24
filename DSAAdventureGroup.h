@@ -48,6 +48,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 @property (nonatomic, readonly) NSArray<DSACharacter *> *npcCharacters;
 @property (nonatomic, readonly) NSArray<DSACharacter *> *allCharacters;
 @property (nonatomic, readonly) NSInteger membersCount;                 // count of all members in the group
+@property (nonatomic, strong) NSMutableArray<NSUUID *> *nightGuards;
 @property (nonatomic, strong) DSAPosition *position;
 @property (nonatomic, assign) DSADirection headingDirection;
 @property (nonatomic, strong) DSAWeather *weather;

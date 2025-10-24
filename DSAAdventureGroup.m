@@ -110,8 +110,10 @@
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.partyMembers forKey:@"partyMembers"];
     [coder encodeObject:self.npcMembers forKey:@"npcMembers"];
+    [coder encodeObject:self.nightGuards forKey:@"nightGuards"];    
     [coder encodeObject:self.position forKey:@"position"];
     [coder encodeObject:self.weather forKey:@"weather"];
+
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -119,6 +121,7 @@
     if (self) {
         _partyMembers = [coder decodeObjectForKey:@"partyMembers"];
         _npcMembers = [coder decodeObjectForKey:@"npcMembers"];
+        _nightGuards = [coder decodeObjectForKey:@"nightGuards"];
         _position = [coder decodeObjectForKey:@"position"];
         _weather = [coder decodeObjectForKey:@"weather"];
     }

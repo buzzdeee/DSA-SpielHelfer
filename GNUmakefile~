@@ -69,6 +69,7 @@ Resources/DSAActionView.gorm \
 Resources/DSAActionSliderQuestionView.gorm \
 Resources/DSACharacterPoison.gorm \
 Resources/DSAActionChoiceQuestionView.gorm \
+Resources/DSAGuardSelectionView.gorm \
 Resources/Aventurien.jpg \
 Resources/Dolch.webp \
 Resources/Jagdmesser-firnelfisch.webp \
@@ -6356,7 +6357,8 @@ DSABaseObject.h \
 DSAActionResult.h \
 DSAEvent.h \
 DSAExecutionManager.h \
-DSAPlant.h
+DSAPlant.h \
+DSAGuardSelectionViewController.h
 
 #
 # Objective-C Class files
@@ -6461,7 +6463,8 @@ DSABaseObject.m \
 DSAActionResult.m \
 DSAEvent.m \
 DSAExecutionManager.m \
-DSAPlant.m
+DSAPlant.m \
+DSAGuardSelectionViewController.m
 
 #
 # Other sources

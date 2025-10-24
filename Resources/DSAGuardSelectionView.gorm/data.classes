@@ -1,0 +1,22 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSAGuardSelectionViewController = {
+	Actions = (
+	    "confirmAction:",
+	    "cancelAction:"
+	);
+	Outlets = (
+	    popupGuardOne,
+	    popupGuardThree,
+	    popupGuardTwo
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "confirmAction:",
+	    "cancelAction:"
+	);
+	Super = NSObject;
+    };
+}

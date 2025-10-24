@@ -60,6 +60,7 @@
 #import "DSAActionChoiceQuestionController.h"
 #import "DSAEvent.h"
 #import "DSAExecutionManager.h"
+#import "DSAGuardSelectionViewController.h"
 
 
 @implementation DSAActionIcon
@@ -1878,8 +1879,7 @@ inventoryIdentifier: (NSString *)sourceInventory
         return;
     }
             
-    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
-    DSAAdventure *adventure = document.model;
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
     DSAPosition *currentPosition = activeGroup.position;
     
@@ -2480,8 +2480,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     NSLog(@"DSAActionIconMap handleEvent called");
     
     DSAAdventureWindowController *windowController = self.window.windowController;
-    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
-    DSAAdventure *adventure = document.model;
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
     
     windowController.adventureMapViewController = [[DSALocalMapViewController alloc] initWithMode: DSALocalMapViewModeAdventure adventure: adventure];
     [windowController.adventureMapViewController showWindow:self];
@@ -2523,11 +2522,47 @@ inventoryIdentifier: (NSString *)sourceInventory
 }
 - (BOOL)isActive {
 
-    return NO;
+    return YES;
 }
 
-- (void)handleEvent {
+- (void)handleEvent
+{
     NSLog(@"DSAActionGuardSelection handleEvent called");
+
+    // Step 1: Zugriff auf das Model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"Invalid window controller class");
+        return;
+    }
+            
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    
+    DSAGuardSelectionViewController *selector =
+        [[DSAGuardSelectionViewController alloc] initWithWindowNibName:@"DSAGuardSelectionView"];
+    [selector window];  // .gorm laden
+
+    __block NSMutableArray *nightGuards = [[NSMutableArray alloc] init];
+    __weak typeof(selector) weakSelector = selector;
+    selector.completionHandler = ^(BOOL result) {
+        typeof(weakSelector) selector = weakSelector;
+        if (!selector || !result) {
+            NSLog(@"DSAActionGuardSelection: handleEvent Auswahl abgebrochen.");
+            return; // ✅ Kein weiterer Code wird mehr ausgeführt.
+        }
+        DSACharacter *guardOne = (DSACharacter *)[[selector.popupGuardOne selectedItem] representedObject];
+        DSACharacter *guardTwo = (DSACharacter *)[[selector.popupGuardTwo selectedItem] representedObject];
+        DSACharacter *guardThree = (DSACharacter *)[[selector.popupGuardThree selectedItem] representedObject];
+        
+        [nightGuards addObject: guardOne.modelID];
+        [nightGuards addObject: guardTwo.modelID];
+        [nightGuards addObject: guardThree.modelID];                      
+    };
+    [windowController.window beginSheet:selector.window completionHandler:nil];
+    activeGroup.nightGuards = nil;
+    activeGroup.nightGuards = nightGuards;
+     
 }
 @end
 @implementation DSAActionIconCollectHerbs
