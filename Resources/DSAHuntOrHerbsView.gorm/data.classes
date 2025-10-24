@@ -1,0 +1,27 @@
+{
+    "## Comment" = "Do NOT change this file, Gorm maintains it";
+    DSAHuntOrHerbsViewController = {
+	Actions = (
+	    "sliderValueChanged:",
+	    "cancelAction:",
+	    "confirmAction:"
+	);
+	Outlets = (
+	    popupCharacters,
+	    fieldQuestionWho,
+	    fieldQuestionHours,
+	    fieldHours,
+	    sliderHours,
+	    buttonConfirm
+	);
+	Super = NSWindowController;
+    };
+    FirstResponder = {
+	Actions = (
+	    "sliderValueChanged:",
+	    "cancelAction:",
+	    "confirmAction:"
+	);
+	Super = NSObject;
+    };
+}

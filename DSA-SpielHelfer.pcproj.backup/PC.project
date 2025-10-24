@@ -117,7 +117,8 @@
 	"DSAEvent.m",
 	"DSAExecutionManager.m",
 	"DSAPlant.m",
-	"DSAGuardSelectionViewController.m"
+	"DSAGuardSelectionViewController.m",
+	"DSAHuntOrHerbsViewController.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -228,7 +229,8 @@
 	"DSAEvent.h",
 	"DSAExecutionManager.h",
 	"DSAPlant.h",
-	"DSAGuardSelectionViewController.h"
+	"DSAGuardSelectionViewController.h",
+	"DSAHuntOrHerbsViewController.h"
     );
     IMAGES = (
 	"Aventurien.jpg",
@@ -6405,7 +6407,8 @@
 	"DSAActionSliderQuestionView.gorm",
 	"DSACharacterPoison.gorm",
 	"DSAActionChoiceQuestionView.gorm",
-	"DSAGuardSelectionView.gorm"
+	"DSAGuardSelectionView.gorm",
+	"DSAHuntOrHerbsView.gorm"
     );
     LANGUAGE = German;
     LIBRARIES = (

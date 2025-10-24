@@ -61,6 +61,7 @@
 #import "DSAEvent.h"
 #import "DSAExecutionManager.h"
 #import "DSAGuardSelectionViewController.h"
+#import "DSAHuntOrHerbsViewController.h"
 
 
 @implementation DSAActionIcon
@@ -2501,11 +2502,111 @@ inventoryIdentifier: (NSString *)sourceInventory
 }
 - (BOOL)isActive {
 
-    return NO;
+    return YES;
 }
 
 - (void)handleEvent {
     NSLog(@"DSAActionIconHunt handleEvent called");
+
+    // Step 1: Zugriff auf das Model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"DSAActionIconHunt handleEvent: Invalid window controller class");
+        return;
+    }
+            
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    
+
+    DSAHuntOrHerbsViewController *selector =
+        [[DSAHuntOrHerbsViewController alloc] initWithWindowNibName:@"DSAHuntOrHerbsView"];
+    selector.mode = DSAHuntOrHerbsViewModeHunt;    
+    [selector window];  // .gorm laden
+
+    __weak typeof(selector) weakSelector = selector;
+    selector.completionHandler = ^(BOOL result) {
+        typeof(selector) strongSelf = weakSelector;
+        if (!strongSelf || !result) {
+            return;
+        }
+
+        NSLog(@"DSAActionIconHunt sheet completion handler called.... ");
+
+        NSInteger sleepHours = [strongSelf.sliderHours integerValue];
+
+        NSLog(@"DSAActionIconHunt handleEvent currentPosition: %@", currentPosition);
+        DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
+        NSLog(@"DSAActionIconHunt handleEvent currentLocation: %@, %@", [currentLocation class], currentLocation.name);
+        DSARoomType roomType = DSARoomTypeUnknown;
+        DSALocalMapTile *currentTile;
+        if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
+          {
+            DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;
+            currentTile = [lml tileAtCoordinate: currentPosition.mapCoordinate];
+            NSLog(@"DSAActionIconSleep handleEvent currentLocation: %@", currentTile);
+            if ([currentTile isKindOfClass: [DSALocalMapTileBuildingInn class]])
+              {
+                DSACharacter *character = [activeGroup.allCharacters objectAtIndex: 0];
+                NSString *roomKey = [activeGroup.position roomKey];
+                DSACharacterEffect *effect = [character.appliedEffects objectForKey: roomKey];
+                roomType = [[[effect.reversibleChanges allValues] objectAtIndex: 0] integerValue];
+              }
+          }
+        DSASleepQuality sleepQuality = DSASleepQualityUnknown;
+        if (roomType != DSARoomTypeUnknown)
+          {
+            switch (roomType) {
+              case DSARoomTypeDormitory: {
+                sleepQuality = DSASleepQualityNormal;
+                break;
+              }
+              case DSARoomTypeSingle: {
+                sleepQuality = DSASleepQualityGood;
+                break;
+              }
+              case DSARoomTypeSuite: {
+                sleepQuality = DSASleepQualityExcellent;
+                break;
+              }
+              case DSARoomTypeUnknown: {
+                sleepQuality = DSASleepQualityUnknown;
+                break;
+              }              
+            }
+          }
+        
+        for (DSACharacter *character in activeGroup.allCharacters) {
+            [character sleepForHours: sleepHours
+                        sleepQuality: sleepQuality];
+        }
+        [adventure.gameClock advanceTimeByHours: sleepHours];
+        // Leave the room and go back to reception, in case we're in a Inn
+        if ([currentTile isKindOfClass:[DSALocalMapTileBuildingInn class]])
+          {
+            DSALocalMapTileBuildingInn *innTile = (DSALocalMapTileBuildingInn*) currentTile;
+            if ([@[DSALocalMapTileBuildingInnTypeHerberge, DSALocalMapTileBuildingInnTypeHerbergeMitTaverne] containsObject:innTile.type] && 
+                [@[DSAActionContextPrivateRoom, DSAActionContextTavern] containsObject: currentPosition.context])
+              {
+                currentPosition.context = DSAActionContextReception;
+                NSDictionary *userInfo = @{ @"position": currentPosition };
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"DSAAdventureLocationUpdated" 
+                                                                    object: self
+                                                                  userInfo: userInfo];
+              }
+          }
+        else if (!currentPosition.localLocationName && [currentPosition.context isEqualToString: DSAActionContextResting])
+          {
+            [adventure continueTravel];
+          }
+        else
+          {
+            NSLog(@"DSAActionIconSleep unhandled else, aborting!");
+            abort();
+          }
+    };
+    [windowController.window beginSheet:selector.window completionHandler:nil];     
 }
 @end
 @implementation DSAActionIconGuardSelection
