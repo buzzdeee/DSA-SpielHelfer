@@ -32,36 +32,64 @@
 - (void)windowDidLoad {
     NSLog(@"DSAHuntOrHerbsViewController windowDidLoad called, window: %@", self.window);
     [super windowDidLoad];
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;    
+    NSUUID *lastActive;
     switch (self.mode)
       {
         case DSAHuntOrHerbsViewModeHunt:
           self.window.title = @"Jagd";
           [self.fieldQuestionWho setStringValue: @"Wer soll auf die Jagd und nach Wasser suchen gehen?"];
           [self.fieldQuestionHours setStringValue: @"Für wie viele Stunden soll gejagt werden?"];
+          lastActive = activeGroup.lastHunter;
           break;
         case DSAHuntOrHerbsViewModeHerbs:
           self.window.title = @"Kräutersuche";
           [self.fieldQuestionWho setStringValue: @"Wer soll auf Kräutersuche gehen?"];
           [self.fieldQuestionHours setStringValue: @"Für wie viele Stunden soll nach Kräuter gesucht werden?"];
+          lastActive = activeGroup.lastHerbsCollector;
           break;
         default:
           NSLog(@"DSAHuntOrHerbsViewController windowDidLoad: unknown DSAHuntOrHerbsViewMode aborting!");
           abort();
           break;
       }
-    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
-    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+
     [self.popupCharacters removeAllItems];
-    for (NSUUID *uuid in activeGroup.partyMembers)
+    if (lastActive != nil)
       {
-        DSACharacter *character = [DSACharacter characterWithModelID: uuid];
-        NSMenuItem *item = [[NSMenuItem alloc] initWithTitle: [character name]
-                                                      action: NULL
-                                               keyEquivalent: @""];
-        [item setRepresentedObject: character];                                                              
-        [[self.popupCharacters menu] addItem: item];
+        NSInteger counter = 0;
+        NSInteger lastCharacterIndex = 0;
+        for (NSUUID *uuid in activeGroup.partyMembers)
+          {
+            DSACharacter *character = [DSACharacter characterWithModelID: uuid];
+            NSMenuItem *item = [[NSMenuItem alloc] initWithTitle: [character name]
+                                                          action: NULL
+                                                   keyEquivalent: @""];                                                      
+            [item setRepresentedObject: character];                                                              
+            [[self.popupCharacters menu] addItem: item];
+            if ([uuid isEqualTo: lastActive])
+              {
+                lastCharacterIndex = counter;
+              }
+            counter++;
+          }
+        [self.popupCharacters selectItemAtIndex: lastCharacterIndex];         
       }
-    [self.popupCharacters selectItemAtIndex: 0];    
+    else
+      {
+        for (NSUUID *uuid in activeGroup.partyMembers)
+          {
+            DSACharacter *character = [DSACharacter characterWithModelID: uuid];
+            NSMenuItem *item = [[NSMenuItem alloc] initWithTitle: [character name]
+                                                          action: NULL
+                                                   keyEquivalent: @""];
+            [item setRepresentedObject: character];                                                              
+            [[self.popupCharacters menu] addItem: item];
+          }
+        [self.popupCharacters selectItemAtIndex: 0];
+      }
+      
     [self.fieldHours setStringValue: @"0 Stunden"];
     [self.buttonConfirm setEnabled: NO];
 }

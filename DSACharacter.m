@@ -39,6 +39,7 @@
 #import "DSAIllness.h"
 #import "DSAPoison.h"
 #import "DSAActionResult.h"
+#import "DSAAdventure.h"
 
 @implementation DSACharacterEffect
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -1399,6 +1400,106 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       return NO;
     }
 }
+ 
+- (DSAActionResult *) goHuntingForHours: (NSInteger) hours
+                            usingMethod: (nullable NSString *) method
+                            inAdventure: (DSAAdventure *) position
+{
+  DSAActionResult *result;
+  DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+  NSLog(@"DSACharacter goHuntingForHours: To be implemented!");
+  NSInteger baseBonus;
+  NSArray *test;
+  
+  if ([method isEqualToString: @"Falle"])
+    {
+      baseBonus = [self calculateBaseBonusForMethodFalle];
+      test = @[ @"IN", @"GE", @"FF" ];
+    }
+  else if ([method isEqualToString: @"Pirsch"])
+    {  
+      baseBonus = [self calculateBaseBonusForMethodPirsch];
+      test = @[ @"MU", @"IN", @"GE" ];
+    }
+  else
+    {
+      if ([self calculateBaseBonusForMethodFalle] > [self calculateBaseBonusForMethodPirsch])
+        {
+          baseBonus = [self calculateBaseBonusForMethodFalle];
+          test = @[ @"IN", @"GE", @"FF" ];
+        }
+      else
+        {
+          baseBonus = [self calculateBaseBonusForMethodPirsch];
+          test = @[ @"MU", @"IN", @"GE" ];
+        }
+    }
+    
+  DSATalent *huntingTalent = [DSATalent talentWithName: @"Jagen"
+                                         inSubCategory: nil
+                                            ofCategory: @"Natur"
+                                               onLevel: baseBonus
+                                              withTest: test
+                                withMaxTriesPerLevelUp: 0
+                                     withMaxUpPerLevel: 0
+                                       withLevelUpCost: 0
+                                influencesOtherTalents: nil];
+/*
+  result = [huntingTalent useWithPenalty: hourBonus
+                             byCharacter: self];
+*/
+  result = [huntingTalent useOnTarget: nil
+                          byCharacter: self
+                             forHours: hours
+                     currentAdventure: adventure];
+  return result;
+}
+
+- (NSInteger) calculateBaseBonusForMethodFalle
+{
+  NSInteger bonus;
+  bonus = floor((self.currentTalents[@"Wildnisleben"].level + 
+                 self.currentTalents[@"Fährtensuchen"].level +
+                 self.currentTalents[@"Fallenstellen"].level) / 4);
+  if (self.currentTalents[@"Tierkunde"].level > 10)
+    {
+      bonus += floor(self.currentTalents[@"Tierkunde"].level / 2);
+    }
+  NSArray *seile = [[DSAInventoryManager sharedManager] findItemsBySubCategory: @"Seile"
+                                                                       inModel: self];
+  if (seile != nil && [seile count] > 0)
+    {
+      bonus += 1;
+    }
+  return bonus;
+}
+          
+- (NSInteger) calculateBaseBonusForMethodPirsch
+{
+  NSInteger bonus;
+  bonus = floor((self.currentTalents[@"Wildnisleben"].level + 
+                 self.currentTalents[@"Fährtensuchen"].level +
+                 self.currentTalents[@"Schleichen"].level) / 4);
+  if (self.currentTalents[@"Schusswaffen"].level > 10)
+    {
+      bonus += floor(self.currentTalents[@"Schusswaffen"].level / 2);
+    }
+  NSArray *shootingWeapons = [[DSAInventoryManager sharedManager] findItemsBySubCategory: @"Schußwaffen"
+                                                                       inModel: self];
+  if (shootingWeapons != nil && [shootingWeapons count] > 0)
+    {
+      bonus += 1;
+    }
+  return bonus;
+}
+                   
+- (DSAActionResult *) collectHerbsForHours: (NSInteger) hours
+                               inAdventure: (DSAAdventure *) position
+{
+  DSAActionResult *result;
+  NSLog(@"DSACharacter collectHerbsForHours: To be implemented!");
+  return result;
+}                               
 
 - (NSArray <DSATalent *>*) activeTalentsWithNames: (NSArray <NSString *>*) names
 {
@@ -1451,10 +1552,12 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 
 - (DSAActionResult *) useTalent: (DSATalent *) talent
                        onTarget: (id) target
+                       forHours: (NSInteger) hours
                currentAdventure: (nullable DSAAdventure *) adventure
 {
   return [talent useOnTarget: target
                  byCharacter: self
+                    forHours: hours
             currentAdventure: adventure];
 }               
 
@@ -1831,12 +1934,12 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
   else
     {
-      NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
+       NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
                                    @"message": [NSString stringWithFormat: @"%@ kann man doch garnicht konsumieren.", item.name]
-                                };
-      [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
-                                                          object: self
-                                                        userInfo: userInfo];
+                                 };
+       [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                           object: self
+                                                         userInfo: userInfo];
     }
   return retval;
 }

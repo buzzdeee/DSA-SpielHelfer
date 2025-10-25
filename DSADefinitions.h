@@ -44,6 +44,9 @@ typedef NS_ENUM(NSInteger, DSAActionType) {
     DSAActionTypeGainItem,
     DSAActionTypeGainMoney,
     DSAActionTypeLeaveLocation,                      // leaving a position, i.e. a building or dungeon
+    DSAActionTypeGainFood,
+    DSAActionTypeGainWater,
+    DSAActionTypeGainSpices,
     // weitere ActionTypes …
 };
 
@@ -253,7 +256,8 @@ typedef NS_ENUM(NSUInteger, DSASlotType) {
     DSASlotTypeDagger,                          // a shaft to hold daggers 
     DSASlotTypeAxe,                             // a special thing to hold axes
     DSASlotTypeMoney,                           // to hold money
-    DSASlotTypeTobacco                          // to hold tobacco
+    DSASlotTypeTobacco,                         // to hold tobacco
+    DSASlotTypeWater,
     // Add other specific types as needed
 };
 

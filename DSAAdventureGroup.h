@@ -48,7 +48,12 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 @property (nonatomic, readonly) NSArray<DSACharacter *> *npcCharacters;
 @property (nonatomic, readonly) NSArray<DSACharacter *> *allCharacters;
 @property (nonatomic, readonly) NSInteger membersCount;                 // count of all members in the group
+
+// when travelling over the continent, keep some state about who did stuff last...
 @property (nonatomic, strong) NSMutableArray<NSUUID *> *nightGuards;
+@property (nonatomic, strong) NSUUID *lastHunter;
+@property (nonatomic, strong) NSUUID *lastHerbsCollector;
+
 @property (nonatomic, strong) DSAPosition *position;
 @property (nonatomic, assign) DSADirection headingDirection;
 @property (nonatomic, strong) DSAWeather *weather;

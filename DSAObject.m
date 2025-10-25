@@ -1737,7 +1737,8 @@ static DSAObjectManager *sharedInstance = nil;
         @"Dolch" : @(DSASlotTypeDagger),
         @"Axt" : @(DSASlotTypeAxe),
         @"Geld" : @(DSASlotTypeMoney),
-        @"Tabak" : @(DSASlotTypeTobacco)
+        @"Tabak" : @(DSASlotTypeTobacco),
+        @"Wasser": @(DSASlotTypeWater),
     };
 
     // Look up the corresponding slot type

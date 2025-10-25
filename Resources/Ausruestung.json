@@ -7287,7 +7287,10 @@
   "Wasserschlauch, 5 Schank": {
     "Gewicht": 5,
     "Preis": 1,
-    "MaxUsageCount": 5,
+    "Slots": 5,
+    "HatSlots": [
+      "Wasser"
+    ],
     "Icon": [
       "Wasserschlauch_1",
       "Wasserschlauch_2"
@@ -7299,7 +7302,10 @@
   "Feldflasche, 5 Schank": {
     "Gewicht": 12,
     "Preis": 3,
-    "MaxUsageCount": 5,
+    "Slots": 5,
+    "HatSlots": [
+      "Wasser"
+    ],
     "Icon": [
       "Feldflasche_1",
       "Feldflasche_2"
@@ -11413,6 +11419,7 @@
     ],
     "direkt konsumierbar": true,
     "MaxUsageCount": 3,
+    "MehrereProSlot": true,
     "disappearWhenEmpty": true,
     "DurstodHungerlinderung": 1.0,
     "Name": "Proviant, Tagesration",
@@ -11752,6 +11759,9 @@
     "Icon": [
       "Wasser"
     ],
+    "ErlaubtInSlots": [
+      "Wasser"
+    ],    
     "direkt konsumierbar": true,
     "MaxUsageCount": 1,
     "transitionWhenEmpty": "Glasflasche, 1 Schank",

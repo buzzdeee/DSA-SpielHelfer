@@ -80,8 +80,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (DSAActionResult *) useWithPenalty: (NSInteger) penalty
                          byCharacter: (DSACharacter *) character;
 
-- (DSAActionResult *) useOnTarget: (id) target
+- (DSAActionResult *) useOnTarget: (nullable id) target
                       byCharacter: (DSACharacter *) character
+                         forHours: (NSInteger) hours
                  currentAdventure: (DSAAdventure *) adventure;
 @end
 // End of DSATalent
@@ -127,6 +128,13 @@ NS_ASSUME_NONNULL_BEGIN
                           
 @end
 // End of DSASpecialTalent
+
+@interface DSAMetaTalent : DSATalent                          
+@end
+@interface DSAMetaTalentJagen : DSAMetaTalent                          
+@end
+@interface DSAMetaTalentKraeutersuche : DSAMetaTalent                          
+@end
 
 #endif // _DSATALENT_H_
 

@@ -72,8 +72,8 @@
 - (void)executeAction:(DSAActionDescriptor *)action {
     switch (action.type) {
         case DSAActionTypeGainItem:
-            NSLog(@"DSAExecutionManager executeAction: Gain item: %@ not yet implemented, aborting", action.parameters);
-            abort();
+            NSLog(@"DSAExecutionManager executeAction: Gain item: %@", action.parameters);
+            [self executeGainItemAction: (DSAActionDescriptor *) action];
             break;
         case DSAActionTypeGainMoney:
             NSLog(@"DSAExecutionManager executeAction: Gain money: %@", action.parameters);
@@ -83,8 +83,16 @@
             NSLog(@"DSAExecutionManager executeAction: Leave location: %@", action.parameters);
             [self executeLeaveLocationAction: (DSAActionDescriptor *) action];
             break;
+        case DSAActionTypeGainFood:
+            NSLog(@"DSAExecutionManager executeAction: Gain Food: %@", action.parameters);
+            [self executeGainFoodAction: (DSAActionDescriptor *) action];
+            break;
+        case DSAActionTypeGainWater:
+            NSLog(@"DSAExecutionManager executeAction: Gain Water: %@", action.parameters);
+            [self executeGainWaterAction: (DSAActionDescriptor *) action];
+            break;                        
         default:
-            NSLog(@"[Action] Unknown action type: %ld aborting!", (long)action.type);
+            NSLog(@"DSAExecutionManager Unknown action type: %ld aborting!", (long)action.type);
             abort();
             break;
     }
@@ -97,30 +105,38 @@
   [activeGroup addSilber: silver];
 }
 
+- (void)executeGainFoodAction: (DSAActionDescriptor *)action
+{
+  DSAAdventureGroup *activeGroup = [DSAAdventureManager sharedManager].currentAdventure.activeGroup;
+  for (DSACharacter *character in activeGroup.allCharacters)
+    {
+      [character updateStateHungerWithValue: @1.0];
+    }
+}
+
+- (void)executeGainWaterAction: (DSAActionDescriptor *)action
+{
+  DSAAdventureGroup *activeGroup = [DSAAdventureManager sharedManager].currentAdventure.activeGroup;
+  for (DSACharacter *character in activeGroup.allCharacters)
+    {
+      [character updateStateThirstWithValue: @1.0];
+    }
+}
+
+- (void)executeGainItemAction: (DSAActionDescriptor *)action
+{
+  NSInteger amount = [action.parameters[@"amount"] integerValue];
+  DSAObject *item = [[DSAObject alloc] initWithName: action.parameters[@"type"] forOwner: nil];
+  DSAAdventureGroup *activeGroup = [DSAAdventureManager sharedManager].currentAdventure.activeGroup;
+  [activeGroup distributeItems: item count: amount];
+}
+
 - (void) executeLeaveLocationAction: (DSAActionDescriptor *)action
 {
   DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
   DSAAdventureGroup *activeGroup = adventure.activeGroup;
   
   [activeGroup leaveLocation];
-/*  
-  DSAPosition *currentPosition = adventure.position;
-  DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
-  DSALocalMapTile *currentTile = [currentLocation tileAtCoordinate: currentPosition.mapCoordinate];  
-  if ([currentTile isKindOfClass: [DSALocalMapTileBuilding class]])
-    {
-      DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding*)currentTile;
-      DSADirection direction = buildingTile.door;
-      activeGroup.position = nil;
-      activeGroup.position = [currentPosition positionByMovingInDirection: direction steps: 1];
-      [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureLocationUpdated" object:self];
-      NSLog(@"DSAExecutionManager executeLeaveLocationAction we're now thrown out.");
-    }
-  else
-    {
-      NSLog(@"DSAExecutionManager executeLeaveLocationAction not implemented for current tile class: %@ aborting", [currentTile class]);
-      abort();
-    } */
 }
 
 - (void)triggerEvent:(DSAEventDescriptor *)event {

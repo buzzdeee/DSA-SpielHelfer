@@ -213,6 +213,9 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                 
                 _(@"Schutzgeist"): [DSASpecialTalent class],
                 _(@"Magisches Meisterhandwerk"): [DSASpecialTalent class],
+                
+                _(@"Jagen"): [DSAMetaTalentJagen class],
+                _(@"Kräutersuche"): [DSAMetaTalentKraeutersuche class],
               };
             }
         }
@@ -553,6 +556,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 - (DSAActionResult *) useOnTarget: (id) target
                       byCharacter: (DSACharacter *) character
+                         forHours: (NSInteger) hours                      
                  currentAdventure: (DSAAdventure *) adventure
 {
   NSLog(@"DSATalent useOnTarget: byCharacter: currentAdventure shall be implemented in the subclass: %@", [self class]);
@@ -572,6 +576,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 @implementation DSAGeneralTalentAkrobatik
 - (DSAActionResult *)useOnTarget:(id)target
                      byCharacter:(DSACharacter *)character
+                        forHours: (NSInteger) hours                     
                 currentAdventure:(DSAAdventure *)adventure
 {
     NSLog(@"DSAGeneralTalentAkrobatik useOnTarget: byCharacter: currentAdventure called");
@@ -717,6 +722,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 @implementation DSAGeneralTalentFalschspiel
 - (DSAActionResult *) useOnTarget: (id) target
                       byCharacter: (DSACharacter *) character
+                         forHours: (NSInteger) hours                      
                  currentAdventure: (DSAAdventure *) adventure
 {
   NSLog(@"DSAGeneralTalentFalschspiel useOnTarget: byCharacter: currentAdventure called");
@@ -858,6 +864,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 @implementation DSAGeneralTalentGaukeleien
 - (DSAActionResult *)useOnTarget:(id)target
                      byCharacter:(DSACharacter *)character
+                        forHours: (NSInteger) hours                     
                 currentAdventure:(DSAAdventure *)adventure
 {
     NSLog(@"DSAGeneralTalentGaukelei useOnTarget: byCharacter: currentAdventure called");
@@ -1010,6 +1017,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 @implementation DSAGeneralTalentMusizieren
 - (DSAActionResult *)useOnTarget:(id)target
                      byCharacter:(DSACharacter *)character
+                        forHours: (NSInteger) hours                     
                 currentAdventure:(DSAAdventure *)adventure
 {
     NSLog(@"DSAGeneralTalentMusizieren useOnTarget: byCharacter: currentAdventure called");
@@ -1286,6 +1294,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 - (DSAActionResult *)useOnTarget:(id)target
                      byCharacter:(DSACharacter *)character
+                        forHours: (NSInteger) hours                     
                 currentAdventure:(DSAAdventure *)adventure
 {
     NSLog(@"DSAGeneralTalentHeilkundeWunden useOnTarget: byCharacter: currentAdventure called");
@@ -1318,6 +1327,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 @implementation DSAGeneralTalentSingen
 - (DSAActionResult *)useOnTarget:(id)target
                      byCharacter:(DSACharacter *)character
+                        forHours: (NSInteger) hours                     
                 currentAdventure:(DSAAdventure *)adventure
 {
     NSLog(@"DSAGeneralTalentSingen useOnTarget: byCharacter: currentAdventure called");
@@ -1470,6 +1480,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 @implementation DSAGeneralTalentTanzen
 - (DSAActionResult *)useOnTarget:(id)target
                      byCharacter:(DSACharacter *)character
+                        forHours: (NSInteger) hours                     
                 currentAdventure:(DSAAdventure *)adventure
 {
     NSLog(@"DSAGeneralTalentTanzen useOnTarget: byCharacter: currentAdventure called");
@@ -1623,6 +1634,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 @implementation DSAGeneralTalentTaschendiebstahl
 - (DSAActionResult *) useOnTarget: (id) target
                       byCharacter: (DSACharacter *) character
+                         forHours: (NSInteger) hours                      
                  currentAdventure: (DSAAdventure *) adventure
 {
   NSLog(@"DSAGeneralTalentTaschendiebstahl useOnTarget: byCharacter: currentAdventure called");
@@ -1774,6 +1786,127 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
 
 @end
 // End of DSASpecialTalent
+
+@implementation DSAMetaTalent
+@end
+@implementation DSAMetaTalentJagen : DSAMetaTalent
+- (DSAActionResult *)useOnTarget:(id)target
+                     byCharacter:(DSACharacter *)character
+                        forHours: (NSInteger) hours
+                currentAdventure:(DSAAdventure *)adventure
+{
+    NSLog(@"DSAGeneralTalentSingen useOnTarget: byCharacter: currentAdventure called");
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    
+    NSInteger hourBonus = (hours - 1) * 4;
+    DSAActionResult *talentResult = [self useWithPenalty: hourBonus
+                                              byCharacter:character];
+    
+    NSString *name = character.name ?: @"Der Abenteurer";
+
+    
+    DSAActionResult *wasserFindenResult = [character useTalent: @"Wildnisleben" 
+                                                   withPenalty: hourBonus];
+    NSString *waterResultDescription;
+    BOOL foundWater = NO;
+                                                
+    switch (wasserFindenResult.result) {
+        case DSAActionResultNone: {
+            NSLog(@"[ERROR] DSAActionResultNone should never happen!");
+            abort();
+            break;
+        }    
+        case DSAActionResultSuccess:
+        case DSAActionResultAutoSuccess:
+        case DSAActionResultEpicSuccess:
+          waterResultDescription = [NSString stringWithFormat: @"%@ findet Wasser.", name];
+          foundWater = YES;
+          break;
+        case DSAActionResultFailure:
+        case DSAActionResultAutoFailure:
+        case DSAActionResultEpicFailure:
+          waterResultDescription = [NSString stringWithFormat: @"%@ findet leider kein Wasser.", name];
+          foundWater = NO;
+          break;
+    }                                                   
+    
+    NSInteger bonus = 0;                                              
+    switch (talentResult.result) {
+        case DSAActionResultNone: {
+            NSLog(@"[ERROR] DSAActionResultNone should never happen!");
+            abort();
+            break;
+        }
+            
+        // ✅ Erfolge: Trinkgeld und Applaus
+        case DSAActionResultSuccess:
+        case DSAActionResultAutoSuccess:
+        case DSAActionResultEpicSuccess: {
+            
+            switch (talentResult.result) {
+                 case DSAActionResultSuccess:
+                     bonus += 0;
+                     break;
+                 case DSAActionResultAutoSuccess:
+                     bonus += 5;
+                     break;
+                  case DSAActionResultEpicSuccess:
+                     bonus += 10;
+                     break;
+                default: break;
+            }
+
+                        
+            talentResult.resultDescription = [NSString stringWithFormat:
+                                          @"%@ %@ kann etwas Essbares erlegen.", waterResultDescription, name];
+                                          
+            NSInteger foodAmount = bonus + talentResult.remainingActionPoints;
+            DSAActionDescriptor *gainFood = [DSAActionDescriptor new];
+            gainFood.type = DSAActionTypeGainFood;
+            gainFood.order = 0;
+            DSAActionDescriptor *gainItems = [DSAActionDescriptor new];
+            gainItems.type = DSAActionTypeGainItem;
+            gainItems.parameters = @{ @"amount": @(foodAmount), @"type": @"Proviant, Tagesration"};
+            gainItems.order = 0;
+            if (foundWater)
+              {
+                DSAActionDescriptor *gainWater = [DSAActionDescriptor new];
+                gainWater.type = DSAActionTypeGainWater;
+                gainWater.order = 0;
+                talentResult.followUps = @[gainFood, gainItems, gainWater];             
+              }
+            else
+              {
+                talentResult.followUps = @[gainFood, gainItems];
+              }
+            
+            
+            break;
+        }
+          
+        // ❌ Fehlschläge: peinlich, evtl. Hausverbot nur bei epischem Desaster
+        case DSAActionResultFailure:
+        case DSAActionResultAutoFailure:
+        case DSAActionResultEpicFailure: {
+            talentResult.resultDescription = [NSString stringWithFormat:
+                                          @"%@ %@ kann leider nichts Essbares erlegen.", waterResultDescription, name];
+            if (foundWater)
+              {
+                DSAActionDescriptor *gainWater = [DSAActionDescriptor new];
+                gainWater.type = DSAActionTypeGainWater;
+                gainWater.order = 0;
+                talentResult.followUps = @[gainWater];             
+              }
+            break;
+        }
+    }
+
+   return talentResult;
+}  
+@end
+@implementation DSAMetaTalentKraeutersuche : DSAMetaTalent                          
+@end
 
 @implementation DSATalentManager
 static DSATalentManager *sharedInstance = nil;

@@ -110,7 +110,9 @@
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.partyMembers forKey:@"partyMembers"];
     [coder encodeObject:self.npcMembers forKey:@"npcMembers"];
-    [coder encodeObject:self.nightGuards forKey:@"nightGuards"];    
+    [coder encodeObject:self.nightGuards forKey:@"nightGuards"];
+    [coder encodeObject:self.lastHunter forKey:@"lastHunter"];
+    [coder encodeObject:self.lastHerbsCollector forKey:@"lastHerbsCollector"];    
     [coder encodeObject:self.position forKey:@"position"];
     [coder encodeObject:self.weather forKey:@"weather"];
 
@@ -122,6 +124,8 @@
         _partyMembers = [coder decodeObjectForKey:@"partyMembers"];
         _npcMembers = [coder decodeObjectForKey:@"npcMembers"];
         _nightGuards = [coder decodeObjectForKey:@"nightGuards"];
+        _lastHunter = [coder decodeObjectForKey:@"lastHunter"];
+        _lastHerbsCollector = [coder decodeObjectForKey:@"lastHerbsCollector"];
         _position = [coder decodeObjectForKey:@"position"];
         _weather = [coder decodeObjectForKey:@"weather"];
     }
