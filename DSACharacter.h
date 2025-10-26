@@ -258,6 +258,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSArray <DSASpell *>*) activeSpellsWithNames: (NSArray <NSString *>*) names;
 - (NSArray <DSASpell *>*) activeRitualsWithNames: (NSArray <NSString *>*) names;
                      
+// positive penalty makes things harder, negative penalty makes things easier
 - (DSAActionResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty;
 
 - (DSAActionResult *) useTalent: (DSATalent *) talent

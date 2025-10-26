@@ -1800,14 +1800,15 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
     DSAPosition *currentPosition = activeGroup.position;
     
     NSInteger hourBonus = (hours - 1) * 4;
-    DSAActionResult *talentResult = [self useWithPenalty: hourBonus
+    // negative penalty makes things easier
+    DSAActionResult *talentResult = [self useWithPenalty: -hourBonus
                                               byCharacter:character];
     
     NSString *name = character.name ?: @"Der Abenteurer";
 
-    
+    // negative penalty makes things easier
     DSAActionResult *wasserFindenResult = [character useTalent: @"Wildnisleben" 
-                                                   withPenalty: hourBonus];
+                                                   withPenalty: -hourBonus];
     NSString *waterResultDescription;
     BOOL foundWater = NO;
                                                 

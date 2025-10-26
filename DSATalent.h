@@ -77,6 +77,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (BOOL) levelUp;
 
+// positive penalty makes test harder, negagive penalty makes it easier!
 - (DSAActionResult *) useWithPenalty: (NSInteger) penalty
                          byCharacter: (DSACharacter *) character;
 
