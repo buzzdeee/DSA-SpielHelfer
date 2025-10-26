@@ -192,6 +192,35 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
         if ([currentPosition.context isEqualToString: DSAActionContextTravel])
           {
             NSLog(@"DSAAdventureWindowController setupActionIcons for global location in travel context not yet implemented!");
+            if ([self.imageActionIcon0 isKindOfClass: [DSAActionIconRest class]])
+              {
+                [self.imageActionIcon0 updateAppearance];
+              }
+            else
+              {
+                DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"rest" andSize:@"128x128"];
+                [self replaceView:self.imageActionIcon0 withView:newIcon];
+                self.imageActionIcon0 = newIcon;
+                [self.imageActionIcon0 updateAppearance];
+              }
+            if ([self.imageActionIcon1 isKindOfClass: [DSAActionIconMap class]])
+              {
+                [self.imageActionIcon1 updateAppearance];
+              }                       
+            else
+              {          
+                DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"map" andSize:@"128x128"];
+                [self replaceView:self.imageActionIcon1 withView:newIcon];
+                self.imageActionIcon1 = newIcon;
+                [self.imageActionIcon1 updateAppearance];
+              }
+            self.imageActionIcon2 = [self clearActionIcon:self.imageActionIcon2];  
+            self.imageActionIcon3 = [self clearActionIcon:self.imageActionIcon3];
+            self.imageActionIcon4 = [self clearActionIcon:self.imageActionIcon4];
+            self.imageActionIcon5 = [self clearActionIcon:self.imageActionIcon5];
+            self.imageActionIcon6 = [self clearActionIcon:self.imageActionIcon6];
+            self.imageActionIcon7 = [self clearActionIcon:self.imageActionIcon7];
+            self.imageActionIcon8 = [self clearActionIcon:self.imageActionIcon8];                                        
           }
         else if ([currentPosition.context isEqualToString: DSAActionContextResting])
           {
@@ -749,6 +778,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 {
   NSLog(@"DSAAdventureWindowController handleTravelDidBegin called");
   [self updateMainImageView: nil];
+  [self setupActionIcons: nil];
 }
 
 - (void) handleTravelResting

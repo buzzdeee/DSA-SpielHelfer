@@ -62,6 +62,7 @@
 #import "DSAExecutionManager.h"
 #import "DSAGuardSelectionViewController.h"
 #import "DSAHuntOrHerbsViewController.h"
+#import "DSAMapViewController.h"
 
 
 @implementation DSAActionIcon
@@ -97,6 +98,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                     _(@"hunt"): [DSAActionIconHunt class],
                     _(@"collectHerbs"): [DSAActionIconCollectHerbs class],
                     _(@"selectGuards"): [DSAActionIconGuardSelection class],
+                    _(@"rest"): [DSAActionIconRest class],
                 };
             }
         }
@@ -2475,6 +2477,10 @@ inventoryIdentifier: (NSString *)sourceInventory
             return YES;
           }
       }
+    else if (!currentPosition.localLocationName && [currentPosition.context isEqualToString: DSAActionContextTravel])
+      {
+        return YES;
+      }
     return NO;
 }
 
@@ -2483,9 +2489,42 @@ inventoryIdentifier: (NSString *)sourceInventory
     
     DSAAdventureWindowController *windowController = self.window.windowController;
     DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    NSLog(@"DSAActionIconMap isActive currentPosition: %@", currentPosition);
+    DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType: @"local"];
+    NSLog(@"DSAActionIconMap isActive currentLocation: %@, %@", [currentLocation class], currentLocation.name);   
+    if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
+      {
+        windowController.adventureMapViewController = [[DSALocalMapViewController alloc] initWithMode: DSALocalMapViewModeAdventure adventure: adventure];
+        [windowController.adventureMapViewController showWindow:self];
+      }
+    else if (!currentPosition.localLocationName && [currentPosition.context isEqualToString: DSAActionContextTravel])
+      {
+        [windowController.globalMapViewController showWindow:self];
+      }        
     
-    windowController.adventureMapViewController = [[DSALocalMapViewController alloc] initWithMode: DSALocalMapViewModeAdventure adventure: adventure];
-    [windowController.adventureMapViewController showWindow:self];
+    
+
+}
+@end
+
+@implementation DSAActionIconRest
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"Lagerfeuer_1-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Rasten");
+        [self updateAppearance];
+    }
+    return self;
+}
+- (BOOL)isActive
+{
+  return YES;
 }
 @end
 

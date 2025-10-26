@@ -89,6 +89,8 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 @end
 @interface DSAActionIconMap: DSAActionIconClickTarget
 @end
+@interface DSAActionIconRest: DSAActionIconClickTarget
+@end
 
 @interface DSAActionIconHunt: DSAActionIconClickTarget
 @end
