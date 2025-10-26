@@ -11764,7 +11764,7 @@
     ],    
     "direkt konsumierbar": true,
     "MaxUsageCount": 1,
-    "transitionWhenEmpty": "Glasflasche, 1 Schank",
+    "disappearWhenEmpty": true,
     "DurstodHungerlinderung": 0.5,
     "Name": "Wasser",
     "category": "Nahrungs- und Genußmittel",

@@ -1866,9 +1866,41 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   NSLog(@"DSACharacter consumeItem called");
   BOOL retval = NO;
   
-  if ([item isKindOfClass: [DSAObjectFood class]])
+  DSAObject *itemToConsume = item;
+  DSASlot *slotToRemoveItemFrom = nil;
+  
+  if ([item isKindOfClass: [DSAObjectContainer class]])
     {
-      DSAObjectFood *food = (DSAObjectFood *) item;
+      NSLog(@"DSACharacter consumeItem, examining container!");
+      DSAObjectContainer *container = (DSAObjectContainer *) item;
+      if ([container isEmpty])
+        {
+           NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
+                                        @"message": [NSString stringWithFormat: @"%@ ist leider leer.", container.name]
+                                     };
+           [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                               object: self
+                                                             userInfo: userInfo];        
+          return NO;
+        }
+      else
+        {
+          for (DSASlot *slot in container.slots)
+            {
+              if ([slot.object isKindOfClass: [DSAObjectFood class]])
+                {
+                  itemToConsume = slot.object;
+                  slotToRemoveItemFrom = slot;
+                  break;
+                }
+            }
+        }
+      
+    }
+  
+  if ([itemToConsume isKindOfClass: [DSAObjectFood class]])
+    {
+      DSAObjectFood *food = (DSAObjectFood *) itemToConsume;
         
       DSAConsumptionFailReason reason;
       BOOL result = [food useOnceWithDate: currentDate
@@ -1930,12 +1962,17 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
           [self updateStatesDictState: @(DSACharacterStateHunger)
                             withValue: @(newHunger)];
         }
+      // Clean up slot in case it was a container
+      if (slotToRemoveItemFrom)
+        {
+          [slotToRemoveItemFrom removeObjectWithQuantity: 1];
+        }
       retval = YES;
     }
   else
     {
        NSDictionary *userInfo = @{ @"severity": @(LogSeverityInfo),
-                                   @"message": [NSString stringWithFormat: @"%@ kann man doch garnicht konsumieren.", item.name]
+                                   @"message": [NSString stringWithFormat: @"%@ kann man doch garnicht konsumieren.", itemToConsume.name]
                                  };
        [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
                                                            object: self

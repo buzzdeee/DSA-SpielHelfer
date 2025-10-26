@@ -146,7 +146,12 @@ NS_ASSUME_NONNULL_BEGIN
                 withOwnerUUID: (NSUUID *) ownerUUID            
                   withRegions: (NSArray *) regions;
 
-- (BOOL)isEmpty;    // checks if container itself it empty or not                  
+- (BOOL)isEmpty;    // checks if container itself it empty or not     
+- (NSInteger) countAllSlots;
+- (NSInteger) countEmptySlots;
+- (DSASlotType) slotType;
+// returns number of items that have been added
+- (NSInteger) storeItem: (DSAObject *) item ofQuantity: (NSInteger) quantity;
                   
 @end
 // End of DSAObjectContainer

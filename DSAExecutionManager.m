@@ -28,6 +28,7 @@
 #import "DSAEvent.h"
 #import "DSAAdventureGroup.h"
 #import "DSALocations.h"
+#import "DSAInventoryManager.h"
 
 
 #pragma mark - Action Descriptor Implementation
@@ -117,9 +118,17 @@
 - (void)executeGainWaterAction: (DSAActionDescriptor *)action
 {
   DSAAdventureGroup *activeGroup = [DSAAdventureManager sharedManager].currentAdventure.activeGroup;
+  DSAObject *water = [[DSAObject alloc] initWithName: @"Wasser" forOwner: nil];
   for (DSACharacter *character in activeGroup.allCharacters)
     {
       [character updateStateThirstWithValue: @1.0];
+      NSArray *waterBuckets = [[DSAInventoryManager sharedManager] findItemsBySubCategory: @"Wasserbehälter"
+                                                                                  inModel: character];
+      for (DSAObjectContainer *waterBucket in waterBuckets)
+        {
+          NSInteger slots = [waterBucket countEmptySlots];
+          [waterBucket storeItem: [water copy] ofQuantity: slots];
+        }
     }
 }
 

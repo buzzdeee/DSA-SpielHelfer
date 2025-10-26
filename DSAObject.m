@@ -30,6 +30,7 @@
 #import "DSAConsumption.h"
 #import "DSAPoison.h"
 #import "DSADefinitions.h"
+#import "DSAInventoryManager.h"
 
 
 @implementation DSAObjectEffect
@@ -909,13 +910,58 @@
   return self;
 }
 
-- (BOOL)isEmpty {
+- (BOOL)isEmpty
+{
     for (DSASlot *slot in self.slots) {
         if (slot.object != nil) {
             return NO;
         }
     }
     return YES;
+}
+
+- (NSInteger) countAllSlots
+{
+    return [self.slots count];
+}
+
+- (NSInteger) countEmptySlots
+{
+    NSInteger counter = 0;
+    for (DSASlot *slot in self.slots) {
+        if (slot.object == nil) {
+            counter++;
+        }
+    }
+    return counter;
+}
+
+- (DSASlotType) slotType
+{
+  return self.slots[0].slotType;
+}
+
+- (NSInteger) storeItem: (DSAObject *) item ofQuantity: (NSInteger) quantity
+{
+  NSInteger itemsToAdd = quantity;
+  NSInteger itemsAdded = 0;
+  DSAInventoryManager *inventoryManager = [DSAInventoryManager sharedManager];
+  for (DSASlot *slot in self.slots)
+    {
+      if ([inventoryManager isItem: item compatibleWithSlot: slot])
+        {
+           itemsAdded += [slot addObject: [item copy] quantity: itemsToAdd];
+           if (itemsAdded == quantity)
+             {
+               return quantity;
+             }
+           else
+             {
+               itemsToAdd = quantity - itemsAdded;
+             }
+        }
+    }
+  return itemsAdded;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
