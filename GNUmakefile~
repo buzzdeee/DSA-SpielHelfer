@@ -6205,6 +6205,12 @@ Resources/wachen_einteilen-32x32.webp \
 Resources/wachen_einteilen-512x512.webp \
 Resources/wachen_einteilen-64x64.webp \
 Resources/wachen_einteilen.webp \
+Resources/change_route-128x128.webp \
+Resources/change_route-256x256.webp \
+Resources/change_route-32x32.webp \
+Resources/change_route-512x512.webp \
+Resources/change_route-64x64.webp \
+Resources/change_route.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \

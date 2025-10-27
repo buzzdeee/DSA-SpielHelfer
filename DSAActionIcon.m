@@ -98,6 +98,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                     _(@"hunt"): [DSAActionIconHunt class],
                     _(@"collectHerbs"): [DSAActionIconCollectHerbs class],
                     _(@"selectGuards"): [DSAActionIconGuardSelection class],
+                    _(@"changeRoute"): [DSAActionIconChangeRoute class],
                     _(@"rest"): [DSAActionIconRest class],
                 };
             }
@@ -2507,6 +2508,24 @@ inventoryIdentifier: (NSString *)sourceInventory
     
     
 
+}
+@end
+
+@implementation DSAActionIconChangeRoute
+- (instancetype)initWithImageSize: (NSString *)size
+{
+    self = [super init];
+    if (self) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"change_route-%@", size] ofType: @"webp"];
+        self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
+        self.toolTip = _(@"Umkehren oder Ziel ändern");
+        [self updateAppearance];
+    }
+    return self;
+}
+- (BOOL)isActive
+{
+  return YES;
 }
 @end
 

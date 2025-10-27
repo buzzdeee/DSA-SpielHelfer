@@ -6366,7 +6366,13 @@
 	"wachen_einteilen-32x32.webp",
 	"wachen_einteilen-512x512.webp",
 	"wachen_einteilen-64x64.webp",
-	"wachen_einteilen.webp"
+	"wachen_einteilen.webp",
+	"change_route-128x128.webp",
+	"change_route-256x256.webp",
+	"change_route-32x32.webp",
+	"change_route-512x512.webp",
+	"change_route-64x64.webp",
+	"change_route.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;

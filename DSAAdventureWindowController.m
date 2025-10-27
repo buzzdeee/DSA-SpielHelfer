@@ -214,7 +214,17 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
                 self.imageActionIcon1 = newIcon;
                 [self.imageActionIcon1 updateAppearance];
               }
-            self.imageActionIcon2 = [self clearActionIcon:self.imageActionIcon2];  
+            if ([self.imageActionIcon2 isKindOfClass: [DSAActionIconChangeRoute class]])
+              {
+                [self.imageActionIcon2 updateAppearance];
+              }                       
+            else
+              {          
+                DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"changeRoute" andSize:@"128x128"];
+                [self replaceView:self.imageActionIcon2 withView:newIcon];
+                self.imageActionIcon2 = newIcon;
+                [self.imageActionIcon2 updateAppearance];
+              }              
             self.imageActionIcon3 = [self clearActionIcon:self.imageActionIcon3];
             self.imageActionIcon4 = [self clearActionIcon:self.imageActionIcon4];
             self.imageActionIcon5 = [self clearActionIcon:self.imageActionIcon5];
