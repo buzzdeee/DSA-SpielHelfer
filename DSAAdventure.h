@@ -107,6 +107,8 @@ extern NSString * const DSAAdventureTravelDidEndNotification;
 
 @interface DSAAdventure (travel)
 - (void)beginTravelFrom:(NSString *)startName to:(NSString *)destName;
+- (void)rest;
+- (void)goBack;                  // to take a u turn and go back
 - (void)continueTravel;
 - (void)updateTravelProgress:(CGFloat)progress;
 - (void)endTravel;

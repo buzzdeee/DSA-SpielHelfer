@@ -2518,7 +2518,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     if (self) {
         NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"change_route-%@", size] ofType: @"webp"];
         self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
-        self.toolTip = _(@"Umkehren oder Ziel ändern");
+        self.toolTip = _(@"Umkehren");
         [self updateAppearance];
     }
     return self;
@@ -2526,6 +2526,12 @@ inventoryIdentifier: (NSString *)sourceInventory
 - (BOOL)isActive
 {
   return YES;
+}
+- (void)handleEvent
+{
+  NSLog(@"DSAActionIconChangeRoute handleEvent called!");
+  DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+  [adventure goBack];
 }
 @end
 
@@ -2544,6 +2550,11 @@ inventoryIdentifier: (NSString *)sourceInventory
 - (BOOL)isActive
 {
   return YES;
+}
+- (void)handleEvent
+{
+  DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+  [adventure rest];
 }
 @end
 

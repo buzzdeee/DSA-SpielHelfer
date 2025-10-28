@@ -190,13 +190,7 @@
     scrollView.hasVerticalScroller = NO;
     scrollView.hasHorizontalScroller = NO; // oder YES, wenn du horizontalen Text erwartest
     scrollView.autohidesScrollers = YES;    
-/*    
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleAdventureTravelStart:)
-                                                 name:@"DSAAdventureTravelStart"
-                                               object:nil];   
-*/
-                                               
+                                            
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleTravelDidBegin:)
                                                  name:DSAAdventureTravelDidBeginNotification
@@ -294,13 +288,13 @@
     DSALocation *startLoc = notification.userInfo[@"startLoc"];
     DSALocation *endLoc   = notification.userInfo[@"endLoc"];
 
-    NSLog(@"📍 Reise begonnen: %@ → %@", startLoc.name, endLoc.name);
+    NSLog(@"DSAMapViewController handleTravelDidBegin: Reise begonnen: %@ → %@", startLoc.name, endLoc.name);
 
     [self zoomToRegionFrom:startLoc.mapCoordinate.asPoint to:endLoc.mapCoordinate.asPoint];
 
     DSARouteResult *route = [self.routePlanner findShortestPathFrom:startLoc.name to:endLoc.name];
     if (!route) {
-        NSLog(@"⚠️ Keine Route gefunden zwischen %@ und %@", startLoc.name, endLoc.name);
+        NSLog(@"DSAMapViewController handleTravelDidBegin Keine Route gefunden zwischen %@ und %@", startLoc.name, endLoc.name);
         return;
     }
 
