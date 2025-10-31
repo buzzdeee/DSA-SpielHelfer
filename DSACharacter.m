@@ -412,8 +412,46 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                                                                       }
                       ];
         _receivedUniqueMiracles = [NSMutableSet set];
+        [self subscribeToTimeNotifications];
     }
     return self;
+}
+
+- (void)subscribeToTimeNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleGameTimeAdvanced:)
+                                                 name:@"DSAGameTimeAdvanced"
+                                               object:nil];
+}
+
+
+- (void)handleGameTimeAdvanced:(NSNotification *)notification {
+    NSDictionary *userInfo = notification.userInfo;
+    NSNumber *advancedSecondsNumber = userInfo[@"advancedSeconds"];
+    if (!advancedSecondsNumber) return;
+
+    NSTimeInterval advancedSeconds = [advancedSecondsNumber doubleValue];
+
+    // --- Hunger / Durst Berechnung ---
+    // Beispiel: 1 Stunde = 0.01 Hungerverlust, 0.01 Durstverlust
+    // Kann je nach Spielbalance skaliert werden
+    double hoursElapsed = advancedSeconds / 3600.0;
+
+    double hungerDecayPerHour = 0.01;  // 1% pro Stunde
+    double thirstDecayPerHour = 0.015; // 1.5% pro Stunde
+
+    double hungerDelta = hoursElapsed * hungerDecayPerHour;
+    double thirstDelta = hoursElapsed * thirstDecayPerHour;
+
+    // Aktuelle Werte aus dem States-Dict
+    NSNumber *currentHunger = self.statesDict[@(DSACharacterStateHunger)];
+    NSNumber *currentThirst = self.statesDict[@(DSACharacterStateThirst)];
+
+    double newHunger = MAX(0.0, [currentHunger doubleValue] - hungerDelta);
+    double newThirst = MAX(0.0, [currentThirst doubleValue] - thirstDelta);
+
+    [self updateStateHungerWithValue:@(newHunger)];
+    [self updateStateThirstWithValue:@(newThirst)];
 }
 
 - (void)moveToLocation:(DSALocation *)newLocation {
@@ -469,6 +507,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     @synchronized([DSACharacter class]) {
         [characterRegistry removeObjectForKey:_modelID];
         NSLog(@"Character with modelID %@ removed from registry.", _modelID);
+        [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
 }
 
@@ -724,6 +763,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       self.statesDict = [coder decodeObjectForKey:@"statesDict"];
       self.currentLocation = [coder decodeObjectForKey:@"currentLocation"];
       self.receivedUniqueMiracles = [coder decodeObjectForKey:@"receivedUniqueMiracles"];
+      [self subscribeToTimeNotifications];
     }
   return self;
 }
@@ -2803,8 +2843,8 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 
 - (void) updateStateHungerWithValue: (NSNumber*) value
 {
-  CGFloat newLevel = [value floatValue];
-  CGFloat currentLevel = [[self.statesDict objectForKey: @(DSACharacterStateHunger)] floatValue];
+  CGFloat newLevel = [value doubleValue];
+  CGFloat currentLevel = [[self.statesDict objectForKey: @(DSACharacterStateHunger)] doubleValue];
   
   if (newLevel > currentLevel)
     {

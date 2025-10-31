@@ -37,6 +37,8 @@ NS_ASSUME_NONNULL_BEGIN
 @class DSAGod;
 @class DSAEvent;
 @class DSAPosition;
+@class DSARouteResult;
+@class DSARouteSegment;
 
 typedef NSString * DSAActionContext;
 
@@ -110,7 +112,7 @@ extern NSString * const DSAAdventureTravelDidEndNotification;
 - (void)rest;
 - (void)goBack;                  // to take a u turn and go back
 - (void)continueTravel;
-- (void)updateTravelProgress:(CGFloat)progress;
+//- (void)updateTravelProgress:(CGFloat)progress;
 - (void)endTravel;
 @end
 

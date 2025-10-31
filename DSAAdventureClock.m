@@ -22,194 +22,182 @@
    Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111 USA.
 */
 
-#import "DSAAdventureClock.h"
-#import "DSAAdventure.h"
 
-static const double DSAGameSpeedNormal = 4.0;      // Normal
-static const double DSAGameSpeedTravel = 2160.0;   // Reisegeschwindigkeit
+#import "DSAAdventureClock.h"
+#import "DSAAventurianDate.h"
 
 @implementation DSAAdventureClock
 
 - (instancetype)init {
     if (self = [super init]) {
-        _gameSpeedMultiplier = 4.0; // Game time runs at 4x speed
-        _currentDate = [[DSAAventurianDate alloc] initWithYear:1030 
-                                                         month:DSAAventurianMonthPraios 
-                                                           day:1 
-                                                          hour:6]; // Start date
+        _gameSpeedMultiplier = DSAGameSpeedNormal;
+        _currentDate = [[DSAAventurianDate alloc] initWithYear:1030
+                                                         month:DSAAventurianMonthPraios
+                                                           day:1
+                                                          hour:6];
+        [self startClock];
     }
     return self;
 }
-- (void) dealloc
-{
-    NSLog(@"DSAAdventureClock dealloc called");
-    if (self.gameTimer) {
-        [self.gameTimer invalidate];
-        self.gameTimer = nil;
-        NSLog(@"DSAAdventureClock: Timer stopped.");
-    }    
+
+- (void)dealloc {
+    [self.gameTimer invalidate];
+}
+
+#pragma mark - Clock Control
+
+- (BOOL)isRunning {
+    return self.gameTimer != nil;
 }
 
 - (void)startClock {
-    NSLog(@"DSAAdventureClock startClock called");
     if (!self.gameTimer) {
-        NSLog(@"DSAAdventureClock startClock called, initializing gameTimer");
-
-        __weak typeof(self) weakSelf = self;                                              
-        _gameTimer = [NSTimer scheduledTimerWithTimeInterval:60.0 / _gameSpeedMultiplier
-                                                     repeats:YES
-                                                       block:^(NSTimer * _Nonnull timer) {
-            __strong typeof(weakSelf) strongSelf = weakSelf;
-            if (!strongSelf) {
-                [timer invalidate];
-                return;
-            }
-            [strongSelf updateGameTime];
+        __weak typeof(self) weakSelf = self;
+        _gameTimer = [NSTimer scheduledTimerWithTimeInterval:1.0
+                                                      repeats:YES
+                                                        block:^(NSTimer * _Nonnull timer) {
+            __strong typeof(weakSelf) self = weakSelf;
+            if (!self) return;
+            [self updateGameTime];
         }];
+
         [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameClockStarted"
-                                                            object:self
-                                                          userInfo:nil];                                                        
+                                                            object:self];
     }
 }
 
-- (void)pauseClock
-{
-  if (self.gameTimer != nil)
-    {
-      [self.gameTimer invalidate];
-      self.gameTimer = nil;
-      [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameClockPaused"
-                                                          object:self
-                                                        userInfo:nil];    
+- (void)pauseClock {
+    if (self.gameTimer) {
+        [self.gameTimer invalidate];
+        self.gameTimer = nil;
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameClockPaused"
+                                                            object:self];
     }
 }
 
-- (void)updateGameTime {
-    //NSLog(@"DSAAdventureClock updateGameTime: called (advance time by 1 minute)");
-    [self advanceTimeByMinutes:1]; // Advances 1 minute of game time every 30 real seconds    
-}
-
-- (void)advanceTimeByMinutes:(NSUInteger)minutes {
-    NSUInteger newMinutes = self.currentDate.minute + minutes;
-
-    self.currentDate.hour += newMinutes / 60; // Only add full hours
-    self.currentDate.minute = newMinutes % 60; // Set remaining minutes properly
-
-    if (self.currentDate.hour >= 24) {
-        self.currentDate.hour -= 24;
-        [self advanceTimeByDays:1];
-    }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameTimeAdvanced"
-                                                        object:self
-                                                      userInfo:@{ @"currentDate": [self.currentDate copy] }];    
-}
-
-- (void)advanceTimeByHours:(NSUInteger)hours {
-    //NSLog(@"DSAAdventureClock advanceTimeByHours hours before: %lu", self.currentDate.hour);
-    self.currentDate.hour += hours;
-    if (self.currentDate.hour >= 24) {
-        [self advanceTimeByDays:self.currentDate.hour / 24];
-        self.currentDate.hour %= 24;
-    }
-    //NSLog(@"DSAAdventureClock advanceTimeByHours hours after: %lu", self.currentDate.hour);
-    //NSLog(@"DSAAdventureClock advanceTimeByHours : currentDate after: %@", self.currentDate);
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameTimeAdvanced"
-                                                        object:self
-                                                      userInfo:@{ @"currentDate": [self.currentDate copy] }];    
-}
-
-- (void)advanceTimeByDays:(NSUInteger)days {
-    self.currentDate.day += days;
-    
-    NSUInteger daysInMonth = 30; // Assuming 30 days per month
-    if (self.currentDate.day > daysInMonth) {
-        self.currentDate.month += self.currentDate.day / daysInMonth;
-        self.currentDate.day = self.currentDate.day % daysInMonth;
-    }
-    
-    if (self.currentDate.month > DSAAventurianMonthNamenlos) {
-        self.currentDate.year += 1;
-        self.currentDate.month = DSAAventurianMonthPraios;
-    }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameTimeAdvanced"
-                                                        object:self
-                                                      userInfo:@{ @"currentDate": [self.currentDate copy] }];    
-}
+#pragma mark - Game Speed
 
 - (void)setGameSpeedMultiplier:(double)newMultiplier {
     if (_gameSpeedMultiplier != newMultiplier) {
         _gameSpeedMultiplier = newMultiplier;
+
         if (self.gameTimer) {
             [self pauseClock];
             [self startClock];
         }
-        NSLog(@"DSAAdventureClock: Game speed changed to %.1fx", newMultiplier);
+
         [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameSpeedChanged"
                                                             object:self
-                                                          userInfo:@{ @"multiplier": @(newMultiplier) }];
+                                                          userInfo:@{@"multiplier": @(newMultiplier)}];
     }
 }
 
 - (void)setTravelModeEnabled:(BOOL)enabled {
-    if (enabled) {
-        [self setGameSpeedMultiplier:DSAGameSpeedTravel];
-    } else {
-        [self setGameSpeedMultiplier:DSAGameSpeedNormal];
+    [self setGameSpeedMultiplier:enabled ? DSAGameSpeedTravel : DSAGameSpeedNormal];
+}
+
+#pragma mark - Time Advancement
+
+- (void)updateGameTime {
+    [self advanceTimeBySeconds: _gameSpeedMultiplier sendNotification: NO];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameTimeAdvanced"
+                                                        object:self
+                                                      userInfo:@{@"currentDate": [self.currentDate copy],
+                                                                 @"advancedSeconds": @(_gameSpeedMultiplier) }];
+}
+
+
+- (void)advanceTimeBySeconds:(NSUInteger)seconds sendNotification:(BOOL)notify {
+    NSUInteger totalMinutes = seconds / 60;
+    if (totalMinutes > 0) {
+        [self advanceTimeByMinutes:totalMinutes sendNotification:NO]; // Minuten werden intern weitergerechnet
+    }
+
+    NSUInteger leftoverSeconds = seconds % 60;
+    if (leftoverSeconds > 0) {
+        self->_residualSeconds += leftoverSeconds;
+        if (self->_residualSeconds >= 60) {
+            [self advanceTimeByMinutes:self->_residualSeconds / 60 sendNotification:NO];
+            self->_residualSeconds %= 60;
+        }
+    }
+
+    if (notify) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameTimeAdvanced"
+                                                            object:self
+                                                          userInfo:@{@"currentDate": [self.currentDate copy],
+                                                                     @"advancedSeconds": @(seconds)}];
     }
 }
 
+- (void)advanceTimeByMinutes:(NSUInteger)minutes sendNotification:(BOOL)notify {
+    NSUInteger newMinutes = self.currentDate.minute + minutes;
+    self.currentDate.hour += newMinutes / 60;
+    self.currentDate.minute = newMinutes % 60;
 
-- (void) encodeWithCoder:(NSCoder *)coder
-{
-  [coder encodeObject:self.currentDate forKey:@"currentDate"];
-  [coder encodeDouble:self.gameSpeedMultiplier forKey:@"gameSpeedMultiplier"];
-}
-
-- (instancetype) initWithCoder:(NSCoder *)coder
-{
-  self = [super init];
-  if (self)
-    {
-      _currentDate = [coder decodeObjectForKey:@"currentDate"];
-      _gameSpeedMultiplier = [coder decodeDoubleForKey:@"gameSpeedMultiplier"];
+    if (self.currentDate.hour >= 24) {
+        [self advanceTimeByDays:self.currentDate.hour / 24 sendNotification:NO];
+        self.currentDate.hour %= 24;
     }
-  return self;
+
+    if (notify) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameTimeAdvanced"
+                                                            object:self
+                                                          userInfo:@{@"currentDate": [self.currentDate copy],
+                                                                     @"advancedSeconds": @(minutes*60)}];
+    }
 }
 
-- (NSUInteger)currentMonth {
-    return self.currentDate.month;
+- (void)advanceTimeByHours:(NSUInteger)hours sendNotification:(BOOL)notify {
+    self.currentDate.hour += hours;
+    if (self.currentDate.hour >= 24) {
+        [self advanceTimeByDays:self.currentDate.hour / 24 sendNotification:NO];
+        self.currentDate.hour %= 24;
+    }
+
+    if (notify) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameTimeAdvanced"
+                                                            object:self
+                                                          userInfo:@{@"currentDate": [self.currentDate copy],
+                                                                     @"advancedSeconds": @(hours*3600)}];
+    }
 }
 
-- (NSUInteger)currentDay {
-    return self.currentDate.day;
+- (void)advanceTimeByDays:(NSUInteger)days sendNotification:(BOOL)notify {
+    self.currentDate.day += days;
+    NSUInteger daysInMonth = 30;
+    if (self.currentDate.day > daysInMonth) {
+        self.currentDate.month += self.currentDate.day / daysInMonth;
+        self.currentDate.day %= daysInMonth;
+    }
+
+    if (self.currentDate.month > DSAAventurianMonthNamenlos) {
+        self.currentDate.year++;
+        self.currentDate.month = DSAAventurianMonthPraios;
+    }
+
+    if (notify) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAGameTimeAdvanced"
+                                                            object:self
+                                                          userInfo:@{@"currentDate": [self.currentDate copy],
+                                                                     @"advancedSeconds": @(days*24*3600)}];
+    }
 }
 
-- (NSUInteger)currentHour {
-    return self.currentDate.hour;
-}
-
-- (NSUInteger)currentMinute {
-    return self.currentDate.minute;
-}
+#pragma mark - Moon Phase
 
 - (DSAMoonPhase)currentMoonPhase {
-    // Last 5 days of the year → No Moon
-    if (self.currentDate.month == DSAAventurianMonthNamenlos) {
-        return DSAMoonPhaseNewMoon;
-    }
-    
-    NSUInteger dayOfMonth = self.currentDate.day;
-
-    if (dayOfMonth == 1 || dayOfMonth == 2) return DSAMoonPhaseNewMoon;
-    if (dayOfMonth >= 3 && dayOfMonth <= 8) return DSAMoonPhaseWaxingCrescent;
-    if (dayOfMonth == 9) return DSAMoonPhaseFirstQuarter;
-    if (dayOfMonth >= 10 && dayOfMonth <= 15) return DSAMoonPhaseWaxingGibbous;
-    if (dayOfMonth == 16 || dayOfMonth == 17) return DSAMoonPhaseFullMoon;
-    if (dayOfMonth >= 18 && dayOfMonth <= 23) return DSAMoonPhaseWaningGibbous;
-    if (dayOfMonth == 24) return DSAMoonPhaseLastQuarter;
-    if (dayOfMonth >= 26 && dayOfMonth <= 30) return DSAMoonPhaseWaningCrescent;
-    
-    return DSAMoonPhaseNewMoon; // Should never reach here, but just in case
+    NSUInteger d = self.currentDate.day;
+    if (d == 1) return DSAMoonPhaseNewMoon;
+    else if (d <= 7) return DSAMoonPhaseWaxingCrescent;
+    else if (d <= 8) return DSAMoonPhaseFirstQuarter;
+    else if (d <= 14) return DSAMoonPhaseWaxingGibbous;
+    else if (d == 15) return DSAMoonPhaseFullMoon;
+    else if (d <= 21) return DSAMoonPhaseWaningGibbous;
+    else if (d == 22) return DSAMoonPhaseLastQuarter;
+    return DSAMoonPhaseWaningCrescent;
 }
 
 - (NSString *)moonPhaseNameForPhase:(DSAMoonPhase)phase {
@@ -223,9 +211,32 @@ static const double DSAGameSpeedTravel = 2160.0;   // Reisegeschwindigkeit
         case DSAMoonPhaseLastQuarter: return @"Letztes Viertel";
         case DSAMoonPhaseWaningCrescent: return @"Abnehmende Sichel";
     }
-    NSLog(@"DSAAdventureClock moonPhaseNameForPhase unknown moon phase: %@ ABORTING", @(phase));
-    abort();
-    return @"Unbekannt";
 }
 
+#pragma mark - NSCoding
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:self.currentDate forKey:@"currentDate"];
+    [coder encodeInteger:self.residualSeconds forKey:@"residualSeconds"];
+    [coder encodeDouble:self.gameSpeedMultiplier forKey:@"gameSpeedMultiplier"];
+}
+
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super init];
+    if (self) {
+        _currentDate = [coder decodeObjectForKey:@"currentDate"];
+        _residualSeconds = [coder decodeIntegerForKey:@"residualSeconds"];
+        _gameSpeedMultiplier = [coder decodeDoubleForKey:@"gameSpeedMultiplier"];
+        [self startClock];
+    }
+    return self;
+}
+
+#pragma mark - Current Accessors
+- (NSUInteger)currentMonth { return self.currentDate.month; }
+- (NSUInteger)currentDay { return self.currentDate.day; }
+- (NSUInteger)currentHour { return self.currentDate.hour; }
+- (NSUInteger)currentMinute { return self.currentDate.minute; }
+
 @end
+

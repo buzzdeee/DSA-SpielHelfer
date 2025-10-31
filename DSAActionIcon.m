@@ -1831,7 +1831,7 @@ inventoryIdentifier: (NSString *)sourceInventory
             [character sleepForHours: sleepHours
                         sleepQuality: sleepQuality];
         }
-        [adventure.gameClock advanceTimeByHours: sleepHours];
+        [adventure.gameClock advanceTimeByHours: sleepHours sendNotification: YES];
         // Leave the room and go back to reception, in case we're in a Inn
         if ([currentTile isKindOfClass:[DSALocalMapTileBuildingInn class]])
           {
@@ -2169,7 +2169,7 @@ inventoryIdentifier: (NSString *)sourceInventory
             };
 
             [windowController.window beginSheet:conversationSelector.window completionHandler:nil];
-            [adventure.gameClock advanceTimeByMinutes:round(spellResult.actionDuration / 60)];
+            [adventure.gameClock advanceTimeByMinutes:round(spellResult.actionDuration / 60) sendNotification: YES];
         }];
     };
 
@@ -2275,7 +2275,7 @@ inventoryIdentifier: (NSString *)sourceInventory
         [windowController.window beginSheet:conversationSelector.window completionHandler:nil];
 
         // Zeit fortschreiten lassen
-        [adventure.gameClock advanceTimeByHours:6];
+        [adventure.gameClock advanceTimeByHours:6 sendNotification: YES];
         NSLog(@"DSAActionIconRitual handle event: using hardcoded duration for all rituals!");
     };
 
@@ -2408,7 +2408,7 @@ inventoryIdentifier: (NSString *)sourceInventory
             NSLog(@"DSAActionIconMeal handleEvent oldHunger: %@, newHunger: %@", @(hunger), @(newHunger));
             
         }
-        [adventure.gameClock advanceTimeByMinutes: 30];
+        [adventure.gameClock advanceTimeByMinutes: 30 sendNotification: YES];
         // Abschlusstext
         DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName:@"DSAConversationTextOnly"];
         [conversationSelector window];
@@ -2611,7 +2611,7 @@ inventoryIdentifier: (NSString *)sourceInventory
                                         usingMethod: nil
                                         inAdventure: adventure];
 
-        [adventure.gameClock advanceTimeByHours: huntingHours];
+        [adventure.gameClock advanceTimeByHours: huntingHours sendNotification: YES];
 
     };
     [windowController.window beginSheet:selector.window completionHandler:nil];    
@@ -2741,7 +2741,7 @@ inventoryIdentifier: (NSString *)sourceInventory
         talentResult = [character collectHerbsForHours: collectingHours
                                            inAdventure: adventure];
 
-        [adventure.gameClock advanceTimeByHours: collectingHours];
+        [adventure.gameClock advanceTimeByHours: collectingHours sendNotification: YES];
 
     };
     [windowController.window beginSheet:selector.window completionHandler:nil];     

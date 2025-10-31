@@ -458,15 +458,15 @@ NSString * const DSACharacterHighlightedNotification = @"DSACharacterHighlighted
 }
 - (void)advanceGameTimeByMinutes: (NSUInteger) minutes
 {
-  [[self.model gameClock] advanceTimeByMinutes: minutes];
+  [[self.model gameClock] advanceTimeByMinutes: minutes sendNotification: YES];
 }
 - (void)advanceGameTimeByHours: (NSUInteger) hours
 {
-  [[self.model gameClock] advanceTimeByHours: hours];
+  [[self.model gameClock] advanceTimeByHours: hours sendNotification: YES];
 }
 - (void)advanceGameTimeByDays: (NSUInteger) days
 {
-  [[self.model gameClock] advanceTimeByDays: days];
+  [[self.model gameClock] advanceTimeByDays: days sendNotification: YES];
 }
 
 @end
