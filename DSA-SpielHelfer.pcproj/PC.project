@@ -118,7 +118,8 @@
 	"DSAExecutionManager.m",
 	"DSAPlant.m",
 	"DSAGuardSelectionViewController.m",
-	"DSAHuntOrHerbsViewController.m"
+	"DSAHuntOrHerbsViewController.m",
+	"DSAAdventureMainImageView.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -230,7 +231,8 @@
 	"DSAExecutionManager.h",
 	"DSAPlant.h",
 	"DSAGuardSelectionViewController.h",
-	"DSAHuntOrHerbsViewController.h"
+	"DSAHuntOrHerbsViewController.h",
+	"DSAAdventureMainImageView.h"
     );
     IMAGES = (
 	"Aventurien.jpg",

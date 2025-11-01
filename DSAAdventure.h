@@ -91,7 +91,7 @@ extern NSString * const DSAAdventureTravelDidEndNotification;
 
 - (DSAAventurianDate *) now;         // returns current adventure date
 - (DSAPosition *) position;          // returns position of active group
-
+- (NSString *) locationInfoForMainImageView;  // builds and returns the info string that can be shown in MainImageView UI
 
 - (void)moveCharacter: (NSUUID *) characterUUID toGroup: (DSAAdventureGroup *) targetGroup;  // move from active group
 - (void)discoverCoordinate:(DSAMapCoordinate *)coord forLocation:(NSString *)location;

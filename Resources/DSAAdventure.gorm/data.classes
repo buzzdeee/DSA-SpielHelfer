@@ -7,6 +7,13 @@
 	);
 	Super = NSImageView;
     };
+    DSAAdventureMainImageView = {
+	Actions = (
+	);
+	Outlets = (
+	);
+	Super = NSImageView;
+    };
     DSAAdventureWindowController = {
 	Actions = (
 	);

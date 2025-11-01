@@ -22,6 +22,7 @@
 #import "DSAActionChoiceQuestionController.h"
 #import "DSAMapViewController.h"
 #import "DSAMapCoordinate.h"
+#import "DSAAdventureMainImageView.h"
 
 extern NSString * const DSACharacterHighlightedNotification;
 
@@ -868,6 +869,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     BOOL showBuildingDialog = NO;
     BOOL showRouteDialog = NO;
     DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
+    DSAAdventure *adventure = adventureDoc.model;
     DSAAdventureGroup *activeGroup = adventureDoc.model.activeGroup;    
     DSAPosition *currentPosition;
     if (position)
@@ -913,6 +915,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
             if (imagePath) {
                 NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
                 [self.imageMain setImage:image];
+                [self.imageMain updateLocationLabel: [adventure locationInfoForMainImageView]];
             } else {
                 NSLog(@"DSAAdventureWindowController updateMainImageView: image not found in Bundle: %@", imageName);
             }
@@ -1052,6 +1055,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
         if (imagePath) {
             NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
             [self.imageMain setImage:image];
+            [self.imageMain updateLocationLabel: [adventure locationInfoForMainImageView]];
         } else {
             NSLog(@"Bild nicht gefunden im Bundle: %@", imageName);
         }

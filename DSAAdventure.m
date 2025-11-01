@@ -340,6 +340,73 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
   return self.activeGroup.position;
 }
 
+
+- (NSString *) locationInfoForMainImageView
+{
+  NSString *retVal;
+  DSAPosition *position = self.position;
+  // check when traveling
+  if (position.localLocationName == nil)
+    {
+      if ([position.context isEqualToString: DSAActionContextTravel])
+        {
+          retVal = [NSString stringWithFormat: @"Reise von %@ nach %@", self.currentStartLocation.name, self.currentDestinationLocation.name];
+        }
+      else if ([position.context isEqualToString: DSAActionContextResting])
+        {
+          retVal = [NSString stringWithFormat: @"Rast auf Reise von %@ nach %@", self.currentStartLocation.name, self.currentDestinationLocation.name];
+        }
+      else
+        {
+          NSLog(@"DSAAdventure locationInfoForMainImageView unknown DSAActionContext: %@ while outside local location, aborting.", position.context);
+          abort();
+        }      
+    }
+  else
+    {
+       DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: position.localLocationName ofType: @"local"];
+        
+       if ([currentLocation isKindOfClass: [DSALocalMapLocation class]])
+         {
+           DSALocalMapLocation *lml = (DSALocalMapLocation *)currentLocation;
+           DSALocalMapTile *currentTile = [lml tileAtCoordinate: position.mapCoordinate];
+           if ([currentTile isKindOfClass: [DSALocalMapTileGreen class]] ||
+               [currentTile isKindOfClass: [DSALocalMapTileStreet class]] ||
+               [currentTile isKindOfClass: [DSALocalMapTileRoute class]])
+             {
+               retVal = [currentLocation.name copy];
+             }
+           else if ([currentTile isKindOfClass: [DSALocalMapTileBuildingTemple class]])
+             {
+               retVal = [NSString stringWithFormat: @"%@ Tempel in %@", [(DSALocalMapTileBuildingTemple *)currentTile god], currentLocation.name];
+             }
+           else if ([currentTile isKindOfClass: [DSALocalMapTileBuildingInn class]])
+             {
+               retVal = [NSString stringWithFormat: @"%@ \"%@\" in %@", currentTile.type, [(DSALocalMapTileBuildingInn *)currentTile name], currentLocation.name];                   
+             }
+           else if ([currentTile isKindOfClass: [DSALocalMapTileBuildingHealer class]])
+             {
+               retVal = [NSString stringWithFormat: @"Heiler \"%@\" in %@", [(DSALocalMapTileBuilding *)currentTile npc], currentLocation.name];
+             }              
+           else if ([currentTile isKindOfClass: [DSALocalMapTileBuildingSmith class]])
+             {
+               retVal = [NSString stringWithFormat: @"Schmied \"%@\" in %@", [(DSALocalMapTileBuilding *)currentTile npc], currentLocation.name];
+             }
+           else if ([currentTile isKindOfClass: [DSALocalMapTileBuildingShop class]])
+             {
+               retVal = [NSString stringWithFormat: @"%@ \"%@\" in %@", currentTile.type, [(DSALocalMapTileBuildingShop *)currentTile npc], currentLocation.name];
+             }
+           else
+             {
+               NSLog(@"DSAAdventure locationInfoForMainImageView unhandled tile class: %@, aborting", [currentTile class]);
+               abort();
+             }                                  
+         }      
+    }
+  
+  return retVal;
+}
+
 - (void)discoverCoordinate:(DSAMapCoordinate *)coord forLocation:(NSString *)location {
     NSMutableSet *discoveredSet = self.discoveredCoordinates[location];
     if (!discoveredSet) {

@@ -10,6 +10,7 @@
 @class DSALocalMapViewController;
 @class DSAMapViewController;
 @class DSAShopViewController;
+@class DSAAdventureMainImageView;
 
 @interface DSAAdventureWindowController : NSWindowController <NSWindowDelegate>
 
@@ -28,7 +29,7 @@
 @property (weak) IBOutlet DSACharacterPortraitView * imagePartyNPC0;
 @property (weak) IBOutlet DSACharacterPortraitView * imagePartyNPC1;
 @property (weak) IBOutlet DSACharacterPortraitView * imagePartyNPC2;
-@property (weak) IBOutlet NSImageView * imageMain;
+@property (weak) IBOutlet DSAAdventureMainImageView * imageMain;
 @property (weak) IBOutlet NSImageView * imageLogo;
 @property (weak) IBOutlet DSAClockAnimationView *clockAnimationView;
 @property (weak) IBOutlet DSAActionIcon * imageActionIcon0;

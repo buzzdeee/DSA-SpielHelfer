@@ -6366,7 +6366,8 @@ DSAEvent.h \
 DSAExecutionManager.h \
 DSAPlant.h \
 DSAGuardSelectionViewController.h \
-DSAHuntOrHerbsViewController.h
+DSAHuntOrHerbsViewController.h \
+DSAAdventureMainImageView.h
 
 #
 # Objective-C Class files
@@ -6473,7 +6474,8 @@ DSAEvent.m \
 DSAExecutionManager.m \
 DSAPlant.m \
 DSAGuardSelectionViewController.m \
-DSAHuntOrHerbsViewController.m
+DSAHuntOrHerbsViewController.m \
+DSAAdventureMainImageView.m
 
 #
 # Other sources
