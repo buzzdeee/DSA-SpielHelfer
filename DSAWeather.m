@@ -69,7 +69,7 @@
 }
 
 - (NSString *)describeTemperature {
-    switch (_temperature) {
+    switch (self.temperature) {
         case DSATempFreezing: return @"Eiskalt";
         case DSATempCold: return @"Kalt";
         case DSATempCool: return @"Kühl";
@@ -79,7 +79,7 @@
 }
 
 - (NSString *)describeWind {
-    switch (_windSpeed) {
+    switch (self.windSpeed) {
         case DSAWindNone: return @"Kein Wind";
         case DSAWindCalm: return @"Leichter Wind";
         case DSAWindLight: return @"Leichte Brise";
@@ -89,7 +89,7 @@
 }
 
 - (NSString *)describeCloudCoverage {
-    switch (_cloudCoverage) {
+    switch (self.cloudCoverage) {
         case DSACloudClear: return @"Klarer Himmel";
         case DSACloudPartlyCloudy: return @"Teilweise bewölkt";
         case DSACloudOvercast: return @"Bedeckter Himmel";
@@ -97,7 +97,7 @@
 }
 
 - (NSString *)describeFog {
-    switch (_fogDensity) {
+    switch (self.fogDensity) {
         case DSAFogNone: return @"Kein Nebel";
         case DSAFogLight: return @"Leichter Nebel";
         case DSAFogDense: return @"Dichter Nebel";
@@ -106,7 +106,7 @@
 
 - (NSString *)describePrecipitation {
     NSString *precipitationType = (_temperature == DSATempFreezing) ? @"Schnee" : @"Regen";
-    switch (_precipitation) {
+    switch (self.precipitation) {
         case DSAPrecipNone: return @"Kein Niederschlag";
         case DSAPrecipCalm: return [NSString stringWithFormat:@"Leichter %@", precipitationType];
         case DSAPrecipLight: return [NSString stringWithFormat:@"Mäßiger %@", precipitationType];

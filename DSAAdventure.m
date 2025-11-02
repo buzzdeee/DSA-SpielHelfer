@@ -598,10 +598,14 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     self.activeGroup.position.context = DSAActionContextResting;
     [self.gameClock setTravelModeEnabled:NO];
 
-    NSDictionary *u = @{@"adventure": self};
+    NSDictionary *info = @{
+        @"adventure": self,
+        @"startLoc": self.currentStartLocation,
+        @"endLoc": self.currentDestinationLocation
+    };
     [[NSNotificationCenter defaultCenter] postNotificationName:DSAAdventureTravelRestingNotification
                                                         object:self
-                                                      userInfo:u];
+                                                      userInfo:info];
 }
 
 - (void)continueTravel
@@ -612,10 +616,14 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     self.activeGroup.position.context = DSAActionContextTravel;
     [self.gameClock setTravelModeEnabled:YES];
 
-    NSDictionary *u = @{@"adventure": self};
+    NSDictionary *info = @{
+        @"adventure": self,
+        @"startLoc": self.currentStartLocation,
+        @"endLoc": self.currentDestinationLocation
+    };
     [[NSNotificationCenter defaultCenter] postNotificationName:DSAAdventureTravelDidBeginNotification
                                                         object:self
-                                                      userInfo:u];
+                                                      userInfo:info];
 }
 
 - (void)goBack

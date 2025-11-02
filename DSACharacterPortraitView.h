@@ -35,6 +35,8 @@
 @property (nonatomic, strong) NSBox *highlightView;
 @property (nonatomic, assign) BOOL isHighlighted;
 @property (nonatomic, assign) NSPoint initialClickLocation;
+
+- (void)updateCharacterNameLabel;
 @end
 
 #endif // _DSACHARACTERPORTRAITVIEW_H_

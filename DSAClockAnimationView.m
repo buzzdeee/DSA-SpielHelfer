@@ -158,6 +158,7 @@
     self.currentHour = currentDate.hour;
     self.currentMinute = currentDate.minute;
     self.currentMoonPhase = [self.gameClock currentMoonPhase];
+    self.toolTip = [self toolTip];
 }
 
 - (void)timerUpdate {
@@ -179,6 +180,7 @@
     [self updateAnimationForHour:currentDate.hour
                           minute:currentDate.minute
                        moonPhase:[self.gameClock currentMoonPhase]];
+    self.toolTip = [self toolTip];                       
 }
 
 // Method to update the animation based on the hour and moon phase
@@ -486,4 +488,105 @@
     return @"moon_full"; // Default to full moon
 }
 
+- (NSString *)toolTip {
+    // Stellen Sie sicher, dass die Modelle geladen sind
+    if (!self.gameClock || !self.gameWeather) {
+        return @"Spielinformationen werden geladen...";
+    }
+    
+    // --- 1. Zeit- und Datumsformatierung ---
+    DSAAventurianDate *currentDate = [self.gameClock currentDate];
+    
+    // Abrufen aller benötigten Datumsteile
+    NSString *seasonString = [currentDate seasonName]; // (z.B. Frühling)
+    
+    // NEU: Wochentag hinzufügen
+    NSString *weekDayString = [currentDate weekdayName]; // (z.B. Praiostag)
+    
+    // Hinweis: Die Annahme, dass currentDate.day existiert, bleibt (statt dayOfMonth)
+    NSString *dayOfMonthString = [NSString stringWithFormat:@"%lu", (unsigned long)currentDate.day]; 
+    
+    NSString *monthString = [currentDate monthName]; // (z.B. Praios)
+    NSString *yearString = [NSString stringWithFormat:@"%lu BF", (unsigned long)currentDate.year]; // (z.B. 1040 BF)
+    
+    // Uhrzeit als "HH:MM Uhr"
+    NSString *timeString = [NSString stringWithFormat:@"%02lu:%02lu Uhr", 
+                                                      (unsigned long)currentDate.hour, 
+                                                      (unsigned long)currentDate.minute];
+    
+    // Den vollständigen Datumssatz erstellen
+    // Format: Es ist <Jahreszeit>, der <Wochentag>, der <TAG> im <MONAT> des Jahres <JAHR>.
+    NSString *dateLine = [NSString stringWithFormat:
+        @"Es ist %@, der %@, der %@. im %@ des Jahres %@.", 
+        seasonString, 
+        weekDayString, // <--- Hinzugefügt
+        dayOfMonthString, 
+        monthString, 
+        yearString];
+
+    // --- 2. Wetterbeschreibung abrufen ---
+    // Wir nutzen die Methode, die Sie in DSAWeather implementiert haben.
+    NSString *weatherLine = [self.gameWeather weatherDescription];
+
+    // --- 3. Den finalen Tooltip erstellen ---
+    
+    NSString *toolTipText = [NSString stringWithFormat:
+        @"%@\n"      // Datum, Jahreszeit & Wochentag
+        @"Aktuelle Zeit: %@\n" // Uhrzeit
+        @"Wetter: %@", // Die detaillierte Beschreibung
+        dateLine,
+        timeString,
+        weatherLine];
+        
+    //NSLog(@"DSAClockAnimationView toolTip: %@", toolTipText);
+    return toolTipText;
+}
+
+/*
+- (NSString *)toolTip {
+    // Stellen Sie sicher, dass die Modelle geladen sind
+    if (!self.gameClock || !self.gameWeather) {
+        return @"Spielinformationen werden geladen...";
+    }
+    
+    // --- 1. Zeit- und Datumsformatierung ---
+    DSAAventurianDate *currentDate = [self.gameClock currentDate];
+    
+    // Annahme: Diese Methoden/Properties existieren in DSAAventurianDate
+    NSString *seasonString = [currentDate seasonName]; 
+    NSString *dayOfMonthString = [NSString stringWithFormat:@"%lu", (unsigned long)currentDate.day]; 
+    NSString *monthString = [currentDate monthName]; 
+    NSString *yearString = [NSString stringWithFormat:@"%lu BF", (unsigned long)currentDate.year]; 
+    
+    // Uhrzeit als "HH:MM Uhr"
+    NSString *timeString = [NSString stringWithFormat:@"%02lu:%02lu Uhr", 
+                                                      (unsigned long)currentDate.hour, 
+                                                      (unsigned long)currentDate.minute];
+    
+    // Den vollständigen Datumssatz erstellen
+    NSString *dateLine = [NSString stringWithFormat:
+        @"Es ist %@, der %@. im %@ des Jahres %@.", 
+        seasonString, 
+        dayOfMonthString, 
+        monthString, 
+        yearString];
+
+    // --- 2. Wetterbeschreibung abrufen ---
+    // Wir nutzen die Methode, die Sie in DSAWeather implementiert haben.
+    NSString *weatherLine = [self.gameWeather weatherDescription];
+
+    // --- 3. Den finalen Tooltip erstellen ---
+    
+    NSString *toolTipText = [NSString stringWithFormat:
+        @"%@\n"      // Datum & Jahreszeit
+        @"Aktuelle Zeit: %@\n" // Uhrzeit
+        @"Wetter: %@", // Die detaillierte Beschreibung
+        dateLine,
+        timeString,
+        weatherLine];
+        
+    //NSLog(@"DSAClockAnimationView toolTip: %@", toolTipText);
+    return toolTipText;
+}
+*/
 @end

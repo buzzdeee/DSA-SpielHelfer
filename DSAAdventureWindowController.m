@@ -855,10 +855,12 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
                 [imageView setNeedsDisplay:YES];
               }
             imageView.toolTip = [imageView toolTip];
+            [imageView updateCharacterNameLabel];
         } else {
             imageView.image = nil; // Clear unused slots
             imageView.characterDocument = nil;
             imageView.toolTip = @"";
+            [imageView updateCharacterNameLabel];
         }
     }
     [self updateActionIcons: nil];

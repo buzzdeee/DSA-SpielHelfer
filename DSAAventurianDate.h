@@ -53,6 +53,13 @@ typedef NS_ENUM(NSUInteger, DSAAventurianWeekday) {
     Wassertag = 6   // Mittwoch
 };
 
+typedef NS_ENUM(NSInteger, DSAAventurianSeason) {
+    DSAAventurianSeasonSpring, // 1
+    DSAAventurianSeasonSummer, // 2
+    DSAAventurianSeasonAutumn, // 3
+    DSAAventurianSeasonWinter  // 4
+};
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface DSAAventurianDate : DSABaseObject <NSCoding>
@@ -65,6 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSString *hourName;
 @property (nonatomic, readonly) NSString *weekdayName;
 @property (nonatomic, readonly) NSString *monthName;
+@property (nonatomic, readonly) NSString *seasonName;
 
 - (instancetype)initWithYear:(NSInteger)year month:(DSAAventurianMonth)month day:(NSUInteger)day hour:(NSUInteger)hour;
 

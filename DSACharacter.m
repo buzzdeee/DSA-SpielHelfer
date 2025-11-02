@@ -450,8 +450,8 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     double newHunger = MAX(0.0, [currentHunger doubleValue] - hungerDelta);
     double newThirst = MAX(0.0, [currentThirst doubleValue] - thirstDelta);
 
-    [self updateStateHungerWithValue:@(newHunger)];
-    [self updateStateThirstWithValue:@(newThirst)];
+    [self updateStatesDictState: @(DSACharacterStateHunger) withValue: @(newHunger)];
+    [self updateStatesDictState: @(DSACharacterStateThirst) withValue: @(newThirst)];
 }
 
 - (void)moveToLocation:(DSALocation *)newLocation {
@@ -615,6 +615,8 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   [coder encodeObject:self.appliedSpells forKey:@"appliedSpells"];
   [coder encodeObject:self.appliedEffects forKey:@"appliedEffects"];
   [coder encodeObject:self.statesDict forKey:@"statesDict"];
+  [coder encodeBool:self.hungerWarningSent forKey:@"hungerWarningSent"];
+  [coder encodeBool:self.thirstWarningSent forKey:@"thirstWarningSent"];  
   [coder encodeObject:self.currentLocation forKey:@"currentLocation"];
   [coder encodeObject:self.receivedUniqueMiracles forKey:@"receivedUniqueMiracles"];
  }
@@ -761,6 +763,8 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
           self.appliedEffects = [[NSMutableDictionary alloc] init];
         }
       self.statesDict = [coder decodeObjectForKey:@"statesDict"];
+      self.hungerWarningSent = [coder decodeBoolForKey:@"hungerWarningSent"];
+      self.thirstWarningSent = [coder decodeBoolForKey:@"thirstWarningSent"];      
       self.currentLocation = [coder decodeObjectForKey:@"currentLocation"];
       self.receivedUniqueMiracles = [coder decodeObjectForKey:@"receivedUniqueMiracles"];
       [self subscribeToTimeNotifications];
@@ -1100,6 +1104,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
                              sleepQuality: (DSASleepQuality) quality
 {
   DSARegenerationResult *result = nil;
+  NSLog(@"DSACharacter sleepForHours called by %@", self.name);
   if (hours >= 8)
     {
       if ([self canRegenerate])
@@ -1339,6 +1344,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
       (self.isBlessedOne && self.currentKarmaPoints < self.karmaPoints) ||
       self.currentLifePoints < self.lifePoints)
     {
+      NSLog(@"DSACharacter canRegenerate YES says %@", self.name);
       return YES;
     }
   else
@@ -1392,8 +1398,9 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         self.currentKarmaPoints += regenKE;
         result.regenKE = regenKE;
     }
-
+    NSLog (@"DSACharacter regenerateBaseEnergiesForHours %@ got results: %@", self.name, result);
     result.result = DSARegenerationResultSuccess;
+    NSLog (@"DSACharacter regenerateBaseEnergiesForHours %@ got results: %@", self.name, result);    
     return result;
 }
 
@@ -2840,13 +2847,13 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   // finally remove the key and object from the dictionary
   [self.appliedEffects removeObjectForKey:key];
 }
-
+/*
 - (void) updateStateHungerWithValue: (NSNumber*) value
 {
   CGFloat newLevel = [value doubleValue];
   CGFloat currentLevel = [[self.statesDict objectForKey: @(DSACharacterStateHunger)] doubleValue];
   
-  if (newLevel > currentLevel)
+  if (newLevel > currentLevel && (newLevel - currentLevel) > 0.1)
     {
        NSString  *notificationMessage = [NSString stringWithFormat: @"Hmm lecker, das stillt den Hunger."];
        NSInteger notificationSeverity = LogSeverityInfo;
@@ -2907,7 +2914,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   CGFloat newLevel = [value floatValue];
   CGFloat currentLevel = [[self.statesDict objectForKey: @(DSACharacterStateThirst)] floatValue];
   
-  if (newLevel > currentLevel)
+  if (newLevel > currentLevel && (newLevel - currentLevel) > 0.1)
     {
        NSString  *notificationMessage = [NSString stringWithFormat: @"Hmm lecker, das stillt den Durst."];
        NSInteger notificationSeverity = LogSeverityInfo;
@@ -2948,6 +2955,165 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
   [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterStateChange"
                                                       object: self
                                                     userInfo: userInfo];
+}
+*/
+
+- (void) updateStateHungerWithValue: (NSNumber*) value
+{
+    CGFloat newLevel = [value doubleValue];
+    CGFloat currentLevel = [[self.statesDict objectForKey: @(DSACharacterStateHunger)] doubleValue];
+
+    // Zurücksetzen des Warnings-Flags bei einer deutlichen Verbesserung (über 0.1)
+    if (newLevel > currentLevel && (newLevel - currentLevel) > 0.1)
+    {
+        // Zurücksetzen des Warning-Flags, wenn der Hunger gestillt wurde
+        self.hungerWarningSent = NO; // <--- NEU
+        
+        NSString  *notificationMessage = [NSString stringWithFormat: @"Hmm lecker, das stillt den Hunger."];
+        NSInteger notificationSeverity = LogSeverityInfo;
+        
+        // ... (Log-Benachrichtigung wie zuvor)
+        NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                     @"message": notificationMessage
+                                   };
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                            object: self
+                                                          userInfo: userInfo];
+    }
+    else if (newLevel < currentLevel)
+    {
+        // ... (newLevel == 0 Fall bleibt unverändert, da Ohnmacht ein einmaliges, kritisches Event ist)
+        if (newLevel == 0)
+        {
+            // Setzen des Warning-Flags, wenn der Charakter ohnmächtig wird, um weitere Warnungen zu unterbinden
+            self.hungerWarningSent = YES; // <--- NEU
+            
+            NSString  *notificationMessage = [NSString stringWithFormat: @"%@ wird vor Hunger ohnmächtig.", self.name];
+            NSInteger notificationSeverity = LogSeverityCritical;
+            
+            // ... (Restlicher Code für Ohnmacht bleibt gleich)
+            NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                         @"message": notificationMessage
+                                       };
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                                object: self
+                                                              userInfo: userInfo];
+            [self.statesDict setObject: @(YES) forKey: @(DSACharacterStateUnconscious)];
+            userInfo = @{ @"state": @(DSACharacterStateUnconscious),
+                          @"value": @(YES)
+                        };
+            [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterStateChange"
+                                                                object: self
+                                                              userInfo: userInfo];
+        }
+        else if (newLevel < 0.1)
+        {
+            // ZUSÄTZLICHE PRÜFUNG: Nur Benachrichtigung senden, wenn sie noch NICHT gesendet wurde
+            if (!self.hungerWarningSent) // <--- NEU
+            {
+                self.hungerWarningSent = YES; // <--- NEU: Flag setzen, damit es nicht mehr gesendet wird
+                
+                NSString  *notificationMessage = [NSString stringWithFormat: @"%@ ist sehr hungrig.", self.name];
+                NSInteger notificationSeverity = LogSeverityWarning;
+                
+                NSDictionary * userInfo = @{ @"severity": @(notificationSeverity),
+                                             @"message": notificationMessage
+                                           };
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                                    object: self
+                                                                  userInfo: userInfo];
+            }
+        }
+        else // newLevel >= 0.1 und newLevel < currentLevel (keine Warnung nötig, aber vielleicht das Flag zurücksetzen)
+        {
+            // Wenn der Hunger über 0.1 steigt, aber noch nicht komplett gestillt ist, das Flag zurücksetzen.
+            // Dies ist wichtig, falls der Wert langsam unter 0.1 fällt und dann wieder über 0.1.
+            if (currentLevel < 0.1 && newLevel >= 0.1) // <--- NEU
+            {
+                self.hungerWarningSent = NO; // <--- NEU
+            }
+        }
+    }
+    
+    // ... (Zustandsaktualisierung am Ende bleibt gleich)
+    [self.statesDict setObject: value forKey: @(DSACharacterStateHunger)];
+    NSDictionary *userInfo = @{ @"state": @(DSACharacterStateHunger),
+                                 @"value": value
+                               };
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterStateChange"
+                                                        object: self
+                                                      userInfo: userInfo];
+}
+
+- (void) updateStateThirstWithValue: (NSNumber*) value
+{
+    CGFloat newLevel = [value floatValue];
+    CGFloat currentLevel = [[self.statesDict objectForKey: @(DSACharacterStateThirst)] floatValue];
+    
+    // Zurücksetzen des Warnings-Flags bei einer deutlichen Verbesserung (über 0.1)
+    if (newLevel > currentLevel && (newLevel - currentLevel) > 0.1)
+    {
+        // Zurücksetzen des Warning-Flags, wenn der Durst gestillt wurde
+        self.thirstWarningSent = NO; // <--- NEU
+        
+        NSString  *notificationMessage = [NSString stringWithFormat: @"Hmm lecker, das stillt den Durst."];
+        NSInteger notificationSeverity = LogSeverityInfo;
+        
+        // ... (Log-Benachrichtigung wie zuvor)
+        NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                     @"message": notificationMessage
+                                   };
+        [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                            object: self
+                                                          userInfo: userInfo];
+    }
+    else if (newLevel < currentLevel)
+    {
+        if (newLevel == 0)
+        {
+            // Setzen des Warning-Flags, wenn der Charakter ohnmächtig wird, um weitere Warnungen zu unterbinden
+            self.thirstWarningSent = YES; // <--- NEU
+            
+            NSString  *reason = [NSString stringWithFormat: @"%@ wird vor Durst ohnmächtig.", self.name];
+            [self updateStateUnconsciousWithValue: @(YES)
+                                       withReason: reason];
+        }
+        else if (newLevel < 0.1)
+        {
+            // ZUSÄTZLICHE PRÜFUNG: Nur Benachrichtigung senden, wenn sie noch NICHT gesendet wurde
+            if (!self.thirstWarningSent) // <--- NEU
+            {
+                self.thirstWarningSent = YES; // <--- NEU: Flag setzen, damit es nicht mehr gesendet wird
+                
+                NSString  *notificationMessage = [NSString stringWithFormat: @"%@ ist sehr durstig.", self.name];
+                NSInteger notificationSeverity = LogSeverityWarning;
+                
+                NSDictionary *userInfo = @{ @"severity": @(notificationSeverity),
+                                             @"message": notificationMessage
+                                       };
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterEventLog"
+                                                                    object: self
+                                                                  userInfo: userInfo];
+            }
+        }
+        else // newLevel >= 0.1 und newLevel < currentLevel
+        {
+            // Wenn der Durst über 0.1 steigt, aber noch nicht komplett gestillt ist, das Flag zurücksetzen.
+            if (currentLevel < 0.1 && newLevel >= 0.1) // <--- NEU
+            {
+                self.thirstWarningSent = NO; // <--- NEU
+            }
+        }
+    }
+    
+    // ... (Zustandsaktualisierung am Ende bleibt gleich)
+    [self.statesDict setObject: value forKey: @(DSACharacterStateThirst)];
+    NSDictionary *userInfo = @{ @"state": @(DSACharacterStateThirst),
+                                 @"value": value
+                               };
+    [[NSNotificationCenter defaultCenter] postNotificationName: @"DSACharacterStateChange"
+                                                        object: self
+                                                      userInfo: userInfo];
 }
 
 - (void) updateStateWoundedWithValue: (NSNumber*) value

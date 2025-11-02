@@ -29,11 +29,11 @@
 - (void)updateLocationLabel:(NSString *)text {
     NSTextField *infoLabel = [self viewWithTag:1001];
     if (!infoLabel) {
-        infoLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(5, 5, 10, 14)];
+        infoLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(5, 5, 12, 14)];
         infoLabel.backgroundColor = [NSColor blackColor];
         infoLabel.drawsBackground = YES;
         infoLabel.textColor = [NSColor whiteColor];
-        infoLabel.font = [NSFont boldSystemFontOfSize:10];
+        infoLabel.font = [NSFont boldSystemFontOfSize:12];
         infoLabel.bordered = NO;
         infoLabel.bezeled = NO;
         infoLabel.editable = NO;

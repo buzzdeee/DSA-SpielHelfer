@@ -62,6 +62,39 @@ static const DSAAventurianWeekday ANCHOR_WEEKDAY = Praiostag;
   return [self monthNameForMonth: self.month];
 }
 
+- (NSString *) seasonName
+{
+    // Zuerst die Jahreszeit-Enum basierend auf dem aktuellen Monat bestimmen
+    DSAAventurianSeason season = [self seasonForMonth:self.month];
+    
+    // Dann den Namen für diese Jahreszeit zurückgeben
+    return [self seasonNameForSeason:season];
+}
+
+- (DSAAventurianSeason)seasonForMonth:(DSAAventurianMonth)month {
+    // Da jeder Block 3 Monate umfasst, kann man mit einfacher Division arbeiten:
+    if (month >= 1 && month <= 3) {
+        return DSAAventurianSeasonSpring;
+    } else if (month >= 4 && month <= 6) {
+        return DSAAventurianSeasonSummer;
+    } else if (month >= 7 && month <= 9) {
+        return DSAAventurianSeasonAutumn;
+    } else { // Monate 10, 11, 12 (Peraine, Ingerimm, Rahja)
+        return DSAAventurianSeasonWinter;
+    }
+}
+
+// Helper-Methode zur Konvertierung der Jahreszeiten-Enum in einen String
+- (NSString *)seasonNameForSeason:(DSAAventurianSeason)season {
+    switch (season) {
+        case DSAAventurianSeasonSpring: return @"Frühling";
+        case DSAAventurianSeasonSummer: return @"Sommer";
+        case DSAAventurianSeasonAutumn: return @"Herbst";
+        case DSAAventurianSeasonWinter: return @"Winter";
+    }
+    return @"Unbekannte Jahreszeit";
+}
+
 // Convert hour to hour name based on the Aventurian calendar
 - (NSString *)hourNameForHour:(NSUInteger)hour {
     NSArray *hourNames = @[
@@ -73,7 +106,7 @@ static const DSAAventurianWeekday ANCHOR_WEEKDAY = Praiostag;
     return hourNames[hour];
 }
 
-// Convert hour to hour name based on the Aventurian calendar
+// Convert month to month name based on the Aventurian calendar
 - (NSString *)monthNameForMonth:(DSAAventurianMonth)month {
     NSArray *monthNames = @[
         @"Praios", @"Rondra", @"Efferd", @"Travia", @"Boron", @"Hesinde",

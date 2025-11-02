@@ -153,6 +153,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger maxLevelUpVariableTries;         // variable tries, that can be added to talent or spell level ups
 @property (nonatomic, strong) NSMutableDictionary<NSString*, DSASpell *> *appliedSpells;  // spells casted onto a character, and having effect on it
 @property (nonatomic, strong) NSMutableDictionary<NSNumber *, NSNumber *> *statesDict;
+@property (nonatomic, assign) BOOL hungerWarningSent;
+@property (nonatomic, assign) BOOL thirstWarningSent;
 
 @property (nonatomic, strong) NSMutableDictionary<NSString *, DSACharacterEffect *> *appliedEffects;
 

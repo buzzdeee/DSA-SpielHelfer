@@ -232,9 +232,58 @@ static NSString * const DSACharacterDragType = @"DSACharacterDragType";
             character.currentKarmaPoints, character.karmaPoints]; // Karma Points
         
         return toolTipText;
-    }
-    
+    }    
     return @"";
+}
+
+- (void)updateCharacterNameLabel {
+    // 1. Label finden oder erstellen (Lazy Instantiation)   
+    NSTextField *nameLabel = [self viewWithTag:1002]; // Tag 1002 für den Namen
+
+    if (!nameLabel) {
+        // Start-Frame: Oben links. Die genaue Position wird später berechnet.
+        nameLabel = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 10, 14)]; 
+        
+        // --- Setup nur einmalig ---
+        nameLabel.backgroundColor = [NSColor blackColor];
+        nameLabel.drawsBackground = YES;
+        nameLabel.textColor = [NSColor whiteColor];
+        
+        // Etwas größerer Font für den Namen
+        nameLabel.font = [NSFont boldSystemFontOfSize:10]; 
+        
+        nameLabel.bordered = NO;
+        nameLabel.bezeled = NO;
+        nameLabel.editable = NO;
+        nameLabel.selectable = NO;
+        nameLabel.focusRingType = NSFocusRingTypeNone;
+        nameLabel.tag = 1002;
+ 
+        [self addSubview:nameLabel];
+    }
+
+    // 2. Text setzen und Größe anpassen
+    if (self.characterDocument && self.characterDocument.model) {
+        DSACharacter *character = self.characterDocument.model;
+        nameLabel.stringValue = character.name;
+
+        NSDictionary *attrs = @{ NSFontAttributeName: nameLabel.font };
+        NSSize size = [character.name sizeWithAttributes:attrs];
+        
+        // Berechnung der Position für die zentrierte Anzeige oben:
+        // X-Koordinate: (Gesamtbreite - Textbreite) / 2 -> Zentriert
+//        CGFloat xPos = (self.bounds.size.width - size.width) / 2.0;
+        
+        // Y-Koordinate: Oben, z.B. 5 Punkte vom oberen Rand.
+//        CGFloat yPos = self.bounds.size.height - size.height - 5.0; 
+        
+        // Den Frame aktualisieren
+        nameLabel.frame = NSMakeRect(0, 0, size.width + 4, size.height);
+        nameLabel.hidden = NO;
+    } else {
+        // 3. Label bei leerem Text ausblenden
+        nameLabel.hidden = YES;
+    }
 }
 
 - (void)highlightTargetView:(BOOL)highlight {
@@ -288,18 +337,4 @@ static NSString * const DSACharacterDragType = @"DSACharacterDragType";
     }
 }
 
-/*
-- (void)drawRect:(NSRect)dirtyRect {
-    [super drawRect:dirtyRect];
-
-    if (self.image) {
-        [self.image drawInRect:self.bounds
-                      fromRect:NSZeroRect
-                     operation: NSCompositeSourceOver
-                      fraction:self.alphaValue
-                respectFlipped:YES
-                         hints:nil];
-    }
-}
-*/
 @end
