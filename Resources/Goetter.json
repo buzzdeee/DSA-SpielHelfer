@@ -159,6 +159,9 @@
     }
   }
  },
+ "Ifirn": {
+   "Typus": [ "Seefahrer", "Thorwaler", "Skalde", "Ifirngeweihter" ]
+ },
  "Swafnir": {
    "Typus": [ "Seefahrer", "Thorwaler", "Skalde", "Swafnirgeweihter" ]
  },

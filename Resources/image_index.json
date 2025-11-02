@@ -4552,5 +4552,23 @@
     "Reisen_Wald_1-32x32.webp",
     "Reisen_Wald_1-64x64.webp",
     "Reisen_Wald_1-512x512.webp"
+  ],
+  "Swafnir_Tempel": [
+    "Swafnir_Tempel_1.webp",
+    "Swafnir_Tempel_1-32x32.webp",
+    "Swafnir_Tempel_1-64x64.webp",
+    "Swafnir_Tempel_1-512x512.webp"
+  ],
+  "Phex_Tempel": [
+    "Phex_Tempel_1.webp",
+    "Phex_Tempel_1-32x32.webp",
+    "Phex_Tempel_1-64x64.webp",
+    "Phex_Tempel_1-512x512.webp"
+  ],
+  "Ifirn_Tempel": [
+    "Ifirn_Tempel_1.webp",
+    "Ifirn_Tempel_1-32x32.webp",
+    "Ifirn_Tempel_1-64x64.webp",
+    "Ifirn_Tempel_1-512x512.webp"
   ]
 }

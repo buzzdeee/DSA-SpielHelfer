@@ -6374,7 +6374,25 @@
 	"change_route-32x32.webp",
 	"change_route-512x512.webp",
 	"change_route-64x64.webp",
-	"change_route.webp"
+	"change_route.webp",
+	"Ifirn_Tempel_1-128x128.webp",
+	"Ifirn_Tempel_1-256x256.webp",
+	"Ifirn_Tempel_1-32x32.webp",
+	"Ifirn_Tempel_1-512x512.webp",
+	"Ifirn_Tempel_1-64x64.webp",
+	"Ifirn_Tempel_1.webp",
+	"Phex_Tempel_1-128x128.webp",
+	"Phex_Tempel_1-256x256.webp",
+	"Phex_Tempel_1-32x32.webp",
+	"Phex_Tempel_1-512x512.webp",
+	"Phex_Tempel_1-64x64.webp",
+	"Phex_Tempel_1.webp",
+	"Swafnir_Tempel_1-128x128.webp",
+	"Swafnir_Tempel_1-256x256.webp",
+	"Swafnir_Tempel_1-32x32.webp",
+	"Swafnir_Tempel_1-512x512.webp",
+	"Swafnir_Tempel_1-64x64.webp",
+	"Swafnir_Tempel_1.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;
