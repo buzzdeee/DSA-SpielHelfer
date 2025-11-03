@@ -530,8 +530,8 @@
 }
 
 - (DSASlot *)findSlotInModel:(DSACharacter *)model 
-      withInventoryIdentifier:(NSString *)inventoryIdentifier 
-                      atIndex:(NSInteger)slotIndex {
+     withInventoryIdentifier:(NSString *)inventoryIdentifier 
+                     atIndex:(NSInteger)slotIndex {
     if ([inventoryIdentifier isEqualToString:@"inventory"]) {
         // Look in the general inventory
         if (slotIndex >= 0 && slotIndex < model.inventory.slots.count) {
@@ -553,6 +553,34 @@
 
     // If no matching slot is found
     NSLog(@"DSAInventoryManager: Invalid slot index %ld for inventory %@", (long)slotIndex, inventoryIdentifier);
+    return nil;
+}
+
+- (DSASlot *)findSlotInModel:(DSACharacter *)model
+     withInventoryIdentifier:(NSString *)inventoryIdentifier
+    containingObjectWithName:(NSString *)name
+{
+    if ([inventoryIdentifier isEqualToString:@"inventory"]) {
+        // Durchsuche das allgemeine Inventar
+        for (DSASlot *slot in model.inventory.slots) {
+            if (slot.object && [slot.object.name isEqualToString:name]) {
+                return slot;
+            }
+        }
+    } else if ([inventoryIdentifier isEqualToString:@"body"]) {
+        // Durchsuche alle Körperteil-Inventare
+        for (NSString *propertyName in model.bodyParts.inventoryPropertyNames) {
+            DSAInventory *inventory = [model.bodyParts valueForKey:propertyName];
+            for (DSASlot *slot in inventory.slots) {
+                if (slot.object && [slot.object.name isEqualToString:name]) {
+                    return slot;
+                }
+            }
+        }
+    }
+
+    // Wenn kein Slot gefunden wurde
+    NSLog(@"DSAInventoryManager: Kein Slot mit Objektname '%@' in inventory '%@' gefunden", name, inventoryIdentifier);
     return nil;
 }
 

@@ -50,6 +50,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (DSAObject *) findItemWithName: (NSString *) name 
                          inModel: (DSACharacter *) model;                     
 
+/// searches and finds an item by its name in the given inventory
+- (DSAObject *)findObjectWithName: (NSString *) name 
+                      inInventory: (DSAInventory *) inventory;
+                         
 /// searches and finds all items by its category in all inventories of a given model                         
 - (NSArray<DSAObject *> *)findItemsByCategory:(NSString *)category
                                       inModel:(DSACharacter *)model;                        
@@ -62,7 +66,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (DSASlot *) findSlotInModel:(DSACharacter *)model 
       withInventoryIdentifier:(NSString *)inventoryIdentifier 
                       atIndex:(NSInteger)slotIndex;
-                                               
+                         
+// Searches for the first DSASlot given inventoryIdentifier, model and name of object supposed
+// to be in the slot   
+- (DSASlot *)findSlotInModel:(DSACharacter *)model
+     withInventoryIdentifier:(NSString *)inventoryIdentifier
+    containingObjectWithName:(NSString *)name;
+                                                
 /// replaces a new instantiated item in an inventory of a character
 /// @param oldItem the item to be replaced
 /// @param inModel the character that's intended to be in possession of oldItem

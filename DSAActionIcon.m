@@ -362,7 +362,7 @@ inventoryIdentifier: (NSString *)sourceInventory
         return;
       }
     BOOL result = [self.ownerCharacter consumeItem: item
-                                    atDate: adventure.gameClock.currentDate];
+                                            atDate: adventure.gameClock.currentDate];
     
     if (result == YES)
       {
