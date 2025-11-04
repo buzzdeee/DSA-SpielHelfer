@@ -119,7 +119,9 @@
 	"DSAPlant.m",
 	"DSAGuardSelectionViewController.m",
 	"DSAHuntOrHerbsViewController.m",
-	"DSAAdventureMainImageView.m"
+	"DSAAdventureMainImageView.m",
+	"DSADefinitions.m",
+	"DSAEncounterManager.m"
     );
     COMPILEROPTIONS = "";
     CPPOPTIONS = "";
@@ -232,7 +234,8 @@
 	"DSAPlant.h",
 	"DSAGuardSelectionViewController.h",
 	"DSAHuntOrHerbsViewController.h",
-	"DSAAdventureMainImageView.h"
+	"DSAAdventureMainImageView.h",
+	"DSAEncounterManager.h"
     );
     IMAGES = (
 	"Aventurien.jpg",
@@ -6498,7 +6501,8 @@
 	"dialogue_temple_priest.json",
 	"Gifte.json",
 	"Pflanzen.json",
-	"dialogue_general_building.json"
+	"dialogue_general_building.json",
+	"Begegnungen.json"
     );
     "OTHER_SOURCES" = (
 	"DSA-SpielHelfer_main.m"

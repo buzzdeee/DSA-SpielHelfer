@@ -6275,7 +6275,8 @@ Resources/dialogue_tavern.json \
 Resources/dialogue_temple_priest.json \
 Resources/Gifte.json \
 Resources/Pflanzen.json \
-Resources/dialogue_general_building.json 
+Resources/dialogue_general_building.json \
+Resources/Begegnungen.json 
 
 
 #
@@ -6385,7 +6386,8 @@ DSAExecutionManager.h \
 DSAPlant.h \
 DSAGuardSelectionViewController.h \
 DSAHuntOrHerbsViewController.h \
-DSAAdventureMainImageView.h
+DSAAdventureMainImageView.h \
+DSAEncounterManager.h
 
 #
 # Objective-C Class files
@@ -6493,7 +6495,9 @@ DSAExecutionManager.m \
 DSAPlant.m \
 DSAGuardSelectionViewController.m \
 DSAHuntOrHerbsViewController.m \
-DSAAdventureMainImageView.m
+DSAAdventureMainImageView.m \
+DSADefinitions.m \
+DSAEncounterManager.m
 
 #
 # Other sources

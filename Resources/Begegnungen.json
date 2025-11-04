@@ -1,0 +1,15 @@
+{
+  "forest": {
+    "entries": [
+      { "id": "deer", "type": "animal", "weight": 40, "severity": "trivial", "description": "Eine kleine Hirschherde zieht über den Pfad." },
+      { "id": "wolf_pack", "type": "monster", "weight": 20, "severity": "minor", "description": "Ein Rudel Wölfe hat eure Spur aufgenommen." },
+      { "id": "merchant", "type": "npc", "weight": 10, "severity": "trivial", "description": "Ein reisender Händler mit Karren." }
+    ]
+  },
+  "road": {
+    "entries": [
+      { "id": "caravan", "type": "npc", "weight": 30, "severity": "trivial", "description": "Eine gut bewaffnete Karawane." },
+      { "id": "bandits", "type": "npc", "weight": 5, "severity": "major", "description": "Wegelagerer lauern im Gebüsch." }
+    ]
+  }
+}

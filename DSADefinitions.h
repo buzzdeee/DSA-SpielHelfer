@@ -411,6 +411,25 @@ typedef NS_ENUM(NSInteger, DSARouteType) {
     DSARouteTypeFlussschiff,
 };
 
+typedef NSString * DSAActionContext;
+extern DSAActionContext const DSAActionContextResting;
+extern DSAActionContext const DSAActionContextPrivateRoom;
+extern DSAActionContext const DSAActionContextTavern;
+extern DSAActionContext const DSAActionContextMarket;
+extern DSAActionContext const DSAActionContextOnTheRoad;
+extern DSAActionContext const DSAActionContextReception;
+extern DSAActionContext const DSAActionContextTravel;
+extern DSAActionContext const DSAActionContextEncounter;
+
+typedef NSString * DSANotificationType;
+extern DSANotificationType const DSAAdventureTravelDidBeginNotification;
+extern DSANotificationType const DSAAdventureTravelDidProgressNotification;
+extern DSANotificationType const DSAAdventureTravelRestingNotification;
+extern DSANotificationType const DSAAdventureTravelDidEndNotification;
+
+extern DSANotificationType const DSAEncounterTriggeredNotification; // posted by DSAEncounterManager
+extern DSANotificationType const DSAEncounterWillStartNotification; // optional: before UI changes
+extern DSANotificationType const DSAEncounterManagerDidChangeTerrain; // optional
 
 
 #endif // _DSADEFINITIONS_H_

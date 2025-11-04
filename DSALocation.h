@@ -32,7 +32,7 @@
 @class DSAPosition;
 
 NS_ASSUME_NONNULL_BEGIN
-
+/*
 typedef NSString * DSAActionContext;
 extern DSAActionContext const DSAActionContextNone;
 extern DSAActionContext const DSAActionContextResting;
@@ -40,7 +40,7 @@ extern DSAActionContext const DSAActionContextReception;
 extern DSAActionContext const DSAActionContextRoom;
 extern DSAActionContext const DSAActionContextTavern;
 extern DSAActionContext const DSAActionContextStreet;
-
+*/
 
 typedef NS_ENUM(NSInteger, DSADirection) {
     DSADirectionNorth,

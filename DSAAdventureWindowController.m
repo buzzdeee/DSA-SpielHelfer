@@ -122,6 +122,10 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
                                              selector:@selector(handleLogsMessage:)
                                                  name:@"DSACharacterEventLog"
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleEncounterMessage:)
+                                                 name:@"DSAEncounterTriggered"
+                                               object:nil];                                               
                                                
     DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
     [adventureDoc addObserver:self 
@@ -797,6 +801,12 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
   NSLog(@"DSAAdventureWindowController handleTravelResting called");
   [self updateMainImageView: nil];
   [self setupActionIcons: nil];
+}
+
+- (void) handleEncounterMessage: (NSNotification *)notification
+{
+    NSLog(@"DSAAdventureWindowController handleEncounterMessage called!!!!");
+
 }
 
 - (void) updateActionIcons: (NSNotification *)notification

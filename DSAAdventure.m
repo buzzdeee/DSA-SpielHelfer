@@ -32,6 +32,7 @@
 #import "DSAMapCoordinate.h"
 #import "DSARoutePlanner.h"
 
+/*
 DSAActionContext const DSAActionContextResting = @"Rasten";
 DSAActionContext const DSAActionContextPrivateRoom = @"Zimmer";
 DSAActionContext const DSAActionContextTavern = @"Taverne";
@@ -44,7 +45,7 @@ NSString * const DSAAdventureTravelDidBeginNotification = @"DSAAdventureTravelDi
 NSString * const DSAAdventureTravelDidProgressNotification = @"DSAAdventureTravelDidProgress";
 NSString * const DSAAdventureTravelRestingNotification = @"DSAAdventureTravelResting";
 NSString * const DSAAdventureTravelDidEndNotification = @"DSAAdventureTravelDidEnd";
-
+*/
 
 static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultTalentsByContext(void)
 {
@@ -102,6 +103,10 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 @property (nonatomic, assign) CGFloat segmentProgress;
 @property (nonatomic, assign) CGFloat segmentMilesDone;
 @property (nonatomic, assign) CGFloat travelHoursToday;
+@property (nonatomic, assign) CGFloat encounterChancePerMile;
+@property (nonatomic, assign) CGFloat milesUntilNextEncounterCheck;
+@property (nonatomic, assign) CGFloat totalMilesTraveled;
+@property (nonatomic, assign) BOOL inEncounter;
 @end
 
 @implementation DSAAdventure
@@ -198,6 +203,10 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
   [coder encodeDouble:(double)self.segmentProgress forKey:@"segmentProgress"];
   [coder encodeDouble:(double)self.segmentProgress forKey:@"segmentProgress"];
   [coder encodeDouble:(double)self.travelHoursToday forKey:@"travelHoursToday"];
+  [coder encodeDouble:(double)self.encounterChancePerMile forKey:@"encounterChancePerMile"];
+  [coder encodeDouble:(double)self.milesUntilNextEncounterCheck forKey:@"milesUntilNextEncounterCheck"];
+  [coder encodeDouble:(double)self.totalMilesTraveled forKey:@"totalMilesTraveled"];
+  [coder encodeBool:self.inEncounter forKey:@"inEncounter"];
   
   [coder encodeBool:self.traveling forKey:@"traveling"];
   [coder encodeDouble:(double)self.travelProgress forKey:@"travelProgress"];
@@ -243,6 +252,10 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
       _segmentProgress = (CGFloat)[coder decodeDoubleForKey:@"segmentProgress"];
       _segmentMilesDone = (CGFloat)[coder decodeDoubleForKey:@"segmentMilesDone"];
       _travelHoursToday = (CGFloat)[coder decodeDoubleForKey:@"travelHoursToday"];
+      _encounterChancePerMile = (CGFloat)[coder decodeDoubleForKey:@"encounterChancePerMile"];
+      _milesUntilNextEncounterCheck = (CGFloat)[coder decodeDoubleForKey:@"milesUntilNextEncounterCheck"];
+      _totalMilesTraveled = (CGFloat)[coder decodeDoubleForKey:@"totalMilesTraveled"];
+      _inEncounter = [coder decodeBoolForKey:@"inEncounter"];
       _traveling = [coder decodeBoolForKey:@"traveling"];
       _travelProgress = (CGFloat)[coder decodeDoubleForKey:@"travelProgress"];
       [self finalizeInitialization];
@@ -472,6 +485,49 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 
 @implementation DSAAdventure (Travel)
 
+#pragma mark - Encounter
+- (BOOL)rollEncounter
+{
+    double r = (double)arc4random() / UINT32_MAX;
+    return r < self.encounterChancePerMile;
+}
+
+- (void)triggerEncounter
+{
+    NSLog(@"DSAAdventure triggerEncounter: RANDOM ENCOUNTER!");
+
+    // Pause travel, but keep position
+    self.inEncounter = YES;
+    self.traveling = NO;
+    [self.gameClock setTravelModeEnabled:NO];
+
+    self.activeGroup.position.context = DSAActionContextEncounter;
+    
+    NSDictionary *info = @{ @"adventure": self };
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAEncounterTriggered"
+                                                        object:self
+                                                      userInfo:info];
+}
+
+- (void)endEncounter
+{
+    if (!self.inEncounter) return;
+
+    self.inEncounter = NO;
+    self.traveling = YES;
+    self.activeGroup.position.context = DSAActionContextTravel;
+    [self.gameClock setTravelModeEnabled:YES];
+
+    NSLog(@"DSAAdventure endEncounter: ncounter beendet, Reise geht weiter!");
+
+    // Optionale Notification
+    NSDictionary *info = @{ @"adventure": self };
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAEncounterEnded"
+                                                        object:self
+                                                      userInfo:info];
+}
+
 #pragma mark - Travel API
 
 - (void)beginTravelFrom:(NSString *)startName to:(NSString *)destName
@@ -500,23 +556,39 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     self.currentSegmentIndex = 0;
     self.segmentProgress = 0;
     self.travelHoursToday = 0;
-    
+
     self.activeGroup.position.localLocationName = nil;
     self.activeGroup.position.context = DSAActionContextTravel;
 
     [self.gameClock setTravelModeEnabled:YES];
 
-    // subscribe to clock
+    // 🔔 Subscribe to clock
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleClockTick:)
                                                  name:@"DSAGameTimeAdvanced"
                                                object:nil];
+
+    //
+    // ✅ Schritt 5: Encounter-System vorbereiten
+    //
+
+    // Wahrscheinlichkeit pro Meile (Basis — kann später dynamisch werden)
+    // Beispiel: 1 Encounter pro ~20 Meilen
+    self.encounterChancePerMile = 1.0 / 20.0;
+
+    // Distanz bis zur nächsten Wurf-Chance — gewürfelt!
+    // macht die Welt organischer als feste Intervalle
+    self.milesUntilNextEncounterCheck = (arc4random_uniform(10) + 5); // 5-14 miles
+    self.totalMilesTraveled = 0;
+
+    NSLog(@"🎲 Encounter system armed: first check in ~%.1f miles", self.milesUntilNextEncounterCheck);
 
     NSDictionary *info = @{
         @"adventure": self,
         @"startLoc": self.currentStartLocation,
         @"endLoc": self.currentDestinationLocation
     };
+
     [[NSNotificationCenter defaultCenter] postNotificationName:DSAAdventureTravelDidBeginNotification
                                                         object:self
                                                       userInfo:info];
@@ -531,11 +603,9 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     NSNumber *sec = note.userInfo[@"advancedSeconds"];
     double secondsPassed = sec.doubleValue;
     
-    // convert seconds → hours (1h per game-hour tick)
     double hoursPassed = secondsPassed / 3600.0;
     self.travelHoursToday += hoursPassed;
 
-    // Rastbeginn?
     double maxHours = 12.0;
     if (self.travelHoursToday >= maxHours) {
         NSLog(@"🌙 travel day over, resting");
@@ -544,17 +614,32 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
         return;
     }
 
-    // ⏩ Segment vorantreiben
-    [self progressSegmentByHours:hoursPassed];
+    // advance segment & get miles
+    double miles = [self progressSegmentByHours:hoursPassed];
+
+    // track for encounter
+    self.totalMilesTraveled += miles;
+    self.milesUntilNextEncounterCheck -= miles;
+
+    // ✅ Only roll encounter if we actually passed the check
+    if (self.milesUntilNextEncounterCheck <= 0) {
+
+        // rollEncounter returns YES if encounter happens
+        if ([self rollEncounter]) {
+            [self triggerEncounter];
+        }
+
+        // always reset milesUntilNextEncounterCheck AFTER roll
+        self.milesUntilNextEncounterCheck = (arc4random_uniform(10) + 5);
+    }
 }
 
 #pragma mark - Travel Logic
-
-- (void)progressSegmentByHours:(double)hours
+- (double)progressSegmentByHours:(double)hours
 {
     if (self.currentSegmentIndex >= self.routeResult.segments.count) {
         [self endTravel];
-        return;
+        return 0;
     }
 
     DSARouteSegment *seg = self.routeResult.segments[self.currentSegmentIndex];
@@ -564,11 +649,9 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     CGFloat milesPerHour = (baseMilesPerDay / 24.0) * mod;
 
     CGFloat milesThisTick = milesPerHour * hours;
-    
     self.segmentMilesDone += milesThisTick;
 
     if (self.segmentMilesDone >= seg.distanceMiles) {
-        // Segment fertig
         self.segmentMilesDone = 0;
         self.currentSegmentIndex++;
 
@@ -577,15 +660,17 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
               (unsigned long)self.routeResult.segments.count);
     }
 
-    // total progress (segment + global)
     CGFloat segmentFraction = seg.distanceMiles > 0 ? (self.segmentMilesDone / seg.distanceMiles) : 1.0;
-    CGFloat totalFraction = (self.currentSegmentIndex + segmentFraction) / (CGFloat)self.routeResult.segments.count;
+    CGFloat totalFraction = (self.currentSegmentIndex + segmentFraction)
+                          / (CGFloat)self.routeResult.segments.count;
 
     [self updateTravelProgress:totalFraction];
 
     if (totalFraction >= 1.0) {
         [self endTravel];
     }
+
+    return milesThisTick; // ✅ CRUCIAL
 }
 
 #pragma mark - Rest / Continue / Reverse
@@ -610,7 +695,8 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 
 - (void)continueTravel
 {
-    if (![self.activeGroup.position.context isEqualToString:DSAActionContextResting]) return;
+    if (![self.activeGroup.position.context isEqualToString:DSAActionContextResting] &&
+        ![self.activeGroup.position.context isEqualToString:DSAActionContextEncounter]) return;
 
     NSLog(@"☀️ continue travel");
     self.activeGroup.position.context = DSAActionContextTravel;

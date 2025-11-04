@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class DSARouteSegment;
 
 typedef NSString * DSAActionContext;
-
+/*
 extern DSAActionContext const DSAActionContextResting;
 extern DSAActionContext const DSAActionContextPrivateRoom;
 extern DSAActionContext const DSAActionContextTavern;
@@ -54,6 +54,7 @@ extern NSString * const DSAAdventureTravelDidBeginNotification;
 extern NSString * const DSAAdventureTravelDidProgressNotification;
 extern NSString * const DSAAdventureTravelRestingNotification;
 extern NSString * const DSAAdventureTravelDidEndNotification;
+*/
 
 @interface DSAAdventure : DSABaseObject <NSCoding>
 
