@@ -26,16 +26,12 @@
 #define _DSASHOPVIEWCONTROLLER_H_
 
 #import <AppKit/AppKit.h>
+#import "DSADefinitions.h"
 
 @class DSAObject;
 @class DSAShopItemButton;
 @class DSAShoppingCart;
 @class DSASlot;
-
-typedef NS_ENUM(NSUInteger, DSAShopMode) {
-    DSAShopModeBuy,
-    DSAShopModeSell
-};
 
 @interface DSAShopViewController : NSWindowController
 

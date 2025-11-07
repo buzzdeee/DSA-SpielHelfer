@@ -37,6 +37,7 @@ DSANotificationType const DSAAdventureTravelDidBeginNotification = @"DSAAdventur
 DSANotificationType const DSAAdventureTravelDidProgressNotification = @"DSAAdventureTravelDidProgress";
 DSANotificationType const DSAAdventureTravelRestingNotification = @"DSAAdventureTravelResting";
 DSANotificationType const DSAAdventureTravelDidEndNotification = @"DSAAdventureTravelDidEnd";
+DSANotificationType const DSATravelEventTriggeredNotification = @"DSATravelEventTriggered";
 
 DSANotificationType const DSAEncounterTriggeredNotification = @"DSAEncounterTriggered";
 DSANotificationType const DSAEncounterWillStartNotification = @"DSAEncounterWillStart";

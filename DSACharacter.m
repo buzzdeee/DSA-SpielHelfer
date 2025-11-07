@@ -2033,7 +2033,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
 - (void) updateStatesDictState: (NSNumber *) DSACharacterState
                      withValue: (NSNumber *) value
 {
-  NSLog(@"DSACharacter updateStatesDictState %@ called with value: %@", DSACharacterState, value);
+  //NSLog(@"DSACharacter updateStatesDictState %@ called with value: %@", DSACharacterState, value);
   switch ([DSACharacterState integerValue])
     {
       case DSACharacterStateHunger: 

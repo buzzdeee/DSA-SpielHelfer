@@ -366,6 +366,11 @@ typedef NS_ENUM(NSInteger, DSAWoundSource) {
     DSAWoundSourceMagic,
 };
 
+typedef NS_ENUM(NSUInteger, DSAShopMode) {
+    DSAShopModeBuy,
+    DSAShopModeSell
+};
+
 // in case the wound if of an animal, describe it here
 typedef NS_ENUM(NSInteger, DSAAnimalType) {
     DSAAnimalTypeUnknown = 0,
@@ -411,6 +416,28 @@ typedef NS_ENUM(NSInteger, DSARouteType) {
     DSARouteTypeFlussschiff,
 };
 
+typedef NS_ENUM(NSInteger, DSATravelEventType) {
+    DSATravelEventNone = 0,
+    DSATravelEventCombat,
+    DSATravelEventAnimal,
+    DSATravelEventMerchant,
+    DSATravelEventTraveler,
+    DSATravelEventTrailSign,
+    DSATravelEventWeatherShift,
+    DSATravelEventRoadObstacle,
+    DSATravelEventScenery,
+    DSATravelEventHerbs,
+    DSATravelEventLost,
+};
+
+typedef NS_ENUM(NSInteger, DSAEncounterType) {
+    DSAEncounterTypeUnknown = 0,
+    DSAEncounterTypeHostile,
+    DSAEncounterTypeAnimal,
+    DSAEncounterTypeMerchant,
+    DSAEncounterTypeFriendlyNPC
+};
+
 typedef NSString * DSAActionContext;
 extern DSAActionContext const DSAActionContextResting;
 extern DSAActionContext const DSAActionContextPrivateRoom;
@@ -426,6 +453,7 @@ extern DSANotificationType const DSAAdventureTravelDidBeginNotification;
 extern DSANotificationType const DSAAdventureTravelDidProgressNotification;
 extern DSANotificationType const DSAAdventureTravelRestingNotification;
 extern DSANotificationType const DSAAdventureTravelDidEndNotification;
+extern DSANotificationType const DSATravelEventTriggeredNotification;
 
 extern DSANotificationType const DSAEncounterTriggeredNotification; // posted by DSAEncounterManager
 extern DSANotificationType const DSAEncounterWillStartNotification; // optional: before UI changes

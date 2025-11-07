@@ -29,6 +29,7 @@
 #import "DSASpellMageRitual.h"
 #import "DSAConsumption.h"
 #import "DSAPoison.h"
+#import "DSAPlant.h"
 #import "DSADefinitions.h"
 #import "DSAInventoryManager.h"
 
@@ -358,6 +359,10 @@
     {
       self = [[DSAPoisonRegistry sharedRegistry] poisonWithName: objectInfo[@"Name"]];
     }
+  else if ([[objectInfo objectForKey: @"category"] isEqualTo: @"Pflanzen"])
+    {
+      self = [[DSAPlantRegistry sharedRegistry] plantWithName: objectInfo[@"Name"]];
+    }    
   else
     {
       NSLog(@"Unsure how to handle object creation for: %@, just going with DSAObject, using objectInfo: %@", name, objectInfo);
@@ -1738,9 +1743,9 @@ static DSAObjectManager *sharedInstance = nil;
                 }
             }
             entry[@"occupiedBodySlots"] = occupiedBodySlotsEnum;
-            if ([entry[@"Name"] isEqualToString: @"Bier"])
+            if ([entry[@"Name"] isEqualToString: @"Lulanie"])
               {
-                NSLog(@"DSAObject enrichEquipmentData END entry: %@", entry);
+                NSLog(@"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX DSAObject enrichEquipmentData END entry: %@", entry);
               }            
     }
 }

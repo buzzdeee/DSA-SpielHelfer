@@ -54,4 +54,7 @@
 
 @end
 
+@interface DSAAdventureWindowController (Encounter)
+@end
+
 #endif // DSAAdventureWindowController_H_INCLUDE

@@ -31,21 +31,7 @@
 #import "DSALocations.h"
 #import "DSAMapCoordinate.h"
 #import "DSARoutePlanner.h"
-
-/*
-DSAActionContext const DSAActionContextResting = @"Rasten";
-DSAActionContext const DSAActionContextPrivateRoom = @"Zimmer";
-DSAActionContext const DSAActionContextTavern = @"Taverne";
-DSAActionContext const DSAActionContextMarket = @"Markt";
-DSAActionContext const DSAActionContextOnTheRoad = @"Unterwegs";
-DSAActionContext const DSAActionContextReception = @"Rezeption";
-DSAActionContext const DSAActionContextTravel = @"Reisen";
-
-NSString * const DSAAdventureTravelDidBeginNotification = @"DSAAdventureTravelDidBegin";
-NSString * const DSAAdventureTravelDidProgressNotification = @"DSAAdventureTravelDidProgress";
-NSString * const DSAAdventureTravelRestingNotification = @"DSAAdventureTravelResting";
-NSString * const DSAAdventureTravelDidEndNotification = @"DSAAdventureTravelDidEnd";
-*/
+#import "Utils.h"
 
 static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultTalentsByContext(void)
 {
@@ -161,6 +147,11 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
                                                  name:@"DSAAdventureTravelEnd"
                                                object:nil];                                               
                                                [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAAdventureTravelEnd" object:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(handleContinueTravel:)
+                                                 name:@"DSAContinueTravelNotification"
+                                               object:nil];                                               
+                                               
     [_gameClock startClock];                                               
 }
 
@@ -492,22 +483,36 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     return r < self.encounterChancePerMile;
 }
 
-- (void)triggerEncounter
+- (void)triggerEncounterOfType:(DSAEncounterType)type
 {
-    NSLog(@"DSAAdventure triggerEncounter: RANDOM ENCOUNTER!");
+    NSLog(@"⚠️ Encounter triggered: %ld", (long)type);
 
-    // Pause travel, but keep position
-    self.inEncounter = YES;
     self.traveling = NO;
     [self.gameClock setTravelModeEnabled:NO];
-
     self.activeGroup.position.context = DSAActionContextEncounter;
+
+    NSString *subType; 
+    switch (type) {
+      case DSAEncounterTypeMerchant: subType = [self randomMerchantType]; break;
+      default: subType = @"";
+    }
     
-    NSDictionary *info = @{ @"adventure": self };
-    
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAEncounterTriggered"
+    NSDictionary *info = @{
+        @"adventure": self,
+        @"encounterType": @(type),
+        @"subType": subType
+    };
+
+    [[NSNotificationCenter defaultCenter] postNotificationName: DSAEncounterTriggeredNotification
                                                         object:self
                                                       userInfo:info];
+}
+
+- (NSString *)randomMerchantType
+{
+    NSArray *types = @[ @"Krämer", @"Waffenhändler", @"Kräuterhändler" ];
+    NSUInteger idx = arc4random_uniform((uint32_t)types.count);
+    return types[idx];
 }
 
 - (void)endEncounter
@@ -594,11 +599,37 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
                                                       userInfo:info];
 }
 
+- (DSATravelEventType)rollTravelEventForEnvironment: (NSString *)environment
+{
+
+    NSLog(@"DSAAdventure rollTravelEventForEnvironment: TODO environment dependency missing!");
+    
+    // 2W6 + gewichtete Tabelle (DSA nah)
+    int roll = [Utils rollDice: @"2W6"];
+    switch (roll) {
+        case 2:  return DSATravelEventCombat;           // selten, aber gefährlich
+        case 3:  return DSATravelEventAnimal;
+        case 4:  return DSATravelEventWeatherShift;
+        case 5:  return DSATravelEventTrailSign;
+        case 6:  return DSATravelEventTraveler;
+        case 7:  return DSATravelEventScenery;
+        case 8:  return DSATravelEventMerchant;
+        case 9:  return DSATravelEventHerbs;
+        case 10: return DSATravelEventRoadObstacle;
+        case 11: return DSATravelEventLost;
+        case 12: return DSATravelEventCombat;           // Lucky but bandits
+        default: return DSATravelEventNone;
+    }
+}
+
 #pragma mark - Handle Clock Tick
 
 - (void)handleClockTick:(NSNotification *)note
 {
-    if (!self.traveling) return;
+    // when we're not traveling, or are in an encounter, get out of here
+    if (!self.traveling || self.inEncounter) return;
+    // when we're traveling, but resting, get out of here as well
+    if (self.traveling && self.activeGroup.position.context == DSAActionContextResting) return;
 
     NSNumber *sec = note.userInfo[@"advancedSeconds"];
     double secondsPassed = sec.doubleValue;
@@ -623,15 +654,61 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 
     // ✅ Only roll encounter if we actually passed the check
     if (self.milesUntilNextEncounterCheck <= 0) {
-
         // rollEncounter returns YES if encounter happens
         if ([self rollEncounter]) {
-            [self triggerEncounter];
+            self.milesUntilNextEncounterCheck = (arc4random_uniform(10) + 5);
+            NSLog(@"DSAAdventure handleClockTick check environment and pass it on to rollTravelEventForEnvironment missing!");
+            DSATravelEventType event = [self rollTravelEventForEnvironment: nil];
+            [self triggerTravelEvent:event];
+            return;
         }
 
         // always reset milesUntilNextEncounterCheck AFTER roll
         self.milesUntilNextEncounterCheck = (arc4random_uniform(10) + 5);
     }
+}
+
+- (void)handleContinueTravel:(NSNotification *)note
+{
+    NSLog(@"🧭 DSAAdventure received continueTravel notification");
+    [self continueTravel];
+}
+
+- (void)triggerTravelEvent:(DSATravelEventType)event
+{
+    self.inEncounter = YES;
+    self.traveling = NO;
+    [self.gameClock setTravelModeEnabled:NO];
+    self.activeGroup.position.context = DSAActionContextEncounter;
+
+    NSString *name = @"Unknown";
+    DSAEncounterType encounterType = DSAEncounterTypeUnknown;
+
+    switch (event) {
+        case DSATravelEventCombat:        name = @"Combat"; break;
+        case DSATravelEventAnimal:        name = @"Wildlife"; break;
+        case DSATravelEventMerchant:      name = @"Merchant"; encounterType = DSAEncounterTypeMerchant; break;
+        case DSATravelEventTraveler:      name = @"Traveler"; break;
+        case DSATravelEventTrailSign:     name = @"Trail Sign"; break;
+        case DSATravelEventWeatherShift:  name = @"Weather Shift"; break;
+        case DSATravelEventRoadObstacle:  name = @"Road Obstacle"; break;
+        case DSATravelEventScenery:       name = @"Scenic Moment"; break;
+        case DSATravelEventHerbs:         name = @"Herbs / Resources"; break;
+        case DSATravelEventLost:          name = @"Lost / Navigation"; break;
+        default: break;
+    }
+
+    NSLog(@"🎲 Travel Event: %@", name);
+
+    NSDictionary *info = @{
+        @"adventure": self,
+        @"eventType": @(event),
+    };
+
+    [[NSNotificationCenter defaultCenter] postNotificationName: DSATravelEventTriggeredNotification
+                                                        object:self
+                                                      userInfo:info];
+    [self triggerEncounterOfType: encounterType];                                                      
 }
 
 #pragma mark - Travel Logic
@@ -695,10 +772,12 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 
 - (void)continueTravel
 {
-    if (![self.activeGroup.position.context isEqualToString:DSAActionContextResting] &&
-        ![self.activeGroup.position.context isEqualToString:DSAActionContextEncounter]) return;
+    NSLog(@"DSAAdventure continueTravel: continue travel called!");
+    if ([self.activeGroup.position.context isEqualToString: DSAActionContextTravel]) return;
 
-    NSLog(@"☀️ continue travel");
+    NSLog(@"DSAAdventure continueTravel: continue travel, going to set all variables to continue travelling");
+    self.inEncounter = NO;
+    self.traveling = YES;    
     self.activeGroup.position.context = DSAActionContextTravel;
     [self.gameClock setTravelModeEnabled:YES];
 

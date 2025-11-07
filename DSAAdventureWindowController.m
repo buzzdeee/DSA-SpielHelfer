@@ -23,6 +23,12 @@
 #import "DSAMapViewController.h"
 #import "DSAMapCoordinate.h"
 #import "DSAAdventureMainImageView.h"
+#import "DSAShopViewController.h"
+#import "DSAShoppingCart.h"
+#import "DSAConversationController.h"
+#import "DSAShopBargainController.h"
+#import "DSAActionResult.h"
+#import "DSAInventoryManager.h"
 
 extern NSString * const DSACharacterHighlightedNotification;
 
@@ -123,8 +129,8 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
                                                  name:@"DSACharacterEventLog"
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleEncounterMessage:)
-                                                 name:@"DSAEncounterTriggered"
+                                             selector:@selector(onEncounterTriggered:)
+                                                 name: DSAEncounterTriggeredNotification
                                                object:nil];                                               
                                                
     DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
@@ -803,12 +809,6 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
   [self setupActionIcons: nil];
 }
 
-- (void) handleEncounterMessage: (NSNotification *)notification
-{
-    NSLog(@"DSAAdventureWindowController handleEncounterMessage called!!!!");
-
-}
-
 - (void) updateActionIcons: (NSNotification *)notification
 {
     NSLog(@"DSAAdventureWindowController updateActionIcons called!!!!");
@@ -1279,3 +1279,257 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     }
 }
 @end
+
+@implementation DSAAdventureWindowController (Encounter)
+- (void)onEncounterTriggered:(NSNotification *)note
+{
+    DSAEncounterType type = [note.userInfo[@"encounterType"] integerValue];
+    NSString *subType = note.userInfo[@"subType"];
+
+    switch (type) {
+        case DSAEncounterTypeMerchant:
+            [self presentMerchantEncounterOfType: subType];
+            break;
+
+        default:
+            [self presentGenericEncounter:note];
+            break;
+    }
+}
+
+- (void)presentMerchantEncounterOfType:(NSString *)merchantType
+{
+    NSLog(@"🧺 Merchant Encounter: %@", merchantType);
+    
+    DSAActionChoiceQuestionController *choice =
+        [[DSAActionChoiceQuestionController alloc] initWithWindowNibName:@"DSAActionChoiceQuestionView"];
+    [choice window]; // nib laden
+
+    choice.fieldHeadline.stringValue = [NSString stringWithFormat:@"%@ am Wegesrand", merchantType];
+    choice.fieldQuestion.stringValue =
+        [NSString stringWithFormat:@"Ihr trefft einen %@. Wollt Ihr handeln?", merchantType];
+
+    choice.buttonCancel.title = @"Weiterreisen";
+    choice.buttonConfirm.title = @"Bestätigen";
+
+    NSDictionary *choices = @{
+        @"Kaufen"    : @"buy",
+        @"Verkaufen" : @"sell"
+    };
+
+    [choice.popupChoice removeAllItems];
+    for (NSString *title in choices.allKeys) {
+        [choice.popupChoice addItemWithTitle:title];
+        NSMenuItem *item = choice.popupChoice.itemArray.lastObject;
+        item.representedObject = choices[title];
+    }
+
+    __weak typeof(self) weakSelf = self;
+    __weak typeof(choice) weakChoice = choice;
+    choice.completionHandler = ^(BOOL confirmed) {
+        if (!confirmed) {
+            // Abbrechen → weiterreisen
+            [weakSelf continueTravel];
+            return;
+        }
+
+        NSString *selected = weakChoice.popupChoice.selectedItem.representedObject;
+        if ([selected isEqualToString:@"buy"]) {
+            [weakSelf presentShopForMerchantType:merchantType mode:DSAShopModeBuy];
+        } else if ([selected isEqualToString:@"sell"]) {
+            [weakSelf presentShopForMerchantType:merchantType mode:DSAShopModeSell];
+        } else {
+            [weakSelf continueTravel];
+        }
+    };
+
+    [self.window beginSheet:choice.window completionHandler:nil];
+}
+
+- (void)handleShopCart:(DSAShoppingCart *)cart forMode:(DSAShopMode)mode
+{
+    NSLog(@"🛒 handleShopCart called for mode %ld, %lu items", (long)mode, (unsigned long)cart.cartContents.count);
+
+    if (!cart || cart.cartContents.count == 0) {
+        [self continueTravel];
+        return;
+    }
+
+    // Falls du in Zukunft hier noch Verhandlungen, Preise etc. abwickelst.
+    
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAShopBargainController *bargainSelector =
+        [[DSAShopBargainController alloc] initWithWindowNibName:@"DSAShopBargain"];
+    bargainSelector.mode = mode;
+    bargainSelector.shoppingCart = cart;
+    bargainSelector.activeGroup = activeGroup;
+    __block float finalPercent = 0;
+    __block NSString *finalComment;
+    __block float finalPrice;
+    __block DSAActionResult *bargainResult;
+    bargainSelector.completionHandler = ^(BOOL result) {
+        finalPercent = [bargainSelector.fieldPercentValue.stringValue floatValue];
+        finalComment = bargainSelector.fieldBargainResult.stringValue;
+        bargainResult = bargainSelector.bargainResult;
+      if (result)
+        {
+          if (bargainSelector.mode == DSAShopModeBuy)
+            {
+              finalPrice = cart.totalSum - (cart.totalSum * finalPercent / 100);
+            }
+          else
+            {
+              finalPrice = cart.totalSum + (cart.totalSum * finalPercent / 100);            
+            }
+        }
+      else
+        {
+          finalPrice = cart.totalSum;
+        }
+    };
+    [self.window beginSheet:bargainSelector.window completionHandler:nil];
+    NSLog(@"DSAActionIconBuy handleEvent: final percent is %.2f, finalComment: %@", finalPercent, finalComment);
+        
+    if (bargainResult.result == DSAActionResultSuccess ||
+        bargainResult.result == DSAActionResultAutoSuccess ||
+        bargainResult.result == DSAActionResultEpicSuccess)
+      {
+        if (bargainSelector.mode == DSAShopModeBuy)
+          {
+            [activeGroup subtractSilber: finalPrice];
+            for (NSDictionary *cartItem in [cart.cartContents allValues])
+              {
+                [activeGroup distributeItems:[[cartItem objectForKey: @"items"] objectAtIndex: 0] count: [[cartItem objectForKey: @"items"] count]];
+              }          
+          }
+        else  
+          {
+            [activeGroup addSilber: finalPrice];
+            for (NSString *key in [cart.cartContents allKeys])
+              {        
+                NSArray<NSString *> *components = [key componentsSeparatedByString:@"|"];
+                NSInteger quantity = [[cart.cartContents[key] objectForKey: @"items"] count];
+                //NSString *itemName;
+                NSString *slotID;
+                if (components.count == 2) {
+                   //itemName = components[0];
+                   slotID = components[1];
+                } else {
+                   NSLog(@"DSAActionIconSell, handleEvent: invalid key: %@", key);
+                }
+                DSASlot *slot = [DSASlot slotWithSlotID: [[NSUUID alloc] initWithUUIDString:slotID]];
+                __unused NSInteger remainder = [slot removeObjectWithQuantity: quantity];
+                NSLog(@"DSAActionIconSell handleEvent going to enumerate model IDs");
+                for (NSUUID *modelID in [activeGroup allMembers])
+                  {
+                    NSLog(@"DSAActionIconSell handleEvent enumerating model with ID: %@", [modelID UUIDString]);
+                    DSACharacter *character = [DSACharacter characterWithModelID: modelID];
+                    if ([[DSAInventoryManager sharedManager] isSlotWithID: slotID inModel: character])
+                      {
+                        [[DSAInventoryManager sharedManager] postDSAInventoryChangedNotificationForSourceModel: character 
+                                                                                                   targetModel: character];
+                        break;
+                      }
+                  }    
+              }
+            finalComment = [NSString stringWithFormat: @"Finaler Preis: %.2f. %@", finalPrice, finalComment];
+          }
+      }          
+
+    NSLog(@"XXXXXXXXXXXXXXXXXXXX the final comment: %@", finalComment);  
+      
+    DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName: @"DSAConversationTextOnly"];
+    [conversationSelector window];  // trigger loading .gorm file
+    //conversationSelector.fieldText.stringValue = finalComment;
+    conversationSelector.fieldText.stringValue = finalComment;
+    //NSLog(@"DSAActionIcon, handleEvent: conversationSelector.fieldText.stringValue %@", conversationSelector.fieldText.stringValue);
+    __weak typeof(self) weakSelf = self;
+    conversationSelector.completionHandler = ^(BOOL result) {
+      if (result)
+        {
+           NSLog(@"DSAActionIcon, handleEvent: finally, shopping finished");
+        }
+      [weakSelf continueTravel];
+    };
+    [self.window beginSheet: conversationSelector.window completionHandler:nil];    
+  
+/*    
+    // Erstmal einfach nur „Einkauf/Verkauf abgeschlossen“ anzeigen:
+    DSAConversationController *textSheet =
+        [[DSAConversationController alloc] initWithWindowNibName:@"DSAConversationTextOnly"];
+    [textSheet window];
+    textSheet.fieldText.stringValue =
+        (mode == DSAShopModeBuy)
+            ? @"Ihr habt eure Einkäufe abgeschlossen. Gute Reise!"
+            : @"Ihr habt erfolgreich verkauft. Gute Reise!";
+
+    __weak typeof(self) weakSelf = self;
+    textSheet.completionHandler = ^(BOOL ok) {
+        [weakSelf continueTravel];
+    };
+
+    [self.window beginSheet:textSheet.window completionHandler:nil];
+*/
+}
+
+- (void)presentShopForMerchantType:(NSString *)merchantType mode:(DSAShopMode)mode
+{
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+
+    DSAShopViewController *shop =
+        [[DSAShopViewController alloc] initWithWindowNibName:@"DSAShopView"];
+    shop.mode = mode;
+    
+    switch (mode) {
+      case DSAShopModeSell: 
+        shop.allSlots = [activeGroup getAllDSASlotsForShop: merchantType];
+        break;
+      case DSAShopModeBuy:   
+        shop.maxSilber = [activeGroup totalWealthOfGroup];
+        shop.allItems = [[DSAObjectManager sharedManager] getAllDSAObjectsForShop:merchantType];
+        break;
+    }
+    
+    __weak typeof(self) weakSelf = self;
+    shop.completionHandler = ^(DSAShoppingCart *cart) {
+        if (!cart || cart.countAllObjects == 0) {
+            [weakSelf presentMerchantFarewell];
+            return;
+        }
+
+        // (Optional) Bargain etc. hier triggern – du hast den Code schon.
+        [weakSelf handleShopCart:cart forMode:mode];
+    };
+
+    [self.window beginSheet:shop.window completionHandler:nil];
+}
+
+- (void)presentMerchantFarewell
+{
+    DSAConversationController *farewell =
+        [[DSAConversationController alloc] initWithWindowNibName:@"DSAConversationTextOnly"];
+    [farewell window];
+    farewell.fieldText.stringValue = @"Der Händler zieht seines Weges. Gute Reise!";
+    farewell.completionHandler = ^(BOOL done) {
+        [self continueTravel];
+    };
+    [self.window beginSheet:farewell.window completionHandler:nil];
+}
+
+- (void)presentGenericEncounter:(NSNotification *)note
+{
+  NSLog(@"DSAAdventureWindowController presentGenericEncounter, not doing anything, but continue travel");
+  [self continueTravel];
+}
+
+- (void)continueTravel
+{
+    NSLog(@"🚶‍♂️ continueTravel triggered via window controller");
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAContinueTravelNotification"
+                                                        object:self
+                                                      userInfo:nil];
+}
+@end
+

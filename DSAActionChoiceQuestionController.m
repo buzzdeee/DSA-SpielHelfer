@@ -38,7 +38,6 @@
     NSLog(@"DSAActionChoiceQuestionController confirmAction");
     BOOL result = YES;
 
-      
     if (self.completionHandler) {
         self.completionHandler(result);  // ⬅️ invoke handler before closing sheet
     }    
@@ -47,6 +46,12 @@
 }
 
 - (IBAction)cancelAction:(id)sender {
+    NSLog(@"DSAActionChoiceQuestionController confirmAction");
+    BOOL result = NO;
+
+    if (self.completionHandler) {
+        self.completionHandler(result);  // ⬅️ invoke handler before closing sheet
+    }
     [NSApp endSheet:self.window];
     [self.window orderOut:nil];
 }
