@@ -92,7 +92,6 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 @property (nonatomic, assign) CGFloat encounterChancePerMile;
 @property (nonatomic, assign) CGFloat milesUntilNextEncounterCheck;
 @property (nonatomic, assign) CGFloat totalMilesTraveled;
-@property (nonatomic, assign) BOOL inEncounter;
 @end
 
 @implementation DSAAdventure
@@ -197,10 +196,11 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
   [coder encodeDouble:(double)self.encounterChancePerMile forKey:@"encounterChancePerMile"];
   [coder encodeDouble:(double)self.milesUntilNextEncounterCheck forKey:@"milesUntilNextEncounterCheck"];
   [coder encodeDouble:(double)self.totalMilesTraveled forKey:@"totalMilesTraveled"];
-  [coder encodeBool:self.inEncounter forKey:@"inEncounter"];
-  
   [coder encodeBool:self.traveling forKey:@"traveling"];
   [coder encodeDouble:(double)self.travelProgress forKey:@"travelProgress"];
+    
+  [coder encodeBool:self.inEncounter forKey:@"inEncounter"];
+  [coder encodeObject:self.encounterInfo forKey:@"encounterInfo"];
   
  }
 
@@ -246,9 +246,12 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
       _encounterChancePerMile = (CGFloat)[coder decodeDoubleForKey:@"encounterChancePerMile"];
       _milesUntilNextEncounterCheck = (CGFloat)[coder decodeDoubleForKey:@"milesUntilNextEncounterCheck"];
       _totalMilesTraveled = (CGFloat)[coder decodeDoubleForKey:@"totalMilesTraveled"];
-      _inEncounter = [coder decodeBoolForKey:@"inEncounter"];
       _traveling = [coder decodeBoolForKey:@"traveling"];
       _travelProgress = (CGFloat)[coder decodeDoubleForKey:@"travelProgress"];
+            
+      _inEncounter = [coder decodeBoolForKey:@"inEncounter"];
+      _encounterInfo = [coder decodeObjectForKey:@"encounterInfo"];
+
       [self finalizeInitialization];
     }
   NSLog(@"DSAAdventure loaded groups: %@ and characterFilePaths: %@", _groups, _characterFilePaths);
@@ -360,6 +363,22 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
         {
           retVal = [NSString stringWithFormat: @"Rast auf Reise von %@ nach %@", self.currentStartLocation.name, self.currentDestinationLocation.name];
         }
+      else if ([position.context isEqualToString: DSAActionContextEncounter])
+        {
+          DSAEncounterType encounterType = [self.encounterInfo[@"encounterType"] integerValue];
+          switch (encounterType) {
+            case DSAEncounterTypeMerchant: {
+              NSString *merchantType = self.encounterInfo[@"subType"];
+              retVal = [NSString stringWithFormat: @"Begegnung mit %@ auf Reise von %@ nach %@", merchantType, 
+                                                                                                 self.currentStartLocation.name, 
+                                                                                                 self.currentDestinationLocation.name];
+              break;
+            }  
+            default:
+              NSLog(@"DSAAdventure locationInfoForMainImageView unhandled encounterType: %@, aborting", @(encounterType));
+              abort();
+          }
+        }        
       else
         {
           NSLog(@"DSAAdventure locationInfoForMainImageView unknown DSAActionContext: %@ while outside local location, aborting.", position.context);
@@ -497,6 +516,11 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
       default: subType = @"";
     }
     
+    self.encounterInfo = @{
+      @"encounterType": @(type),
+      @"subType": subType
+    };
+    
     NSDictionary *info = @{
         @"adventure": self,
         @"encounterType": @(type),
@@ -603,7 +627,8 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 {
 
     NSLog(@"DSAAdventure rollTravelEventForEnvironment: TODO environment dependency missing!");
-    
+    // XXXXXXXXXXXXXXXXXX
+    return DSATravelEventTraveler;
     // 2W6 + gewichtete Tabelle (DSA nah)
     int roll = [Utils rollDice: @"2W6"];
     switch (roll) {
@@ -653,7 +678,9 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     self.milesUntilNextEncounterCheck -= miles;
 
     // ✅ Only roll encounter if we actually passed the check
-    if (self.milesUntilNextEncounterCheck <= 0) {
+    //if (self.milesUntilNextEncounterCheck <= 0) {
+    // XXXXXXXXXXXXXXXXXX
+    if ( 1 == 1) {
         // rollEncounter returns YES if encounter happens
         if ([self rollEncounter]) {
             self.milesUntilNextEncounterCheck = (arc4random_uniform(10) + 5);
@@ -697,18 +724,24 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
         case DSATravelEventLost:          name = @"Lost / Navigation"; break;
         default: break;
     }
-
-    NSLog(@"🎲 Travel Event: %@", name);
-
-    NSDictionary *info = @{
+    
+/*    NSDictionary *info = @{
         @"adventure": self,
         @"eventType": @(event),
     };
-
+*/    
+    // XXXXXXX
+    NSDictionary *info = @{
+        @"adventure": self,
+        @"eventType": @(DSATravelEventMerchant),
+    };
+    NSLog(@"DSAAdventure triggerTravelEvent : Travel Event: %@", name);
     [[NSNotificationCenter defaultCenter] postNotificationName: DSATravelEventTriggeredNotification
                                                         object:self
                                                       userInfo:info];
-    [self triggerEncounterOfType: encounterType];                                                      
+    // XXXXXXX                                                      
+    //[self triggerEncounterOfType: encounterType];  
+    [self triggerEncounterOfType: DSAEncounterTypeMerchant];                                                     
 }
 
 #pragma mark - Travel Logic
@@ -836,7 +869,10 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 
     self.activeGroup.position = pos;
 
-    NSDictionary *u = @{@"adventure": self, @"destination": self.currentDestinationLocation};
+    NSDictionary *u = @{
+      @"adventure": self, 
+      @"destination": self.currentDestinationLocation
+    };
     [[NSNotificationCenter defaultCenter] postNotificationName:DSAAdventureTravelDidEndNotification
                                                         object:self
                                                       userInfo:u];

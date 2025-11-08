@@ -378,8 +378,8 @@
 {
   // id sender = notification.object; // not used here...
   NSDictionary *userInfo = notification.userInfo;
-  DSAPosition *newPosition = userInfo[@"position"];
-  [self setGroupPosition:newPosition];
+  DSAAdventure *adventure = userInfo[@"adventure"];
+  [self setGroupPosition: adventure.activeGroup.position];
   [self needsDisplay];
 }
 

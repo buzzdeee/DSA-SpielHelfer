@@ -41,6 +41,10 @@
 #import "DSAActionResult.h"
 #import "DSAAdventure.h"
 #import "DSAAdventureClock.h"
+#import "DSARegion.h"
+#import "DSAMapCoordinate.h"
+#import "DSAPlant.h"
+#import "DSAExecutionManager.h"
 
 @implementation DSACharacterEffect
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -1447,107 +1451,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     {
       return NO;
     }
-}
- 
-- (DSAActionResult *) goHuntingForHours: (NSInteger) hours
-                            usingMethod: (nullable NSString *) method
-                            inAdventure: (DSAAdventure *) position
-{
-  DSAActionResult *result;
-  DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
-  NSLog(@"DSACharacter goHuntingForHours: To be implemented!");
-  NSInteger baseBonus;
-  NSArray *test;
-  
-  if ([method isEqualToString: @"Falle"])
-    {
-      baseBonus = [self calculateBaseBonusForMethodFalle];
-      test = @[ @"IN", @"GE", @"FF" ];
-    }
-  else if ([method isEqualToString: @"Pirsch"])
-    {  
-      baseBonus = [self calculateBaseBonusForMethodPirsch];
-      test = @[ @"MU", @"IN", @"GE" ];
-    }
-  else
-    {
-      if ([self calculateBaseBonusForMethodFalle] > [self calculateBaseBonusForMethodPirsch])
-        {
-          baseBonus = [self calculateBaseBonusForMethodFalle];
-          test = @[ @"IN", @"GE", @"FF" ];
-        }
-      else
-        {
-          baseBonus = [self calculateBaseBonusForMethodPirsch];
-          test = @[ @"MU", @"IN", @"GE" ];
-        }
-    }
-    
-  DSATalent *huntingTalent = [DSATalent talentWithName: @"Jagen"
-                                         inSubCategory: nil
-                                            ofCategory: @"Natur"
-                                               onLevel: baseBonus
-                                              withTest: test
-                                withMaxTriesPerLevelUp: 0
-                                     withMaxUpPerLevel: 0
-                                       withLevelUpCost: 0
-                                influencesOtherTalents: nil];
-/*
-  result = [huntingTalent useWithPenalty: hourBonus
-                             byCharacter: self];
-*/
-  result = [huntingTalent useOnTarget: nil
-                          byCharacter: self
-                             forHours: hours
-                     currentAdventure: adventure];
-  return result;
-}
-
-- (NSInteger) calculateBaseBonusForMethodFalle
-{
-  NSInteger bonus;
-  bonus = floor((self.currentTalents[@"Wildnisleben"].level + 
-                 self.currentTalents[@"Fährtensuchen"].level +
-                 self.currentTalents[@"Fallenstellen"].level) / 4);
-  if (self.currentTalents[@"Tierkunde"].level > 10)
-    {
-      bonus += floor(self.currentTalents[@"Tierkunde"].level / 2);
-    }
-  NSArray *seile = [[DSAInventoryManager sharedManager] findItemsBySubCategory: @"Seile"
-                                                                       inModel: self];
-  if (seile != nil && [seile count] > 0)
-    {
-      bonus += 1;
-    }
-  return bonus;
-}
-          
-- (NSInteger) calculateBaseBonusForMethodPirsch
-{
-  NSInteger bonus;
-  bonus = floor((self.currentTalents[@"Wildnisleben"].level + 
-                 self.currentTalents[@"Fährtensuchen"].level +
-                 self.currentTalents[@"Schleichen"].level) / 4);
-  if (self.currentTalents[@"Schusswaffen"].level > 10)
-    {
-      bonus += floor(self.currentTalents[@"Schusswaffen"].level / 2);
-    }
-  NSArray *shootingWeapons = [[DSAInventoryManager sharedManager] findItemsBySubCategory: @"Schußwaffen"
-                                                                       inModel: self];
-  if (shootingWeapons != nil && [shootingWeapons count] > 0)
-    {
-      bonus += 1;
-    }
-  return bonus;
-}
-                   
-- (DSAActionResult *) collectHerbsForHours: (NSInteger) hours
-                               inAdventure: (DSAAdventure *) position
-{
-  DSAActionResult *result;
-  NSLog(@"DSACharacter collectHerbsForHours: To be implemented!");
-  return result;
-}                               
+}                              
 
 - (NSArray <DSATalent *>*) activeTalentsWithNames: (NSArray <NSString *>*) names
 {
@@ -3476,6 +3380,205 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
 }
 
+@end
+
+@implementation DSACharacter(Hunting) 
+- (DSAActionResult *) goHuntingForHours: (NSInteger) hours
+                            usingMethod: (nullable NSString *) method
+                            inAdventure: (DSAAdventure *) position
+{
+  DSAActionResult *result;
+  DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+  NSLog(@"DSACharacter goHuntingForHours: To be implemented!");
+  NSInteger baseBonus;
+  NSArray *test;
+  
+  if ([method isEqualToString: @"Falle"])
+    {
+      baseBonus = [self calculateBaseBonusForMethodFalle];
+      test = @[ @"IN", @"GE", @"FF" ];
+    }
+  else if ([method isEqualToString: @"Pirsch"])
+    {  
+      baseBonus = [self calculateBaseBonusForMethodPirsch];
+      test = @[ @"MU", @"IN", @"GE" ];
+    }
+  else
+    {
+      if ([self calculateBaseBonusForMethodFalle] > [self calculateBaseBonusForMethodPirsch])
+        {
+          baseBonus = [self calculateBaseBonusForMethodFalle];
+          test = @[ @"IN", @"GE", @"FF" ];
+        }
+      else
+        {
+          baseBonus = [self calculateBaseBonusForMethodPirsch];
+          test = @[ @"MU", @"IN", @"GE" ];
+        }
+    }
+    
+  DSATalent *huntingTalent = [DSATalent talentWithName: @"Jagen"
+                                         inSubCategory: nil
+                                            ofCategory: @"Natur"
+                                               onLevel: baseBonus
+                                              withTest: test
+                                withMaxTriesPerLevelUp: 0
+                                     withMaxUpPerLevel: 0
+                                       withLevelUpCost: 0
+                                influencesOtherTalents: nil];
+
+  result = [huntingTalent useOnTarget: nil
+                          byCharacter: self
+                             forHours: hours
+                     currentAdventure: adventure];
+  return result;
+}
+
+- (NSInteger) calculateBaseBonusForMethodFalle
+{
+  NSInteger bonus;
+  bonus = floor((self.currentTalents[@"Wildnisleben"].level + 
+                 self.currentTalents[@"Fährtensuchen"].level +
+                 self.currentTalents[@"Fallenstellen"].level) / 4);
+  if (self.currentTalents[@"Tierkunde"].level > 10)
+    {
+      bonus += floor(self.currentTalents[@"Tierkunde"].level / 2);
+    }
+  NSArray *seile = [[DSAInventoryManager sharedManager] findItemsBySubCategory: @"Seile"
+                                                                       inModel: self];
+  if (seile != nil && [seile count] > 0)
+    {
+      bonus += 1;
+    }
+  return bonus;
+}
+          
+- (NSInteger) calculateBaseBonusForMethodPirsch
+{
+  NSInteger bonus;
+  bonus = floor((self.currentTalents[@"Wildnisleben"].level + 
+                 self.currentTalents[@"Fährtensuchen"].level +
+                 self.currentTalents[@"Schleichen"].level) / 4);
+  if (self.currentTalents[@"Schusswaffen"].level > 10)
+    {
+      bonus += floor(self.currentTalents[@"Schusswaffen"].level / 2);
+    }
+  NSArray *shootingWeapons = [[DSAInventoryManager sharedManager] findItemsBySubCategory: @"Schußwaffen"
+                                                                       inModel: self];
+  if (shootingWeapons != nil && [shootingWeapons count] > 0)
+    {
+      bonus += 1;
+    }
+  return bonus;
+}
+@end
+
+@implementation DSACharacter(CollectHerbs)
+- (DSAActionResult *) collectHerbsForHours:(NSInteger)hours
+                               inAdventure:(DSAAdventure *)adventure
+{
+    DSAActionResult *result = [[DSAActionResult alloc] init];
+    
+    // 1️⃣ Talentprüfung
+    BOOL canUseTalent = [self canUseTalentWithName:@"Pflanzenkunde"];
+    if (!canUseTalent) {
+        result.result = DSAActionResultFailure;
+        result.resultDescription = [NSString stringWithFormat:@"%@ kann nicht auf Pflanzensuche gehen", self.name];
+        result.actionDuration = 0;
+        return result;
+    }
+    
+    // 2️⃣ Aktuelle Region
+    DSAPosition *currentPosition = adventure.position;
+    DSARegion *currentRegion = [[DSARegionManager sharedManager] regionForX:currentPosition.mapCoordinate.x
+                                                                         Y:currentPosition.mapCoordinate.y];
+    if (!currentRegion) {
+        result.result = DSAActionResultFailure;
+        result.resultDescription = @"Keine gültige Region gefunden!";
+        result.actionDuration = 0;
+        return result;
+    }
+    
+    // 3️⃣ Alle Pflanzen abrufen
+    NSArray<DSAObject *> *allObjects = [[DSAObjectManager sharedManager] getAllDSAObjectsForCategory:@"Pflanzen"];
+    NSMutableArray<DSAPlant *> *allPlants = [NSMutableArray array];
+    for (DSAObject *obj in allObjects) {
+        if ([obj isKindOfClass:[DSAPlant class]]) {
+            [allPlants addObject:(DSAPlant *)obj];
+        }
+    }
+    NSString *currentMonth = [adventure.gameClock.currentDate monthName];
+    
+    // 4️⃣ Filter nach Region und Monat
+    NSMutableArray<DSAPlant *> *availablePlants = [NSMutableArray array];
+    
+    for (DSAPlant *plant in allPlants) {
+        // Region prüfen
+        if (![plant.regions containsObject:currentRegion.name]) continue;
+        
+        // Erntezeit prüfen
+        NSArray *harvestMonths = plant.harvest[@"wann"];
+        BOOL canHarvest = [harvestMonths containsObject:@"ganzjährig"] || [harvestMonths containsObject:currentMonth];
+        if (!canHarvest) continue;
+        
+        // Optional: Häufigkeit prüfen (gelegentlich/selten/sehr selten)
+        // Wenn plant.verbreitungsraum existiert, könnte man hier die Wahrscheinlichkeit erhöhen
+        // Beispiel: plant.verbreitungsraum[@"selten"] enthält Biome, in denen die Pflanze selten vorkommt
+        // Für den ersten Schritt lassen wir es erstmal als Filter weg
+        
+        [availablePlants addObject:plant];
+    }
+    
+    // 5️⃣ Ergebnis zusammenstellen
+    if (availablePlants.count == 0) {
+        result.result = DSAActionResultFailure;
+        result.resultDescription = @"Keine Pflanzen in dieser Region und zu dieser Jahreszeit verfügbar.";
+        result.actionDuration = hours;
+        return result;
+    }
+    
+    // Gesammelte Pflanzen
+    NSMutableArray<id<DSAExecutableDescriptor>> *collectedPlants = [NSMutableArray array];
+    
+    // Für jede Stunde Pflanzensuche
+    for (NSInteger h = 0; h < hours; h++) {
+      for (DSAPlant *plant in availablePlants) {
+          NSInteger penalty = 20 - plant.recognition; // hohe Bekanntheit = leichter
+          DSAActionResult *talentResult = [self useTalent:@"Pflanzenkunde" withPenalty:penalty];
+    
+          NSInteger numberToCollect = 0;
+          switch (talentResult.result) {
+              case DSAActionResultEpicSuccess:
+                  numberToCollect = 3;
+                  break;
+              case DSAActionResultAutoSuccess:
+                  numberToCollect = 2;
+                  break;
+              case DSAActionResultSuccess:
+                  numberToCollect = 1;
+                  break;
+              default:
+                  numberToCollect = 0;
+                  break;
+          }
+
+          if (numberToCollect > 0) {
+              DSAActionDescriptor *gainItem = [DSAActionDescriptor new];
+              gainItem.type = DSAActionTypeGainItem;
+              gainItem.parameters = @{@"amount": @(numberToCollect),
+                                      @"type": plant.name};
+              gainItem.order = 0;
+              [collectedPlants addObject:gainItem];
+          }
+      }
+    }        
+    result.result = collectedPlants.count > 0 ? DSAActionResultSuccess : DSAActionResultFailure;
+    result.resultDescription = [NSString stringWithFormat:@"%lu Pflanzen gefunden.", (unsigned long)availablePlants.count];
+    result.actionDuration = hours;
+    result.followUps = collectedPlants; 
+    
+    return result;
+}
 @end
 
 @implementation DSACharacterHero

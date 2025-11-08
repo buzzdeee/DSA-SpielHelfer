@@ -4570,5 +4570,35 @@
     "Ifirn_Tempel_1-32x32.webp",
     "Ifirn_Tempel_1-64x64.webp",
     "Ifirn_Tempel_1-512x512.webp"
+  ],
+  "Fahrender_Kraemer": [
+    "Fahrender_Kraemer_1.webp",
+    "Fahrender_Kraemer_2.webp",
+    "Fahrender_Kraemer_1-32x32.webp",
+    "Fahrender_Kraemer_1-64x64.webp",
+    "Fahrender_Kraemer_1-512x512.webp",
+    "Fahrender_Kraemer_2-32x32.webp",
+    "Fahrender_Kraemer_2-64x64.webp",
+    "Fahrender_Kraemer_2-512x512.webp"
+  ],
+  "Fahrender_Waffenhaendler": [
+    "Fahrender_Waffenhaendler_2.webp",
+    "Fahrender_Waffenhaendler_1.webp",
+    "Fahrender_Waffenhaendler_1-32x32.webp",
+    "Fahrender_Waffenhaendler_1-64x64.webp",
+    "Fahrender_Waffenhaendler_1-512x512.webp",
+    "Fahrender_Waffenhaendler_2-32x32.webp",
+    "Fahrender_Waffenhaendler_2-64x64.webp",
+    "Fahrender_Waffenhaendler_2-512x512.webp"
+  ],
+  "Fahrender_Kraeuterhaendler": [
+    "Fahrender_Kraeuterhaendler_2.webp",
+    "Fahrender_Kraeuterhaendler_1.webp",
+    "Fahrender_Kraeuterhaendler_1-32x32.webp",
+    "Fahrender_Kraeuterhaendler_1-64x64.webp",
+    "Fahrender_Kraeuterhaendler_1-512x512.webp",
+    "Fahrender_Kraeuterhaendler_2-32x32.webp",
+    "Fahrender_Kraeuterhaendler_2-64x64.webp",
+    "Fahrender_Kraeuterhaendler_2-512x512.webp"
   ]
 }

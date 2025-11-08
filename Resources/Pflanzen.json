@@ -5,6 +5,7 @@
     "subCategory": "Heilpflanzen",
     "Preis": 3,
     "Gewicht": 1,
+    "Regionen": [ "BO", "EL", "GA", "HA", "KH", "LF", "MA", "MH", "MO", "OR", "PU", "SÜ", "TH", "TO", "WA", "WE", "ZW", "ZY"],
     "Verbreitungsgebiet": [ "südlich von Gerasim" ],
     "Verbreitungsraum": {
       "gelegentlich": [ "Sumpflöcher" ],
@@ -27,6 +28,7 @@
     "subCategory": "Heilpflanzen",
     "Preis": 8,
     "Gewicht": 0.3,
+    "Regionen": [ "BO", "EL", "FI", "HA", "MY", "NA", "NO", "OR", "TH", "WE"],
     "Verbreitungsgebiet": [ "Nordaventurien bis Nostria - Vallusa" ],
     "Verbreitungsraum": {
       "selten": [ "Steppe", "Wald" ],
@@ -47,7 +49,8 @@
     "category": "Pflanzen",
     "subCategory": "Heilpflanzen",
     "Preis": 8,
-    "Gewicht": 2,    
+    "Gewicht": 2,
+    "Regionen": [ "HA" ],   
     "Verbreitungsgebiet": [ "Nostria", "Andergast", "Albernia", "Nordmarken" ],
     "Verbreitungsraum": {
       "gelegentlich": [ "Wald" ],
@@ -69,7 +72,8 @@
     "category": "Pflanzen",
     "subCategory": "Heilpflanzen",
     "Preis": 12,
-    "Gewicht": 0.1,    
+    "Gewicht": 0.1,
+    "Regionen": [ "GA", "HA", "PU", "TO", "WE", "WÜ", "ZW" ],
     "Verbreitungsgebiet": [ "Mittelaventurien" ],
     "Verbreitungsraum": {
       "selten": [ "Wald" ],
@@ -91,6 +95,7 @@
     "subCategory": "Heilpflanzen",
     "Preis": 5,
     "Gewicht": 0.3,    
+    "Regionen": [ "HA", "LF", "TH", "ZY"],
     "Verbreitungsgebiet": [ "Westküste Aventuriens" ],
     "Verbreitungsraum": {
       "gelegentlich": [ "Strand" ],
@@ -112,7 +117,8 @@
     "category": "Pflanzen",
     "subCategory": "Heilpflanzen",
     "Preis": 30,
-    "Gewicht": 2,    
+    "Gewicht": 2,
+    "Regionen": [ "GA", "MH", "PU" ],
     "Verbreitungsgebiet": [ "Raschtulswall" ],
     "Verbreitungsraum": {
       "sehr selten": [ "Hochland", "Gebirge", "Wald" ]
@@ -132,7 +138,8 @@
     "category": "Pflanzen",
     "subCategory": "Heilpflanzen",
     "Preis": 4,
-    "Gewicht": 0.3,    
+    "Gewicht": 0.3,  
+    "Regionen": [ "MO", "SÜ"],         
     "Verbreitungsgebiet": [ "Südlich von Loch Harold" ],
     "Verbreitungsraum": {
       "häufig": [ "Regenwald" ],
@@ -154,7 +161,8 @@
     "category": "Pflanzen",
     "subCategory": "Heilpflanzen",
     "Preis": 1,
-    "Gewicht": 2,    
+    "Gewicht": 2,
+    "Regionen": [ "PE" ], 
     "Verbreitungsgebiet": [ "Perlenmeer zwischen Selem und Charypso" ],
     "Verbreitungsraum": {
       "häufig": [ "Küstengewässer" ],
@@ -171,7 +179,8 @@
     "category": "Pflanzen",
     "subCategory": "Heilpflanzen",
     "Preis": 0.1,
-    "Gewicht": 0.5,    
+    "Gewicht": 0.5, 
+    "Regionen": [ "OR", "WE", "ZW"],       
     "Verbreitungsgebiet": [ "Steineichenwald", "Finsterkamm", "Koschberge", "Eisenwald" ],
     "Verbreitungsraum": {
       "häufig": [ "Wald" ],
@@ -193,7 +202,7 @@
     "subCategory": "Heilpflanzen",
     "Preis": 400,
     "Gewicht": 2,    
-    "Verbreitungsgebiet": [ "Maraskan" ],
+    "Regionen": [ "MA"],    "Verbreitungsgebiet": [ "Maraskan" ],
     "Verbreitungsraum": {
       "sehr selten": [ "Regenwald" ]
     },
@@ -213,6 +222,7 @@
     "subCategory": "Heilpflanzen",
     "Preis": 30,
     "Gewicht": 5,    
+    "Regionen": [ "MA", "MH" ],
     "Verbreitungsgebiet": [ "Maraskan", "Aranische Küste" ],
     "Verbreitungsraum": {
       "gelegentlich": [ "Wald" ],

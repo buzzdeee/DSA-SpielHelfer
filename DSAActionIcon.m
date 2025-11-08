@@ -824,7 +824,18 @@ inventoryIdentifier: (NSString *)sourceInventory
     if (self) {
         NSString *imagePath = [[NSBundle mainBundle] pathForResource: [NSString stringWithFormat: @"leave-%@", size] ofType: @"webp"];
         self.image = imagePath ? [[NSImage alloc] initWithContentsOfFile: imagePath] : nil;
-        self.toolTip = _(@"Gebäude verlassen");
+        DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+        
+        if (adventure.inEncounter)
+          {
+            // met a travelling merchant 
+            self.toolTip = _(@"Weiterreisen");
+          }
+        else
+          {
+            // we're in some building
+            self.toolTip = _(@"Gebäude verlassen");
+          }
         [self updateAppearance];
     }
     return self;
@@ -847,6 +858,10 @@ inventoryIdentifier: (NSString *)sourceInventory
             return YES;
           }
       }
+    else if (adventure.inEncounter)
+      {
+        return YES;
+      }
     return NO;
 }
 
@@ -857,7 +872,17 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
     
-    [activeGroup leaveLocation];
+    if (adventure.inEncounter)
+      {
+        NSLog(@"‍DSAActionIconLeave handleEvent: continueTravel triggered via action icon");
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"DSAContinueTravelNotification"
+                                                            object:self
+                                                          userInfo:nil];        
+      }
+    else
+      {
+        [activeGroup leaveLocation];      
+      }
 }
 @end
 
@@ -891,63 +916,97 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAAdventureWindowController *windowController = self.window.windowController;
     if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) return;
 
-    DSAAdventureDocument *document = (DSAAdventureDocument *)windowController.document;
-    DSAAdventure *adventure = document.model;
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
     DSAPosition *currentPosition = activeGroup.position;
 
     DSALocation *location = [[DSALocations sharedInstance] locationWithName:currentPosition.localLocationName ofType:@"local"];
-    if (![location isKindOfClass:[DSALocalMapLocation class]]) return;
-
-    DSALocalMapTile *tile = [(DSALocalMapLocation *)location tileAtCoordinate:currentPosition.mapCoordinate];
- 
     NSString *dialogNPC = nil;
-    if ([tile isKindOfClass:[DSALocalMapTileBuildingInn class]]) {
-      if ([tile.type isEqualToString: DSALocalMapTileBuildingInnTypeHerberge])
-        {
-          dialogNPC = @"innkeeper";
+    if (![location isKindOfClass:[DSALocalMapLocation class]] && 
+        adventure.inEncounter)
+      {
+        NSDictionary *encounterInfo = adventure.encounterInfo;
+        DSAEncounterType encounterType = [encounterInfo[@"encounterType"] integerValue];
+        switch (encounterType) {
+          case DSAEncounterTypeMerchant: {
+            NSString *shopType = encounterInfo[@"subType"];
+            if ([shopType isEqualToString:@"Krämer"])
+              {
+                dialogNPC = @"shopkeeper_general";
+              }
+            else if ([shopType isEqualToString:@"Waffenhändler"])
+              {
+                dialogNPC = @"shopkeeper_weapon";
+              }
+            else if ([shopType isEqualToString:@"Kräuterhändler"])
+              {
+                dialogNPC = @"shopkeeper_herbs";
+              }
+            else
+              {
+                NSLog(@"DSAActionIconChat handleEvent unknown shop Type: %@, aborting", shopType);
+                abort();
+              }
+            break;
+          }
+          default:
+            NSLog(@"DSAActionIconChat handleEvent unhandled encounter type: %@, aborting", @(encounterType));
+            abort();
         }
-      else if ([tile.type isEqualToString: DSALocalMapTileBuildingInnTypeTaverne])
-        {
-          dialogNPC = @"tavern";
-        }
-      else  // DSALocalMapTileBuildingInnTypeHerbergeMitTaverne
-        {
-          if ([currentPosition.context isEqualToString: DSAActionContextReception])
+      }
+    else
+      {
+        DSALocalMapTile *tile = [(DSALocalMapLocation *)location tileAtCoordinate:currentPosition.mapCoordinate];
+ 
+        if ([tile isKindOfClass:[DSALocalMapTileBuildingInn class]]) {
+          if ([tile.type isEqualToString: DSALocalMapTileBuildingInnTypeHerberge])
             {
               dialogNPC = @"innkeeper";
             }
-          else if ([currentPosition.context isEqualToString: DSAActionContextTavern])
+          else if ([tile.type isEqualToString: DSALocalMapTileBuildingInnTypeTaverne])
             {
               dialogNPC = @"tavern";
             }
+          else  // DSALocalMapTileBuildingInnTypeHerbergeMitTaverne
+            {
+              if ([currentPosition.context isEqualToString: DSAActionContextReception])
+                {
+                  dialogNPC = @"innkeeper";
+                }
+              else if ([currentPosition.context isEqualToString: DSAActionContextTavern])
+                {
+                  dialogNPC = @"tavern";
+                }
+            }
+        } else if ([tile isKindOfClass:[DSALocalMapTileBuildingShop class]]) {
+            if ([tile.type isEqualToString:@"Krämer"])
+              {
+                dialogNPC = @"shopkeeper_general";
+              }
+            else if ([tile.type isEqualToString:@"Waffenhändler"])
+              {
+                dialogNPC = @"shopkeeper_weapon";
+              }
+            else if ([tile.type isEqualToString:@"Kräuterhändler"])
+              {
+                dialogNPC = @"shopkeeper_herbs";
+              }
+            else
+              {
+                NSLog(@"DSAActionIconChat handleEvent unknown shop Type: %@, aborting", tile.type);
+                abort();
+              }
+        } else if ([tile isKindOfClass:[DSALocalMapTileBuildingSmith class]]) {
+            dialogNPC = @"blacksmith";
+        } else if ([tile isKindOfClass:[DSALocalMapTileBuildingHealer class]]) {
+            dialogNPC = @"healer";
+        } else if ([tile isKindOfClass:[DSALocalMapTileBuildingTemple class]]) {
+            dialogNPC = @"temple_priest";
+        } else {
+          NSLog(@"DSAActionIconChat handleEvent: unknown tile, don't know what type of dialogue to use, aborting");
+          abort();
         }
-    } else if ([tile isKindOfClass:[DSALocalMapTileBuildingShop class]]) {
-        if ([tile.type isEqualToString:@"Krämer"])
-          {
-            dialogNPC = @"shopkeeper_general";
-          }
-        else if ([tile.type isEqualToString:@"Waffenhändler"])
-          {
-            dialogNPC = @"shopkeeper_weapon";
-          }
-        else if ([tile.type isEqualToString:@"Kräuterhändler"])
-          {
-            dialogNPC = @"shopkeeper_herbs";
-          }
-        else
-          {
-            NSLog(@"DSAActionIconChat handleEvent unbekannter shop Type: %@", tile.type);
-          }
-    } else if ([tile isKindOfClass:[DSALocalMapTileBuildingSmith class]]) {
-        dialogNPC = @"blacksmith";
-    } else if ([tile isKindOfClass:[DSALocalMapTileBuildingHealer class]]) {
-        dialogNPC = @"healer";
-    } else if ([tile isKindOfClass:[DSALocalMapTileBuildingTemple class]]) {
-        dialogNPC = @"temple_priest";
-    } else {
-      NSLog(@"DSAActionIconChat handleEvent: unknown tile, don't know what type of dialogue to use");
-    }
+      }
     if (!dialogNPC) {
         NSLog(@"DSAActionIconChat handleEvent: no NPC around to talk to?");
         return;
@@ -1181,6 +1240,15 @@ inventoryIdentifier: (NSString *)sourceInventory
             return YES;
           }
       }
+    else if (adventure.inEncounter)
+      {
+        DSAEncounterType encounterType = [adventure.encounterInfo[@"encounterType"] integerValue];
+        if (encounterType == DSAEncounterTypeMerchant)
+          {
+            return YES;
+          }
+        
+      }
     return NO;
 }
 
@@ -1210,6 +1278,19 @@ inventoryIdentifier: (NSString *)sourceInventory
             shopType = currentTile.type;
           }
       }
+    else if (adventure.inEncounter)
+      {
+        DSAEncounterType encounterType = [adventure.encounterInfo[@"encounterType"] integerValue];
+        if (encounterType == DSAEncounterTypeMerchant)
+          {
+            shopType = adventure.encounterInfo[@"subType"];
+          }
+        else
+          {
+            NSLog(@"DSAActionIconBuy handleEvent unhandled encounterType %@, aborting", @(encounterType));
+            abort();
+          }
+      }      
     NSLog(@"DSAActionIconBuy handleEvent shopType: %@", shopType);
     // Step 2: Present the shop view sheet
     DSAShopViewController *selector =
@@ -1270,60 +1351,67 @@ inventoryIdentifier: (NSString *)sourceInventory
     [windowController.window beginSheet:bargainSelector.window completionHandler:nil];
     NSLog(@"DSAActionIconBuy handleEvent: final percent is %.2f, finalComment: %@", finalPercent, finalComment);
     
-    DSAAventurianDate *now = adventure.gameClock.currentDate;
+    // check if we're in a normal shop
     DSAEvent *hausverbot;
-    if (bargainResult.result == DSAActionResultFailure)  // we could not agree on a price ;)
+    if (!adventure.inEncounter)
       {
-        NSLog(@"DSAActionIconSell handleEvent DSAActionResultFailure");
-        hausverbot = [DSAEvent eventWithType: DSAEventTypeLocationBan
-                                    position: currentPosition
-                                   expiresAt: [now dateByAddingYears: 0
-                                                                days: 7
-                                                               hours: 0
-                                                             minutes: 0]
-                                    userInfo: nil];
-      }
-    else if (bargainResult.result == DSAActionResultAutoFailure)
-      {
-        NSLog(@"DSAActionIconSell handleEvent DSAActionResultAutoFailure");      
-        hausverbot = [DSAEvent eventWithType: DSAEventTypeLocationBan
-                                    position: currentPosition
-                                   expiresAt: [now dateByAddingYears: 0
-                                                                days: 30     // 1 month
-                                                               hours: 0
-                                                             minutes: 0]
-                                    userInfo: nil];        
-      }
-    else if (bargainResult.result == DSAActionResultEpicFailure)
-      {
-        NSLog(@"DSAActionIconSell handleEvent DSAActionResultEpicFailure");      
-        hausverbot = [DSAEvent eventWithType: DSAEventTypeLocationBan
-                                    position: currentPosition
-                                   expiresAt: nil                            // until eternity
-                                    userInfo: nil];      
-
-      }
-    else
-      {
-        NSLog(@"DSAActionIconSell handleEvent some kind of success %@", bargainResult);
+        DSAAventurianDate *now = adventure.gameClock.currentDate;
+        if (bargainResult.result == DSAActionResultFailure)  // we could not agree on a price ;)
+          {
+            NSLog(@"DSAActionIconBuy handleEvent DSAActionResultFailure");
+            hausverbot = [DSAEvent eventWithType: DSAEventTypeLocationBan
+                                        position: currentPosition
+                                       expiresAt: [now dateByAddingYears: 0
+                                                                    days: 7
+                                                                   hours: 0
+                                                                 minutes: 0]
+                                        userInfo: nil];
+          }
+        else if (bargainResult.result == DSAActionResultAutoFailure)
+          {
+            NSLog(@"DSAActionIconBuy handleEvent DSAActionResultAutoFailure");      
+            hausverbot = [DSAEvent eventWithType: DSAEventTypeLocationBan
+                                        position: currentPosition
+                                       expiresAt: [now dateByAddingYears: 0
+                                                                    days: 30     // 1 month
+                                                                   hours: 0
+                                                                 minutes: 0]
+                                        userInfo: nil];        
+          }
+        else if (bargainResult.result == DSAActionResultEpicFailure)
+          {
+            NSLog(@"DSAActionIconBuy handleEvent DSAActionResultEpicFailure");      
+            hausverbot = [DSAEvent eventWithType: DSAEventTypeLocationBan
+                                        position: currentPosition
+                                       expiresAt: nil                            // until eternity
+                                        userInfo: nil];      
+          }
+        else
+          {
+            NSLog(@"DSAActionIconBuy handleEvent some kind of success %@", bargainResult);
+          }
       }
     if (bargainResult.result == DSAActionResultFailure ||
         bargainResult.result == DSAActionResultAutoFailure ||
         bargainResult.result == DSAActionResultEpicFailure)
       {
-        [adventure addEvent: hausverbot];      
-        NSLog(@"DSAActionIconSell handleEvent we're going to be thrown out");                                        
-        if ([currentTile isKindOfClass: [DSALocalMapTileBuilding class]])
+        // check if we're at a shop, or just randomly ran into a merchant
+        if (!adventure.inEncounter)
           {
-            DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding*)currentTile;
-            DSADirection direction = buildingTile.door;
-            activeGroup.position = nil;
-            activeGroup.position = [currentPosition positionByMovingInDirection: direction steps: 1];
-            NSDictionary *userInfo = @{ @"position": activeGroup.position };
-            [[NSNotificationCenter defaultCenter] postNotificationName: @"DSAAdventureLocationUpdated" 
-                                                                object: self
-                                                              userInfo: userInfo];
-            NSLog(@"DSAActionIconSell handleEvent we're now thrown out");
+            [adventure addEvent: hausverbot];      
+            NSLog(@"DSAActionIconBuy handleEvent we're going to be thrown out");                                        
+            if ([currentTile isKindOfClass: [DSALocalMapTileBuilding class]])
+              {
+                DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding*)currentTile;
+                DSADirection direction = buildingTile.door;
+                activeGroup.position = nil;
+                activeGroup.position = [currentPosition positionByMovingInDirection: direction steps: 1];
+                NSDictionary *userInfo = @{ @"position": activeGroup.position };
+                [[NSNotificationCenter defaultCenter] postNotificationName: @"DSAAdventureLocationUpdated" 
+                                                                    object: self
+                                                                  userInfo: userInfo];
+                NSLog(@"DSAActionIconSell handleEvent we're now thrown out");
+              }
           }
       }
     else
@@ -1334,7 +1422,8 @@ inventoryIdentifier: (NSString *)sourceInventory
             [activeGroup distributeItems:[[cartItem objectForKey: @"items"] objectAtIndex: 0] count: [[cartItem objectForKey: @"items"] count]];
           }
         finalComment = [NSString stringWithFormat: @"Finaler Preis: %.2f Silber. %@", finalPrice, finalComment];
-      }      
+      }
+    NSLog(@"DSAActionIcon, handleEvent: YALLA");       
     DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName: @"DSAConversationTextOnly"];
     [conversationSelector window];  // trigger loading .gorm file
     conversationSelector.fieldText.stringValue = finalComment;
@@ -1346,6 +1435,7 @@ inventoryIdentifier: (NSString *)sourceInventory
         }
     };
     [windowController.window beginSheet: conversationSelector.window completionHandler:nil];   
+    NSLog(@"DSAActionIcon, handleEvent: BALLA");
 }
 @end
 
@@ -1385,6 +1475,15 @@ inventoryIdentifier: (NSString *)sourceInventory
             return YES;
           }
       }
+    else if (adventure.inEncounter)
+      {
+        DSAEncounterType encounterType = [adventure.encounterInfo[@"encounterType"] integerValue];
+        if (encounterType == DSAEncounterTypeMerchant)
+          {
+            return YES;
+          }
+        
+      }      
     return NO;
 }
 - (void)handleEvent {
@@ -1413,7 +1512,20 @@ inventoryIdentifier: (NSString *)sourceInventory
             shopType = currentTile.type;
           }
       }
-    NSLog(@"DSAActionIconBuy handleEvent shopType: %@", shopType);
+    else if (adventure.inEncounter)
+      {
+        DSAEncounterType encounterType = [adventure.encounterInfo[@"encounterType"] integerValue];
+        if (encounterType == DSAEncounterTypeMerchant)
+          {
+            shopType = adventure.encounterInfo[@"subType"];
+          }
+        else
+          {
+            NSLog(@"DSAActionIconSell handleEvent unhandled encounterType %@, aborting", @(encounterType));
+            abort();
+          }
+      }
+    NSLog(@"DSAActionIconSell handleEvent shopType: %@", shopType);
     // Step 2: Present the shop view sheet
     DSAShopViewController *selector =
         [[DSAShopViewController alloc] initWithWindowNibName:@"DSAShopView"];
@@ -1565,11 +1677,11 @@ inventoryIdentifier: (NSString *)sourceInventory
     DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName: @"DSAConversationTextOnly"];
     [conversationSelector window];  // trigger loading .gorm file
     conversationSelector.fieldText.stringValue = finalComment;
-    NSLog(@"DSAActionIcon, handleEvent: conversationSelector.fieldText.stringValue %@", conversationSelector.fieldText.stringValue);
+    //NSLog(@"DSAActionIconSell, handleEvent: conversationSelector.fieldText.stringValue %@", conversationSelector.fieldText.stringValue);
     conversationSelector.completionHandler = ^(BOOL result) {
       if (result)
         {
-           NSLog(@"DSAActionIcon, handleEvent: finally, shopping finished");
+           NSLog(@"DSAActionIconSell, handleEvent: finally, shopping finished");
         }
     };
     [windowController.window beginSheet: conversationSelector.window completionHandler:nil];   

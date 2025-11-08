@@ -214,20 +214,7 @@ NS_ASSUME_NONNULL_BEGIN
 // to decide, if currently a talent can be used
 - (BOOL) canUseTalents;
 - (BOOL) canUseTalentWithName: (NSString *) name;
-
-// As described in Drachen, Greifen, Schwarzer Lotos, p. 44ff
-// Fallenjagd (IN/GE/FF): Wildnisleben + Fährtensuchen + Fallenstellen / 4 (abgerundet)
-  // in case TAW Tierkunde > 10, dann TAW/2 (abgerundet) hinzuaddieren
-// Pirschjagd (MU/IN/GE): Wildnisleben + Fährtensuchen + Schleichen / 4 (abgerundet)
-  // in case TAW Schusswaffen > 10, dann TAW/2 (abgerundet) hinzuaddieren
-// if not specified, depending on which of those above is higher, and if character has a weapon of category Schusswaffen
-// or ropes it's decided automatically which type of hunting is used. 
-- (DSAActionResult *) goHuntingForHours: (NSInteger) hours
-                            usingMethod: (nullable NSString *) method
-                            inAdventure: (DSAAdventure *) adventure;
-- (DSAActionResult *) collectHerbsForHours: (NSInteger) hours
-                               inAdventure: (DSAAdventure *) adventure;
-                             
+                            
 // to decide, if the character can regenerate AE or LP                             
 - (BOOL) canRegenerate;
 
@@ -301,6 +288,24 @@ NS_ASSUME_NONNULL_BEGIN
 // Returns all expired items in the character's inventory and container contents
 - (NSArray<DSAObject *> *)allExpiredItemsAtDate:(DSAAventurianDate *)date;
 
+@end
+
+@interface DSACharacter(Hunting)
+// As described in Drachen, Greifen, Schwarzer Lotos, p. 44ff
+// Fallenjagd (IN/GE/FF): Wildnisleben + Fährtensuchen + Fallenstellen / 4 (abgerundet)
+  // in case TAW Tierkunde > 10, dann TAW/2 (abgerundet) hinzuaddieren
+// Pirschjagd (MU/IN/GE): Wildnisleben + Fährtensuchen + Schleichen / 4 (abgerundet)
+  // in case TAW Schusswaffen > 10, dann TAW/2 (abgerundet) hinzuaddieren
+// if not specified, depending on which of those above is higher, and if character has a weapon of category Schusswaffen
+// or ropes it's decided automatically which type of hunting is used. 
+- (DSAActionResult *) goHuntingForHours: (NSInteger) hours
+                            usingMethod: (nullable NSString *) method
+                            inAdventure: (DSAAdventure *) adventure;
+@end
+
+@interface DSACharacter(CollectHerbs)
+- (DSAActionResult *) collectHerbsForHours: (NSInteger) hours
+                               inAdventure: (DSAAdventure *) adventure;
 @end
 
 @interface DSACharacterHero : DSACharacter

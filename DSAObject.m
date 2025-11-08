@@ -1828,6 +1828,7 @@ static DSAObjectManager *sharedInstance = nil;
   return _objectsByName[name];
 }
 
+/*
 - (NSArray<DSAObject *> *)getAllDSAObjectsForShop:(NSString *)shopType
 {
     NSMutableArray *objectsArr = [[NSMutableArray alloc] init];
@@ -1859,6 +1860,52 @@ static DSAObjectManager *sharedInstance = nil;
           }
       }
 
+    return objectsArr;
+}
+*/
+
+- (NSArray<DSAObject *> *)getAllDSAObjectsForShop:(NSString *)shopType
+{
+    NSLog(@"DSAObjectManager getAllDSAObjectsForShop: %@", shopType);
+
+    NSArray<NSString *> *relevantCategories = nil;
+
+    if ([shopType isEqualToString:@"Krämer"]) {
+        relevantCategories = DSAShopGeneralStoreCategories();
+    } else if ([shopType isEqualToString:@"Waffenhändler"]) {
+        relevantCategories = DSAShopWeaponStoreCategories();
+    } else if ([shopType isEqualToString:@"Kräuterhändler"]) {
+        relevantCategories = DSAShopHerbsStoreCategories();        
+    } else {
+        NSLog(@"❌ DSAObjectManager getAllDSAObjectsForShop: unknown shop type: %@", shopType);
+        return @[];
+    }
+
+    NSMutableArray<DSAObject *> *objectsArr = [[NSMutableArray alloc] init];
+
+    for (NSString *category in relevantCategories) {
+        NSArray<DSAObject *> *categoryObjects = [self getAllDSAObjectsForCategory:category];
+        if (categoryObjects.count > 0) {
+            [objectsArr addObjectsFromArray:categoryObjects];
+        }
+    }
+
+    return objectsArr;
+}
+
+- (NSArray<DSAObject *> *)getAllDSAObjectsForCategory: (NSString *)category
+{
+    NSMutableArray *objectsArr = [[NSMutableArray alloc] init];
+    
+    NSLog(@"DSAObjectManager getAllDSAObjectsForCategory: %@", category);
+    for (NSDictionary *objectDict in [_objectsByName allValues])
+      {
+        if ([[objectDict objectForKey: @"category"] isEqualToString: category])
+          {
+            DSAObject *object = [[DSAObject alloc] initWithObjectInfo: objectDict forOwner: nil];
+            [objectsArr addObject: object];
+          }        
+      }
     return objectsArr;
 }
 

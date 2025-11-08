@@ -37,6 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DSAPlant : DSAObject <NSCoding, NSCopying>
 @property (nonatomic, assign) NSInteger recognition;              // Bekanntheit
 @property (nonatomic, strong) NSDictionary *shelfLife;            // Haltbarkeit
+@property (nonatomic, strong) NSDictionary *harvest; // entspricht "Ernte" aus JSON
 
 // Init
 - (instancetype)initWithName:(NSString *)name fromDictionary:(NSDictionary *)dict;

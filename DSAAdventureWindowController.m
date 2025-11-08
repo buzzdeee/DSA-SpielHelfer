@@ -113,11 +113,11 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
                                                  name:@"DSAAdventureLocationUpdated"
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleTravelDidBegin)
+                                             selector:@selector(handleTravelDidBegin:)
                                                  name:DSAAdventureTravelDidBeginNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(handleTravelResting)
+                                             selector:@selector(handleTravelResting:)
                                                  name:DSAAdventureTravelRestingNotification
                                                object:nil];                                                                                           
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -175,12 +175,16 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     return emptyIcon;
 }
 
-- (void) setupActionIcons: (DSAPosition *) position
+- (void) setupActionIcons: (NSNotification *) notification
 {
   DSAPosition *currentPosition;
-  if (position)
+  NSDictionary *userInfo;
+  if (notification)
     {
-      currentPosition = position;
+      userInfo = notification.userInfo;
+      DSAAdventure *adventure = userInfo[@"adventure"];
+      DSAAdventureGroup *activeGroup = adventure.activeGroup;
+      currentPosition = activeGroup.position;
     }
   else
     {
@@ -345,9 +349,19 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
                 [self.imageActionIcon8 updateAppearance];
               }                            
           }
+        else if ([currentPosition.context isEqualToString: DSAActionContextEncounter])
+          {
+            DSAEncounterType encounterType = [userInfo[@"encounterType"] integerValue];
+            switch (encounterType) {
+              case DSAEncounterTypeMerchant: [self setupActionIconsForShop]; break;
+              default: 
+                NSLog(@"DSAAdventureWindowController setupActionIcons: unhandledEncounterType: %@, aborting", @(encounterType));
+                abort();
+            }
+          }
         else
           {
-            NSLog(@"DSAAdventure setupActionIcons: unknown global position context: %@, aborting", currentPosition.context);
+            NSLog(@"DSAAdventureWindowController setupActionIcons: unknown global position context: %@, aborting", currentPosition.context);
             abort();
           }
         return;                                                   
@@ -795,28 +809,89 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     }
 }
 
-- (void) handleTravelDidBegin
-{
-  NSLog(@"DSAAdventureWindowController handleTravelDidBegin called");
-  [self updateMainImageView: nil];
-  [self setupActionIcons: nil];
+-(void) setupActionIconsForShop {
+  if ([self.imageActionIcon0 isKindOfClass: [DSAActionIconChat class]])
+    {
+      [self.imageActionIcon0 updateAppearance];
+    }
+  else
+    {
+      DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"chat" andSize:@"128x128"];
+      [self replaceView:self.imageActionIcon0 withView:newIcon];
+      self.imageActionIcon0 = newIcon;
+      [self.imageActionIcon0 updateAppearance];
+    }
+  if ([self.imageActionIcon1 isKindOfClass: [DSAActionIconBuy class]])
+    {
+      [self.imageActionIcon1 updateAppearance];
+    }
+  else
+    {          
+      DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"buy" andSize:@"128x128"];
+      [self replaceView:self.imageActionIcon1 withView:newIcon];
+      self.imageActionIcon1 = newIcon;
+      [self.imageActionIcon1 updateAppearance];
+    }
+
+  if ([self.imageActionIcon2 isKindOfClass: [DSAActionIconSell class]])
+    {
+      [self.imageActionIcon2 updateAppearance];
+    }
+  else
+    {                     
+      DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"sell" andSize:@"128x128"];
+      [self replaceView:self.imageActionIcon2 withView:newIcon];
+      self.imageActionIcon2 = newIcon;
+      [self.imageActionIcon2 updateAppearance];
+    }
+  self.imageActionIcon3 = [self clearActionIcon:self.imageActionIcon3];
+  self.imageActionIcon4 = [self clearActionIcon:self.imageActionIcon4];
+  self.imageActionIcon5 = [self clearActionIcon:self.imageActionIcon5];
+  if ([self.imageActionIcon6 isKindOfClass: [DSAActionIconSwitchActiveGroup class]])
+    {
+      [self.imageActionIcon6 updateAppearance];
+    }
+  else
+    {            
+      DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"switchActiveGroup" andSize:@"128x128"];
+      [self replaceView:self.imageActionIcon6 withView:newIcon];
+      self.imageActionIcon6 = newIcon;
+      [self.imageActionIcon6 updateAppearance];
+    }
+  self.imageActionIcon7 = [self clearActionIcon:self.imageActionIcon7];
+  if ([self.imageActionIcon8 isKindOfClass: [DSAActionIconLeave class]])
+    {
+      [self.imageActionIcon8 updateAppearance];
+    }
+  else
+    {                     
+      DSAActionIcon *newIcon = [DSAActionIcon iconWithAction:@"leave" andSize:@"128x128"];
+      [self replaceView:self.imageActionIcon8 withView:newIcon];
+      self.imageActionIcon8 = newIcon;  
+      [self.imageActionIcon8 updateAppearance];                           
+    }
 }
 
-- (void) handleTravelResting
+- (void) handleTravelDidBegin: (NSNotification *)notification
+{
+  NSLog(@"DSAAdventureWindowController handleTravelDidBegin called");
+  [self updateMainImageView: notification];
+  [self setupActionIcons: notification];
+}
+
+- (void) handleTravelResting: (NSNotification *)notification
 {
   NSLog(@"DSAAdventureWindowController handleTravelResting called");
-  [self updateMainImageView: nil];
-  [self setupActionIcons: nil];
+  [self updateMainImageView: notification];
+  [self setupActionIcons: notification];
 }
 
 - (void) updateActionIcons: (NSNotification *)notification
 {
     NSLog(@"DSAAdventureWindowController updateActionIcons called!!!!");
-    NSDictionary *userInfo = notification.userInfo;
-    DSAPosition *position = userInfo[@"position"];
-    [self setupActionIcons: position];
+    [self setupActionIcons: notification];
     
-    [self updateMainImageView: position];
+    [self updateMainImageView: notification];
 }
 
 - (void)replaceView:(NSView *)oldView withView:(NSView *)newView {
@@ -876,20 +951,26 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     [self updateActionIcons: nil];
 }
 
-- (void)updateMainImageView: (DSAPosition *)position
+- (void)updateMainImageView: (NSNotification *)notification
 {
     BOOL showBuildingDialog = NO;
     BOOL showRouteDialog = NO;
-    DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
-    DSAAdventure *adventure = adventureDoc.model;
-    DSAAdventureGroup *activeGroup = adventureDoc.model.activeGroup;    
+
     DSAPosition *currentPosition;
-    if (position)
+    NSDictionary *userInfo;
+    DSAAdventure *adventure;
+    DSAAdventureGroup *activeGroup;
+    if (notification)
       {
-        currentPosition = position;
+        userInfo = notification.userInfo;
+        adventure = userInfo[@"adventure"];
+        activeGroup = adventure.activeGroup;
+        currentPosition = activeGroup.position;
       }
     else
       {
+        adventure = [DSAAdventureManager sharedManager].currentAdventure;
+        activeGroup = adventure.activeGroup;
         currentPosition = activeGroup.position;
       }
     DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: currentPosition.localLocationName ofType:@"local"];
@@ -912,6 +993,36 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
           {
             selectedKey = @"Lagerfeuer";
           }
+        else if ([currentPosition.context isEqualToString: DSAActionContextEncounter])
+          {
+            DSAEncounterType encounterType = [userInfo[@"encounterType"] integerValue];
+            switch (encounterType) {
+              case DSAEncounterTypeMerchant: {
+                NSString *merchantType = userInfo[@"subType"];
+                if ([merchantType isEqualToString: @"Krämer"])
+                  {
+                    selectedKey = @"Fahrender_Kraemer";
+                  }
+                else if ([merchantType isEqualToString: @"Kräuterhändler"])
+                  {
+                    selectedKey = @"Fahrender_Kraeuterhaendler";
+                  }
+                else if ([merchantType isEqualToString: @"Waffenhändler"])
+                  {
+                    selectedKey = @"Fahrender_Waffenhaendler";
+                  }
+                else
+                  {
+                    NSLog(@"DSAAdventureWindowController updateMainImageView unexpected merchantType: %@, aborting", merchantType);
+                    abort();
+                  }
+                break;
+              }
+              default:
+                NSLog(@"DSAAdventureWindowController updateMainImageView unhandled encounterType: %@, aborting", @(encounterType));
+                abort();
+            }
+          }          
         else
           {
             NSLog(@"DSAAdventure updateMainImageView: unknown global position context: %@, aborting", currentPosition.context);
@@ -1281,22 +1392,22 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 @end
 
 @implementation DSAAdventureWindowController (Encounter)
-- (void)onEncounterTriggered:(NSNotification *)note
+- (void)onEncounterTriggered:(NSNotification *)notification
 {
-    DSAEncounterType type = [note.userInfo[@"encounterType"] integerValue];
-    NSString *subType = note.userInfo[@"subType"];
+    DSAEncounterType type = [notification.userInfo[@"encounterType"] integerValue];
 
     switch (type) {
         case DSAEncounterTypeMerchant:
-            [self presentMerchantEncounterOfType: subType];
+              [self updateMainImageView: notification];
+              [self setupActionIcons: notification];
             break;
 
         default:
-            [self presentGenericEncounter:note];
+            [self presentGenericEncounter: notification];
             break;
     }
 }
-
+/*
 - (void)presentMerchantEncounterOfType:(NSString *)merchantType
 {
     NSLog(@"🧺 Merchant Encounter: %@", merchantType);
@@ -1454,23 +1565,6 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     };
     [self.window beginSheet: conversationSelector.window completionHandler:nil];    
   
-/*    
-    // Erstmal einfach nur „Einkauf/Verkauf abgeschlossen“ anzeigen:
-    DSAConversationController *textSheet =
-        [[DSAConversationController alloc] initWithWindowNibName:@"DSAConversationTextOnly"];
-    [textSheet window];
-    textSheet.fieldText.stringValue =
-        (mode == DSAShopModeBuy)
-            ? @"Ihr habt eure Einkäufe abgeschlossen. Gute Reise!"
-            : @"Ihr habt erfolgreich verkauft. Gute Reise!";
-
-    __weak typeof(self) weakSelf = self;
-    textSheet.completionHandler = ^(BOOL ok) {
-        [weakSelf continueTravel];
-    };
-
-    [self.window beginSheet:textSheet.window completionHandler:nil];
-*/
 }
 
 - (void)presentShopForMerchantType:(NSString *)merchantType mode:(DSAShopMode)mode
@@ -1517,7 +1611,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     };
     [self.window beginSheet:farewell.window completionHandler:nil];
 }
-
+*/
 - (void)presentGenericEncounter:(NSNotification *)note
 {
   NSLog(@"DSAAdventureWindowController presentGenericEncounter, not doing anything, but continue travel");

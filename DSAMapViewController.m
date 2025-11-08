@@ -27,6 +27,7 @@
 #import "DSALocations.h"
 #import "DSAMapCoordinate.h"
 #import "DSAAdventure.h"
+#import "DSARegion.h"
 
 @implementation DSAMapViewController 
 
@@ -253,6 +254,11 @@
 }
 
 - (void)loadRegions {
+
+    NSArray<NSDictionary *> *features = [[DSARegionManager sharedManager] allFeatures];
+    self.regions = features;
+
+/*
     NSString *path = [[NSBundle mainBundle] pathForResource:@"Regionen" ofType:@"geojson"];
     if (!path) {
         NSLog(@"Regionen.geojson not found!");
@@ -269,6 +275,8 @@
     }
     
     self.regions = geojson[@"features"]; // Save features for later drawing
+*/    
+    NSLog(@"THE FIRST REGION: %@", self.regions);
     [self.mapImageView setNeedsDisplay:YES]; // Redraw the map
 }
 

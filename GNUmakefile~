@@ -6229,6 +6229,42 @@ Resources/Swafnir_Tempel_1-32x32.webp \
 Resources/Swafnir_Tempel_1-512x512.webp \
 Resources/Swafnir_Tempel_1-64x64.webp \
 Resources/Swafnir_Tempel_1.webp \
+Resources/Fahrender_Kraemer_1-128x128.webp \
+Resources/Fahrender_Kraemer_1-256x256.webp \
+Resources/Fahrender_Kraemer_1-32x32.webp \
+Resources/Fahrender_Kraemer_1-512x512.webp \
+Resources/Fahrender_Kraemer_1-64x64.webp \
+Resources/Fahrender_Kraemer_1.webp \
+Resources/Fahrender_Kraemer_2-128x128.webp \
+Resources/Fahrender_Kraemer_2-256x256.webp \
+Resources/Fahrender_Kraemer_2-32x32.webp \
+Resources/Fahrender_Kraemer_2-512x512.webp \
+Resources/Fahrender_Kraemer_2-64x64.webp \
+Resources/Fahrender_Kraemer_2.webp \
+Resources/Fahrender_Kraeuterhaendler_1-128x128.webp \
+Resources/Fahrender_Kraeuterhaendler_1-256x256.webp \
+Resources/Fahrender_Kraeuterhaendler_1-32x32.webp \
+Resources/Fahrender_Kraeuterhaendler_1-512x512.webp \
+Resources/Fahrender_Kraeuterhaendler_1-64x64.webp \
+Resources/Fahrender_Kraeuterhaendler_1.webp \
+Resources/Fahrender_Kraeuterhaendler_2-128x128.webp \
+Resources/Fahrender_Kraeuterhaendler_2-256x256.webp \
+Resources/Fahrender_Kraeuterhaendler_2-32x32.webp \
+Resources/Fahrender_Kraeuterhaendler_2-512x512.webp \
+Resources/Fahrender_Kraeuterhaendler_2-64x64.webp \
+Resources/Fahrender_Kraeuterhaendler_2.webp \
+Resources/Fahrender_Waffenhaendler_1-128x128.webp \
+Resources/Fahrender_Waffenhaendler_1-256x256.webp \
+Resources/Fahrender_Waffenhaendler_1-32x32.webp \
+Resources/Fahrender_Waffenhaendler_1-512x512.webp \
+Resources/Fahrender_Waffenhaendler_1-64x64.webp \
+Resources/Fahrender_Waffenhaendler_1.webp \
+Resources/Fahrender_Waffenhaendler_2-128x128.webp \
+Resources/Fahrender_Waffenhaendler_2-256x256.webp \
+Resources/Fahrender_Waffenhaendler_2-32x32.webp \
+Resources/Fahrender_Waffenhaendler_2-512x512.webp \
+Resources/Fahrender_Waffenhaendler_2-64x64.webp \
+Resources/Fahrender_Waffenhaendler_2.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \
@@ -6387,7 +6423,8 @@ DSAPlant.h \
 DSAGuardSelectionViewController.h \
 DSAHuntOrHerbsViewController.h \
 DSAAdventureMainImageView.h \
-DSAEncounterManager.h
+DSAEncounterManager.h \
+DSARegion.h
 
 #
 # Objective-C Class files
@@ -6497,7 +6534,8 @@ DSAGuardSelectionViewController.m \
 DSAHuntOrHerbsViewController.m \
 DSAAdventureMainImageView.m \
 DSADefinitions.m \
-DSAEncounterManager.m
+DSAEncounterManager.m \
+DSARegion.m
 
 #
 # Other sources

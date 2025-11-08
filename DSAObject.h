@@ -359,6 +359,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)sharedManager;
 
 - (NSDictionary *)getDSAObjectInfoByName:(NSString *)name;
+- (NSArray<DSAObject *> *)getAllDSAObjectsForCategory: (NSString *)category;
 - (NSArray<DSAObject *> *)getAllDSAObjectsForShop:(NSString *)shopType;
 
 - (DSASlotType)slotTypeFromString:(NSString *)slotTypeString;

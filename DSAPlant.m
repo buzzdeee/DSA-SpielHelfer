@@ -35,6 +35,8 @@
         self.price = [dict[@"Preis"] floatValue];
         self.weight = [dict[@"Gewicht"] floatValue];
         self.icon = dict[@"Icon"] ? [dict[@"Icon"] objectAtIndex: arc4random_uniform([dict[@"Icon"] count])]: nil;
+        self.regions = dict[@"Regionen"];
+        self.harvest = dict[@"Ernte"];
     }
     return self;
 }
@@ -48,6 +50,7 @@
 
     [coder encodeInteger:self.recognition forKey:@"recognition"];
     [coder encodeObject:self.shelfLife forKey:@"shelfLife"];
+    [coder encodeObject:self.harvest forKey:@"harvest"];
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -55,6 +58,7 @@
     if (self) {
         _recognition = [coder decodeIntegerForKey:@"recognition"];
         _shelfLife = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"shelfLife"];
+        _harvest = [coder decodeObjectOfClass:[NSDictionary class] forKey:@"harvest"];
     }
     return self;
 }

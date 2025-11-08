@@ -82,6 +82,10 @@ extern NSString * const DSAAdventureTravelDidEndNotification;
 @property (nonatomic, assign, getter=isTraveling) BOOL traveling;
 @property (nonatomic, assign) CGFloat travelProgress;
 
+// encounter related properties
+@property (nonatomic, assign) BOOL inEncounter;
+@property (nonatomic, strong) NSDictionary *encounterInfo;
+
 @property (strong) NSMutableDictionary<NSString *, NSString *> *characterFilePaths;
 
 - (DSAAdventureGroup *)activeGroup;
