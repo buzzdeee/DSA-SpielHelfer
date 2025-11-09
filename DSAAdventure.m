@@ -932,6 +932,45 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     return 1.0;
 }
 
+- (NSPoint)currentWorldPointAlongRoute
+{
+    if (!self.routeResult || self.currentSegmentIndex >= self.routeResult.segments.count) {
+        DSALocation *loc = self.currentDestinationLocation ?: self.currentStartLocation;
+        return NSMakePoint(loc.mapCoordinate.x, loc.mapCoordinate.y);
+    }
+
+    DSARouteSegment *seg = self.routeResult.segments[self.currentSegmentIndex];
+    NSArray<NSValue *> *points = seg.points;
+    if (points.count < 2) {
+        return [points.firstObject pointValue];
+    }
+
+    // Fortschritt innerhalb des Segments in Meilen
+    CGFloat remaining = self.segmentMilesDone;
+    
+    // Gesamtdistanz entlang der Punkte aufaddieren
+    for (NSInteger i = 1; i < points.count; i++) {
+        NSPoint p1 = [points[i - 1] pointValue];
+        NSPoint p2 = [points[i] pointValue];
+
+        double dx = p2.x - p1.x;
+        double dy = p2.y - p1.y;
+        double dist = sqrt(dx * dx + dy * dy);
+
+        if (remaining <= dist) {
+            double t = dist > 0 ? (remaining / dist) : 0;
+            double lon = p1.x + (p2.x - p1.x) * t;
+            double lat = p1.y + (p2.y - p1.y) * t;
+            return NSMakePoint(lon, lat);
+        }
+
+        remaining -= dist;
+    }
+
+    // Falls über das Segment hinaus → letzter Punkt
+    return [[points lastObject] pointValue];
+}
+
 @end
 
 @implementation DSAAdventureManager

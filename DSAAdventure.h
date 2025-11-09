@@ -119,6 +119,10 @@ extern NSString * const DSAAdventureTravelDidEndNotification;
 - (void)continueTravel;
 //- (void)updateTravelProgress:(CGFloat)progress;
 - (void)endTravel;
+
+// current X/Y on Aventurien map
+- (NSPoint)currentWorldPointAlongRoute;
+
 @end
 
 @interface DSAAdventureManager : NSObject

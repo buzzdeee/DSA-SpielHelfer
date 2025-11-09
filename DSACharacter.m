@@ -3489,9 +3489,10 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
     
     // 2️⃣ Aktuelle Region
-    DSAPosition *currentPosition = adventure.position;
-    DSARegion *currentRegion = [[DSARegionManager sharedManager] regionForX:currentPosition.mapCoordinate.x
-                                                                         Y:currentPosition.mapCoordinate.y];
+    NSPoint currentWorldPoint = [adventure currentWorldPointAlongRoute];
+    DSARegion *currentRegion = [[DSARegionManager sharedManager] regionForX: currentWorldPoint.x
+                                                                         Y: currentWorldPoint.y];
+    NSLog(@"DSACharacter collectHerbsForHours: searching at X: %@ and Y: %@ in Region: %@", @(currentWorldPoint.x), @(currentWorldPoint.y), currentRegion.name);                                                                         
     if (!currentRegion) {
         result.result = DSAActionResultFailure;
         result.resultDescription = @"Keine gültige Region gefunden!";
@@ -3514,13 +3515,14 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     
     for (DSAPlant *plant in allPlants) {
         // Region prüfen
+        NSLog(@"Checking if plant %@ is eligible", plant.name);
         if (![plant.regions containsObject:currentRegion.name]) continue;
         
         // Erntezeit prüfen
         NSArray *harvestMonths = plant.harvest[@"wann"];
         BOOL canHarvest = [harvestMonths containsObject:@"ganzjährig"] || [harvestMonths containsObject:currentMonth];
         if (!canHarvest) continue;
-        
+        NSLog(@"can harvest plant %@", plant.name);
         // Optional: Häufigkeit prüfen (gelegentlich/selten/sehr selten)
         // Wenn plant.verbreitungsraum existiert, könnte man hier die Wahrscheinlichkeit erhöhen
         // Beispiel: plant.verbreitungsraum[@"selten"] enthält Biome, in denen die Pflanze selten vorkommt
@@ -3536,7 +3538,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         result.actionDuration = hours;
         return result;
     }
-    
+/*    
     // Gesammelte Pflanzen
     NSMutableArray<id<DSAExecutableDescriptor>> *collectedPlants = [NSMutableArray array];
     
@@ -3577,6 +3579,70 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     result.actionDuration = hours;
     result.followUps = collectedPlants; 
     
+*/    
+
+    // Für jede Stunde Pflanzensuche
+    NSMutableDictionary<NSString *, NSNumber *> *foundPlants = [NSMutableDictionary dictionary];
+
+    for (NSInteger h = 0; h < hours; h++) {
+        for (DSAPlant *plant in availablePlants) {
+            NSLog(@"searching for plant %@", plant.name);
+            NSInteger penalty = 20 - plant.recognition; // hohe Bekanntheit = leichter
+            // each hour, increase penalty
+            DSAActionResult *talentResult = [self useTalent:@"Pflanzenkunde" withPenalty:penalty + h];
+
+            NSInteger numberToCollect = 0;
+            switch (talentResult.result) {
+                case DSAActionResultEpicSuccess:
+                    numberToCollect = 3;
+                    break;
+                case DSAActionResultAutoSuccess:
+                    numberToCollect = 2;
+                    break;
+                 case DSAActionResultSuccess:
+                    numberToCollect = 1;
+                    break;
+                 default:
+                    numberToCollect = 0;
+                    break;
+            }
+
+            if (numberToCollect > 0) {
+                 NSNumber *currentCount = foundPlants[plant.name];
+                 NSInteger updatedCount = (currentCount ? currentCount.integerValue : 0) + numberToCollect;
+                 foundPlants[plant.name] = @(updatedCount);
+            }
+        }
+    }
+
+    // Jetzt followUps erzeugen
+    NSMutableArray<DSAActionDescriptor *> *collectedPlants = [NSMutableArray array];
+    NSMutableString *desc = [NSMutableString stringWithFormat:@"%@ konnte folgende Pflanzen finden:\n", self.name];
+
+    for (NSString *plantName in foundPlants) {
+        NSInteger amount = [foundPlants[plantName] integerValue];
+
+        DSAActionDescriptor *gainItem = [DSAActionDescriptor new];
+        gainItem.type = DSAActionTypeGainItem;
+        gainItem.parameters = @{@"amount": @(amount),
+                                @"type": plantName};
+        gainItem.order = 0;
+        [collectedPlants addObject:gainItem];
+
+        [desc appendFormat:@"• %ld × %@\n", (long)amount, plantName];
+    }
+
+    // Ergebnis aufbauen
+    if (collectedPlants.count > 0) {
+        result.result = DSAActionResultSuccess;
+        result.resultDescription = desc;
+        result.followUps = collectedPlants;
+    } else {
+        result.result = DSAActionResultFailure;
+        result.resultDescription = [NSString stringWithFormat:@"%@ konnte keine Pflanzen finden.", self.name];
+    }
+    result.actionDuration = hours;
+
     return result;
 }
 @end

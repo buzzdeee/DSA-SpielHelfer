@@ -88,7 +88,17 @@
     [details appendFormat:_(@"Kategorie: %@ / %@ / %@\n"), item.category, item.subCategory, item.subSubCategory ?: @"-"];
     [details appendFormat:_(@"Gewicht: %.2f\n"), item.weight];
     [details appendFormat:_(@"Preis: %.2f\n"), item.price];
-    [details appendFormat:_(@"Handelsregionen: %@\n"), item.regions ? [item.regions componentsJoinedByString:@", "] : _(@"alle")];
+    NSString *regionDescriptor;
+    if ([item.category isEqualToString: _(@"Pflanzen")])
+      {
+         regionDescriptor = @"Vorkommen";
+      }
+    else
+      {
+         regionDescriptor = @"Handelsregionen";
+      }
+    [details appendFormat:_(@"%@: %@\n"), regionDescriptor, 
+                                          item.regions ? [item.regions componentsJoinedByString:@", "] : _(@"alle")];      
     if ([item isMagic] == DSAObjectStateIsMagicKnown)
       {
         [details appendFormat:_(@"ist Magisch: %@\n"), _(@"Ja")];

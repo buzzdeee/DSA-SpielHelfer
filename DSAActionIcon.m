@@ -2817,7 +2817,7 @@ inventoryIdentifier: (NSString *)sourceInventory
 
     return YES;
 }
-
+/*
 - (void)handleEvent {
     NSLog(@"DSAActionIconCollectHerbs handleEvent called");
 
@@ -2858,4 +2858,71 @@ inventoryIdentifier: (NSString *)sourceInventory
     };
     [windowController.window beginSheet:selector.window completionHandler:nil];     
 }
+*/
+- (void)handleEvent {
+    NSLog(@"DSAActionIconCollectHerbs handleEvent called");
+
+    // Step 1: Zugriff auf das Model
+    DSAAdventureWindowController *windowController = self.window.windowController;
+    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
+        NSLog(@"DSAActionIconCollectHerbs handleEvent: Invalid window controller class");
+        return;
+    }
+            
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    
+    // Step 2: Auswahlfenster anzeigen
+    DSAHuntOrHerbsViewController *selector =
+        [[DSAHuntOrHerbsViewController alloc] initWithWindowNibName:@"DSAHuntOrHerbsView"];
+    selector.mode = DSAHuntOrHerbsViewModeHerbs;    
+    [selector window];  // .gorm laden
+    
+    __weak typeof(selector) weakSelector = selector;
+    selector.completionHandler = ^(BOOL result) {
+        typeof(weakSelector) selector = weakSelector;
+        if (!selector || !result) {
+            NSLog(@"DSAActionIconCollectHerbs: handleEvent Auswahl abgebrochen.");
+            return; // ✅ Abbruch
+        }
+
+        // Step 3: Auswahl auswerten
+        DSACharacter *character = (DSACharacter *)[[selector.popupCharacters selectedItem] representedObject];
+        NSInteger collectingHours = [selector.sliderHours integerValue];
+        NSLog(@"%@ sammelt für %ld Stunden Kräuter.", character.name, (long)collectingHours);
+
+        activeGroup.lastHerbsCollector = [character.modelID copy];
+
+        // Step 4: Sammelaktion durchführen
+        DSAActionResult *talentResult = [character collectHerbsForHours:collectingHours
+                                                           inAdventure:adventure];
+
+        // Step 5: Zeit vorrücken
+        [adventure.gameClock advanceTimeByHours:collectingHours sendNotification:YES];
+
+        // Step 6: Follow-Ups ausführen
+        DSAExecutionManager *executionManager = [[DSAExecutionManager alloc] init];
+        [executionManager processActionResult:talentResult];
+
+        // Step 7: Ergebnis anzeigen
+        DSAConversationController *conversationSelector =
+            [[DSAConversationController alloc] initWithWindowNibName:@"DSAConversationTextOnly"];
+        [conversationSelector window];  // .gorm laden
+        conversationSelector.fieldText.stringValue = talentResult.resultDescription ?: @"Keine Pflanzen gefunden.";
+        
+        NSLog(@"DSAActionIconCollectHerbs: Ergebnistext: %@", conversationSelector.fieldText.stringValue);
+
+        conversationSelector.completionHandler = ^(BOOL result) {
+            if (result) {
+                NSLog(@"DSAActionIconCollectHerbs: Sammelaktion abgeschlossen.");
+            }
+        };
+
+        [windowController.window beginSheet:conversationSelector.window completionHandler:nil];
+    };
+
+    // Step 8: Auswahl starten
+    [windowController.window beginSheet:selector.window completionHandler:nil];
+}
+
 @end

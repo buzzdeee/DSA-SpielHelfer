@@ -27,9 +27,13 @@
 @implementation DSAPlant
 - (instancetype)initWithName:(NSString *)name fromDictionary:(NSDictionary *)dict
 {
+    //NSLog(@"DSAPlant initWithName: %@ fromDictionary: %@", name, dict);
     self = [super init];
     if (self) {
         self.name = name;
+        self.category = dict[@"category"];
+        self.subCategory = dict[@"subCategory"];
+        self.subSubCategory = dict[@"subSubCategory"];        
         self.recognition = [dict[@"Bekanntheit"] integerValue];
         self.shelfLife = dict[@"Haltbarkeit"];
         self.price = [dict[@"Preis"] floatValue];
