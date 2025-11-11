@@ -39,6 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 @class DSAPosition;
 @class DSARouteResult;
 @class DSARouteSegment;
+@class DSAPlant;
 
 typedef NSString * DSAActionContext;
 /*
@@ -97,6 +98,8 @@ extern NSString * const DSAAdventureTravelDidEndNotification;
 - (DSAAventurianDate *) now;         // returns current adventure date
 - (DSAPosition *) position;          // returns position of active group
 - (NSString *) locationInfoForMainImageView;  // builds and returns the info string that can be shown in MainImageView UI
+// all plants that may (now) be available at current location
+- (NSArray<DSAPlant *> *)possiblePlantsForCurrentLocation;
 
 - (void)moveCharacter: (NSUUID *) characterUUID toGroup: (DSAAdventureGroup *) targetGroup;  // move from active group
 - (void)discoverCoordinate:(DSAMapCoordinate *)coord forLocation:(NSString *)location;

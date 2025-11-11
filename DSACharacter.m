@@ -3380,6 +3380,25 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
     }
 }
 
+- (NSInteger)addObjectToInventory:(DSAObject *)obj quantity:(NSInteger)count
+{
+    if (!obj || count <= 0) {
+        NSLog(@"DSACharacter addObjectToInventory: Ungültiges Objekt oder Menge (%@, %ld)", obj.name, (long)count);
+        return 0;
+    }
+
+    if (!self.inventory) {
+        NSLog(@"DSACharacter addObjectToInventory: Kein Inventar für %@ vorhanden!", self.name);
+        return 0;
+    }
+
+    NSInteger totalAdded = [self.inventory addObject:obj quantity:count];
+//    NSLog(@"DSACharacter %@ fügt %ld× %@ zum Inventar hinzu (gesamt jetzt: %ld).", 
+//          self.name, (long)count, obj.name, (long)totalAdded);
+
+    return totalAdded;
+}
+
 @end
 
 @implementation DSACharacter(Hunting) 
@@ -3487,7 +3506,7 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         result.actionDuration = 0;
         return result;
     }
-    
+/*    
     // 2️⃣ Aktuelle Region
     NSPoint currentWorldPoint = [adventure currentWorldPointAlongRoute];
     DSARegion *currentRegion = [[DSARegionManager sharedManager] regionForX: currentWorldPoint.x
@@ -3530,7 +3549,8 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
         
         [availablePlants addObject:plant];
     }
-    
+    */
+    NSArray <DSAPlant *> *availablePlants = [adventure possiblePlantsForCurrentLocation];
     // 5️⃣ Ergebnis zusammenstellen
     if (availablePlants.count == 0) {
         result.result = DSAActionResultFailure;

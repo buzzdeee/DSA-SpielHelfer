@@ -32,6 +32,9 @@
 #import "DSAMapCoordinate.h"
 #import "DSARoutePlanner.h"
 #import "Utils.h"
+#import "DSAPlant.h"
+#import "DSARegion.h"
+#import "DSAActionResult.h"
 
 static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultTalentsByContext(void)
 {
@@ -419,6 +422,23 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
              {
                retVal = [NSString stringWithFormat: @"%@ \"%@\" in %@", currentTile.type, [(DSALocalMapTileBuildingShop *)currentTile npc], currentLocation.name];
              }
+           // should always be last kind of Building...
+           else if ([currentTile isMemberOfClass: [DSALocalMapTileBuilding class]])
+             {
+               if ([(DSALocalMapTileBuildingShop *)currentTile npc])
+                 {
+                   retVal = [NSString stringWithFormat: @"%@ von \"%@\" in %@", 
+                                                        currentTile.type, 
+                                                        [(DSALocalMapTileBuildingShop *)currentTile npc], 
+                                                        currentLocation.name];
+                 }
+               else
+                 {
+                   retVal = [NSString stringWithFormat: @"%@ in %@", 
+                                                        currentTile.type, 
+                                                        currentLocation.name];
+                 }
+             }             
            else
              {
                NSLog(@"DSAAdventure locationInfoForMainImageView unhandled tile class: %@, aborting", [currentTile class]);
@@ -490,6 +510,50 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     }
 }
 
+- (NSArray<DSAPlant *> *)possiblePlantsForCurrentLocation
+{
+    NSMutableArray<DSAPlant *> *availablePlants = [NSMutableArray array];
+    
+    // 1️⃣ Aktuelle Position
+    NSPoint currentWorldPoint = [self currentWorldPointAlongRoute];
+    DSARegion *currentRegion = [[DSARegionManager sharedManager] regionForX: currentWorldPoint.x
+                                                                         Y: currentWorldPoint.y];
+    if (!currentRegion) {
+        NSLog(@"possiblePlantsForCurrentLocation: Keine gültige Region gefunden (X: %@, Y: %@)", @(currentWorldPoint.x), @(currentWorldPoint.y));
+        return @[];
+    }
+
+    // 2️⃣ Monat bestimmen
+    NSString *currentMonth = [self.gameClock.currentDate monthName];
+
+    // 3️⃣ Alle Pflanzen abrufen
+    NSArray<DSAObject *> *allObjects = [[DSAObjectManager sharedManager] getAllDSAObjectsForCategory:@"Pflanzen"];
+    NSMutableArray<DSAPlant *> *allPlants = [NSMutableArray array];
+    for (DSAObject *obj in allObjects) {
+        if ([obj isKindOfClass:[DSAPlant class]]) {
+            [allPlants addObject:(DSAPlant *)obj];
+        }
+    }
+
+    // 4️⃣ Filter nach Region und Monat
+    for (DSAPlant *plant in allPlants) {
+        // Prüfen, ob Pflanze in der aktuellen Region vorkommt
+        if (![plant.regions containsObject:currentRegion.name]) continue;
+
+        // Prüfen, ob sie aktuell geerntet werden kann
+        NSArray *harvestMonths = plant.harvest[@"wann"];
+        BOOL canHarvest = [harvestMonths containsObject:@"ganzjährig"] || [harvestMonths containsObject:currentMonth];
+        if (!canHarvest) continue;
+
+        [availablePlants addObject:plant];
+    }
+
+    NSLog(@"possiblePlantsForCurrentLocation: %lu mögliche Pflanzen gefunden in Region %@, Monat %@", 
+          (unsigned long)availablePlants.count, currentRegion.name, currentMonth);
+
+    return availablePlants;
+}
+
 @end
 
 
@@ -510,9 +574,10 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     [self.gameClock setTravelModeEnabled:NO];
     self.activeGroup.position.context = DSAActionContextEncounter;
 
-    NSString *subType; 
+    id subType; 
     switch (type) {
-      case DSAEncounterTypeMerchant: subType = [self randomMerchantType]; break;
+      case DSAEncounterTypeMerchant: subType = (NSString *)[self randomMerchantType]; break;
+      case DSAEncounterTypeHerbs: subType = (DSAActionResult *)[self findRandomHerb]; break;
       default: subType = @"";
     }
     
@@ -538,6 +603,77 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     NSUInteger idx = arc4random_uniform((uint32_t)types.count);
     return types[idx];
 }
+
+- (DSAActionResult *)findRandomHerb
+{
+    DSAActionResult *result = [DSAActionResult new];
+    
+    NSArray<DSAPlant *> *availablePlants = [self possiblePlantsForCurrentLocation];
+    if (availablePlants.count == 0) {
+        NSLog(@"DSAAdventure findRandomHerb: Keine Pflanzen in dieser Region verfügbar.");
+        result.result = DSAActionResultFailure;
+        result.resultDescription = @"Hier wächst keine verwertbare Pflanze.";
+        return result;
+    }
+
+    // 1️⃣ Zufällige Pflanze auswählen
+    NSUInteger idx = arc4random_uniform((uint32_t)availablePlants.count);
+    DSAPlant *plant = availablePlants[idx];
+    
+    // 2️⃣ Besten Charakter mit Pflanzenkunde finden
+    DSACharacter *character = [self.activeGroup characterWithBestTalentWithName:@"Pflanzenkunde" negate:NO];
+    if (!character) {
+        NSLog(@"DSAAdventure findRandomHerb: Kein Charakter mit Pflanzenkunde vorhanden.");
+        result.result = DSAActionResultFailure;
+        result.resultDescription = @"Niemand in der Gruppe kennt sich mit Pflanzen aus.";
+        return result;
+    }
+
+    // 3️⃣ Penalty berechnen (hohe Bekanntheit = leichter)
+    NSInteger penalty = 20 - plant.recognition;
+
+    // 4️⃣ Talentprobe ausführen
+    DSAActionResult *talentResult = [character useTalent:@"Pflanzenkunde" withPenalty:penalty];
+    NSLog(@"DSAAdventure findRandomHerb: %@ versucht, %@ zu finden (Penalty %ld) → Ergebnis: %ld", 
+          character.name, plant.name, (long)penalty, (long)talentResult.result);
+    
+    // 5️⃣ Erfolgsstufen auswerten
+    NSInteger numberFound = 0;
+    switch (talentResult.result) {
+        case DSAActionResultEpicSuccess:
+            numberFound = 3;
+            break;
+        case DSAActionResultAutoSuccess:
+            numberFound = 2;
+            break;
+        case DSAActionResultSuccess:
+            numberFound = 1;
+            break;
+        default:
+            result.result = DSAActionResultFailure;
+            result.resultDescription = [NSString stringWithFormat:@"%@ konnte keine Pflanzen entdecken.", character.name];
+            return result;
+    }
+
+    // 6️⃣ Pflanze ins Inventar legen
+    NSInteger actuallyAdded = [character addObjectToInventory:plant quantity:numberFound];
+    
+    // 7️⃣ DSAActionResult befüllen
+    if (actuallyAdded > 0) {
+        result.result = talentResult.result;
+        result.actionDuration = 60; // ggf. 1 Minute
+        result.resultDescription = [NSString stringWithFormat:@"%@ entdeckt am Wegesrand %ld× %@.",
+                                    character.name, (long)actuallyAdded, plant.name];
+        
+    } else {
+        result.result = DSAActionResultFailure;
+        result.resultDescription = [NSString stringWithFormat:@"%@ findet zwar %@, hat aber keinen Platz mehr im Inventar.",
+                                    character.name, plant.name];
+    }
+    
+    return result;
+}
+
 
 - (void)endEncounter
 {
@@ -720,7 +856,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
         case DSATravelEventWeatherShift:  name = @"Weather Shift"; break;
         case DSATravelEventRoadObstacle:  name = @"Road Obstacle"; break;
         case DSATravelEventScenery:       name = @"Scenic Moment"; break;
-        case DSATravelEventHerbs:         name = @"Herbs / Resources"; break;
+        case DSATravelEventHerbs:         name = @"Herbs / Resources"; encounterType = DSAEncounterTypeHerbs; break;
         case DSATravelEventLost:          name = @"Lost / Navigation"; break;
         default: break;
     }
@@ -733,7 +869,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     // XXXXXXX
     NSDictionary *info = @{
         @"adventure": self,
-        @"eventType": @(DSATravelEventMerchant),
+        @"eventType": @(DSATravelEventHerbs),
     };
     NSLog(@"DSAAdventure triggerTravelEvent : Travel Event: %@", name);
     [[NSNotificationCenter defaultCenter] postNotificationName: DSATravelEventTriggeredNotification
@@ -741,7 +877,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
                                                       userInfo:info];
     // XXXXXXX                                                      
     //[self triggerEncounterOfType: encounterType];  
-    [self triggerEncounterOfType: DSAEncounterTypeMerchant];                                                     
+    [self triggerEncounterOfType: DSAEncounterTypeHerbs];                                                     
 }
 
 #pragma mark - Travel Logic

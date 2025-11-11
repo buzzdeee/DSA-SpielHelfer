@@ -3216,7 +3216,7 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
                 {
                   [item setOwnerUUID: archetype.modelID];
                 }
-              [archetype.inventory addObject: item quantity: [[itemInfo objectForKey: @"Anzahl"] integerValue]];
+              [archetype addObjectToInventory: item quantity: [[itemInfo objectForKey: @"Anzahl"] integerValue]];
             }
         }
     }
@@ -3394,7 +3394,7 @@ NSLog(@"DSACharacterGenerationController addSharisadDancesToCharacter called");
         }
       
       NSLog(@"DSACharacterGenerationController: addEquipmentToCharacter THE ITEM NAME: %@", item.name);
-      [character.inventory addObject: item
+      [character addObjectToInventory: item
                             quantity: [[[equipmentDict objectForKey: equipment] objectForKey: @"Anzahl"] integerValue]];
     } 
   NSLog(@"THE INVENTORY: %@", character.inventory);

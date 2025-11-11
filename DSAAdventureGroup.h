@@ -79,6 +79,9 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 - (NSArray<DSACharacter *> *)charactersAbleToUseTalentsIncludingNPCs: (BOOL) includeNPCs;
 - (NSArray<DSACharacter *> *)charactersAbleToCastSpellsIncludingNPCs: (BOOL) includeNPCs;
 - (NSArray<DSACharacter *> *)charactersAbleToCastRitualsIncludingNPCs: (BOOL) includeNPCs;
+// finds the character with the best value talent value, or when negating with worst talent value
+- (DSACharacter *)characterWithBestTalentWithName: (NSString *)talentName 
+                                          negate: (BOOL)negate;
 
 - (void)applyMiracle:(DSAMiracleResult *)miracleResult;        // to all, or an individual of the group
 

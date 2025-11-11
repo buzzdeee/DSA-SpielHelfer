@@ -236,7 +236,7 @@
 
     // 2. Try bulk add first
     for (DSACharacter *character in members) {
-        NSInteger added = [character.inventory addObject:item quantity:remaining];
+        NSInteger added = [character addObjectToInventory:item quantity:remaining];
         NSLog(@"DSAAdventureGroup distributeItems: bulk adding %@ to Character: %@", item.name, character.name);
         if (added == remaining)
           {
@@ -255,7 +255,7 @@
         if (remaining <= 0) break;
         while (remaining > 0)
           {
-            NSInteger added = [character.inventory addObject:item quantity:1];
+            NSInteger added = [character addObjectToInventory:item quantity:1];
             NSLog(@"DSAAdventureGroup distributeItems: single adding %@ to Character: %@", item.name, character.name);
             if (added == 1)
               {
@@ -444,6 +444,40 @@
 
     return [filtered copy];
 }
+
+- (DSACharacter *)characterWithBestTalentWithName:(NSString *)talentName
+                                           negate:(BOOL)negate
+{
+    DSACharacter *bestCharacter = nil;
+    NSInteger bestValue = negate ? NSIntegerMax : NSIntegerMin;
+
+    for (DSACharacter *character in self.allCharacters) {
+        // Holt das Talent aus dem Dictionary
+        DSATalent *talent = character.currentTalents[talentName];
+        if (!talent) {
+            continue; // Character hat das Talent nicht
+        }
+
+        NSInteger level = talent.level;
+
+        if (negate) {
+            // Bei negate == YES suchen wir den SCHLECHTESTEN
+            if (level < bestValue) {
+                bestValue = level;
+                bestCharacter = character;
+            }
+        } else {
+            // Normal: besten Wert finden
+            if (level > bestValue) {
+                bestValue = level;
+                bestCharacter = character;
+            }
+        }
+    }
+
+    return bestCharacter;
+}
+
 
 - (void)applyMiracle:(DSAMiracleResult *)miracleResult {
     if ([miracleResult.target isEqualToString:@"group"]) {

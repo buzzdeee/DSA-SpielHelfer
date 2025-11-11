@@ -1401,217 +1401,58 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
               [self updateMainImageView: notification];
               [self setupActionIcons: notification];
             break;
+        case DSAEncounterTypeHerbs:
+              [self presentHerbsEncounter: notification];
 
         default:
             [self presentGenericEncounter: notification];
             break;
     }
 }
-/*
-- (void)presentMerchantEncounterOfType:(NSString *)merchantType
+
+- (void)presentHerbsEncounter:(NSNotification *)note
 {
-    NSLog(@"🧺 Merchant Encounter: %@", merchantType);
+    NSLog(@"DSAAdventureWindowController presentHerbsEncounter called");
+
+    NSDictionary *userInfo = note.userInfo;
+    DSAActionResult *herbResult = userInfo[@"subType"];
     
-    DSAActionChoiceQuestionController *choice =
-        [[DSAActionChoiceQuestionController alloc] initWithWindowNibName:@"DSAActionChoiceQuestionView"];
-    [choice window]; // nib laden
-
-    choice.fieldHeadline.stringValue = [NSString stringWithFormat:@"%@ am Wegesrand", merchantType];
-    choice.fieldQuestion.stringValue =
-        [NSString stringWithFormat:@"Ihr trefft einen %@. Wollt Ihr handeln?", merchantType];
-
-    choice.buttonCancel.title = @"Weiterreisen";
-    choice.buttonConfirm.title = @"Bestätigen";
-
-    NSDictionary *choices = @{
-        @"Kaufen"    : @"buy",
-        @"Verkaufen" : @"sell"
-    };
-
-    [choice.popupChoice removeAllItems];
-    for (NSString *title in choices.allKeys) {
-        [choice.popupChoice addItemWithTitle:title];
-        NSMenuItem *item = choice.popupChoice.itemArray.lastObject;
-        item.representedObject = choices[title];
+    if (![herbResult isKindOfClass:[DSAActionResult class]]) {
+        NSLog(@"DSAAdventureWindowController presentHerbsEncounter: subType is not a DSAActionResult, aborting");
+        abort();
     }
 
-    __weak typeof(self) weakSelf = self;
-    __weak typeof(choice) weakChoice = choice;
-    choice.completionHandler = ^(BOOL confirmed) {
-        if (!confirmed) {
-            // Abbrechen → weiterreisen
-            [weakSelf continueTravel];
-            return;
-        }
-
-        NSString *selected = weakChoice.popupChoice.selectedItem.representedObject;
-        if ([selected isEqualToString:@"buy"]) {
-            [weakSelf presentShopForMerchantType:merchantType mode:DSAShopModeBuy];
-        } else if ([selected isEqualToString:@"sell"]) {
-            [weakSelf presentShopForMerchantType:merchantType mode:DSAShopModeSell];
-        } else {
-            [weakSelf continueTravel];
-        }
-    };
-
-    [self.window beginSheet:choice.window completionHandler:nil];
-}
-
-- (void)handleShopCart:(DSAShoppingCart *)cart forMode:(DSAShopMode)mode
-{
-    NSLog(@"🛒 handleShopCart called for mode %ld, %lu items", (long)mode, (unsigned long)cart.cartContents.count);
-
-    if (!cart || cart.cartContents.count == 0) {
+    if (herbResult.result == DSAActionResultFailure ||
+        herbResult.result == DSAActionResultAutoFailure ||
+        herbResult.result == DSAActionResultEpicFailure)
+      {
         [self continueTravel];
         return;
-    }
-
-    // Falls du in Zukunft hier noch Verhandlungen, Preise etc. abwickelst.
+      }
     
-    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
-    DSAAdventureGroup *activeGroup = adventure.activeGroup;
-    DSAShopBargainController *bargainSelector =
-        [[DSAShopBargainController alloc] initWithWindowNibName:@"DSAShopBargain"];
-    bargainSelector.mode = mode;
-    bargainSelector.shoppingCart = cart;
-    bargainSelector.activeGroup = activeGroup;
-    __block float finalPercent = 0;
-    __block NSString *finalComment;
-    __block float finalPrice;
-    __block DSAActionResult *bargainResult;
-    bargainSelector.completionHandler = ^(BOOL result) {
-        finalPercent = [bargainSelector.fieldPercentValue.stringValue floatValue];
-        finalComment = bargainSelector.fieldBargainResult.stringValue;
-        bargainResult = bargainSelector.bargainResult;
-      if (result)
-        {
-          if (bargainSelector.mode == DSAShopModeBuy)
-            {
-              finalPrice = cart.totalSum - (cart.totalSum * finalPercent / 100);
-            }
-          else
-            {
-              finalPrice = cart.totalSum + (cart.totalSum * finalPercent / 100);            
-            }
-        }
-      else
-        {
-          finalPrice = cart.totalSum;
-        }
-    };
-    [self.window beginSheet:bargainSelector.window completionHandler:nil];
-    NSLog(@"DSAActionIconBuy handleEvent: final percent is %.2f, finalComment: %@", finalPercent, finalComment);
-        
-    if (bargainResult.result == DSAActionResultSuccess ||
-        bargainResult.result == DSAActionResultAutoSuccess ||
-        bargainResult.result == DSAActionResultEpicSuccess)
-      {
-        if (bargainSelector.mode == DSAShopModeBuy)
-          {
-            [activeGroup subtractSilber: finalPrice];
-            for (NSDictionary *cartItem in [cart.cartContents allValues])
-              {
-                [activeGroup distributeItems:[[cartItem objectForKey: @"items"] objectAtIndex: 0] count: [[cartItem objectForKey: @"items"] count]];
-              }          
-          }
-        else  
-          {
-            [activeGroup addSilber: finalPrice];
-            for (NSString *key in [cart.cartContents allKeys])
-              {        
-                NSArray<NSString *> *components = [key componentsSeparatedByString:@"|"];
-                NSInteger quantity = [[cart.cartContents[key] objectForKey: @"items"] count];
-                //NSString *itemName;
-                NSString *slotID;
-                if (components.count == 2) {
-                   //itemName = components[0];
-                   slotID = components[1];
-                } else {
-                   NSLog(@"DSAActionIconSell, handleEvent: invalid key: %@", key);
-                }
-                DSASlot *slot = [DSASlot slotWithSlotID: [[NSUUID alloc] initWithUUIDString:slotID]];
-                __unused NSInteger remainder = [slot removeObjectWithQuantity: quantity];
-                NSLog(@"DSAActionIconSell handleEvent going to enumerate model IDs");
-                for (NSUUID *modelID in [activeGroup allMembers])
-                  {
-                    NSLog(@"DSAActionIconSell handleEvent enumerating model with ID: %@", [modelID UUIDString]);
-                    DSACharacter *character = [DSACharacter characterWithModelID: modelID];
-                    if ([[DSAInventoryManager sharedManager] isSlotWithID: slotID inModel: character])
-                      {
-                        [[DSAInventoryManager sharedManager] postDSAInventoryChangedNotificationForSourceModel: character 
-                                                                                                   targetModel: character];
-                        break;
-                      }
-                  }    
-              }
-            finalComment = [NSString stringWithFormat: @"Finaler Preis: %.2f. %@", finalPrice, finalComment];
-          }
-      }          
-
-    NSLog(@"XXXXXXXXXXXXXXXXXXXX the final comment: %@", finalComment);  
-      
-    DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName: @"DSAConversationTextOnly"];
-    [conversationSelector window];  // trigger loading .gorm file
-    //conversationSelector.fieldText.stringValue = finalComment;
-    conversationSelector.fieldText.stringValue = finalComment;
-    //NSLog(@"DSAActionIcon, handleEvent: conversationSelector.fieldText.stringValue %@", conversationSelector.fieldText.stringValue);
-    __weak typeof(self) weakSelf = self;
-    conversationSelector.completionHandler = ^(BOOL result) {
-      if (result)
-        {
-           NSLog(@"DSAActionIcon, handleEvent: finally, shopping finished");
-        }
-      [weakSelf continueTravel];
-    };
-    [self.window beginSheet: conversationSelector.window completionHandler:nil];    
-  
-}
-
-- (void)presentShopForMerchantType:(NSString *)merchantType mode:(DSAShopMode)mode
-{
-    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
-    DSAAdventureGroup *activeGroup = adventure.activeGroup;
-
-    DSAShopViewController *shop =
-        [[DSAShopViewController alloc] initWithWindowNibName:@"DSAShopView"];
-    shop.mode = mode;
-    
-    switch (mode) {
-      case DSAShopModeSell: 
-        shop.allSlots = [activeGroup getAllDSASlotsForShop: merchantType];
-        break;
-      case DSAShopModeBuy:   
-        shop.maxSilber = [activeGroup totalWealthOfGroup];
-        shop.allItems = [[DSAObjectManager sharedManager] getAllDSAObjectsForShop:merchantType];
-        break;
-    }
-    
-    __weak typeof(self) weakSelf = self;
-    shop.completionHandler = ^(DSAShoppingCart *cart) {
-        if (!cart || cart.countAllObjects == 0) {
-            [weakSelf presentMerchantFarewell];
-            return;
-        }
-
-        // (Optional) Bargain etc. hier triggern – du hast den Code schon.
-        [weakSelf handleShopCart:cart forMode:mode];
-    };
-
-    [self.window beginSheet:shop.window completionHandler:nil];
-}
-
-- (void)presentMerchantFarewell
-{
-    DSAConversationController *farewell =
+    // 1️⃣ Sheet-Controller vorbereiten
+    NSWindowController *sheetController =
         [[DSAConversationController alloc] initWithWindowNibName:@"DSAConversationTextOnly"];
-    [farewell window];
-    farewell.fieldText.stringValue = @"Der Händler zieht seines Weges. Gute Reise!";
-    farewell.completionHandler = ^(BOOL done) {
+    
+    [sheetController window]; // .gorm Datei laden
+
+    DSAConversationController *conversation = (DSAConversationController *)sheetController;
+    conversation.fieldText.stringValue = herbResult.resultDescription;
+
+    // 2️⃣ Completion-Handler
+    __weak typeof(self) weakSelf = self;
+    conversation.completionHandler = ^(BOOL result) {
+        __strong typeof(weakSelf) self = weakSelf;
+        if (!self) return;
+
+        NSLog(@"DSAAdventureWindowController presentHerbsEncounter: Sheet geschlossen, continue travel");
         [self continueTravel];
     };
-    [self.window beginSheet:farewell.window completionHandler:nil];
+
+    // 3️⃣ Sheet starten
+    [self.window beginSheet:sheetController.window completionHandler:nil];
 }
-*/
+
 - (void)presentGenericEncounter:(NSNotification *)note
 {
   NSLog(@"DSAAdventureWindowController presentGenericEncounter, not doing anything, but continue travel");

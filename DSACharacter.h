@@ -288,6 +288,10 @@ NS_ASSUME_NONNULL_BEGIN
 // Returns all expired items in the character's inventory and container contents
 - (NSArray<DSAObject *> *)allExpiredItemsAtDate:(DSAAventurianDate *)date;
 
+// adds given object of count to the inventory, returns count of actually added object
+// which may be < than objects that were intended to be added, then inventory might have been full
+- (NSInteger)addObjectToInventory:(DSAObject *)obj quantity:(NSInteger)count;
+
 @end
 
 @interface DSACharacter(Hunting)
