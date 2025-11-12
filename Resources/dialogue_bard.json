@@ -1,0 +1,107 @@
+{
+  "npcName": "bard",
+  "startNodeID": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "npcTexts": [
+        "Ein Barde sitzt auf einem Stein und spielt eine leise Melodie.",
+        "\"Ah, Reisende! Wollt ihr ein Lied hören, um die Stimmung zu heben?\"",
+        "\"Kommt näher, Freunde – meine Laute kennt keine Vorurteile!\""
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Spiel uns etwas vor!",
+            "Wir würden gern ein Lied hören.",
+            "Hast du etwas Fröhliches?"
+          ],
+          "nextNodeID": "song"
+        },
+        {
+          "texts": [
+            "Kennst du Neuigkeiten aus der Gegend?",
+            "Was hast du auf deinen Reisen gehört?",
+            "Weißt du etwas, das uns interessieren könnte?"
+          ],
+          "nextNodeID": "rumors"
+        },
+        {
+          "texts": [
+            "Wir haben leider keine Zeit, weiter geht’s.",
+            "Gute Reise, Barde.",
+            "Vielleicht ein andermal."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "song": {
+      "id": "song",
+      "npcTexts": [
+        "Der Barde zupft seine Laute und singt ein Lied über Heldenmut und ferne Länder.",
+        "Seine Stimme trägt weit über die Felder, und für einen Moment scheint die Welt friedlich.",
+        "Ein altes Lied über Liebe, Verlust und den ewigen Wandel erklingt."
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Das war wunderschön!",
+            "Du hast Talent, mein Freund.",
+            "Ein großartiges Lied!"
+          ],
+          "nextNodeID": "gift"
+        },
+        {
+          "texts": [
+            "Naja, schon bessere Lieder gehört.",
+            "Das war… interessant.",
+            "Wir sollten weiter."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "gift": {
+      "id": "gift",
+      "npcTexts": [
+        "\"Danke! Hier, nehmt dieses kleine Amulett – es bringt Glück, heißt es.\"",
+        "\"Freut mich, dass es euch gefallen hat! Vielleicht kreuzen sich unsere Wege wieder.\""
+      ],
+      "playerOptions": [],
+      "hintCategory": "luck"
+    },
+
+    "rumors": {
+      "id": "rumors",
+      "npcTexts": [
+        "\"Ich hörte, im Norden sei eine alte Ruine entdeckt worden.\"",
+        "\"Ein Kaufmann erzählte mir von seltsamen Lichtern über dem Moor.\"",
+        "\"In der nächsten Stadt suchen sie angeblich fähige Abenteurer.\""
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Danke für die Geschichten.",
+            "Das klingt interessant!",
+            "Wir behalten das im Auge."
+          ],
+          "nextNodeID": "end"
+        }
+      ],
+      "hintCategory": "rumor"
+    },
+
+    "end": {
+      "id": "end",
+      "npcTexts": [
+        "\"Lebt wohl, Reisende! Möge euer Weg ein Lied wert sein.\"",
+        "\"Bis zum nächsten Lagerfeuer!\"",
+        "\"Auf Wiedersehen, Freunde des Klangs!\""
+      ],
+      "playerOptions": []
+    }
+  }
+}

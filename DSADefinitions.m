@@ -31,7 +31,7 @@ DSAActionContext const DSAActionContextMarket = @"Markt";
 DSAActionContext const DSAActionContextOnTheRoad = @"Unterwegs";
 DSAActionContext const DSAActionContextReception = @"Rezeption";
 DSAActionContext const DSAActionContextTravel = @"Reisen";
-DSAActionContext const DSAActionContextEncounter = @"Begegnung";
+DSAActionContext const DSAActionContextTravelEncounter = @"ReiseBegegnung";
 
 DSANotificationType const DSAAdventureTravelDidBeginNotification = @"DSAAdventureTravelDidBegin";
 DSANotificationType const DSAAdventureTravelDidProgressNotification = @"DSAAdventureTravelDidProgress";

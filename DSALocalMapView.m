@@ -376,9 +376,7 @@
 
 - (void)handleLocationUpdate:(NSNotification *) notification
 {
-  // id sender = notification.object; // not used here...
-  NSDictionary *userInfo = notification.userInfo;
-  DSAAdventure *adventure = userInfo[@"adventure"];
+  DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
   [self setGroupPosition: adventure.activeGroup.position];
   [self needsDisplay];
 }

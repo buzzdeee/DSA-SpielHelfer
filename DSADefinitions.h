@@ -447,7 +447,7 @@ extern DSAActionContext const DSAActionContextMarket;
 extern DSAActionContext const DSAActionContextOnTheRoad;
 extern DSAActionContext const DSAActionContextReception;
 extern DSAActionContext const DSAActionContextTravel;
-extern DSAActionContext const DSAActionContextEncounter;
+extern DSAActionContext const DSAActionContextTravelEncounter;
 
 typedef NSString * DSANotificationType;
 extern DSANotificationType const DSAAdventureTravelDidBeginNotification;

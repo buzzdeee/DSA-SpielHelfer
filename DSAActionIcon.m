@@ -910,6 +910,125 @@ inventoryIdentifier: (NSString *)sourceInventory
       }
     return NO;
 }
+
+- (void)handleEvent {
+    NSLog(@"💬 DSAActionIconChat handleEvent");
+
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    NSString *dialogNPC = [self determineNPCTypeForCurrentLocationWithAdventure:adventure];
+    if (!dialogNPC) return;
+
+    NSDictionary *info = @{
+        @"adventure": adventure,
+        @"encounterType": @(DSAEncounterTypeFriendlyNPC), // oder eigener Typ DSAEncounterTypeChat
+        @"subType": dialogNPC
+    };
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:DSAEncounterTriggeredNotification
+                                                        object:self
+                                                      userInfo:info];
+}
+
+- (NSString *)determineNPCTypeForCurrentLocationWithAdventure: (DSAAdventure *) adventure
+{
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+
+    DSALocation *location = [[DSALocations sharedInstance] locationWithName:currentPosition.localLocationName ofType:@"local"];
+    NSString *dialogNPC = nil;
+    if (![location isKindOfClass:[DSALocalMapLocation class]] && 
+        adventure.inEncounter)
+      {
+        NSDictionary *encounterInfo = adventure.encounterInfo;
+        DSAEncounterType encounterType = [encounterInfo[@"encounterType"] integerValue];
+        switch (encounterType) {
+          case DSAEncounterTypeMerchant: {
+            NSString *shopType = encounterInfo[@"subType"];
+            if ([shopType isEqualToString:@"Krämer"])
+              {
+                dialogNPC = @"shopkeeper_general";
+              }
+            else if ([shopType isEqualToString:@"Waffenhändler"])
+              {
+                dialogNPC = @"shopkeeper_weapon";
+              }
+            else if ([shopType isEqualToString:@"Kräuterhändler"])
+              {
+                dialogNPC = @"shopkeeper_herbs";
+              }
+            else
+              {
+                NSLog(@"DSAActionIconChat determineNPCTypeForCurrentLocationWithAdventure unknown shop Type: %@, aborting", shopType);
+                abort();
+              }
+            break;
+          }
+          default:
+            NSLog(@"DSAActionIconChat determineNPCTypeForCurrentLocationWithAdventure unhandled encounter type: %@, aborting", @(encounterType));
+            abort();
+        }
+      }
+    else
+      {
+        DSALocalMapTile *tile = [(DSALocalMapLocation *)location tileAtCoordinate:currentPosition.mapCoordinate];
+ 
+        if ([tile isKindOfClass:[DSALocalMapTileBuildingInn class]]) {
+          if ([tile.type isEqualToString: DSALocalMapTileBuildingInnTypeHerberge])
+            {
+              dialogNPC = @"innkeeper";
+            }
+          else if ([tile.type isEqualToString: DSALocalMapTileBuildingInnTypeTaverne])
+            {
+              dialogNPC = @"tavern";
+            }
+          else  // DSALocalMapTileBuildingInnTypeHerbergeMitTaverne
+            {
+              if ([currentPosition.context isEqualToString: DSAActionContextReception])
+                {
+                  dialogNPC = @"innkeeper";
+                }
+              else if ([currentPosition.context isEqualToString: DSAActionContextTavern])
+                {
+                  dialogNPC = @"tavern";
+                }
+            }
+        } else if ([tile isKindOfClass:[DSALocalMapTileBuildingShop class]]) {
+            if ([tile.type isEqualToString:@"Krämer"])
+              {
+                dialogNPC = @"shopkeeper_general";
+              }
+            else if ([tile.type isEqualToString:@"Waffenhändler"])
+              {
+                dialogNPC = @"shopkeeper_weapon";
+              }
+            else if ([tile.type isEqualToString:@"Kräuterhändler"])
+              {
+                dialogNPC = @"shopkeeper_herbs";
+              }
+            else
+              {
+                NSLog(@"DSAActionIconChat determineNPCTypeForCurrentLocationWithAdventure unknown shop Type: %@, aborting", tile.type);
+                abort();
+              }
+        } else if ([tile isKindOfClass:[DSALocalMapTileBuildingSmith class]]) {
+            dialogNPC = @"blacksmith";
+        } else if ([tile isKindOfClass:[DSALocalMapTileBuildingHealer class]]) {
+            dialogNPC = @"healer";
+        } else if ([tile isKindOfClass:[DSALocalMapTileBuildingTemple class]]) {
+            dialogNPC = @"temple_priest";
+        } else {
+          NSLog(@"DSAActionIconChat determineNPCTypeForCurrentLocationWithAdventure: unknown tile, don't know what type of dialogue to use, aborting");
+          abort();
+        }
+      }
+    if (!dialogNPC) {
+        NSLog(@"DSAActionIconChat determineNPCTypeForCurrentLocationWithAdventure: no NPC around to talk to?");
+        return nil;
+    }
+    return dialogNPC;
+}
+
+/*
 - (void)handleEvent {
     NSLog(@"DSAActionIconChat handleEvent called");
 
@@ -1031,7 +1150,7 @@ inventoryIdentifier: (NSString *)sourceInventory
         NSLog(@"Dialog sheet closed");
     }];
 }
-
+*/
 @end
 @implementation DSAActionIconPray
 - (instancetype)initWithImageSize: (NSString *)size
@@ -2817,48 +2936,7 @@ inventoryIdentifier: (NSString *)sourceInventory
 
     return YES;
 }
-/*
-- (void)handleEvent {
-    NSLog(@"DSAActionIconCollectHerbs handleEvent called");
 
-    // Step 1: Zugriff auf das Model
-    DSAAdventureWindowController *windowController = self.window.windowController;
-    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) {
-        NSLog(@"DSAActionIconCollectHerbs handleEvent: Invalid window controller class");
-        return;
-    }
-            
-    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
-    DSAAdventureGroup *activeGroup = adventure.activeGroup;
-    
-    DSAHuntOrHerbsViewController *selector =
-        [[DSAHuntOrHerbsViewController alloc] initWithWindowNibName:@"DSAHuntOrHerbsView"];
-    selector.mode = DSAHuntOrHerbsViewModeHerbs;    
-    [selector window];  // .gorm laden
-    
-    __block DSAActionResult *talentResult;
-    __weak typeof(selector) weakSelector = selector;
-    selector.completionHandler = ^(BOOL result) {
-        typeof(weakSelector) selector = weakSelector;
-        if (!selector || !result) {
-            NSLog(@"DSAActionIconCollectHerbs: handleEvent Auswahl abgebrochen.");
-            return; // ✅ Kein weiterer Code wird mehr ausgeführt.
-        }        
-        DSACharacter *character = (DSACharacter *)[[selector.popupCharacters selectedItem] representedObject];
-        NSLog(@"DSAActionIconCollectHerbs sheet completion handler called.... ");
-
-        NSInteger collectingHours = [selector.sliderHours integerValue];
-
-        activeGroup.lastHerbsCollector = [character.modelID copy];
-        talentResult = [character collectHerbsForHours: collectingHours
-                                           inAdventure: adventure];
-
-        [adventure.gameClock advanceTimeByHours: collectingHours sendNotification: YES];
-
-    };
-    [windowController.window beginSheet:selector.window completionHandler:nil];     
-}
-*/
 - (void)handleEvent {
     NSLog(@"DSAActionIconCollectHerbs handleEvent called");
 

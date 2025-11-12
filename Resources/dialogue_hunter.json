@@ -1,0 +1,90 @@
+{
+  "npcName": "hunter",
+  "startNodeID": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "npcTexts": [
+        "Ein wettergegerbter Jäger tritt aus dem Wald.",
+        "\"Grüß euch, Reisende. Fremde sind hier selten.\"",
+        "\"Ich bin auf der Pirsch – und ihr?\""
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Grüß dich, wir ziehen nur vorbei.",
+            "Nur auf der Durchreise.",
+            "Wir wollten nur Hallo sagen."
+          ],
+          "nextNodeID": "end"
+        },
+        {
+          "texts": [
+            "Hast du etwas Ungewöhnliches gesehen?",
+            "Gibt es hier Gefahren?",
+            "Worauf sollten wir achten?"
+          ],
+          "nextNodeID": "warn"
+        },
+        {
+          "texts": [
+            "Kannst du uns den Weg zur nächsten Stadt zeigen?",
+            "Wie weit ist es bis zum nächsten Dorf?",
+            "Kennst du den Weg zum Gasthaus?"
+          ],
+          "nextNodeID": "directions"
+        }
+      ]
+    },
+
+    "warn": {
+      "id": "warn",
+      "npcTexts": [
+        "\"Ich sah Spuren – Wölfe oder Räuber, schwer zu sagen.\"",
+        "\"Ein Sturm zieht auf. Bleibt heute besser im Schutz der Bäume.\"",
+        "\"Im Westen treiben sich Wildschweine herum, haltet Abstand.\""
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Danke für die Warnung.",
+            "Gut zu wissen!",
+            "Wir bleiben vorsichtig."
+          ],
+          "nextNodeID": "end"
+        }
+      ],
+      "hintCategory": "danger"
+    },
+
+    "directions": {
+      "id": "directions",
+      "npcTexts": [
+        "\"Folgt dem Pfad nach Osten, bis ihr den alten Stein seht – dann rechts.\"",
+        "\"Geradeaus durchs Tal, dann kommt ihr nach Falkenruh.\"",
+        "\"Bleibt auf der Straße – der Wald birgt mehr als nur Tiere.\""
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Danke für die Hilfe!",
+            "Das hilft uns weiter.",
+            "Wir wissen das zu schätzen."
+          ],
+          "nextNodeID": "end"
+        }
+      ],
+      "hintCategory": "location"
+    },
+
+    "end": {
+      "id": "end",
+      "npcTexts": [
+        "\"Gute Jagd, Reisende!\"",
+        "\"Passt auf euch auf.\"",
+        "\"Vielleicht kreuzen sich unsere Wege wieder.\""
+      ],
+      "playerOptions": []
+    }
+  }
+}

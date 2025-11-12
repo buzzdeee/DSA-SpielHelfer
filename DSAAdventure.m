@@ -366,7 +366,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
         {
           retVal = [NSString stringWithFormat: @"Rast auf Reise von %@ nach %@", self.currentStartLocation.name, self.currentDestinationLocation.name];
         }
-      else if ([position.context isEqualToString: DSAActionContextEncounter])
+      else if ([position.context isEqualToString: DSAActionContextTravelEncounter])
         {
           DSAEncounterType encounterType = [self.encounterInfo[@"encounterType"] integerValue];
           switch (encounterType) {
@@ -572,12 +572,13 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 
     self.traveling = NO;
     [self.gameClock setTravelModeEnabled:NO];
-    self.activeGroup.position.context = DSAActionContextEncounter;
+    self.activeGroup.position.context = DSAActionContextTravelEncounter;
 
     id subType; 
     switch (type) {
       case DSAEncounterTypeMerchant: subType = (NSString *)[self randomMerchantType]; break;
       case DSAEncounterTypeHerbs: subType = (DSAActionResult *)[self findRandomHerb]; break;
+      case DSAEncounterTypeFriendlyNPC: subType = (NSString *)[self randomTravelerType]; break;
       default: subType = @"";
     }
     
@@ -600,6 +601,13 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 - (NSString *)randomMerchantType
 {
     NSArray *types = @[ @"Krämer", @"Waffenhändler", @"Kräuterhändler" ];
+    NSUInteger idx = arc4random_uniform((uint32_t)types.count);
+    return types[idx];
+}
+
+- (NSString *)randomTravelerType
+{
+    NSArray *types = @[ @"bard", @"herbalist", @"hunter", @"pilgrim" ];
     NSUInteger idx = arc4random_uniform((uint32_t)types.count);
     return types[idx];
 }
@@ -842,7 +850,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     self.inEncounter = YES;
     self.traveling = NO;
     [self.gameClock setTravelModeEnabled:NO];
-    self.activeGroup.position.context = DSAActionContextEncounter;
+    self.activeGroup.position.context = DSAActionContextTravelEncounter;
 
     NSString *name = @"Unknown";
     DSAEncounterType encounterType = DSAEncounterTypeUnknown;
@@ -851,7 +859,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
         case DSATravelEventCombat:        name = @"Combat"; break;
         case DSATravelEventAnimal:        name = @"Wildlife"; break;
         case DSATravelEventMerchant:      name = @"Merchant"; encounterType = DSAEncounterTypeMerchant; break;
-        case DSATravelEventTraveler:      name = @"Traveler"; break;
+        case DSATravelEventTraveler:      name = @"Traveler"; encounterType = DSAEncounterTypeFriendlyNPC; break;
         case DSATravelEventTrailSign:     name = @"Trail Sign"; break;
         case DSATravelEventWeatherShift:  name = @"Weather Shift"; break;
         case DSATravelEventRoadObstacle:  name = @"Road Obstacle"; break;
@@ -869,7 +877,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     // XXXXXXX
     NSDictionary *info = @{
         @"adventure": self,
-        @"eventType": @(DSATravelEventHerbs),
+        @"eventType": @(DSATravelEventTraveler),
     };
     NSLog(@"DSAAdventure triggerTravelEvent : Travel Event: %@", name);
     [[NSNotificationCenter defaultCenter] postNotificationName: DSATravelEventTriggeredNotification
@@ -877,7 +885,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
                                                       userInfo:info];
     // XXXXXXX                                                      
     //[self triggerEncounterOfType: encounterType];  
-    [self triggerEncounterOfType: DSAEncounterTypeHerbs];                                                     
+    [self triggerEncounterOfType: DSAEncounterTypeFriendlyNPC];                                                     
 }
 
 #pragma mark - Travel Logic

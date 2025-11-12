@@ -680,12 +680,16 @@
     DSALocation *currentLocation = [[DSALocations sharedInstance] locationWithName: self.position.localLocationName ofType: @"local"];
     DSALocalMapTile *currentTile = [currentLocation tileAtPosition: self.position];
     
+    
+    NSLog(@"DSAAdventureGroup leaveLocation called");
     if ([currentTile isKindOfClass:[DSALocalMapTileBuildingInn class]])
       {
+        NSLog(@"DSAAdventureGroup leaveLocation called we're in an Inn");
         DSALocalMapTileBuildingInn *innTile = (DSALocalMapTileBuildingInn*) currentTile;
         if ([@[DSALocalMapTileBuildingInnTypeHerberge, DSALocalMapTileBuildingInnTypeHerbergeMitTaverne] containsObject:innTile.type] && 
             [@[DSAActionContextPrivateRoom, DSAActionContextTavern] containsObject: self.position.context])
           {
+            NSLog(@"DSAAdventureGroup leaveLocation called we're in an Inn, switching to the reception");
             self.position.context = DSAActionContextReception;
             NSDictionary *userInfo = @{ @"position" : self.position };
             [[NSNotificationCenter defaultCenter] postNotificationName: @"DSAAdventureLocationUpdated" 
@@ -698,6 +702,7 @@
     NSLog(@"DSAAdventureGroup leaveLocation currentTile: %@", currentTile);
     if ([currentTile isKindOfClass: [DSALocalMapTileBuilding class]])
       {
+        NSLog(@"DSAAdventureGroup leaveLocation called we're in some building which is not an Inn");
         DSALocalMapTileBuilding *buildingTile = (DSALocalMapTileBuilding*)currentTile;
         DSADirection direction = buildingTile.door;
         DSAPosition *currentPosition = self.position;

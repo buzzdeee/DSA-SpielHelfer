@@ -6312,7 +6312,11 @@ Resources/dialogue_temple_priest.json \
 Resources/Gifte.json \
 Resources/Pflanzen.json \
 Resources/dialogue_general_building.json \
-Resources/Begegnungen.json 
+Resources/Begegnungen.json \
+Resources/dialogue_bard.json \
+Resources/dialogue_herbalist.json \
+Resources/dialogue_hunter.json \
+Resources/dialogue_pilgrim.json 
 
 
 #

@@ -6540,7 +6540,11 @@
 	"Gifte.json",
 	"Pflanzen.json",
 	"dialogue_general_building.json",
-	"Begegnungen.json"
+	"Begegnungen.json",
+	"dialogue_bard.json",
+	"dialogue_herbalist.json",
+	"dialogue_hunter.json",
+	"dialogue_pilgrim.json"
     );
     "OTHER_SOURCES" = (
 	"DSA-SpielHelfer_main.m"

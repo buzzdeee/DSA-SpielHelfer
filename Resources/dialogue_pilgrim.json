@@ -1,0 +1,71 @@
+{
+  "npcName": "pilgrim",
+  "startNodeID": "start",
+  "nodes": {
+    "start": {
+      "id": "start",
+      "npcTexts": [
+        "Ein erschöpfter Pilger lehnt auf seinem Stab und murmelt ein Gebet.",
+        "\"Seid gesegnet, Reisende. Möge euer Weg hell sein.\"",
+        "\"Ich wandere zur heiligen Quelle, um Sühne zu leisten.\""
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Wohin führt dich dein Weg?",
+            "Warum pilgerst du?",
+            "Was suchst du an der Quelle?"
+          ],
+          "nextNodeID": "journey"
+        },
+        {
+          "texts": [
+            "Möge auch dein Weg gesegnet sein.",
+            "Gute Reise, Pilger.",
+            "Leb wohl."
+          ],
+          "nextNodeID": "end"
+        }
+      ]
+    },
+
+    "journey": {
+      "id": "journey",
+      "npcTexts": [
+        "\"Ich suche Vergebung für Fehler der Vergangenheit.\"",
+        "\"Man sagt, wer das Wasser der Quelle trinkt, findet Frieden.\"",
+        "\"Mein Weg ist lang, doch mein Glaube trägt mich.\""
+      ],
+      "playerOptions": [
+        {
+          "texts": [
+            "Wir wünschen dir Erfolg auf deinem Weg.",
+            "Dein Glaube ist stark – bleib behütet.",
+            "Möge das Licht dich führen."
+          ],
+          "nextNodeID": "blessing"
+        }
+      ]
+    },
+
+    "blessing": {
+      "id": "blessing",
+      "npcTexts": [
+        "Der Pilger hebt die Hand zum Segen. \"Möge die Götter euch leiten.\"",
+        "\"Ich spüre Güte in euren Herzen – nehmt diesen Segen mit.\""
+      ],
+      "playerOptions": [],
+      "hintCategory": "blessing"
+    },
+
+    "end": {
+      "id": "end",
+      "npcTexts": [
+        "\"Geht in Frieden.\"",
+        "\"Die Straße sei euch gnädig.\"",
+        "\"Lebt wohl, Reisende.\""
+      ],
+      "playerOptions": []
+    }
+  }
+}
