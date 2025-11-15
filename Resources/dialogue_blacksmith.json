@@ -1,10 +1,11 @@
 {
   "npcName": "blacksmith",
+  "thumbnailImage": "Schmied",
   "startNodeID": "start",
   "nodes": {
     "start": {
       "id": "start",
-      "npcTexts": [
+      "texts": [
         "Willkommen in meiner Schmiede. Was braucht ihr?",
         "Habt ihr etwas zu reparieren oder sucht ihr eine neue Waffe?",
         "Die Esse ist heiß – kommt zur Sache!"
@@ -47,7 +48,7 @@
 
     "gear": {
       "id": "gear",
-      "npcTexts": [
+      "texts": [
         "Ich kann eure Klinge wieder auf Vordermann bringen.",
         "Rüstung? Kein Problem. Wird wie neu sein.",
         "Ich habe ein paar gute Stücke im Angebot, wenn ihr zahlen könnt."
@@ -66,7 +67,7 @@
 
     "background": {
       "id": "background",
-      "npcTexts": [
+      "texts": [
         "Diese Schmiede gehört meiner Familie seit drei Generationen.",
         "Ich habe unter meinem Vater gelernt, und er unter seinem.",
         "Die Glut kennt meinen Namen, und das Eisen meinen Willen."
@@ -93,7 +94,7 @@
 
     "maybeHint": {
       "id": "maybeHint",
-      "npcTexts": [
+      "texts": [
         "Vielleicht weiß ich was… aber Wissen hat seinen Preis.",
         "Ich höre Dinge, wenn die Leute reden, während ich hämmer.",
         "Manchmal erzählt das Eisen mehr, als man denkt."
@@ -120,7 +121,8 @@
 
     "giveHint": {
       "id": "giveHint",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Hört gut zu, ich sag das nicht zweimal.",
         "Ein Freund hat was gesehen – zwischen den Ruinen im Norden.",
         "Passt auf, wo ihr hintretet. Manches rostet nicht ohne Grund..."
@@ -131,7 +133,8 @@
 
     "rude": {
       "id": "rude",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Verschwindet aus meiner Schmiede, bevor ich den Hammer hole!",
         "Unhöfliche Kunden sind schlechte Kunden.",
         "Wenn euch was stinkt, dann verlasst meinen Laden!"
@@ -141,7 +144,8 @@
 
     "end": {
       "id": "end",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Kommt wieder, wenn ihr etwas braucht.",
         "Möge eure Klinge scharf bleiben.",
         "Passt auf euch auf da draußen."

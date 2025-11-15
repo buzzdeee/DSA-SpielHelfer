@@ -654,10 +654,9 @@
 
     // Move group
     self.position = newPosition;
-    NSDictionary *userInfo = @{ @"adventure" : adventure };
     [[NSNotificationCenter defaultCenter] postNotificationName: @"DSAAdventureLocationUpdated" 
                                                         object: self
-                                                      userInfo: userInfo];
+                                                      userInfo: nil];
     return newPosition;
 }
 

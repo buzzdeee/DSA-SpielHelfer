@@ -4,7 +4,7 @@
   "nodes": {
     "start": {
       "id": "start",
-      "npcTexts": [
+      "texts": [
         "Ein wettergegerbter Jäger tritt aus dem Wald.",
         "\"Grüß euch, Reisende. Fremde sind hier selten.\"",
         "\"Ich bin auf der Pirsch – und ihr?\""
@@ -39,7 +39,7 @@
 
     "warn": {
       "id": "warn",
-      "npcTexts": [
+      "texts": [
         "\"Ich sah Spuren – Wölfe oder Räuber, schwer zu sagen.\"",
         "\"Ein Sturm zieht auf. Bleibt heute besser im Schutz der Bäume.\"",
         "\"Im Westen treiben sich Wildschweine herum, haltet Abstand.\""
@@ -59,7 +59,7 @@
 
     "directions": {
       "id": "directions",
-      "npcTexts": [
+      "texts": [
         "\"Folgt dem Pfad nach Osten, bis ihr den alten Stein seht – dann rechts.\"",
         "\"Geradeaus durchs Tal, dann kommt ihr nach Falkenruh.\"",
         "\"Bleibt auf der Straße – der Wald birgt mehr als nur Tiere.\""
@@ -79,7 +79,8 @@
 
     "end": {
       "id": "end",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "\"Gute Jagd, Reisende!\"",
         "\"Passt auf euch auf.\"",
         "\"Vielleicht kreuzen sich unsere Wege wieder.\""

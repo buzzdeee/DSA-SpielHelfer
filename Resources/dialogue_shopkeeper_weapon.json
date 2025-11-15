@@ -1,10 +1,11 @@
 {
   "npcName": "weapon_merchant",
+  "thumbnailImage": "Waffenhaendler_Shopkeeper",
   "startNodeID": "start",
   "nodes": {
     "start": {
       "id": "start",
-      "npcTexts": [
+      "texts": [
         "Willkommen. Schwerter, Äxte, Bögen – was soll's sein?",
         "Wenn ihr kämpfen wollt, braucht ihr das richtige Werkzeug.",
         "Gut gerüstet ist halb gewonnen, sagt man. Was sucht ihr?"
@@ -47,7 +48,7 @@
 
     "showGoods": {
       "id": "showGoods",
-      "npcTexts": [
+      "texts": [
         "Hier: Ein Kurzschwert, eine solide Axt, und ein Jagdbogen – alles in gutem Zustand.",
         "Wählt mit Bedacht. Eine schlechte Waffe kann euer Ende sein.",
         "Schwerter für Mutige, Messer für Gerissene. Was soll's sein?"
@@ -74,7 +75,7 @@
 
     "specialWeapons": {
       "id": "specialWeapons",
-      "npcTexts": [
+      "texts": [
         "Ich hab da was – ein Bastardschwert, das schon zwei Orks erledigt hat.",
         "Seltene Sachen? Kommt drauf an, was ihr sucht... und was ihr zahlen könnt.",
         "Ich hatte mal eine Thorwaler-Axt – ging schnell weg. Wer weiß, vielleicht kommt so was wieder rein."
@@ -101,7 +102,7 @@
 
     "maybeHint": {
       "id": "maybeHint",
-      "npcTexts": [
+      "texts": [
         "Hmm... wenn ihr auf der Suche seid, hört euch in den Grenzdörfern um.",
         "Man sagt, im alten Fort westlich vom Pass liegen noch Waffen unter Trümmern.",
         "Vielleicht. Wenn ihr euch nicht scheut, Banditenland zu betreten."
@@ -128,7 +129,8 @@
 
     "giveHint": {
       "id": "giveHint",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Im alten Wachturm bei den Sümpfen findet man manchmal verrostete, aber scharfe Sachen.",
         "Ein Kunde sagte mir mal, er habe im Goblinwald eine verborgene Waffenkammer gefunden.",
         "In einer Höhle nordöstlich von hier soll ein verstorbener Söldnertrupp ihre Ausrüstung zurückgelassen haben."
@@ -139,7 +141,8 @@
 
     "rude": {
       "id": "rude",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Wenn euch mein Laden nicht gefällt – Tür ist da.",
         "So redet man nicht mit einem, der euch das Leben retten könnte.",
         "Kommt wieder, wenn ihr Manieren habt – oder lasst es bleiben."
@@ -149,7 +152,8 @@
 
     "end": {
       "id": "end",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Viel Glück da draußen.",
         "Und vergesst nicht: Eine scharfe Klinge kann Leben retten.",
         "Ihr wisst, wo ihr mich findet."

@@ -27,6 +27,11 @@
 #import "DSADialogNode.h"
 #import "DSAHintManager.h"
 #import "DSADialogOption.h"
+#import "DSAAdventure.h"
+#import "DSAActionResult.h"
+#import "DSAAdventureGroup.h"
+#import "DSAAdventureClock.h"
+
 
 @implementation DSADialogManager
 
@@ -47,79 +52,124 @@
         return NO;
     }
 
-    NSLog(@"DSADialogManager loadDialogFromFile: dict: %@", dict);
     self.currentDialog = [DSADialog dialogFromDictionary:dict];
-    self.currentNodeID = self.currentDialog.startNodeID;
+
+    NSArray *startNodes = dict[@"startNodes"];
+    if (startNodes && startNodes.count > 0) {
+        self.currentNodeID = startNodes[arc4random_uniform((uint32_t)startNodes.count)];
+    } else {
+        self.currentNodeID = self.currentDialog.startNodeID;
+    }
+
+    self.accumulatedDuration = 0;
     NSLog(@"DSADialogManager loadDialogFromFile: %@ currentNodeID: %@", filename, self.currentNodeID);
     return YES;
 }
 
-- (void)startDialog {
-    [self presentCurrentNode];
-}
-
 - (DSADialogNode *)currentNode {
+    NSLog(@"DSADialogManager currentNode: ID: %@", self.currentNodeID);
+    //NSLog(@"DSADialogManager currentNode: currentDialog: %@", self.currentDialog);
     return [self.currentDialog nodeForID:self.currentNodeID];
 }
 
-- (void)advanceToNextNodeForOptionAtIndex:(NSUInteger)index {
-    DSADialogNode *node = [self currentNode];
-    if (!node || index >= node.playerOptions.count) {
-        NSLog(@"⚠️ Ungültige Auswahl.");
-        return;
-    }
-
-    DSADialogOption *option = node.playerOptions[index];
-    self.currentNodeID = option.nextNodeID;
-}
-
 - (void)presentCurrentNode {
-    DSADialogNode *node = [self.currentDialog nodeForID:self.currentNodeID];
-    NSLog(@"DSADialogManager presentCurrentNode: node %@, nodeID: %@", node, node.nodeID);
+    //NSLog(@"DSADialogManager presentCurrentNode: currentNode: %@", [self currentNode]);
+    DSADialogNode *node = [self currentNode];
     if (!node) {
-        NSLog(@"⚠️ Kein Knoten gefunden für ID: %@", self.currentNodeID);
+        NSLog(@"DSADialogManager presentCurrentNode: Kein Knoten gefunden für ID: %@", self.currentNodeID);
         return;
     }
+    
+    if (node.skillCheck && !self.skillCheckPending) {
+        self.skillCheckPending = YES;
 
-    NSString *npcLine = [node randomText];
-    NSLog(@"\n💬 %@ sagt: \"%@\"", self.currentDialog.npcName, npcLine);
+        // Beschreibung dynamisch ersetzen
+        NSString *text = node.nodeDescription ?: @"";
+        DSACharacter *character = [[DSAAdventureManager sharedManager].currentAdventure.activeGroup 
+                                  characterWithBestTalentWithName:node.skillCheck[@"talent"] negate:NO];
 
-    if (node.hintCategory) {
-        NSString *hint = [[DSAHintManager sharedInstance] randomHintForLocation:node.hintCategory];
-        if (hint) {
-            NSLog(@"🧭 Hinweis: %@", hint);
-        } else {
-            NSLog(@"Leider weiss ich nix zu sagen!");
+        if (character) {
+            self.currentDialog.actingCharacterName = character.name;
+            if ([text containsString:@"%@"]) {
+                node.nodeDescription = [NSString stringWithFormat:text, character.name];
+            }
         }
-        
-    }
 
+        return; // UI zeigt den SkillCheck-Node an, ohne den Check auszuführen
+    }    
+    // Dauer aufsummieren
+    self.accumulatedDuration += node.duration;
+    NSLog(@"DSADialogManager presentCurrentNode: currentNode: %@", node);
+    // Text aus description oder npcTexts
+    NSString *text = node.nodeDescription ?: [node randomText];
+    if ([text containsString:@"%@"]) {
+        node.nodeDescription = [NSString stringWithFormat:text, self.currentDialog.actingCharacterName];
+    }    
+    NSLog(@"DSADialogManager presentCurrentNode: npcName %@: characterName: %@ text: %@", self.currentDialog.npcName, self.currentDialog.actingCharacterName, text);
+
+    // PlayerOptions anzeigen
     NSUInteger idx = 0;
-    for (NSDictionary *option in node.playerOptions) {
-        NSLog(@"DSADialogManager presentCurrentNode: option: %@", option);
-        NSArray *texts = option[@"texts"];
+    for (DSADialogOption *option in node.playerOptions) {
+       
+        NSArray *texts = option.textVariants;
         NSString *playerText = texts.count > 0 ? texts[arc4random_uniform((uint32_t)texts.count)] : @"[...]";
-        NSLog(@"%lu: %@", (unsigned long)idx, playerText);
+        NSLog(@"DSADialogManager presentCurrentNode XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX: index: %lu: playerText: %@", (unsigned long)idx, playerText);
         idx++;
     }
+    NSLog(@"DSADialogManager presentCurrentNode: AFTER OPTION LOOP npcName %@: characterName: %@ text: %@", self.currentDialog.npcName, self.currentDialog.actingCharacterName, text);
+    // Wenn keine Optionen und endEncounter -> Dialog beendet
+    if ((node.playerOptions.count == 0) && node.endEncounter) {
+        NSLog(@"DSADialogManager presentCurrentNode: Ende des Encounters. Drehe die Uhr vor, Gesamtdauer: %ld Minuten", (long)self.accumulatedDuration);
 
-    if (node.playerOptions.count == 0) {
-        NSLog(@"🏁 Dialog beendet.");
+        // GameClock aktualisieren
+        DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+        [adventure.gameClock advanceTimeByMinutes:self.accumulatedDuration sendNotification: YES];
     }
+}
+
+- (void)performPendingSkillCheck {
+    self.skillCheckPending = NO;
+
+    DSADialogNode *node = [self currentNode];
+    NSDictionary *sc = node.skillCheck;
+
+    NSString *talent = sc[@"talent"];
+    NSInteger penalty = [sc[@"penalty"] integerValue];
+    NSString *successNode = sc[@"successNode"];
+    NSString *failureNode = sc[@"failureNode"];
+
+    DSAAdventure *adv = [DSAAdventureManager sharedManager].currentAdventure;
+    DSACharacter *character = [adv.activeGroup characterWithBestTalentWithName:talent negate:NO];
+
+    DSAActionResult *result = [character useTalent:talent withPenalty:penalty];
+
+    self.currentNodeID = (result.result == DSAActionResultSuccess ||
+                          result.result == DSAActionResultEpicSuccess ||
+                          result.result == DSAActionResultAutoSuccess)
+                            ? successNode : failureNode;
+    node = [self currentNode];
+    NSString *text = node.nodeDescription ?: [node randomText];
+    if ([text containsString:@"%@"]) {
+        node.nodeDescription = [NSString stringWithFormat:text, self.currentDialog.actingCharacterName];
+    }    
 }
 
 - (void)handlePlayerSelectionAtIndex:(NSUInteger)index {
-    DSADialogNode *node = [self.currentDialog nodeForID:self.currentNodeID];
-    NSLog(@"DSADialogManager handlePlayerSelectionAtIndex %lu, node.playerOptions.count %lu, node: %@", index, node.playerOptions.count, node);
+    NSLog(@"DSADialogManager handlePlayerSelectionAtIndex: called.");
+    DSADialogNode *node = [self currentNode];
     if (!node || index >= node.playerOptions.count) {
-        NSLog(@"⚠️ Ungültige Auswahl.");
+        NSLog(@"DSADialogManager handlePlayerSelectionAtIndex: Ungültige Auswahl.");
         return;
     }
 
     DSADialogOption *option = node.playerOptions[index];
-    NSLog(@"DSADialogManager handlePlayerSelectionAtIndex %lu nextNodeID: %@", (long unsigned)index, option.nextNodeID);
-    NSString *nextID = option.nextNodeID;
-    self.currentNodeID = nextID;
+    NSString *nextNodeID = option.nextNodeID;
+    NSInteger duration = option.duration;
+    
+    // Dauer hinzufügen
+    self.accumulatedDuration += duration;
+
+    self.currentNodeID = nextNodeID;
     [self presentCurrentNode];
 }
 

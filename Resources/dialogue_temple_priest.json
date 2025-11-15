@@ -4,7 +4,7 @@
   "nodes": {
     "start": {
       "id": "start",
-      "npcTexts": [
+      "texts": [
         "Seid gegrüßt, Reisende. Möge der Götter Segen mit euch sein.",
         "Willkommen im Tempel. Was führt euch zu uns?",
         "Ihr betretet heiligen Boden. Sucht ihr Trost, Rat oder Erlösung?"
@@ -47,7 +47,7 @@
 
     "blessing": {
       "id": "blessing",
-      "npcTexts": [
+      "texts": [
         "Möge Licht euren Weg erhellen und Schatten fernhalten.",
         "Ich spreche einen Segen über euch – möge euer Herz standhaft bleiben.",
         "Die Götter wachen über euch, solange ihr ihren Pfad nicht verlasst."
@@ -74,7 +74,7 @@
 
     "faith": {
       "id": "faith",
-      "npcTexts": [
+      "texts": [
         "Dies ist ein Tempel der Hesinde, Göttin der Weisheit und Erkenntnis.",
         "Wir dienen dem Zwölfgötterpantheon – in Achtung vor Ordnung, Maß und Licht.",
         "Wissen ist die Flamme, die Dunkelheit vertreibt – so glauben wir."
@@ -101,7 +101,7 @@
 
     "maybeHint": {
       "id": "maybeHint",
-      "npcTexts": [
+      "texts": [
         "Manche Zeichen deuten auf Unruhe hin...",
         "Ich spürte Unheil in letzter Zeit – auch wenn ich es nicht benennen kann.",
         "Nicht alles lässt sich mit Glauben erklären – aber vieles beginnt mit Fragen."
@@ -128,7 +128,8 @@
 
     "giveHint": {
       "id": "giveHint",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Ein Novize hörte nachts Stimmen aus dem alten Altarraum – doch er war leer.",
         "Ein Pilger berichtete von dunklen Schatten im Hain westlich des Tempels.",
         "In alten Schriften fand ich Hinweise auf ein verborgenes Relikt in dieser Region..."
@@ -139,7 +140,8 @@
 
     "rude": {
       "id": "rude",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Wenn ihr ohne Glauben kommt, geht in Frieden – aber stört nicht den Tempel.",
         "Ich vergebe euch eure Worte – doch ihr solltet euch prüfen.",
         "Es steht euch frei zu zweifeln, doch beleidigt nicht, was andere heilig nennen."
@@ -149,7 +151,8 @@
 
     "end": {
       "id": "end",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Möge euer Weg klar und euer Herz rein bleiben.",
         "Reist mit Bedacht – und vergesst nicht, was ihr hier gelernt habt.",
         "Die Götter mögen euch führen, wohin auch immer ihr geht."

@@ -24,32 +24,65 @@
 
 #import "DSADialogNode.h"
 #import "DSADialogOption.h"
+#import "DSAAdventure.h"
+#import "DSAAdventureGroup.h"
+#import "Utils.h"
 
 @implementation DSADialogNode
 
 + (instancetype)nodeFromDictionary:(NSDictionary *)dict {
+    NSLog(@"DSADialogNode nodeFromDictionary dict: %@", dict);
     DSADialogNode *node = [[DSADialogNode alloc] init];
     node.nodeID = dict[@"id"];
+
+    NSString *region = dict[@"imageRegion"];
+    NSString *gender = dict[@"imageGender"];
+    
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    NSString *seed = currentPosition.description;
+    
+    NSString *thumbKey = dict[@"thumbnailImage"];
+    if (thumbKey)
+      {
+        node.thumbnailImageName = [Utils randomImageNameForKey: thumbKey
+                                                withSizeSuffix: @"128x128"
+                                                     forRegion: region
+                                                        gender: gender
+                                                    seedString: seed];
+       }
+    NSLog(@"DSADialogNode dialogFromDictionary: thumbnailImageName: %@", node.thumbnailImageName);   
+    NSString *mainKey = dict[@"mainImage"];   
+    if (mainKey)
+      {
+        node.mainImageName = [Utils randomImageNameForKey: mainKey
+                                           withSizeSuffix: @"128x128"
+                                                forRegion: region
+                                                   gender: gender
+                                               seedString: seed];
+       }    
+    NSLog(@"DSADialogNode dialogFromDictionary: mainImageName: %@", node.mainImageName);
+       
+    node.texts = dict[@"texts"];
+    node.title = dict[@"title"];
+    node.nodeDescription = dict[@"description"];
     node.hintCategory = dict[@"hintCategory"];
-    NSArray *textsArray = dict[@"npcTexts"];
-    if ([textsArray isKindOfClass:[NSArray class]]) {
-        node.texts = textsArray;
-    } else if ([dict[@"npcTexts"] isKindOfClass:[NSString class]]) {
-        node.texts = @[dict[@"npcTexts"]];
-    } else {
-        node.texts = @[@"..."];
-    }
+    node.duration = [dict[@"duration"] integerValue];
+    node.endEncounter = [dict[@"endEncounter"] boolValue];
+    node.skillCheck = dict[@"skillCheck"];
+
+    if (!node.nodeDescription && node.skillCheck) {
+        node.nodeDescription = @"Ihr untersucht die Umgebung genauer...";
+    }    
     
-    NSArray *optionsArray = dict[@"playerOptions"];
-    NSMutableArray *optionsMutable = [NSMutableArray array];
-    for (NSDictionary *optDict in optionsArray) {
-        DSADialogOption *option = [DSADialogOption optionFromDictionary:optDict];
-        if (option) {
-            [optionsMutable addObject:option];
-        }
+    NSMutableArray *options = [NSMutableArray array];
+    for (NSDictionary *optDict in dict[@"playerOptions"]) {
+        DSADialogOption *opt = [DSADialogOption optionFromDictionary:optDict];
+        [options addObject:opt];
     }
-    node.playerOptions = optionsMutable;
-    
+    node.playerOptions = options;
+    //NSLog(@"DSADialogNode nodeFromDictionary returning node: %@", node);
     return node;
 }
 

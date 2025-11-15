@@ -1,10 +1,11 @@
 {
   "npcName": "innkeeper_tavern",
+  "thumbnailImage": "Tavern_Keeper",
   "startNodeID": "start",
   "nodes": {
     "start": {
       "id": "start",
-      "npcTexts": [
+      "texts": [
         "Willkommen in der Taverne zum Lahmen Eber! Was darf's sein?",
         "Setzt euch, Fremde. Bier? Geschichten? Ärger?",
         "Ihr seht aus, als hättet ihr Durst – oder Fragen."
@@ -47,7 +48,7 @@
 
     "menu": {
       "id": "menu",
-      "npcTexts": [
+      "texts": [
         "Heute gibt's Eintopf vom Wildschwein, frisches Brot und dunkles Bier.",
         "Ein Krug Bier kostet zwei Heller, das Zimmer oben fünf.",
         "Ich hab auch Honigwein, wenn ihr's süßer mögt."
@@ -74,7 +75,7 @@
 
     "background": {
       "id": "background",
-      "npcTexts": [
+      "texts": [
         "Die Taverne steht hier seit über 50 Jahren. Mein Vater hat sie aufgebaut.",
         "Der Lahme Eber war wirklich mal ein Eber – jetzt hängt sein Kopf über dem Kamin.",
         "Ich hab hier alles gesehen: Reisende, Raufbolde, sogar einen Magier, der nie bezahlt hat."
@@ -101,7 +102,7 @@
 
     "maybeHint": {
       "id": "maybeHint",
-      "npcTexts": [
+      "texts": [
         "Hm… kommt drauf an, wie viel ihr trinken wollt – oder zahlt.",
         "Ich hab da was gehört, aber das bleibt unter uns.",
         "Manchmal hört man seltsame Dinge nach Mitternacht…"
@@ -128,7 +129,8 @@
 
     "giveHint": {
       "id": "giveHint",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Ein Gast hat mir erzählt, dass in der alten Mühle Lichter flackern – aber niemand lebt dort.",
         "Ein Händler meinte, er habe in den Sümpfen Stimmen gehört, obwohl er allein war.",
         "Ein zwielichtiger Typ ließ letztens ein blutiges Pergament hier liegen – ich hab’s nicht angerührt."
@@ -139,7 +141,8 @@
 
     "rude": {
       "id": "rude",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Pass auf, was du sagst. Ich schenk ungern Feinden ein.",
         "Raus hier, bevor ich die Wachen hole!",
         "Wer beleidigt, kriegt nichts – nicht mal Ärger."
@@ -149,7 +152,8 @@
 
     "end": {
       "id": "end",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Na dann – viel Glück da draußen.",
         "Kommt wieder, wenn ihr Durst habt.",
         "Die Tür steht euch offen – solange ihr zahlt."

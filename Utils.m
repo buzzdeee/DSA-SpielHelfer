@@ -29,6 +29,8 @@
 #import "DSADefinitions.h"
 #import "DSAAdventure.h"
 #import "DSAAdventureClock.h"
+#import "DSAAdventureGroup.h"
+#import "DSALocations.h"
 
 
 NSArray<NSString *> *DSAShopGeneralStoreCategories(void) {
@@ -1315,5 +1317,72 @@ static NSMutableDictionary *imagesIndexDict;
     return filtered[indexInList];
 }
 
+// takes a region abbreviation in all uppercase letters, i.e. TH for Thorwal
+// when region name is nil, it will check current adventure for current Region
+// gender may be male or female, otherwise when nil, it will randomly choose.
++ (NSString *)randomImageNameForKey:(NSString *)key
+                     withSizeSuffix:(NSString *)sizeSuffix
+                          forRegion:(NSString *)regionName
+                             gender:(NSString *)gender
+                         seedString:(NSString *)seedString
+{
+    NSDictionary *index = [self getImagesIndexDict];
+    if (!index || index.count == 0) return nil;
+    
+    NSString *region = regionName.length > 0 ? regionName.uppercaseString : [self currentRegionCode];
+    NSString *useGender = gender.length > 0 ? gender.lowercaseString : (([seedString hash] % 2 == 0) ? @"male" : @"female");
+    
+    NSArray<NSString *> *candidates = nil;
+    
+    // 1️⃣ REGION + KEY + GENDER
+    NSString *key1 = [NSString stringWithFormat:@"%@_%@_%@", region, key, useGender];
+    candidates = index[key1];
+    
+    // 2️⃣ KEY + GENDER
+    if (!candidates || candidates.count == 0) {
+        NSString *key2 = [NSString stringWithFormat:@"%@_%@", key, useGender];
+        candidates = index[key2];
+    }
+    
+    // 3️⃣ REGION + KEY
+    if (!candidates || candidates.count == 0) {
+        NSString *key3 = [NSString stringWithFormat:@"%@_%@", region, key];
+        candidates = index[key3];
+    }
+    
+    // 4️⃣ KEY allein
+    if (!candidates || candidates.count == 0) {
+        candidates = index[key];
+    }
+    
+    if (!candidates || candidates.count == 0) return nil;
+    
+    // Filter nach Größe
+    NSArray<NSString *> *filtered = [self filteredImageNames:candidates withSizeSuffix:sizeSuffix];
+    if (!filtered || filtered.count == 0) {
+        filtered = candidates; // fallback: alle nehmen
+    }
+    
+    // Deterministische Auswahl basierend auf seed
+    NSUInteger seed = seedString.hash;
+    NSUInteger idx = seed % filtered.count;
+    return filtered[idx];
+}
+
+
++ (NSString *)currentRegionCode
+{
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+
+    DSALocation *globalLocation =
+        [[DSALocations sharedInstance]
+            locationWithName: currentPosition.globalLocationName
+                      ofType:@"global"];
+
+    DSAGlobalMapLocation *gl = (DSAGlobalMapLocation *)globalLocation;
+    return gl.region.uppercaseString; // i.e. "TH"
+}
 
 @end

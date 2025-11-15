@@ -1,13 +1,16 @@
 {
   "npcName": "innkeeper",
   "startNodeID": "start",
+  "thumbnailImage": "Herberge_Innkeeper",
   "nodes": {
+
     "start": {
       "id": "start",
-      "npcTexts": [
+      "nodeDescription": "Willkommen in meiner Herberge!",
+      "texts": [
         "Willkommen in meiner Herberge!",
         "Guten Tag, Fremde! Was führt euch hierher?",
-        "Schön, euch zu sehen! Brauchst ihr etwas?"
+        "Schön, euch zu sehen! Braucht ihr etwas?"
       ],
       "playerOptions": [
         {
@@ -42,15 +45,17 @@
           ],
           "nextNodeID": "end"
         }
-      ]
+      ],
+      "duration": 0
     },
 
     "info": {
       "id": "info",
-      "npcTexts": [
+      "nodeDescription": "Im Winter kann es hier sehr kalt werden, warme Sachen sind dann von Vorteil.",
+      "texts": [
         "Im Winter kann es hier sehr kalt werden, warme Sachen sind dann von Vorteil.",
         "Wenn es regnet, ist es hilfreich regenfeste Kleidung zu tragen.",
-        "Auf Reisen ist es immer gut, seinen Trinkschlauch gefüllt, und Proviant dabei zu haben."
+        "Auf Reisen ist es immer gut, seinen Trinkschlauch gefüllt und Proviant dabei zu haben."
       ],
       "playerOptions": [
         {
@@ -69,12 +74,14 @@
           ],
           "nextNodeID": "end"
         }
-      ]
+      ],
+      "duration": 0
     },
 
     "flattery": {
       "id": "flattery",
-      "npcTexts": [
+      "nodeDescription": "Oh, danke! Solche Gäste mag ich.",
+      "texts": [
         "Oh, danke! Solche Gäste mag ich.",
         "Du hast ein gutes Auge.",
         "Das hört man gern."
@@ -96,30 +103,36 @@
           ],
           "nextNodeID": "end"
         }
-      ]
+      ],
+      "duration": 0
     },
 
     "rude": {
       "id": "rude",
-      "npcTexts": [
+      "endEncounter": true,
+      "nodeDescription": "Was fällt dir ein! Raus hier!",
+      "texts": [
         "Was fällt dir ein! Raus hier!",
         "So redet man nicht mit mir.",
         "Ich dulde keinen solchen Ton!"
       ],
-      "playerOptions": []
+      "playerOptions": [],
+      "endEncounter": true,
+      "duration": 0
     },
 
     "maybeHint": {
       "id": "maybeHint",
-      "npcTexts": [
-        "Vielleicht… wenn ihr nett fragst.",
+      "nodeDescription": "Vielleicht… wenn ihr nett fragt.",
+      "texts": [
+        "Vielleicht… wenn ihr nett fragt.",
         "Tja, das kommt drauf an...",
         "Warum sollte ich euch helfen?"
       ],
       "playerOptions": [
         {
           "texts": [
-            "Bitte, wir brauche deine Hilfe.",
+            "Bitte, wir brauchen deine Hilfe.",
             "Wir wären dir sehr dankbar.",
             "Es ist wirklich wichtig."
           ],
@@ -133,28 +146,36 @@
           ],
           "nextNodeID": "end"
         }
-      ]
+      ],
+      "duration": 0
     },
 
     "giveHint": {
       "id": "giveHint",
-      "npcTexts": [
+      "endEncounter": true,
+      "nodeDescription": "Na schön, aber nur weil ihr nett seid.",
+      "texts": [
         "Na schön, aber nur weil ihr nett seid.",
         "Ich will euch was verraten...",
         "Hört genau zu:"
       ],
       "playerOptions": [],
-      "hintCategory": "location"
+      "hintCategory": "location",
+      "endEncounter": true,
+      "duration": 0
     },
 
     "end": {
       "id": "end",
-      "npcTexts": [
+      "nodeDescription": "Macht’s gut!",
+      "texts": [
         "Macht’s gut!",
         "Kommt bald wieder.",
         "Viel Glück, Reisende."
       ],
-      "playerOptions": []
+      "playerOptions": [],
+      "endEncounter": true,
+      "duration": 0
     }
   }
 }

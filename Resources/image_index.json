@@ -4600,5 +4600,121 @@
     "Fahrender_Kraeuterhaendler_2-32x32.webp",
     "Fahrender_Kraeuterhaendler_2-64x64.webp",
     "Fahrender_Kraeuterhaendler_2-512x512.webp"
+  ],
+  "TH_Firungeweihter_male": [
+    "TH_Firungeweihter_male_2.webp",
+    "TH_Firungeweihter_male_1-32x32.webp",
+    "TH_Firungeweihter_male_1-64x64.webp",
+    "TH_Firungeweihter_male_1-512x512.webp",
+    "TH_Firungeweihter_male_2-32x32.webp",
+    "TH_Firungeweihter_male_2-64x64.webp",
+    "TH_Firungeweihter_male_2-512x512.webp",
+    "TH_Firungeweihter_male_1.webp"
+  ],
+  "TH_Ifirngeweihter_male": [
+    "TH_Ifirngeweihter_male_1.webp",
+    "TH_Ifirngeweihter_male_2.webp",
+    "TH_Ifirngeweihter_male_1-32x32.webp",
+    "TH_Ifirngeweihter_male_1-64x64.webp",
+    "TH_Ifirngeweihter_male_1-512x512.webp",
+    "TH_Ifirngeweihter_male_2-32x32.webp",
+    "TH_Ifirngeweihter_male_2-64x64.webp",
+    "TH_Ifirngeweihter_male_2-512x512.webp"
+  ],
+  "TH_Heiler_male": [
+    "TH_Heiler_male_1-64x64.webp",
+    "TH_Heiler_male_1-32x32.webp",
+    "TH_Heiler_male_1-512x512.webp",
+    "TH_Heiler_male_2-32x32.webp",
+    "TH_Heiler_male_2-64x64.webp",
+    "TH_Heiler_male_2-512x512.webp",
+    "TH_Heiler_male_1.webp",
+    "TH_Heiler_male_2.webp"
+  ],
+  "TH_Ingerimmgeweihter_male": [
+    "TH_Ingerimmgeweihter_male_1.webp",
+    "TH_Ingerimmgeweihter_male_1-32x32.webp",
+    "TH_Ingerimmgeweihter_male_1-64x64.webp",
+    "TH_Ingerimmgeweihter_male_1-512x512.webp"
+  ],
+  "TH_Boronsgeweihter_male": [
+    "TH_Boronsgeweihter_male_1-32x32.webp",
+    "TH_Boronsgeweihter_male_1-64x64.webp",
+    "TH_Boronsgeweihter_male_1-512x512.webp",
+    "TH_Boronsgeweihter_male_2-32x32.webp",
+    "TH_Boronsgeweihter_male_2-64x64.webp",
+    "TH_Boronsgeweihter_male_2-512x512.webp",
+    "TH_Boronsgeweihter_male_1.webp",
+    "TH_Boronsgeweihter_male_2.webp"
+  ],
+  "TH_Herberge_Innkeeper_male": [
+    "TH_Herberge_Innkeeper_male_1.webp",
+    "TH_Herberge_Innkeeper_male_2.webp",
+    "TH_Herberge_Innkeeper_male_1-32x32.webp",
+    "TH_Herberge_Innkeeper_male_1-64x64.webp",
+    "TH_Herberge_Innkeeper_male_1-512x512.webp",
+    "TH_Herberge_Innkeeper_male_2-32x32.webp",
+    "TH_Herberge_Innkeeper_male_2-64x64.webp",
+    "TH_Herberge_Innkeeper_male_2-512x512.webp"
+  ],
+  "TH_Efferdgeweihter_male": [
+    "TH_Efferdgeweihter_male_1-32x32.webp",
+    "TH_Efferdgeweihter_male_1-64x64.webp",
+    "TH_Efferdgeweihter_male_1-512x512.webp",
+    "TH_Efferdgeweihter_male_2-32x32.webp",
+    "TH_Efferdgeweihter_male_2-64x64.webp",
+    "TH_Efferdgeweihter_male_2-512x512.webp",
+    "TH_Efferdgeweihter_male_1.webp",
+    "TH_Efferdgeweihter_male_2.webp"
+  ],
+  "TH_Kraemer_Shopkeeper_male": [
+    "TH_Kraemer_Shopkeeper_male_1.webp",
+    "TH_Kraemer_Shopkeeper_male_2.webp",
+    "TH_Kraemer_Shopkeeper_male_1-32x32.webp",
+    "TH_Kraemer_Shopkeeper_male_1-64x64.webp",
+    "TH_Kraemer_Shopkeeper_male_1-512x512.webp",
+    "TH_Kraemer_Shopkeeper_male_2-32x32.webp",
+    "TH_Kraemer_Shopkeeper_male_2-64x64.webp",
+    "TH_Kraemer_Shopkeeper_male_2-512x512.webp"
+  ],
+  "TH_Kraeuterhaendler_Shopkeeper_male": [
+    "TH_Kraeuterhaendler_Shopkeeper_male_2.webp",
+    "TH_Kraeuterhaendler_Shopkeeper_male_1-32x32.webp",
+    "TH_Kraeuterhaendler_Shopkeeper_male_1-64x64.webp",
+    "TH_Kraeuterhaendler_Shopkeeper_male_1-512x512.webp",
+    "TH_Kraeuterhaendler_Shopkeeper_male_2-32x32.webp",
+    "TH_Kraeuterhaendler_Shopkeeper_male_1.webp",
+    "TH_Kraeuterhaendler_Shopkeeper_male_2-64x64.webp",
+    "TH_Kraeuterhaendler_Shopkeeper_male_2-512x512.webp"
+  ],
+  "TH_Schmied_male": [
+    "TH_Schmied_male_1-32x32.webp",
+    "TH_Schmied_male_1.webp",
+    "TH_Schmied_male_1-64x64.webp",
+    "TH_Schmied_male_2.webp",
+    "TH_Schmied_male_1-512x512.webp",
+    "TH_Schmied_male_2-32x32.webp",
+    "TH_Schmied_male_2-64x64.webp",
+    "TH_Schmied_male_2-512x512.webp"
+  ],
+  "TH_Tavern_Keeper_male": [
+    "TH_Tavern_Keeper_male_1.webp",
+    "TH_Tavern_Keeper_male_2.webp",
+    "TH_Tavern_Keeper_male_1-32x32.webp",
+    "TH_Tavern_Keeper_male_1-64x64.webp",
+    "TH_Tavern_Keeper_male_1-512x512.webp",
+    "TH_Tavern_Keeper_male_2-32x32.webp",
+    "TH_Tavern_Keeper_male_2-64x64.webp",
+    "TH_Tavern_Keeper_male_2-512x512.webp"
+  ],
+  "TH_Waffenhaendler_Shopkeeper_male": [
+    "TH_Waffenhaendler_Shopkeeper_male_1.webp",
+    "TH_Waffenhaendler_Shopkeeper_male_2.webp",
+    "TH_Waffenhaendler_Shopkeeper_male_1-32x32.webp",
+    "TH_Waffenhaendler_Shopkeeper_male_1-64x64.webp",
+    "TH_Waffenhaendler_Shopkeeper_male_1-512x512.webp",
+    "TH_Waffenhaendler_Shopkeeper_male_2-32x32.webp",
+    "TH_Waffenhaendler_Shopkeeper_male_2-64x64.webp",
+    "TH_Waffenhaendler_Shopkeeper_male_2-512x512.webp"
   ]
 }

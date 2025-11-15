@@ -1,10 +1,11 @@
 {
   "npcName": "healer",
+  "thumbnailImage": "Heiler",
   "startNodeID": "start",
   "nodes": {
     "start": {
       "id": "start",
-      "npcTexts": [
+      "texts": [
         "Willkommen, Reisende. Ihr seht erschöpft aus.",
         "Seid ihr verwundet? Ich kann euch vielleicht helfen.",
         "Ruhe ist der erste Schritt zur Heilung."
@@ -47,7 +48,7 @@
 
     "healing": {
       "id": "healing",
-      "npcTexts": [
+      "texts": [
         "Ich kann euch helfen, aber heilt euch auch selbst – durch Ruhe und Vorsicht.",
         "Diese Salbe lindert Schmerzen, aber sie heilt nicht den Hochmut.",
         "Hier, nehmt das. Es sollte euch helfen."
@@ -66,7 +67,7 @@
 
     "background": {
       "id": "background",
-      "npcTexts": [
+      "texts": [
         "Ich diene der Heilkunst seit über zwanzig Jahren.",
         "Die Wunden anderer zu heilen ist mein Lebensweg.",
         "Diese Gegend braucht mehr Hilfe, als ihr glaubt."
@@ -93,7 +94,7 @@
 
     "maybeHint": {
       "id": "maybeHint",
-      "npcTexts": [
+      "texts": [
         "Vielleicht... aber nicht jeder verdient Wissen.",
         "Warum sollte ich meine Geheimnisse teilen?",
         "Ein Rat kann Leben retten – oder kosten."
@@ -120,7 +121,8 @@
 
     "giveHint": {
       "id": "giveHint",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Gut. Aber hört genau zu...",
         "Ich hoffe, ihr macht das Richtige mit dieser Information.",
         "Manchmal ist Wissen die beste Medizin."
@@ -131,7 +133,8 @@
 
     "rude": {
       "id": "rude",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Ich helfe nur jenen, die Respekt zeigen.",
         "Unhöflichkeit ist eine Krankheit, die ich nicht behandle.",
         "Verschwindet aus meinem Haus!"
@@ -141,7 +144,8 @@
 
     "end": {
       "id": "end",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Möge die Gesundheit euch begleiten.",
         "Passt auf euch auf.",
         "Kommt wieder, wenn ihr Hilfe braucht."

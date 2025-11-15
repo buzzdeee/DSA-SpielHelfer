@@ -25,13 +25,16 @@
 #ifndef _DSADIALOG_H_
 #define _DSADIALOG_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 @class DSADialogNode;
 
 NS_ASSUME_NONNULL_BEGIN
-@interface DSADialog : NSObject
+@interface DSADialog : DSABaseObject
 
 @property (nonatomic, strong) NSString *npcName; // z.B. "innkeeper"
+@property (nonatomic, strong) NSString *thumbnailImageName;
+@property (nonatomic, strong) NSString *mainImageName;
+@property (nonatomic, strong) NSString *actingCharacterName; // z.B. "Max Mustermann"
 @property (nonatomic, strong) NSDictionary<NSString *, DSADialogNode *> *nodes; // nodeID -> node
 @property (nonatomic, strong) NSString *startNodeID;
 

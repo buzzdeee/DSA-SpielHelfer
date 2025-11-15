@@ -1,0 +1,508 @@
+{
+  "npcName": "trail_signs",
+  "startNodes": ["sign_1", "sign_2", "sign_3", "sign_4", "sign_5", "sign_6", "sign_7", "sign_8", "sign_9", "sign_10", "sign_11", "sign_12", "sign_13", "sign_14", "sign_15"],
+  "startNodeID": "sign_1",
+  "nodes": {
+    "sign_1": {
+      "id": "sign_1",
+      "title": "Fährten im Schlamm",
+      "description": "Am Wegesrand siehst du tiefe Abdrücke schwerer Stiefel, die bergauf führen.",
+      "playerOptions": [
+        {"texts": ["Genauer untersuchen"], "nextNodeID": "inspect_1", "duration": 10},
+        {"texts": ["Weiterreisen"], "nextNodeID": "end_1", "duration": 2}
+      ]
+    },
+    "inspect_1": {
+      "id": "inspect_1",
+      "description": "%@ untersucht die Spuren.",
+      "skillCheck": {"talent": "Fährtensuchen", "penalty": 2, "successNode": "track_success_1", "failureNode": "track_failure_1", "duration": 15}
+    },
+    "track_success_1": {
+      "id": "track_success_1",
+      "description": "%@ folgt den Spuren ein Stück den Hang hinauf und entdeckt eine versteckte Hütte.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "track_failure_1": {
+      "id": "track_failure_1",
+      "description": "Die Spuren verlieren sich zwischen Wurzeln und Geröll, %@ findet nichts weiter.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "end_1": {
+      "id": "end_1",
+      "description": "Ihr lasst die Stelle hinter euch und setzt eure Reise fort.",
+      "endEncounter": true,
+      "duration": 2
+    },
+
+    "sign_2": {
+      "id": "sign_2",
+      "title": "Gebrochene Zweige",
+      "description": "Einige Zweige sind gebrochen, als hätte jemand oder etwas hier ein Lager aufgeschlagen.",
+      "playerOptions": [
+        {"texts": ["Genauer untersuchen"], "nextNodeID": "inspect_2", "duration": 8},
+        {"texts": ["Ignorieren und weitergehen"], "nextNodeID": "end_2", "duration": 2}
+      ]
+    },
+    "inspect_2": {
+      "id": "inspect_2",
+      "description": "%@ untersucht die Stelle etwas genauer.",
+      "skillCheck": {"talent": "Fährtensuchen", "penalty": 3, "successNode": "track_success_2", "failureNode": "track_failure_2", "duration": 12}
+    },
+    "track_success_2": {
+      "id": "track_success_2",
+      "description": "%@ entdeckt frische Fußspuren, die zu einem kleinen Bach führen.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "track_failure_2": {
+      "id": "track_failure_2",
+      "description": "Die Spuren sind zu verwischt, um sie weiterzuverfolgen.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "end_2": {
+      "id": "end_2",
+      "description": "Ihr geht weiter auf dem Weg.",
+      "endEncounter": true,
+      "duration": 2
+    },
+
+    "sign_3": {
+      "id": "sign_3",
+      "title": "Verwittertes Schild",
+      "description": "Ein altes Holzschild zeigt noch schwach Richtung eines verlassenen Gehöfts.",
+      "playerOptions": [
+        {"texts": ["Alte Zeichen lesen"], "nextNodeID": "inspect_3", "duration": 10},
+        {"texts": ["Ignorieren"], "nextNodeID": "end_3", "duration": 2}
+      ]
+    },
+    "inspect_3": {
+      "id": "inspect_3",
+      "description": "%@ untersucht das alte Schild etwas genauer.",
+      "skillCheck": {"talent": "Alte Sprachen", "penalty": 1, "successNode": "read_success_3", "failureNode": "read_failure_3", "duration": 15}
+    },
+    "read_success_3": {
+      "id": "read_success_3",
+      "description": "%@ entziffert die verblasste Schrift: 'Vorsicht vor Wilderern'.",
+      "endEncounter": true,
+      "duration": 3
+    },
+    "read_failure_3": {
+      "id": "read_failure_3",
+      "description": "Die Schrift ist leider zu verblasst, um sie zu verstehen.",
+      "endEncounter": true,
+      "duration": 3
+    },
+    "end_3": {
+      "id": "end_3",
+      "description": "Ihr ignoriert das Schild und setzt euren Weg fort.",
+      "endEncounter": true,
+      "duration": 2
+    },
+
+    "sign_4": {
+      "id": "sign_4",
+      "title": "Spuren von Wildtieren",
+      "description": "Im feuchten Erdreich erkennst Ihr die Abdrücke von Wildschweinen.",
+      "playerOptions": [
+        {"texts": ["Fährte verfolgen"], "nextNodeID": "track_wild_4", "duration": 10},
+        {"texts": ["Weiterreisen"], "nextNodeID": "end_4", "duration": 2}
+      ]
+    },
+    "track_wild_4": {
+      "id": "track_wild_4",
+      "description": "%@ schaut sich die Fährte genauer an.",
+      "skillCheck": {"talent": "Fährtensuchen", "penalty": 2, "successNode": "wild_success_4", "failureNode": "wild_failure_4", "duration": 15}
+    },
+    "wild_success_4": {
+      "id": "wild_success_4",
+      "description": "%@ entdecks einen kleinen Wildschweinrudel im Unterholz.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "wild_failure_4": {
+      "id": "wild_failure_4",
+      "description": "Die Spuren führen ins Dickicht und sind nicht weiter zu verfolgen.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "end_4": {
+      "id": "end_4",
+      "description": "Ihr lasst die Stelle hinter euch und reist weiter.",
+      "endEncounter": true,
+      "duration": 2
+    },
+
+    "sign_5": {
+      "id": "sign_5",
+      "title": "Verschlungene Wege",
+      "description": "Der Pfad verzweigt sich, und ein kleiner Steinpfeil zeigt nach links.",
+      "playerOptions": [
+        {"texts": ["Linken Pfad nehmen"], "nextNodeID": "end_5a", "duration": 2},
+        {"texts": ["Rechten Pfad nehmen"], "nextNodeID": "end_5b", "duration": 2},
+        {"texts": ["Pfad untersuchen"], "nextNodeID": "inspect_5", "duration": 8}
+      ]
+    },
+    "inspect_5": {
+      "id": "inspect_5",
+      "description": "%@ schaut sich etwas genauer um.",
+      "skillCheck": {"talent": "Fährtensuchen", "penalty": 1, "successNode": "inspect_success_5", "failureNode": "inspect_failure_5", "duration": 10}
+    },
+    "inspect_success_5": {
+      "id": "inspect_success_5",
+      "description": "%@ erkennt frische Hufabdrücke, die nach rechts führen.",
+      "endEncounter": true,
+      "duration": 3
+    },
+    "inspect_failure_5": {
+      "id": "inspect_failure_5",
+      "description": "Die Hinweise sind zu verwischt, %@ kann keine Entscheidung treffen.",
+      "endEncounter": true,
+      "duration": 3
+    },
+    "end_5a": {
+      "id": "end_5a",
+      "description": "Ihr folgt dem linken Pfad und setzt die Reise fort.",
+      "endEncounter": true,
+      "duration": 2
+    },
+    "end_5b": {
+      "id": "end_5b",
+      "description": "Ihr folgt dem rechten Pfad und setzt die Reise fort.",
+      "endEncounter": true,
+      "duration": 2
+    },
+
+    "sign_6": {
+      "id": "sign_6",
+      "title": "Frische Feuerstelle",
+      "description": "Rauchreste zeigen, dass hier kürzlich ein Feuer brannte.",
+      "playerOptions": [
+        {"texts": ["Genauer untersuchen"], "nextNodeID": "inspect_6", "duration": 10},
+        {"texts": ["Ignorieren"], "nextNodeID": "end_6", "duration": 2}
+      ]
+    },
+    "inspect_6": {
+      "id": "inspect_6",
+      "description": "%@ untersucht die Stelle etwas genauer.",
+      "skillCheck": {"talent": "Fährtensuchen", "penalty": 2, "successNode": "success_6", "failureNode": "failure_6", "duration": 10}
+    },
+    "success_6": {
+      "id": "success_6",
+      "description": "%@ findet kleine Überreste von Vorräten, die jemand hier liegen ließ.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "failure_6": {
+      "id": "failure_6",
+      "description": "Alles ist verwittert, %@ kann nichts mehr finden.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "end_6": {
+      "id": "end_6",
+      "description": "Ihr setzt eure Reise ohne weitere Entdeckungen fort.",
+      "endEncounter": true,
+      "duration": 2
+    },
+
+    "sign_7": {
+      "id": "sign_7",
+      "title": "Verlassener Wagen",
+      "description": "Ein alter, verlassener Wagen steht halb im Gestrüpp.",
+      "playerOptions": [
+        {"texts": ["Untersuchen"], "nextNodeID": "inspect_7", "duration": 12},
+        {"texts": ["Weiterreisen"], "nextNodeID": "end_7", "duration": 2}
+      ]
+    },
+    "inspect_7": {
+      "id": "inspect_7",
+      "description": "%@ untersucht den Wagen etwas genauer.",
+      "skillCheck": {"talent": "Sinnenschärfe", "penalty": 3, "successNode": "success_7", "failureNode": "failure_7", "duration": 15}
+    },
+    "success_7": {
+      "id": "success_7",
+      "description": "%@ entdeckst Spuren von Reisenden, die hier vorbeikamen.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "failure_7": {
+      "id": "failure_7",
+      "description": "Die Spuren sind zu verwischt, um Hinweise zu finden.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "end_7": {
+      "id": "end_7",
+      "description": "Ihr setzt die Reise fort.",
+      "endEncounter": true,
+      "duration": 2
+    },
+    "sign_8": {
+      "id": "sign_8",
+      "title": "Abgebrochene Pfeile",
+      "description": "Am Waldrand liegen zerbrochene Pfeile, möglicherweise von Jägern oder Banditen.",
+      "playerOptions": [
+        {"texts": ["Untersuchen"], "nextNodeID": "inspect_8", "duration": 10},
+        {"texts": ["Ignorieren"], "nextNodeID": "end_8", "duration": 2}
+      ]
+    },
+    "inspect_8": {
+      "id": "inspect_8",
+      "description": "Ihr untersucht die Stelle etwas genauer.",
+      "skillCheck": {"talent": "Fährtensuchen", "penalty": 3, "successNode": "success_8", "failureNode": "failure_8", "duration": 12}
+    },
+    "success_8": {
+      "id": "success_8",
+      "description": "%@ findest Spuren, die auf eine kleine Gruppe von Reisenden hinweisen.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "failure_8": {
+      "id": "failure_8",
+      "description": "Die Pfeile sind alt und verwittert, %@ kann daraus nichts weiter ableiten.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "end_8": {
+      "id": "end_8",
+      "description": "Ihr setzt euren Weg unbeirrt fort.",
+      "endEncounter": true,
+      "duration": 2
+    },
+
+    "sign_9": {
+      "id": "sign_9",
+      "title": "Frischer Regen und Schlamm",
+      "description": "Der Boden ist aufgeweicht, und neue Spuren von Tieren und Menschen sind sichtbar.",
+      "playerOptions": [
+        {"texts": ["Spuren verfolgen"], "nextNodeID": "inspect_9", "duration": 12},
+        {"texts": ["Weiterreisen"], "nextNodeID": "end_9", "duration": 2}
+      ]
+    },
+    "inspect_9": {
+      "id": "inspect_9",
+      "description": "%@ untersucht die Stelle etwas genauer.",
+      "skillCheck": {"talent": "Fährtensuchen", "penalty": 2, "successNode": "success_9", "failureNode": "failure_9", "duration": 15}
+    },
+    "success_9": {
+      "id": "success_9",
+      "description": "%@ erkenn frische Wildspuren, die zu einer kleinen Lichtung führen.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "failure_9": {
+      "id": "failure_9",
+      "description": "Die Spuren verlaufen im Schlamm und sind nicht weiter zu verfolgen.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "end_9": {
+      "id": "end_9",
+      "description": "Ihr ignoriert die Spuren und zieht weiter.",
+      "endEncounter": true,
+      "duration": 2
+    },
+
+    "sign_10": {
+      "id": "sign_10",
+      "title": "Getrocknete Fährten",
+      "description": "Alte, vertrocknete Fußabdrücke lassen sich kaum noch erkennen.",
+      "playerOptions": [
+        {"texts": ["Versuchen zu erkennen"], "nextNodeID": "inspect_10", "duration": 10},
+        {"texts": ["Weiterziehen"], "nextNodeID": "end_10", "duration": 2}
+      ]
+    },
+    "inspect_10": {
+      "id": "inspect_10",
+      "description": "%@ untersucht die Stelle etwas genauer.",
+      "skillCheck": {"talent": "Fährtensuchen", "penalty": 4, "successNode": "success_10", "failureNode": "failure_10", "duration": 12}
+    },
+    "success_10": {
+      "id": "success_10",
+      "description": "%@ entziffert die Fährte eines einzelnen Reiters, der in den Wald verschwand.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "failure_10": {
+      "id": "failure_10",
+      "description": "Die Spuren sind zu alt, um sie zu identifizieren.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "end_10": {
+      "id": "end_10",
+      "description": "Ihr geht weiter auf dem Weg.",
+      "endEncounter": true,
+      "duration": 2
+    },
+
+    "sign_11": {
+      "id": "sign_11",
+      "title": "Wildtiergesang im Wald",
+      "description": "Aus dem Dickicht dringen die Rufe von Wildtieren, vielleicht eine Gefahr oder ein Hinweis.",
+      "playerOptions": [
+        {"texts": ["Nach Hinweisen suchen"], "nextNodeID": "inspect_11", "duration": 10},
+        {"texts": ["Weiterreisen"], "nextNodeID": "end_11", "duration": 2}
+      ]
+    },
+    "inspect_11": {
+      "id": "inspect_11",
+      "description": "%@ untersucht die Stelle etwas genauer.",
+      "skillCheck": {"talent": "Fährtensuchen", "penalty": 2, "successNode": "success_11", "failureNode": "failure_11", "duration": 15}
+    },
+    "success_11": {
+      "id": "success_11",
+      "description": "%@ entdeckt Spuren von Wildtieren und eine kleine Fährte, die möglicherweise von Reisenden stammt.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "failure_11": {
+      "id": "failure_11",
+      "description": "%@ findet nur Spuren von Tieren, keine Hinweise auf Menschen.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "end_11": {
+      "id": "end_11",
+      "description": "Ihr geht weiter den Pfad entlang.",
+      "endEncounter": true,
+      "duration": 2
+    },
+
+    "sign_12": {
+      "id": "sign_12",
+      "title": "Unbekannte Markierung",
+      "description": "Ein merkwürdiges Symbol ist in einen Baum geritzt.",
+      "playerOptions": [
+        {"texts": ["Untersuchen"], "nextNodeID": "inspect_12", "duration": 10},
+        {"texts": ["Ignorieren"], "nextNodeID": "end_12", "duration": 2}
+      ]
+    },
+    "inspect_12": {
+      "id": "inspect_12",
+      "description": "%@ schaut sich das Symbol etwas genauer an.",
+      "skillCheck": {"talent": "Alte Sprachen", "penalty": 3, "successNode": "success_12", "failureNode": "failure_12", "duration": 12}
+    },
+    "success_12": {
+      "id": "success_12",
+      "description": "%@ erkennt das Symbol als Zeichen einer entfernten Siedlung.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "failure_12": {
+      "id": "failure_12",
+      "description": "%@ kannt das Zeichen nicht deuten.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "end_12": {
+      "id": "end_12",
+      "description": "Ihr setzt euren Weg fort.",
+      "endEncounter": true,
+      "duration": 2
+    },
+
+    "sign_13": {
+      "id": "sign_13",
+      "title": "Zertrampeltes Unterholz",
+      "description": "Ein Stück Unterholz sieht aus, als wäre hier ein Tier oder Mensch hindurchgetreten.",
+      "playerOptions": [
+        {"texts": ["Nach Spuren suchen"], "nextNodeID": "inspect_13", "duration": 10},
+        {"texts": ["Weiterreisen"], "nextNodeID": "end_13", "duration": 2}
+      ]
+    },
+    "inspect_13": {
+      "id": "inspect_13",
+      "description": "%@ untersucht die Stelle etwas genauer.",
+      "skillCheck": {"talent": "Fährtensuchen", "penalty": 2, "successNode": "success_13", "failureNode": "failure_13", "duration": 12}
+    },
+    "success_13": {
+      "id": "success_13",
+      "description": "%@ findet frische Spuren, die tiefer in den Wald führen.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "failure_13": {
+      "id": "failure_13",
+      "description": "Die Spuren sind zu alt und schwer zu erkennen.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "end_13": {
+      "id": "end_13",
+      "description": "Ihr zieht weiter auf eurem Weg.",
+      "endEncounter": true,
+      "duration": 2
+    },
+
+    "sign_14": {
+      "id": "sign_14",
+      "title": "Spuren von Räubern",
+      "description": "Einige Abdrücke scheinen auf bewaffnete Reisende hinzuweisen.",
+      "playerOptions": [
+        {"texts": ["Fährte verfolgen"], "nextNodeID": "inspect_14", "duration": 10},
+        {"texts": ["Umkehren"], "nextNodeID": "end_14", "duration": 2}
+      ]
+    },
+    "inspect_14": {
+      "id": "inspect_14",
+      "description": "%@ untersucht die Stelle etwas genauer.",
+      "skillCheck": {"talent": "Fährtensuchen", "penalty": 4, "successNode": "success_14", "failureNode": "failure_14", "duration": 15}
+    },
+    "success_14": {
+      "id": "success_14",
+      "description": "%@ entdeckt das Versteck einiger Räuber, kannt aber unbemerkt bleiben.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "failure_14": {
+      "id": "failure_14",
+      "description": "Die Spuren sind zu verschwommen, um sie zu verfolgen.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "end_14": {
+      "id": "end_14",
+      "description": "Ihr setzt die Reise vorsichtig fort.",
+      "endEncounter": true,
+      "duration": 2
+    },
+
+    "sign_15": {
+      "id": "sign_15",
+      "title": "Verlassener Rastplatz",
+      "description": "Ein kleiner Rastplatz mit halb zerfallenen Sitzgelegenheiten und Feuerstelle liegt am Wegesrand.",
+      "playerOptions": [
+        {"texts": ["Untersuchen"], "nextNodeID": "inspect_15", "duration": 10},
+        {"texts": ["Weiterreisen"], "nextNodeID": "end_15", "duration": 2}
+      ]
+    },
+    "inspect_15": {
+      "id": "inspect_15",
+      "description": "%@ untersucht die Stelle etwas genauer.",
+      "skillCheck": {"talent": "Fährtensuchen", "penalty": 2, "successNode": "success_15", "failureNode": "failure_15", "duration": 12}
+    },
+    "success_15": {
+      "id": "success_15",
+      "description": "%@ findet Hinweise auf frühere Reisende, die hier Rast gemacht haben.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "failure_15": {
+      "id": "failure_15",
+      "description": "Die Spuren sind verwischt, %@ erkennt keine weiteren Hinweise.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "end_15": {
+      "id": "end_15",
+      "endEncounter": true,
+      "description": "Ihr zieht weiter auf eurem Weg.",
+      "endEncounter": true,
+      "duration": 2
+    }
+  }
+}

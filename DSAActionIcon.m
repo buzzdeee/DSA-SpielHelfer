@@ -919,11 +919,11 @@ inventoryIdentifier: (NSString *)sourceInventory
     if (!dialogNPC) return;
 
     NSDictionary *info = @{
-        @"adventure": adventure,
         @"encounterType": @(DSAEncounterTypeFriendlyNPC), // oder eigener Typ DSAEncounterTypeChat
         @"subType": dialogNPC
     };
 
+    NSLog(@"DSAActionIconChat handleEvent going to post DSAEncounterTriggeredNotification!");
     [[NSNotificationCenter defaultCenter] postNotificationName:DSAEncounterTriggeredNotification
                                                         object:self
                                                       userInfo:info];

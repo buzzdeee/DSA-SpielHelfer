@@ -25,20 +25,23 @@
 #ifndef _DSADIALOGMANAGER_H_
 #define _DSADIALOGMANAGER_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 @class DSADialog;
 @class DSADialogNode;
 
-@interface DSADialogManager : NSObject
+@interface DSADialogManager : DSABaseObject
 
 @property (nonatomic, strong) DSADialog *currentDialog;
 @property (nonatomic, strong) NSString *currentNodeID;
+@property BOOL skillCheckPending;                    // to divide skill check nodes in two steps 
+@property (nonatomic) NSInteger accumulatedDuration; // Gesamtdauer in Minuten
 
 - (BOOL)loadDialogFromFile:(NSString *)filename;
-- (void)startDialog;
+//- (void)startDialog;
 - (void)handlePlayerSelectionAtIndex:(NSUInteger)index;
 - (DSADialogNode *)currentNode;
-- (void)advanceToNextNodeForOptionAtIndex:(NSUInteger)index;
+- (void)presentCurrentNode;  // and eventuall do action...
+- (void)performPendingSkillCheck;
 
 @end
 

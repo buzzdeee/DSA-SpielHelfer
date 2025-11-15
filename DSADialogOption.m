@@ -27,6 +27,18 @@
 
 @implementation DSADialogOption
 
++ (instancetype)optionFromDictionary:(NSDictionary *)dict {
+    //NSLog(@"DSADialogOption optionFromDictionary: dict: %@", dict);
+    DSADialogOption *opt = [[DSADialogOption alloc] init];
+    opt.textVariants = dict[@"texts"];
+    opt.nextNodeID = dict[@"nextNodeID"];
+    opt.hintCategory = dict[@"hintCategory"];
+    opt.duration = [dict[@"duration"] integerValue];
+    opt.skillCheck = dict[@"skillCheck"];
+    return opt;
+}
+
+
 - (NSString *)randomText {
     if (self.textVariants.count == 0) {
         return @"...";
@@ -34,25 +46,4 @@
     NSUInteger index = arc4random_uniform((uint32_t)self.textVariants.count);
     return self.textVariants[index];
 }
-
-+ (instancetype)optionFromDictionary:(NSDictionary *)dict {
-    DSADialogOption *option = [[DSADialogOption alloc] init];
-    NSArray *texts = dict[@"texts"];
-    if ([texts isKindOfClass:[NSArray class]]) {
-        option.textVariants = texts;
-    } else if ([dict[@"texts"] isKindOfClass:[NSString class]]) {
-        // Fallback: wenn nur "text" statt "textVariants"
-        option.textVariants = @[dict[@"texts"]];
-    } else {
-        option.textVariants = @[@"..."];
-    }
-    option.nextNodeID = dict[@"nextNodeID"];
-    option.hintCategory = dict[@"hintCategory"]; // optional, not always set
-    NSDictionary *actionDict = dict[@"action"];
-    if ([actionDict isKindOfClass:[NSDictionary class]]) {
-        option.action = [DSADialogAction actionFromDictionary:actionDict];
-    }
-    return option;
-}
-
 @end

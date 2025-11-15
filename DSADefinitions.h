@@ -436,6 +436,7 @@ typedef NS_ENUM(NSInteger, DSAEncounterType) {
     DSAEncounterTypeAnimal,
     DSAEncounterTypeMerchant,
     DSAEncounterTypeHerbs,
+    DSAEncounterTypeTrailSign,
     DSAEncounterTypeFriendlyNPC
 };
 

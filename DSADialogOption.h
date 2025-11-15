@@ -25,20 +25,24 @@
 #ifndef _DSADIALOGOPTION_H_
 #define _DSADIALOGOPTION_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 @class DSADialogAction;
 
 NS_ASSUME_NONNULL_BEGIN
-@interface DSADialogOption : NSObject
+@interface DSADialogOption : DSABaseObject
 
 @property (nonatomic, strong) NSArray<NSString *> *textVariants;
 @property (nonatomic, strong) NSString *nextNodeID;
 @property (nonatomic, strong, nullable) DSADialogAction *action;
 @property (nonatomic, strong, nullable) NSString *hintCategory;
+@property (nonatomic) NSInteger duration;  // in minutes
+@property (nonatomic, strong, nullable) NSDictionary *skillCheck;
+
++ (nullable instancetype)optionFromDictionary:(NSDictionary *)dict;
 
 - (NSString *)randomText;
 
-+ (nullable instancetype)optionFromDictionary:(NSDictionary *)dict;
+
 
 @end
 NS_ASSUME_NONNULL_END

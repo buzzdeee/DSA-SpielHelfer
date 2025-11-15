@@ -24,37 +24,52 @@
 
 #import "DSADialog.h"
 #import "DSADialogNode.h"
+#import "DSAAdventure.h"
+#import "DSAAdventureGroup.h"
+#import "Utils.h"
 
 @implementation DSADialog
-
-+ (nullable instancetype)dialogFromJSONFile:(NSString *)filePath {
-    NSData *data = [NSData dataWithContentsOfFile:filePath];
-    if (!data) {
-        NSLog(@"Fehler: Konnte JSON-Datei nicht lesen: %@", filePath);
-        return nil;
-    }
-
-    NSError *error = nil;
-    id jsonObj = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
-    if (error || ![jsonObj isKindOfClass:[NSDictionary class]]) {
-        NSLog(@"Fehler beim Parsen der Datei %@: %@", filePath.lastPathComponent, error);
-        return nil;
-    }
-
-    return [DSADialog dialogFromDictionary:(NSDictionary *)jsonObj];
-}
-
 + (nullable instancetype)dialogFromDictionary:(NSDictionary *)dict {
     DSADialog *dialog = [[DSADialog alloc] init];
 
     dialog.npcName = dict[@"npcName"];
+    
+    NSString *region = dict[@"imageRegion"];
+    NSString *gender = dict[@"imageGender"];
+    
+    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    DSAAdventureGroup *activeGroup = adventure.activeGroup;
+    DSAPosition *currentPosition = activeGroup.position;
+    NSString *seed = currentPosition.description;
+    
+    NSString *thumbKey = dict[@"thumbnailImage"];
+    if (thumbKey)
+      {
+        dialog.thumbnailImageName = [Utils randomImageNameForKey: thumbKey
+                                                  withSizeSuffix: @"128x128"
+                                                       forRegion: region
+                                                          gender: gender
+                                                      seedString: seed];
+       }
+       
+    NSLog(@"DSADialog dialogFromDictionary: thumbnailImageName: %@", dialog.thumbnailImageName);
+    NSString *mainKey = dict[@"mainImage"];   
+    if (mainKey)
+      {
+        dialog.mainImageName = [Utils randomImageNameForKey: mainKey
+                                             withSizeSuffix: @"128x128"
+                                                  forRegion: region
+                                                     gender: gender
+                                                 seedString: seed];
+       }
+    NSLog(@"DSADialog dialogFromDictionary: mainImageName: %@", dialog.mainImageName);          
     dialog.startNodeID = dict[@"startNodeID"];
     
     NSDictionary *nodesDict = dict[@"nodes"];
     NSMutableDictionary *nodes = [NSMutableDictionary dictionary];
     
     for (NSString *nodeID in nodesDict) {
-        NSLog(@"DSADialog dialogFromDictionary: nodeID: %@", nodeID);
+        //NSLog(@"DSADialog dialogFromDictionary: nodeID: %@", nodeID);
         NSDictionary *nodeDict = nodesDict[nodeID];
         DSADialogNode *node = [DSADialogNode nodeFromDictionary:nodeDict];
         if (node) {

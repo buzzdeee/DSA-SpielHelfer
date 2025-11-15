@@ -1381,12 +1381,65 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
             break;
         case DSAEncounterTypeHerbs:
               [self presentHerbsEncounter: notification];
+              break;
         case DSAEncounterTypeFriendlyNPC:
               [self presentChatEncounter: notification];
+              break;
+        case DSAEncounterTypeTrailSign:
+              [self presentTrailSignEncounter: notification];              
         default:
             [self presentGenericEncounter: notification];
             break;
     }
+}
+
+- (void)presentTrailSignEncounter:(NSNotification *)note {
+    // 1️⃣ Adventure holen
+//    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+
+    // 2️⃣ Trail Signs Dialog laden
+    DSADialogManager *dialogManager = [[DSADialogManager alloc] init];
+    if (![dialogManager loadDialogFromFile:@"dialogue_trail_signs"]) {
+        NSLog(@"❌ Konnte trail_signs.json nicht laden");
+        [self continueTravel];
+        return;
+    }
+    
+    DSAConversationDialogSheetController *dialogController =
+        [[DSAConversationDialogSheetController alloc] initWithDialogManager:dialogManager];    
+    
+/*  WIRD IN DSADialogManager selbst schon gemacht
+    // 3️⃣ Zufälligen Startnode wählen
+    NSArray *startNodes = dialogManager.currentDialog.startNodes; // Array der StartIDs
+    if (startNodes.count > 0) {
+        NSUInteger randomIndex = arc4random_uniform((uint32_t)startNodes.count);
+        dialogManager.currentNodeID = startNodes[randomIndex];
+    } else {
+        NSLog(@"❌ Keine Startnodes in trail_signs.json definiert, default auf startNodeID");
+        dialogManager.currentNodeID = dialogManager.currentDialog.startNodeID;
+    }
+*/
+/*
+    // 4️⃣ Dialog als Sheet anzeigen
+    DSAConversationDialogSheetController *sheetController =
+        [[DSAConversationDialogSheetController alloc] initWithDialogManager:dialogManager];
+
+    // Optional: Titel setzen aus Dialog JSON
+    if (dialogManager.currentDialog.title) {
+        [sheetController.window setTitle:dialogManager.currentDialog.title];
+    }
+*/
+    // 5️⃣ Sheet präsentieren
+    [self.window beginSheet: dialogController.window completionHandler:^(NSModalResponse returnCode) {
+        NSLog(@"Trail Sign Encounter beendet");
+        // ⬅️ Hier evtl. die gesammelte Dauer aus dialogManager akkumulieren und GameClock weiterschalten
+/*        if ([dialogManager respondsToSelector:@selector(accumulatedDuration)]) {
+            NSInteger duration = dialogManager.accumulatedDuration;
+            NSLog(@"Gesamtdauer des Encounters: %ld Minuten", (long)duration);
+            [adventure.gameClock advanceByMinutes:duration];
+        } */
+        [self continueTravel];
+    }];
 }
 
 - (void)presentChatEncounter:(NSNotification *)note

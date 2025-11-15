@@ -1,10 +1,11 @@
 {
   "npcName": "shopkeeper_general",
+  "thumbnailImage": "Kraemer_Shopkeeper",
   "startNodeID": "start",
   "nodes": {
     "start": {
       "id": "start",
-      "npcTexts": [
+      "texts": [
         "Willkommen, willkommen! Tretet näher – ich hab alles, was das Herz begehrt!",
         "Schaut euch um, gute Ware zu fairen Preisen!",
         "Reisende! Kommt, vielleicht hab ich etwas, das ihr braucht."
@@ -47,7 +48,7 @@
 
     "showGoods": {
       "id": "showGoods",
-      "npcTexts": [
+      "texts": [
         "Hier, frisch eingetroffen: feine Seile, Kräuter, sogar eine Phiole mit... etwas Besonderem.",
         "Ich habe Proviant, Lampenöl, Nadeln, Knöpfe... was braucht ihr?",
         "Nehmt euch Zeit – Qualität lässt sich nicht überstürzen!"
@@ -74,7 +75,7 @@
 
     "gossip": {
       "id": "gossip",
-      "npcTexts": [
+      "texts": [
         "Nun, es heißt, dass letzte Woche jemand nachts beim alten Brunnen gesehen wurde...",
         "Die Wache wirkt nervös – aber sie sagen nichts Genaues.",
         "Man munkelt, Händler aus dem Süden meiden die Gegend seit ein paar Tagen."
@@ -101,7 +102,7 @@
 
     "maybeHint": {
       "id": "maybeHint",
-      "npcTexts": [
+      "texts": [
         "Hm... für euch? Vielleicht.",
         "Ich habe gehört, in der Nähe ist etwas im Busch.",
         "Mit der richtigen Münze gibt's vielleicht auch ein paar Worte mehr."
@@ -128,7 +129,8 @@
 
     "giveHint": {
       "id": "giveHint",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Ein Bote aus dem Umland sprach von merkwürdigen Spuren nahe dem alten Wachhaus.",
         "Ein altes Relikt soll kürzlich jemand aus einem verlassenen Stall geborgen haben.",
         "Man erzählt sich, in einem der Kellerhäuser hier soll ein geheimer Gang verborgen sein..."
@@ -139,7 +141,8 @@
 
     "rude": {
       "id": "rude",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Ha! Dann geht doch zu meinem Konkurrenten – wenn ihr ihn findet.",
         "Ich verkaufe keine Höflichkeit – aber ein bisschen Respekt wär nett.",
         "Wenn ihr euch nur beschweren wollt, könnt ihr gleich wieder rausgehen!"
@@ -149,7 +152,8 @@
 
     "end": {
       "id": "end",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Kommt wieder, wenn ihr was braucht!",
         "Die Tür steht euch offen – solange ihr zahlt.",
         "Ich hab ständig neue Ware, haltet die Augen offen!"

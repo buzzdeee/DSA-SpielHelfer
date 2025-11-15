@@ -194,7 +194,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
   [coder encodeObject:self.routeResult forKey:@"routeResult"];
   [coder encodeInteger:self.currentSegmentIndex forKey:@"currentSegmentIndex"];
   [coder encodeDouble:(double)self.segmentProgress forKey:@"segmentProgress"];
-  [coder encodeDouble:(double)self.segmentProgress forKey:@"segmentProgress"];
+  [coder encodeDouble:(double)self.segmentMilesDone forKey:@"segmentMilesDone"];
   [coder encodeDouble:(double)self.travelHoursToday forKey:@"travelHoursToday"];
   [coder encodeDouble:(double)self.encounterChancePerMile forKey:@"encounterChancePerMile"];
   [coder encodeDouble:(double)self.milesUntilNextEncounterCheck forKey:@"milesUntilNextEncounterCheck"];
@@ -568,7 +568,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 
 - (void)triggerEncounterOfType:(DSAEncounterType)type
 {
-    NSLog(@"⚠️ Encounter triggered: %ld", (long)type);
+    NSLog(@"DSAAdventure triggerEncounterOfType Encounter triggered: %ld", (long)type);
 
     self.traveling = NO;
     [self.gameClock setTravelModeEnabled:NO];
@@ -579,6 +579,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
       case DSAEncounterTypeMerchant: subType = (NSString *)[self randomMerchantType]; break;
       case DSAEncounterTypeHerbs: subType = (DSAActionResult *)[self findRandomHerb]; break;
       case DSAEncounterTypeFriendlyNPC: subType = (NSString *)[self randomTravelerType]; break;
+      case DSAEncounterTypeTrailSign: subType = @""; break;
       default: subType = @"";
     }
     
@@ -772,7 +773,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 
     NSLog(@"DSAAdventure rollTravelEventForEnvironment: TODO environment dependency missing!");
     // XXXXXXXXXXXXXXXXXX
-    return DSATravelEventTraveler;
+    return DSATravelEventTrailSign;
     // 2W6 + gewichtete Tabelle (DSA nah)
     int roll = [Utils rollDice: @"2W6"];
     switch (roll) {
@@ -860,7 +861,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
         case DSATravelEventAnimal:        name = @"Wildlife"; break;
         case DSATravelEventMerchant:      name = @"Merchant"; encounterType = DSAEncounterTypeMerchant; break;
         case DSATravelEventTraveler:      name = @"Traveler"; encounterType = DSAEncounterTypeFriendlyNPC; break;
-        case DSATravelEventTrailSign:     name = @"Trail Sign"; break;
+        case DSATravelEventTrailSign:     name = @"Trail Sign"; encounterType = DSAEncounterTypeTrailSign; break;
         case DSATravelEventWeatherShift:  name = @"Weather Shift"; break;
         case DSATravelEventRoadObstacle:  name = @"Road Obstacle"; break;
         case DSATravelEventScenery:       name = @"Scenic Moment"; break;
@@ -877,7 +878,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     // XXXXXXX
     NSDictionary *info = @{
         @"adventure": self,
-        @"eventType": @(DSATravelEventTraveler),
+        @"eventType": @(DSATravelEventTrailSign),
     };
     NSLog(@"DSAAdventure triggerTravelEvent : Travel Event: %@", name);
     [[NSNotificationCenter defaultCenter] postNotificationName: DSATravelEventTriggeredNotification
@@ -885,7 +886,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
                                                       userInfo:info];
     // XXXXXXX                                                      
     //[self triggerEncounterOfType: encounterType];  
-    [self triggerEncounterOfType: DSAEncounterTypeFriendlyNPC];                                                     
+    [self triggerEncounterOfType: DSAEncounterTypeTrailSign];                                                     
 }
 
 #pragma mark - Travel Logic

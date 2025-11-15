@@ -1795,7 +1795,7 @@ static NSDictionary<NSString *, Class> *typeToClassMap = nil;
                         forHours: (NSInteger) hours
                 currentAdventure:(DSAAdventure *)adventure
 {
-    NSLog(@"DSAGeneralTalentSingen useOnTarget: byCharacter: currentAdventure called");
+    NSLog(@"DSAMetaTalentJagen useOnTarget: byCharacter: currentAdventure called");
     DSAAdventureGroup *activeGroup = adventure.activeGroup;
     DSAPosition *currentPosition = activeGroup.position;
     

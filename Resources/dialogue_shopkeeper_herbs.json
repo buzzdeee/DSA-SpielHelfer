@@ -1,10 +1,11 @@
 {
   "npcName": "herbalist",
+  "thumbnailImage": "Kraeuterhaendler_Shopkeeper",
   "startNodeID": "start",
   "nodes": {
     "start": {
       "id": "start",
-      "npcTexts": [
+      "texts": [
         "Ah, Besucher... Sucht ihr Heilung? Oder... etwas anderes?",
         "Die Wälder flüstern viel – und ich höre gut zu.",
         "Willkommen in meiner Hütte. Kräuter? Salben? Oder ein Gespräch über das, was wächst und vergeht?"
@@ -47,7 +48,7 @@
 
     "showGoods": {
       "id": "showGoods",
-      "npcTexts": [
+      "texts": [
         "Hier – Salbe gegen Entzündungen, getrocknete Ysilleblätter, und ein Schlaftrunk aus Träumekraut.",
         "Ich habe Wurzeln, die Blut stillen, und Kräuter, die euch wieder aufrichten.",
         "Seht euch um. Aber vorsichtig – manches wirkt stärker, als man glaubt."
@@ -74,7 +75,7 @@
 
     "advice": {
       "id": "advice",
-      "npcTexts": [
+      "texts": [
         "Geht nicht bei Dämmerung ins Moor – das Licht trügt.",
         "Wenn ihr einen Farn mit drei Spitzen findet, rührt ihn nicht an.",
         "Die Berge flüstern nachts – manchmal antwortet etwas zurück."
@@ -101,7 +102,7 @@
 
     "maybeHint": {
       "id": "maybeHint",
-      "npcTexts": [
+      "texts": [
         "Vielleicht... wenn ihr mit offenen Augen durch die Welt geht.",
         "Ein kleiner Hinweis... gut, aber vergesst nicht, die Natur verlangt auch Opfer.",
         "Ich könnte etwas erzählen – aber seid euch bewusst: Wissen trägt Verantwortung."
@@ -128,7 +129,8 @@
 
     "giveHint": {
       "id": "giveHint",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Nordöstlich von hier wächst Alraunblatt – selten, aber kraftvoll.",
         "Am alten Steinkreis blüht nachts eine Blume, die nur Eingeweihte erkennen.",
         "Zwischen den Steinen am Bach liegt manchmal Goldhaar – es heilt mehr, als man denkt."
@@ -139,7 +141,8 @@
 
     "rude": {
       "id": "rude",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Solche Worte sind gefährlich – genau wie die Gifte, die ich verkaufen könnte.",
         "Dann verschwindet – bevor euch ein Fluch trifft.",
         "Ich helfe nur denen, die den Wald respektieren. Ihr tut das nicht."
@@ -149,7 +152,8 @@
 
     "end": {
       "id": "end",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Geht mit Bedacht.",
         "Die Pflanzen hören mit.",
         "Möge euer Weg heil bleiben."

@@ -4,7 +4,7 @@
   "nodes": {
     "start": {
       "id": "start",
-      "npcTexts": [
+      "texts": [
         "Ein erschöpfter Pilger lehnt auf seinem Stab und murmelt ein Gebet.",
         "\"Seid gesegnet, Reisende. Möge euer Weg hell sein.\"",
         "\"Ich wandere zur heiligen Quelle, um Sühne zu leisten.\""
@@ -31,7 +31,7 @@
 
     "journey": {
       "id": "journey",
-      "npcTexts": [
+      "texts": [
         "\"Ich suche Vergebung für Fehler der Vergangenheit.\"",
         "\"Man sagt, wer das Wasser der Quelle trinkt, findet Frieden.\"",
         "\"Mein Weg ist lang, doch mein Glaube trägt mich.\""
@@ -50,7 +50,8 @@
 
     "blessing": {
       "id": "blessing",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Der Pilger hebt die Hand zum Segen. \"Möge die Götter euch leiten.\"",
         "\"Ich spüre Güte in euren Herzen – nehmt diesen Segen mit.\""
       ],
@@ -60,7 +61,8 @@
 
     "end": {
       "id": "end",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "\"Geht in Frieden.\"",
         "\"Die Straße sei euch gnädig.\"",
         "\"Lebt wohl, Reisende.\""

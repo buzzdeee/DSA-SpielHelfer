@@ -25,7 +25,7 @@
 #ifndef _DSADIALOGACTION_H_
 #define _DSADIALOGACTION_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 
 typedef NS_ENUM(NSUInteger, DSADialogActionType) {
     DSADialogActionTypeNone,
@@ -34,7 +34,7 @@ typedef NS_ENUM(NSUInteger, DSADialogActionType) {
     // weitere Aktionen nach Bedarf
 };
 NS_ASSUME_NONNULL_BEGIN
-@interface DSADialogAction : NSObject
+@interface DSADialogAction : DSABaseObject
 
 @property (nonatomic, assign) DSADialogActionType type;
 @property (nonatomic, strong, nullable) NSString *hintID; // für GiveHint

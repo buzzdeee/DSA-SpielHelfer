@@ -4,7 +4,7 @@
   "nodes": {
     "start": {
       "id": "start",
-      "npcTexts": [
+      "texts": [
         "Eine alte Frau kniet im Gras und sammelt Kräuter.",
         "\"Psst, seid leise! Ich will die Feenkappe nicht erschrecken.\"",
         "\"Ah, Reisende! Vielleicht sucht ihr auch etwas Heilsames?\""
@@ -39,7 +39,7 @@
 
     "herbs": {
       "id": "herbs",
-      "npcTexts": [
+      "texts": [
         "\"Das hier ist Sonnentau – gut gegen Fieber.\"",
         "\"Ich suche Baldrian, der wächst nur im Schatten.\"",
         "\"Mit diesen Blättern kann man Wunden reinigen.\""
@@ -58,7 +58,8 @@
 
     "teach": {
       "id": "teach",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "\"Hier, nehmt ein paar dieser Kräuter. Vielleicht helfen sie euch.\"",
         "\"Ich sehe, ihr habt ein gutes Auge. Probiert euer Glück beim Sammeln.\""
       ],
@@ -68,7 +69,8 @@
 
     "end": {
       "id": "end",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "\"Passt auf, dass ihr keine giftigen Wurzeln pflückt!\"",
         "\"Möge euch Mutter Natur freundlich gesinnt sein.\"",
         "\"Lebt wohl, Reisende.\""

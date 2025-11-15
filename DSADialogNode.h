@@ -25,16 +25,23 @@
 #ifndef _DSADIALOGNODE_H_
 #define _DSADIALOGNODE_H_
 
-#import <Foundation/Foundation.h>
+#import "DSABaseObject.h"
 @class DSADialogOption;
 
 NS_ASSUME_NONNULL_BEGIN
-@interface DSADialogNode : NSObject
+@interface DSADialogNode : DSABaseObject
 
 @property (nonatomic, strong) NSString *nodeID;
+@property (nonatomic, strong) NSString *thumbnailImageName;
+@property (nonatomic, strong) NSString *mainImageName;
+@property (nonatomic, strong, nullable) NSString *title;                    // start nodes have a title, to "describe" the dialog
 @property (nonatomic, strong) NSArray<NSString *> *texts;
 @property (nonatomic, strong) NSArray<DSADialogOption *> *playerOptions;
 @property (nonatomic, strong, nullable) NSString *hintCategory;
+@property (nonatomic) NSInteger duration;  // in minutes
+@property (nonatomic, strong, nullable) NSDictionary *skillCheck;
+@property (nonatomic) BOOL endEncounter;
+@property (nonatomic, strong, nullable) NSString *nodeDescription;
 
 + (nullable instancetype)nodeFromDictionary:(NSDictionary *)dict;
 

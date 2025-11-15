@@ -4,7 +4,8 @@
   "nodes": {
     "start": {
       "id": "start",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "Was fällt euch ein, einfach so an meine Tür zu klopfen?",
         "Wer stört zu dieser Stunde?",
         "Wenn ihr nichts Wichtiges wollt, verschwindet!",

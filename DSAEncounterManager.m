@@ -158,17 +158,18 @@
 
     // Build userInfo: include adventure, terrain, group info, and chosen encounter
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithDictionary:@{
-        @"adventure": self.adventure ?: [NSNull null],
         @"terrain": self.terrainKey ?: @"unknown",
         @"encounter": enc
     }];
 
     // Pre-notify (UI can prepare / pause travel)
+    NSLog(@"DSAEncounterManager triggerEncounter going to post: DSAEncounterWillStartNotification");
     [[NSNotificationCenter defaultCenter] postNotificationName:DSAEncounterWillStartNotification
                                                         object:self
                                                       userInfo:userInfo];
 
     // Post the actual triggered notification
+    NSLog(@"DSAEncounterManager triggerEncounter going to post: DSAEncounterTriggeredNotification");
     [[NSNotificationCenter defaultCenter] postNotificationName:DSAEncounterTriggeredNotification
                                                         object:self
                                                       userInfo:userInfo];

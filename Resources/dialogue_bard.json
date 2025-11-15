@@ -4,7 +4,7 @@
   "nodes": {
     "start": {
       "id": "start",
-      "npcTexts": [
+      "texts": [
         "Ein Barde sitzt auf einem Stein und spielt eine leise Melodie.",
         "\"Ah, Reisende! Wollt ihr ein Lied hören, um die Stimmung zu heben?\"",
         "\"Kommt näher, Freunde – meine Laute kennt keine Vorurteile!\""
@@ -39,7 +39,7 @@
 
     "song": {
       "id": "song",
-      "npcTexts": [
+      "texts": [
         "Der Barde zupft seine Laute und singt ein Lied über Heldenmut und ferne Länder.",
         "Seine Stimme trägt weit über die Felder, und für einen Moment scheint die Welt friedlich.",
         "Ein altes Lied über Liebe, Verlust und den ewigen Wandel erklingt."
@@ -66,7 +66,8 @@
 
     "gift": {
       "id": "gift",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "\"Danke! Hier, nehmt dieses kleine Amulett – es bringt Glück, heißt es.\"",
         "\"Freut mich, dass es euch gefallen hat! Vielleicht kreuzen sich unsere Wege wieder.\""
       ],
@@ -76,7 +77,7 @@
 
     "rumors": {
       "id": "rumors",
-      "npcTexts": [
+      "texts": [
         "\"Ich hörte, im Norden sei eine alte Ruine entdeckt worden.\"",
         "\"Ein Kaufmann erzählte mir von seltsamen Lichtern über dem Moor.\"",
         "\"In der nächsten Stadt suchen sie angeblich fähige Abenteurer.\""
@@ -96,7 +97,8 @@
 
     "end": {
       "id": "end",
-      "npcTexts": [
+      "endEncounter": true,
+      "texts": [
         "\"Lebt wohl, Reisende! Möge euer Weg ein Lied wert sein.\"",
         "\"Bis zum nächsten Lagerfeuer!\"",
         "\"Auf Wiedersehen, Freunde des Klangs!\""

@@ -109,6 +109,13 @@
 + (NSString *)randomImageNameForKey:(NSString *)key
                      withSizeSuffix:(NSString *)sizeSuffix
                          seedString:(NSString *)seedString;
+                         
++ (NSString *)randomImageNameForKey:(NSString *)key
+                     withSizeSuffix:(NSString *)sizeSuffix
+                          forRegion:(NSString *)regionName
+                             gender:(NSString *)gender
+                         seedString:(NSString *)seedString;                         
+                         
 @end
 
 #endif // _UTILS_H_

@@ -27,12 +27,18 @@
 #import "DSADialog.h"
 #import "DSADialogNode.h"
 #import "DSADialogOption.h"
+#import "DSAAdventure.h"
+#import "DSAAdventureGroup.h"
+#import "DSAActionResult.h"
 
 @interface DSAConversationDialogSheetController ()
 
 @property (nonatomic, strong) DSADialogManager *dialogManager;
 @property (nonatomic, strong) NSTextField *npcTextField;
 @property (nonatomic, strong) NSView *optionsContainer;
+@property (nonatomic, strong) NSButton *continueButton;
+@property (nonatomic, strong) NSPanel *panel;
+@property (nonatomic, strong) NSImageView * thumbnailImageView;
 
 @end
 
@@ -54,79 +60,133 @@
 
 - (void)createDialogWindow {
     NSRect frame = NSMakeRect(0, 0, 500, 400);
-    NSPanel *panel = [[NSPanel alloc] initWithContentRect:frame
-                                                 styleMask:(NSTitledWindowMask | NSClosableWindowMask)
-                                                   backing:NSBackingStoreBuffered
-                                                     defer:NO];
-    [panel setTitle:@"Gespräch"];
+    self.panel = [[NSPanel alloc] initWithContentRect:frame
+                                             styleMask:(NSTitledWindowMask | NSClosableWindowMask)
+                                               backing:NSBackingStoreBuffered
+                                                 defer:NO];
+    [self.panel setTitle:@"Gespräch"];
     
     NSView *contentView = [[NSView alloc] initWithFrame:frame];
-    [panel setContentView:contentView];
+    [self.panel setContentView:contentView];
 
-    // NPC text area
-/*    NSScrollView *scrollView = [[NSScrollView alloc] initWithFrame:NSMakeRect(10, 260, 480, 130)];
-    [scrollView setHasVerticalScroller:YES];
+    //
+    // 🟦 Thumbnail oben links
+    //
+    self.thumbnailImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(10, 260, 128, 128)];
+    self.thumbnailImageView.imageScaling = NSImageScaleProportionallyUpOrDown;
+    [contentView addSubview:self.thumbnailImageView];
 
-    self.npcTextField = [[NSTextField alloc] initWithFrame:NSMakeRect(0, 0, 480, 130)];
+    //
+    // 🟨 NPC Text rechts daneben
+    // (angepasst: 10px rechts vom Bild)
+    //
+    self.npcTextField = [[NSTextField alloc] initWithFrame:NSMakeRect(148, 260, 342, 130)];
     [self.npcTextField setEditable:NO];
-    [scrollView setDocumentView:self.npcTextField]; */
-    
-    self.npcTextField = [[NSTextField alloc] initWithFrame:NSMakeRect(10, 260, 480, 130)];
-    [self.npcTextField setEditable:NO];
-    [self.npcTextField setBordered:NO];                        // ⬅️ Kein Rahmen
-    [self.npcTextField setDrawsBackground:NO];                // ⬅️ Kein weißer Hintergrund
-    [self.npcTextField setSelectable:NO];                     // Optional, wenn du keine Textauswahl willst
-    [self.npcTextField setBezeled:NO];                        // ⬅️ Kein Innenrahmen
-    [self.npcTextField setBackgroundColor:[NSColor clearColor]]; // ⬅️ Hintergrund transparent (zur Sicherheit)    
+    [self.npcTextField setBordered:NO];
+    [self.npcTextField setDrawsBackground:NO];
+    [self.npcTextField setSelectable:NO];
+    [self.npcTextField setBezeled:NO];
+    [self.npcTextField setBackgroundColor:[NSColor clearColor]];
     
     [contentView addSubview:self.npcTextField];
 
-    // Player option buttons container
+    //
+    // 🟩 Player Options Container
+    //
     self.optionsContainer = [[NSView alloc] initWithFrame:NSMakeRect(10, 50, 480, 200)];
     [contentView addSubview:self.optionsContainer];
 
-    // Close button below options
-    NSButton *closeButton = [[NSButton alloc] initWithFrame:NSMakeRect(10, 10, 80, 30)];
-    [closeButton setTitle:@"Schließen"];
+    //
+    // 🟥 Continue Button
+    //
+    CGFloat buttonWidth = 100;
+    CGFloat buttonHeight = 30;
+    CGFloat margin = 10;
+    CGFloat buttonX = contentView.bounds.size.width - buttonWidth - margin;
+    CGFloat buttonY = margin;
+
+    NSButton *closeButton = [[NSButton alloc] initWithFrame:NSMakeRect(buttonX, buttonY, buttonWidth, buttonHeight)];
+    
     [closeButton setButtonType:NSMomentaryPushInButton];
-    //[closeButton setBezelStyle:NSRoundedBezelStyle];
     [closeButton setTarget:self];
-    [closeButton setAction:@selector(closeSheet:)];
+    [closeButton setAction:@selector(continueButtonPressed:)];
     [contentView addSubview:closeButton];
 
-    [self setWindow:panel];
+    self.continueButton = closeButton;
+
+    [self setWindow:self.panel];
 }
 
+
 - (void)updateUIForCurrentNode {
+    NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode called!");
     DSADialogNode *node = [self.dialogManager currentNode];
-    NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode current node.nodeID: %@", node.nodeID);
+    NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode current node %@", node);
     if (!node) {
+        NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode no node, closing sheet");
         [self closeSheet:nil];
         return;
     }
+    
+    if (node.title)
+      {
+          [self.panel setTitle: node.title];
+      }
 
-    // Setze den NPC-Text
-    self.npcTextField.stringValue = [node randomText];
+    // 🔹 Thumbnail wählen: Node → Dialog → Kein Bild
+    NSString *thumbName = node.thumbnailImageName ?: self.dialogManager.currentDialog.thumbnailImageName;
+    if (thumbName && thumbName.length > 0) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource:thumbName ofType: nil];
+        NSImage *img = [[NSImage alloc] initWithContentsOfFile:imagePath];
+        if (!img) {
+            NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode: Thumbnail not found: %@", thumbName);
+        }
+        [self.thumbnailImageView setImage:img];
+    } else {
+        [self.thumbnailImageView setImage:nil];
+    }      
+      
+    // Setze die Node-Beschreibung (TrailSigns: "description")
+    self.npcTextField.stringValue = node.nodeDescription ?: [node randomText];
 
+    if ((node.playerOptions.count == 0 && !node.endEncounter) || node.skillCheck) {
+         [self.continueButton setTitle:@"Weiter"];
+         [self.continueButton setHidden:NO];
+    } else if (node.endEncounter) {
+         [self.continueButton setTitle:@"Schließen"];
+         [self.continueButton setAction:@selector(closeSheet:)];
+         [self.continueButton setHidden:NO];      
+    } else {
+         [self.continueButton setHidden:YES];
+    }    
     // Entferne alte Buttons
     for (NSView *subview in self.optionsContainer.subviews) {
         [subview removeFromSuperview];
     }
 
+    if (node.skillCheck != nil) {
+        NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode: SkillCheck Node – keine Buttons anzeigen, UI wartet auf automatische Weiterleitung.");
+        return;
+    }    
+    
+    if (node.endEncounter) {
+        NSLog(@"EndEncounter erreicht. Encounter Dauer: %ld Minuten", (long)self.dialogManager.accumulatedDuration);
+        return; // falls du sofort schließen willst, hier closeSheet:nil
+    }
+    
     NSUInteger index = 0;
     for (DSADialogOption *option in node.playerOptions) {
         NSArray *texts = option.textVariants ?: @[@"[...]"];
         NSString *buttonTitle = texts.count > 0 ? texts[arc4random_uniform((uint32_t)texts.count)] : @"[...]";
 
-        // Klassische NSButton-Erzeugung (GNUstep-kompatibel)
-        NSButton *button = [[NSButton alloc] initWithFrame:NSMakeRect(0, 0, 300, 30)];
+        // Button erstellen
+        NSButton *button = [[NSButton alloc] initWithFrame:NSMakeRect(0, 0, self.optionsContainer.bounds.size.width, 30)];
         [button setTitle:buttonTitle];
         [button setTarget:self];
         [button setAction:@selector(optionClicked:)];
         [button setTag:index];
-        //[button setBezelStyle:NSRoundedBezelStyle]; // ggf. anpassen für GNUstep
 
-        // Positionierung: Einfach vertikal gestapelt
+        // Position vertikal stapeln
         CGFloat buttonY = self.optionsContainer.bounds.size.height - ((index + 1) * 40);
         [button setFrame:NSMakeRect(0, buttonY, self.optionsContainer.bounds.size.width, 30)];
 
@@ -137,9 +197,45 @@
 
 - (void)optionClicked:(NSButton *)sender {
     NSUInteger index = sender.tag;
+    DSADialogNode *node = [self.dialogManager currentNode];
+    DSADialogOption *option = node.playerOptions[index];
+    NSLog(@"DSAConversationDialogSheetController optionClicked called option: %@", option);
+    
+    if (option.skillCheck) {
+        NSLog(@"DSAConversationDialogSheetController optionClicked seems there was a skill check !!!!!!!!!!!!!!!!");
+        NSString *talent = option.skillCheck[@"talent"];
+        NSInteger penalty = [option.skillCheck[@"penalty"] integerValue];
+        NSString *successNode = option.skillCheck[@"successNode"];
+        NSString *failureNode = option.skillCheck[@"failureNode"];
 
-    [self.dialogManager advanceToNextNodeForOptionAtIndex:index];
+        // Talentwurf durchführen (DSACharacter / DSAActionResult)
+        DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+        DSACharacter *character = [adventure.activeGroup characterWithBestTalentWithName:talent negate:NO];
+        DSAActionResult *result = [character useTalent:talent withPenalty:penalty];
+        
+        // Nächstes NodeID abhängig vom Ergebnis
+        if (result.result == DSAActionResultSuccess || result.result == DSAActionResultEpicSuccess || result.result == DSAActionResultAutoSuccess) {
+            NSLog(@"DSAConversationDialogSheetController optionClicked seems skill check was successful, continuing with successNode: %@", successNode);
+            self.dialogManager.currentNodeID = successNode;
+        } else {
+            NSLog(@"DSAConversationDialogSheetController optionClicked seems skill check was NOT successful, continuing with failureNode: %@", failureNode);
+            self.dialogManager.currentNodeID = failureNode;
+        }
+    } else {
+        NSLog(@"DSAConversationDialogSheetController NO SKILL CHECK, continuing with nextNodeID: %@", option.nextNodeID);
+        self.dialogManager.currentNodeID = option.nextNodeID;
+        [self.dialogManager presentCurrentNode];
+    }
+    //[self.dialogManager presentCurrentNode];
+    [self updateUIForCurrentNode];
+}
 
+- (void)continueButtonPressed:(id)sender {
+    if (self.dialogManager.skillCheckPending) {
+        NSLog(@"DSAConversationDialogSheetController continueButtonPressed going to trigger pending skill check");
+        [self.dialogManager performPendingSkillCheck];
+    }
+    
     [self updateUIForCurrentNode];
 }
 
