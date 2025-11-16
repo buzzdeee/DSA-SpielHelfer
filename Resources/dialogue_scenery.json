@@ -1,0 +1,588 @@
+{
+  "npcName": "scenery",
+  "startNodes": [
+    "scene_1", "scene_2", "scene_3", "scene_4", "scene_5",
+    "scene_6", "scene_7", "scene_8", "scene_9", "scene_10",
+    "scene_11", "scene_12", "scene_13", "scene_14", "scene_15"
+  ],
+  "startNodeID": "scene_1",
+  "nodes": {
+   "scene_1": {
+      "id": "scene_1",
+      "title": "Sonnenstrahlen durch das Blätterdach",
+      "mainImage": "scenery_sonnenstrahlen_wald",
+      "thumbnailImage": "scenery_sonnenstrahlen_wald",      
+      "description": "Zwischen den hohen Bäumen bricht warmes Licht hindurch und taucht den Weg in ein goldenes Leuchten.",
+      "playerOptions": [
+        { "texts": ["Einen Moment innehalten"], "nextNodeID": "scene_1_rest", "duration": 3 },
+        { "texts": ["Weitergehen"], "nextNodeID": "scene_1_end", "duration": 1 }
+      ]
+    },
+    "scene_1_rest": {
+      "id": "scene_1_rest",
+          "description": "Ihr genießt einen kurzen Moment der Ruhe.",
+      "endEncounter": true,
+      "duration": 3
+    },
+    "scene_1_end": {
+      "id": "scene_1_end",
+           "description": "Ihr setzt euren Weg fort.",
+      "endEncounter": true,
+      "duration": 1
+    },
+
+    "scene_2": {
+      "id": "scene_2",
+      "title": "Alte Grenzsteine",
+      "mainImage": "scenery_alte_grenzsteine",
+      "thumbnailImage": "scenery_alte_grenzsteine",      
+      "description": "Mehrere verwitterte Steine stehen im Moos, als markierten sie längst vergessene Grenzen.",
+      "playerOptions": [
+        { "texts": ["Steine untersuchen"], "nextNodeID": "scene_2_check", "duration": 6 },
+        { "texts": ["Ignorieren"], "nextNodeID": "scene_2_end", "duration": 1 }
+      ]
+    },
+    "scene_2_check": {
+      "id": "scene_2_check",
+            "description": "%@ schaut sich die Steine genauer an.",
+      "skillCheck": {
+        "talent": "Geschichtswissen",
+        "penalty": 1,
+        "successNode": "scene_2_success",
+        "failureNode": "scene_2_failure",
+        "duration": 10
+      }
+    },
+    "scene_2_success": {
+      "id": "scene_2_success",
+            "description": "%@ erkennt verblasste Symbole eines alten Fürstentums.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_2_failure": {
+      "id": "scene_2_failure",
+           "description": "Die Zeichen sind zu verwittert, um etwas zu erkennen.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_2_end": {
+      "id": "scene_2_end",           "description": "Ihr geht weiter.",
+      "endEncounter": true,
+      "duration": 1
+    },
+
+    "scene_3": {
+      "id": "scene_3",
+      "title": "Glitzernder Bach",
+      "mainImage": "scenery_glitzernder_bach",
+      "thumbnailImage": "scenery_glitzernder_bach",       
+      "description": "Ein kleiner Bach schlängelt sich über flache Steine und reflektiert das Licht wie Silber.",
+      "playerOptions": [
+        { "texts": ["Wasser untersuchen"], "nextNodeID": "scene_3_check", "duration": 5 },
+        { "texts": ["Einfach weiterziehen"], "nextNodeID": "scene_3_end", "duration": 1 }
+      ]
+    },
+    "scene_3_check": {
+      "id": "scene_3_check",
+      "description": "%@ betrachtet das klare Wasser.",
+      "skillCheck": {
+        "talent": "Wildnisleben",
+        "penalty": 1,
+        "successNode": "scene_3_success",
+        "failureNode": "scene_3_failure",
+        "duration": 8
+      }
+    },
+    "scene_3_success": {
+      "id": "scene_3_success",
+         "description": "%@ erkennt, dass der Bach aus einer nahegelegenen Quelle stammen muss.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_3_failure": {
+      "id": "scene_3_failure",
+       "description": "%@ kann keine besonderen Hinweise entdecken.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_3_end": {
+      "id": "scene_3_end",
+          "description": "Ihr folgt weiter dem Pfad.",
+      "endEncounter": true,
+      "duration": 1
+    },
+
+    "scene_4": {
+      "id": "scene_4",
+      "title": "Verstreute Federn",
+      "mainImage": "scenery_verstreute_federn",
+      "thumbnailImage": "scenery_verstreute_federn",      
+      "description": "Auf dem Weg liegen bunte Federn, als hätte ein Vogel hier eine heftige Auseinandersetzung gehabt.",
+      "playerOptions": [
+        { "texts": ["Genauer ansehen"], "nextNodeID": "scene_4_check", "duration": 6 },
+        { "texts": ["Nicht beachten"], "nextNodeID": "scene_4_end", "duration": 1 }
+      ]
+    },
+    "scene_4_check": {
+      "id": "scene_4_check",          "description": "%@ betrachtet die Federn.",
+      "skillCheck": {
+        "talent": "Tierkunde",
+        "penalty": 2,
+        "successNode": "scene_4_success",
+        "failureNode": "scene_4_failure",
+        "duration": 10
+      }
+    },
+    "scene_4_success": {
+      "id": "scene_4_success",            "description": "%@ erkennt sie als Federn eines seltenen Waldvogels.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_4_failure": {
+      "id": "scene_4_failure",
+           "description": "%@ kann nicht bestimmen, von welchem Tier sie stammen.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_4_end": {
+      "id": "scene_4_end",           "description": "Ihr lasst die Stelle hinter euch.",
+      "endEncounter": true,
+      "duration": 1
+    },
+
+    "scene_5": {
+      "id": "scene_5",
+      "title": "Moosbedeckte Steinstufen",
+      "mainImage": "scenery_alte_steinstufen",
+      "thumbnailImage": "scenery_alte_steinstufen",       
+      "description": "Inmitten des Waldes führen alte, halb überwachsene Stufen ins Nichts.",
+      "playerOptions": [
+        { "texts": ["Stufen untersuchen"], "nextNodeID": "scene_5_check", "duration": 8 },
+        { "texts": ["Vorbeigehen"], "nextNodeID": "scene_5_end", "duration": 1 }
+      ]
+    },
+    "scene_5_check": {
+      "id": "scene_5_check",
+      "description": "%@ untersucht die überwucherten Stufen.",
+      "skillCheck": {
+        "talent": "Geschichtswissen",
+        "penalty": 3,
+        "successNode": "scene_5_success",
+        "failureNode": "scene_5_failure",
+        "duration": 12
+      }
+    },
+    "scene_5_success": {
+      "id": "scene_5_success",
+      "description": "%@ schätzt, dass die Stufen Teil eines alten Kultortes gewesen sein könnten.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_5_failure": {
+      "id": "scene_5_failure",
+      "description": "Die Herkunft der Stufen bleibt unklar.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_5_end": {
+      "id": "scene_5_end",
+      "description": "Ihr setzt die Reise fort.",
+      "endEncounter": true,
+      "duration": 1
+    },
+
+    "scene_6": {
+      "id": "scene_6",
+      "title": "Einkehrender Nebel",
+      "mainImage": "scenery_einkehrender_nebel",
+      "thumbnailImage": "scenery_einkehrender_nebel",      
+      "description": "Ein feiner Nebelschleier zieht zwischen den Bäumen auf und dämpft alle Geräusche.",
+      "playerOptions": [
+        { "texts": ["Sichtverhältnisse prüfen"], "nextNodeID": "scene_6_check", "duration": 6 },
+        { "texts": ["Einfach weitergehen"], "nextNodeID": "scene_6_end", "duration": 1 }
+      ]
+    },
+    "scene_6_check": {
+      "id": "scene_6_check",
+      "description": "%@ versucht die Umgebung einzuschätzen.",
+      "skillCheck": {
+        "talent": "Sinnenschärfe",
+        "penalty": 2,
+        "successNode": "scene_6_success",
+        "failureNode": "scene_6_failure",
+        "duration": 10
+      }
+    },
+    "scene_6_success": {
+      "id": "scene_6_success",
+      "description": "%@ erkennt schemenhaft einen sicheren Weg durch den Nebel.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_6_failure": {
+      "id": "scene_6_failure",
+      "description": "Der Nebel ist zu dicht, um Details zu erkennen.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_6_end": {
+      "id": "scene_6_end",
+      "description": "Ihr wandert weiter, während der Nebel dichter wird.",
+      "endEncounter": true,
+      "duration": 1
+    },
+
+    "scene_7": {
+      "id": "scene_7",
+      "title": "Windflüstern",
+      "mainImage": "scenery_windfluestern",
+      "thumbnailImage": "scenery_windfluestern",       
+      "description": "Eine Böe streicht durch die Baumwipfel und erzeugt ein seltsam melodisches Säuseln.",
+      "playerOptions": [
+        { "texts": ["Dem Klang lauschen"], "nextNodeID": "scene_7_check", "duration": 4 },
+        { "texts": ["Weitergehen"], "nextNodeID": "scene_7_end", "duration": 1 }
+      ]
+    },
+    "scene_7_check": {
+      "id": "scene_7_check",
+      "description": "%@ horcht gespannt.",
+      "skillCheck": {
+        "talent": "Sinnenschärfe",
+        "penalty": 0,
+        "successNode": "scene_7_success",
+        "failureNode": "scene_7_failure",
+        "duration": 6
+      }
+    },
+    "scene_7_success": {
+      "id": "scene_7_success",
+      "description": "%@ bemerkt ein seltenes Naturschauspiel – zwei Baumstämme reiben im Wind und erzeugen den Ton.",
+      "endEncounter": true,
+      "duration": 3
+    },
+    "scene_7_failure": {
+      "id": "scene_7_failure",
+      "description": "Der Wind klingt einfach nur beruhigend.",
+      "endEncounter": true,
+      "duration": 3
+    },
+    "scene_7_end": {
+      "id": "scene_7_end",
+      "description": "Ihr setzt euren Weg fort.",
+      "endEncounter": true,
+      "duration": 1
+    },
+
+    "scene_8": {
+      "id": "scene_8",
+      "title": "Steinige Anhöhe",
+      "mainImage": "scenery_anhoehe",
+      "thumbnailImage": "scenery_anhoehe",       
+      "description": "Ihr erreicht eine kleine Anhöhe mit Ausblick über das umliegende Gebiet.",
+      "playerOptions": [
+        { "texts": ["Aussicht prüfen"], "nextNodeID": "scene_8_check", "duration": 6 },
+        { "texts": ["Direkt weitergehen"], "nextNodeID": "scene_8_end", "duration": 1 }
+      ]
+    },
+    "scene_8_check": {
+      "id": "scene_8_check",
+      "description": "%@ blickt über die Landschaft.",
+      "skillCheck": {
+        "talent": "Orientierung",
+        "penalty": 1,
+        "successNode": "scene_8_success",
+        "failureNode": "scene_8_failure",
+        "duration": 10
+      }
+    },
+    "scene_8_success": {
+      "id": "scene_8_success",
+      "description": "%@ erkennt einen markanten Felsen, der später als Orientierung dienen könnte.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_8_failure": {
+      "id": "scene_8_failure",
+      "description": "Die Sicht ist zu diesig, um nützliche Orientierungspunkte zu erkennen.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_8_end": {
+      "id": "scene_8_end",
+      "description": "Ihr zieht weiter.",
+      "endEncounter": true,
+      "duration": 1
+    },
+
+    "scene_9": {
+      "id": "scene_9",
+      "title": "Farnwiese",
+      "mainImage": "scenery_farnwiese",
+      "thumbnailImage": "scenery_farnwiese",      
+      "description": "Der Weg öffnet sich in eine breite Lichtung voller hoher Farne.",
+      "playerOptions": [
+        { "texts": ["Farn untersuchen"], "nextNodeID": "scene_9_check", "duration": 6 },
+        { "texts": ["Einfach durchgehen"], "nextNodeID": "scene_9_end", "duration": 1 }
+      ]
+    },
+    "scene_9_check": {
+      "id": "scene_9_check",
+      "description": "%@ betrachtet den Farn.",
+      "skillCheck": {
+        "talent": "Pflanzenkunde",
+        "penalty": 1,
+        "successNode": "scene_9_success",
+        "failureNode": "scene_9_failure",
+        "duration": 10
+      }
+    },
+    "scene_9_success": {
+      "id": "scene_9_success",
+      "description": "%@ erkennt ungewöhnlich große Exemplare einer seltenen Farnart.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_9_failure": {
+      "id": "scene_9_failure",
+      "description": "Der Farn wirkt gewöhnlich.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_9_end": {
+      "id": "scene_9_end",
+      "description": "Ihr geht weiter.",
+      "endEncounter": true,
+      "duration": 1
+    },
+
+    "scene_10": {
+      "id": "scene_10",
+      "title": "Leiser Wasserfall",
+      "mainImage": "scenery_wasserfall",
+      "thumbnailImage": "scenery_wasserfall",      
+      "description": "In der Ferne hört ihr das konstante Rauschen eines kleinen Wasserfalls.",
+      "playerOptions": [
+        { "texts": ["Nachsehen"], "nextNodeID": "scene_10_check", "duration": 8 },
+        { "texts": ["Weiterreisen"], "nextNodeID": "scene_10_end", "duration": 1 }
+      ]
+    },
+    "scene_10_check": {
+      "id": "scene_10_check",
+      "description": "%@ folgt dem Geräusch.",
+      "skillCheck": {
+        "talent": "Sinnenschärfe",
+        "penalty": 1,
+        "successNode": "scene_10_success",
+        "failureNode": "scene_10_failure",
+        "duration": 12
+      }
+    },
+    "scene_10_success": {
+      "id": "scene_10_success",
+      "description": "%@ entdeckt eine malerische kleine Kaskade, die sich über glatte Felsen ergießt.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "scene_10_failure": {
+      "id": "scene_10_failure",
+      "description": "%@ verliert das Geräusch aus den Ohren und findet den Wasserfall nicht.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "scene_10_end": {
+      "id": "scene_10_end",
+      "description": "Ihr setzt euren Weg fort.",
+      "endEncounter": true,
+      "duration": 1
+    },
+
+    "scene_11": {
+      "id": "scene_11",
+      "title": "Verknotete Wurzeln",
+      "mainImage": "scenery_verknotete_wurzeln",
+      "thumbnailImage": "scenery_verknotete_wurzeln",      
+      "description": "Der Boden ist von dicken, ineinander gewundenen Baumwurzeln überzogen.",
+      "playerOptions": [
+        { "texts": ["Wurzeln betrachten"], "nextNodeID": "scene_11_check", "duration": 6 },
+        { "texts": ["Hinwegsteigen und weiter"], "nextNodeID": "scene_11_end", "duration": 1 }
+      ]
+    },
+    "scene_11_check": {
+      "id": "scene_11_check",
+      "description": "%@ untersucht das Muster der Wurzeln.",
+      "skillCheck": {
+        "talent": "Pflanzenkunde",
+        "penalty": 2,
+        "successNode": "scene_11_success",
+        "failureNode": "scene_11_failure",
+        "duration": 10
+      }
+    },
+    "scene_11_success": {
+      "id": "scene_11_success",
+      "description": "%@ erkennt die ungewöhnliche Struktur eines sehr alten Baumbestands.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_11_failure": {
+      "id": "scene_11_failure",
+      "description": "Die Wurzeln sehen zwar beeindruckend aus, geben aber keine Hinweise.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_11_end": {
+      "id": "scene_11_end",
+      "description": "Ihr setzt die Reise fort.",
+      "endEncounter": true,
+      "duration": 1
+    },
+
+    "scene_12": {
+      "id": "scene_12",
+      "title": "Edelsteinfunken im Fels",
+      "mainImage": "scenery_edelsteinfunken_fels",
+      "thumbnailImage": "scenery_edelsteinfunken_fels",      
+      "description": "Das Licht bricht sich in einem Felsen und lässt winzige Kristalle funkeln.",
+      "playerOptions": [
+        { "texts": ["Den Fels untersuchen"], "nextNodeID": "scene_12_check", "duration": 8 },
+        { "texts": ["Weiterziehen"], "nextNodeID": "scene_12_end", "duration": 1 }
+      ]
+    },
+    "scene_12_check": {
+      "id": "scene_12_check",
+      "description": "%@ betrachtet den Felsen genauer.",
+      "skillCheck": {
+        "talent": "Wildnisleben",
+        "penalty": 1,
+        "successNode": "scene_12_success",
+        "failureNode": "scene_12_failure",
+        "duration": 12
+      }
+    },
+    "scene_12_success": {
+      "id": "scene_12_success",
+      "description": "%@ erkennt, dass es sich um natürlich vorkommende Glimmeradern handelt.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "scene_12_failure": {
+      "id": "scene_12_failure",
+      "description": "Die Kristalle sind hübsch, aber geben keine Hinweise.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "scene_12_end": {
+      "id": "scene_12_end",
+      "description": "Ihr wandert weiter.",
+      "endEncounter": true,
+      "duration": 1
+    },
+
+    "scene_13": {
+      "id": "scene_13",
+      "title": "Verfilzte Brombeerbüsche",
+      "mainImage": "scenery_brombeerbuesche",
+      "thumbnailImage": "scenery_brombeerbuesche",      
+      "description": "Dichte, wild wuchernde Brombeersträucher versperren beinahe den Weg.",
+      "playerOptions": [
+        { "texts": ["Sträucher untersuchen"], "nextNodeID": "scene_13_check", "duration": 6 },
+        { "texts": ["Vorbeiquetschen"], "nextNodeID": "scene_13_end", "duration": 2 }
+      ]
+    },
+    "scene_13_check": {
+      "id": "scene_13_check",
+      "description": "%@ wirft einen genaueren Blick auf die Sträucher.",
+      "skillCheck": {
+        "talent": "Pflanzenkunde",
+        "penalty": 2,
+        "successNode": "scene_13_success",
+        "failureNode": "scene_13_failure",
+        "duration": 10
+      }
+    },
+    "scene_13_success": {
+      "id": "scene_13_success",
+      "description": "%@ entdeckt, dass die Brombeeren ungewöhnlich früh oder spät im Jahr reifen.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_13_failure": {
+      "id": "scene_13_failure",
+      "description": "Die Sträucher scheinen ganz gewöhnlich.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_13_end": {
+      "id": "scene_13_end",
+      "description": "Ihr drängt euch vorbei und setzt den Weg fort.",
+      "endEncounter": true,
+      "duration": 2
+    },
+
+    "scene_14": {
+      "id": "scene_14",
+      "title": "Brüchiger Baumstamm",
+      "mainImage": "scenery_alter_baumstamm",
+      "thumbnailImage": "scenery_alter_baumstamm",       
+      "description": "Ein gewaltiger alter Baum liegt quer über dem Weg, halb vermodert.",
+      "playerOptions": [
+        { "texts": ["Stamm untersuchen"], "nextNodeID": "scene_14_check", "duration": 8 },
+        { "texts": ["Herübersteigen"], "nextNodeID": "scene_14_end", "duration": 2 }
+      ]
+    },
+    "scene_14_check": {
+      "id": "scene_14_check",
+      "description": "%@ untersucht den verfallenen Baumstamm.",
+      "skillCheck": {
+        "talent": "Pflanzenkunde",
+        "penalty": 1,
+        "successNode": "scene_14_success",
+        "failureNode": "scene_14_failure",
+        "duration": 12
+      }
+    },
+    "scene_14_success": {
+      "id": "scene_14_success",
+      "description": "%@ erkennt, dass der Baum von einem seltenen Pilzstamm befallen wurde.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "scene_14_failure": {
+      "id": "scene_14_failure",
+      "description": "Der Baumstamm bröselt, doch nichts Auffälliges ist zu erkennen.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "scene_14_end": {
+      "id": "scene_14_end",
+      "description": "Ihr steigt über den Baum und setzt die Reise fort.",
+      "endEncounter": true,
+      "duration": 2
+    },
+
+    "scene_15": {
+      "id": "scene_15",
+      "title": "Farbspiel der Abendsonne",
+      "mainImage": "scenery_farbenspiel_abendsonne",
+      "thumbnailImage": "scenery_farbenspiel_abendsonne",      
+      "description": "Die Sonne sinkt und taucht Himmel und Wald in ein rotgoldenes Farbspiel.",
+      "playerOptions": [
+        { "texts": ["Aussicht genießen"], "nextNodeID": "scene_15_rest", "duration": 4 },
+        { "texts": ["Weiterziehen"], "nextNodeID": "scene_15_end", "duration": 1 }
+      ]
+    },
+    "scene_15_rest": {
+      "id": "scene_15_rest",
+      "description": "%@ hält kurz inne und bewundert das Farbspiel.",
+      "endEncounter": true,
+      "duration": 4
+    },
+    "scene_15_end": {
+      "id": "scene_15_end",
+      "description": "Ihr wandert weiter in die Dämmerung hinein.",
+      "endEncounter": true,
+      "duration": 1
+    }
+
+  }
+}

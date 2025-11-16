@@ -437,6 +437,7 @@ typedef NS_ENUM(NSInteger, DSAEncounterType) {
     DSAEncounterTypeMerchant,
     DSAEncounterTypeHerbs,
     DSAEncounterTypeTrailSign,
+    DSAEncounterTypeScenery,
     DSAEncounterTypeFriendlyNPC
 };
 
@@ -461,6 +462,7 @@ extern DSANotificationType const DSAEncounterTriggeredNotification; // posted by
 extern DSANotificationType const DSAEncounterWillStartNotification; // optional: before UI changes
 extern DSANotificationType const DSAEncounterManagerDidChangeTerrain; // optional
 
+extern DSANotificationType const DSAUpdateMainImageViewNotification; // requires userInfo: { @"imageName": "some_image_name.suffix" }
 
 #endif // _DSADEFINITIONS_H_
 

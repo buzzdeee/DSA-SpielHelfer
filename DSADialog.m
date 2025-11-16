@@ -56,8 +56,9 @@
     NSString *mainKey = dict[@"mainImage"];   
     if (mainKey)
       {
+        NSLog(@"DSADialog going to look for mainImage without size suffix");
         dialog.mainImageName = [Utils randomImageNameForKey: mainKey
-                                             withSizeSuffix: @"128x128"
+                                             withSizeSuffix: nil
                                                   forRegion: region
                                                      gender: gender
                                                  seedString: seed];

@@ -43,4 +43,4 @@ DSANotificationType const DSAEncounterTriggeredNotification = @"DSAEncounterTrig
 DSANotificationType const DSAEncounterWillStartNotification = @"DSAEncounterWillStart";
 DSANotificationType const DSAEncounterManagerDidChangeTerrain = @"DSAEncounterManagerDidChangeTerrain";
 
-
+DSANotificationType const DSAUpdateMainImageViewNotification = @"DSAUpdateMainImageView";

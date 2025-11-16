@@ -1329,6 +1329,8 @@ static NSMutableDictionary *imagesIndexDict;
     NSDictionary *index = [self getImagesIndexDict];
     if (!index || index.count == 0) return nil;
     
+    NSLog(@"Utils randomImageNameForKey: Looking for image with size suffix: %@", sizeSuffix);
+    
     NSString *region = regionName.length > 0 ? regionName.uppercaseString : [self currentRegionCode];
     NSString *useGender = gender.length > 0 ? gender.lowercaseString : (([seedString hash] % 2 == 0) ? @"male" : @"female");
     
@@ -1337,32 +1339,33 @@ static NSMutableDictionary *imagesIndexDict;
     // 1️⃣ REGION + KEY + GENDER
     NSString *key1 = [NSString stringWithFormat:@"%@_%@_%@", region, key, useGender];
     candidates = index[key1];
-    
+    NSLog(@"Utils randomImageNameForKey: candidates after checking with region/key/gender: %@", candidates);
     // 2️⃣ KEY + GENDER
     if (!candidates || candidates.count == 0) {
         NSString *key2 = [NSString stringWithFormat:@"%@_%@", key, useGender];
         candidates = index[key2];
     }
-    
+    NSLog(@"Utils randomImageNameForKey: candidates after checking with key/gender only: %@", candidates);
     // 3️⃣ REGION + KEY
     if (!candidates || candidates.count == 0) {
         NSString *key3 = [NSString stringWithFormat:@"%@_%@", region, key];
         candidates = index[key3];
     }
-    
+    NSLog(@"Utils randomImageNameForKey: candidates after checking with region/key only: %@", candidates);
     // 4️⃣ KEY allein
     if (!candidates || candidates.count == 0) {
         candidates = index[key];
     }
-    
+    NSLog(@"Utils randomImageNameForKey: candidates after checking with key only: %@", candidates);
     if (!candidates || candidates.count == 0) return nil;
     
     // Filter nach Größe
+    NSLog(@"Utils randomImageNameForKey: candidates before filtering by size: %@", candidates);
     NSArray<NSString *> *filtered = [self filteredImageNames:candidates withSizeSuffix:sizeSuffix];
     if (!filtered || filtered.count == 0) {
         filtered = candidates; // fallback: alle nehmen
     }
-    
+    NSLog(@"Utils randomImageNameForKey: candidates after  filtering by size: %@", filtered);
     // Deterministische Auswahl basierend auf seed
     NSUInteger seed = seedString.hash;
     NSUInteger idx = seed % filtered.count;

@@ -74,6 +74,7 @@
     //
     self.thumbnailImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(10, 260, 128, 128)];
     self.thumbnailImageView.imageScaling = NSImageScaleProportionallyUpOrDown;
+    [self.thumbnailImageView setImage:nil];            // no image by default
     [contentView addSubview:self.thumbnailImageView];
 
     //
@@ -138,14 +139,24 @@
     if (thumbName && thumbName.length > 0) {
         NSString *imagePath = [[NSBundle mainBundle] pathForResource:thumbName ofType: nil];
         NSImage *img = [[NSImage alloc] initWithContentsOfFile:imagePath];
-        if (!img) {
+        if (img) {
+            [self.thumbnailImageView setImage:img];
+        } else {
             NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode: Thumbnail not found: %@", thumbName);
         }
-        [self.thumbnailImageView setImage:img];
+        
     } else {
-        [self.thumbnailImageView setImage:nil];
+        NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode: no thumbnail image given");
     }      
-      
+
+    NSString *mainImageName = node.mainImageName ?: self.dialogManager.currentDialog.mainImageName;
+    if (mainImageName && mainImageName.length > 0) {
+        NSDictionary *userInfo = @{ @"imageName": mainImageName };
+        [[NSNotificationCenter defaultCenter] postNotificationName: DSAUpdateMainImageViewNotification
+                                                            object:self
+                                                          userInfo:userInfo];        
+    }    
+          
     // Setze die Node-Beschreibung (TrailSigns: "description")
     self.npcTextField.stringValue = node.nodeDescription ?: [node randomText];
 

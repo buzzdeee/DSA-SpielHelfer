@@ -131,7 +131,11 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(onEncounterTriggered:)
                                                  name: DSAEncounterTriggeredNotification
-                                               object:nil];                                               
+                                               object:nil]; 
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(replaceMainImage:)
+                                                 name: DSAUpdateMainImageViewNotification
+                                               object:nil];                                                                                              
                                                
     DSAAdventureDocument *adventureDoc = (DSAAdventureDocument *)self.document;
     [adventureDoc addObserver:self 
@@ -941,6 +945,28 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     [self updateActionIcons: nil];
 }
 
+- (void)replaceMainImage: (NSNotification *)notification
+{
+    NSDictionary *userInfo = notification.userInfo;
+    NSString *imageName = userInfo[@"imageName"];
+    //DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
+    NSLog (@"DSAAdventureWindowController replaceMainImage called, with image name: %@", imageName);
+    if (imageName) {
+        NSString *imagePath = [[NSBundle mainBundle] pathForResource:imageName ofType:nil];
+        if (imagePath) {
+            NSImage *image = [[NSImage alloc] initWithContentsOfFile:imagePath];
+            [self.imageMain setImage:image];
+            // not every encounter types handled, it'll abort()
+            //[self.imageMain updateLocationLabel: [adventure locationInfoForMainImageView]];
+        } else {
+            NSLog(@"DSAAdventureWindowController replaceMainImage: Bild nicht gefunden im Bundle: %@", imageName);
+        }
+    } else {
+        NSLog(@"DSAAdventureWindowController replaceMainImage: Keine passenden Bilder gefunden für Key: %@", imageName);
+    }    
+    
+}
+
 - (void)updateMainImageView: (NSNotification *)notification
 {
     BOOL showBuildingDialog = NO;
@@ -1386,21 +1412,19 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
               [self presentChatEncounter: notification];
               break;
         case DSAEncounterTypeTrailSign:
-              [self presentTrailSignEncounter: notification];              
+              [self presentTrailSignEncounter: notification];  
+        case DSAEncounterTypeScenery:
+              [self presentSceneryEncounter: notification];                          
         default:
             [self presentGenericEncounter: notification];
             break;
     }
 }
 
-- (void)presentTrailSignEncounter:(NSNotification *)note {
-    // 1️⃣ Adventure holen
-//    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
-
-    // 2️⃣ Trail Signs Dialog laden
+- (void)presentSceneryEncounter:(NSNotification *)note {
     DSADialogManager *dialogManager = [[DSADialogManager alloc] init];
-    if (![dialogManager loadDialogFromFile:@"dialogue_trail_signs"]) {
-        NSLog(@"❌ Konnte trail_signs.json nicht laden");
+    if (![dialogManager loadDialogFromFile:@"dialogue_scenery"]) {
+        NSLog(@"DSAAdventureWindowControllerKonnte presentSceneryEncounter: dialogue_scenery.json nicht laden");
         [self continueTravel];
         return;
     }
@@ -1408,43 +1432,32 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
     DSAConversationDialogSheetController *dialogController =
         [[DSAConversationDialogSheetController alloc] initWithDialogManager:dialogManager];    
     
-/*  WIRD IN DSADialogManager selbst schon gemacht
-    // 3️⃣ Zufälligen Startnode wählen
-    NSArray *startNodes = dialogManager.currentDialog.startNodes; // Array der StartIDs
-    if (startNodes.count > 0) {
-        NSUInteger randomIndex = arc4random_uniform((uint32_t)startNodes.count);
-        dialogManager.currentNodeID = startNodes[randomIndex];
-    } else {
-        NSLog(@"❌ Keine Startnodes in trail_signs.json definiert, default auf startNodeID");
-        dialogManager.currentNodeID = dialogManager.currentDialog.startNodeID;
-    }
-*/
-/*
-    // 4️⃣ Dialog als Sheet anzeigen
-    DSAConversationDialogSheetController *sheetController =
-        [[DSAConversationDialogSheetController alloc] initWithDialogManager:dialogManager];
-
-    // Optional: Titel setzen aus Dialog JSON
-    if (dialogManager.currentDialog.title) {
-        [sheetController.window setTitle:dialogManager.currentDialog.title];
-    }
-*/
-    // 5️⃣ Sheet präsentieren
     [self.window beginSheet: dialogController.window completionHandler:^(NSModalResponse returnCode) {
-        NSLog(@"Trail Sign Encounter beendet");
-        // ⬅️ Hier evtl. die gesammelte Dauer aus dialogManager akkumulieren und GameClock weiterschalten
-/*        if ([dialogManager respondsToSelector:@selector(accumulatedDuration)]) {
-            NSInteger duration = dialogManager.accumulatedDuration;
-            NSLog(@"Gesamtdauer des Encounters: %ld Minuten", (long)duration);
-            [adventure.gameClock advanceByMinutes:duration];
-        } */
+        NSLog(@"DSAAdventureWindowControllerScenery presentSceneryEncounter: Encounter beendet");
+        [self continueTravel];
+    }];
+}
+
+- (void)presentTrailSignEncounter:(NSNotification *)note {
+    DSADialogManager *dialogManager = [[DSADialogManager alloc] init];
+    if (![dialogManager loadDialogFromFile:@"dialogue_trail_signs"]) {
+        NSLog(@"DSAAdventureWindowControllerKonnte presentTrailSignEncounter: dialogue_trail_signs.json nicht laden");
+        [self continueTravel];
+        return;
+    }
+    
+    DSAConversationDialogSheetController *dialogController =
+        [[DSAConversationDialogSheetController alloc] initWithDialogManager:dialogManager];    
+    
+    [self.window beginSheet: dialogController.window completionHandler:^(NSModalResponse returnCode) {
+        NSLog(@"DSAAdventureWindowController presentTrailSignEncounter: Trail Sign Encounter beendet");
         [self continueTravel];
     }];
 }
 
 - (void)presentChatEncounter:(NSNotification *)note
 {
-    NSLog(@"🗣️ DSAAdventureWindowController presentChatEncounter called");
+    NSLog(@"DSAAdventureWindowController presentChatEncounter called");
 
     NSString *npcType = note.userInfo[@"subType"];
     DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;

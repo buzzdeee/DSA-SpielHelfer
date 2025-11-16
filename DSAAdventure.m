@@ -579,6 +579,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
       case DSAEncounterTypeMerchant: subType = (NSString *)[self randomMerchantType]; break;
       case DSAEncounterTypeHerbs: subType = (DSAActionResult *)[self findRandomHerb]; break;
       case DSAEncounterTypeFriendlyNPC: subType = (NSString *)[self randomTravelerType]; break;
+      case DSAEncounterTypeScenery: subType = @""; break;
       case DSAEncounterTypeTrailSign: subType = @""; break;
       default: subType = @"";
     }
@@ -773,7 +774,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 
     NSLog(@"DSAAdventure rollTravelEventForEnvironment: TODO environment dependency missing!");
     // XXXXXXXXXXXXXXXXXX
-    return DSATravelEventTrailSign;
+    return DSATravelEventScenery;
     // 2W6 + gewichtete Tabelle (DSA nah)
     int roll = [Utils rollDice: @"2W6"];
     switch (roll) {
@@ -864,7 +865,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
         case DSATravelEventTrailSign:     name = @"Trail Sign"; encounterType = DSAEncounterTypeTrailSign; break;
         case DSATravelEventWeatherShift:  name = @"Weather Shift"; break;
         case DSATravelEventRoadObstacle:  name = @"Road Obstacle"; break;
-        case DSATravelEventScenery:       name = @"Scenic Moment"; break;
+        case DSATravelEventScenery:       name = @"Scenic Moment"; encounterType = DSAEncounterTypeScenery; break;
         case DSATravelEventHerbs:         name = @"Herbs / Resources"; encounterType = DSAEncounterTypeHerbs; break;
         case DSATravelEventLost:          name = @"Lost / Navigation"; break;
         default: break;
@@ -878,7 +879,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     // XXXXXXX
     NSDictionary *info = @{
         @"adventure": self,
-        @"eventType": @(DSATravelEventTrailSign),
+        @"eventType": @(DSATravelEventScenery),
     };
     NSLog(@"DSAAdventure triggerTravelEvent : Travel Event: %@", name);
     [[NSNotificationCenter defaultCenter] postNotificationName: DSATravelEventTriggeredNotification
@@ -886,7 +887,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
                                                       userInfo:info];
     // XXXXXXX                                                      
     //[self triggerEncounterOfType: encounterType];  
-    [self triggerEncounterOfType: DSAEncounterTypeTrailSign];                                                     
+    [self triggerEncounterOfType: DSAEncounterTypeScenery];                                                     
 }
 
 #pragma mark - Travel Logic
