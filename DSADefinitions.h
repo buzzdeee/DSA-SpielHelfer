@@ -41,12 +41,13 @@
 
 typedef NS_ENUM(NSInteger, DSAActionType) {
     DSAActionTypeUnknown = 0,
-    DSAActionTypeGainItem,
-    DSAActionTypeGainMoney,
-    DSAActionTypeLeaveLocation,                      // leaving a position, i.e. a building or dungeon
-    DSAActionTypeGainFood,
-    DSAActionTypeGainWater,
-    DSAActionTypeGainSpices,
+    DSAActionTypeGainItem,                           // parameter example: @{ @"amount": @(count), @"type": @"Proviant, Tagesration" }
+    DSAActionTypeGainMoney,                          // parameter example: @{ @"amount": @(silver) }
+    DSAActionTypeLeaveLocation,                      // leaving a position, i.e. a building or dungeon, parameter example: @{ @"position": [currentPostion copy] }
+    DSAActionTypeGainFood,                           // no parameter ?
+    DSAActionTypeGainWater,                          // no parameter ?
+    DSAActionTypeLooseHealthPoints,                  // parameter example: @{ @"randomAmount": @"1W6", @"fixedAmount": @(amount) } 
+                                                     // either fixedAmount or randomAmount is enough, if both given, they're added up 
     // weitere ActionTypes …
 };
 
@@ -438,6 +439,7 @@ typedef NS_ENUM(NSInteger, DSAEncounterType) {
     DSAEncounterTypeHerbs,
     DSAEncounterTypeTrailSign,
     DSAEncounterTypeScenery,
+    DSAEncounterTypeRoadObstacle,
     DSAEncounterTypeFriendlyNPC
 };
 

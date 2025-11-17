@@ -37,7 +37,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @class DSAPositiveTrait;
 @class DSANegativeTrait;
-@class DSATalentResult;
 @class DSAActionResult;
 @class DSARegenerationResult;
 @class DSALocation;

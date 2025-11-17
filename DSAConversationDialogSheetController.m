@@ -160,7 +160,7 @@
     // Setze die Node-Beschreibung (TrailSigns: "description")
     self.npcTextField.stringValue = node.nodeDescription ?: [node randomText];
 
-    if ((node.playerOptions.count == 0 && !node.endEncounter) || node.skillCheck) {
+    if ((node.playerOptions.count == 0 && !node.endEncounter) || [node isMemberOfClass: [DSADialogNodeSkillCheck class]]) {
          [self.continueButton setTitle:@"Weiter"];
          [self.continueButton setHidden:NO];
     } else if (node.endEncounter) {
@@ -175,8 +175,8 @@
         [subview removeFromSuperview];
     }
 
-    if (node.skillCheck != nil) {
-        NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode: SkillCheck Node – keine Buttons anzeigen, UI wartet auf automatische Weiterleitung.");
+    if ([node isMemberOfClass: [DSADialogNodeSkillCheck class]]) {
+        NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode: SkillCheck Node: keine Buttons anzeigen, UI wartet auf automatische Weiterleitung.");
         return;
     }    
     

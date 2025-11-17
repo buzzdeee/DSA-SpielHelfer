@@ -30,8 +30,26 @@
 
 @implementation DSADialogNode
 
-+ (instancetype)nodeFromDictionary:(NSDictionary *)dict {
-    NSLog(@"DSADialogNode nodeFromDictionary dict: %@", dict);
++ (nullable instancetype)nodeFromDictionary:(NSDictionary *)dict {
+    if (dict[@"skillCheckAll"]) {
+        DSADialogNodeSkillCheckAll *node = [DSADialogNodeSkillCheckAll new];
+        [node setupWithDictionary:dict[@"skillCheckAll"]];
+        [node setupCommonPropertiesWithDictionary:dict];
+        return node;
+    } else if (dict[@"skillCheck"]) {
+        DSADialogNodeSkillCheck *node = [DSADialogNodeSkillCheck new];
+        [node setupWithDictionary:dict[@"skillCheck"]];
+        [node setupCommonPropertiesWithDictionary:dict];
+        return node;
+    } else {
+        DSADialogNode *node = [DSADialogNode new];
+        [node setupCommonPropertiesWithDictionary:dict];
+        return node;
+    }
+}
+
+- (void) setupCommonPropertiesWithDictionary:(NSDictionary *)dict {
+    NSLog(@"DSADialogNode setupCommonPropertiesWithDictionary dict: %@", dict);
     DSADialogNode *node = [[DSADialogNode alloc] init];
     node.nodeID = dict[@"id"];
 
@@ -71,9 +89,8 @@
     node.hintCategory = dict[@"hintCategory"];
     node.duration = [dict[@"duration"] integerValue];
     node.endEncounter = [dict[@"endEncounter"] boolValue];
-    node.skillCheck = dict[@"skillCheck"];
 
-    if (!node.nodeDescription && node.skillCheck) {
+    if (!node.nodeDescription) {
         node.nodeDescription = @"Ihr untersucht die Umgebung genauer...";
     }    
     
@@ -84,7 +101,6 @@
     }
     node.playerOptions = options;
     //NSLog(@"DSADialogNode nodeFromDictionary returning node: %@", node);
-    return node;
 }
 
 - (NSString *)randomText {
@@ -95,4 +111,33 @@
     return self.texts[index];
 }
 
+@end
+
+@implementation DSADialogNodeSkillCheck
+- (void)setupWithDictionary:(NSDictionary *)dict {
+    _talent = dict[@"talent"];
+    _penalty = [dict[@"penalty"] integerValue];
+    _successNodeID = dict[@"successNode"];
+    _failureNodeID = dict[@"failureNode"];
+    _failureEffect = dict[@"failureEffect"];
+    _successEffect = dict[@"successEffect"];
+    self.duration = [dict[@"duration"] integerValue];    
+}
+
+@end
+
+@implementation DSADialogNodeSkillCheckAll
+- (void)setupWithDictionary:(NSDictionary *)dict {
+    // Erst die Basisklasse initialisieren
+    [super setupWithDictionary:dict];
+    
+    // Spezifisches Feld für SkillCheckAll
+    NSString *mode = dict[@"successMode"];
+    if (mode && [mode isKindOfClass:[NSString class]]) {
+        _successMode = mode;
+    } else {
+        // Default fallback
+        _successMode = @"all";
+    }
+}
 @end

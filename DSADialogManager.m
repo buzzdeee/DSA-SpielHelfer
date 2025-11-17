@@ -80,18 +80,19 @@
         return;
     }
     
-    if (node.skillCheck && !self.skillCheckPending) {
+    if ([node isMemberOfClass: [DSADialogNodeSkillCheck class]] && !self.skillCheckPending) {
+        DSADialogNodeSkillCheck *skillCheckNode = (DSADialogNodeSkillCheck *)node;
         self.skillCheckPending = YES;
 
         // Beschreibung dynamisch ersetzen
-        NSString *text = node.nodeDescription ?: @"";
+        NSString *text = skillCheckNode.nodeDescription ?: @"";
         DSACharacter *character = [[DSAAdventureManager sharedManager].currentAdventure.activeGroup 
-                                  characterWithBestTalentWithName:node.skillCheck[@"talent"] negate:NO];
+                                  characterWithBestTalentWithName: skillCheckNode.talent negate:NO];
 
         if (character) {
             self.currentDialog.actingCharacterName = character.name;
             if ([text containsString:@"%@"]) {
-                node.nodeDescription = [NSString stringWithFormat:text, character.name];
+                skillCheckNode.nodeDescription = [NSString stringWithFormat:text, character.name];
             }
         }
 
@@ -131,23 +132,32 @@
     self.skillCheckPending = NO;
 
     DSADialogNode *node = [self currentNode];
-    NSDictionary *sc = node.skillCheck;
+    DSADialogNodeSkillCheck *skillCheckNode;
+    if ([node isMemberOfClass: [DSADialogNodeSkillCheck class]])
+      {
+         skillCheckNode = (DSADialogNodeSkillCheck *)node;
+      }
+    else
+      {
+        NSLog(@"DSADialogManager performPendingSkillCheck expected a DSADialogNodeSkillCheck class but got: %@, aborting.", [node class]);
+        abort();
+      }
 
-    NSString *talent = sc[@"talent"];
-    NSInteger penalty = [sc[@"penalty"] integerValue];
-    NSString *successNode = sc[@"successNode"];
-    NSString *failureNode = sc[@"failureNode"];
+    NSString *talent = skillCheckNode.talent;
+    NSInteger penalty = skillCheckNode.penalty;
+    NSString *successNode = skillCheckNode.successNodeID;
+    NSString *failureNode = skillCheckNode.failureNodeID;
 
     DSAAdventure *adv = [DSAAdventureManager sharedManager].currentAdventure;
     DSACharacter *character = [adv.activeGroup characterWithBestTalentWithName:talent negate:NO];
 
     DSAActionResult *result = [character useTalent:talent withPenalty:penalty];
-
+    // advance to next node, and set nodeDescription string accordingly
     self.currentNodeID = (result.result == DSAActionResultSuccess ||
                           result.result == DSAActionResultEpicSuccess ||
                           result.result == DSAActionResultAutoSuccess)
                             ? successNode : failureNode;
-    node = [self currentNode];
+    node = [self currentNode];  
     NSString *text = node.nodeDescription ?: [node randomText];
     if ([text containsString:@"%@"]) {
         node.nodeDescription = [NSString stringWithFormat:text, self.currentDialog.actingCharacterName];

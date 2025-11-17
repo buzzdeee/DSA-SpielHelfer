@@ -6589,6 +6589,54 @@ Resources/scenery_windfluestern_2-32x32.webp \
 Resources/scenery_windfluestern_2-512x512.webp \
 Resources/scenery_windfluestern_2-64x64.webp \
 Resources/scenery_windfluestern_2.webp \
+Resources/obstacle_flood_1-128x128.webp \
+Resources/obstacle_flood_1-256x256.webp \
+Resources/obstacle_flood_1-32x32.webp \
+Resources/obstacle_flood_1-512x512.webp \
+Resources/obstacle_flood_1-64x64.webp \
+Resources/obstacle_flood_1.webp \
+Resources/obstacle_flood_2-128x128.webp \
+Resources/obstacle_flood_2-256x256.webp \
+Resources/obstacle_flood_2-32x32.webp \
+Resources/obstacle_flood_2-512x512.webp \
+Resources/obstacle_flood_2-64x64.webp \
+Resources/obstacle_flood_2.webp \
+Resources/obstacle_herd_1-128x128.webp \
+Resources/obstacle_herd_1-256x256.webp \
+Resources/obstacle_herd_1-32x32.webp \
+Resources/obstacle_herd_1-512x512.webp \
+Resources/obstacle_herd_1-64x64.webp \
+Resources/obstacle_herd_1.webp \
+Resources/obstacle_herd_2-128x128.webp \
+Resources/obstacle_herd_2-256x256.webp \
+Resources/obstacle_herd_2-32x32.webp \
+Resources/obstacle_herd_2-512x512.webp \
+Resources/obstacle_herd_2-64x64.webp \
+Resources/obstacle_herd_2.webp \
+Resources/obstacle_rockslide_1-128x128.webp \
+Resources/obstacle_rockslide_1-256x256.webp \
+Resources/obstacle_rockslide_1-32x32.webp \
+Resources/obstacle_rockslide_1-512x512.webp \
+Resources/obstacle_rockslide_1-64x64.webp \
+Resources/obstacle_rockslide_1.webp \
+Resources/obstacle_rockslide_2-128x128.webp \
+Resources/obstacle_rockslide_2-256x256.webp \
+Resources/obstacle_rockslide_2-32x32.webp \
+Resources/obstacle_rockslide_2-512x512.webp \
+Resources/obstacle_rockslide_2-64x64.webp \
+Resources/obstacle_rockslide_2.webp \
+Resources/obstacle_treefall_1-128x128.webp \
+Resources/obstacle_treefall_1-256x256.webp \
+Resources/obstacle_treefall_1-32x32.webp \
+Resources/obstacle_treefall_1-512x512.webp \
+Resources/obstacle_treefall_1-64x64.webp \
+Resources/obstacle_treefall_1.webp \
+Resources/obstacle_treefall_2-128x128.webp \
+Resources/obstacle_treefall_2-256x256.webp \
+Resources/obstacle_treefall_2-32x32.webp \
+Resources/obstacle_treefall_2-512x512.webp \
+Resources/obstacle_treefall_2-64x64.webp \
+Resources/obstacle_treefall_2.webp \
 Resources/Augenfarben.json \
 Resources/Berufe.json \
 Resources/Geburtstag.json \
@@ -6642,7 +6690,8 @@ Resources/dialogue_herbalist.json \
 Resources/dialogue_hunter.json \
 Resources/dialogue_pilgrim.json \
 Resources/dialogue_trail_signs.json \
-Resources/dialogue_scenery.json 
+Resources/dialogue_scenery.json \
+Resources/dialogue_road_obstacle.json 
 
 
 #

@@ -6744,5 +6744,61 @@
     "scenery_farbenspiel_abendsonne_2-128x128.webp",
     "scenery_farbenspiel_abendsonne_2-256x256.webp",
     "scenery_farbenspiel_abendsonne_2-512x512.webp"
+  ],
+  "obstacle_flood": [
+    "obstacle_flood_1.webp",
+    "obstacle_flood_2.webp",
+    "obstacle_flood_1-32x32.webp",
+    "obstacle_flood_1-64x64.webp",
+    "obstacle_flood_1-128x128.webp",
+    "obstacle_flood_1-256x256.webp",
+    "obstacle_flood_1-512x512.webp",
+    "obstacle_flood_2-32x32.webp",
+    "obstacle_flood_2-64x64.webp",
+    "obstacle_flood_2-128x128.webp",
+    "obstacle_flood_2-256x256.webp",
+    "obstacle_flood_2-512x512.webp"
+  ],
+  "obstacle_treefall": [
+    "obstacle_treefall_2.webp",
+    "obstacle_treefall_1.webp",
+    "obstacle_treefall_1-32x32.webp",
+    "obstacle_treefall_1-64x64.webp",
+    "obstacle_treefall_1-128x128.webp",
+    "obstacle_treefall_1-256x256.webp",
+    "obstacle_treefall_1-512x512.webp",
+    "obstacle_treefall_2-32x32.webp",
+    "obstacle_treefall_2-64x64.webp",
+    "obstacle_treefall_2-128x128.webp",
+    "obstacle_treefall_2-256x256.webp",
+    "obstacle_treefall_2-512x512.webp"
+  ],
+  "obstacle_rockslide": [
+    "obstacle_rockslide_2.webp",
+    "obstacle_rockslide_1.webp",
+    "obstacle_rockslide_1-32x32.webp",
+    "obstacle_rockslide_1-64x64.webp",
+    "obstacle_rockslide_1-128x128.webp",
+    "obstacle_rockslide_1-256x256.webp",
+    "obstacle_rockslide_1-512x512.webp",
+    "obstacle_rockslide_2-32x32.webp",
+    "obstacle_rockslide_2-64x64.webp",
+    "obstacle_rockslide_2-128x128.webp",
+    "obstacle_rockslide_2-256x256.webp",
+    "obstacle_rockslide_2-512x512.webp"
+  ],
+  "obstacle_herd": [
+    "obstacle_herd_2.webp",
+    "obstacle_herd_1.webp",
+    "obstacle_herd_1-32x32.webp",
+    "obstacle_herd_1-64x64.webp",
+    "obstacle_herd_1-128x128.webp",
+    "obstacle_herd_1-256x256.webp",
+    "obstacle_herd_1-512x512.webp",
+    "obstacle_herd_2-32x32.webp",
+    "obstacle_herd_2-64x64.webp",
+    "obstacle_herd_2-128x128.webp",
+    "obstacle_herd_2-256x256.webp",
+    "obstacle_herd_2-512x512.webp"
   ]
 }

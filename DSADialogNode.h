@@ -36,10 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *mainImageName;
 @property (nonatomic, strong, nullable) NSString *title;                    // start nodes have a title, to "describe" the dialog
 @property (nonatomic, strong) NSArray<NSString *> *texts;
-@property (nonatomic, strong) NSArray<DSADialogOption *> *playerOptions;
+@property (nonatomic, strong, nullable) NSArray<DSADialogOption *> *playerOptions;
 @property (nonatomic, strong, nullable) NSString *hintCategory;
 @property (nonatomic) NSInteger duration;  // in minutes
-@property (nonatomic, strong, nullable) NSDictionary *skillCheck;
 @property (nonatomic) BOOL endEncounter;
 @property (nonatomic, strong, nullable) NSString *nodeDescription;
 
@@ -48,6 +47,26 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSString *)randomText;
 
 @end
+
+@interface DSADialogNodeSkillCheck: DSADialogNode
+
+@property (nonatomic, strong) NSString *talent;
+@property (nonatomic) NSInteger penalty;
+@property (nonatomic, strong) NSString *successNodeID;
+@property (nonatomic, strong) NSString *failureNodeID;
+@property (nonatomic, strong, nullable) NSDictionary *successEffect;
+@property (nonatomic, strong, nullable) NSDictionary *failureEffect;
+
+-(void)setupWithDictionary: (NSDictionary*)dict;
+
+@end
+
+@interface DSADialogNodeSkillCheckAll: DSADialogNodeSkillCheck
+
+@property (nonatomic, strong) NSString *successMode; // "all", "any", "first done", "majority"
+
+@end
+
 NS_ASSUME_NONNULL_END
 #endif // _DSADIALOGNODE_H_
 

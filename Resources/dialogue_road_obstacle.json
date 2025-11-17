@@ -1,0 +1,194 @@
+{
+  "npcName": "road_obstacle",
+  "startNodes": ["obs_1", "obs_2", "obs_3", "obs_4", "obs_5", "obs_6", "obs_7", "obs_8"],
+  "startNodeID": "obs_1",
+  "nodes": {
+
+    "obs_1": {
+      "id": "obs_1",
+      "title": "Umgestürzter Baum",
+      "mainImage": "obstacle_treefall",
+      "thumbnailImage": "obstacle_treefall",
+      "description": "Ein gewaltiger Baum blockiert den Weg. Äste und Holzsplitter liegen überall.",
+      "playerOptions": [
+        {"texts": ["Versuchen wegzuräumen"], "nextNodeID": "obs_1_clear", "duration": 15},
+        {"texts": ["Umgehen"], "nextNodeID": "obs_1_detour", "duration": 8},
+        {"texts": ["Nach Hinweisen suchen"], "nextNodeID": "obs_1_investigate", "duration": 6}
+      ]
+    },
+    "obs_1_clear": {
+      "id": "obs_1_clear",
+      "description": "%@ versucht, den Baum zur Seite zu schaffen.",
+      "skillCheck": {"talent": "Kraftakt", "penalty": 2, "successNode": "obs_1_clear_success", "failureNode": "obs_1_clear_fail", "duration": 15}
+    },
+    "obs_1_clear_success": {
+      "id": "obs_1_clear_success",
+      "description": "%@ schafft es, das Hindernis teilweise wegzuräumen. Ihr könnt weiter.",
+      "endEncounter": true
+    },
+    "obs_1_clear_fail": {
+      "id": "obs_1_clear_fail",
+      "description": "Der Baum ist zu schwer. Ihr müsst einen Umweg nehmen.",
+      "nextNodeID": "obs_1_detour"
+    },
+    "obs_1_detour": {
+      "id": "obs_1_detour",
+      "description": "Ihr bahnt euch auf einem schmalen Nebenpfad den Weg um das Hindernis herum.",
+      "endEncounter": true,
+      "duration": 15
+    },
+    "obs_1_investigate": {
+      "id": "obs_1_investigate",
+      "description": "%@ sucht nach Spuren.",
+      "skillCheck": {"talent": "Fährtensuchen", "penalty": 1, "successNode": "obs_1_invest_success", "failureNode": "obs_1_invest_fail", "duration": 10}
+    },
+    "obs_1_invest_success": {
+      "id": "obs_1_invest_success",
+      "description": "%@ entdeckt, dass der Baum natürlich gefallen ist. Keine Gefahr.",
+      "playerOptions": [
+        {"texts": ["Versuchen wegzuräumen"], "nextNodeID": "obs_1_clear", "duration": 15},
+        {"texts": ["Umgehen"], "nextNodeID": "obs_1_detour", "duration": 8}
+      ]
+    },
+    "obs_1_invest_fail": {
+      "id": "obs_1_invest_fail",
+      "description": "%@ findet keine verwertbaren Spuren.",
+      "playerOptions": [
+        {"texts": ["Versuchen wegzuräumen"], "nextNodeID": "obs_1_clear", "duration": 15},
+        {"texts": ["Umgehen"], "nextNodeID": "obs_1_detour", "duration": 8}
+      ]      
+    },
+
+    "obs_2": {
+      "id": "obs_2",
+      "title": "Überschwemmter Weg",
+      "mainImage": "obstacle_flood",
+      "thumbnailImage": "obstacle_flood",      
+      "description": "Der Pfad steht knöcheltief unter Wasser. Die Strömung ist stärker als erwartet.",
+      "playerOptions": [
+        {"texts": ["Durchwaten"], "nextNodeID": "obs_2_cross", "duration": 12},
+        {"texts": ["Andere Route suchen"], "nextNodeID": "obs_2_detour", "duration": 8}
+      ]
+    },
+    "obs_2_cross_all": {
+      "id": "obs_2_cross_all",
+      "description": "%@ versucht, den überfluteten Abschnitt zu durchqueren.",
+      "skillCheckAll": {
+        "talent": "Körperbeherrschung",
+        "penalty": 3,
+        "duration": 15,
+        "successNode": "obs_2_cross_all_success",
+        "failureNode": "obs_2_cross_all_partial_fail",
+        "failureEffect": {
+          "hpLoss": "1W6",
+          "status": "nass",
+          "timeLoss": 5
+        },
+        "successMode": "any"
+       }
+    },
+    "obs_2_cross_all_success": {
+      "id": "obs_2_cross_all_success",
+      "description": "Die Gruppe schafft es sicher ans andere Ufer.",
+      "endEncounter": true
+    },
+    "obs_2_cross_all_partial_fail": {
+      "id": "obs_2_cross_all_partial_fail",
+      "description": "Einige von euch rutschen aus und werden nass, sie verlieren Zeit und handeln sich ein paar blaue Flecke.",
+      "endEncounter": true
+    },
+    "obs_2_detour": {
+      "id": "obs_2_detour",
+      "description": "Ihr findet einen kleinen Umweg durch höheres Gelände.",
+      "endEncounter": true,
+      "duration": 10
+    },
+
+    "obs_3": {
+      "id": "obs_3",
+      "title": "Geröllfeld",
+      "mainImage": "obstacle_rockslide",
+      "thumbnailImage": "obstacle_rockslide",      
+      "description": "Der Weg ist von losem Geröll bedeckt. Jeder Schritt könnte gefährlich sein.",
+      "playerOptions": [
+        {"texts": ["Vorsichtig passieren"], "nextNodeID": "obs_3_sneak", "duration": 12},
+        {"texts": ["Geröll wegräumen"], "nextNodeID": "obs_3_clear", "duration": 15}
+      ]
+    },
+    "obs_3_sneak": {
+      "id": "obs_3_sneak",
+      "description": "%@ versucht, sich vorsichtig über das Geröll zu bewegen.",
+      "skillCheck": {"talent": "Körperbeherrschung", "penalty": 2, "successNode": "obs_3_sneak_success", "failureNode": "obs_3_sneak_fail", "duration": 15}
+    },
+    "obs_3_sneak_success": {
+      "id": "obs_3_sneak_success",
+      "description": "%@ findet sicheren Halt und Ihr passiert das Feld unbeschadet.",
+      "endEncounter": true
+    },
+    "obs_3_sneak_fail": {
+      "id": "obs_3_sneak_fail",
+      "description": "%@ löst eine kleine Rutschung aus. Ihr verliert Zeit, aber es passiert nichts Schlimmes.",
+      "endEncounter": true,
+      "duration": 5
+    },
+    "obs_3_clear": {
+      "id": "obs_3_clear",
+      "description": "%@ versucht, das lose Geröll etwas zu sichern.",
+      "skillCheck": {"talent": "Kraftakt", "penalty": 4, "successNode": "obs_3_clear_success", "failureNode": "obs_3_clear_fail", "duration": 15}
+    },
+    "obs_3_clear_success": {
+      "id": "obs_3_clear_success",
+      "description": "%@ stabilisiert einige Steine – der Durchgang wird sicherer.",
+      "endEncounter": true
+    },
+    "obs_3_clear_fail": {
+      "id": "obs_3_clear_fail",
+      "description": "Das Geröll ist zu instabil. Ihr müsst vorsichtig weiter.",
+      "endEncounter": true,
+      "duration": 3
+    },
+
+    "obs_4": {
+      "id": "obs_4",
+      "title": "Herde blockiert den Weg",
+      "mainImage": "obstacle_herd",
+      "thumbnailImage": "obstacle_herd",       
+      "description": "Eine Herde Schafe oder Ziegen blockiert den schmalen Weg.",
+      "playerOptions": [
+        {"texts": ["Hirt rufen"], "nextNodeID": "obs_4_call", "duration": 5},
+        {"texts": ["Durchschlängeln"], "nextNodeID": "obs_4_move", "duration": 8}
+      ]
+    },
+    "obs_4_call": {
+      "id": "obs_4_call",
+      "description": "%@ ruft nach dem Hirten.",
+      "skillCheck": {"talent": "Überreden", "penalty": 1, "successNode": "obs_4_call_success", "failureNode": "obs_4_call_fail", "duration": 10}
+    },
+    "obs_4_call_success": {
+      "id": "obs_4_call_success",
+      "description": "Ein Hirte taucht auf und treibt die Tiere beiseite.",
+      "endEncounter": true
+    },
+    "obs_4_call_fail": {
+      "id": "obs_4_call_fail",
+      "description": "Niemand antwortet.",
+      "nextNodeID": "obs_4_move"
+    },
+    "obs_4_move": {
+      "id": "obs_4_move",
+      "description": "%@ versucht, zwischen den Tieren hindurchzugehen.",
+      "skillCheck": {"talent": "Tierkunde", "penalty": 2, "successNode": "obs_4_move_success", "failureNode": "obs_4_move_fail", "duration": 10}
+    },
+    "obs_4_move_success": {
+      "id": "obs_4_move_success",
+      "description": "Die Tiere weichen ruhig zur Seite.",
+      "endEncounter": true
+    },
+    "obs_4_move_fail": {
+      "id": "obs_4_move_fail",
+      "description": "Ein Tier erschrickt und drängt euch ab – Ihr verliert Zeit.",
+      "endEncounter": true,
+      "duration": 5
+    }
+  }
+}
