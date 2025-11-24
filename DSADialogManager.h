@@ -38,7 +38,7 @@
 
 - (BOOL)loadDialogFromFile:(NSString *)filename;
 //- (void)startDialog;
-- (void)handlePlayerSelectionAtIndex:(NSUInteger)index;
+//- (void)handlePlayerSelectionAtIndex:(NSUInteger)index;
 - (DSADialogNode *)currentNode;
 - (void)presentCurrentNode;  // and eventuall do action...
 - (void)performPendingSkillCheck;

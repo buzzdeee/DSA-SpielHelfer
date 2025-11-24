@@ -128,7 +128,7 @@
         [self closeSheet:nil];
         return;
     }
-    
+    NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode before node.title check, current node %@", node);
     if (node.title)
       {
           [self.panel setTitle: node.title];
@@ -148,7 +148,7 @@
     } else {
         NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode: no thumbnail image given");
     }      
-
+    NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode before setting main image, current node %@", node);
     NSString *mainImageName = node.mainImageName ?: self.dialogManager.currentDialog.mainImageName;
     if (mainImageName && mainImageName.length > 0) {
         NSDictionary *userInfo = @{ @"imageName": mainImageName };
@@ -158,9 +158,10 @@
     }    
           
     // Setze die Node-Beschreibung (TrailSigns: "description")
+    NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode before setting npcTextField, current node %@", node);
     self.npcTextField.stringValue = node.nodeDescription ?: [node randomText];
 
-    if ((node.playerOptions.count == 0 && !node.endEncounter) || [node isMemberOfClass: [DSADialogNodeSkillCheck class]]) {
+    if (([node isMemberOfClass: [DSADialogNode class]] && !node.endEncounter) || [node isMemberOfClass: [DSADialogNodeSkillCheck class]]) {
          [self.continueButton setTitle:@"Weiter"];
          [self.continueButton setHidden:NO];
     } else if (node.endEncounter) {
@@ -171,6 +172,7 @@
          [self.continueButton setHidden:YES];
     }    
     // Entferne alte Buttons
+    NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode before removing old buttons, current node %@", node);
     for (NSView *subview in self.optionsContainer.subviews) {
         [subview removeFromSuperview];
     }
@@ -184,32 +186,47 @@
         NSLog(@"EndEncounter erreicht. Encounter Dauer: %ld Minuten", (long)self.dialogManager.accumulatedDuration);
         return; // falls du sofort schließen willst, hier closeSheet:nil
     }
-    
-    NSUInteger index = 0;
-    for (DSADialogOption *option in node.playerOptions) {
-        NSArray *texts = option.textVariants ?: @[@"[...]"];
-        NSString *buttonTitle = texts.count > 0 ? texts[arc4random_uniform((uint32_t)texts.count)] : @"[...]";
 
-        // Button erstellen
-        NSButton *button = [[NSButton alloc] initWithFrame:NSMakeRect(0, 0, self.optionsContainer.bounds.size.width, 30)];
-        [button setTitle:buttonTitle];
-        [button setTarget:self];
-        [button setAction:@selector(optionClicked:)];
-        [button setTag:index];
+    if ([node isKindOfClass: [DSADialogNodeOption class]])    
+      {
+        NSLog(@"I'm dealing with a DSADialogNodeOption type of node");
+        DSADialogNodeOption *optionNode = (DSADialogNodeOption *)node;
+        NSUInteger index = 0;
+        for (DSADialogOption *option in optionNode.playerOptions) {
+            NSArray *texts = option.textVariants ?: @[@"[...]"];
+            NSString *buttonTitle = texts.count > 0 ? texts[arc4random_uniform((uint32_t)texts.count)] : @"[...]";
 
-        // Position vertikal stapeln
-        CGFloat buttonY = self.optionsContainer.bounds.size.height - ((index + 1) * 40);
-        [button setFrame:NSMakeRect(0, buttonY, self.optionsContainer.bounds.size.width, 30)];
+            // Button erstellen
+            NSButton *button = [[NSButton alloc] initWithFrame:NSMakeRect(0, 0, self.optionsContainer.bounds.size.width, 30)];
+            [button setTitle:buttonTitle];
+            [button setTarget:self];
+            [button setAction:@selector(optionClicked:)];
+            [button setTag:index];
 
-        [self.optionsContainer addSubview:button];
-        index++;
-    }
+            // Position vertikal stapeln
+            CGFloat buttonY = self.optionsContainer.bounds.size.height - ((index + 1) * 40);
+            [button setFrame:NSMakeRect(0, buttonY, self.optionsContainer.bounds.size.width, 30)];
+
+            [self.optionsContainer addSubview:button];
+            index++;
+        }
+      }
 }
 
 - (void)optionClicked:(NSButton *)sender {
     NSUInteger index = sender.tag;
     DSADialogNode *node = [self.dialogManager currentNode];
-    DSADialogOption *option = node.playerOptions[index];
+    DSADialogNodeOption *optionNode;
+    if ([node isKindOfClass: [DSADialogNodeOption class]])
+      {
+        optionNode = (DSADialogNodeOption *)node;
+      }
+    else
+      {
+        NSLog(@"DSAConversationDialogSheetController optionClicked: wrong Node class: %@, aborting", [node class]);
+        abort();
+      }
+    DSADialogOption *option = optionNode.playerOptions[index];
     NSLog(@"DSAConversationDialogSheetController optionClicked called option: %@", option);
     
     if (option.skillCheck) {

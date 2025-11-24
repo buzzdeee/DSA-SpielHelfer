@@ -36,15 +36,21 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *mainImageName;
 @property (nonatomic, strong, nullable) NSString *title;                    // start nodes have a title, to "describe" the dialog
 @property (nonatomic, strong) NSArray<NSString *> *texts;
-@property (nonatomic, strong, nullable) NSArray<DSADialogOption *> *playerOptions;
 @property (nonatomic, strong, nullable) NSString *hintCategory;
 @property (nonatomic) NSInteger duration;  // in minutes
 @property (nonatomic) BOOL endEncounter;
 @property (nonatomic, strong, nullable) NSString *nodeDescription;
 
 + (nullable instancetype)nodeFromDictionary:(NSDictionary *)dict;
+- (void)setupWithDictionary:(NSDictionary *)dict;
 
 - (NSString *)randomText;
+
+@end
+
+@interface DSADialogNodeOption : DSADialogNode
+
+@property (nonatomic, strong) NSArray<DSADialogOption *> *playerOptions;
 
 @end
 
@@ -56,8 +62,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *failureNodeID;
 @property (nonatomic, strong, nullable) NSDictionary *successEffect;
 @property (nonatomic, strong, nullable) NSDictionary *failureEffect;
-
--(void)setupWithDictionary: (NSDictionary*)dict;
 
 @end
 

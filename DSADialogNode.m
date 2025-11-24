@@ -32,26 +32,32 @@
 
 + (nullable instancetype)nodeFromDictionary:(NSDictionary *)dict {
     if (dict[@"skillCheckAll"]) {
+        NSLog(@"DSADialogNode nodeFromDictionary going to return DSADialogNodeSkillCheckAll");
         DSADialogNodeSkillCheckAll *node = [DSADialogNodeSkillCheckAll new];
-        [node setupWithDictionary:dict[@"skillCheckAll"]];
-        [node setupCommonPropertiesWithDictionary:dict];
+        [node setupWithDictionary:dict];
         return node;
     } else if (dict[@"skillCheck"]) {
+        NSLog(@"DSADialogNode nodeFromDictionary going to return DSADialogNodeSkillCheck");
         DSADialogNodeSkillCheck *node = [DSADialogNodeSkillCheck new];
-        [node setupWithDictionary:dict[@"skillCheck"]];
-        [node setupCommonPropertiesWithDictionary:dict];
+        [node setupWithDictionary:dict];
+        return node;
+    } else if (dict[@"playerOptions"]) {
+        NSLog(@"DSADialogNode nodeFromDictionary going to return DSADialogNodeOption");
+        DSADialogNodeOption *node = [DSADialogNodeOption new];
+        [node setupWithDictionary:dict];
         return node;
     } else {
+        NSLog(@"DSADialogNode nodeFromDictionary going to return plain DSADialogNode");
         DSADialogNode *node = [DSADialogNode new];
-        [node setupCommonPropertiesWithDictionary:dict];
+        [node setupWithDictionary:dict];
         return node;
     }
 }
 
-- (void) setupCommonPropertiesWithDictionary:(NSDictionary *)dict {
-    NSLog(@"DSADialogNode setupCommonPropertiesWithDictionary dict: %@", dict);
-    DSADialogNode *node = [[DSADialogNode alloc] init];
-    node.nodeID = dict[@"id"];
+- (void) setupWithDictionary:(NSDictionary *)dict {
+    NSLog(@"DSADialogNode setupWithDictionary dict: %@", dict);
+
+    _nodeID = dict[@"id"];
 
     NSString *region = dict[@"imageRegion"];
     NSString *gender = dict[@"imageGender"];
@@ -64,46 +70,42 @@
     NSString *thumbKey = dict[@"thumbnailImage"];
     if (thumbKey)
       {
-        node.thumbnailImageName = [Utils randomImageNameForKey: thumbKey
-                                                withSizeSuffix: @"128x128"
-                                                     forRegion: region
-                                                        gender: gender
-                                                    seedString: seed];
+        _thumbnailImageName = [Utils randomImageNameForKey: thumbKey
+                                            withSizeSuffix: @"128x128"
+                                                 forRegion: region
+                                                    gender: gender
+                                                seedString: seed];
        }
-    NSLog(@"DSADialogNode dialogFromDictionary: thumbnailImageName: %@", node.thumbnailImageName);   
+    NSLog(@"DSADialogNode setupWithDictionary: thumbnailImageName: %@", _thumbnailImageName);   
     NSString *mainKey = dict[@"mainImage"];   
     if (mainKey)
       {
         NSLog(@"DSADialogNode going to look for mainImage without size suffix");
-        node.mainImageName = [Utils randomImageNameForKey: mainKey
-                                           withSizeSuffix: nil
-                                                forRegion: region
-                                                   gender: gender
-                                               seedString: seed];
+        _mainImageName = [Utils randomImageNameForKey: mainKey
+                                       withSizeSuffix: nil
+                                            forRegion: region
+                                               gender: gender
+                                           seedString: seed];
        }    
-    NSLog(@"DSADialogNode dialogFromDictionary: mainImageName: %@", node.mainImageName);
+    NSLog(@"DSADialogNode setupWithDictionary: mainImageName: %@", _mainImageName);
        
-    node.texts = dict[@"texts"];
-    node.title = dict[@"title"];
-    node.nodeDescription = dict[@"description"];
-    node.hintCategory = dict[@"hintCategory"];
-    node.duration = [dict[@"duration"] integerValue];
-    node.endEncounter = [dict[@"endEncounter"] boolValue];
+    _texts = dict[@"texts"];
+    NSLog(@"DSADialogNode setupWithDictionary: texts: %@", _texts);
+    _title = dict[@"title"];
+    _nodeDescription = dict[@"description"];
+    _hintCategory = dict[@"hintCategory"];
+    _duration = [dict[@"duration"] integerValue];
+    _endEncounter = [dict[@"endEncounter"] boolValue];
 
-    if (!node.nodeDescription) {
-        node.nodeDescription = @"Ihr untersucht die Umgebung genauer...";
-    }    
+//    if (!node.nodeDescription) {
+//        node.nodeDescription = @"Ihr untersucht die Umgebung genauer...";
+//    }    
     
-    NSMutableArray *options = [NSMutableArray array];
-    for (NSDictionary *optDict in dict[@"playerOptions"]) {
-        DSADialogOption *opt = [DSADialogOption optionFromDictionary:optDict];
-        [options addObject:opt];
-    }
-    node.playerOptions = options;
-    //NSLog(@"DSADialogNode nodeFromDictionary returning node: %@", node);
+    NSLog(@"DSADialogNode nodeFromDictionary returning node: %@", self);
 }
 
 - (NSString *)randomText {
+    NSLog(@"DSADialogNode selecting random text from texts: %@", self.texts);
     if (self.texts.count == 0) {
         return @"...";
     }
@@ -113,26 +115,49 @@
 
 @end
 
+
+@implementation DSADialogNodeOption
+
+- (void)setupWithDictionary:(NSDictionary *)dict {
+
+    // Basisdaten laden
+    [super setupWithDictionary:dict];
+
+    NSArray *optionsArray = dict[@"playerOptions"];
+    NSMutableArray *parsed = [NSMutableArray array];
+
+    for (NSDictionary *optDict in optionsArray) {
+        DSADialogOption *opt = [DSADialogOption optionFromDictionary:optDict];
+        if (opt) [parsed addObject:opt];
+    }
+
+    _playerOptions = parsed.copy;
+}
+
+@end
+
 @implementation DSADialogNodeSkillCheck
 - (void)setupWithDictionary:(NSDictionary *)dict {
-    _talent = dict[@"talent"];
-    _penalty = [dict[@"penalty"] integerValue];
-    _successNodeID = dict[@"successNode"];
-    _failureNodeID = dict[@"failureNode"];
-    _failureEffect = dict[@"failureEffect"];
-    _successEffect = dict[@"successEffect"];
-    self.duration = [dict[@"duration"] integerValue];    
+    [super setupWithDictionary:dict];
+    NSDictionary *check = dict[@"skillCheck"];
+    
+    _talent = check[@"talent"];
+    _penalty = [check[@"penalty"] integerValue];
+    _successNodeID = check[@"successNode"];
+    _failureNodeID = check[@"failureNode"];
+    _failureEffect = check[@"failureEffect"];
+    _successEffect = check[@"successEffect"];
+    self.duration = [check[@"duration"] integerValue];    
 }
 
 @end
 
 @implementation DSADialogNodeSkillCheckAll
 - (void)setupWithDictionary:(NSDictionary *)dict {
-    // Erst die Basisklasse initialisieren
     [super setupWithDictionary:dict];
-    
-    // Spezifisches Feld für SkillCheckAll
-    NSString *mode = dict[@"successMode"];
+    NSDictionary *checkAll = dict[@"skillCheckAll"];
+
+    NSString *mode = checkAll[@"successMode"];
     if (mode && [mode isKindOfClass:[NSString class]]) {
         _successMode = mode;
     } else {

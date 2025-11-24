@@ -37,6 +37,7 @@
 
 - (BOOL)loadDialogFromFile:(NSString *)filename {
     NSString *path = [[NSBundle mainBundle] pathForResource:filename ofType:@"json"];
+    NSLog(@"DSADialogManager loadDialogFromFile: %@ BEGIN", filename);
     if (!path) {
         NSLog(@"❌ Dialog-Datei nicht gefunden: %@", filename);
         return NO;
@@ -53,7 +54,7 @@
     }
 
     self.currentDialog = [DSADialog dialogFromDictionary:dict];
-
+    NSLog(@"DSADialogManager loadDialogFromFile: self.currentDialog: %@", self.currentDialog);
     NSArray *startNodes = dict[@"startNodes"];
     if (startNodes && startNodes.count > 0) {
         self.currentNodeID = startNodes[arc4random_uniform((uint32_t)startNodes.count)];
@@ -62,18 +63,18 @@
     }
 
     self.accumulatedDuration = 0;
-    NSLog(@"DSADialogManager loadDialogFromFile: %@ currentNodeID: %@", filename, self.currentNodeID);
+    NSLog(@"DSADialogManager loadDialogFromFile: %@ currentNodeID: %@ FINISHED", filename, self.currentNodeID);
     return YES;
 }
 
 - (DSADialogNode *)currentNode {
-    NSLog(@"DSADialogManager currentNode: ID: %@", self.currentNodeID);
-    //NSLog(@"DSADialogManager currentNode: currentDialog: %@", self.currentDialog);
-    return [self.currentDialog nodeForID:self.currentNodeID];
+    NSLog(@"DSADialogManager currentNode:  was called ID: %@", self.currentNodeID);
+    NSLog(@"DSADialogManager currentNode: currentDialog: %@", self.currentDialog);
+    return [self.currentDialog nodeForID: self.currentNodeID];
 }
 
 - (void)presentCurrentNode {
-    //NSLog(@"DSADialogManager presentCurrentNode: currentNode: %@", [self currentNode]);
+    NSLog(@"DSADialogManager presentCurrentNode: currentNode: %@", [self currentNode]);
     DSADialogNode *node = [self currentNode];
     if (!node) {
         NSLog(@"DSADialogManager presentCurrentNode: Kein Knoten gefunden für ID: %@", self.currentNodeID);
@@ -109,17 +110,21 @@
     NSLog(@"DSADialogManager presentCurrentNode: npcName %@: characterName: %@ text: %@", self.currentDialog.npcName, self.currentDialog.actingCharacterName, text);
 
     // PlayerOptions anzeigen
-    NSUInteger idx = 0;
-    for (DSADialogOption *option in node.playerOptions) {
+    if ([node isMemberOfClass: [DSADialogNodeSkillCheck class]])
+      {
+        NSUInteger idx = 0;
+        DSADialogNodeOption *optionNode = (DSADialogNodeOption*) node;
+        for (DSADialogOption *option in optionNode.playerOptions) {
        
-        NSArray *texts = option.textVariants;
-        NSString *playerText = texts.count > 0 ? texts[arc4random_uniform((uint32_t)texts.count)] : @"[...]";
-        NSLog(@"DSADialogManager presentCurrentNode XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX: index: %lu: playerText: %@", (unsigned long)idx, playerText);
-        idx++;
-    }
+            NSArray *texts = option.textVariants;
+            NSString *playerText = texts.count > 0 ? texts[arc4random_uniform((uint32_t)texts.count)] : @"[...]";
+            NSLog(@"DSADialogManager presentCurrentNode XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX: index: %lu: playerText: %@", (unsigned long)idx, playerText);
+            idx++;
+        }
+      }
     NSLog(@"DSADialogManager presentCurrentNode: AFTER OPTION LOOP npcName %@: characterName: %@ text: %@", self.currentDialog.npcName, self.currentDialog.actingCharacterName, text);
     // Wenn keine Optionen und endEncounter -> Dialog beendet
-    if ((node.playerOptions.count == 0) && node.endEncounter) {
+    if (![node isMemberOfClass: [DSADialogNodeSkillCheck class]] && node.endEncounter) {
         NSLog(@"DSADialogManager presentCurrentNode: Ende des Encounters. Drehe die Uhr vor, Gesamtdauer: %ld Minuten", (long)self.accumulatedDuration);
 
         // GameClock aktualisieren
@@ -164,6 +169,7 @@
     }    
 }
 
+/*
 - (void)handlePlayerSelectionAtIndex:(NSUInteger)index {
     NSLog(@"DSADialogManager handlePlayerSelectionAtIndex: called.");
     DSADialogNode *node = [self currentNode];
@@ -182,5 +188,5 @@
     self.currentNodeID = nextNodeID;
     [self presentCurrentNode];
 }
-
+*/
 @end
