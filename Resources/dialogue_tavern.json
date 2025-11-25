@@ -135,7 +135,6 @@
         "Ein Händler meinte, er habe in den Sümpfen Stimmen gehört, obwohl er allein war.",
         "Ein zwielichtiger Typ ließ letztens ein blutiges Pergament hier liegen – ich hab’s nicht angerührt."
       ],
-      "playerOptions": [],
       "hintCategory": "rumor"
     },
 
@@ -146,8 +145,7 @@
         "Pass auf, was du sagst. Ich schenk ungern Feinden ein.",
         "Raus hier, bevor ich die Wachen hole!",
         "Wer beleidigt, kriegt nichts – nicht mal Ärger."
-      ],
-      "playerOptions": []
+      ]
     },
 
     "end": {
@@ -157,8 +155,7 @@
         "Na dann – viel Glück da draußen.",
         "Kommt wieder, wenn ihr Durst habt.",
         "Die Tür steht euch offen – solange ihr zahlt."
-      ],
-      "playerOptions": []
+      ]
     }
   }
 }

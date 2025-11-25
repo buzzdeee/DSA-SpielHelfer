@@ -55,7 +55,6 @@
         "Der Pilger hebt die Hand zum Segen. \"Möge die Götter euch leiten.\"",
         "\"Ich spüre Güte in euren Herzen – nehmt diesen Segen mit.\""
       ],
-      "playerOptions": [],
       "hintCategory": "blessing"
     },
 
@@ -66,8 +65,7 @@
         "\"Geht in Frieden.\"",
         "\"Die Straße sei euch gnädig.\"",
         "\"Lebt wohl, Reisende.\""
-      ],
-      "playerOptions": []
+      ]
     }
   }
 }

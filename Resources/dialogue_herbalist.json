@@ -63,7 +63,6 @@
         "\"Hier, nehmt ein paar dieser Kräuter. Vielleicht helfen sie euch.\"",
         "\"Ich sehe, ihr habt ein gutes Auge. Probiert euer Glück beim Sammeln.\""
       ],
-      "playerOptions": [],
       "hintCategory": "herbs"
     },
 
@@ -74,8 +73,7 @@
         "\"Passt auf, dass ihr keine giftigen Wurzeln pflückt!\"",
         "\"Möge euch Mutter Natur freundlich gesinnt sein.\"",
         "\"Lebt wohl, Reisende.\""
-      ],
-      "playerOptions": []
+      ]
     }
   }
 }

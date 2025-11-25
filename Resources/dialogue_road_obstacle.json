@@ -1,6 +1,6 @@
 {
   "npcName": "road_obstacle",
-  "startNodes": ["obs_1", "obs_2", "obs_3", "obs_4", "obs_5", "obs_6", "obs_7", "obs_8"],
+  "startNodes": ["obs_1", "obs_2", "obs_3", "obs_4"],
   "startNodeID": "obs_1",
   "nodes": {
 
@@ -19,7 +19,7 @@
     "obs_1_clear": {
       "id": "obs_1_clear",
       "description": "%@ versucht, den Baum zur Seite zu schaffen.",
-      "skillCheck": {"talent": "Kraftakt", "penalty": 2, "successNode": "obs_1_clear_success", "failureNode": "obs_1_clear_fail", "duration": 15}
+      "skillCheck": {"talent": "Selbstbeherrschung", "penalty": 2, "successNode": "obs_1_clear_success", "failureNode": "obs_1_clear_fail", "duration": 15}
     },
     "obs_1_clear_success": {
       "id": "obs_1_clear_success",
@@ -72,13 +72,14 @@
     },
     "obs_2_cross_all": {
       "id": "obs_2_cross_all",
-      "description": "%@ versucht, den überfluteten Abschnitt zu durchqueren.",
+      "description": "Ihr versucht, den überfluteten Abschnitt zu durchqueren.",
       "skillCheckAll": {
         "talent": "Körperbeherrschung",
         "penalty": 3,
         "duration": 15,
         "successNode": "obs_2_cross_all_success",
-        "failureNode": "obs_2_cross_all_partial_fail",
+        "partialFailureNode": "obs_2_cross_all_partial_fail",
+        "failureNode": "obs_2_cross_all_fail",
         "failureEffect": {
           "hpLoss": "1W6",
           "status": "nass",
@@ -97,6 +98,11 @@
       "description": "Einige von euch rutschen aus und werden nass, sie verlieren Zeit und handeln sich ein paar blaue Flecke.",
       "endEncounter": true
     },
+    "obs_2_cross_all_fail": {
+      "id": "obs_2_cross_all_fail",
+      "description": "Der Boden stellt sich als rutschiger aus als gedacht. Alle rutschen aus und werden nass, Ihr verliert Zeit und handelt euch einige blaue Flecke ein.",
+      "endEncounter": true
+    },    
     "obs_2_detour": {
       "id": "obs_2_detour",
       "description": "Ihr findet einen kleinen Umweg durch höheres Gelände.",
@@ -118,19 +124,35 @@
     "obs_3_sneak": {
       "id": "obs_3_sneak",
       "description": "%@ versucht, sich vorsichtig über das Geröll zu bewegen.",
-      "skillCheck": {"talent": "Körperbeherrschung", "penalty": 2, "successNode": "obs_3_sneak_success", "failureNode": "obs_3_sneak_fail", "duration": 15}
+      "skillCheckAll": {
+        "talent": "Körperbeherrschung", 
+        "penalty": 2, 
+        "successNode": "obs_3_sneak_success", 
+        "partialFailureNode": "obs_3_sneak_partial_fail",
+        "failureNode": "obs_3_sneak_fail",        
+        "failureEffect": {
+          "hpLoss": "1W6",
+          "status": "nass",
+          "timeLoss": 5
+        },        
+        "duration": 15
+      }
     },
     "obs_3_sneak_success": {
       "id": "obs_3_sneak_success",
-      "description": "%@ findet sicheren Halt und Ihr passiert das Feld unbeschadet.",
+      "description": "Das Laufen auf dem Geröll fällt euch schwer, aber Ihr findet alle sicheren Halt und passiert das Feld unbeschadet.",
       "endEncounter": true
     },
-    "obs_3_sneak_fail": {
-      "id": "obs_3_sneak_fail",
-      "description": "%@ löst eine kleine Rutschung aus. Ihr verliert Zeit, aber es passiert nichts Schlimmes.",
-      "endEncounter": true,
-      "duration": 5
+    "obs_3_sneak_partial_fail": {
+      "id": "obs_3_sneak_partial_fail",
+      "description": "Das Laufen auf dem Geröll fällt euch schwer, einige von euch verlieren den Halt und handeln sich ein paar blaue Flecke ein.",
+      "endEncounter": true
     },
+    "obs_3_sneak_partial_fail": {
+      "id": "obs_3_sneak_fail",
+      "description": "Das Laufen auf dem Geröll fällt euch schwer. Ein jeder von euch verlieren den Halt und handeln sich ein paar blaue Flecke ein.",
+      "endEncounter": true
+    },    
     "obs_3_clear": {
       "id": "obs_3_clear",
       "description": "%@ versucht, das lose Geröll etwas zu sichern.",
@@ -147,22 +169,21 @@
       "endEncounter": true,
       "duration": 3
     },
-
-    "obs_4": {
+   "obs_4": {
       "id": "obs_4",
       "title": "Herde blockiert den Weg",
       "mainImage": "obstacle_herd",
       "thumbnailImage": "obstacle_herd",       
-      "description": "Eine Herde Schafe oder Ziegen blockiert den schmalen Weg.",
+      "description": "Eine Herde Ziegen blockiert den schmalen Weg.",
       "playerOptions": [
-        {"texts": ["Hirt rufen"], "nextNodeID": "obs_4_call", "duration": 5},
+        {"texts": ["Hirte rufen"], "nextNodeID": "obs_4_call", "duration": 5},
         {"texts": ["Durchschlängeln"], "nextNodeID": "obs_4_move", "duration": 8}
       ]
     },
     "obs_4_call": {
       "id": "obs_4_call",
       "description": "%@ ruft nach dem Hirten.",
-      "skillCheck": {"talent": "Überreden", "penalty": 1, "successNode": "obs_4_call_success", "failureNode": "obs_4_call_fail", "duration": 10}
+      "skillCheck": {"talent": "Menschenkenntnis", "penalty": 1, "successNode": "obs_4_call_success", "failureNode": "obs_4_call_fail", "duration": 10}
     },
     "obs_4_call_success": {
       "id": "obs_4_call_success",
@@ -176,19 +197,34 @@
     },
     "obs_4_move": {
       "id": "obs_4_move",
-      "description": "%@ versucht, zwischen den Tieren hindurchzugehen.",
-      "skillCheck": {"talent": "Tierkunde", "penalty": 2, "successNode": "obs_4_move_success", "failureNode": "obs_4_move_fail", "duration": 10}
-    },
+      "description": "Ihr versucht, zwischen den Tieren hindurchzugehen.",
+      "skillCheckAll": {
+        "talent": "Tierkunde", 
+        "penalty": 2, 
+        "successNode": "obs_4_move_success", 
+        "partialFailureNode": "obs_4_move_partial_fail",
+        "failureNode": "obs_4_move_fail",        
+        "failureEffect": {
+          "hpLoss": "1W6",
+          "status": "nass",
+          "timeLoss": 5
+        },        
+        "duration": 10
+      }    },
     "obs_4_move_success": {
       "id": "obs_4_move_success",
       "description": "Die Tiere weichen ruhig zur Seite.",
       "endEncounter": true
     },
+    "obs_4_move_partial_fail": {
+      "id": "obs_4_move_partial_fail",
+      "description": "Ein Tier erschrickt und drängt euch ab – Ihr verliert etwas Zeit.",
+      "endEncounter": true
+    },
     "obs_4_move_fail": {
       "id": "obs_4_move_fail",
-      "description": "Ein Tier erschrickt und drängt euch ab – Ihr verliert Zeit.",
-      "endEncounter": true,
-      "duration": 5
-    }
+      "description": "Das geht gar nicht gut, die Herde gerät in Panik. Einige der Tiere gehen mit ihren Hörnern auf euch los. Ihr holt euch einige blaue Flecke ab.",
+      "endEncounter": true
+    }    
   }
 }

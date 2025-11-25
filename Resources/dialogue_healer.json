@@ -127,7 +127,6 @@
         "Ich hoffe, ihr macht das Richtige mit dieser Information.",
         "Manchmal ist Wissen die beste Medizin."
       ],
-      "playerOptions": [],
       "hintCategory": "healing"
     },
 
@@ -138,8 +137,7 @@
         "Ich helfe nur jenen, die Respekt zeigen.",
         "Unhöflichkeit ist eine Krankheit, die ich nicht behandle.",
         "Verschwindet aus meinem Haus!"
-      ],
-      "playerOptions": []
+      ]
     },
 
     "end": {
@@ -149,8 +147,7 @@
         "Möge die Gesundheit euch begleiten.",
         "Passt auf euch auf.",
         "Kommt wieder, wenn ihr Hilfe braucht."
-      ],
-      "playerOptions": []
+      ]
     }
   }
 }

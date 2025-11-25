@@ -63,10 +63,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) NSDictionary *successEffect;
 @property (nonatomic, strong, nullable) NSDictionary *failureEffect;
 
+// returns NextNodeID
+- (NSString *)performSkillCheck;
+
 @end
 
 @interface DSADialogNodeSkillCheckAll: DSADialogNodeSkillCheck
-
+@property (nonatomic, strong) NSString *partialFailureNodeID;
 @property (nonatomic, strong) NSString *successMode; // "all", "any", "first done", "majority"
 
 @end

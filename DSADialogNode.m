@@ -27,6 +27,7 @@
 #import "DSAAdventure.h"
 #import "DSAAdventureGroup.h"
 #import "Utils.h"
+#import "DSAActionResult.h"
 
 @implementation DSADialogNode
 
@@ -150,12 +151,25 @@
     self.duration = [check[@"duration"] integerValue];    
 }
 
+- (NSString *)performSkillCheck
+{
+    DSAAdventure *adv = [DSAAdventureManager sharedManager].currentAdventure;
+    DSACharacter *character = [adv.activeGroup characterWithBestTalentWithName:self.talent negate:NO];
+
+    DSAActionResult *result = [character useTalent:self.talent withPenalty:self.penalty];
+    // return next node based on result
+    return (result.result == DSAActionResultSuccess ||
+            result.result == DSAActionResultEpicSuccess ||
+            result.result == DSAActionResultAutoSuccess)
+            ? self.successNodeID : self.failureNodeID;
+}
 @end
 
 @implementation DSADialogNodeSkillCheckAll
 - (void)setupWithDictionary:(NSDictionary *)dict {
     [super setupWithDictionary:dict];
     NSDictionary *checkAll = dict[@"skillCheckAll"];
+    _partialFailureNodeID = checkAll[@"partialFailureNode"];
 
     NSString *mode = checkAll[@"successMode"];
     if (mode && [mode isKindOfClass:[NSString class]]) {
@@ -165,4 +179,134 @@
         _successMode = @"all";
     }
 }
+
+- (NSString *)performSkillCheck
+{
+    DSAAdventure *adv = [DSAAdventureManager sharedManager].currentAdventure;
+    NSArray<DSACharacter *> *members = adv.activeGroup.allCharacters;
+
+    NSInteger total = members.count;
+    NSInteger successes = 0;
+    NSInteger failures = 0;
+
+    BOOL someoneSucceeded = NO;
+
+    NSMutableSet *testedCharacters = [NSMutableSet set];
+
+    BOOL (^isSuccess)(DSAActionResult *) = ^BOOL(DSAActionResult *res) {
+        return (res.result == DSAActionResultSuccess ||
+                res.result == DSAActionResultEpicSuccess ||
+                res.result == DSAActionResultAutoSuccess);
+    };
+
+    //
+    // MODE: "first done"
+    //
+    if ([self.successMode isEqualToString:@"first done"]) {
+
+        for (DSACharacter *c in members) {
+
+            DSAActionResult *res = [c useTalent:self.talent withPenalty:self.penalty];
+            [testedCharacters addObject:c];
+
+            if (isSuccess(res)) {
+                // Erfolg -> sofort Erfolg
+                return self.successNodeID;
+            } else {
+                // Fehlschlag -> weitermachen
+            }
+        }
+
+        // Wenn keiner Erfolg hatte → kompletter Fehlschlag
+        return self.failureNodeID;
+    }
+
+    //
+    // MODE: "any"
+    //
+    if ([self.successMode isEqualToString:@"any"]) {
+
+        for (DSACharacter *c in members) {
+
+            DSAActionResult *res = [c useTalent:self.talent withPenalty:self.penalty];
+            [testedCharacters addObject:c];
+
+            if (isSuccess(res)) {
+                someoneSucceeded = YES;
+            }
+        }
+
+        if (someoneSucceeded) {
+            return self.successNodeID;
+        } else {
+            return self.failureNodeID;
+        }
+    }
+
+    //
+    // MODE: "all"
+    //
+    if ([self.successMode isEqualToString:@"all"]) {
+
+        for (DSACharacter *c in members) {
+
+            DSAActionResult *res = [c useTalent:self.talent withPenalty:self.penalty];
+            [testedCharacters addObject:c];
+
+            if (isSuccess(res)) {
+                successes++;
+            } else {
+                failures++;
+            }
+        }
+
+        if (successes == total) {
+            return self.successNodeID;
+        } else {
+            return self.failureNodeID;
+        }
+    }
+
+    //
+    // MODE: "majority"
+    //
+    if ([self.successMode isEqualToString:@"majority"]) {
+
+        NSInteger half = total / 2;   // Bei 3 Leuten → 1, Majority = >1
+
+        for (DSACharacter *c in members) {
+
+            DSAActionResult *res = [c useTalent:self.talent withPenalty:self.penalty];
+            [testedCharacters addObject:c];
+
+            if (isSuccess(res)) {
+                successes++;
+            } else {
+                failures++;
+            }
+
+            // Frühabbruch optimiert:
+            if (successes > half) {
+                return self.successNodeID;
+            }
+            if (failures > half) {
+                return self.failureNodeID;
+            }
+        }
+
+        // Falls exakt Gleichstand (bei gerader Zahl)
+        // ist majority nicht erreicht
+        if (successes > failures) {
+            return self.successNodeID;
+        } else {
+            return self.failureNodeID;
+        }
+    }
+
+    //
+    // Default fallback
+    //
+    return self.failureNodeID;
+}
+
 @end

@@ -134,7 +134,6 @@
         "Ein Pilger berichtete von dunklen Schatten im Hain westlich des Tempels.",
         "In alten Schriften fand ich Hinweise auf ein verborgenes Relikt in dieser Region..."
       ],
-      "playerOptions": [],
       "hintCategory": "religion"
     },
 
@@ -145,8 +144,7 @@
         "Wenn ihr ohne Glauben kommt, geht in Frieden – aber stört nicht den Tempel.",
         "Ich vergebe euch eure Worte – doch ihr solltet euch prüfen.",
         "Es steht euch frei zu zweifeln, doch beleidigt nicht, was andere heilig nennen."
-      ],
-      "playerOptions": []
+      ]
     },
 
     "end": {
@@ -156,8 +154,7 @@
         "Möge euer Weg klar und euer Herz rein bleiben.",
         "Reist mit Bedacht – und vergesst nicht, was ihr hier gelernt habt.",
         "Die Götter mögen euch führen, wohin auch immer ihr geht."
-      ],
-      "playerOptions": []
+      ]
     }
   }
 }

@@ -71,7 +71,6 @@
         "\"Danke! Hier, nehmt dieses kleine Amulett – es bringt Glück, heißt es.\"",
         "\"Freut mich, dass es euch gefallen hat! Vielleicht kreuzen sich unsere Wege wieder.\""
       ],
-      "playerOptions": [],
       "hintCategory": "luck"
     },
 
@@ -102,8 +101,7 @@
         "\"Lebt wohl, Reisende! Möge euer Weg ein Lied wert sein.\"",
         "\"Bis zum nächsten Lagerfeuer!\"",
         "\"Auf Wiedersehen, Freunde des Klangs!\""
-      ],
-      "playerOptions": []
+      ]
     }
   }
 }

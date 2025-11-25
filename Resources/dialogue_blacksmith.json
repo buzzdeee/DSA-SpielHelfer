@@ -127,7 +127,6 @@
         "Ein Freund hat was gesehen – zwischen den Ruinen im Norden.",
         "Passt auf, wo ihr hintretet. Manches rostet nicht ohne Grund..."
       ],
-      "playerOptions": [],
       "hintCategory": "equipment"
     },
 
@@ -138,8 +137,7 @@
         "Verschwindet aus meiner Schmiede, bevor ich den Hammer hole!",
         "Unhöfliche Kunden sind schlechte Kunden.",
         "Wenn euch was stinkt, dann verlasst meinen Laden!"
-      ],
-      "playerOptions": []
+      ]
     },
 
     "end": {
@@ -149,8 +147,7 @@
         "Kommt wieder, wenn ihr etwas braucht.",
         "Möge eure Klinge scharf bleiben.",
         "Passt auf euch auf da draußen."
-      ],
-      "playerOptions": []
+      ]
     }
   }
 }

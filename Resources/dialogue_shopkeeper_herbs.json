@@ -135,7 +135,6 @@
         "Am alten Steinkreis blüht nachts eine Blume, die nur Eingeweihte erkennen.",
         "Zwischen den Steinen am Bach liegt manchmal Goldhaar – es heilt mehr, als man denkt."
       ],
-      "playerOptions": [],
       "hintCategory": "herbal"
     },
 
@@ -146,8 +145,7 @@
         "Solche Worte sind gefährlich – genau wie die Gifte, die ich verkaufen könnte.",
         "Dann verschwindet – bevor euch ein Fluch trifft.",
         "Ich helfe nur denen, die den Wald respektieren. Ihr tut das nicht."
-      ],
-      "playerOptions": []
+      ]
     },
 
     "end": {
@@ -157,8 +155,7 @@
         "Geht mit Bedacht.",
         "Die Pflanzen hören mit.",
         "Möge euer Weg heil bleiben."
-      ],
-      "playerOptions": []
+      ]
     }
   }
 }

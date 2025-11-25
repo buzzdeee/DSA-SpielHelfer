@@ -84,12 +84,12 @@
     if ([node isMemberOfClass: [DSADialogNodeSkillCheck class]] && !self.skillCheckPending) {
         DSADialogNodeSkillCheck *skillCheckNode = (DSADialogNodeSkillCheck *)node;
         self.skillCheckPending = YES;
-
+        NSLog(@"DSADialogManager presentCurrentNode: we're on a DSADialogNodeSkillCheck node: %@", self.currentNodeID);
         // Beschreibung dynamisch ersetzen
         NSString *text = skillCheckNode.nodeDescription ?: @"";
         DSACharacter *character = [[DSAAdventureManager sharedManager].currentAdventure.activeGroup 
                                   characterWithBestTalentWithName: skillCheckNode.talent negate:NO];
-
+        NSLog(@"DSADialogManager presentCurrentNode: we're on a DSADialogNodeSkillCheck node, acting character: %@", character.name);
         if (character) {
             self.currentDialog.actingCharacterName = character.name;
             if ([text containsString:@"%@"]) {
@@ -138,7 +138,8 @@
 
     DSADialogNode *node = [self currentNode];
     DSADialogNodeSkillCheck *skillCheckNode;
-    if ([node isMemberOfClass: [DSADialogNodeSkillCheck class]])
+    // if DSADialogNodeSkillCheck or DSADialogNodeSkillCheckAll
+    if ([node isKindOfClass: [DSADialogNodeSkillCheck class]])
       {
          skillCheckNode = (DSADialogNodeSkillCheck *)node;
       }
@@ -148,20 +149,7 @@
         abort();
       }
 
-    NSString *talent = skillCheckNode.talent;
-    NSInteger penalty = skillCheckNode.penalty;
-    NSString *successNode = skillCheckNode.successNodeID;
-    NSString *failureNode = skillCheckNode.failureNodeID;
-
-    DSAAdventure *adv = [DSAAdventureManager sharedManager].currentAdventure;
-    DSACharacter *character = [adv.activeGroup characterWithBestTalentWithName:talent negate:NO];
-
-    DSAActionResult *result = [character useTalent:talent withPenalty:penalty];
-    // advance to next node, and set nodeDescription string accordingly
-    self.currentNodeID = (result.result == DSAActionResultSuccess ||
-                          result.result == DSAActionResultEpicSuccess ||
-                          result.result == DSAActionResultAutoSuccess)
-                            ? successNode : failureNode;
+    self.currentNodeID = [skillCheckNode performSkillCheck];                            
     node = [self currentNode];  
     NSString *text = node.nodeDescription ?: [node randomText];
     if ([text containsString:@"%@"]) {
@@ -169,24 +157,4 @@
     }    
 }
 
-/*
-- (void)handlePlayerSelectionAtIndex:(NSUInteger)index {
-    NSLog(@"DSADialogManager handlePlayerSelectionAtIndex: called.");
-    DSADialogNode *node = [self currentNode];
-    if (!node || index >= node.playerOptions.count) {
-        NSLog(@"DSADialogManager handlePlayerSelectionAtIndex: Ungültige Auswahl.");
-        return;
-    }
-
-    DSADialogOption *option = node.playerOptions[index];
-    NSString *nextNodeID = option.nextNodeID;
-    NSInteger duration = option.duration;
-    
-    // Dauer hinzufügen
-    self.accumulatedDuration += duration;
-
-    self.currentNodeID = nextNodeID;
-    [self presentCurrentNode];
-}
-*/
 @end

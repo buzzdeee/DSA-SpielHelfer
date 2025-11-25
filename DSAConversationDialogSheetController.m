@@ -228,33 +228,9 @@
       }
     DSADialogOption *option = optionNode.playerOptions[index];
     NSLog(@"DSAConversationDialogSheetController optionClicked called option: %@", option);
-    
-    if (option.skillCheck) {
-        NSLog(@"DSAConversationDialogSheetController optionClicked seems there was a skill check !!!!!!!!!!!!!!!!");
-        NSString *talent = option.skillCheck[@"talent"];
-        NSInteger penalty = [option.skillCheck[@"penalty"] integerValue];
-        NSString *successNode = option.skillCheck[@"successNode"];
-        NSString *failureNode = option.skillCheck[@"failureNode"];
-
-        // Talentwurf durchführen (DSACharacter / DSAActionResult)
-        DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
-        DSACharacter *character = [adventure.activeGroup characterWithBestTalentWithName:talent negate:NO];
-        DSAActionResult *result = [character useTalent:talent withPenalty:penalty];
-        
-        // Nächstes NodeID abhängig vom Ergebnis
-        if (result.result == DSAActionResultSuccess || result.result == DSAActionResultEpicSuccess || result.result == DSAActionResultAutoSuccess) {
-            NSLog(@"DSAConversationDialogSheetController optionClicked seems skill check was successful, continuing with successNode: %@", successNode);
-            self.dialogManager.currentNodeID = successNode;
-        } else {
-            NSLog(@"DSAConversationDialogSheetController optionClicked seems skill check was NOT successful, continuing with failureNode: %@", failureNode);
-            self.dialogManager.currentNodeID = failureNode;
-        }
-    } else {
-        NSLog(@"DSAConversationDialogSheetController NO SKILL CHECK, continuing with nextNodeID: %@", option.nextNodeID);
-        self.dialogManager.currentNodeID = option.nextNodeID;
-        [self.dialogManager presentCurrentNode];
-    }
-    //[self.dialogManager presentCurrentNode];
+   
+    self.dialogManager.currentNodeID = option.nextNodeID;
+    [self.dialogManager presentCurrentNode];
     [self updateUIForCurrentNode];
 }
 

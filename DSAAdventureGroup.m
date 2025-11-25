@@ -455,6 +455,8 @@
         // Holt das Talent aus dem Dictionary
         DSATalent *talent = character.currentTalents[talentName];
         if (!talent) {
+            NSLog(@"DSAAdventureGroup characterWithBestTalentWithName: Talent: %@ not found at character: %@, aborting", talentName, character.name);
+            abort();  // may support optional talents in the future, i.e. professions, or special talents?
             continue; // Character hat das Talent nicht
         }
 

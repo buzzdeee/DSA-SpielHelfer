@@ -135,7 +135,6 @@
         "Ein Kunde sagte mir mal, er habe im Goblinwald eine verborgene Waffenkammer gefunden.",
         "In einer Höhle nordöstlich von hier soll ein verstorbener Söldnertrupp ihre Ausrüstung zurückgelassen haben."
       ],
-      "playerOptions": [],
       "hintCategory": "equipment"
     },
 
@@ -146,8 +145,7 @@
         "Wenn euch mein Laden nicht gefällt – Tür ist da.",
         "So redet man nicht mit einem, der euch das Leben retten könnte.",
         "Kommt wieder, wenn ihr Manieren habt – oder lasst es bleiben."
-      ],
-      "playerOptions": []
+      ]
     },
 
     "end": {
@@ -157,8 +155,7 @@
         "Viel Glück da draußen.",
         "Und vergesst nicht: Eine scharfe Klinge kann Leben retten.",
         "Ihr wisst, wo ihr mich findet."
-      ],
-      "playerOptions": []
+      ]
     }
   }
 }

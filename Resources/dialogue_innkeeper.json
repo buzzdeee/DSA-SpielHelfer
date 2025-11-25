@@ -116,7 +116,6 @@
         "So redet man nicht mit mir.",
         "Ich dulde keinen solchen Ton!"
       ],
-      "playerOptions": [],
       "endEncounter": true,
       "duration": 0
     },
@@ -159,7 +158,6 @@
         "Ich will euch was verraten...",
         "Hört genau zu:"
       ],
-      "playerOptions": [],
       "hintCategory": "location",
       "endEncounter": true,
       "duration": 0
@@ -173,7 +171,6 @@
         "Kommt bald wieder.",
         "Viel Glück, Reisende."
       ],
-      "playerOptions": [],
       "endEncounter": true,
       "duration": 0
     }

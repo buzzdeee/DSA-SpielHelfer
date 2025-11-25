@@ -37,8 +37,6 @@
 @property (nonatomic) NSInteger accumulatedDuration; // Gesamtdauer in Minuten
 
 - (BOOL)loadDialogFromFile:(NSString *)filename;
-//- (void)startDialog;
-//- (void)handlePlayerSelectionAtIndex:(NSUInteger)index;
 - (DSADialogNode *)currentNode;
 - (void)presentCurrentNode;  // and eventuall do action...
 - (void)performPendingSkillCheck;
