@@ -48,6 +48,8 @@ typedef NS_ENUM(NSInteger, DSAActionType) {
     DSAActionTypeGainWater,                          // no parameter ?
     DSAActionTypeLooseHealthPoints,                  // parameter example: @{ @"randomAmount": @"1W6", @"fixedAmount": @(amount) } 
                                                      // either fixedAmount or randomAmount is enough, if both given, they're added up 
+    DSAActionTypeGainHealthPoints,                   // same as DSAActionTypeLooseHealthPoints
+    DSAActionTypeGainAdventurePoints,                // same as DSAActionTypeLooseHealthPoints                                     
     // weitere ActionTypes …
 };
 

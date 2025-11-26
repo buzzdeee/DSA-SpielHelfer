@@ -91,7 +91,19 @@
         case DSAActionTypeGainWater:
             NSLog(@"DSAExecutionManager executeAction: Gain Water: %@", action.parameters);
             [self executeGainWaterAction: (DSAActionDescriptor *) action];
-            break;                        
+            break;   
+        case DSAActionTypeLooseHealthPoints:
+            NSLog(@"DSAExecutionManager executeAction: loose health points: %@", action.parameters);
+            [self executeLooseHealthPointsAction: (DSAActionDescriptor *) action];
+            break; 
+        case DSAActionTypeGainHealthPoints:
+            NSLog(@"DSAExecutionManager executeAction: gain health points: %@", action.parameters);
+            [self executeGainHealthPointsAction: (DSAActionDescriptor *) action];
+            break;   
+        case DSAActionTypeGainAdventurePoints:
+            NSLog(@"DSAExecutionManager executeAction: gain health points: %@", action.parameters);
+            [self executeGainAdventurePointsAction: (DSAActionDescriptor *) action];
+            break;                                                     
         default:
             NSLog(@"DSAExecutionManager Unknown action type: %ld aborting!", (long)action.type);
             abort();
@@ -138,6 +150,21 @@
   DSAObject *item = [[DSAObject alloc] initWithName: action.parameters[@"type"] forOwner: nil];
   DSAAdventureGroup *activeGroup = [DSAAdventureManager sharedManager].currentAdventure.activeGroup;
   [activeGroup distributeItems: item count: amount];
+}
+
+- (void)executeLooseHealthPointsAction: (DSAActionDescriptor *)action
+{
+  NSLog(@"DSAExecutionManager executeLooseHealthPointsAction NOT YET IMPLEMENTED");
+}
+
+- (void)executeGainHealthPointsAction: (DSAActionDescriptor *)action
+{
+  NSLog(@"DSAExecutionManager executeGainHealthPointsAction NOT YET IMPLEMENTED");
+}
+
+- (void)executeGainAdventurePointsAction: (DSAActionDescriptor *)action
+{
+  NSLog(@"DSAExecutionManager executeGainAdventurePointsAction NOT YET IMPLEMENTED");
 }
 
 - (void) executeLeaveLocationAction: (DSAActionDescriptor *)action
