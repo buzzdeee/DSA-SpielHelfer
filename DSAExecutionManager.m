@@ -29,11 +29,21 @@
 #import "DSAAdventureGroup.h"
 #import "DSALocations.h"
 #import "DSAInventoryManager.h"
+#import "DSACharacter.h"
+#import "DSAWallet.h"
 
 
 #pragma mark - Action Descriptor Implementation
 
 @implementation DSAActionDescriptor
+- (instancetype)init
+{
+    if (self = [super init]) {
+        _scope = DSAActionScopeGroup;      // default
+        _targetCharacter = nil;
+    }
+    return self;
+}
 @end
 
 #pragma mark - Event Descriptor Implementation
@@ -111,17 +121,37 @@
     }
 }
 
+- (NSArray<DSACharacter *> *)resolvedTargetsForAction:(DSAActionDescriptor *)action
+{
+    if (action.scope == DSAActionScopeCharacter && action.targetCharacter) {
+        return @[action.targetCharacter];
+    }
+
+    DSAAdventureGroup *group = [DSAAdventureManager sharedManager].currentAdventure.activeGroup;
+    return group.allCharacters;
+}
+
+
 - (void)executeGainMoneyAction: (DSAActionDescriptor *)action
 {
-  DSAAdventureGroup *activeGroup = [DSAAdventureManager sharedManager].currentAdventure.activeGroup;
-  NSInteger silver = [action.parameters[@"amount"] integerValue];
-  [activeGroup addSilber: silver];
+  if (action.scope == DSAActionScopeCharacter && action.targetCharacter)
+    {
+      DSACharacter *character = action.targetCharacter;
+      NSInteger silver = [action.parameters[@"amount"] integerValue];
+      [character.wallet addSilber: silver];
+    }
+  else
+    {
+      DSAAdventureGroup *activeGroup = [DSAAdventureManager sharedManager].currentAdventure.activeGroup;
+      NSInteger silver = [action.parameters[@"amount"] integerValue];
+      [activeGroup addSilber: silver];
+    }
 }
 
 - (void)executeGainFoodAction: (DSAActionDescriptor *)action
 {
-  DSAAdventureGroup *activeGroup = [DSAAdventureManager sharedManager].currentAdventure.activeGroup;
-  for (DSACharacter *character in activeGroup.allCharacters)
+  NSArray *targets = [self resolvedTargetsForAction:action];
+  for (DSACharacter *character in targets)
     {
       [character updateStateHungerWithValue: @1.0];
     }
@@ -129,9 +159,9 @@
 
 - (void)executeGainWaterAction: (DSAActionDescriptor *)action
 {
-  DSAAdventureGroup *activeGroup = [DSAAdventureManager sharedManager].currentAdventure.activeGroup;
+  NSArray *targets = [self resolvedTargetsForAction:action];
   DSAObject *water = [[DSAObject alloc] initWithName: @"Wasser" forOwner: nil];
-  for (DSACharacter *character in activeGroup.allCharacters)
+  for (DSACharacter *character in targets)
     {
       [character updateStateThirstWithValue: @1.0];
       NSArray *waterBuckets = [[DSAInventoryManager sharedManager] findItemsBySubCategory: @"Wasserbehälter"
@@ -148,9 +178,105 @@
 {
   NSInteger amount = [action.parameters[@"amount"] integerValue];
   DSAObject *item = [[DSAObject alloc] initWithName: action.parameters[@"type"] forOwner: nil];
-  DSAAdventureGroup *activeGroup = [DSAAdventureManager sharedManager].currentAdventure.activeGroup;
-  [activeGroup distributeItems: item count: amount];
+  if (action.scope == DSAActionScopeCharacter && action.targetCharacter)
+    {
+        DSACharacter *character = action.targetCharacter;
+        NSInteger added = [character addObjectToInventory:item quantity:amount];
+        NSLog(@"DSAExecutionManager executeGainItemAction: bulk adding %@ to Character: %@", item.name, character.name);
+        if (added == amount)
+          {
+            [[[DSAInventoryManager alloc] init] postDSAInventoryChangedNotificationForSourceModel: character targetModel: character];
+            return; // Done
+          }
+        if (added > 0) {
+            [[[DSAInventoryManager alloc] init] postDSAInventoryChangedNotificationForSourceModel: character targetModel: character];
+            amount -= added;
+        }
+        if (amount <= 0) return;  // should not happen, right?
+        while (amount > 0)
+          {
+            NSInteger added = [character addObjectToInventory:[item copy] quantity:1];
+            NSLog(@"DSAExecutionManager executeGainItemAction: single adding %@ to Character: %@", item.name, character.name);
+            if (added == 1)
+              {
+                amount -= 1;
+                if (amount == 0)
+                  {
+                    break;  // nothing more to distribute
+                  }
+              }
+            else  // character inventory is full
+              {
+                NSLog(@"DSAExecutionManager executeGainItemAction: inventory of %@ is full, can't add item: %@", character.name, item.name);
+                break;
+              }
+          }
+        [[[DSAInventoryManager alloc] init] postDSAInventoryChangedNotificationForSourceModel: character targetModel: character];              
+    }  
+  else
+    {
+      DSAAdventureGroup *activeGroup = [DSAAdventureManager sharedManager].currentAdventure.activeGroup;
+      [activeGroup distributeItems: item count: amount];
+    }
 }
+
+/*
+- (void)distributeItems:(DSAObject *)item count:(NSInteger)count
+{
+    //NSLog(@"DSAAdventureGroup distributeItems: item %@", item);
+    if (!item || count <= 0) return;
+
+    // 1. Gather group members with inventories
+    NSMutableArray<DSACharacter *> *members = [self allCharacters];
+
+    if (members.count == 0) return;
+
+    NSInteger remaining = count;
+
+    // 2. Try bulk add first
+    for (DSACharacter *character in members) {
+        NSInteger added = [character addObjectToInventory:item quantity:remaining];
+        NSLog(@"DSAAdventureGroup distributeItems: bulk adding %@ to Character: %@", item.name, character.name);
+        if (added == remaining)
+          {
+            [[[DSAInventoryManager alloc] init] postDSAInventoryChangedNotificationForSourceModel: character targetModel: character];
+            return; // Done
+          }
+        if (added > 0) {
+            [[[DSAInventoryManager alloc] init] postDSAInventoryChangedNotificationForSourceModel: character targetModel: character];
+            remaining -= added;
+        }
+    }
+
+    // 3. Fallback: one-by-one
+    for (DSACharacter *character in members)
+      {
+        if (remaining <= 0) break;
+        while (remaining > 0)
+          {
+            NSInteger added = [character addObjectToInventory:item quantity:1];
+            NSLog(@"DSAAdventureGroup distributeItems: single adding %@ to Character: %@", item.name, character.name);
+            if (added == 1)
+              {
+                remaining -= 1;
+                if (remaining == 0)
+                  {
+                    break;  // nothing more to distribute
+                  }
+              }
+            else  // character inventory is full
+              {
+                break;
+              }
+          }
+        [[[DSAInventoryManager alloc] init] postDSAInventoryChangedNotificationForSourceModel: character targetModel: character];
+      }
+    if (remaining > 0) {
+        NSLog(@"DSAAdventureGroup distributeItems: Could not distribute %ld of item %@", (long)remaining, item.name);
+    }
+}
+*/
+
 
 - (void)executeLooseHealthPointsAction: (DSAActionDescriptor *)action
 {

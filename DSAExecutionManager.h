@@ -27,6 +27,7 @@
 
 #import <Foundation/Foundation.h>
 #import "DSADefinitions.h"
+@class DSACharacter;
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -37,7 +38,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) DSAActionType type;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *parameters;
 @property (nonatomic, assign) NSInteger order;
-
+@property (nonatomic, assign) DSAActionScope scope;                   // default to group
+@property (nonatomic, weak, nullable) DSACharacter *targetCharacter;        // nil by default, as above defaults to group
 @end
 
 #pragma mark - Event Descriptor

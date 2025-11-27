@@ -38,6 +38,10 @@
 
 @end
 
+typedef NS_ENUM(NSInteger, DSAActionScope) {
+    DSAActionScopeGroup = 0,
+    DSAActionScopeCharacter = 1
+};
 
 typedef NS_ENUM(NSInteger, DSAActionType) {
     DSAActionTypeUnknown = 0,

@@ -220,15 +220,7 @@
     if (!item || count <= 0) return;
 
     // 1. Gather group members with inventories
-    NSMutableArray<DSACharacter *> *members = [NSMutableArray array];
-    for (NSUUID *modelID in self.partyMembers) {
-        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
-        if (character.inventory) [members addObject:character];
-    }
-    for (NSUUID *modelID in self.npcMembers) {
-        DSACharacter *character = [DSACharacter characterWithModelID:modelID];
-        if (character.inventory) [members addObject:character];
-    }
+    NSMutableArray<DSACharacter *> *members = [self allCharacters];
 
     if (members.count == 0) return;
 
