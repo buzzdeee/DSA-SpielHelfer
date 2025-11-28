@@ -27,6 +27,8 @@
 
 #import "DSABaseObject.h"
 @class DSADialogOption;
+@class DSAActionDescriptor;
+@class DSACharacter;
 
 NS_ASSUME_NONNULL_BEGIN
 @interface DSADialogNode : DSABaseObject
@@ -40,6 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) NSInteger duration;  // in minutes
 @property (nonatomic) BOOL endEncounter;
 @property (nonatomic, strong, nullable) NSString *nodeDescription;
+@property (nonatomic, strong, nullable) NSArray<DSAActionDescriptor *> *actions;  // eventual actions for the node
 
 + (nullable instancetype)nodeFromDictionary:(NSDictionary *)dict;
 - (void)setupWithDictionary:(NSDictionary *)dict;
@@ -56,13 +59,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DSADialogNodeSkillCheck: DSADialogNode
 
-@property (nonatomic, strong) NSString *talent;
 @property (nonatomic) NSInteger penalty;
 @property (nonatomic, strong) NSString *successNodeID;
 @property (nonatomic, strong) NSString *failureNodeID;
-@property (nonatomic, strong, nullable) NSDictionary *successEffect;
-@property (nonatomic, strong, nullable) NSDictionary *failureEffect;
-
+@property (nonatomic, strong) NSString *checkType;            // "talent" oder "attribute"
+@property (nonatomic, strong) NSString *checkName;            // Talentname oder Attributname (i.e. KK, TA, etc.)
 // returns NextNodeID
 - (NSString *)performSkillCheck;
 
@@ -71,7 +72,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DSADialogNodeSkillCheckAll: DSADialogNodeSkillCheck
 @property (nonatomic, strong) NSString *partialFailureNodeID;
 @property (nonatomic, strong) NSString *successMode; // "all", "any", "first done", "majority"
-
+@property (nonatomic, strong, readonly) NSArray<DSACharacter *> *successfulCharacters;
+@property (nonatomic, strong, readonly) NSArray<DSACharacter *> *failedCharacters;
 @end
 
 NS_ASSUME_NONNULL_END

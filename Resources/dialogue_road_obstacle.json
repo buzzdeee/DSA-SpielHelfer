@@ -19,7 +19,14 @@
     "obs_1_clear": {
       "id": "obs_1_clear",
       "description": "%@ versucht, den Baum zur Seite zu schaffen.",
-      "skillCheck": {"talent": "Selbstbeherrschung", "penalty": 2, "successNode": "obs_1_clear_success", "failureNode": "obs_1_clear_fail", "duration": 15}
+      "skillCheck": {
+        "checkType": "attribute",
+        "checkName": "KK",
+        "penalty": 2,
+        "successNode": "obs_1_clear_success",
+        "failureNode": "obs_1_clear_fail",
+        "duration": 15
+      }
     },
     "obs_1_clear_success": {
       "id": "obs_1_clear_success",
@@ -40,7 +47,13 @@
     "obs_1_investigate": {
       "id": "obs_1_investigate",
       "description": "%@ sucht nach Spuren.",
-      "skillCheck": {"talent": "Fährtensuchen", "penalty": 1, "successNode": "obs_1_invest_success", "failureNode": "obs_1_invest_fail", "duration": 10}
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Sinnenschärfe", 
+        "penalty": 1, 
+        "successNode": "obs_1_invest_success", 
+        "failureNode": "obs_1_invest_fail", 
+        "duration": 10}
     },
     "obs_1_invest_success": {
       "id": "obs_1_invest_success",
@@ -58,7 +71,7 @@
         {"texts": ["Umgehen"], "nextNodeID": "obs_1_detour", "duration": 8}
       ]      
     },
-
+    
     "obs_2": {
       "id": "obs_2",
       "title": "Überschwemmter Weg",
@@ -74,17 +87,13 @@
       "id": "obs_2_cross_all",
       "description": "Ihr versucht, den überfluteten Abschnitt zu durchqueren.",
       "skillCheckAll": {
-        "talent": "Körperbeherrschung",
+        "checkType": "talent",
+        "checkName": "Körperbeherrschung",
         "penalty": 3,
         "duration": 15,
         "successNode": "obs_2_cross_all_success",
         "partialFailureNode": "obs_2_cross_all_partial_fail",
         "failureNode": "obs_2_cross_all_fail",
-        "failureEffect": {
-          "hpLoss": "1W6",
-          "status": "nass",
-          "timeLoss": 5
-        },
         "successMode": "any"
        }
     },
@@ -123,18 +132,14 @@
     },
     "obs_3_sneak": {
       "id": "obs_3_sneak",
-      "description": "%@ versucht, sich vorsichtig über das Geröll zu bewegen.",
+      "description": "Ihr versucht euch vorsichtig über das Geröll zu fortzubewegen.",
       "skillCheckAll": {
-        "talent": "Körperbeherrschung", 
+        "checkType": "talent",
+        "checkName": "Körperbeherrschung", 
         "penalty": 2, 
         "successNode": "obs_3_sneak_success", 
         "partialFailureNode": "obs_3_sneak_partial_fail",
-        "failureNode": "obs_3_sneak_fail",        
-        "failureEffect": {
-          "hpLoss": "1W6",
-          "status": "nass",
-          "timeLoss": 5
-        },        
+        "failureNode": "obs_3_sneak_fail",                
         "duration": 15
       }
     },
@@ -156,11 +161,18 @@
     "obs_3_clear": {
       "id": "obs_3_clear",
       "description": "%@ versucht, das lose Geröll etwas zu sichern.",
-      "skillCheck": {"talent": "Kraftakt", "penalty": 4, "successNode": "obs_3_clear_success", "failureNode": "obs_3_clear_fail", "duration": 15}
+      "skillCheck": {
+        "checkType": "attribute",
+        "checkName": "KK", 
+        "penalty": 2, 
+        "successNode": "obs_3_clear_success", 
+        "failureNode": "obs_3_clear_fail", 
+        "duration": 15
+      }
     },
     "obs_3_clear_success": {
       "id": "obs_3_clear_success",
-      "description": "%@ stabilisiert einige Steine – der Durchgang wird sicherer.",
+      "description": "%@ stabilisiert einige Steine, der Durchgang wird sicherer.",
       "endEncounter": true
     },
     "obs_3_clear_fail": {
@@ -183,7 +195,14 @@
     "obs_4_call": {
       "id": "obs_4_call",
       "description": "%@ ruft nach dem Hirten.",
-      "skillCheck": {"talent": "Menschenkenntnis", "penalty": 1, "successNode": "obs_4_call_success", "failureNode": "obs_4_call_fail", "duration": 10}
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Menschenkenntnis", 
+        "penalty": 1, 
+        "successNode": "obs_4_call_success", 
+        "failureNode": "obs_4_call_fail", 
+        "duration": 5
+      }
     },
     "obs_4_call_success": {
       "id": "obs_4_call_success",
@@ -199,18 +218,15 @@
       "id": "obs_4_move",
       "description": "Ihr versucht, zwischen den Tieren hindurchzugehen.",
       "skillCheckAll": {
-        "talent": "Tierkunde", 
-        "penalty": 2, 
+        "checkType": "talent",
+        "checkName": "Tierkunde", 
+        "penalty": 0, 
         "successNode": "obs_4_move_success", 
         "partialFailureNode": "obs_4_move_partial_fail",
-        "failureNode": "obs_4_move_fail",        
-        "failureEffect": {
-          "hpLoss": "1W6",
-          "status": "nass",
-          "timeLoss": 5
-        },        
+        "failureNode": "obs_4_move_fail",                
         "duration": 10
-      }    },
+      }
+    },
     "obs_4_move_success": {
       "id": "obs_4_move_success",
       "description": "Die Tiere weichen ruhig zur Seite.",

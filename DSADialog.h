@@ -27,6 +27,7 @@
 
 #import "DSABaseObject.h"
 @class DSADialogNode;
+@class DSACharacter;
 
 NS_ASSUME_NONNULL_BEGIN
 @interface DSADialog : DSABaseObject
@@ -34,7 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *npcName; // z.B. "innkeeper"
 @property (nonatomic, strong) NSString *thumbnailImageName;
 @property (nonatomic, strong) NSString *mainImageName;
-@property (nonatomic, strong) NSString *actingCharacterName; // z.B. "Max Mustermann"
+@property (nonatomic, strong) DSACharacter *actingCharacter; // the one doing skill check for example
 @property (nonatomic, strong) NSDictionary<NSString *, DSADialogNode *> *nodes; // nodeID -> node
 @property (nonatomic, strong) NSString *startNodeID;
 

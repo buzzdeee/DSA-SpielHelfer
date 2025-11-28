@@ -1493,7 +1493,74 @@ static NSMutableDictionary<NSUUID *, DSACharacter *> *characterRegistry = nil;
    return rituals;
 }
 
-- (DSAActionResult *) useTalent: (NSString *) talentName withPenalty: (NSInteger) penalty
+- (DSAActionResult *)checkTrait:(NSString *)traitName
+                    withPenalty:(NSInteger)penalty
+{
+    // Trait suchen
+    DSATrait *trait = self.currentPositiveTraits[traitName];
+    BOOL isPositive = YES;
+
+    if (!trait) {
+        trait = self.currentNegativeTraits[traitName];
+        isPositive = NO;
+        penalty *= -1;   // WICHTIG: Invertiert die Penalty für negative Traits
+    }
+
+    if (!trait) {
+        NSLog(@"❌ checkTrait: Trait '%@' not found on character %@", traitName, self.name);
+
+        DSAActionResult *res = [[DSAActionResult alloc] init];
+        res.result = DSAActionResultFailure;
+        return res;
+    }
+
+    // -----------------------------------
+    // Würfeln (1W20)
+    // -----------------------------------
+    NSInteger roll = [Utils rollDice:@"1W20"];
+
+    // Effektiver Wert unter Berücksichtigung der Erschwernis
+    NSInteger effectiveValue = trait.level - penalty;
+
+    if (effectiveValue < 1)
+        effectiveValue = 1;
+
+    BOOL success = NO;
+
+    if (isPositive) {
+        // Positiver Trait: Wurf <= Wert
+        success = (roll <= effectiveValue);
+    }
+    else {
+        // Negativer Trait: Wurf > Wert
+        success = (roll > effectiveValue);
+    }
+
+    // -----------------------------------
+    // Ergebnisobjekt erzeugen
+    // -----------------------------------
+    DSAActionResult *result = [[DSAActionResult alloc] init];
+
+    if (success) {
+        result.result = DSAActionResultSuccess;
+    } else {
+        result.result = DSAActionResultFailure;
+    }
+
+    // Debug-Ausgabe (optional)
+    NSLog(@"🎲 TraitCheck %@ (%@): Roll=%ld Level=%ld Penalty=%ld → %@",
+          traitName,
+          isPositive ? @"positive" : @"negative",
+          (long)roll,
+          (long)trait.level,
+          (long)penalty,
+          success ? @"SUCCESS" : @"FAILURE");
+
+    return result;
+}
+
+- (DSAActionResult *) useTalent: (NSString *) talentName 
+                    withPenalty: (NSInteger) penalty
 {
   NSLog(@"DSACharacter useTalent withPenalty called");
   DSATalent *talent = self.currentTalents[talentName];  

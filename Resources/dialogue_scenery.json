@@ -44,9 +44,10 @@
     },
     "scene_2_check": {
       "id": "scene_2_check",
-            "description": "%@ schaut sich die Steine genauer an.",
+      "description": "%@ schaut sich die Steine genauer an.",
       "skillCheck": {
-        "talent": "Geschichtswissen",
+        "checkType": "talent",
+        "checkName": "Geschichtswissen",
         "penalty": 1,
         "successNode": "scene_2_success",
         "failureNode": "scene_2_failure",
@@ -55,18 +56,19 @@
     },
     "scene_2_success": {
       "id": "scene_2_success",
-            "description": "%@ erkennt verblasste Symbole eines alten Fürstentums.",
+      "description": "%@ erkennt verblasste Symbole eines alten Fürstentums.",
       "endEncounter": true,
       "duration": 4
     },
     "scene_2_failure": {
       "id": "scene_2_failure",
-           "description": "Die Zeichen sind zu verwittert, um etwas zu erkennen.",
+      "description": "Die Zeichen sind zu verwittert, um etwas zu erkennen.",
       "endEncounter": true,
       "duration": 4
     },
     "scene_2_end": {
-      "id": "scene_2_end",           "description": "Ihr geht weiter.",
+      "id": "scene_2_end",           
+      "description": "Ihr geht weiter.",
       "endEncounter": true,
       "duration": 1
     },
@@ -86,8 +88,9 @@
       "id": "scene_3_check",
       "description": "%@ betrachtet das klare Wasser.",
       "skillCheck": {
-        "talent": "Wildnisleben",
-        "penalty": 1,
+        "checkType": "talent",
+        "checkName": "Wildnisleben",
+        "penalty": 0,
         "successNode": "scene_3_success",
         "failureNode": "scene_3_failure",
         "duration": 8
@@ -95,19 +98,19 @@
     },
     "scene_3_success": {
       "id": "scene_3_success",
-         "description": "%@ erkennt, dass der Bach aus einer nahegelegenen Quelle stammen muss.",
+      "description": "%@ erkennt, dass der Bach aus einer nahegelegenen Quelle stammen muss.",
       "endEncounter": true,
       "duration": 4
     },
     "scene_3_failure": {
       "id": "scene_3_failure",
-       "description": "%@ kann keine besonderen Hinweise entdecken.",
+      "description": "%@ kann keine besonderen Hinweise entdecken.",
       "endEncounter": true,
       "duration": 4
     },
     "scene_3_end": {
       "id": "scene_3_end",
-          "description": "Ihr folgt weiter dem Pfad.",
+      "description": "Ihr folgt weiter dem Pfad.",
       "endEncounter": true,
       "duration": 1
     },
@@ -124,9 +127,11 @@
       ]
     },
     "scene_4_check": {
-      "id": "scene_4_check",          "description": "%@ betrachtet die Federn.",
+      "id": "scene_4_check",          
+      "description": "%@ betrachtet die Federn.",
       "skillCheck": {
-        "talent": "Tierkunde",
+        "checkType": "talent",
+        "checkName": "Tierkunde",
         "penalty": 2,
         "successNode": "scene_4_success",
         "failureNode": "scene_4_failure",
@@ -134,18 +139,20 @@
       }
     },
     "scene_4_success": {
-      "id": "scene_4_success",            "description": "%@ erkennt sie als Federn eines seltenen Waldvogels.",
+      "id": "scene_4_success",            
+      "description": "%@ erkennt sie als Federn eines seltenen Waldvogels.",
       "endEncounter": true,
       "duration": 4
     },
     "scene_4_failure": {
       "id": "scene_4_failure",
-           "description": "%@ kann nicht bestimmen, von welchem Tier sie stammen.",
+      "description": "%@ kann nicht bestimmen, von welchem Tier sie stammen.",
       "endEncounter": true,
       "duration": 4
     },
     "scene_4_end": {
-      "id": "scene_4_end",           "description": "Ihr lasst die Stelle hinter euch.",
+      "id": "scene_4_end",           
+      "description": "Ihr lasst die Stelle hinter euch.",
       "endEncounter": true,
       "duration": 1
     },
@@ -165,7 +172,8 @@
       "id": "scene_5_check",
       "description": "%@ untersucht die überwucherten Stufen.",
       "skillCheck": {
-        "talent": "Geschichtswissen",
+        "checkType": "talent",
+        "checkName": "Geschichtswissen",
         "penalty": 3,
         "successNode": "scene_5_success",
         "failureNode": "scene_5_failure",
@@ -206,7 +214,8 @@
       "id": "scene_6_check",
       "description": "%@ versucht die Umgebung einzuschätzen.",
       "skillCheck": {
-        "talent": "Sinnenschärfe",
+        "checkType": "talent",
+        "checkName": "Sinnenschärfe",
         "penalty": 2,
         "successNode": "scene_6_success",
         "failureNode": "scene_6_failure",
@@ -247,7 +256,8 @@
       "id": "scene_7_check",
       "description": "%@ horcht gespannt.",
       "skillCheck": {
-        "talent": "Sinnenschärfe",
+        "checkType": "talent",
+        "checkName": "Sinnenschärfe",
         "penalty": 0,
         "successNode": "scene_7_success",
         "failureNode": "scene_7_failure",
@@ -256,7 +266,7 @@
     },
     "scene_7_success": {
       "id": "scene_7_success",
-      "description": "%@ bemerkt ein seltenes Naturschauspiel – zwei Baumstämme reiben im Wind und erzeugen den Ton.",
+      "description": "%@ bemerkt ein seltenes Naturschauspiel, zwei Baumstämme reiben im Wind aneinander und erzeugen den Ton.",
       "endEncounter": true,
       "duration": 3
     },
@@ -288,7 +298,8 @@
       "id": "scene_8_check",
       "description": "%@ blickt über die Landschaft.",
       "skillCheck": {
-        "talent": "Orientierung",
+        "checkType": "talent",
+        "checkName": "Orientierung",
         "penalty": 1,
         "successNode": "scene_8_success",
         "failureNode": "scene_8_failure",
@@ -329,7 +340,8 @@
       "id": "scene_9_check",
       "description": "%@ betrachtet den Farn.",
       "skillCheck": {
-        "talent": "Pflanzenkunde",
+        "checkType": "talent",
+        "checkName": "Pflanzenkunde",
         "penalty": 1,
         "successNode": "scene_9_success",
         "failureNode": "scene_9_failure",
@@ -370,7 +382,8 @@
       "id": "scene_10_check",
       "description": "%@ folgt dem Geräusch.",
       "skillCheck": {
-        "talent": "Sinnenschärfe",
+        "checkType": "talent",
+        "checkName": "Sinnenschärfe",
         "penalty": 1,
         "successNode": "scene_10_success",
         "failureNode": "scene_10_failure",
@@ -411,7 +424,8 @@
       "id": "scene_11_check",
       "description": "%@ untersucht das Muster der Wurzeln.",
       "skillCheck": {
-        "talent": "Pflanzenkunde",
+        "checkName": "talent",
+        "checkType": "Pflanzenkunde",
         "penalty": 2,
         "successNode": "scene_11_success",
         "failureNode": "scene_11_failure",
@@ -452,7 +466,8 @@
       "id": "scene_12_check",
       "description": "%@ betrachtet den Felsen genauer.",
       "skillCheck": {
-        "talent": "Wildnisleben",
+        "checkType": "talent",
+        "checkName": "Wildnisleben",
         "penalty": 1,
         "successNode": "scene_12_success",
         "failureNode": "scene_12_failure",
@@ -493,7 +508,8 @@
       "id": "scene_13_check",
       "description": "%@ wirft einen genaueren Blick auf die Sträucher.",
       "skillCheck": {
-        "talent": "Pflanzenkunde",
+        "checkType": "talent",
+        "checkName": "Pflanzenkunde",
         "penalty": 2,
         "successNode": "scene_13_success",
         "failureNode": "scene_13_failure",
@@ -534,7 +550,8 @@
       "id": "scene_14_check",
       "description": "%@ untersucht den verfallenen Baumstamm.",
       "skillCheck": {
-        "talent": "Pflanzenkunde",
+        "checkType": "talent",
+        "checkName": "Pflanzenkunde",
         "penalty": 1,
         "successNode": "scene_14_success",
         "failureNode": "scene_14_failure",

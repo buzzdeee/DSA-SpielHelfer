@@ -1205,7 +1205,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 {
         NSLog(@"DASAdventureWindowController showBuildingDialogSheet: showing building dialog.");
         // Dialog laden
-        DSADialogManager *manager = [[DSADialogManager alloc] init];
+        DSADialogManager *manager = [DSADialogManager sharedManager];
         NSString *dialogFileName = @"dialogue_general_building";
         if (![manager loadDialogFromFile: dialogFileName]) {
             NSLog(@"DASAdventureWindowController showBuildingDialogSheet: DSAActionIconChat handleEvent: unable to load dialog file: %@", dialogFileName);
@@ -1424,7 +1424,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 }
 
 - (void)presentRoadObstacleEncounter:(NSNotification *)note {
-    DSADialogManager *dialogManager = [[DSADialogManager alloc] init];
+    DSADialogManager *dialogManager = [DSADialogManager sharedManager];
     if (![dialogManager loadDialogFromFile:@"dialogue_road_obstacle"]) {
         NSLog(@"DSAAdventureWindowController presentRoadObstacleEncounter: dialogue_road_obstacle.json not found");
         [self continueTravel];
@@ -1441,7 +1441,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 }
 
 - (void)presentSceneryEncounter:(NSNotification *)note {
-    DSADialogManager *dialogManager = [[DSADialogManager alloc] init];
+    DSADialogManager *dialogManager = [DSADialogManager sharedManager];
     if (![dialogManager loadDialogFromFile:@"dialogue_scenery"]) {
         NSLog(@"DSAAdventureWindowController presentSceneryEncounter: dialogue_scenery.json not found");
         [self continueTravel];
@@ -1458,7 +1458,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 }
 
 - (void)presentTrailSignEncounter:(NSNotification *)note {
-    DSADialogManager *dialogManager = [[DSADialogManager alloc] init];
+    DSADialogManager *dialogManager = [DSADialogManager sharedManager];
     if (![dialogManager loadDialogFromFile:@"dialogue_trail_signs"]) {
         NSLog(@"DSAAdventureWindowController presentTrailSignEncounter: dialogue_trail_signs.json not found");
         [self continueTravel];
@@ -1485,7 +1485,7 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
         return;
     }
 
-    DSADialogManager *manager = [[DSADialogManager alloc] init];
+    DSADialogManager *manager = [DSADialogManager sharedManager];
     NSString *dialogFileName = [NSString stringWithFormat:@"dialogue_%@", npcType];
 
     if (![manager loadDialogFromFile:dialogFileName]) {

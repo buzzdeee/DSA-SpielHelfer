@@ -28,13 +28,23 @@
 #import "DSABaseObject.h"
 @class DSADialog;
 @class DSADialogNode;
+@class DSACharacter;
+@class DSADialogNodeSkillCheck;
 
+NS_ASSUME_NONNULL_BEGIN
 @interface DSADialogManager : DSABaseObject
 
 @property (nonatomic, strong) DSADialog *currentDialog;
 @property (nonatomic, strong) NSString *currentNodeID;
-@property BOOL skillCheckPending;                    // to divide skill check nodes in two steps 
 @property (nonatomic) NSInteger accumulatedDuration; // Gesamtdauer in Minuten
+
+// skill check related properties
+@property BOOL skillCheckPending;                    // to divide skill check nodes in two steps 
+@property (nonatomic, strong, nullable) NSArray<DSACharacter *> *lastSkillCheckSuccess;
+@property (nonatomic, strong, nullable) NSArray<DSACharacter *> *lastSkillCheckFailure;
+@property (nonatomic, strong, nullable) DSADialogNodeSkillCheck *lastSkillCheckNode;
+
++ (instancetype)sharedManager;
 
 - (BOOL)loadDialogFromFile:(NSString *)filename;
 - (DSADialogNode *)currentNode;
@@ -42,6 +52,6 @@
 - (void)performPendingSkillCheck;
 
 @end
-
+NS_ASSUME_NONNULL_END
 #endif // _DSADIALOGMANAGER_H_
 

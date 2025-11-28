@@ -82,7 +82,14 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
 // finds the character with the best value talent value, or when negating with worst talent value
 - (DSACharacter *)characterWithBestTalentWithName: (NSString *)talentName 
                                           negate: (BOOL)negate;
-
+// finds the character with the best value trait value, or when negating with worst trait value
+- (DSACharacter *)characterWithBestTraitWithName: (NSString *)talentName 
+                                          negate: (BOOL)negate;                                          
+// depending on check type, calls one of above methods                                          
+- (DSACharacter *)characterWithBestCheckType:(NSString *)checkType
+                                   checkName:(NSString *)checkName
+                                      negate:(BOOL)negate;
+                                      
 - (void)applyMiracle:(DSAMiracleResult *)miracleResult;        // to all, or an individual of the group
 
 @end                             

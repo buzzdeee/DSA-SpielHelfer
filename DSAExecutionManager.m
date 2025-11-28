@@ -31,11 +31,51 @@
 #import "DSAInventoryManager.h"
 #import "DSACharacter.h"
 #import "DSAWallet.h"
+#import "Utils.h"
 
 
 #pragma mark - Action Descriptor Implementation
 
 @implementation DSAActionDescriptor
+
++ (instancetype)descriptorFromDictionary:(NSDictionary *)dict
+{
+    if (!dict) return nil;
+    if (![dict isKindOfClass:[NSDictionary class]])
+      {
+        NSLog(@"DSAActionDescriptor descriptorFromDictionary dict %@ is not a NSDictionary, aborting", dict);
+        abort();
+      }
+
+    DSAActionDescriptor *desc = [[DSAActionDescriptor alloc] init];
+
+    // Type aus Name
+    NSString *typeName = dict[@"type"];
+    desc.type = [DSAActionDescriptor actionTypeByName:typeName];
+
+    // Scope aus Name
+    NSString *scopeName = dict[@"scope"];
+    desc.scope = [DSAActionDescriptor actionScopeByName:scopeName];
+
+    // Parameter Dictionary (optional)
+    NSDictionary *params = dict[@"parameters"];
+    if (params && [params isKindOfClass:[NSDictionary class]]) {
+        desc.parameters = params;
+    } else {
+        desc.parameters = @{};
+    }
+
+    // Optional: Reihenfolge
+    NSNumber *order = dict[@"order"];
+    if (order) {
+        desc.order = order.integerValue;
+    } else {
+        desc.order = 0;
+    }
+    
+    return desc;
+}
+
 - (instancetype)init
 {
     if (self = [super init]) {
@@ -43,6 +83,41 @@
         _targetCharacter = nil;
     }
     return self;
+}
+@end
+
+@implementation DSAActionDescriptor (Parsing)
++ (DSAActionType)actionTypeByName:(NSString *)name
+{
+    if (![name isKindOfClass:[NSString class]]) return DSAActionTypeUnknown;
+
+    NSDictionary<NSString *, NSNumber *> *mapping = @{
+        @"GainItem": @(DSAActionTypeGainItem),
+        @"GainMoney": @(DSAActionTypeGainMoney),
+        @"LeaveLocation": @(DSAActionTypeLeaveLocation),
+        @"GainFood": @(DSAActionTypeGainFood),
+        @"GainWater": @(DSAActionTypeGainWater),
+        @"LooseLifePoints": @(DSAActionTypeLooseLifePoints),
+        @"GainLifePoints": @(DSAActionTypeGainLifePoints),
+        @"GainAdventurePoints": @(DSAActionTypeGainAdventurePoints)
+        // weitere ActionTypes hier ergänzen
+    };
+
+    NSNumber *val = mapping[name];
+    return val ? val.integerValue : DSAActionTypeUnknown;
+}
+
++ (DSAActionScope)actionScopeByName:(NSString *)name
+{
+    if (![name isKindOfClass:[NSString class]]) return DSAActionScopeGroup;
+
+    NSDictionary<NSString *, NSNumber *> *mapping = @{
+        @"Group": @(DSAActionScopeGroup),
+        @"Character": @(DSAActionScopeCharacter)
+    };
+
+    NSNumber *val = mapping[name];
+    return val ? val.integerValue : DSAActionScopeGroup;
 }
 @end
 
@@ -102,13 +177,13 @@
             NSLog(@"DSAExecutionManager executeAction: Gain Water: %@", action.parameters);
             [self executeGainWaterAction: (DSAActionDescriptor *) action];
             break;   
-        case DSAActionTypeLooseHealthPoints:
-            NSLog(@"DSAExecutionManager executeAction: loose health points: %@", action.parameters);
-            [self executeLooseHealthPointsAction: (DSAActionDescriptor *) action];
+        case DSAActionTypeLooseLifePoints:
+            NSLog(@"DSAExecutionManager executeAction: loose life points: %@", action.parameters);
+            [self executeLooseLifePointsAction: (DSAActionDescriptor *) action];
             break; 
-        case DSAActionTypeGainHealthPoints:
-            NSLog(@"DSAExecutionManager executeAction: gain health points: %@", action.parameters);
-            [self executeGainHealthPointsAction: (DSAActionDescriptor *) action];
+        case DSAActionTypeGainLifePoints:
+            NSLog(@"DSAExecutionManager executeAction: gain life points: %@", action.parameters);
+            [self executeGainLifePointsAction: (DSAActionDescriptor *) action];
             break;   
         case DSAActionTypeGainAdventurePoints:
             NSLog(@"DSAExecutionManager executeAction: gain health points: %@", action.parameters);
@@ -220,19 +295,65 @@
     }
 }
 
-- (void)executeLooseHealthPointsAction: (DSAActionDescriptor *)action
+- (void)executeLooseLifePointsAction: (DSAActionDescriptor *)action
 {
-  NSLog(@"DSAExecutionManager executeLooseHealthPointsAction NOT YET IMPLEMENTED");
+  NSLog(@"DSAExecutionManager executeLooseLifePointsAction called");
+  NSArray *targets = [self resolvedTargetsForAction:action];
+  NSInteger damage = 0;
+
+  if (action.parameters[@"randomAmount"]) {
+      damage += [Utils rollDice:action.parameters[@"randomAmount"]];
+  }
+
+  if (action.parameters[@"fixedAmount"]) {
+      damage += [action.parameters[@"fixedAmount"] integerValue];
+  }
+  for (DSACharacter *character in targets)
+    {
+      NSInteger newCurrentLifePoints = character.currentLifePoints - damage;
+      [character setCurrentLifePoints: newCurrentLifePoints];
+    }    
 }
 
-- (void)executeGainHealthPointsAction: (DSAActionDescriptor *)action
+- (void)executeGainLifePointsAction: (DSAActionDescriptor *)action
 {
-  NSLog(@"DSAExecutionManager executeGainHealthPointsAction NOT YET IMPLEMENTED");
+  NSLog(@"DSAExecutionManager executeGainLifePointsAction called");
+  NSArray *targets = [self resolvedTargetsForAction:action];
+  NSInteger health = 0;
+
+  if (action.parameters[@"randomAmount"]) {
+      health += [Utils rollDice:action.parameters[@"randomAmount"]];
+  }
+
+  if (action.parameters[@"fixedAmount"]) {
+      health += [action.parameters[@"fixedAmount"] integerValue];
+  }
+  for (DSACharacter *character in targets)
+    {
+      NSInteger newCurrentLifePoints = character.currentLifePoints + health;
+      [character setCurrentLifePoints: newCurrentLifePoints];
+    }   
 }
 
 - (void)executeGainAdventurePointsAction: (DSAActionDescriptor *)action
 {
-  NSLog(@"DSAExecutionManager executeGainAdventurePointsAction NOT YET IMPLEMENTED");
+  NSLog(@"DSAExecutionManager executeGainAdventurePointsAction called");
+  NSArray *targets = [self resolvedTargetsForAction:action];
+
+  NSInteger ap = 0;
+
+  if (action.parameters[@"randomAmount"]) {
+      ap += [Utils rollDice:action.parameters[@"randomAmount"]];
+  }
+
+  if (action.parameters[@"fixedAmount"]) {
+      ap += [action.parameters[@"fixedAmount"] integerValue];
+  }    
+
+  for (DSACharacter *character in targets)
+    {
+      character.adventurePoints = character.adventurePoints + ap;
+    }  
 }
 
 - (void) executeLeaveLocationAction: (DSAActionDescriptor *)action

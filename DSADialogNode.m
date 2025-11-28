@@ -28,6 +28,8 @@
 #import "DSAAdventureGroup.h"
 #import "Utils.h"
 #import "DSAActionResult.h"
+#import "DSAExecutionManager.h"
+#import "DSADialogManager.h"
 
 @implementation DSADialogNode
 
@@ -98,10 +100,19 @@
     _duration = [dict[@"duration"] integerValue];
     _endEncounter = [dict[@"endEncounter"] boolValue];
 
-//    if (!node.nodeDescription) {
-//        node.nodeDescription = @"Ihr untersucht die Umgebung genauer...";
-//    }    
-    
+    NSArray *actionsArray = dict[@"actions"];
+    if ([actionsArray isKindOfClass:[NSArray class]]) {
+
+    NSMutableArray *parsed = [NSMutableArray array];
+
+    for (NSDictionary *actionDict in actionsArray) {
+        DSAActionDescriptor *desc = [DSAActionDescriptor descriptorFromDictionary:actionDict];
+        if (desc) [parsed addObject:desc];
+    }
+
+    _actions = (parsed.count > 0) ? parsed.copy : nil;
+}    
+
     NSLog(@"DSADialogNode nodeFromDictionary returning node: %@", self);
 }
 
@@ -141,34 +152,60 @@
 - (void)setupWithDictionary:(NSDictionary *)dict {
     [super setupWithDictionary:dict];
     NSDictionary *check = dict[@"skillCheck"];
-    
-    _talent = check[@"talent"];
-    _penalty = [check[@"penalty"] integerValue];
+
+    // Safety
+   
+    _checkType = check[@"checkType"];
+    _checkName = check[@"checkName"];  
+          
+    _penalty = check[@"penalty"] ? [check[@"penalty"] integerValue]: 0;
     _successNodeID = check[@"successNode"];
     _failureNodeID = check[@"failureNode"];
-    _failureEffect = check[@"failureEffect"];
-    _successEffect = check[@"successEffect"];
     self.duration = [check[@"duration"] integerValue];    
 }
 
+// Single-Character SkillCheck
 - (NSString *)performSkillCheck
 {
-    DSAAdventure *adv = [DSAAdventureManager sharedManager].currentAdventure;
-    DSACharacter *character = [adv.activeGroup characterWithBestTalentWithName:self.talent negate:NO];
+    DSADialogManager *mgr = [DSADialogManager sharedManager];
+    mgr.lastSkillCheckNode = self;
 
-    DSAActionResult *result = [character useTalent:self.talent withPenalty:self.penalty];
-    // return next node based on result
-    return (result.result == DSAActionResultSuccess ||
-            result.result == DSAActionResultEpicSuccess ||
-            result.result == DSAActionResultAutoSuccess)
-            ? self.successNodeID : self.failureNodeID;
+    DSAAdventure *adv = [DSAAdventureManager sharedManager].currentAdventure;
+    DSACharacter *character = [adv.activeGroup characterWithBestCheckType:self.checkType
+                                                                checkName:self.checkName
+                                                                   negate:NO];
+
+    DSAActionResult *result = nil;
+
+    if ([self.checkType isEqualToString:@"talent"]) {
+        result = [character useTalent:self.checkName withPenalty:self.penalty];
+    } else if ([self.checkType isEqualToString:@"attribute"]) {
+        result = [character checkTrait:self.checkName withPenalty:self.penalty];
+    }
+    BOOL success =
+        (result.result == DSAActionResultSuccess ||
+         result.result == DSAActionResultEpicSuccess ||
+         result.result == DSAActionResultAutoSuccess);
+
+    if (success) {
+        mgr.lastSkillCheckSuccess = @[character];
+        mgr.lastSkillCheckFailure = @[];
+        return self.successNodeID;
+    } else {
+        mgr.lastSkillCheckSuccess = @[];
+        mgr.lastSkillCheckFailure = @[character];
+        return self.failureNodeID;
+    }
 }
+
 @end
 
 @implementation DSADialogNodeSkillCheckAll
 - (void)setupWithDictionary:(NSDictionary *)dict {
     [super setupWithDictionary:dict];
     NSDictionary *checkAll = dict[@"skillCheckAll"];
+    self.checkType = checkAll[@"checkType"];
+    self.checkName = checkAll[@"checkName"];    
     _partialFailureNodeID = checkAll[@"partialFailureNode"];
 
     NSString *mode = checkAll[@"successMode"];
@@ -180,18 +217,17 @@
     }
 }
 
+// Multi-Character SkillCheck (Talente oder Traits)
 - (NSString *)performSkillCheck
 {
+    DSADialogManager *mgr = [DSADialogManager sharedManager];
+    mgr.lastSkillCheckNode = self;
+
     DSAAdventure *adv = [DSAAdventureManager sharedManager].currentAdventure;
     NSArray<DSACharacter *> *members = adv.activeGroup.allCharacters;
 
-    NSInteger total = members.count;
-    NSInteger successes = 0;
-    NSInteger failures = 0;
-
-    BOOL someoneSucceeded = NO;
-
-    NSMutableSet *testedCharacters = [NSMutableSet set];
+    NSMutableArray<DSACharacter *> *success = [NSMutableArray array];
+    NSMutableArray<DSACharacter *> *failure = [NSMutableArray array];
 
     BOOL (^isSuccess)(DSAActionResult *) = ^BOOL(DSAActionResult *res) {
         return (res.result == DSAActionResultSuccess ||
@@ -199,114 +235,200 @@
                 res.result == DSAActionResultAutoSuccess);
     };
 
-    //
-    // MODE: "first done"
-    //
+    NSInteger total = members.count;
+    NSInteger half = total / 2;
+
+    // --- MODE: first done ---
     if ([self.successMode isEqualToString:@"first done"]) {
-
         for (DSACharacter *c in members) {
+            DSAActionResult *res = nil;
 
-            DSAActionResult *res = [c useTalent:self.talent withPenalty:self.penalty];
-            [testedCharacters addObject:c];
+            if ([self.checkType isEqualToString:@"talent"]) {
+                res = [c useTalent:self.checkName withPenalty:self.penalty];
+            } else if ([self.checkType isEqualToString:@"attribute"]) {
+                res = [c checkTrait:self.checkName withPenalty:self.penalty];
+            }
 
             if (isSuccess(res)) {
-                // Erfolg -> sofort Erfolg
-                return self.successNodeID;
+                [success addObject:c];
+                break; // kein weiterer Test nötig
             } else {
-                // Fehlschlag -> weitermachen
+                [failure addObject:c];
             }
         }
+        mgr.lastSkillCheckSuccess = success.copy;
+        mgr.lastSkillCheckFailure = failure.copy;
+        return (success.count > 0) ? self.successNodeID : self.failureNodeID;
+    }
 
-        // Wenn keiner Erfolg hatte → kompletter Fehlschlag
+    // --- MODE: any ---
+    if ([self.successMode isEqualToString:@"any"]) {
+        for (DSACharacter *c in members) {
+            DSAActionResult *res = nil;
+
+            if ([self.checkType isEqualToString:@"talent"]) {
+                res = [c useTalent:self.checkName withPenalty:self.penalty];
+            } else if ([self.checkType isEqualToString:@"attribute"]) {
+                res = [c checkTrait:self.checkName withPenalty:self.penalty];
+            }
+
+            if (isSuccess(res)) [success addObject:c];
+            else [failure addObject:c];
+        }
+        mgr.lastSkillCheckSuccess = success.copy;
+        mgr.lastSkillCheckFailure = failure.copy;
+        return (success.count > 0) ? self.successNodeID : self.failureNodeID;
+    }
+
+    // --- MODE: all ---
+    if ([self.successMode isEqualToString:@"all"]) {
+        for (DSACharacter *c in members) {
+            DSAActionResult *res = nil;
+
+            if ([self.checkType isEqualToString:@"talent"]) {
+                res = [c useTalent:self.checkName withPenalty:self.penalty];
+            } else if ([self.checkType isEqualToString:@"attribute"]) {
+                res = [c checkTrait:self.checkName withPenalty:self.penalty];
+            }
+
+            if (isSuccess(res)) [success addObject:c];
+            else [failure addObject:c];
+        }
+        mgr.lastSkillCheckSuccess = success.copy;
+        mgr.lastSkillCheckFailure = failure.copy;
+
+        if (success.count == total) return self.successNodeID;
+        if (failure.count > 0 && self.partialFailureNodeID) return self.partialFailureNodeID;
         return self.failureNodeID;
     }
 
-    //
-    // MODE: "any"
-    //
-    if ([self.successMode isEqualToString:@"any"]) {
-
-        for (DSACharacter *c in members) {
-
-            DSAActionResult *res = [c useTalent:self.talent withPenalty:self.penalty];
-            [testedCharacters addObject:c];
-
-            if (isSuccess(res)) {
-                someoneSucceeded = YES;
-            }
-        }
-
-        if (someoneSucceeded) {
-            return self.successNodeID;
-        } else {
-            return self.failureNodeID;
-        }
-    }
-
-    //
-    // MODE: "all"
-    //
-    if ([self.successMode isEqualToString:@"all"]) {
-
-        for (DSACharacter *c in members) {
-
-            DSAActionResult *res = [c useTalent:self.talent withPenalty:self.penalty];
-            [testedCharacters addObject:c];
-
-            if (isSuccess(res)) {
-                successes++;
-            } else {
-                failures++;
-            }
-        }
-
-        if (successes == total) {
-            return self.successNodeID;
-        } else {
-            return self.failureNodeID;
-        }
-    }
-
-    //
-    // MODE: "majority"
-    //
+    // --- MODE: majority ---
     if ([self.successMode isEqualToString:@"majority"]) {
-
-        NSInteger half = total / 2;   // Bei 3 Leuten → 1, Majority = >1
-
         for (DSACharacter *c in members) {
+            DSAActionResult *res = nil;
 
-            DSAActionResult *res = [c useTalent:self.talent withPenalty:self.penalty];
-            [testedCharacters addObject:c];
-
-            if (isSuccess(res)) {
-                successes++;
-            } else {
-                failures++;
+            if ([self.checkType isEqualToString:@"talent"]) {
+                res = [c useTalent:self.checkName withPenalty:self.penalty];
+            } else if ([self.checkType isEqualToString:@"attribute"]) {
+                res = [c checkTrait:self.checkName withPenalty:self.penalty];
             }
 
-            // Frühabbruch optimiert:
-            if (successes > half) {
-                return self.successNodeID;
-            }
-            if (failures > half) {
-                return self.failureNodeID;
-            }
+            if (isSuccess(res)) [success addObject:c];
+            else [failure addObject:c];
+
+            if (success.count > half) break;
+            if (failure.count > half) break;
         }
 
-        // Falls exakt Gleichstand (bei gerader Zahl)
-        // ist majority nicht erreicht
-        if (successes > failures) {
-            return self.successNodeID;
-        } else {
-            return self.failureNodeID;
+        mgr.lastSkillCheckSuccess = success.copy;
+        mgr.lastSkillCheckFailure = failure.copy;
+
+        if (success.count > 0 && failure.count > 0 && self.partialFailureNodeID) {
+            return self.partialFailureNodeID;
         }
+
+        return (success.count > failure.count) ? self.successNodeID : self.failureNodeID;
     }
 
-    //
-    // Default fallback
-    //
+    // --- Default fallback ---
+    mgr.lastSkillCheckSuccess = @[];
+    mgr.lastSkillCheckFailure = members.mutableCopy;
     return self.failureNodeID;
 }
+/*
+// Multi-Character SkillCheck
+- (NSString *)performSkillCheck
+{
+    DSADialogManager *mgr = [DSADialogManager sharedManager];
+    mgr.lastSkillCheckNode = self;
 
+    DSAAdventure *adv = [DSAAdventureManager sharedManager].currentAdventure;
+    NSArray<DSACharacter *> *members = adv.activeGroup.allCharacters;
+
+    NSMutableArray *success = [NSMutableArray array];
+    NSMutableArray *failure = [NSMutableArray array];
+
+    BOOL (^isSuccess)(DSAActionResult *) = ^BOOL(DSAActionResult *res) {
+        return (res.result == DSAActionResultSuccess ||
+                res.result == DSAActionResultEpicSuccess ||
+                res.result == DSAActionResultAutoSuccess);
+    };
+
+    NSInteger total = members.count;
+    NSInteger half = total / 2;
+
+    // --- MODE: first done ---
+    if ([self.successMode isEqualToString:@"first done"]) {
+        for (DSACharacter *c in members) {
+            DSAActionResult *res = [c useTalent:self.talent withPenalty:self.penalty];
+            if (isSuccess(res)) {
+                [success addObject:c];
+                break; // kein weiterer Test nötig
+            } else {
+                [failure addObject:c];
+            }
+        }
+        mgr.lastSkillCheckSuccess = success.copy;
+        mgr.lastSkillCheckFailure = failure.copy;
+        return (success.count > 0) ? self.successNodeID : self.failureNodeID;
+    }
+
+    // --- MODE: any ---
+    if ([self.successMode isEqualToString:@"any"]) {
+        for (DSACharacter *c in members) {
+            DSAActionResult *res = [c useTalent:self.talent withPenalty:self.penalty];
+            if (isSuccess(res)) [success addObject:c];
+            else [failure addObject:c];
+        }
+        mgr.lastSkillCheckSuccess = success.copy;
+        mgr.lastSkillCheckFailure = failure.copy;
+        return (success.count > 0) ? self.successNodeID : self.failureNodeID;
+    }
+
+    // --- MODE: all ---
+    if ([self.successMode isEqualToString:@"all"]) {
+        for (DSACharacter *c in members) {
+            DSAActionResult *res = [c useTalent:self.talent withPenalty:self.penalty];
+            if (isSuccess(res)) [success addObject:c];
+            else [failure addObject:c];
+        }
+        mgr.lastSkillCheckSuccess = success.copy;
+        mgr.lastSkillCheckFailure = failure.copy;
+
+        if (success.count == total) return self.successNodeID;
+
+        if (failure.count > 0 && self.partialFailureNodeID) {
+            return self.partialFailureNodeID;
+        }
+
+        return self.failureNodeID;
+    }
+
+    // --- MODE: majority ---
+    if ([self.successMode isEqualToString:@"majority"]) {
+        for (DSACharacter *c in members) {
+            DSAActionResult *res = [c useTalent:self.talent withPenalty:self.penalty];
+            if (isSuccess(res)) [success addObject:c];
+            else [failure addObject:c];
+
+            if (success.count > half) break;
+            if (failure.count > half) break;
+        }
+
+        mgr.lastSkillCheckSuccess = success.copy;
+        mgr.lastSkillCheckFailure = failure.copy;
+
+        if (success.count > 0 && failure.count > 0 && self.partialFailureNodeID) {
+            return self.partialFailureNodeID;
+        }
+
+        return (success.count > failure.count) ? self.successNodeID : self.failureNodeID;
+    }
+
+    // --- Default fallback ---
+    mgr.lastSkillCheckSuccess = @[];
+    mgr.lastSkillCheckFailure = members.mutableCopy;
+    return self.failureNodeID;
+}
+*/
 @end

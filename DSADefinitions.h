@@ -38,11 +38,12 @@
 
 @end
 
+// when adding additional Scopes, also update actionScopeByName in DSAActionDescriptor
 typedef NS_ENUM(NSInteger, DSAActionScope) {
     DSAActionScopeGroup = 0,
     DSAActionScopeCharacter = 1
 };
-
+// when adding additional Scopes, also update actionTypeByName in DSAActionDescriptor
 typedef NS_ENUM(NSInteger, DSAActionType) {
     DSAActionTypeUnknown = 0,
     DSAActionTypeGainItem,                           // parameter example: @{ @"amount": @(count), @"type": @"Proviant, Tagesration" }
@@ -50,9 +51,9 @@ typedef NS_ENUM(NSInteger, DSAActionType) {
     DSAActionTypeLeaveLocation,                      // leaving a position, i.e. a building or dungeon, parameter example: @{ @"position": [currentPostion copy] }
     DSAActionTypeGainFood,                           // no parameter ?
     DSAActionTypeGainWater,                          // no parameter ?
-    DSAActionTypeLooseHealthPoints,                  // parameter example: @{ @"randomAmount": @"1W6", @"fixedAmount": @(amount) } 
+    DSAActionTypeLooseLifePoints,                    // parameter example: @{ @"randomAmount": @"1W6", @"fixedAmount": @(amount) } 
                                                      // either fixedAmount or randomAmount is enough, if both given, they're added up 
-    DSAActionTypeGainHealthPoints,                   // same as DSAActionTypeLooseHealthPoints
+    DSAActionTypeGainLifePoints,                     // same as DSAActionTypeLooseHealthPoints
     DSAActionTypeGainAdventurePoints,                // same as DSAActionTypeLooseHealthPoints                                     
     // weitere ActionTypes …
 };

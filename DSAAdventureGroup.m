@@ -35,6 +35,7 @@
 #import "DSAEvent.h"
 #import "DSALocations.h"
 #import "DSAAdventureClock.h"
+#import "DSATrait.h"
 
 @implementation DSAAdventureGroup
 
@@ -220,7 +221,7 @@
     if (!item || count <= 0) return;
 
     // 1. Gather group members with inventories
-    NSMutableArray<DSACharacter *> *members = [self allCharacters];
+    NSArray<DSACharacter *> *members = [self allCharacters];
 
     if (members.count == 0) return;
 
@@ -472,6 +473,59 @@
     return bestCharacter;
 }
 
+- (DSACharacter *)characterWithBestTraitWithName:(NSString *)traitName
+                                         negate:(BOOL)negate
+{
+    DSACharacter *bestCharacter = nil;
+    NSInteger bestValue = negate ? NSIntegerMax : NSIntegerMin;
+
+    for (DSACharacter *character in self.allCharacters) {
+        DSATrait *trait = character.currentPositiveTraits[traitName];
+        BOOL isPositive = YES;
+
+        if (!trait) {
+            trait = character.currentNegativeTraits[traitName];
+            isPositive = NO;
+        }
+
+        if (!trait) {
+            NSLog(@"DSAAdventureGroup characterWithBestTraitWithName: Trait: %@ not found at character: %@, aborting", traitName, character.name);
+            abort();
+            // continue; // maybe later...
+        }
+
+        NSInteger level = trait.level;
+
+        if (!isPositive) {
+            level = -level; // Negative Traits zählen umgekehrt
+        }
+
+        if (negate) {
+            level = -level; // für negate: schlechtester
+        }
+
+        if (!bestCharacter || level > bestValue) {
+            bestValue = level;
+            bestCharacter = character;
+        }
+    }
+
+    return bestCharacter;
+}
+
+- (DSACharacter *)characterWithBestCheckType:(NSString *)checkType
+                                   checkName:(NSString *)checkName
+                                      negate:(BOOL)negate
+{
+    if ([checkType isEqualToString:@"talent"]) {
+        return [self characterWithBestTalentWithName:checkName negate:negate];
+    } else if ([checkType isEqualToString:@"attribute"]) {
+        return [self characterWithBestTraitWithName:checkName negate:negate];
+    } else {
+        NSLog(@"DSAAdventureGroup characterWithBestCheckType: Unknown checkType: %@, returning nil", checkType);
+        return nil;
+    }
+}
 
 - (void)applyMiracle:(DSAMiracleResult *)miracleResult {
     if ([miracleResult.target isEqualToString:@"group"]) {

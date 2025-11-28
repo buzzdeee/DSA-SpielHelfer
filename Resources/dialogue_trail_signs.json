@@ -6,7 +6,7 @@
     "sign_1": {
       "id": "sign_1",
       "title": "Fährten im Schlamm",
-      "description": "Am Wegesrand siehst du tiefe Abdrücke schwerer Stiefel, die bergauf führen.",
+      "description": "Am Wegesrand seht Ihr tiefe Abdrücke schwerer Stiefel, die bergauf führen.",
       "playerOptions": [
         {"texts": ["Genauer untersuchen"], "nextNodeID": "inspect_1", "duration": 10},
         {"texts": ["Weiterreisen"], "nextNodeID": "end_1", "duration": 2}
@@ -15,7 +15,14 @@
     "inspect_1": {
       "id": "inspect_1",
       "description": "%@ untersucht die Spuren.",
-      "skillCheck": {"talent": "Fährtensuchen", "penalty": 2, "successNode": "track_success_1", "failureNode": "track_failure_1", "duration": 15}
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Fährtensuchen", 
+        "penalty": 2, 
+        "successNode": "track_success_1", 
+        "failureNode": "track_failure_1", 
+        "duration": 15
+      }
     },
     "track_success_1": {
       "id": "track_success_1",
@@ -48,7 +55,14 @@
     "inspect_2": {
       "id": "inspect_2",
       "description": "%@ untersucht die Stelle etwas genauer.",
-      "skillCheck": {"talent": "Fährtensuchen", "penalty": 3, "successNode": "track_success_2", "failureNode": "track_failure_2", "duration": 12}
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Fährtensuchen", 
+        "penalty": 3, 
+        "successNode": "track_success_2", 
+        "failureNode": "track_failure_2", 
+        "duration": 12
+      }
     },
     "track_success_2": {
       "id": "track_success_2",
@@ -81,7 +95,14 @@
     "inspect_3": {
       "id": "inspect_3",
       "description": "%@ untersucht das alte Schild etwas genauer.",
-      "skillCheck": {"talent": "Alte Sprachen", "penalty": 1, "successNode": "read_success_3", "failureNode": "read_failure_3", "duration": 15}
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Lesen/Schreiben", 
+        "penalty": 2, 
+        "successNode": "read_success_3", 
+        "failureNode": "read_failure_3", 
+        "duration": 15
+      }
     },
     "read_success_3": {
       "id": "read_success_3",
@@ -114,7 +135,14 @@
     "track_wild_4": {
       "id": "track_wild_4",
       "description": "%@ schaut sich die Fährte genauer an.",
-      "skillCheck": {"talent": "Fährtensuchen", "penalty": 2, "successNode": "wild_success_4", "failureNode": "wild_failure_4", "duration": 15}
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Fährtensuchen", 
+        "penalty": 2, 
+        "successNode": "wild_success_4", 
+        "failureNode": "wild_failure_4", 
+        "duration": 15
+      }
     },
     "wild_success_4": {
       "id": "wild_success_4",
@@ -148,7 +176,14 @@
     "inspect_5": {
       "id": "inspect_5",
       "description": "%@ schaut sich etwas genauer um.",
-      "skillCheck": {"talent": "Fährtensuchen", "penalty": 1, "successNode": "inspect_success_5", "failureNode": "inspect_failure_5", "duration": 10}
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Fährtensuchen", 
+        "penalty": 1, 
+        "successNode": "inspect_success_5", 
+        "failureNode": "inspect_failure_5", 
+        "duration": 10
+      }
     },
     "inspect_success_5": {
       "id": "inspect_success_5",
@@ -187,7 +222,14 @@
     "inspect_6": {
       "id": "inspect_6",
       "description": "%@ untersucht die Stelle etwas genauer.",
-      "skillCheck": {"talent": "Fährtensuchen", "penalty": 2, "successNode": "success_6", "failureNode": "failure_6", "duration": 10}
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Fährtensuchen", 
+        "penalty": 2, 
+        "successNode": "success_6", 
+        "failureNode": "failure_6", 
+        "duration": 10
+      }
     },
     "success_6": {
       "id": "success_6",
@@ -220,7 +262,14 @@
     "inspect_7": {
       "id": "inspect_7",
       "description": "%@ untersucht den Wagen etwas genauer.",
-      "skillCheck": {"talent": "Sinnenschärfe", "penalty": 3, "successNode": "success_7", "failureNode": "failure_7", "duration": 15}
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Sinnenschärfe", 
+        "penalty": 3, 
+        "successNode": "success_7", 
+        "failureNode": "failure_7", 
+        "duration": 15
+      }
     },
     "success_7": {
       "id": "success_7",
@@ -251,8 +300,15 @@
     },
     "inspect_8": {
       "id": "inspect_8",
-      "description": "Ihr untersucht die Stelle etwas genauer.",
-      "skillCheck": {"talent": "Fährtensuchen", "penalty": 3, "successNode": "success_8", "failureNode": "failure_8", "duration": 12}
+      "description": "%@ untersucht die Stelle etwas genauer.",
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Fährtensuchen", 
+        "penalty": 3, 
+        "successNode": "success_8", 
+        "failureNode": "failure_8", 
+        "duration": 12
+      }
     },
     "success_8": {
       "id": "success_8",
@@ -285,7 +341,14 @@
     "inspect_9": {
       "id": "inspect_9",
       "description": "%@ untersucht die Stelle etwas genauer.",
-      "skillCheck": {"talent": "Fährtensuchen", "penalty": 2, "successNode": "success_9", "failureNode": "failure_9", "duration": 15}
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Fährtensuchen", 
+        "penalty": 2, 
+        "successNode": "success_9", 
+        "failureNode": "failure_9", 
+        "duration": 15
+      }
     },
     "success_9": {
       "id": "success_9",
@@ -318,7 +381,14 @@
     "inspect_10": {
       "id": "inspect_10",
       "description": "%@ untersucht die Stelle etwas genauer.",
-      "skillCheck": {"talent": "Fährtensuchen", "penalty": 4, "successNode": "success_10", "failureNode": "failure_10", "duration": 12}
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Fährtensuchen", 
+        "penalty": 4, 
+        "successNode": "success_10", 
+        "failureNode": "failure_10", 
+        "duration": 12
+      }
     },
     "success_10": {
       "id": "success_10",
@@ -351,7 +421,14 @@
     "inspect_11": {
       "id": "inspect_11",
       "description": "%@ untersucht die Stelle etwas genauer.",
-      "skillCheck": {"talent": "Fährtensuchen", "penalty": 2, "successNode": "success_11", "failureNode": "failure_11", "duration": 15}
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Fährtensuchen", 
+        "penalty": 2, 
+        "successNode": "success_11", 
+        "failureNode": "failure_11", 
+        "duration": 15
+      }
     },
     "success_11": {
       "id": "success_11",
@@ -384,7 +461,14 @@
     "inspect_12": {
       "id": "inspect_12",
       "description": "%@ schaut sich das Symbol etwas genauer an.",
-      "skillCheck": {"talent": "Alte Sprachen", "penalty": 3, "successNode": "success_12", "failureNode": "failure_12", "duration": 12}
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Lesen/Schreiben", 
+        "penalty": 3, 
+        "successNode": "success_12", 
+        "failureNode": "failure_12", 
+        "duration": 12
+      }
     },
     "success_12": {
       "id": "success_12",
@@ -417,7 +501,14 @@
     "inspect_13": {
       "id": "inspect_13",
       "description": "%@ untersucht die Stelle etwas genauer.",
-      "skillCheck": {"talent": "Fährtensuchen", "penalty": 2, "successNode": "success_13", "failureNode": "failure_13", "duration": 12}
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Fährtensuchen", 
+        "penalty": 2, 
+        "successNode": "success_13", 
+        "failureNode": "failure_13", 
+        "duration": 12
+      }
     },
     "success_13": {
       "id": "success_13",
@@ -450,7 +541,14 @@
     "inspect_14": {
       "id": "inspect_14",
       "description": "%@ untersucht die Stelle etwas genauer.",
-      "skillCheck": {"talent": "Fährtensuchen", "penalty": 4, "successNode": "success_14", "failureNode": "failure_14", "duration": 15}
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Fährtensuchen", 
+        "penalty": 4, 
+        "successNode": "success_14", 
+        "failureNode": "failure_14", 
+        "duration": 15
+      }
     },
     "success_14": {
       "id": "success_14",
@@ -483,7 +581,14 @@
     "inspect_15": {
       "id": "inspect_15",
       "description": "%@ untersucht die Stelle etwas genauer.",
-      "skillCheck": {"talent": "Fährtensuchen", "penalty": 2, "successNode": "success_15", "failureNode": "failure_15", "duration": 12}
+      "skillCheck": {
+        "checkType": "talent",
+        "checkName": "Fährtensuchen", 
+        "penalty": 2, 
+        "successNode": "success_15", 
+        "failureNode": "failure_15", 
+        "duration": 12
+      }
     },
     "success_15": {
       "id": "success_15",
