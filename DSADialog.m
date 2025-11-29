@@ -52,7 +52,7 @@
                                                       seedString: seed];
        }
        
-    NSLog(@"DSADialog dialogFromDictionary: thumbnailImageName: %@", dialog.thumbnailImageName);
+    //NSLog(@"DSADialog dialogFromDictionary: thumbnailImageName: %@", dialog.thumbnailImageName);
     NSString *mainKey = dict[@"mainImage"];   
     if (mainKey)
       {
@@ -63,24 +63,24 @@
                                                      gender: gender
                                                  seedString: seed];
        }
-    NSLog(@"DSADialog dialogFromDictionary: mainImageName: %@", dialog.mainImageName);          
+    //NSLog(@"DSADialog dialogFromDictionary: mainImageName: %@", dialog.mainImageName);          
     dialog.startNodeID = dict[@"startNodeID"];
     
     NSDictionary *nodesDict = dict[@"nodes"];
     NSMutableDictionary *nodes = [NSMutableDictionary dictionary];
     
     for (NSString *nodeID in nodesDict) {
-        NSLog(@"DSADialog dialogFromDictionary: nodeID: %@", nodeID);
+        //NSLog(@"DSADialog dialogFromDictionary: nodeID: %@", nodeID);
         NSDictionary *nodeDict = nodesDict[nodeID];
-        NSLog(@"DSADialog dialogFromDictionary: got nodeDict from file: %@", nodeDict);
+        //NSLog(@"DSADialog dialogFromDictionary: got nodeDict from file: %@", nodeDict);
         DSADialogNode *node = [DSADialogNode nodeFromDictionary:nodeDict];
-        NSLog(@"DSADialog dialogFromDictionary adding node to Dialog: %@", node);
+        //NSLog(@"DSADialog dialogFromDictionary adding node to Dialog: %@", node);
         if (node) {
             nodes[nodeID] = node;
         }
     }
     dialog.nodes = [nodes copy];
-    NSLog(@"DSADialog dialogFromDictionary created dialog with nodes: %@", dialog.nodes);
+    //NSLog(@"DSADialog dialogFromDictionary created dialog with nodes: %@", dialog.nodes);
     if (!dialog.npcName || !dialog.startNodeID) {
         NSLog(@"Warnung: Dialog JSON unvollständig");
         return nil;

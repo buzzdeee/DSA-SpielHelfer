@@ -128,7 +128,7 @@
         [self closeSheet:nil];
         return;
     }
-    NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode before node.title check, current node %@", node);
+    NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode before node.title check, current node title %@", node.title);
     if (node.title)
       {
           [self.panel setTitle: node.title];
@@ -148,7 +148,7 @@
     } else {
         NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode: no thumbnail image given");
     }      
-    NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode before setting main image, current node %@", node);
+    //NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode before setting main image, current node %@", node);
     NSString *mainImageName = node.mainImageName ?: self.dialogManager.currentDialog.mainImageName;
     if (mainImageName && mainImageName.length > 0) {
         NSDictionary *userInfo = @{ @"imageName": mainImageName };
@@ -158,10 +158,10 @@
     }    
           
     // Setze die Node-Beschreibung (TrailSigns: "description")
-    NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode before setting npcTextField, current node %@", node);
+    //NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode before setting npcTextField, current node %@", node);
     self.npcTextField.stringValue = node.nodeDescription ?: [node randomText];
 
-    if (([node isMemberOfClass: [DSADialogNode class]] && !node.endEncounter) || [node isMemberOfClass: [DSADialogNodeSkillCheck class]]) {
+    if (([node isMemberOfClass: [DSADialogNode class]] && !node.endEncounter) || [node isKindOfClass: [DSADialogNodeSkillCheck class]]) {
          [self.continueButton setTitle:@"Weiter"];
          [self.continueButton setHidden:NO];
     } else if (node.endEncounter) {
@@ -172,7 +172,7 @@
          [self.continueButton setHidden:YES];
     }    
     // Entferne alte Buttons
-    NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode before removing old buttons, current node %@", node);
+    //NSLog(@"DSAConversationDialogSheetController updateUIForCurrentNode before removing old buttons, current node %@", node);
     for (NSView *subview in self.optionsContainer.subviews) {
         [subview removeFromSuperview];
     }
@@ -238,9 +238,17 @@
     if (self.dialogManager.skillCheckPending) {
         NSLog(@"DSAConversationDialogSheetController continueButtonPressed going to trigger pending skill check");
         [self.dialogManager performPendingSkillCheck];
+        [self updateUIForCurrentNode];
     }
-    
     [self updateUIForCurrentNode];
+    NSLog(@"DSAConversationDialogSheetController continueButtonPressed going to update UI for current node");
+    DSADialogNode *node = [self.dialogManager currentNode];
+    if (node.nextNodeID)
+      {
+        NSLog(@"DSAConversationDialogSheetController continueButtonPressed node (%@) had nextNodeId: %@", node.nodeID, node.nextNodeID);
+        self.dialogManager.currentNodeID = node.nextNodeID;
+      }
+    [self.dialogManager presentCurrentNode];
 }
 
 - (void)closeSheet:(id)sender {

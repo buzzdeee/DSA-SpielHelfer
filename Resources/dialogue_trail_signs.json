@@ -6,6 +6,8 @@
     "sign_1": {
       "id": "sign_1",
       "title": "Fährten im Schlamm",
+      "mainImage": "trail_sign_stiefelspuren",
+      "thumbnailImage": "trail_sign_stiefelspuren",      
       "description": "Am Wegesrand seht Ihr tiefe Abdrücke schwerer Stiefel, die bergauf führen.",
       "playerOptions": [
         {"texts": ["Genauer untersuchen"], "nextNodeID": "inspect_1", "duration": 10},
@@ -26,6 +28,8 @@
     },
     "track_success_1": {
       "id": "track_success_1",
+      "mainImage": "trail_sign_versteckte_huette_im_wald",
+      "thumbnailImage": "trail_sign_versteckte_huette_im_wald",      
       "description": "%@ folgt den Spuren ein Stück den Hang hinauf und entdeckt eine versteckte Hütte.",
       "endEncounter": true,
       "duration": 5
@@ -46,6 +50,8 @@
     "sign_2": {
       "id": "sign_2",
       "title": "Gebrochene Zweige",
+      "mainImage": "trail_sign_gebrochene_zweige",
+      "thumbnailImage": "trail_sign_gebrochene_zweige",      
       "description": "Einige Zweige sind gebrochen, als hätte jemand oder etwas hier ein Lager aufgeschlagen.",
       "playerOptions": [
         {"texts": ["Genauer untersuchen"], "nextNodeID": "inspect_2", "duration": 8},
@@ -66,6 +72,8 @@
     },
     "track_success_2": {
       "id": "track_success_2",
+      "mainImage": "trail_sign_bach_im_wald",
+      "thumbnailImage": "trail_sign_bach_im_wald",      
       "description": "%@ entdeckt frische Fußspuren, die zu einem kleinen Bach führen.",
       "endEncounter": true,
       "duration": 5

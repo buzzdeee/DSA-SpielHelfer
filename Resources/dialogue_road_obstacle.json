@@ -79,7 +79,7 @@
       "thumbnailImage": "obstacle_flood",      
       "description": "Der Pfad steht knöcheltief unter Wasser. Die Strömung ist stärker als erwartet.",
       "playerOptions": [
-        {"texts": ["Durchwaten"], "nextNodeID": "obs_2_cross", "duration": 12},
+        {"texts": ["Durchwaten"], "nextNodeID": "obs_2_cross_all", "duration": 12},
         {"texts": ["Andere Route suchen"], "nextNodeID": "obs_2_detour", "duration": 8}
       ]
     },
@@ -91,6 +91,7 @@
         "checkName": "Körperbeherrschung",
         "penalty": 3,
         "duration": 15,
+        "successMode": "any",
         "successNode": "obs_2_cross_all_success",
         "partialFailureNode": "obs_2_cross_all_partial_fail",
         "failureNode": "obs_2_cross_all_fail",
@@ -105,11 +106,27 @@
     "obs_2_cross_all_partial_fail": {
       "id": "obs_2_cross_all_partial_fail",
       "description": "Einige von euch rutschen aus und werden nass, sie verlieren Zeit und handeln sich ein paar blaue Flecke.",
+      "actions": [
+        {
+          "type": "LooseLifePoints",
+          "scope": "Character",
+          "parameters": { "randomAmount": "1W6" },
+          "order": 0
+        }
+      ],      
       "endEncounter": true
     },
     "obs_2_cross_all_fail": {
       "id": "obs_2_cross_all_fail",
       "description": "Der Boden stellt sich als rutschiger aus als gedacht. Alle rutschen aus und werden nass, Ihr verliert Zeit und handelt euch einige blaue Flecke ein.",
+      "actions": [
+        {
+          "type": "LooseLifePoints",
+          "scope": "Character",
+          "parameters": { "randomAmount": "1W6" },
+          "order": 0
+        }
+      ],
       "endEncounter": true
     },    
     "obs_2_detour": {
@@ -136,7 +153,8 @@
       "skillCheckAll": {
         "checkType": "talent",
         "checkName": "Körperbeherrschung", 
-        "penalty": 2, 
+        "penalty": 2,
+        "successMode": "any",
         "successNode": "obs_3_sneak_success", 
         "partialFailureNode": "obs_3_sneak_partial_fail",
         "failureNode": "obs_3_sneak_fail",                
@@ -221,6 +239,7 @@
         "checkType": "talent",
         "checkName": "Tierkunde", 
         "penalty": 0, 
+        "successMode": "any",
         "successNode": "obs_4_move_success", 
         "partialFailureNode": "obs_4_move_partial_fail",
         "failureNode": "obs_4_move_fail",                
@@ -234,12 +253,20 @@
     },
     "obs_4_move_partial_fail": {
       "id": "obs_4_move_partial_fail",
-      "description": "Ein Tier erschrickt und drängt euch ab – Ihr verliert etwas Zeit.",
+      "description": "Ein Tier erschrickt und drängt euch ab. Ihr verliert etwas Zeit.",
       "endEncounter": true
     },
     "obs_4_move_fail": {
       "id": "obs_4_move_fail",
       "description": "Das geht gar nicht gut, die Herde gerät in Panik. Einige der Tiere gehen mit ihren Hörnern auf euch los. Ihr holt euch einige blaue Flecke ab.",
+      "actions": [
+        {
+          "type": "LooseLifePoints",
+          "scope": "Character",
+          "parameters": { "randomAmount": "1W6" },
+          "order": 0
+        }
+      ],      
       "endEncounter": true
     }    
   }

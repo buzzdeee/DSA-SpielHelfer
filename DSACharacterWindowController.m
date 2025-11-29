@@ -512,7 +512,7 @@
 }
 - (void)updateBar:(NSProgressIndicator *)bar withSeverity:(CGFloat) severity
 {
-  NSLog(@"UPDATING BAR, NEW SEVERITY: %f", severity);
+  //NSLog(@"UPDATING BAR, NEW SEVERITY: %f", severity);
   if (severity < 0 || severity > 1)
     {
       NSLog(@"DSACharacterWindowController updateBar: invalid severity %f", severity);

@@ -6805,7 +6805,31 @@
 	"obstacle_treefall_2-32x32.webp",
 	"obstacle_treefall_2-512x512.webp",
 	"obstacle_treefall_2-64x64.webp",
-	"obstacle_treefall_2.webp"
+	"obstacle_treefall_2.webp",
+	"TH_trail_sign_bach_im_wald_1-128x128.webp",
+	"TH_trail_sign_bach_im_wald_1-256x256.webp",
+	"TH_trail_sign_bach_im_wald_1-32x32.webp",
+	"TH_trail_sign_bach_im_wald_1-512x512.webp",
+	"TH_trail_sign_bach_im_wald_1-64x64.webp",
+	"TH_trail_sign_bach_im_wald_1.webp",
+	"TH_trail_sign_gebrochene_zweige_1-128x128.webp",
+	"TH_trail_sign_gebrochene_zweige_1-256x256.webp",
+	"TH_trail_sign_gebrochene_zweige_1-32x32.webp",
+	"TH_trail_sign_gebrochene_zweige_1-512x512.webp",
+	"TH_trail_sign_gebrochene_zweige_1-64x64.webp",
+	"TH_trail_sign_gebrochene_zweige_1.webp",
+	"TH_trail_sign_stiefelspuren_1-128x128.webp",
+	"TH_trail_sign_stiefelspuren_1-256x256.webp",
+	"TH_trail_sign_stiefelspuren_1-32x32.webp",
+	"TH_trail_sign_stiefelspuren_1-512x512.webp",
+	"TH_trail_sign_stiefelspuren_1-64x64.webp",
+	"TH_trail_sign_stiefelspuren_1.webp",
+	"TH_trail_sign_versteckte_huette_im_wald_1-128x128.webp",
+	"TH_trail_sign_versteckte_huette_im_wald_1-256x256.webp",
+	"TH_trail_sign_versteckte_huette_im_wald_1-32x32.webp",
+	"TH_trail_sign_versteckte_huette_im_wald_1-512x512.webp",
+	"TH_trail_sign_versteckte_huette_im_wald_1-64x64.webp",
+	"TH_trail_sign_versteckte_huette_im_wald_1.webp"
     );
     INSTALLDIR = "$(HOME)/GNUstep";
     INSTALLDOMAIN = User;
@@ -6863,7 +6887,7 @@
 	LICENSE,
 	"TODO.txt"
     );
-    "OBJC_COMPILEROPTIONS" = "-fobjc-arc -g ";
+    "OBJC_COMPILEROPTIONS" = "-fobjc-arc -g -O0";
     "OTHER_RESOURCES" = (
 	"Augenfarben.json",
 	"Berufe.json",

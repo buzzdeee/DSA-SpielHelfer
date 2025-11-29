@@ -590,7 +590,7 @@
     },
     "scene_15_rest": {
       "id": "scene_15_rest",
-      "description": "%@ hält kurz inne und bewundert das Farbspiel.",
+      "description": "Ihr haltet kurz inne und bewundert das Farbspiel.",
       "endEncounter": true,
       "duration": 4
     },

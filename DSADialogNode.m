@@ -79,7 +79,7 @@
                                                     gender: gender
                                                 seedString: seed];
        }
-    NSLog(@"DSADialogNode setupWithDictionary: thumbnailImageName: %@", _thumbnailImageName);   
+    //NSLog(@"DSADialogNode setupWithDictionary: thumbnailImageName: %@", _thumbnailImageName);   
     NSString *mainKey = dict[@"mainImage"];   
     if (mainKey)
       {
@@ -90,7 +90,7 @@
                                                gender: gender
                                            seedString: seed];
        }    
-    NSLog(@"DSADialogNode setupWithDictionary: mainImageName: %@", _mainImageName);
+    //NSLog(@"DSADialogNode setupWithDictionary: mainImageName: %@", _mainImageName);
        
     _texts = dict[@"texts"];
     NSLog(@"DSADialogNode setupWithDictionary: texts: %@", _texts);
@@ -99,21 +99,21 @@
     _hintCategory = dict[@"hintCategory"];
     _duration = [dict[@"duration"] integerValue];
     _endEncounter = [dict[@"endEncounter"] boolValue];
-
+    _nextNodeID = dict[@"nextNodeID"];
     NSArray *actionsArray = dict[@"actions"];
     if ([actionsArray isKindOfClass:[NSArray class]]) {
 
-    NSMutableArray *parsed = [NSMutableArray array];
+        NSMutableArray *parsed = [NSMutableArray array];
 
-    for (NSDictionary *actionDict in actionsArray) {
-        DSAActionDescriptor *desc = [DSAActionDescriptor descriptorFromDictionary:actionDict];
-        if (desc) [parsed addObject:desc];
-    }
+        for (NSDictionary *actionDict in actionsArray) {
+            DSAActionDescriptor *desc = [DSAActionDescriptor descriptorFromDictionary:actionDict];
+            if (desc) [parsed addObject:desc];
+        }
 
-    _actions = (parsed.count > 0) ? parsed.copy : nil;
-}    
+        _actions = (parsed.count > 0) ? parsed.copy : nil;
+    }    
 
-    NSLog(@"DSADialogNode nodeFromDictionary returning node: %@", self);
+    //NSLog(@"DSADialogNode nodeFromDictionary returning node: %@", self);
 }
 
 - (NSString *)randomText {
@@ -151,7 +151,16 @@
 @implementation DSADialogNodeSkillCheck
 - (void)setupWithDictionary:(NSDictionary *)dict {
     [super setupWithDictionary:dict];
-    NSDictionary *check = dict[@"skillCheck"];
+    NSDictionary *check;
+    
+    if ([self isMemberOfClass: [DSADialogNodeSkillCheck class]])
+      {
+        check = dict[@"skillCheck"];
+      }
+    else
+      {
+        check = dict[@"skillCheckAll"];
+      }
 
     // Safety
    
@@ -203,9 +212,8 @@
 @implementation DSADialogNodeSkillCheckAll
 - (void)setupWithDictionary:(NSDictionary *)dict {
     [super setupWithDictionary:dict];
-    NSDictionary *checkAll = dict[@"skillCheckAll"];
-    self.checkType = checkAll[@"checkType"];
-    self.checkName = checkAll[@"checkName"];    
+    
+    NSDictionary *checkAll = dict[@"skillCheckAll"];        
     _partialFailureNodeID = checkAll[@"partialFailureNode"];
 
     NSString *mode = checkAll[@"successMode"];
@@ -335,100 +343,4 @@
     mgr.lastSkillCheckFailure = members.mutableCopy;
     return self.failureNodeID;
 }
-/*
-// Multi-Character SkillCheck
-- (NSString *)performSkillCheck
-{
-    DSADialogManager *mgr = [DSADialogManager sharedManager];
-    mgr.lastSkillCheckNode = self;
-
-    DSAAdventure *adv = [DSAAdventureManager sharedManager].currentAdventure;
-    NSArray<DSACharacter *> *members = adv.activeGroup.allCharacters;
-
-    NSMutableArray *success = [NSMutableArray array];
-    NSMutableArray *failure = [NSMutableArray array];
-
-    BOOL (^isSuccess)(DSAActionResult *) = ^BOOL(DSAActionResult *res) {
-        return (res.result == DSAActionResultSuccess ||
-                res.result == DSAActionResultEpicSuccess ||
-                res.result == DSAActionResultAutoSuccess);
-    };
-
-    NSInteger total = members.count;
-    NSInteger half = total / 2;
-
-    // --- MODE: first done ---
-    if ([self.successMode isEqualToString:@"first done"]) {
-        for (DSACharacter *c in members) {
-            DSAActionResult *res = [c useTalent:self.talent withPenalty:self.penalty];
-            if (isSuccess(res)) {
-                [success addObject:c];
-                break; // kein weiterer Test nötig
-            } else {
-                [failure addObject:c];
-            }
-        }
-        mgr.lastSkillCheckSuccess = success.copy;
-        mgr.lastSkillCheckFailure = failure.copy;
-        return (success.count > 0) ? self.successNodeID : self.failureNodeID;
-    }
-
-    // --- MODE: any ---
-    if ([self.successMode isEqualToString:@"any"]) {
-        for (DSACharacter *c in members) {
-            DSAActionResult *res = [c useTalent:self.talent withPenalty:self.penalty];
-            if (isSuccess(res)) [success addObject:c];
-            else [failure addObject:c];
-        }
-        mgr.lastSkillCheckSuccess = success.copy;
-        mgr.lastSkillCheckFailure = failure.copy;
-        return (success.count > 0) ? self.successNodeID : self.failureNodeID;
-    }
-
-    // --- MODE: all ---
-    if ([self.successMode isEqualToString:@"all"]) {
-        for (DSACharacter *c in members) {
-            DSAActionResult *res = [c useTalent:self.talent withPenalty:self.penalty];
-            if (isSuccess(res)) [success addObject:c];
-            else [failure addObject:c];
-        }
-        mgr.lastSkillCheckSuccess = success.copy;
-        mgr.lastSkillCheckFailure = failure.copy;
-
-        if (success.count == total) return self.successNodeID;
-
-        if (failure.count > 0 && self.partialFailureNodeID) {
-            return self.partialFailureNodeID;
-        }
-
-        return self.failureNodeID;
-    }
-
-    // --- MODE: majority ---
-    if ([self.successMode isEqualToString:@"majority"]) {
-        for (DSACharacter *c in members) {
-            DSAActionResult *res = [c useTalent:self.talent withPenalty:self.penalty];
-            if (isSuccess(res)) [success addObject:c];
-            else [failure addObject:c];
-
-            if (success.count > half) break;
-            if (failure.count > half) break;
-        }
-
-        mgr.lastSkillCheckSuccess = success.copy;
-        mgr.lastSkillCheckFailure = failure.copy;
-
-        if (success.count > 0 && failure.count > 0 && self.partialFailureNodeID) {
-            return self.partialFailureNodeID;
-        }
-
-        return (success.count > failure.count) ? self.successNodeID : self.failureNodeID;
-    }
-
-    // --- Default fallback ---
-    mgr.lastSkillCheckSuccess = @[];
-    mgr.lastSkillCheckFailure = members.mutableCopy;
-    return self.failureNodeID;
-}
-*/
 @end

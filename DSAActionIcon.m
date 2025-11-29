@@ -1027,130 +1027,6 @@ inventoryIdentifier: (NSString *)sourceInventory
     }
     return dialogNPC;
 }
-
-/*
-- (void)handleEvent {
-    NSLog(@"DSAActionIconChat handleEvent called");
-
-    DSAAdventureWindowController *windowController = self.window.windowController;
-    if (![windowController isKindOfClass:[DSAAdventureWindowController class]]) return;
-
-    DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
-    DSAAdventureGroup *activeGroup = adventure.activeGroup;
-    DSAPosition *currentPosition = activeGroup.position;
-
-    DSALocation *location = [[DSALocations sharedInstance] locationWithName:currentPosition.localLocationName ofType:@"local"];
-    NSString *dialogNPC = nil;
-    if (![location isKindOfClass:[DSALocalMapLocation class]] && 
-        adventure.inEncounter)
-      {
-        NSDictionary *encounterInfo = adventure.encounterInfo;
-        DSAEncounterType encounterType = [encounterInfo[@"encounterType"] integerValue];
-        switch (encounterType) {
-          case DSAEncounterTypeMerchant: {
-            NSString *shopType = encounterInfo[@"subType"];
-            if ([shopType isEqualToString:@"Krämer"])
-              {
-                dialogNPC = @"shopkeeper_general";
-              }
-            else if ([shopType isEqualToString:@"Waffenhändler"])
-              {
-                dialogNPC = @"shopkeeper_weapon";
-              }
-            else if ([shopType isEqualToString:@"Kräuterhändler"])
-              {
-                dialogNPC = @"shopkeeper_herbs";
-              }
-            else
-              {
-                NSLog(@"DSAActionIconChat handleEvent unknown shop Type: %@, aborting", shopType);
-                abort();
-              }
-            break;
-          }
-          default:
-            NSLog(@"DSAActionIconChat handleEvent unhandled encounter type: %@, aborting", @(encounterType));
-            abort();
-        }
-      }
-    else
-      {
-        DSALocalMapTile *tile = [(DSALocalMapLocation *)location tileAtCoordinate:currentPosition.mapCoordinate];
- 
-        if ([tile isKindOfClass:[DSALocalMapTileBuildingInn class]]) {
-          if ([tile.type isEqualToString: DSALocalMapTileBuildingInnTypeHerberge])
-            {
-              dialogNPC = @"innkeeper";
-            }
-          else if ([tile.type isEqualToString: DSALocalMapTileBuildingInnTypeTaverne])
-            {
-              dialogNPC = @"tavern";
-            }
-          else  // DSALocalMapTileBuildingInnTypeHerbergeMitTaverne
-            {
-              if ([currentPosition.context isEqualToString: DSAActionContextReception])
-                {
-                  dialogNPC = @"innkeeper";
-                }
-              else if ([currentPosition.context isEqualToString: DSAActionContextTavern])
-                {
-                  dialogNPC = @"tavern";
-                }
-            }
-        } else if ([tile isKindOfClass:[DSALocalMapTileBuildingShop class]]) {
-            if ([tile.type isEqualToString:@"Krämer"])
-              {
-                dialogNPC = @"shopkeeper_general";
-              }
-            else if ([tile.type isEqualToString:@"Waffenhändler"])
-              {
-                dialogNPC = @"shopkeeper_weapon";
-              }
-            else if ([tile.type isEqualToString:@"Kräuterhändler"])
-              {
-                dialogNPC = @"shopkeeper_herbs";
-              }
-            else
-              {
-                NSLog(@"DSAActionIconChat handleEvent unknown shop Type: %@, aborting", tile.type);
-                abort();
-              }
-        } else if ([tile isKindOfClass:[DSALocalMapTileBuildingSmith class]]) {
-            dialogNPC = @"blacksmith";
-        } else if ([tile isKindOfClass:[DSALocalMapTileBuildingHealer class]]) {
-            dialogNPC = @"healer";
-        } else if ([tile isKindOfClass:[DSALocalMapTileBuildingTemple class]]) {
-            dialogNPC = @"temple_priest";
-        } else {
-          NSLog(@"DSAActionIconChat handleEvent: unknown tile, don't know what type of dialogue to use, aborting");
-          abort();
-        }
-      }
-    if (!dialogNPC) {
-        NSLog(@"DSAActionIconChat handleEvent: no NPC around to talk to?");
-        return;
-    }
-
-    // Dialog laden
-    DSADialogManager *manager = [[DSADialogManager alloc] init];
-    NSString *dialogFileName = [NSString stringWithFormat:@"dialogue_%@", dialogNPC];
-    if (![manager loadDialogFromFile: dialogFileName]) {
-        NSLog(@"DSAActionIconChat handleEvent: unable to load dialog file: %@", dialogFileName);
-        return;
-    }
-
-    manager.currentNodeID = manager.currentDialog.startNodeID;
-
-    // Dialog UI anzeigen als Sheet
-    DSAConversationDialogSheetController *dialogController = [[DSAConversationDialogSheetController alloc] initWithDialogManager:manager];
-
-    // Present dialogController.window as sheet attached to main window
-    [windowController.window beginSheet:dialogController.window completionHandler:^(NSModalResponse returnCode) {
-        // Optional: handle sheet dismissal here
-        NSLog(@"Dialog sheet closed");
-    }];
-}
-*/
 @end
 @implementation DSAActionIconPray
 - (instancetype)initWithImageSize: (NSString *)size
@@ -2154,7 +2030,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     };
     [windowController.window beginSheet:selector.window completionHandler:nil];
     
-    DSAExecutionManager *executionManager = [[DSAExecutionManager alloc] init];
+    DSAExecutionManager *executionManager = [DSAExecutionManager sharedManager];
     [executionManager processActionResult: talentResult];
         
     DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName: @"DSAConversationTextOnly"];
@@ -2847,7 +2723,7 @@ inventoryIdentifier: (NSString *)sourceInventory
     };
     [windowController.window beginSheet:selector.window completionHandler:nil];    
     
-    DSAExecutionManager *executionManager = [[DSAExecutionManager alloc] init];
+    DSAExecutionManager *executionManager = [DSAExecutionManager sharedManager];
     [executionManager processActionResult: talentResult];
         
     DSAConversationController *conversationSelector = [[DSAConversationController alloc] initWithWindowNibName: @"DSAConversationTextOnly"];
@@ -2979,7 +2855,7 @@ inventoryIdentifier: (NSString *)sourceInventory
         [adventure.gameClock advanceTimeByHours:collectingHours sendNotification:YES];
 
         // Step 6: Follow-Ups ausführen
-        DSAExecutionManager *executionManager = [[DSAExecutionManager alloc] init];
+        DSAExecutionManager *executionManager = [DSAExecutionManager sharedManager];
         [executionManager processActionResult:talentResult];
 
         // Step 7: Ergebnis anzeigen

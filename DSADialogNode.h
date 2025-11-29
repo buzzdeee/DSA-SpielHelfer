@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DSADialogNode : DSABaseObject
 
 @property (nonatomic, strong) NSString *nodeID;
+@property (nonatomic, strong, nullable) NSString *nextNodeID;
 @property (nonatomic, strong) NSString *thumbnailImageName;
 @property (nonatomic, strong) NSString *mainImageName;
 @property (nonatomic, strong, nullable) NSString *title;                    // start nodes have a title, to "describe" the dialog

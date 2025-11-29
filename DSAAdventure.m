@@ -775,7 +775,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
 
     NSLog(@"DSAAdventure rollTravelEventForEnvironment: TODO environment dependency missing!");
     // XXXXXXXXXXXXXXXXXX
-    return DSATravelEventTrailSign;
+    return DSATravelEventRoadObstacle;
     // 2W6 + gewichtete Tabelle (DSA nah)
     int roll = [Utils rollDice: @"2W6"];
     switch (roll) {
@@ -880,7 +880,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
     // XXXXXXX
     NSDictionary *info = @{
         @"adventure": self,
-        @"eventType": @(DSATravelEventTrailSign),
+        @"eventType": @(DSATravelEventRoadObstacle),
     };
     NSLog(@"DSAAdventure triggerTravelEvent : Travel Event: %@", name);
     [[NSNotificationCenter defaultCenter] postNotificationName: DSATravelEventTriggeredNotification
@@ -888,7 +888,7 @@ static NSDictionary<DSAActionContext, NSArray<NSString *> *> *DefaultRitualsByCo
                                                       userInfo:info];
     // XXXXXXX                                                      
     //[self triggerEncounterOfType: encounterType];  
-    [self triggerEncounterOfType: DSAEncounterTypeTrailSign];                                                     
+    [self triggerEncounterOfType: DSAEncounterTypeRoadObstacle];                                                     
 }
 
 #pragma mark - Travel Logic

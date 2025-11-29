@@ -25,7 +25,7 @@
 #ifndef _DSAEXECUTIONMANAGER_H_
 #define _DSAEXECUTIONMANAGER_H_
 
-#import <Foundation/Foundation.h>
+#import <DSABaseObject.h>
 #import "DSADefinitions.h"
 @class DSACharacter;
 
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Action Descriptor
 
-@interface DSAActionDescriptor : NSObject <DSAExecutableDescriptor>
+@interface DSAActionDescriptor : DSABaseObject <DSAExecutableDescriptor>
 
 @property (nonatomic, assign) DSAActionType type;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *parameters;
@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Event Descriptor
 
-@interface DSAEventDescriptor : NSObject <DSAExecutableDescriptor>
+@interface DSAEventDescriptor : DSABaseObject <DSAExecutableDescriptor>
 
 @property (nonatomic, assign) DSAEventType type;
 @property (nonatomic, strong) NSDictionary<NSString *, id> *parameters;
@@ -66,12 +66,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface DSAExecutionManager : NSObject
 
++ (instancetype)sharedManager;
+
 /// Verarbeitet alle FollowUps eines ActionResults.
 /// Sortiert sie automatisch nach `order` und führt sie dann aus.
 - (void)processActionResult:(DSAActionResult *)result;
 
 /// Kann direkt einzelne Actions ausführen.
 - (void)executeAction:(DSAActionDescriptor *)action;
+/// Kann direkt mehrere Actions ausführen.
+- (void)executeActions:(NSArray<DSAActionDescriptor *> *)actions;
 
 /// Kann direkt einzelne Events triggern.
 - (void)triggerEvent:(DSAEventDescriptor *)event;

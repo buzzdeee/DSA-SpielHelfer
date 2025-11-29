@@ -104,6 +104,10 @@
     };
 
     NSNumber *val = mapping[name];
+    if (!val) {
+        NSLog(@"DSAActionDescriptor actionTypeByName: Unknown action type: %@, aborting", name);
+        abort();
+    }
     return val ? val.integerValue : DSAActionTypeUnknown;
 }
 
@@ -117,6 +121,10 @@
     };
 
     NSNumber *val = mapping[name];
+    if (!val) {
+        NSLog(@"DSAActionDescriptor actionScopeByName: Unknown action scope: %@, aborting", name);
+        abort();
+    }    
     return val ? val.integerValue : DSAActionScopeGroup;
 }
 @end
@@ -129,6 +137,62 @@
 #pragma mark - Execution Manager Implementation
 
 @implementation DSAExecutionManager
+static DSAExecutionManager *_sharedInstance = nil;
+
+#pragma mark - Singleton
+
++ (instancetype)sharedManager
+{
+    @synchronized(self) {
+        if (!_sharedInstance) {
+            _sharedInstance = [[self alloc] init];
+        }
+    }
+    return _sharedInstance;
+}
+
++ (id)allocWithZone:(struct _NSZone *)zone
+{
+    static BOOL allocating = NO;
+
+    if (_sharedInstance == nil && !allocating) {
+        allocating = YES;
+        _sharedInstance = [super allocWithZone:zone];
+        allocating = NO;
+        return _sharedInstance;
+    }
+
+    return _sharedInstance;
+}
+
+- (id)copyWithZone:(NSZone *)zone
+{
+    return self;
+}
+
+- (id)mutableCopyWithZone:(NSZone *)zone
+{
+    return self;
+}
+
+#pragma mark - Init
+
+- (instancetype)init
+{
+    static BOOL initialized = NO;
+
+    if (initialized) {
+        return self;
+    }
+
+    self = [super init];
+    if (self) {
+        initialized = YES;
+        NSLog(@"✅ DSAExecutionManager Singleton initialized");
+    }
+    return self;
+}
+
 
 - (void)processActionResult:(DSAActionResult *)result {
     NSLog(@"DSAExecutionManager processActionResult called with result: %@", result);
@@ -152,6 +216,18 @@
         } else if ([descriptor isKindOfClass:[DSAEventDescriptor class]]) {
             [self triggerEvent:(DSAEventDescriptor *)descriptor];
         }
+    }
+}
+
+- (void)executeActions:(NSArray<DSAActionDescriptor *> *)actions
+{
+    // Sortierung nach order (falls relevant)
+    NSArray *sorted = [actions sortedArrayUsingComparator:^NSComparisonResult(DSAActionDescriptor *a, DSAActionDescriptor *b) {
+        return @(a.order).integerValue > @(b.order).integerValue;
+    }];
+
+    for (DSAActionDescriptor *action in sorted) {
+        [self executeAction:action];
     }
 }
 

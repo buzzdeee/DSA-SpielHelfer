@@ -1412,11 +1412,14 @@ extern NSString * const DSALocalMapTileBuildingInnTypeTaverne;
               [self presentChatEncounter: notification];
               break;
         case DSAEncounterTypeTrailSign:
-              [self presentTrailSignEncounter: notification];  
+              [self presentTrailSignEncounter: notification];
+              break;
         case DSAEncounterTypeScenery:
-              [self presentSceneryEncounter: notification];   
+              [self presentSceneryEncounter: notification];
+              break;
         case DSAEncounterTypeRoadObstacle:
-              [self presentRoadObstacleEncounter: notification];                                     
+              [self presentRoadObstacleEncounter: notification]; 
+              break;                                   
         default:
             [self presentGenericEncounter: notification];
             break;
