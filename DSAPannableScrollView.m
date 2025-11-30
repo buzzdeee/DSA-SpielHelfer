@@ -42,6 +42,7 @@
     if (self = [super initWithCoder:coder]) {
         _overlays = [NSMutableArray array];
     }
+    NSLog(@"DSAPannableScrollView initWithCoder called, at the end, before return self: %@", self);
     return self;
 }
 

@@ -120,6 +120,9 @@ static DSADialogManager *_sharedManager = nil;
     
     if ([node isKindOfClass: [DSADialogNodeSkillCheck class]] && !self.skillCheckPending) {
         DSADialogNodeSkillCheck *skillCheckNode = (DSADialogNodeSkillCheck *)node;
+        NSLog(@"DSADialogManager: presentCurrentCode summing up duration for skill check node: %@", @(node.duration));
+        self.accumulatedDuration += node.duration;
+        NSLog(@"DSADialogManager: presentCurrentCode summed up duration: %@", @(self.accumulatedDuration));        
         self.skillCheckPending = YES;
         //NSLog(@"DSADialogManager presentCurrentNode: we're on a DSADialogNodeSkillCheck node: %@", self.currentNodeID);
         // Beschreibung dynamisch ersetzen
@@ -138,7 +141,9 @@ static DSADialogManager *_sharedManager = nil;
         return; // UI zeigt den SkillCheck-Node an, ohne den Check auszuführen
     }    
     // Dauer aufsummieren
+    NSLog(@"DSADialogManager: presentCurrentCode summing up duration: %@", @(node.duration));
     self.accumulatedDuration += node.duration;
+    NSLog(@"DSADialogManager: presentCurrentCode summed up duration: %@", @(self.accumulatedDuration));
     //NSLog(@"DSADialogManager presentCurrentNode: currentNode: %@", node);
     // Text aus description oder npcTexts
     NSString *text = node.nodeDescription ?: [node randomText];
@@ -155,7 +160,7 @@ static DSADialogManager *_sharedManager = nil;
     
     // Wenn endEncounter -> Dialog beendet
     if (node.endEncounter) {
-        NSLog(@"DSADialogManager presentCurrentNode: Ende des Encounters. Drehe die Uhr vor, Gesamtdauer: %ld Minuten", (long)self.accumulatedDuration);
+        NSLog(@"DSADialogManager presentCurrentNode: Ende des Encounters. Drehe die Uhr vor, XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXx Gesamtdauer: %ld Minuten", (long)self.accumulatedDuration);
 
         // GameClock aktualisieren
         DSAAdventure *adventure = [DSAAdventureManager sharedManager].currentAdventure;
@@ -180,23 +185,7 @@ static DSADialogManager *_sharedManager = nil;
       }
 
     NSString *nextID = [skillCheckNode performSkillCheck];
-
-    // ✅ Ergebnisse sichern
-    if ([skillCheckNode isKindOfClass:[DSADialogNodeSkillCheckAll class]]) {
-        DSADialogNodeSkillCheckAll *all = (id)skillCheckNode;
-        self.lastSkillCheckSuccess = all.successfulCharacters;
-        self.lastSkillCheckFailure = all.failedCharacters;
-    } else {
-        // Einzelprobe => entweder success ODER failure
-        DSACharacter *actor = self.currentDialog.actingCharacter;
-        if ([nextID isEqualToString:skillCheckNode.successNodeID]) {
-            self.lastSkillCheckSuccess = @[actor];
-            self.lastSkillCheckFailure = @[];
-        } else {
-            self.lastSkillCheckSuccess = @[];
-            self.lastSkillCheckFailure = @[actor];
-        }
-    }
+    
     self.lastSkillCheckNode = skillCheckNode;
     self.currentNodeID = nextID;
     NSLog(@"DSADialogManager performPendingSkillCheck: nextID: %@", nextID);          

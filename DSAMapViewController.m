@@ -91,18 +91,18 @@
     }
     
     NSSize originalSize = NSMakeSize(bitmapRep.pixelsWide, bitmapRep.pixelsHigh);
-    // NSLog(@"Original image size (from NSBitmapImageRep): %@", NSStringFromSize(originalSize));
+    NSLog(@"Original image size (from NSBitmapImageRep): %@", NSStringFromSize(originalSize));
     
     // Create an NSImageView with the original image dimensions
     self.mapImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(0, 0, originalSize.width, originalSize.height)];
-    //NSLog(@"mapImageView rect: %@", NSStringFromRect(NSMakeRect(0, 0, originalSize.width, originalSize.height)));
-    //NSLog(@"mapImageView size: %@", NSStringFromRect([self.mapImageView frame]));
+    NSLog(@"mapImageView rect: %@", NSStringFromRect(NSMakeRect(0, 0, originalSize.width, originalSize.height)));
+    NSLog(@"mapImageView size: %@", NSStringFromRect([self.mapImageView frame]));
     
     [self.mapImageView setImageAlignment:NSImageAlignTopLeft];
     [self.mapImageView setImageScaling:NSImageScaleProportionallyUpOrDown]; // Avoid any scaling
     [self.mapImageView setImage:mapImage];
     [self.mapImageView.image setSize:originalSize];
-    // NSLog(@"Image size within mapImageView: %@", NSStringFromSize(self.mapImageView.image.size));
+    NSLog(@"Image size within mapImageView: %@", NSStringFromSize(self.mapImageView.image.size));
     
     // Set the NSImageView as the content view of the NSScrollView
     [self.mapScrollView setDocumentView:self.mapImageView];
@@ -110,39 +110,44 @@
     // Initialize the slider
     [self.sliderZoom setDoubleValue:self.currentZoomLevel];
     
-    // NSLog(@"Initial slider value: %f minValue: %f, maxValue: %f", [self.sliderZoom doubleValue], [self.sliderZoom minValue], [self.sliderZoom maxValue]);
+    NSLog(@"Initial slider value: %f minValue: %f, maxValue: %f", [self.sliderZoom doubleValue], [self.sliderZoom minValue], [self.sliderZoom maxValue]);
     
     // Set the initial scale of the image view based on the slider
     [self setImageViewScale:[self.sliderZoom doubleValue]]; // Apply initial zoom level
     
     // Hide scrollbars
+    NSLog(@"DSAMapViewController windowDidLoad: before hiding scrollbars.");
     [self.mapScrollView setHasVerticalScroller:NO];
     [self.mapScrollView setHasHorizontalScroller:NO];
     [self.mapScrollView setAutohidesScrollers:NO];
-    
+    NSLog(@"DSAMapViewController windowDidLoad: before setting center coordinates.");
     // Calculate the center of the image
     NSPoint centerCoordinates = NSMakePoint(originalSize.width / 2, originalSize.height / 2);
-    
+    NSLog(@"DSAMapViewController windowDidLoad: before jump to location with coordinates.");
     // Jump to the center of the map
     [self jumpToLocationWithCoordinates:centerCoordinates];    
-    
+    NSLog(@"DSAMapViewController windowDidLoad: before loadLocations.");
     // Load the locations
     [self loadLocations];
 
     
     // Load regions and streets data
+    NSLog(@"DSAMapViewController windowDidLoad: before loadRegions.");
     [self loadRegions];
+    NSLog(@"DSAMapViewController windowDidLoad: before loadStreets.");
     [self loadStreets];
 
     // Create and add region overlay
+    NSLog(@"DSAMapViewController windowDidLoad: before adding region overlay.");
     DSARegionsOverlayView *regionsOverlay = [[DSARegionsOverlayView alloc] initWithFrame:self.mapImageView.bounds features:self.regions];
     if ([self.switchRegions state] == NSControlStateValueOff)
       {
         regionsOverlay.hidden = YES;
       }
-    [self.mapScrollView addOverlay:regionsOverlay];
+    [self.mapScrollView addOverlay:regionsOverlay]; 
 
     // Create and add streets overlay
+    NSLog(@"DSAMapViewController windowDidLoad: before adding streets overlay.");
     DSAStreetsOverlayView *streetsOverlay = [[DSAStreetsOverlayView alloc] initWithFrame:self.mapImageView.bounds features:self.streets];
     if ([self.switchStreets state] == NSControlStateValueOff)
       {
@@ -150,6 +155,7 @@
       }
     [self.mapScrollView addOverlay:streetsOverlay];    
 
+    NSLog(@"DSAMapViewController windowDidLoad: before adding routes overlay.");
     self.routePlanner = [DSARoutePlanner sharedRoutePlanner];
     DSARouteOverlayView  *routeOverlay = [[DSARouteOverlayView alloc] initWithFrame:self.mapImageView.bounds features:@[]];
     routeOverlay.hidden = YES; // Initially hidden until a route is calculated
@@ -158,6 +164,7 @@
 
     // Set the delegate of the Comboboxes
     // Load available locations
+    NSLog(@"DSAMapViewController windowDidLoad: before adding locations");
     DSALocations *locations = [DSALocations sharedInstance];
     self.locationsArray = [locations locationNames];
     self.filteredLocations = self.locationsArray;    
@@ -212,7 +219,7 @@
                                                  name:@"DSARouteDestinationChanged"
                                                object:nil];
                                                  
-    // NSLog(@"Window loaded successfully.");
+    NSLog(@"DSAMapViewController windowDidLoad: Window loaded successfully.");
 }
 
 - (void)loadLocations
@@ -254,8 +261,9 @@
 }
 
 - (void)loadRegions {
-
+    NSLog(@"DSAMapViewController loadRegions: called");
     NSArray<NSDictionary *> *features = [[DSARegionManager sharedManager] allFeatures];
+    NSLog(@"DSAMapViewController loadRegions: features: %@", features);
     self.regions = features;
 
 /*

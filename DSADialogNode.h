@@ -73,8 +73,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DSADialogNodeSkillCheckAll: DSADialogNodeSkillCheck
 @property (nonatomic, strong) NSString *partialFailureNodeID;
 @property (nonatomic, strong) NSString *successMode; // "all", "any", "first done", "majority"
-@property (nonatomic, strong, readonly) NSArray<DSACharacter *> *successfulCharacters;
-@property (nonatomic, strong, readonly) NSArray<DSACharacter *> *failedCharacters;
 @end
 
 NS_ASSUME_NONNULL_END

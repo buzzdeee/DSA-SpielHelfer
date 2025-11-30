@@ -58,7 +58,7 @@
 }
 
 - (void) setupWithDictionary:(NSDictionary *)dict {
-    NSLog(@"DSADialogNode setupWithDictionary dict: %@", dict);
+    //NSLog(@"DSADialogNode setupWithDictionary dict: %@", dict);
 
     _nodeID = dict[@"id"];
 
@@ -93,7 +93,7 @@
     //NSLog(@"DSADialogNode setupWithDictionary: mainImageName: %@", _mainImageName);
        
     _texts = dict[@"texts"];
-    NSLog(@"DSADialogNode setupWithDictionary: texts: %@", _texts);
+    //NSLog(@"DSADialogNode setupWithDictionary: texts: %@", _texts);
     _title = dict[@"title"];
     _nodeDescription = dict[@"description"];
     _hintCategory = dict[@"hintCategory"];
@@ -285,7 +285,8 @@
         }
         mgr.lastSkillCheckSuccess = success.copy;
         mgr.lastSkillCheckFailure = failure.copy;
-        return (success.count > 0) ? self.successNodeID : self.failureNodeID;
+        if (success.count > 0 && failure.count > 0 && self.partialFailureNodeID)
+            return self.partialFailureNodeID;
     }
 
     // --- MODE: all ---

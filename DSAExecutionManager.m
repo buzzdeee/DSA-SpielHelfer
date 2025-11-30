@@ -32,6 +32,7 @@
 #import "DSACharacter.h"
 #import "DSAWallet.h"
 #import "Utils.h"
+#import "DSADialogManager.h"
 
 
 #pragma mark - Action Descriptor Implementation
@@ -117,7 +118,9 @@
 
     NSDictionary<NSString *, NSNumber *> *mapping = @{
         @"Group": @(DSAActionScopeGroup),
-        @"Character": @(DSAActionScopeCharacter)
+        @"Character": @(DSAActionScopeCharacter),
+        @"SkillCheckSuccess": @(DSAActionScopeSkillCheckSuccess),
+        @"SkillCheckFailure": @(DSAActionScopeSkillCheckFailure)
     };
 
     NSNumber *val = mapping[name];
@@ -271,7 +274,7 @@ static DSAExecutionManager *_sharedInstance = nil;
             break;
     }
 }
-
+/*
 - (NSArray<DSACharacter *> *)resolvedTargetsForAction:(DSAActionDescriptor *)action
 {
     if (action.scope == DSAActionScopeCharacter && action.targetCharacter) {
@@ -281,7 +284,32 @@ static DSAExecutionManager *_sharedInstance = nil;
     DSAAdventureGroup *group = [DSAAdventureManager sharedManager].currentAdventure.activeGroup;
     return group.allCharacters;
 }
+*/
+- (NSArray<DSACharacter *> *)resolvedTargetsForAction:(DSAActionDescriptor *)action
+{
+    DSADialogManager *dlg = [DSADialogManager sharedManager];
+    DSAAdventureGroup *group = [DSAAdventureManager sharedManager].currentAdventure.activeGroup;
 
+    switch (action.scope) {
+
+        case DSAActionScopeCharacter:
+            NSLog(@"DSAExecutionManager resolvedTargetsForAction: in DSAActionScopeCharacter target character: %@", action.targetCharacter.name);
+            return action.targetCharacter ? @[action.targetCharacter] : @[];
+
+        case DSAActionScopeSkillCheckSuccess:
+            NSLog(@"DSAExecutionManager resolvedTargetsForAction: in DSAActionScopeSkillCheckSuccess: count %@", @([dlg.lastSkillCheckSuccess count]));
+            return dlg.lastSkillCheckSuccess ?: @[];
+
+        case DSAActionScopeSkillCheckFailure:
+            NSLog(@"DSAExecutionManager resolvedTargetsForAction: in DSAActionScopeSkillCheckFailure: count %@", @([dlg.lastSkillCheckFailure count]));
+            return dlg.lastSkillCheckFailure ?: @[];
+
+        case DSAActionScopeGroup:
+        default:
+            NSLog(@"DSAExecutionManager resolvedTargetsForAction: in DSAActionScopeGroup");
+            return group.allCharacters ?: @[];
+    }
+}
 
 - (void)executeGainMoneyAction: (DSAActionDescriptor *)action
 {
@@ -375,17 +403,18 @@ static DSAExecutionManager *_sharedInstance = nil;
 {
   NSLog(@"DSAExecutionManager executeLooseLifePointsAction called");
   NSArray *targets = [self resolvedTargetsForAction:action];
-  NSInteger damage = 0;
 
-  if (action.parameters[@"randomAmount"]) {
-      damage += [Utils rollDice:action.parameters[@"randomAmount"]];
-  }
-
-  if (action.parameters[@"fixedAmount"]) {
-      damage += [action.parameters[@"fixedAmount"] integerValue];
-  }
   for (DSACharacter *character in targets)
     {
+      NSInteger damage = 0;    
+      if (action.parameters[@"randomAmount"]) {
+          damage += [Utils rollDice:action.parameters[@"randomAmount"]];
+      }
+
+      if (action.parameters[@"fixedAmount"]) {
+          damage += [action.parameters[@"fixedAmount"] integerValue];
+      }    
+    
       NSInteger newCurrentLifePoints = character.currentLifePoints - damage;
       [character setCurrentLifePoints: newCurrentLifePoints];
     }    
@@ -395,17 +424,17 @@ static DSAExecutionManager *_sharedInstance = nil;
 {
   NSLog(@"DSAExecutionManager executeGainLifePointsAction called");
   NSArray *targets = [self resolvedTargetsForAction:action];
-  NSInteger health = 0;
 
-  if (action.parameters[@"randomAmount"]) {
-      health += [Utils rollDice:action.parameters[@"randomAmount"]];
-  }
-
-  if (action.parameters[@"fixedAmount"]) {
-      health += [action.parameters[@"fixedAmount"] integerValue];
-  }
   for (DSACharacter *character in targets)
     {
+      NSInteger health = 0;    
+      if (action.parameters[@"randomAmount"]) {
+          health += [Utils rollDice:action.parameters[@"randomAmount"]];
+      }
+
+      if (action.parameters[@"fixedAmount"]) {
+          health += [action.parameters[@"fixedAmount"] integerValue];
+      }    
       NSInteger newCurrentLifePoints = character.currentLifePoints + health;
       [character setCurrentLifePoints: newCurrentLifePoints];
     }   
@@ -416,8 +445,8 @@ static DSAExecutionManager *_sharedInstance = nil;
   NSLog(@"DSAExecutionManager executeGainAdventurePointsAction called");
   NSArray *targets = [self resolvedTargetsForAction:action];
 
+  // everyone gets the same APs
   NSInteger ap = 0;
-
   if (action.parameters[@"randomAmount"]) {
       ap += [Utils rollDice:action.parameters[@"randomAmount"]];
   }

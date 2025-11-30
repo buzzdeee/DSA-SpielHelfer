@@ -43,7 +43,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong, nullable) NSArray<DSACharacter *> *lastSkillCheckSuccess;
 @property (nonatomic, strong, nullable) NSArray<DSACharacter *> *lastSkillCheckFailure;
 @property (nonatomic, strong, nullable) DSADialogNodeSkillCheck *lastSkillCheckNode;
-
 + (instancetype)sharedManager;
 
 - (BOOL)loadDialogFromFile:(NSString *)filename;

@@ -25,16 +25,18 @@
 #ifndef _DSAREGION_H_
 #define _DSAREGION_H_
 
-#import <Foundation/Foundation.h>
+#import "DSADefinitions.h"
 
 @interface DSARegion : NSObject
 
 @property (nonatomic, strong) NSString *regionID;
 @property (nonatomic, strong) NSString *name;
+@property (nonatomic, assign) DSAClimateZone climateZone;
 @property (nonatomic, strong) NSArray *polygons; // NSArray<NSArray<NSArray<NSNumber *> *> *> 
                                              // -> [[[x, y], [x, y], ...]]
 
-- (instancetype)initWithFeature:(NSDictionary *)feature;
+- (instancetype)initWithFeature:(NSDictionary *)feature
+                         climate:(DSAClimateZone)zone;
 - (BOOL)containsPointX:(double)x Y:(double)y; // Punkt-in-Polygon-Test
 
 @end
@@ -50,6 +52,9 @@
 - (NSArray<DSARegion *> *)allRegions;
 - (NSArray<NSDictionary *> *)allFeatures;
 
+// utility methods
+- (DSAClimateZone)climateZoneFromString:(NSString *)zoneString;
+- (NSString *)stringForClimateZone:(DSAClimateZone)zone;
 @end
 
 #endif // _DSAREGION_H_

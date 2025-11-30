@@ -105,15 +105,16 @@
     },
     "obs_2_cross_all_partial_fail": {
       "id": "obs_2_cross_all_partial_fail",
-      "description": "Einige von euch rutschen aus und werden nass, sie verlieren Zeit und handeln sich ein paar blaue Flecke.",
+      "description": "Einige von euch rutschen aus und werden nass, sie verlieren Zeit und handeln sich ein paar blaue Flecke ein.",
       "actions": [
         {
           "type": "LooseLifePoints",
-          "scope": "Character",
+          "scope": "SkillCheckFailure",
           "parameters": { "randomAmount": "1W6" },
           "order": 0
         }
-      ],      
+      ], 
+      "duration": 5,     
       "endEncounter": true
     },
     "obs_2_cross_all_fail": {
@@ -122,11 +123,12 @@
       "actions": [
         {
           "type": "LooseLifePoints",
-          "scope": "Character",
+          "scope": "SkillCheckFailure",
           "parameters": { "randomAmount": "1W6" },
           "order": 0
         }
       ],
+      "duration": 10,
       "endEncounter": true
     },    
     "obs_2_detour": {
@@ -225,6 +227,7 @@
     "obs_4_call_success": {
       "id": "obs_4_call_success",
       "description": "Ein Hirte taucht auf und treibt die Tiere beiseite.",
+      "duration": 5,
       "endEncounter": true
     },
     "obs_4_call_fail": {
@@ -254,6 +257,7 @@
     "obs_4_move_partial_fail": {
       "id": "obs_4_move_partial_fail",
       "description": "Ein Tier erschrickt und drängt euch ab. Ihr verliert etwas Zeit.",
+      "duration": 10,
       "endEncounter": true
     },
     "obs_4_move_fail": {
@@ -262,11 +266,12 @@
       "actions": [
         {
           "type": "LooseLifePoints",
-          "scope": "Character",
+          "scope": "SkillCheckFailure",
           "parameters": { "randomAmount": "1W6" },
           "order": 0
         }
-      ],      
+      ],
+      "duration": 10,      
       "endEncounter": true
     }    
   }

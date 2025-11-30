@@ -41,7 +41,9 @@
 // when adding additional Scopes, also update actionScopeByName in DSAActionDescriptor
 typedef NS_ENUM(NSInteger, DSAActionScope) {
     DSAActionScopeGroup = 0,
-    DSAActionScopeCharacter = 1
+    DSAActionScopeCharacter = 1,
+    DSAActionScopeSkillCheckSuccess,
+    DSAActionScopeSkillCheckFailure    
 };
 // when adding additional Scopes, also update actionTypeByName in DSAActionDescriptor
 typedef NS_ENUM(NSInteger, DSAActionType) {
@@ -449,6 +451,20 @@ typedef NS_ENUM(NSInteger, DSAEncounterType) {
     DSAEncounterTypeRoadObstacle,
     DSAEncounterTypeFriendlyNPC
 };
+
+
+typedef NS_ENUM(NSInteger, DSAClimateZone) {
+    DSAClimateZoneUnknown = 0,
+
+    DSAClimateZonePolar,
+    DSAClimateZoneSubpolar,
+    DSAClimateZoneTaiga,
+    DSAClimateZoneTemperate,   // "Gemäßigt"
+    DSAClimateZoneSubtropical, // "Subtropen"
+    DSAClimateZoneTropical,    // "Tropen"
+    DSAClimateZoneDesert       // "Wüste"
+};
+
 
 typedef NSString * DSAActionContext;
 extern DSAActionContext const DSAActionContextResting;
